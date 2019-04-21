@@ -1,6 +1,4 @@
 # Sonic '06 Toolkit
-The all-in-one toolkit for SONIC THE HEDGEHOG (2006) modding!
-
 Sonic '06 Toolkit is an application originally written in VB.NET to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.
 
 # Project Goals
