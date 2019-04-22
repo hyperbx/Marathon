@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.mstrip_Main = new System.Windows.Forms.MenuStrip();
             this.menu_File = new System.Windows.Forms.ToolStripMenuItem();
@@ -49,9 +50,11 @@
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
-            this.web_Debug = new System.Windows.Forms.WebBrowser();
             this.btn_Forward = new System.Windows.Forms.Button();
             this.btn_Back = new System.Windows.Forms.Button();
+            this.btn_Repack = new System.Windows.Forms.Button();
+            this.tab_Main = new System.Windows.Forms.TabControl();
+            this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,20 +157,23 @@
             // 
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_NewTab.Text = "New Tab";
+            this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tabs_CloseTab
             // 
+            this.tabs_CloseTab.Enabled = false;
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_CloseTab.Text = "Close Tab";
+            this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
             // menu_Help
             // 
@@ -215,20 +221,10 @@
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
             this.pnl_Backdrop.TabIndex = 3;
             // 
-            // web_Debug
-            // 
-            this.web_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.web_Debug.Location = new System.Drawing.Point(0, 25);
-            this.web_Debug.MinimumSize = new System.Drawing.Size(20, 20);
-            this.web_Debug.Name = "web_Debug";
-            this.web_Debug.Size = new System.Drawing.Size(799, 425);
-            this.web_Debug.TabIndex = 4;
-            // 
             // btn_Forward
             // 
-            this.btn_Forward.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_Forward.BackColor = System.Drawing.Color.SkyBlue;
+            this.btn_Forward.Enabled = false;
             this.btn_Forward.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Forward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Forward.Location = new System.Drawing.Point(228, -1);
@@ -241,7 +237,8 @@
             // 
             // btn_Back
             // 
-            this.btn_Back.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_Back.BackColor = System.Drawing.Color.Tomato;
+            this.btn_Back.Enabled = false;
             this.btn_Back.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Back.Location = new System.Drawing.Point(174, -1);
@@ -252,14 +249,45 @@
             this.btn_Back.UseVisualStyleBackColor = false;
             this.btn_Back.Click += new System.EventHandler(this.Btn_Back_Click);
             // 
+            // btn_Repack
+            // 
+            this.btn_Repack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Repack.BackColor = System.Drawing.Color.LightGreen;
+            this.btn_Repack.Enabled = false;
+            this.btn_Repack.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Repack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Repack.Location = new System.Drawing.Point(690, -1);
+            this.btn_Repack.Name = "btn_Repack";
+            this.btn_Repack.Size = new System.Drawing.Size(62, 26);
+            this.btn_Repack.TabIndex = 7;
+            this.btn_Repack.Text = "Repack";
+            this.btn_Repack.UseVisualStyleBackColor = false;
+            this.btn_Repack.Click += new System.EventHandler(this.Btn_Repack_Click);
+            // 
+            // tab_Main
+            // 
+            this.tab_Main.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tab_Main.Location = new System.Drawing.Point(1, 26);
+            this.tab_Main.Name = "tab_Main";
+            this.tab_Main.SelectedIndex = 0;
+            this.tab_Main.Size = new System.Drawing.Size(800, 424);
+            this.tab_Main.TabIndex = 8;
+            // 
+            // tm_tabCheck
+            // 
+            this.tm_tabCheck.Tick += new System.EventHandler(this.Tm_tabCheck_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.tab_Main);
+            this.Controls.Add(this.btn_Repack);
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Forward);
-            this.Controls.Add(this.web_Debug);
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.mstrip_Main);
             this.Controls.Add(this.pnl_Backdrop);
@@ -298,9 +326,11 @@
         private System.Windows.Forms.OpenFileDialog ofd_OpenARC;
         private System.Windows.Forms.Button btn_SessionID;
         private System.Windows.Forms.Panel pnl_Backdrop;
-        private System.Windows.Forms.WebBrowser web_Debug;
         private System.Windows.Forms.Button btn_Forward;
         private System.Windows.Forms.Button btn_Back;
+        private System.Windows.Forms.Button btn_Repack;
+        private System.Windows.Forms.TabControl tab_Main;
+        private System.Windows.Forms.Timer tm_tabCheck;
     }
 }
 

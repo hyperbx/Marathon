@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.lbl_unpackState = new System.Windows.Forms.Label();
             this.pnl_windowCheck = new System.Windows.Forms.Panel();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
-            this.tm_State = new System.Windows.Forms.Timer(this.components);
             this.pnl_windowCheck.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
@@ -95,6 +93,5 @@
         internal System.Windows.Forms.PictureBox pic_Logo;
         internal System.Windows.Forms.Label lbl_unpackState;
         internal System.Windows.Forms.Panel pnl_windowCheck;
-        private System.Windows.Forms.Timer tm_State;
     }
 }

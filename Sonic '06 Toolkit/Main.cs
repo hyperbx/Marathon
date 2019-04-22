@@ -13,6 +13,23 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
+        void newTab()
+        {
+            var nextTab = new TabPage();
+            var nextBrowser = new WebBrowser();
+            nextTab.Text = "New Tab";
+            tab_Main.TabPages.Add(nextTab);
+            nextTab.Controls.Add(nextBrowser);
+            tab_Main.SelectedTab = nextTab;
+            nextBrowser.Dock = DockStyle.Fill;
+            currentARC().AllowWebBrowserDrop = false;
+        }
+
+        private WebBrowser currentARC()
+        {
+            return (WebBrowser)tab_Main.SelectedTab.Controls[0];
+        }
+
         void File_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -29,7 +46,7 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
-                    string failsafeCheck = Path.GetRandomFileName();
+                    string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
 
                     #region Building unpack data...
                     var unpackBuildSession = new StringBuilder();
@@ -41,6 +58,15 @@ namespace Sonic_06_Toolkit
                     unpackBuildSession.Append(Path.GetFileNameWithoutExtension(ofd_OpenARC.FileName));
                     unpackBuildSession.Append(@"\");
                     if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
+                    var storageSession = new StringBuilder();
+                    storageSession.Append(Global.archivesPath);
+                    storageSession.Append(Global.sessionID);
+                    storageSession.Append(@"\");
+                    storageSession.Append(tab_Main.SelectedIndex);
+                    var storageWrite = File.Create(storageSession.ToString());
+                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                    storageWrite.Write(storageText, 0, storageText.Length);
+                    storageWrite.Close();
                     #endregion
 
                     #region Building ARC data...
@@ -80,13 +106,35 @@ namespace Sonic_06_Toolkit
                     unpackDialog.Close();
                     #endregion
 
-                    web_Debug.Navigate(unpackBuildSession.ToString());
+                    #region Navigating...
+                    if (tab_Main.SelectedTab.Text == "New Tab")
+                    {
+                        currentARC().Navigate(unpackBuildSession.ToString());
+                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
+                    }
+                    else
+                    {
+                        newTab();
+                        currentARC().Navigate(unpackBuildSession.ToString());
+                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
+                    }
+                    #endregion
                 }
                 catch
                 {
                     MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        void repackARC()
+        {
+            //Repacking process will be programmed here.
+        }
+
+        void Btn_Repack_Click(object sender, EventArgs e)
+        {
+            repackARC();
         }
 
         void Main_Load(object sender, EventArgs e)
@@ -128,16 +176,50 @@ namespace Sonic_06_Toolkit
                 Application.Exit();
             }
             #endregion
+
+            newTab();
+            tm_tabCheck.Start();
         }
 
-        private void Btn_Back_Click(object sender, EventArgs e)
+        void Btn_Back_Click(object sender, EventArgs e)
         {
-            web_Debug.GoBack();
+            currentARC().GoBack();
         }
 
-        private void Btn_Forward_Click(object sender, EventArgs e)
+        void Btn_Forward_Click(object sender, EventArgs e)
         {
-            web_Debug.GoForward();
+            currentARC().GoForward();
+        }
+
+        void Tabs_NewTab_Click(object sender, EventArgs e)
+        {
+            newTab();
+        }
+
+        void Tabs_CloseTab_Click(object sender, EventArgs e)
+        {
+            if (tab_Main.TabPages.Count < 1) ; else tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+        }
+
+        void Tm_tabCheck_Tick(object sender, EventArgs e)
+        {
+            if (tab_Main.TabPages.Count == 1) tabs_CloseTab.Enabled = false; else tabs_CloseTab.Enabled = true;
+
+            #region Check if tab is empty
+            //Temporary solution.
+            if (tab_Main.SelectedTab.Text != "New Tab")
+            {
+                btn_Back.Enabled = true;
+                btn_Forward.Enabled = true;
+                btn_Repack.Enabled = true;
+            }
+            else
+            {
+                btn_Back.Enabled = false;
+                btn_Forward.Enabled = false;
+                btn_Repack.Enabled = false;
+            }
+            #endregion
         }
     }
 }
