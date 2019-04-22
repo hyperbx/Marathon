@@ -54,7 +54,7 @@ namespace Sonic_06_Toolkit
                     if (File.Exists(ofd_OpenARC.FileName)) File.Copy(ofd_OpenARC.FileName, arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName), true);
                     #endregion
 
-                    #region Unpacking...
+                    #region Unpacking ARC...
                     var basicWrite = File.Create(Global.toolsPath + "unpack.bat");
                     var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName) + "\"");
                     basicWrite.Write(basicSession, 0, basicSession.Length);
@@ -63,18 +63,24 @@ namespace Sonic_06_Toolkit
                     unpackSession.WorkingDirectory = Global.toolsPath;
                     unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                     var Unpack = Process.Start(unpackSession);
-                    //Dialog window appears here.
+                    var unpackDialog = new Unpacking();
+                    var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    unpackDialog.Show();
                     Unpack.WaitForExit();
                     Unpack.Close();
                     #endregion
 
-                    #region Navigating...
+                    #region Writing metadata...
                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
                     var metadataSession = new UTF8Encoding(true).GetBytes(ofd_OpenARC.FileName);
                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                     metadataWrite.Close();
-                    web_Debug.Navigate(unpackBuildSession.ToString());
+                    unpackDialog.Close();
                     #endregion
+
+                    web_Debug.Navigate(unpackBuildSession.ToString());
                 }
                 catch
                 {
@@ -122,6 +128,16 @@ namespace Sonic_06_Toolkit
                 Application.Exit();
             }
             #endregion
+        }
+
+        private void Btn_Back_Click(object sender, EventArgs e)
+        {
+            web_Debug.GoBack();
+        }
+
+        private void Btn_Forward_Click(object sender, EventArgs e)
+        {
+            web_Debug.GoForward();
         }
     }
 }

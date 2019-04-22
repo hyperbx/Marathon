@@ -50,6 +50,8 @@
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.web_Debug = new System.Windows.Forms.WebBrowser();
+            this.btn_Forward = new System.Windows.Forms.Button();
+            this.btn_Back = new System.Windows.Forms.Button();
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -224,11 +226,39 @@
             this.web_Debug.Size = new System.Drawing.Size(799, 425);
             this.web_Debug.TabIndex = 4;
             // 
+            // btn_Forward
+            // 
+            this.btn_Forward.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_Forward.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Forward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Forward.Location = new System.Drawing.Point(228, -1);
+            this.btn_Forward.Name = "btn_Forward";
+            this.btn_Forward.Size = new System.Drawing.Size(55, 26);
+            this.btn_Forward.TabIndex = 5;
+            this.btn_Forward.Text = "Forward";
+            this.btn_Forward.UseVisualStyleBackColor = false;
+            this.btn_Forward.Click += new System.EventHandler(this.Btn_Forward_Click);
+            // 
+            // btn_Back
+            // 
+            this.btn_Back.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_Back.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Back.Location = new System.Drawing.Point(174, -1);
+            this.btn_Back.Name = "btn_Back";
+            this.btn_Back.Size = new System.Drawing.Size(55, 26);
+            this.btn_Back.TabIndex = 6;
+            this.btn_Back.Text = "Back";
+            this.btn_Back.UseVisualStyleBackColor = false;
+            this.btn_Back.Click += new System.EventHandler(this.Btn_Back_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_Back);
+            this.Controls.Add(this.btn_Forward);
             this.Controls.Add(this.web_Debug);
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.mstrip_Main);
@@ -269,6 +299,8 @@
         private System.Windows.Forms.Button btn_SessionID;
         private System.Windows.Forms.Panel pnl_Backdrop;
         private System.Windows.Forms.WebBrowser web_Debug;
+        private System.Windows.Forms.Button btn_Forward;
+        private System.Windows.Forms.Button btn_Back;
     }
 }
 
