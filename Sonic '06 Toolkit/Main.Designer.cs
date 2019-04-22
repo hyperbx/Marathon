@@ -49,6 +49,7 @@
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
+            this.web_Debug = new System.Windows.Forms.WebBrowser();
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -212,11 +213,23 @@
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
             this.pnl_Backdrop.TabIndex = 3;
             // 
+            // web_Debug
+            // 
+            this.web_Debug.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.web_Debug.Location = new System.Drawing.Point(0, 25);
+            this.web_Debug.MinimumSize = new System.Drawing.Size(20, 20);
+            this.web_Debug.Name = "web_Debug";
+            this.web_Debug.Size = new System.Drawing.Size(799, 425);
+            this.web_Debug.TabIndex = 4;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.web_Debug);
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.mstrip_Main);
             this.Controls.Add(this.pnl_Backdrop);
@@ -255,6 +268,7 @@
         private System.Windows.Forms.OpenFileDialog ofd_OpenARC;
         private System.Windows.Forms.Button btn_SessionID;
         private System.Windows.Forms.Panel pnl_Backdrop;
+        private System.Windows.Forms.WebBrowser web_Debug;
     }
 }
 

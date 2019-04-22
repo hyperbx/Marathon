@@ -79,5 +79,35 @@ namespace Sonic_06_Toolkit.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] repack {
+            get {
+                object obj = ResourceManager.GetObject("repack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] unpack {
+            get {
+                object obj = ResourceManager.GetObject("unpack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] xno2dae {
+            get {
+                object obj = ResourceManager.GetObject("xno2dae", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -92,6 +92,9 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\xno2dae.exe" />
+    <None Include="Resources\repack.exe" />
+    <None Include="Resources\unpack.exe" />
     <None Include="Resources\about_logo.png" />
     <Content Include="Resources\logo_main_icon.ico" />
   </ItemGroup>

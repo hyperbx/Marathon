@@ -124,4 +124,13 @@
   <data name="logo_main" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="repack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\repack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="unpack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unpack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xno2dae" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xno2dae.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
