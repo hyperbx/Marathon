@@ -1,0 +1,20 @@
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.exe
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.pdb
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csprojAssemblyReference.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csproj.GenerateResource.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csproj.CoreCompileInputs.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.exe
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.pdb
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Properties.Resources.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.About.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Main.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.exe
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.pdb
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csprojAssemblyReference.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.About.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Main.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Properties.Resources.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csproj.GenerateResource.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csproj.CoreCompileInputs.cache
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.exe
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.pdb
