@@ -55,6 +55,8 @@
             this.btn_Repack = new System.Windows.Forms.Button();
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
+            this.file_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
+            this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -77,6 +79,8 @@
             this.menu_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.file_OpenARC,
             this.file_Separator1,
+            this.file_RepackARC,
+            this.file_Separator2,
             this.file_Exit});
             this.menu_File.Name = "menu_File";
             this.menu_File.Size = new System.Drawing.Size(37, 20);
@@ -86,19 +90,19 @@
             // 
             this.file_OpenARC.Name = "file_OpenARC";
             this.file_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.file_OpenARC.Size = new System.Drawing.Size(172, 22);
+            this.file_OpenARC.Size = new System.Drawing.Size(180, 22);
             this.file_OpenARC.Text = "Open ARC";
             this.file_OpenARC.Click += new System.EventHandler(this.File_OpenARC_Click);
             // 
             // file_Separator1
             // 
             this.file_Separator1.Name = "file_Separator1";
-            this.file_Separator1.Size = new System.Drawing.Size(169, 6);
+            this.file_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // file_Exit
             // 
             this.file_Exit.Name = "file_Exit";
-            this.file_Exit.Size = new System.Drawing.Size(172, 22);
+            this.file_Exit.Size = new System.Drawing.Size(180, 22);
             this.file_Exit.Text = "Exit";
             this.file_Exit.Click += new System.EventHandler(this.File_Exit_Click);
             // 
@@ -157,21 +161,21 @@
             // 
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
             // 
             // tabs_CloseTab
             // 
             this.tabs_CloseTab.Enabled = false;
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -279,6 +283,19 @@
             // 
             this.tm_tabCheck.Tick += new System.EventHandler(this.Tm_tabCheck_Tick);
             // 
+            // file_RepackARC
+            // 
+            this.file_RepackARC.Name = "file_RepackARC";
+            this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.file_RepackARC.Size = new System.Drawing.Size(180, 22);
+            this.file_RepackARC.Text = "Repack ARC";
+            this.file_RepackARC.Click += new System.EventHandler(this.File_RepackARC_Click);
+            // 
+            // file_Separator2
+            // 
+            this.file_Separator2.Name = "file_Separator2";
+            this.file_Separator2.Size = new System.Drawing.Size(177, 6);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,6 +310,7 @@
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mstrip_Main;
+            this.MinimumSize = new System.Drawing.Size(510, 245);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
@@ -331,6 +349,8 @@
         private System.Windows.Forms.Button btn_Repack;
         private System.Windows.Forms.TabControl tab_Main;
         private System.Windows.Forms.Timer tm_tabCheck;
+        private System.Windows.Forms.ToolStripMenuItem file_RepackARC;
+        private System.Windows.Forms.ToolStripSeparator file_Separator2;
     }
 }
 

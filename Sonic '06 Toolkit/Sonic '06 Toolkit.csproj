@@ -54,6 +54,12 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Global.cs" />
+    <Compile Include="Forms\Repacking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Repacking.Designer.cs">
+      <DependentUpon>Repacking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Unpacking.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,6 +76,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Repacking.resx">
+      <DependentUpon>Repacking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Unpacking.resx">
       <DependentUpon>Unpacking.cs</DependentUpon>
