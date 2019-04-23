@@ -20,3 +20,4 @@ C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic 
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.pdb
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Unpacking.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Repacking.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Decompiling.resources

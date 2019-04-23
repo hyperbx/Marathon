@@ -34,6 +34,8 @@
             this.menu_File = new System.Windows.Forms.ToolStripMenuItem();
             this.file_OpenARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.file_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
+            this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SDK = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,8 +57,7 @@
             this.btn_Repack = new System.Windows.Forms.Button();
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
-            this.file_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
-            this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -99,6 +100,20 @@
             this.file_Separator1.Name = "file_Separator1";
             this.file_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
+            // file_RepackARC
+            // 
+            this.file_RepackARC.Enabled = false;
+            this.file_RepackARC.Name = "file_RepackARC";
+            this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.file_RepackARC.Size = new System.Drawing.Size(180, 22);
+            this.file_RepackARC.Text = "Repack ARC";
+            this.file_RepackARC.Click += new System.EventHandler(this.File_RepackARC_Click);
+            // 
+            // file_Separator2
+            // 
+            this.file_Separator2.Name = "file_Separator2";
+            this.file_Separator2.Size = new System.Drawing.Size(177, 6);
+            // 
             // file_Exit
             // 
             this.file_Exit.Name = "file_Exit";
@@ -120,15 +135,18 @@
             // 
             // sdk_LUBStudio
             // 
+            this.sdk_LUBStudio.Enabled = false;
             this.sdk_LUBStudio.Name = "sdk_LUBStudio";
             this.sdk_LUBStudio.Size = new System.Drawing.Size(260, 22);
             this.sdk_LUBStudio.Text = "LUB Studio...";
             // 
             // sdk_DecompileLUBs
             // 
+            this.sdk_DecompileLUBs.Enabled = false;
             this.sdk_DecompileLUBs.Name = "sdk_DecompileLUBs";
             this.sdk_DecompileLUBs.Size = new System.Drawing.Size(260, 22);
             this.sdk_DecompileLUBs.Text = "Decompile all LUBs in this directory";
+            this.sdk_DecompileLUBs.Click += new System.EventHandler(this.Sdk_DecompileLUBs_Click);
             // 
             // sdk_Separator1
             // 
@@ -137,12 +155,14 @@
             // 
             // sdk_XNOStudio
             // 
+            this.sdk_XNOStudio.Enabled = false;
             this.sdk_XNOStudio.Name = "sdk_XNOStudio";
             this.sdk_XNOStudio.Size = new System.Drawing.Size(260, 22);
             this.sdk_XNOStudio.Text = "XNO Studio...";
             // 
             // sdk_ConvertXNOs
             // 
+            this.sdk_ConvertXNOs.Enabled = false;
             this.sdk_ConvertXNOs.Name = "sdk_ConvertXNOs";
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(260, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs in this directory";
@@ -161,21 +181,21 @@
             // 
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tabs_CloseTab
             // 
             this.tabs_CloseTab.Enabled = false;
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -190,7 +210,7 @@
             // help_About
             // 
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(107, 22);
+            this.help_About.Size = new System.Drawing.Size(180, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -283,24 +303,27 @@
             // 
             this.tm_tabCheck.Tick += new System.EventHandler(this.Tm_tabCheck_Tick);
             // 
-            // file_RepackARC
+            // btn_OpenFolder
             // 
-            this.file_RepackARC.Name = "file_RepackARC";
-            this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.file_RepackARC.Size = new System.Drawing.Size(180, 22);
-            this.file_RepackARC.Text = "Repack ARC";
-            this.file_RepackARC.Click += new System.EventHandler(this.File_RepackARC_Click);
-            // 
-            // file_Separator2
-            // 
-            this.file_Separator2.Name = "file_Separator2";
-            this.file_Separator2.Size = new System.Drawing.Size(177, 6);
+            this.btn_OpenFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_OpenFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(171)))), ((int)(((byte)(83)))));
+            this.btn_OpenFolder.Enabled = false;
+            this.btn_OpenFolder.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_OpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_OpenFolder.Location = new System.Drawing.Point(613, -1);
+            this.btn_OpenFolder.Name = "btn_OpenFolder";
+            this.btn_OpenFolder.Size = new System.Drawing.Size(78, 26);
+            this.btn_OpenFolder.TabIndex = 9;
+            this.btn_OpenFolder.Text = "Open Folder";
+            this.btn_OpenFolder.UseVisualStyleBackColor = false;
+            this.btn_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btn_OpenFolder);
             this.Controls.Add(this.tab_Main);
             this.Controls.Add(this.btn_Repack);
             this.Controls.Add(this.btn_Back);
@@ -351,6 +374,7 @@
         private System.Windows.Forms.Timer tm_tabCheck;
         private System.Windows.Forms.ToolStripMenuItem file_RepackARC;
         private System.Windows.Forms.ToolStripSeparator file_Separator2;
+        private System.Windows.Forms.Button btn_OpenFolder;
     }
 }
 

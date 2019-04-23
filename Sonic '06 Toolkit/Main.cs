@@ -175,13 +175,13 @@ namespace Sonic_06_Toolkit
 
         void Main_Load(object sender, EventArgs e)
         {
-            #region Session ID
+            #region Session ID...
             var generateSessionID = new Random();
             Global.sessionID = generateSessionID.Next(1, 99999); //Generates a random number between 1 to 99999 for a unique Session ID.
             btn_SessionID.Text = Global.sessionID.ToString();
             #endregion
 
-            #region Directory Check
+            #region Directory Check...
             try
             {
                 //The below code checks if the directories in the Global class exist; if not, they will be created.
@@ -198,7 +198,7 @@ namespace Sonic_06_Toolkit
             }
             #endregion
 
-            #region File Check
+            #region File Check...
             try
             {
                 //The below code checks if the files in the Global class exist; if not, they will be created.
@@ -241,7 +241,7 @@ namespace Sonic_06_Toolkit
         {
             if (tab_Main.TabPages.Count == 1) tabs_CloseTab.Enabled = false; else tabs_CloseTab.Enabled = true;
 
-            #region Check if tab is empty
+            #region Tab Check...
             //Temporary solution.
             if (tab_Main.SelectedTab.Text != "New Tab")
             {
@@ -249,6 +249,8 @@ namespace Sonic_06_Toolkit
                 btn_Forward.Enabled = true;
                 btn_Repack.Enabled = true;
                 file_RepackARC.Enabled = true;
+                btn_OpenFolder.Enabled = true;
+                sdk_DecompileLUBs.Enabled = true;
             }
             else
             {
@@ -256,13 +258,93 @@ namespace Sonic_06_Toolkit
                 btn_Forward.Enabled = false;
                 btn_Repack.Enabled = false;
                 file_RepackARC.Enabled = false;
+                btn_OpenFolder.Enabled = false;
+                sdk_DecompileLUBs.Enabled = false;
             }
             #endregion
         }
 
-        private void File_RepackARC_Click(object sender, EventArgs e)
+        void File_RepackARC_Click(object sender, EventArgs e)
         {
             repackARC();
+        }
+
+        void Sdk_DecompileLUBs_Click(object sender, EventArgs e)
+        {
+            //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
+            //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
+            if (!Directory.Exists(@"C:\Program Files\Java\")) if (!Directory.Exists(@"C:\Program Files (x86)\Java\")) MessageBox.Show("Sonic '06 Toolkit requires Java to decompile Lua binaries. Please install Java and restart your computer.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    try
+                    {
+                        #region Getting current ARC failsafe...
+                        if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                        var failsafeBuildSession = new StringBuilder();
+                        failsafeBuildSession.Append(Global.archivesPath);
+                        failsafeBuildSession.Append(Global.sessionID);
+                        failsafeBuildSession.Append(@"\");
+                        string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + tab_Main.SelectedIndex);
+                        #endregion
+
+                        #region Writing decompiler...
+                        if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
+                        if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
+                        if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
+                        if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
+                        #endregion
+
+                        #region Verifying Lua binaries...
+                        var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        foreach (string LUB in Directory.GetFiles(currentPath, "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                var checkHeader = File.ReadAllLines(LUB)[0];
+                                if (checkHeader.Contains("LuaP"))
+                                {
+                                    File.Copy(LUB, Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(LUB)), true);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region Decompiling Lua binaries...
+                        var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                        decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
+                        decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Decompile = Process.Start(decompileSession);
+                        var decompileDialog = new Decompiling();
+                        var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                        var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                        decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        decompileDialog.Show();
+                        Decompile.WaitForExit();
+                        Decompile.Close();
+                        #endregion
+
+                        #region Moving decompiled Lua binaries...
+                        foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(currentPath, Path.GetFileName(LUB)), true);
+                                File.Delete(LUB);
+                            }
+                        }
+                        decompileDialog.Close();
+                        #endregion
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+        }
+
+        private void Btn_OpenFolder_Click(object sender, EventArgs e)
+        {
+            Process.Start(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
         }
     }
 }

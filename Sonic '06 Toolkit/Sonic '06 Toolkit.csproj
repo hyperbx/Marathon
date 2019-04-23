@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Notifications\Decompiling.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notifications\Decompiling.Designer.cs">
+      <DependentUpon>Decompiling.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,16 +60,16 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Global.cs" />
-    <Compile Include="Forms\Repacking.cs">
+    <Compile Include="Notifications\Repacking.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Repacking.Designer.cs">
+    <Compile Include="Notifications\Repacking.Designer.cs">
       <DependentUpon>Repacking.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Unpacking.cs">
+    <Compile Include="Notifications\Unpacking.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Unpacking.Designer.cs">
+    <Compile Include="Notifications\Unpacking.Designer.cs">
       <DependentUpon>Unpacking.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
@@ -77,10 +83,13 @@
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Repacking.resx">
+    <EmbeddedResource Include="Notifications\Decompiling.resx">
+      <DependentUpon>Decompiling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\Repacking.resx">
       <DependentUpon>Repacking.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Unpacking.resx">
+    <EmbeddedResource Include="Notifications\Unpacking.resx">
       <DependentUpon>Unpacking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
@@ -110,6 +119,8 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\unlub.bat" />
+    <None Include="Resources\unlub.jar" />
     <None Include="Resources\xno2dae.exe" />
     <None Include="Resources\repack.exe" />
     <None Include="Resources\unpack.exe" />
