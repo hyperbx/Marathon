@@ -4,7 +4,7 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 # Project Goals
 Because this is a complete rewrite, the goal is to include everything that was in the VB.NET version so users aren't missing out on the original features.
 
-### ARC Unpacking and Repacking
+### ARC Unpacking and Repacking (done)
 - Yes, the key features to at least modify the contents of the archives.
 
 ### LUB Decompiling
@@ -13,8 +13,8 @@ Because this is a complete rewrite, the goal is to include everything that was i
 ### XNO Converting and XNM Pairing
 - Likely using the same method as last time to convert these files, but improving XNM pairing as it can be rather tedious.
 
-### ADX Encoding (new)
+### ADX Encoding
 - Planned features to add tools for encoding and decoding ADX files for sound modding.
 
-### MST Decoding (new)
+### MST Decoding
 - Planned features to decode MST files, which are BINA string tables with null terminated unicode.
