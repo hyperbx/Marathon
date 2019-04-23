@@ -7,8 +7,8 @@ Because this is a complete rewrite, the goal is to include everything that was i
 ### ARC Unpacking and Repacking (done)
 - Yes, the key features to at least modify the contents of the archives.
 
-### LUB Decompiling
-- There are currently no plans to re-use the same technique used in the VB.NET version to decompile Lua binaries. It would be easier to write a Lua decompiler than depend on Java as a requirement.
+### LUB Decompiling (needs work)
+- Sonic '06 Toolkit currently uses a Java-based Lua decompiler. It would be beneficial to write a Lua decompiler in C# than depend on Java as a requirement.
 
 ### XNO Converting and XNM Pairing
 - Likely using the same method as last time to convert these files, but improving XNM pairing as it can be rather tedious.
