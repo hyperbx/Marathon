@@ -46,9 +46,8 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
-                    string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-
                     #region Building unpack data...
+                    string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
                     var unpackBuildSession = new StringBuilder();
                     unpackBuildSession.Append(Global.archivesPath);
                     unpackBuildSession.Append(Global.sessionID);
@@ -129,37 +128,44 @@ namespace Sonic_06_Toolkit
 
         void repackARC()
         {
-            #region Building repack data...
-            var repackBuildSession = new StringBuilder();
-            repackBuildSession.Append(Global.archivesPath);
-            repackBuildSession.Append(Global.sessionID);
-            repackBuildSession.Append(@"\");
-            string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
-            repackBuildSession.Append(@"\");
-            repackBuildSession.Append(failsafeCheck);
-            repackBuildSession.Append(@"\");
-            string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
-            #endregion
+            try
+            {
+                #region Building repack data...
+                var repackBuildSession = new StringBuilder();
+                repackBuildSession.Append(Global.archivesPath);
+                repackBuildSession.Append(Global.sessionID);
+                repackBuildSession.Append(@"\");
+                string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
+                repackBuildSession.Append(@"\");
+                repackBuildSession.Append(failsafeCheck);
+                repackBuildSession.Append(@"\");
+                string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
+                #endregion
 
-            #region Repacking ARC...
-            var basicWrite = File.Create(Global.toolsPath + "repack.bat");
-            var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
-            basicWrite.Write(basicSession, 0, basicSession.Length);
-            basicWrite.Close();
-            var repackSession = new ProcessStartInfo(Global.toolsPath + "repack.bat");
-            repackSession.WorkingDirectory = Global.toolsPath;
-            repackSession.WindowStyle = ProcessWindowStyle.Hidden;
-            var Repack = Process.Start(repackSession);
-            var repackDialog = new Repacking();
-            var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-            var parentTop = Top + ((Height - repackDialog.Height) / 2);
-            repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-            repackDialog.Show();
-            Repack.WaitForExit();
-            Repack.Close();
-            if (File.Exists(ofd_OpenARC.FileName)) File.Copy(repackBuildSession.ToString() + Path.GetFileName(metadata), metadata, true);
-            repackDialog.Close();
-            #endregion
+                #region Repacking ARC...
+                var basicWrite = File.Create(Global.toolsPath + "repack.bat");
+                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
+                basicWrite.Write(basicSession, 0, basicSession.Length);
+                basicWrite.Close();
+                var repackSession = new ProcessStartInfo(Global.toolsPath + "repack.bat");
+                repackSession.WorkingDirectory = Global.toolsPath;
+                repackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                var Repack = Process.Start(repackSession);
+                var repackDialog = new Repacking();
+                var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                repackDialog.Show();
+                Repack.WaitForExit();
+                Repack.Close();
+                if (File.Exists(ofd_OpenARC.FileName)) File.Copy(repackBuildSession.ToString() + Path.GetFileName(metadata), metadata, true);
+                repackDialog.Close();
+                #endregion
+            }
+            catch
+            {
+                MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void Btn_Repack_Click(object sender, EventArgs e)
