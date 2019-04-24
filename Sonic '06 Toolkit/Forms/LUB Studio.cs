@@ -37,11 +37,13 @@ namespace Sonic_06_Toolkit
         void Btn_SelectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < clb_LUBs.Items.Count; i++) clb_LUBs.SetItemChecked(i, true);
+            btn_Decompile.Enabled = true;
         }
 
         void Btn_DeselectAll_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < clb_LUBs.Items.Count; i++) clb_LUBs.SetItemChecked(i, false);
+            btn_Decompile.Enabled = false;
         }
 
         void Btn_Decompile_Click(object sender, EventArgs e)
@@ -69,34 +71,44 @@ namespace Sonic_06_Toolkit
                 {
                     var checkedBuildSession = new StringBuilder();
                     checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedLUB));
-                    File.Copy(checkedBuildSession.ToString(), Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
-                }
-                #endregion
 
-                #region Decompiling Lua binaries...
-                var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
-                decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
-                decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
-                var Decompile = Process.Start(decompileSession);
-                var decompileDialog = new Decompiling();
-                var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
-                var parentTop = Top + ((Height - decompileDialog.Height) / 2);
-                decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                decompileDialog.Show();
-                Decompile.WaitForExit();
-                Decompile.Close();
-                #endregion
-
-                #region Moving decompiled Lua binaries...
-                foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
-                {
-                    if (File.Exists(LUB))
+                    //Temporary solution; would probably be better to use an array.
+                    if (Path.GetFileName(selectedLUB) == "standard.lub") MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    else
                     {
-                        File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                        File.Delete(LUB);
+                        if (Path.GetFileName(selectedLUB) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (Path.GetFileName(selectedLUB) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        if (Path.GetFileName(selectedLUB) == "object.lub") MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                        File.Copy(checkedBuildSession.ToString(), Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
+                        
+                        #region Decompiling Lua binaries...
+                        var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                        decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
+                        decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Decompile = Process.Start(decompileSession);
+                        var decompileDialog = new Decompiling();
+                        var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                        var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                        decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        decompileDialog.Show();
+                        Decompile.WaitForExit();
+                        Decompile.Close();
+                        #endregion
+
+                        #region Moving decompiled Lua binaries...
+                        foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                File.Delete(LUB);
+                            }
+                        }
+                        decompileDialog.Close();
+                        #endregion
                     }
                 }
-                decompileDialog.Close();
                 #endregion
             }
             catch { MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -105,6 +117,15 @@ namespace Sonic_06_Toolkit
         void Clb_LUBs_SelectedIndexChanged(object sender, EventArgs e)
         {
             clb_LUBs.ClearSelected();
+
+            if (clb_LUBs.CheckedItems.Count > 0)
+            {
+                btn_Decompile.Enabled = true;
+            }
+            else
+            {
+                btn_Decompile.Enabled = false;
+            }
         }
     }
 }

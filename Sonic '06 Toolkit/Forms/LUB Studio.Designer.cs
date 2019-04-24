@@ -121,6 +121,7 @@
             // 
             this.btn_Decompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Decompile.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btn_Decompile.Enabled = false;
             this.btn_Decompile.FlatAppearance.BorderSize = 0;
             this.btn_Decompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Decompile.Location = new System.Drawing.Point(329, 387);

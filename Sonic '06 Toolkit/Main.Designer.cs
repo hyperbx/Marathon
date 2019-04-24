@@ -58,6 +58,8 @@
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
+            this.sdk_Separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mstrip_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,6 +91,7 @@
             // 
             // file_OpenARC
             // 
+            this.file_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("file_OpenARC.Image")));
             this.file_OpenARC.Name = "file_OpenARC";
             this.file_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.file_OpenARC.Size = new System.Drawing.Size(180, 22);
@@ -103,6 +106,7 @@
             // file_RepackARC
             // 
             this.file_RepackARC.Enabled = false;
+            this.file_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("file_RepackARC.Image")));
             this.file_RepackARC.Name = "file_RepackARC";
             this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.file_RepackARC.Size = new System.Drawing.Size(180, 22);
@@ -116,6 +120,7 @@
             // 
             // file_Exit
             // 
+            this.file_Exit.Image = ((System.Drawing.Image)(resources.GetObject("file_Exit.Image")));
             this.file_Exit.Name = "file_Exit";
             this.file_Exit.Size = new System.Drawing.Size(180, 22);
             this.file_Exit.Text = "Exit";
@@ -128,7 +133,9 @@
             this.sdk_DecompileLUBs,
             this.sdk_Separator1,
             this.sdk_XNOStudio,
-            this.sdk_ConvertXNOs});
+            this.sdk_ConvertXNOs,
+            this.sdk_Separator2,
+            this.mSTStudioToolStripMenuItem});
             this.menu_SDK.Name = "menu_SDK";
             this.menu_SDK.Size = new System.Drawing.Size(40, 20);
             this.menu_SDK.Text = "SDK";
@@ -137,7 +144,9 @@
             // 
             this.sdk_LUBStudio.Enabled = false;
             this.sdk_LUBStudio.Name = "sdk_LUBStudio";
-            this.sdk_LUBStudio.Size = new System.Drawing.Size(260, 22);
+            this.sdk_LUBStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.D)));
+            this.sdk_LUBStudio.Size = new System.Drawing.Size(334, 22);
             this.sdk_LUBStudio.Text = "LUB Studio...";
             this.sdk_LUBStudio.Click += new System.EventHandler(this.Sdk_LUBStudio_Click);
             // 
@@ -145,27 +154,33 @@
             // 
             this.sdk_DecompileLUBs.Enabled = false;
             this.sdk_DecompileLUBs.Name = "sdk_DecompileLUBs";
-            this.sdk_DecompileLUBs.Size = new System.Drawing.Size(260, 22);
+            this.sdk_DecompileLUBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.sdk_DecompileLUBs.Size = new System.Drawing.Size(334, 22);
             this.sdk_DecompileLUBs.Text = "Decompile all LUBs in this directory";
             this.sdk_DecompileLUBs.Click += new System.EventHandler(this.Sdk_DecompileLUBs_Click);
             // 
             // sdk_Separator1
             // 
             this.sdk_Separator1.Name = "sdk_Separator1";
-            this.sdk_Separator1.Size = new System.Drawing.Size(257, 6);
+            this.sdk_Separator1.Size = new System.Drawing.Size(331, 6);
             // 
             // sdk_XNOStudio
             // 
             this.sdk_XNOStudio.Enabled = false;
             this.sdk_XNOStudio.Name = "sdk_XNOStudio";
-            this.sdk_XNOStudio.Size = new System.Drawing.Size(260, 22);
+            this.sdk_XNOStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.X)));
+            this.sdk_XNOStudio.Size = new System.Drawing.Size(334, 22);
             this.sdk_XNOStudio.Text = "XNO Studio...";
             // 
             // sdk_ConvertXNOs
             // 
             this.sdk_ConvertXNOs.Enabled = false;
             this.sdk_ConvertXNOs.Name = "sdk_ConvertXNOs";
-            this.sdk_ConvertXNOs.Size = new System.Drawing.Size(260, 22);
+            this.sdk_ConvertXNOs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.X)));
+            this.sdk_ConvertXNOs.Size = new System.Drawing.Size(334, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs in this directory";
             // 
             // menu_Tabs
@@ -180,23 +195,25 @@
             // 
             // tabs_NewTab
             // 
+            this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tabs_CloseTab
             // 
             this.tabs_CloseTab.Enabled = false;
+            this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -210,8 +227,9 @@
             // 
             // help_About
             // 
+            this.help_About.Image = ((System.Drawing.Image)(resources.GetObject("help_About.Image")));
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(107, 22);
+            this.help_About.Size = new System.Drawing.Size(180, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -320,6 +338,20 @@
             this.btn_OpenFolder.UseVisualStyleBackColor = false;
             this.btn_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
             // 
+            // sdk_Separator2
+            // 
+            this.sdk_Separator2.Name = "sdk_Separator2";
+            this.sdk_Separator2.Size = new System.Drawing.Size(331, 6);
+            // 
+            // mSTStudioToolStripMenuItem
+            // 
+            this.mSTStudioToolStripMenuItem.Enabled = false;
+            this.mSTStudioToolStripMenuItem.Name = "mSTStudioToolStripMenuItem";
+            this.mSTStudioToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.M)));
+            this.mSTStudioToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
+            this.mSTStudioToolStripMenuItem.Text = "MST Studio...";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,6 +409,8 @@
         private System.Windows.Forms.ToolStripSeparator file_Separator2;
         private System.Windows.Forms.Button btn_OpenFolder;
         private System.Windows.Forms.TabControl tab_Main;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator2;
+        private System.Windows.Forms.ToolStripMenuItem mSTStudioToolStripMenuItem;
     }
 }
 

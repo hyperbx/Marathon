@@ -231,7 +231,6 @@ namespace Sonic_06_Toolkit
             if (tab_Main.TabPages.Count == 1) tabs_CloseTab.Enabled = false; else tabs_CloseTab.Enabled = true;
 
             #region Tab Check...
-            //Temporary solution.
             if (tab_Main.SelectedTab.Text != "New Tab")
             {
                 #region Enable controls...
@@ -273,67 +272,75 @@ namespace Sonic_06_Toolkit
             if (!Directory.Exists(@"C:\Program Files\Java\")) if (!Directory.Exists(@"C:\Program Files (x86)\Java\")) MessageBox.Show("Sonic '06 Toolkit requires Java to decompile Lua binaries. Please install Java and restart your computer.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
-                    if (Directory.GetFiles(Global.currentPath, "*.lub").Length == 0) MessageBox.Show("There are no Lua binaries to decompile in this directory.", "No Lua binaries available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //Temporary solution; would probably be better to use an array.
+                    if (File.Exists(Global.currentPath + @"\standard.lub")) MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     else
                     {
-                        try
+                        if (Directory.GetFiles(Global.currentPath, "*.lub").Length == 0) MessageBox.Show("There are no Lua binaries to decompile in this directory.", "No Lua binaries available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        else
                         {
-                            #region Getting current ARC failsafe...
-                            if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
-                            var failsafeBuildSession = new StringBuilder();
-                            failsafeBuildSession.Append(Global.archivesPath);
-                            failsafeBuildSession.Append(Global.sessionID);
-                            failsafeBuildSession.Append(@"\");
-                            string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + tab_Main.SelectedIndex);
-                            #endregion
-
-                            #region Writing decompiler...
-                            if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
-                            if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
-                            if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
-                            if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
-                            #endregion
-
-                            #region Verifying Lua binaries...
-                            foreach (string LUB in Directory.GetFiles(Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
+                            if (File.Exists(Global.currentPath + @"\render_shadowmap.lub")) MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (File.Exists(Global.currentPath + @"\game.lub")) MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (File.Exists(Global.currentPath + @"\object.lub")) MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            try
                             {
-                                if (File.Exists(LUB))
+                                #region Getting current ARC failsafe...
+                                if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                                var failsafeBuildSession = new StringBuilder();
+                                failsafeBuildSession.Append(Global.archivesPath);
+                                failsafeBuildSession.Append(Global.sessionID);
+                                failsafeBuildSession.Append(@"\");
+                                string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + tab_Main.SelectedIndex);
+                                #endregion
+
+                                #region Writing decompiler...
+                                if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
+                                if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
+                                if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
+                                if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
+                                #endregion
+
+                                #region Verifying Lua binaries...
+                                foreach (string LUB in Directory.GetFiles(Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
                                 {
-                                    if (File.ReadAllLines(LUB)[0].Contains("LuaP"))
+                                    if (File.Exists(LUB))
                                     {
-                                        File.Copy(LUB, Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(LUB)), true);
+                                        if (File.ReadAllLines(LUB)[0].Contains("LuaP"))
+                                        {
+                                            File.Copy(LUB, Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(LUB)), true);
+                                        }
                                     }
                                 }
-                            }
-                            #endregion
+                                #endregion
 
-                            #region Decompiling Lua binaries...
-                            var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
-                            decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
-                            decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
-                            var Decompile = Process.Start(decompileSession);
-                            var decompileDialog = new Decompiling();
-                            var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
-                            var parentTop = Top + ((Height - decompileDialog.Height) / 2);
-                            decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                            decompileDialog.Show();
-                            Decompile.WaitForExit();
-                            Decompile.Close();
-                            #endregion
+                                #region Decompiling Lua binaries...
+                                var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                                decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
+                                decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
+                                var Decompile = Process.Start(decompileSession);
+                                var decompileDialog = new Decompiling();
+                                var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                                var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                                decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                                decompileDialog.Show();
+                                Decompile.WaitForExit();
+                                Decompile.Close();
+                                #endregion
 
-                            #region Moving decompiled Lua binaries...
-                            foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
-                            {
-                                if (File.Exists(LUB))
+                                #region Moving decompiled Lua binaries...
+                                foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
                                 {
-                                    File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                                    File.Delete(LUB);
+                                    if (File.Exists(LUB))
+                                    {
+                                        File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                        File.Delete(LUB);
+                                    }
                                 }
+                                decompileDialog.Close();
+                                #endregion
                             }
-                            decompileDialog.Close();
-                            #endregion
+                            catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
-                        catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
             }
         }
