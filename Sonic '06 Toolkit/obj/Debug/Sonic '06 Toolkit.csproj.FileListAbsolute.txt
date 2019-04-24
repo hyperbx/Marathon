@@ -22,3 +22,4 @@ C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Repacking.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Decompiling.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.LUB_Studio.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.exe.config

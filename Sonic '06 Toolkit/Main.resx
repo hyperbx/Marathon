@@ -140,6 +140,27 @@
         AMwQkABIEYgmDn/7DwBpTOrUXkrGYgAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="file_RepackARCAs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAQVJREFUOE9j+Pbt239yMBAwgAGIwxA8hySM04AP7z/ixUPAAEJYt3Dt/13nHoAN
+        AOJdQCxDtAEmZev/37r3+H9eXt5/Nze3/wsXLgQZspkoA2CaExMT/zc1Nf3fvXv3/5CQEJABrwkagK75
+        6dOnYHZfXx/IgL0YBiAH2qNnb/8/fgLRgKwZxP7y5ctroF4NnAZ8/PDp//Pnz/Fp1oXHglTKMhQDQDQ2
+        Z2NoBgEgp+Ly/ZdwQ0AGFM8/9n/mzJn/y8rK8GuGAZAhIJcg45ycnP8lJSX/Y2Ji8GtGB0BF/O/fv/8L
+        0tja2vp/8+bNxGsGAaBCH5ALgPgFEK8A4gwgloFKowEGBgCGOYD9CX+PrAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="file_Preferences.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAARVJREFUOE+tk80NgzAMhbl1AhZgFAZAnBkCMVBuIAZgA2CEjsEVOHBx86UxSoGq
+        qtpITw328/NPnSg867re/G9iIQckIed0rCO2uFsYi2IYBknT1GEcRwQK74MT+7DnwYCjaRrpug7y1rbt
+        LsAdGz44cInR4BsGHBpQVZXkeb5/Z1kmZVnu34HIsx17Magr4RN8lUaDGRj9bWEWQGYQ2qgOro9JEJC+
+        76Wu6xeyMUaWZXHgrnZaYyYMdp5ncQLqVCBEID7A/VgJmKbpTwKUQ1nh5N+1gBDt0ra2sA+RASlRycfM
+        DBquj3HbichPf+NpkcgSZqa1sLqrRTqtMn0eAq5XWQ8G73CPiSGpwMfHpMc6vnzOUfQArIBZA0tRb04A
+        AAAASUVORK5CYII=
+</value>
+  </data>
   <data name="file_CloseARC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -187,6 +208,9 @@
   </metadata>
   <metadata name="tm_tabCheck.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>260, 17</value>
+  </metadata>
+  <metadata name="sfd_RepackARCAs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>382, 17</value>
   </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

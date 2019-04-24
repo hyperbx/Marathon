@@ -35,7 +35,10 @@
             this.file_OpenARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.file_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
+            this.file_RepackARCAs = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.file_Preferences = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
             this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SDK = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,6 +64,7 @@
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
+            this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
             this.SuspendLayout();
@@ -76,7 +80,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -86,7 +90,9 @@
             this.file_OpenARC,
             this.file_Separator1,
             this.file_RepackARC,
+            this.file_RepackARCAs,
             this.file_Separator2,
+            this.file_Preferences,
             this.file_CloseARC,
             this.file_Exit});
             this.menu_File.Name = "menu_File";
@@ -98,14 +104,14 @@
             this.file_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("file_OpenARC.Image")));
             this.file_OpenARC.Name = "file_OpenARC";
             this.file_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.file_OpenARC.Size = new System.Drawing.Size(178, 22);
+            this.file_OpenARC.Size = new System.Drawing.Size(226, 22);
             this.file_OpenARC.Text = "Open ARC";
             this.file_OpenARC.Click += new System.EventHandler(this.File_OpenARC_Click);
             // 
             // file_Separator1
             // 
             this.file_Separator1.Name = "file_Separator1";
-            this.file_Separator1.Size = new System.Drawing.Size(175, 6);
+            this.file_Separator1.Size = new System.Drawing.Size(223, 6);
             // 
             // file_RepackARC
             // 
@@ -113,21 +119,51 @@
             this.file_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("file_RepackARC.Image")));
             this.file_RepackARC.Name = "file_RepackARC";
             this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.file_RepackARC.Size = new System.Drawing.Size(178, 22);
+            this.file_RepackARC.Size = new System.Drawing.Size(226, 22);
             this.file_RepackARC.Text = "Repack ARC";
             this.file_RepackARC.Click += new System.EventHandler(this.File_RepackARC_Click);
+            // 
+            // file_RepackARCAs
+            // 
+            this.file_RepackARCAs.Enabled = false;
+            this.file_RepackARCAs.Image = ((System.Drawing.Image)(resources.GetObject("file_RepackARCAs.Image")));
+            this.file_RepackARCAs.Name = "file_RepackARCAs";
+            this.file_RepackARCAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.S)));
+            this.file_RepackARCAs.Size = new System.Drawing.Size(226, 22);
+            this.file_RepackARCAs.Text = "Repack ARC As...";
+            this.file_RepackARCAs.Click += new System.EventHandler(this.File_RepackARCAs_Click);
             // 
             // file_Separator2
             // 
             this.file_Separator2.Name = "file_Separator2";
-            this.file_Separator2.Size = new System.Drawing.Size(175, 6);
+            this.file_Separator2.Size = new System.Drawing.Size(223, 6);
+            // 
+            // file_Preferences
+            // 
+            this.file_Preferences.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.preferences_ShowSessionID});
+            this.file_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("file_Preferences.Image")));
+            this.file_Preferences.Name = "file_Preferences";
+            this.file_Preferences.Size = new System.Drawing.Size(226, 22);
+            this.file_Preferences.Text = "Preferences";
+            // 
+            // preferences_ShowSessionID
+            // 
+            this.preferences_ShowSessionID.Checked = true;
+            this.preferences_ShowSessionID.CheckOnClick = true;
+            this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.preferences_ShowSessionID.Text = "Show Session ID";
+            this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
             // file_CloseARC
             // 
             this.file_CloseARC.Enabled = false;
             this.file_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("file_CloseARC.Image")));
             this.file_CloseARC.Name = "file_CloseARC";
-            this.file_CloseARC.Size = new System.Drawing.Size(178, 22);
+            this.file_CloseARC.Size = new System.Drawing.Size(226, 22);
             this.file_CloseARC.Text = "Close ARC";
             this.file_CloseARC.Click += new System.EventHandler(this.File_CloseARC_Click);
             // 
@@ -135,7 +171,7 @@
             // 
             this.file_Exit.Image = ((System.Drawing.Image)(resources.GetObject("file_Exit.Image")));
             this.file_Exit.Name = "file_Exit";
-            this.file_Exit.Size = new System.Drawing.Size(178, 22);
+            this.file_Exit.Size = new System.Drawing.Size(226, 22);
             this.file_Exit.Text = "Exit";
             this.file_Exit.Click += new System.EventHandler(this.File_Exit_Click);
             // 
@@ -263,7 +299,7 @@
             // ofd_OpenARC
             // 
             this.ofd_OpenARC.DefaultExt = "arc";
-            this.ofd_OpenARC.Filter = "ARC Files|*.ARC";
+            this.ofd_OpenARC.Filter = "ARC Files|*.arc";
             this.ofd_OpenARC.Title = "Please select an ARC file...";
             // 
             // btn_SessionID
@@ -366,6 +402,11 @@
             this.btn_OpenFolder.UseVisualStyleBackColor = false;
             this.btn_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
             // 
+            // sfd_RepackARCAs
+            // 
+            this.sfd_RepackARCAs.Filter = "ARC Files|*.arc";
+            this.sfd_RepackARCAs.RestoreDirectory = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -426,6 +467,10 @@
         private System.Windows.Forms.ToolStripSeparator sdk_Separator2;
         private System.Windows.Forms.ToolStripMenuItem mSTStudioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem file_CloseARC;
+        private System.Windows.Forms.ToolStripMenuItem file_RepackARCAs;
+        private System.Windows.Forms.SaveFileDialog sfd_RepackARCAs;
+        private System.Windows.Forms.ToolStripMenuItem file_Preferences;
+        private System.Windows.Forms.ToolStripMenuItem preferences_ShowSessionID;
     }
 }
 

@@ -13,6 +13,67 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
+        void Main_Load(object sender, EventArgs e)
+        {
+            #region Session ID...
+            var generateSessionID = new Random();
+            Global.sessionID = generateSessionID.Next(1, 99999); //Generates a random number between 1 to 99999 for a unique Session ID.
+            btn_SessionID.Text = Global.sessionID.ToString();
+            #endregion
+
+            #region Directory Check...
+            try
+            {
+                //The below code checks if the directories in the Global class exist; if not, they will be created.
+                if (!Directory.Exists(Global.tempPath)) Directory.CreateDirectory(Global.tempPath);
+                if (!Directory.Exists(Global.archivesPath)) Directory.CreateDirectory(Global.archivesPath);
+                if (!Directory.Exists(Global.toolsPath)) Directory.CreateDirectory(Global.toolsPath);
+                if (!Directory.Exists(Global.unlubPath)) Directory.CreateDirectory(Global.unlubPath);
+                if (!Directory.Exists(Global.xnoPath)) Directory.CreateDirectory(Global.xnoPath);
+            }
+            catch { MessageBox.Show("An error occurred when writing a directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
+            #endregion
+
+            #region File Check...
+            try
+            {
+                //The below code checks if the files in the Global class exist; if not, they will be created.
+                if (!File.Exists(Global.unpackFile)) File.WriteAllBytes(Global.unpackFile, Properties.Resources.unpack);
+                if (!File.Exists(Global.repackFile)) File.WriteAllBytes(Global.repackFile, Properties.Resources.repack);
+                if (!File.Exists(Global.xnoFile)) File.WriteAllBytes(Global.xnoFile, Properties.Resources.xno2dae);
+            }
+            catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
+            #endregion
+
+            #region Setting saved properties...
+            if (Properties.Settings.Default.prop_ShowSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
+            #endregion
+
+            newTab();
+            tm_tabCheck.Start();
+        }
+
+        #region Preferences
+        void Preferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preferences_ShowSessionID.Checked == true)
+            {
+                Properties.Settings.Default.prop_ShowSessionID = true;
+                btn_SessionID.Visible = true;
+                btn_Repack.Left = 690; btn_Repack.Top = -1;
+                btn_OpenFolder.Left = 613; btn_OpenFolder.Top = -1;
+            }
+            else
+            {
+                Properties.Settings.Default.prop_ShowSessionID = false;
+                btn_SessionID.Visible = false;
+                btn_Repack.Left = 738; btn_Repack.Top = -1;
+                btn_OpenFolder.Left = 661; btn_OpenFolder.Top = -1;
+            }
+            Properties.Settings.Default.Save();
+        }
+        #endregion
+
         void newTab()
         {
             var nextTab = new TabPage();
@@ -128,82 +189,93 @@ namespace Sonic_06_Toolkit
 
         void repackARC()
         {
-            try
+            if (Global.repackState == "save")
             {
-                #region Building repack data...
-                var repackBuildSession = new StringBuilder();
-                repackBuildSession.Append(Global.archivesPath);
-                repackBuildSession.Append(Global.sessionID);
-                repackBuildSession.Append(@"\");
-                string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
-                repackBuildSession.Append(@"\");
-                repackBuildSession.Append(failsafeCheck);
-                repackBuildSession.Append(@"\");
-                string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
-                #endregion
+                try
+                {
+                    #region Building repack data...
+                    var repackBuildSession = new StringBuilder();
+                    repackBuildSession.Append(Global.archivesPath);
+                    repackBuildSession.Append(Global.sessionID);
+                    repackBuildSession.Append(@"\");
+                    string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
+                    repackBuildSession.Append(@"\");
+                    repackBuildSession.Append(failsafeCheck);
+                    repackBuildSession.Append(@"\");
+                    string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
+                    #endregion
 
-                #region Repacking ARC...
-                var basicWrite = File.Create(Global.toolsPath + "repack.bat");
-                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
-                basicWrite.Write(basicSession, 0, basicSession.Length);
-                basicWrite.Close();
-                var repackSession = new ProcessStartInfo(Global.toolsPath + "repack.bat");
-                repackSession.WorkingDirectory = Global.toolsPath;
-                repackSession.WindowStyle = ProcessWindowStyle.Hidden;
-                var Repack = Process.Start(repackSession);
-                var repackDialog = new Repacking();
-                var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-                var parentTop = Top + ((Height - repackDialog.Height) / 2);
-                repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                repackDialog.Show();
-                Repack.WaitForExit();
-                Repack.Close();
-                if (File.Exists(ofd_OpenARC.FileName)) File.Copy(repackBuildSession.ToString() + Path.GetFileName(metadata), metadata, true);
-                repackDialog.Close();
-                #endregion
+                    #region Repacking ARC...
+                    var basicWrite = File.Create(Global.toolsPath + "repack.bat");
+                    var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
+                    basicWrite.Write(basicSession, 0, basicSession.Length);
+                    basicWrite.Close();
+                    var repackSession = new ProcessStartInfo(Global.toolsPath + "repack.bat");
+                    repackSession.WorkingDirectory = Global.toolsPath;
+                    repackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                    var Repack = Process.Start(repackSession);
+                    var repackDialog = new Repacking();
+                    var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                    repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    repackDialog.Show();
+                    Repack.WaitForExit();
+                    Repack.Close();
+                    string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
+                    if (File.Exists(archivePath)) File.Copy(archivePath, metadata, true);
+                    repackDialog.Close();
+                    #endregion
+                }
+                catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else if (Global.repackState == "save-as")
+            {
+                if (sfd_RepackARCAs.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        #region Building repack data...
+                        var repackBuildSession = new StringBuilder();
+                        repackBuildSession.Append(Global.archivesPath);
+                        repackBuildSession.Append(Global.sessionID);
+                        repackBuildSession.Append(@"\");
+                        string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
+                        repackBuildSession.Append(@"\");
+                        repackBuildSession.Append(failsafeCheck);
+                        repackBuildSession.Append(@"\");
+                        string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
+                        #endregion
+
+                        #region Repacking ARC...
+                        var basicWrite = File.Create(Global.toolsPath + "repack.bat");
+                        var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
+                        basicWrite.Write(basicSession, 0, basicSession.Length);
+                        basicWrite.Close();
+                        var repackSession = new ProcessStartInfo(Global.toolsPath + "repack.bat");
+                        repackSession.WorkingDirectory = Global.toolsPath;
+                        repackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Repack = Process.Start(repackSession);
+                        var repackDialog = new Repacking();
+                        var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                        var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                        repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        repackDialog.Show();
+                        Repack.WaitForExit();
+                        Repack.Close();
+                        string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
+                        if (File.Exists(archivePath)) File.Copy(archivePath, sfd_RepackARCAs.FileName, true);
+                        repackDialog.Close();
+                        #endregion
+                    }
+                    catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+            }
         }
 
         void Btn_Repack_Click(object sender, EventArgs e)
         {
+            Global.repackState = "save";
             repackARC();
-        }
-
-        void Main_Load(object sender, EventArgs e)
-        {
-            #region Session ID...
-            var generateSessionID = new Random();
-            Global.sessionID = generateSessionID.Next(1, 99999); //Generates a random number between 1 to 99999 for a unique Session ID.
-            btn_SessionID.Text = Global.sessionID.ToString();
-            #endregion
-
-            #region Directory Check...
-            try
-            {
-                //The below code checks if the directories in the Global class exist; if not, they will be created.
-                if (!Directory.Exists(Global.tempPath)) Directory.CreateDirectory(Global.tempPath);
-                if (!Directory.Exists(Global.archivesPath)) Directory.CreateDirectory(Global.archivesPath);
-                if (!Directory.Exists(Global.toolsPath)) Directory.CreateDirectory(Global.toolsPath);
-                if (!Directory.Exists(Global.unlubPath)) Directory.CreateDirectory(Global.unlubPath);
-                if (!Directory.Exists(Global.xnoPath)) Directory.CreateDirectory(Global.xnoPath);
-            }
-            catch { MessageBox.Show("An error occurred when writing a directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
-            #endregion
-
-            #region File Check...
-            try
-            {
-                //The below code checks if the files in the Global class exist; if not, they will be created.
-                if (!File.Exists(Global.unpackFile)) File.WriteAllBytes(Global.unpackFile, Properties.Resources.unpack);
-                if (!File.Exists(Global.repackFile)) File.WriteAllBytes(Global.repackFile, Properties.Resources.repack);
-                if (!File.Exists(Global.xnoFile)) File.WriteAllBytes(Global.xnoFile, Properties.Resources.xno2dae);
-            }
-            catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
-            #endregion
-
-            newTab();
-            tm_tabCheck.Start();
         }
 
         void Btn_Back_Click(object sender, EventArgs e)
@@ -253,6 +325,7 @@ namespace Sonic_06_Toolkit
                 sdk_DecompileLUBs.Enabled = true;
                 sdk_LUBStudio.Enabled = true;
                 file_CloseARC.Enabled = true;
+                file_RepackARCAs.Enabled = true;
                 #endregion
 
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
@@ -268,6 +341,7 @@ namespace Sonic_06_Toolkit
                 sdk_DecompileLUBs.Enabled = false;
                 sdk_LUBStudio.Enabled = false;
                 file_CloseARC.Enabled = false;
+                file_RepackARCAs.Enabled = false;
                 #endregion
             }
             #endregion
@@ -383,6 +457,12 @@ namespace Sonic_06_Toolkit
             {
                 case DialogResult.Yes: tab_Main.TabPages.Remove(tab_Main.SelectedTab); newTab(); break;
             }
+        }
+
+        void File_RepackARCAs_Click(object sender, EventArgs e)
+        {
+            Global.repackState = "save-as";
+            repackARC();
         }
     }
 }

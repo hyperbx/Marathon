@@ -22,5 +22,17 @@ namespace Sonic_06_Toolkit.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool prop_ShowSessionID {
+            get {
+                return ((bool)(this["prop_ShowSessionID"]));
+            }
+            set {
+                this["prop_ShowSessionID"] = value;
+            }
+        }
     }
 }
