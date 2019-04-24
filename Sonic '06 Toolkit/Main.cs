@@ -223,7 +223,18 @@ namespace Sonic_06_Toolkit
 
         void Tabs_CloseTab_Click(object sender, EventArgs e)
         {
-            if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+            if (tab_Main.SelectedTab.Text == "New Tab")
+            {
+                if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+            }
+            else
+            {
+                DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                switch (confirmClosure)
+                {
+                    case DialogResult.Yes: if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab); break;
+                }
+            }
         }
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)

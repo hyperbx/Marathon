@@ -142,10 +142,10 @@
   </data>
   <data name="file_CloseARC.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAACESURBVDhPY/j27dt/fJiBEAApcnJywopJMuDWzdsoGGYA
-        FnweiAWg2lFdgKwZZgCMDcNz5syBGaKAYgCy7TBDQHIf3n+EY5ghbW1tILn3QGxAMAywGQDCMEPABuDD
-        uAwAYZA82BvIACQIkkTWiA2PGjDoDQAlEpACfBiakLAbQDz+9h8AVu2Gf9VttaAAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAIRJREFUOE9j+Pbt2398mIEQAClycnLCikky4NbN2ygYZgAWfB6IBaDaUV2ArBlm
+        AIwNw3PmzIEZooBiALLtMENAch/ef4RjmCFtbW0gufdAbEAwDLAZAMIwQ8AG4MO4DABhkDzYG8gAJAiS
+        RNaIDY8aMOgNACUSkAJ8GJqQsBtAPP72HwBW7YZ/1W21oAAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="file_Exit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

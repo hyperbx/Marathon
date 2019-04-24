@@ -36,6 +36,7 @@
             this.file_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.file_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SDK = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,21 +61,22 @@
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
-            this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mstrip_Main.SuspendLayout();
+            this.pnl_Backdrop.SuspendLayout();
             this.SuspendLayout();
             // 
             // mstrip_Main
             // 
             this.mstrip_Main.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.mstrip_Main.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menu_File,
             this.menu_SDK,
             this.menu_Tabs,
             this.menu_Help});
-            this.mstrip_Main.Location = new System.Drawing.Point(0, 0);
+            this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(800, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -96,14 +98,14 @@
             this.file_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("file_OpenARC.Image")));
             this.file_OpenARC.Name = "file_OpenARC";
             this.file_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.file_OpenARC.Size = new System.Drawing.Size(180, 22);
+            this.file_OpenARC.Size = new System.Drawing.Size(178, 22);
             this.file_OpenARC.Text = "Open ARC";
             this.file_OpenARC.Click += new System.EventHandler(this.File_OpenARC_Click);
             // 
             // file_Separator1
             // 
             this.file_Separator1.Name = "file_Separator1";
-            this.file_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.file_Separator1.Size = new System.Drawing.Size(175, 6);
             // 
             // file_RepackARC
             // 
@@ -111,20 +113,29 @@
             this.file_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("file_RepackARC.Image")));
             this.file_RepackARC.Name = "file_RepackARC";
             this.file_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.file_RepackARC.Size = new System.Drawing.Size(180, 22);
+            this.file_RepackARC.Size = new System.Drawing.Size(178, 22);
             this.file_RepackARC.Text = "Repack ARC";
             this.file_RepackARC.Click += new System.EventHandler(this.File_RepackARC_Click);
             // 
             // file_Separator2
             // 
             this.file_Separator2.Name = "file_Separator2";
-            this.file_Separator2.Size = new System.Drawing.Size(177, 6);
+            this.file_Separator2.Size = new System.Drawing.Size(175, 6);
+            // 
+            // file_CloseARC
+            // 
+            this.file_CloseARC.Enabled = false;
+            this.file_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("file_CloseARC.Image")));
+            this.file_CloseARC.Name = "file_CloseARC";
+            this.file_CloseARC.Size = new System.Drawing.Size(178, 22);
+            this.file_CloseARC.Text = "Close ARC";
+            this.file_CloseARC.Click += new System.EventHandler(this.File_CloseARC_Click);
             // 
             // file_Exit
             // 
             this.file_Exit.Image = ((System.Drawing.Image)(resources.GetObject("file_Exit.Image")));
             this.file_Exit.Name = "file_Exit";
-            this.file_Exit.Size = new System.Drawing.Size(180, 22);
+            this.file_Exit.Size = new System.Drawing.Size(178, 22);
             this.file_Exit.Text = "Exit";
             this.file_Exit.Click += new System.EventHandler(this.File_Exit_Click);
             // 
@@ -214,14 +225,14 @@
             this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
             // 
             // tabs_CloseTab
             // 
@@ -229,7 +240,7 @@
             this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -275,6 +286,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnl_Backdrop.Controls.Add(this.mstrip_Main);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-2, -2);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
@@ -286,7 +298,7 @@
             this.btn_Forward.Enabled = false;
             this.btn_Forward.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Forward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Forward.Location = new System.Drawing.Point(228, -1);
+            this.btn_Forward.Location = new System.Drawing.Point(53, -1);
             this.btn_Forward.Name = "btn_Forward";
             this.btn_Forward.Size = new System.Drawing.Size(55, 26);
             this.btn_Forward.TabIndex = 5;
@@ -300,7 +312,7 @@
             this.btn_Back.Enabled = false;
             this.btn_Back.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Back.Location = new System.Drawing.Point(174, -1);
+            this.btn_Back.Location = new System.Drawing.Point(-1, -1);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(55, 26);
             this.btn_Back.TabIndex = 6;
@@ -354,15 +366,6 @@
             this.btn_OpenFolder.UseVisualStyleBackColor = false;
             this.btn_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
             // 
-            // file_CloseARC
-            // 
-            this.file_CloseARC.Enabled = false;
-            this.file_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("file_CloseARC.Image")));
-            this.file_CloseARC.Name = "file_CloseARC";
-            this.file_CloseARC.Size = new System.Drawing.Size(180, 22);
-            this.file_CloseARC.Text = "Close ARC";
-            this.file_CloseARC.Click += new System.EventHandler(this.File_CloseARC_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,7 +377,6 @@
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Forward);
             this.Controls.Add(this.btn_SessionID);
-            this.Controls.Add(this.mstrip_Main);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mstrip_Main;
@@ -385,8 +387,9 @@
             this.Load += new System.EventHandler(this.Main_Load);
             this.mstrip_Main.ResumeLayout(false);
             this.mstrip_Main.PerformLayout();
+            this.pnl_Backdrop.ResumeLayout(false);
+            this.pnl_Backdrop.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
