@@ -340,6 +340,8 @@ namespace Sonic_06_Toolkit
                 sdk_LUBStudio.Enabled = true;
                 file_CloseARC.Enabled = true;
                 file_RepackARCAs.Enabled = true;
+                sdk_XNOStudio.Enabled = true;
+                sdk_ConvertXNOs.Enabled = true;
                 #endregion
 
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
@@ -356,6 +358,8 @@ namespace Sonic_06_Toolkit
                 sdk_LUBStudio.Enabled = false;
                 file_CloseARC.Enabled = false;
                 file_RepackARCAs.Enabled = false;
+                sdk_XNOStudio.Enabled = false;
+                sdk_ConvertXNOs.Enabled = false;
                 #endregion
             }
             #endregion
@@ -438,7 +442,7 @@ namespace Sonic_06_Toolkit
                             catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
                     }
-            }
+                }
         }
 
         void Btn_OpenFolder_Click(object sender, EventArgs e)
@@ -475,6 +479,74 @@ namespace Sonic_06_Toolkit
             var parentTop = Top + ((Height - documentation.Height) / 2);
             documentation.Location = new System.Drawing.Point(parentLeft, parentTop);
             documentation.Show();
+        }
+
+        void Sdk_XNOStudio_Click(object sender, EventArgs e)
+        {
+            new XNO_Studio().ShowDialog();
+        }
+
+        void Sdk_ConvertXNOs_Click(object sender, EventArgs e)
+        {
+            if (Directory.GetFiles(Global.currentPath, "*.xno").Length == 0) MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+            {
+                try
+                {
+                    #region Getting current ARC failsafe...
+                    if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                    var failsafeBuildSession = new StringBuilder();
+                    failsafeBuildSession.Append(Global.archivesPath);
+                    failsafeBuildSession.Append(Global.sessionID);
+                    failsafeBuildSession.Append(@"\");
+                    string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + Global.getIndex);
+                    #endregion
+
+                    #region Writing converter...
+                    if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck);
+                    if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
+                    if (!File.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
+                    #endregion
+
+                    #region Getting selected XNOs...
+                    foreach (string XNO in Directory.GetFiles(Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
+                    {
+                        if (File.Exists(XNO))
+                        {
+                            #region Building XNOs...
+                            string convertPath = Path.Combine(Global.currentPath, XNO);
+                            var checkedBuildSession = new StringBuilder();
+                            checkedBuildSession.Append(Global.xnoPath);
+                            checkedBuildSession.Append(Global.sessionID);
+                            checkedBuildSession.Append(@"\");
+                            checkedBuildSession.Append(failsafeCheck);
+                            checkedBuildSession.Append(@"\xno2dae.exe");
+                            var checkedWrite = File.Create(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                            var checkedText = new UTF8Encoding(true).GetBytes("\"" + checkedBuildSession.ToString() + "\" \"" + XNO + "\"");
+                            checkedWrite.Write(checkedText, 0, checkedText.Length);
+                            checkedWrite.Close();
+                            #endregion
+
+                            #region Converting XNOs...
+                            var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                            convertSession.WorkingDirectory = Global.currentPath;
+                            convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                            var Convert = Process.Start(convertSession);
+                            var convertDialog = new Converting();
+                            var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                            var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                            convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                            convertDialog.Show();
+                            Convert.WaitForExit();
+                            Convert.Close();
+                            convertDialog.Close();
+                            #endregion
+                        }
+                    }
+                    #endregion
+                }
+                catch { MessageBox.Show("An error occurred when converting the XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 }

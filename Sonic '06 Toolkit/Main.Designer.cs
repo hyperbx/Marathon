@@ -82,7 +82,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -224,6 +224,7 @@
             | System.Windows.Forms.Keys.X)));
             this.sdk_XNOStudio.Size = new System.Drawing.Size(334, 22);
             this.sdk_XNOStudio.Text = "XNO Studio...";
+            this.sdk_XNOStudio.Click += new System.EventHandler(this.Sdk_XNOStudio_Click);
             // 
             // sdk_ConvertXNOs
             // 
@@ -233,6 +234,7 @@
             | System.Windows.Forms.Keys.X)));
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(334, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs in this directory";
+            this.sdk_ConvertXNOs.Click += new System.EventHandler(this.Sdk_ConvertXNOs_Click);
             // 
             // sdk_Separator2
             // 

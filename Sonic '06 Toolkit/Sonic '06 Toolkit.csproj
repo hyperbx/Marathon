@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Notifications\Converting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notifications\Converting.Designer.cs">
+      <DependentUpon>Converting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Documentation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +105,12 @@
     </Compile>
     <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Forms\XNO Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\XNO Studio.Designer.cs">
+      <DependentUpon>XNO Studio.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -110,6 +122,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LUB Studio.resx">
       <DependentUpon>LUB Studio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\XNO Studio.resx">
+      <DependentUpon>XNO Studio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\Converting.resx">
+      <DependentUpon>Converting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Notifications\Decompiling.resx">
       <DependentUpon>Decompiling.cs</DependentUpon>

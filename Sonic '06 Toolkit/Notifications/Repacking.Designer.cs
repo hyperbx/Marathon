@@ -29,42 +29,42 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Repacking));
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
-            this.Label1 = new System.Windows.Forms.Label();
-            this.Panel1 = new System.Windows.Forms.Panel();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
-            this.Panel1.SuspendLayout();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
+            this.lbl_repackState = new System.Windows.Forms.Label();
+            this.pnl_windowCheck = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
+            this.pnl_windowCheck.SuspendLayout();
             this.SuspendLayout();
             // 
-            // PictureBox1
+            // pic_Logo
             // 
-            this.PictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PictureBox1.BackgroundImage")));
-            this.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PictureBox1.Location = new System.Drawing.Point(10, 8);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(86, 83);
-            this.PictureBox1.TabIndex = 6;
-            this.PictureBox1.TabStop = false;
+            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
+            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pic_Logo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pic_Logo.Location = new System.Drawing.Point(10, 8);
+            this.pic_Logo.Name = "pic_Logo";
+            this.pic_Logo.Size = new System.Drawing.Size(86, 83);
+            this.pic_Logo.TabIndex = 6;
+            this.pic_Logo.TabStop = false;
             // 
-            // Label1
+            // lbl_repackState
             // 
-            this.Label1.AutoSize = true;
-            this.Label1.Location = new System.Drawing.Point(106, 43);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(153, 13);
-            this.Label1.TabIndex = 5;
-            this.Label1.Text = "Repacking ARC. Please wait...";
+            this.lbl_repackState.AutoSize = true;
+            this.lbl_repackState.Location = new System.Drawing.Point(106, 43);
+            this.lbl_repackState.Name = "lbl_repackState";
+            this.lbl_repackState.Size = new System.Drawing.Size(153, 13);
+            this.lbl_repackState.TabIndex = 5;
+            this.lbl_repackState.Text = "Repacking ARC. Please wait...";
             // 
-            // Panel1
+            // pnl_windowCheck
             // 
-            this.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
-            this.Panel1.Controls.Add(this.PictureBox1);
-            this.Panel1.Controls.Add(this.Label1);
-            this.Panel1.Location = new System.Drawing.Point(0, 0);
-            this.Panel1.Name = "Panel1";
-            this.Panel1.Size = new System.Drawing.Size(268, 97);
-            this.Panel1.TabIndex = 1;
+            this.pnl_windowCheck.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
+            this.pnl_windowCheck.Controls.Add(this.pic_Logo);
+            this.pnl_windowCheck.Controls.Add(this.lbl_repackState);
+            this.pnl_windowCheck.Location = new System.Drawing.Point(0, 0);
+            this.pnl_windowCheck.Name = "pnl_windowCheck";
+            this.pnl_windowCheck.Size = new System.Drawing.Size(268, 97);
+            this.pnl_windowCheck.TabIndex = 1;
             // 
             // Repacking
             // 
@@ -74,7 +74,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(232)))), ((int)(((byte)(232)))));
             this.ClientSize = new System.Drawing.Size(268, 97);
             this.ControlBox = false;
-            this.Controls.Add(this.Panel1);
+            this.Controls.Add(this.pnl_windowCheck);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -82,17 +82,17 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Repacking ARC...";
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
-            this.Panel1.ResumeLayout(false);
-            this.Panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
+            this.pnl_windowCheck.ResumeLayout(false);
+            this.pnl_windowCheck.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        internal System.Windows.Forms.PictureBox PictureBox1;
-        internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.Panel Panel1;
+        internal System.Windows.Forms.PictureBox pic_Logo;
+        internal System.Windows.Forms.Label lbl_repackState;
+        internal System.Windows.Forms.Panel pnl_windowCheck;
     }
 }

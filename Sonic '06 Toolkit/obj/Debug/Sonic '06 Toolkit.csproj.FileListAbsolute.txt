@@ -25,3 +25,5 @@ C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.exe.config
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Documentation.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Logo.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.XNO_Studio.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Converting.resources
