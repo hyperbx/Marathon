@@ -46,14 +46,17 @@ namespace Sonic_06_Toolkit
             #endregion
 
             #region Setting saved properties...
+            //Gets user-defined settings and sets them in runtime.
             if (Properties.Settings.Default.prop_ShowSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
             #endregion
 
-            newTab();
-            tm_tabCheck.Start();
+            newTab(); //Opens a new tab on launch.
+            tm_tabCheck.Start(); //Starts the timer that watches tab activity.
         }
 
         #region Preferences
+        //Show Session ID
+        //Moves certain controls in runtime to hide the Session ID properly.
         void Preferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
         {
             if (preferences_ShowSessionID.Checked == true)
@@ -76,6 +79,7 @@ namespace Sonic_06_Toolkit
 
         void newTab()
         {
+            //Creates a new web browser instance (which hooks into File Explorer).
             var nextTab = new TabPage();
             var nextBrowser = new WebBrowser();
             nextTab.Text = "New Tab";
@@ -88,6 +92,7 @@ namespace Sonic_06_Toolkit
 
         private WebBrowser currentARC()
         {
+            //Returns the active web browser in the selected tab.
             return (WebBrowser)tab_Main.SelectedTab.Controls[0];
         }
 
@@ -108,6 +113,7 @@ namespace Sonic_06_Toolkit
                 try
                 {
                     #region Building unpack data...
+                    //Builds the main string which locates the ARC's final unpack directory.
                     string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
                     var unpackBuildSession = new StringBuilder();
                     unpackBuildSession.Append(Global.archivesPath);
@@ -121,6 +127,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Building ARC data...
+                    //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
                     var arcBuildSession = new StringBuilder();
                     arcBuildSession.Append(Global.archivesPath);
                     arcBuildSession.Append(Global.sessionID);
@@ -132,6 +139,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Unpacking ARC...
+                    //Sets up the BASIC application and executes the unpacking process.
                     var basicWrite = File.Create(Global.toolsPath + "unpack.bat");
                     var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName) + "\"");
                     basicWrite.Write(basicSession, 0, basicSession.Length);
@@ -150,6 +158,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Writing metadata...
+                    //Writes metadata to the unpacked directory to ensure the original path is remembered.
                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
                     var metadataSession = new UTF8Encoding(true).GetBytes(ofd_OpenARC.FileName);
                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
@@ -158,6 +167,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Navigating...
+                    //Creates a new tab if the selected one is being used.
                     if (tab_Main.SelectedTab.Text == "New Tab")
                     {
                         currentARC().Navigate(unpackBuildSession.ToString());
@@ -172,6 +182,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Building location data...
+                    //Writes a file to store the failsafe directory to be referenced later.
                     var storageSession = new StringBuilder();
                     storageSession.Append(Global.archivesPath);
                     storageSession.Append(Global.sessionID);
@@ -214,6 +225,7 @@ namespace Sonic_06_Toolkit
                 try
                 {
                     #region Building repack data...
+                    //Reads the metadata to get the original location of the ARC.
                     var repackBuildSession = new StringBuilder();
                     repackBuildSession.Append(Global.archivesPath);
                     repackBuildSession.Append(Global.sessionID);
@@ -226,6 +238,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Repacking ARC...
+                    //Sets up the BASIC application and executes the repacking process.
                     var basicWrite = File.Create(Global.toolsPath + "repack.bat");
                     var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
                     basicWrite.Write(basicSession, 0, basicSession.Length);
@@ -242,7 +255,7 @@ namespace Sonic_06_Toolkit
                     Repack.WaitForExit();
                     Repack.Close();
                     string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
-                    if (File.Exists(archivePath)) File.Copy(archivePath, metadata, true);
+                    if (File.Exists(archivePath)) File.Copy(archivePath, metadata, true); //Copies the repacked ARC back to the original location.
                     repackDialog.Close();
                     #endregion
                 }
@@ -255,6 +268,7 @@ namespace Sonic_06_Toolkit
                     try
                     {
                         #region Building repack data...
+                        //Reads the metadata to get the original name of the ARC.
                         var repackBuildSession = new StringBuilder();
                         repackBuildSession.Append(Global.archivesPath);
                         repackBuildSession.Append(Global.sessionID);
@@ -267,6 +281,7 @@ namespace Sonic_06_Toolkit
                         #endregion
 
                         #region Repacking ARC...
+                        //Sets up the BASIC application and executes the repacking process.
                         var basicWrite = File.Create(Global.toolsPath + "repack.bat");
                         var basicSession = new UTF8Encoding(true).GetBytes("\"" + Global.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
                         basicWrite.Write(basicSession, 0, basicSession.Length);
@@ -309,6 +324,7 @@ namespace Sonic_06_Toolkit
 
         void Tabs_CloseTab_Click(object sender, EventArgs e)
         {
+            //Checks if the tab's text reads 'New Tab' (a name only assigned by the application).
             if (tab_Main.SelectedTab.Text == "New Tab")
             {
                 if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab);
@@ -325,12 +341,14 @@ namespace Sonic_06_Toolkit
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
         {
+            //Ensures there's at least only one tab left on the control.
             if (tab_Main.TabPages.Count == 1) tabs_CloseTab.Enabled = false; else tabs_CloseTab.Enabled = true;
 
             #region Tab Check...
             if (tab_Main.SelectedTab.Text != "New Tab")
             {
                 #region Enable controls...
+                //Enables all viable controls if the tab isn't empty.
                 btn_Back.Enabled = true;
                 btn_Forward.Enabled = true;
                 btn_Repack.Enabled = true;
@@ -344,11 +362,13 @@ namespace Sonic_06_Toolkit
                 sdk_ConvertXNOs.Enabled = true;
                 #endregion
 
+                //Updates the currentPath global variable.
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
             }
             else
             {
                 #region Disable controls...
+                //Disables all viable controls if the tab is empty.
                 btn_Back.Enabled = false;
                 btn_Forward.Enabled = false;
                 btn_Repack.Enabled = false;
@@ -373,18 +393,22 @@ namespace Sonic_06_Toolkit
                 else
                 {
                     //Temporary solution; would probably be better to use an array.
+                    //Checks if the first file to be processed is blacklisted. If so, abort the operation to ensure the file doesn't get corrupted.
                     if (File.Exists(Global.currentPath + @"\standard.lub")) MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     else
                     {
+                        //Checks if there are any LUBs in the directory.
                         if (Directory.GetFiles(Global.currentPath, "*.lub").Length == 0) MessageBox.Show("There are no Lua binaries to decompile in this directory.", "No Lua binaries available", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         else
                         {
+                            //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                             if (File.Exists(Global.currentPath + @"\render_shadowmap.lub")) MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             if (File.Exists(Global.currentPath + @"\game.lub")) MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             if (File.Exists(Global.currentPath + @"\object.lub")) MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             try
                             {
                                 #region Getting current ARC failsafe...
+                                //Gets the failsafe directory.
                                 if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
                                 var failsafeBuildSession = new StringBuilder();
                                 failsafeBuildSession.Append(Global.archivesPath);
@@ -394,6 +418,7 @@ namespace Sonic_06_Toolkit
                                 #endregion
 
                                 #region Writing decompiler...
+                                //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
                                 if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
                                 if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
                                 if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
@@ -401,6 +426,7 @@ namespace Sonic_06_Toolkit
                                 #endregion
 
                                 #region Verifying Lua binaries...
+                                //Checks the header for each file to ensure that it can be safely decompiled.
                                 foreach (string LUB in Directory.GetFiles(Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
                                 {
                                     if (File.Exists(LUB))
@@ -414,6 +440,7 @@ namespace Sonic_06_Toolkit
                                 #endregion
 
                                 #region Decompiling Lua binaries...
+                                //Sets up the BASIC application and executes the decompiling process.
                                 var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
                                 decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                                 decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
@@ -428,6 +455,7 @@ namespace Sonic_06_Toolkit
                                 #endregion
 
                                 #region Moving decompiled Lua binaries...
+                                //Copies all LUBs to the final directory, then erases leftovers.
                                 foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
                                 {
                                     if (File.Exists(LUB))
@@ -452,6 +480,8 @@ namespace Sonic_06_Toolkit
 
         void Sdk_LUBStudio_Click(object sender, EventArgs e)
         {
+            //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
+            //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
             if (!Directory.Exists(@"C:\Program Files\Java\")) if (!Directory.Exists(@"C:\Program Files (x86)\Java\")) MessageBox.Show("Sonic '06 Toolkit requires Java to decompile Lua binaries. Please install Java and restart your computer.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
@@ -465,6 +495,7 @@ namespace Sonic_06_Toolkit
 
         void File_CloseARC_Click(object sender, EventArgs e)
         {
+            //Asks for user confirmation before closing an archive.
             DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this archive? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             switch (confirmClosure)
             {
@@ -474,6 +505,7 @@ namespace Sonic_06_Toolkit
 
         void Help_Documentation_Click(object sender, EventArgs e)
         {
+            //Opens the Documentation form in the centre of the parent window without disabling it.
             var documentation = new Documentation();
             var parentLeft = Left + ((Width - documentation.Width) / 2);
             var parentTop = Top + ((Height - documentation.Height) / 2);
@@ -488,12 +520,14 @@ namespace Sonic_06_Toolkit
 
         void Sdk_ConvertXNOs_Click(object sender, EventArgs e)
         {
+            //Checks if there are any XNOs in the directory.
             if (Directory.GetFiles(Global.currentPath, "*.xno").Length == 0) MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 try
                 {
                     #region Getting current ARC failsafe...
+                    //Gets the failsafe directory.
                     if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
                     var failsafeBuildSession = new StringBuilder();
                     failsafeBuildSession.Append(Global.archivesPath);
@@ -503,17 +537,20 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region Writing converter...
+                    //Writes the converter to the failsafe directory to ensure any XNOs left over from other open archives aren't copied over to the selected archive.
                     if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck);
                     if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
                     if (!File.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
                     #endregion
 
-                    #region Getting selected XNOs...
+                    #region Getting XNOs...
+                    //Gets all checked boxes from the CheckedListBox and builds a string for each XNO.
                     foreach (string XNO in Directory.GetFiles(Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
                     {
                         if (File.Exists(XNO))
                         {
                             #region Building XNOs...
+                            //Gets the location of the converter and writes a BASIC application.
                             string convertPath = Path.Combine(Global.currentPath, XNO);
                             var checkedBuildSession = new StringBuilder();
                             checkedBuildSession.Append(Global.xnoPath);
@@ -528,6 +565,7 @@ namespace Sonic_06_Toolkit
                             #endregion
 
                             #region Converting XNOs...
+                            //Sets up the BASIC application and executes the conversion process.
                             var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                             convertSession.WorkingDirectory = Global.currentPath;
                             convertSession.WindowStyle = ProcessWindowStyle.Hidden;
