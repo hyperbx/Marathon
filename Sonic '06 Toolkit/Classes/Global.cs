@@ -6,6 +6,8 @@ namespace Sonic_06_Toolkit
     {
         public static string versionNumber = "1.0";
         public static int sessionID;
+        public static string currentPath;
+        public static int getIndex;
 
         #region Directories
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

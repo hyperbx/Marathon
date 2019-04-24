@@ -57,15 +57,6 @@ namespace Sonic_06_Toolkit
                     unpackBuildSession.Append(Path.GetFileNameWithoutExtension(ofd_OpenARC.FileName));
                     unpackBuildSession.Append(@"\");
                     if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
-                    var storageSession = new StringBuilder();
-                    storageSession.Append(Global.archivesPath);
-                    storageSession.Append(Global.sessionID);
-                    storageSession.Append(@"\");
-                    storageSession.Append(tab_Main.SelectedIndex);
-                    var storageWrite = File.Create(storageSession.ToString());
-                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                    storageWrite.Write(storageText, 0, storageText.Length);
-                    storageWrite.Close();
                     #endregion
 
                     #region Building ARC data...
@@ -118,11 +109,20 @@ namespace Sonic_06_Toolkit
                         tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
                     }
                     #endregion
+
+                    #region Building location data...
+                    var storageSession = new StringBuilder();
+                    storageSession.Append(Global.archivesPath);
+                    storageSession.Append(Global.sessionID);
+                    storageSession.Append(@"\");
+                    storageSession.Append(tab_Main.SelectedIndex);
+                    var storageWrite = File.Create(storageSession.ToString());
+                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                    storageWrite.Write(storageText, 0, storageText.Length);
+                    storageWrite.Close();
+                    #endregion
                 }
-                catch
-                {
-                    MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
 
@@ -162,10 +162,7 @@ namespace Sonic_06_Toolkit
                 repackDialog.Close();
                 #endregion
             }
-            catch
-            {
-                MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         void Btn_Repack_Click(object sender, EventArgs e)
@@ -191,11 +188,7 @@ namespace Sonic_06_Toolkit
                 if (!Directory.Exists(Global.unlubPath)) Directory.CreateDirectory(Global.unlubPath);
                 if (!Directory.Exists(Global.xnoPath)) Directory.CreateDirectory(Global.xnoPath);
             }
-            catch
-            {
-                MessageBox.Show("An error occurred when writing a directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
+            catch { MessageBox.Show("An error occurred when writing a directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
 
             #region File Check...
@@ -206,11 +199,7 @@ namespace Sonic_06_Toolkit
                 if (!File.Exists(Global.repackFile)) File.WriteAllBytes(Global.repackFile, Properties.Resources.repack);
                 if (!File.Exists(Global.xnoFile)) File.WriteAllBytes(Global.xnoFile, Properties.Resources.xno2dae);
             }
-            catch
-            {
-                MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
+            catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
 
             newTab();
@@ -245,21 +234,29 @@ namespace Sonic_06_Toolkit
             //Temporary solution.
             if (tab_Main.SelectedTab.Text != "New Tab")
             {
+                #region Enable controls...
                 btn_Back.Enabled = true;
                 btn_Forward.Enabled = true;
                 btn_Repack.Enabled = true;
                 file_RepackARC.Enabled = true;
                 btn_OpenFolder.Enabled = true;
                 sdk_DecompileLUBs.Enabled = true;
+                sdk_LUBStudio.Enabled = true;
+                #endregion
+
+                Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
             }
             else
             {
+                #region Disable controls...
                 btn_Back.Enabled = false;
                 btn_Forward.Enabled = false;
                 btn_Repack.Enabled = false;
                 file_RepackARC.Enabled = false;
                 btn_OpenFolder.Enabled = false;
                 sdk_DecompileLUBs.Enabled = false;
+                sdk_LUBStudio.Enabled = false;
+                #endregion
             }
             #endregion
         }
@@ -276,75 +273,87 @@ namespace Sonic_06_Toolkit
             if (!Directory.Exists(@"C:\Program Files\Java\")) if (!Directory.Exists(@"C:\Program Files (x86)\Java\")) MessageBox.Show("Sonic '06 Toolkit requires Java to decompile Lua binaries. Please install Java and restart your computer.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
                 {
-                    try
+                    if (Directory.GetFiles(Global.currentPath, "*.lub").Length == 0) MessageBox.Show("There are no Lua binaries to decompile in this directory.", "No Lua binaries available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
                     {
-                        #region Getting current ARC failsafe...
-                        if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
-                        var failsafeBuildSession = new StringBuilder();
-                        failsafeBuildSession.Append(Global.archivesPath);
-                        failsafeBuildSession.Append(Global.sessionID);
-                        failsafeBuildSession.Append(@"\");
-                        string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + tab_Main.SelectedIndex);
-                        #endregion
-
-                        #region Writing decompiler...
-                        if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
-                        if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
-                        if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
-                        if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
-                        #endregion
-
-                        #region Verifying Lua binaries...
-                        var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                        foreach (string LUB in Directory.GetFiles(currentPath, "*.lub", SearchOption.TopDirectoryOnly))
+                        try
                         {
-                            if (File.Exists(LUB))
+                            #region Getting current ARC failsafe...
+                            if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                            var failsafeBuildSession = new StringBuilder();
+                            failsafeBuildSession.Append(Global.archivesPath);
+                            failsafeBuildSession.Append(Global.sessionID);
+                            failsafeBuildSession.Append(@"\");
+                            string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + tab_Main.SelectedIndex);
+                            #endregion
+
+                            #region Writing decompiler...
+                            if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
+                            if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
+                            if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
+                            if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
+                            #endregion
+
+                            #region Verifying Lua binaries...
+                            foreach (string LUB in Directory.GetFiles(Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
                             {
-                                var checkHeader = File.ReadAllLines(LUB)[0];
-                                if (checkHeader.Contains("LuaP"))
+                                if (File.Exists(LUB))
                                 {
-                                    File.Copy(LUB, Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(LUB)), true);
+                                    if (File.ReadAllLines(LUB)[0].Contains("LuaP"))
+                                    {
+                                        File.Copy(LUB, Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(LUB)), true);
+                                    }
                                 }
                             }
-                        }
-                        #endregion
+                            #endregion
 
-                        #region Decompiling Lua binaries...
-                        var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
-                        decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
-                        decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
-                        var Decompile = Process.Start(decompileSession);
-                        var decompileDialog = new Decompiling();
-                        var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
-                        var parentTop = Top + ((Height - decompileDialog.Height) / 2);
-                        decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        decompileDialog.Show();
-                        Decompile.WaitForExit();
-                        Decompile.Close();
-                        #endregion
+                            #region Decompiling Lua binaries...
+                            var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                            decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
+                            decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
+                            var Decompile = Process.Start(decompileSession);
+                            var decompileDialog = new Decompiling();
+                            var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                            var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                            decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                            decompileDialog.Show();
+                            Decompile.WaitForExit();
+                            Decompile.Close();
+                            #endregion
 
-                        #region Moving decompiled Lua binaries...
-                        foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
-                        {
-                            if (File.Exists(LUB))
+                            #region Moving decompiled Lua binaries...
+                            foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
                             {
-                                File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(currentPath, Path.GetFileName(LUB)), true);
-                                File.Delete(LUB);
+                                if (File.Exists(LUB))
+                                {
+                                    File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                    File.Delete(LUB);
+                                }
                             }
+                            decompileDialog.Close();
+                            #endregion
                         }
-                        decompileDialog.Close();
-                        #endregion
+                        catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
-                    catch
-                    {
-                        MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+            }
         }
 
-        private void Btn_OpenFolder_Click(object sender, EventArgs e)
+        void Btn_OpenFolder_Click(object sender, EventArgs e)
         {
             Process.Start(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
+        }
+
+        void Sdk_LUBStudio_Click(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(@"C:\Program Files\Java\")) if (!Directory.Exists(@"C:\Program Files (x86)\Java\")) MessageBox.Show("Sonic '06 Toolkit requires Java to decompile Lua binaries. Please install Java and restart your computer.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    new LUB_Studio().ShowDialog();
+                }
+        }
+        void Tab_Main_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Global.getIndex = tab_Main.SelectedIndex;
         }
     }
 }

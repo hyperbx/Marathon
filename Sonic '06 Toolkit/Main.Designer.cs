@@ -139,6 +139,7 @@
             this.sdk_LUBStudio.Name = "sdk_LUBStudio";
             this.sdk_LUBStudio.Size = new System.Drawing.Size(260, 22);
             this.sdk_LUBStudio.Text = "LUB Studio...";
+            this.sdk_LUBStudio.Click += new System.EventHandler(this.Sdk_LUBStudio_Click);
             // 
             // sdk_DecompileLUBs
             // 
@@ -181,21 +182,21 @@
             // 
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
             // 
             // tabs_CloseTab
             // 
             this.tabs_CloseTab.Enabled = false;
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -210,7 +211,7 @@
             // help_About
             // 
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(180, 22);
+            this.help_About.Size = new System.Drawing.Size(107, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -298,6 +299,7 @@
             this.tab_Main.SelectedIndex = 0;
             this.tab_Main.Size = new System.Drawing.Size(800, 424);
             this.tab_Main.TabIndex = 8;
+            this.tab_Main.SelectedIndexChanged += new System.EventHandler(this.Tab_Main_SelectedIndexChanged);
             // 
             // tm_tabCheck
             // 
@@ -370,11 +372,11 @@
         private System.Windows.Forms.Button btn_Forward;
         private System.Windows.Forms.Button btn_Back;
         private System.Windows.Forms.Button btn_Repack;
-        private System.Windows.Forms.TabControl tab_Main;
         private System.Windows.Forms.Timer tm_tabCheck;
         private System.Windows.Forms.ToolStripMenuItem file_RepackARC;
         private System.Windows.Forms.ToolStripSeparator file_Separator2;
         private System.Windows.Forms.Button btn_OpenFolder;
+        private System.Windows.Forms.TabControl tab_Main;
     }
 }
 
