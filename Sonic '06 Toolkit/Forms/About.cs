@@ -25,5 +25,10 @@ namespace Sonic_06_Toolkit
         {
             Close();
         }
+
+        void Lbl_Title_Click(object sender, EventArgs e)
+        {
+            new Logo().ShowDialog();
+        }
     }
 }

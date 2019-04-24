@@ -60,15 +60,15 @@ namespace Sonic_06_Toolkit
             {
                 Properties.Settings.Default.prop_ShowSessionID = true;
                 btn_SessionID.Visible = true;
-                btn_Repack.Left = 690; btn_Repack.Top = -1;
-                btn_OpenFolder.Left = 613; btn_OpenFolder.Top = -1;
+                btn_Repack.Left -= 48;
+                btn_OpenFolder.Left -= 48;
             }
             else
             {
                 Properties.Settings.Default.prop_ShowSessionID = false;
                 btn_SessionID.Visible = false;
-                btn_Repack.Left = 738; btn_Repack.Top = -1;
-                btn_OpenFolder.Left = 661; btn_OpenFolder.Top = -1;
+                btn_Repack.Left += 48;
+                btn_OpenFolder.Left += 48;
             }
             Properties.Settings.Default.Save();
         }
@@ -187,6 +187,26 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        #region Repack States
+        void Btn_Repack_Click(object sender, EventArgs e)
+        {
+            Global.repackState = "save";
+            repackARC();
+        }
+
+        void File_RepackARC_Click(object sender, EventArgs e)
+        {
+            Global.repackState = "save";
+            repackARC();
+        }
+
+        void File_RepackARCAs_Click(object sender, EventArgs e)
+        {
+            Global.repackState = "save-as";
+            repackARC();
+        }
+        #endregion
+
         void repackARC()
         {
             if (Global.repackState == "save")
@@ -272,12 +292,6 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void Btn_Repack_Click(object sender, EventArgs e)
-        {
-            Global.repackState = "save";
-            repackARC();
-        }
-
         void Btn_Back_Click(object sender, EventArgs e)
         {
             currentARC().GoBack();
@@ -345,11 +359,6 @@ namespace Sonic_06_Toolkit
                 #endregion
             }
             #endregion
-        }
-
-        void File_RepackARC_Click(object sender, EventArgs e)
-        {
-            repackARC();
         }
 
         void Sdk_DecompileLUBs_Click(object sender, EventArgs e)
@@ -459,10 +468,13 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void File_RepackARCAs_Click(object sender, EventArgs e)
+        void Help_Documentation_Click(object sender, EventArgs e)
         {
-            Global.repackState = "save-as";
-            repackARC();
+            var documentation = new Documentation();
+            var parentLeft = Left + ((Width - documentation.Width) / 2);
+            var parentTop = Top + ((Height - documentation.Height) / 2);
+            documentation.Location = new System.Drawing.Point(parentLeft, parentTop);
+            documentation.Show();
         }
     }
 }

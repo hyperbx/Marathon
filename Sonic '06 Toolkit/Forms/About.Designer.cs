@@ -46,6 +46,7 @@
             this.lbl_Title.Size = new System.Drawing.Size(293, 47);
             this.lbl_Title.TabIndex = 0;
             this.lbl_Title.Text = "Sonic \'06 Toolkit";
+            this.lbl_Title.Click += new System.EventHandler(this.Lbl_Title_Click);
             // 
             // lbl_Subtitle
             // 

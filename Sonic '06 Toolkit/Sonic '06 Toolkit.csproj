@@ -47,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Documentation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Documentation.Designer.cs">
+      <DependentUpon>Documentation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Logo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Logo.Designer.cs">
+      <DependentUpon>Logo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\LUB Studio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +100,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Documentation.resx">
+      <DependentUpon>Documentation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Logo.resx">
+      <DependentUpon>Logo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LUB Studio.resx">
       <DependentUpon>LUB Studio.cs</DependentUpon>

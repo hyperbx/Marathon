@@ -54,6 +54,8 @@
             this.tabs_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.tabs_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Help = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
@@ -80,7 +82,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -154,7 +156,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -283,16 +285,32 @@
             // menu_Help
             // 
             this.menu_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.help_Documentation,
+            this.help_Separator1,
             this.help_About});
             this.menu_Help.Name = "menu_Help";
             this.menu_Help.Size = new System.Drawing.Size(44, 20);
             this.menu_Help.Text = "Help";
             // 
+            // help_Documentation
+            // 
+            this.help_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("help_Documentation.Image")));
+            this.help_Documentation.Name = "help_Documentation";
+            this.help_Documentation.ShortcutKeys = System.Windows.Forms.Keys.F1;
+            this.help_Documentation.Size = new System.Drawing.Size(176, 22);
+            this.help_Documentation.Text = "Documentation";
+            this.help_Documentation.Click += new System.EventHandler(this.Help_Documentation_Click);
+            // 
+            // help_Separator1
+            // 
+            this.help_Separator1.Name = "help_Separator1";
+            this.help_Separator1.Size = new System.Drawing.Size(173, 6);
+            // 
             // help_About
             // 
             this.help_About.Image = ((System.Drawing.Image)(resources.GetObject("help_About.Image")));
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(107, 22);
+            this.help_About.Size = new System.Drawing.Size(176, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -406,6 +424,7 @@
             // 
             this.sfd_RepackARCAs.Filter = "ARC Files|*.arc";
             this.sfd_RepackARCAs.RestoreDirectory = true;
+            this.sfd_RepackARCAs.Title = "Repack ARC As...";
             // 
             // Main
             // 
@@ -471,6 +490,8 @@
         private System.Windows.Forms.SaveFileDialog sfd_RepackARCAs;
         private System.Windows.Forms.ToolStripMenuItem file_Preferences;
         private System.Windows.Forms.ToolStripMenuItem preferences_ShowSessionID;
+        private System.Windows.Forms.ToolStripMenuItem help_Documentation;
+        private System.Windows.Forms.ToolStripSeparator help_Separator1;
     }
 }
 

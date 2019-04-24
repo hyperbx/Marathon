@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LUB_Studio));
             this.lbl_Title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.clb_LUBs = new System.Windows.Forms.CheckedListBox();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_Decompile = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -56,24 +56,24 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.PictureBox1);
+            this.panel1.Controls.Add(this.pic_Logo);
             this.panel1.Controls.Add(this.lbl_Title);
             this.panel1.Location = new System.Drawing.Point(-3, -2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(418, 69);
             this.panel1.TabIndex = 6;
             // 
-            // PictureBox1
+            // pic_Logo
             // 
-            this.PictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox1.BackColor = System.Drawing.Color.Transparent;
-            this.PictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("PictureBox1.BackgroundImage")));
-            this.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.PictureBox1.Location = new System.Drawing.Point(341, 1);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(67, 67);
-            this.PictureBox1.TabIndex = 11;
-            this.PictureBox1.TabStop = false;
+            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
+            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
+            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pic_Logo.Location = new System.Drawing.Point(341, 1);
+            this.pic_Logo.Name = "pic_Logo";
+            this.pic_Logo.Size = new System.Drawing.Size(67, 67);
+            this.pic_Logo.TabIndex = 11;
+            this.pic_Logo.TabStop = false;
             // 
             // clb_LUBs
             // 
@@ -151,7 +151,7 @@
             this.Load += new System.EventHandler(this.LUB_Studio_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -164,6 +164,6 @@
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.Button btn_DeselectAll;
         private System.Windows.Forms.Button btn_Decompile;
-        internal System.Windows.Forms.PictureBox PictureBox1;
+        internal System.Windows.Forms.PictureBox pic_Logo;
     }
 }
