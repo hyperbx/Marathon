@@ -115,6 +115,7 @@
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(494, 206);
+            this.ControlBox = false;
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_GitHub);
             this.Controls.Add(this.lbl_Description);
