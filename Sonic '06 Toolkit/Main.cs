@@ -40,7 +40,6 @@ namespace Sonic_06_Toolkit
                 //The below code checks if the files in the Global class exist; if not, they will be created.
                 if (!File.Exists(Global.unpackFile)) File.WriteAllBytes(Global.unpackFile, Properties.Resources.unpack);
                 if (!File.Exists(Global.repackFile)) File.WriteAllBytes(Global.repackFile, Properties.Resources.repack);
-                if (!File.Exists(Global.xnoFile)) File.WriteAllBytes(Global.xnoFile, Properties.Resources.xno2dae);
             }
             catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
