@@ -10,7 +10,7 @@ Because this is a complete rewrite, the goal is to include everything that was i
 ### LUB Decompiling (needs work)
 - Sonic '06 Toolkit currently uses a Java-based Lua decompiler. It would be beneficial to write a Lua decompiler in C than depend on Java as a requirement.
 
-### XNO Converting and XNM Pairing
+### XNO Converting (done) and XNM Pairing
 - Likely using the same method as last time to convert these files, but improving XNM pairing as it can be rather tedious.
 
 ### ADX Encoding
