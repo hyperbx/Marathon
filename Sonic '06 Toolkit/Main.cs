@@ -223,7 +223,7 @@ namespace Sonic_06_Toolkit
 
         void Tabs_CloseTab_Click(object sender, EventArgs e)
         {
-            if (tab_Main.TabPages.Count < 1) ; else tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+            if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab);
         }
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
@@ -241,6 +241,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Enabled = true;
                 sdk_DecompileLUBs.Enabled = true;
                 sdk_LUBStudio.Enabled = true;
+                file_CloseARC.Enabled = true;
                 #endregion
 
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
@@ -255,6 +256,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Enabled = false;
                 sdk_DecompileLUBs.Enabled = false;
                 sdk_LUBStudio.Enabled = false;
+                file_CloseARC.Enabled = false;
                 #endregion
             }
             #endregion
@@ -361,6 +363,15 @@ namespace Sonic_06_Toolkit
         void Tab_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
             Global.getIndex = tab_Main.SelectedIndex;
+        }
+
+        void File_CloseARC_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this archive? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            switch (confirmClosure)
+            {
+                case DialogResult.Yes: tab_Main.TabPages.Remove(tab_Main.SelectedTab); newTab(); break;
+            }
         }
     }
 }

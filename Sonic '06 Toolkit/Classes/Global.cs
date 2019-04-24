@@ -4,7 +4,7 @@ namespace Sonic_06_Toolkit
 {
     public class Global
     {
-        public static string versionNumber = "1.0";
+        public static string versionNumber = "1.0.77-alpha";
         public static int sessionID;
         public static string currentPath;
         public static int getIndex;
