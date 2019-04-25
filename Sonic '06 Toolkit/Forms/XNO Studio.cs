@@ -72,6 +72,7 @@ namespace Sonic_06_Toolkit
                 //Gets all checked boxes from the CheckedListBox and builds a string for each XNO.
                 foreach (string selectedXNO in clb_XNOs.CheckedItems)
                 {
+                    #region Building XNOs...
                     //Gets the location of the converter and writes a BASIC application.
                     string convertPath = Path.Combine(Global.currentPath, selectedXNO);
                     var checkedBuildSession = new StringBuilder();
@@ -84,23 +85,24 @@ namespace Sonic_06_Toolkit
                     var checkedText = new UTF8Encoding(true).GetBytes("\"" + checkedBuildSession.ToString() + "\" \"" + selectedXNO + "\"");
                     checkedWrite.Write(checkedText, 0, checkedText.Length);
                     checkedWrite.Close();
-                }
-                #endregion
+                    #endregion
 
-                #region Converting XNOs...
-                //Sets up the BASIC application and executes the conversion process.
-                var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
-                convertSession.WorkingDirectory = Global.currentPath;
-                convertSession.WindowStyle = ProcessWindowStyle.Hidden;
-                var Convert = Process.Start(convertSession);
-                var convertDialog = new Converting();
-                var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                convertDialog.Show();
-                Convert.WaitForExit();
-                Convert.Close();
-                convertDialog.Close();
+                    #region Converting XNOs...
+                    //Sets up the BASIC application and executes the conversion process.
+                    var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                    convertSession.WorkingDirectory = Global.currentPath;
+                    convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                    var Convert = Process.Start(convertSession);
+                    var convertDialog = new Converting();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
+                    #endregion
+                }
                 #endregion
             }
             catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
