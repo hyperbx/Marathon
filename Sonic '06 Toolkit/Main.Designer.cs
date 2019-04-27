@@ -392,7 +392,7 @@
             this.btn_NewTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(161)))), ((int)(((byte)(226)))));
             this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_NewTab.Location = new System.Drawing.Point(275, -1);
+            this.btn_NewTab.Location = new System.Drawing.Point(276, -1);
             this.btn_NewTab.Name = "btn_NewTab";
             this.btn_NewTab.Size = new System.Drawing.Size(23, 26);
             this.btn_NewTab.TabIndex = 1;

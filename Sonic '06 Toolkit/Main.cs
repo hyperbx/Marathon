@@ -62,17 +62,33 @@ namespace Sonic_06_Toolkit
         {
             if (preferences_ShowSessionID.Checked == true)
             {
-                Properties.Settings.Default.prop_ShowSessionID = true;
-                btn_SessionID.Visible = true;
-                btn_Repack.Left -= 48;
-                btn_OpenFolder.Left -= 48;
+                if (Properties.Settings.Default.prop_Theme == "Compact")
+                {
+                    Properties.Settings.Default.prop_ShowSessionID = true;
+                    btn_SessionID.Visible = true;
+                    btn_Repack.Left -= 48;
+                    btn_OpenFolder.Left -= 48;
+                }
+                else if (Properties.Settings.Default.prop_Theme == "Original")
+                {
+                    Properties.Settings.Default.prop_ShowSessionID = true;
+                    btn_SessionID.Visible = true;
+                }
             }
             else
             {
-                Properties.Settings.Default.prop_ShowSessionID = false;
-                btn_SessionID.Visible = false;
-                btn_Repack.Left += 48;
-                btn_OpenFolder.Left += 48;
+                if (Properties.Settings.Default.prop_Theme == "Compact")
+                {
+                    Properties.Settings.Default.prop_ShowSessionID = false;
+                    btn_SessionID.Visible = false;
+                    btn_Repack.Left += 48;
+                    btn_OpenFolder.Left += 48;
+                }
+                else if (Properties.Settings.Default.prop_Theme == "Original")
+                {
+                    Properties.Settings.Default.prop_ShowSessionID = false;
+                    btn_SessionID.Visible = false;
+                }
             }
             Properties.Settings.Default.Save();
         }
@@ -83,13 +99,18 @@ namespace Sonic_06_Toolkit
         {
             if (themes_Compact.Checked == true)
             {
+                if (Properties.Settings.Default.prop_ShowSessionID == false)
+                {
+                    btn_Repack.Left += 48;
+                    btn_OpenFolder.Left += 48;
+                }
                 Properties.Settings.Default.prop_Theme = "Compact";
                 themes_Original.Checked = false;
                 mstrip_Main.Left += 106;
                 tab_Main.Height += 28; tab_Main.Top -= 28;
                 btn_Back.Width -= 4; btn_Back.Height += 3; btn_Back.Left -= 5; btn_Back.Top -= 29; btn_Back.FlatAppearance.BorderSize = 1;
                 btn_Forward.Width -= 10; btn_Forward.Height += 3; btn_Forward.Left -= 14; btn_Forward.Top -= 29; btn_Forward.FlatAppearance.BorderSize = 1;
-                btn_NewTab.Width += 2; btn_NewTab.Height += 3; btn_NewTab.Left += 139; btn_NewTab.Top -= 29; btn_NewTab.BackColor = Color.FromArgb(27, 161, 226); btn_NewTab.FlatAppearance.BorderSize = 1;
+                btn_NewTab.Width += 2; btn_NewTab.Height += 3; btn_NewTab.Left += 140; btn_NewTab.Top -= 29; btn_NewTab.BackColor = Color.FromArgb(27, 161, 226); btn_NewTab.FlatAppearance.BorderSize = 1;
                 btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Left -= 18; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
                 btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Left -= 20; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
                 btn_SessionID.Height += 3; btn_SessionID.Left += 173; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
@@ -103,13 +124,18 @@ namespace Sonic_06_Toolkit
         {
             if (themes_Original.Checked == true)
             {
+                if (Properties.Settings.Default.prop_ShowSessionID == false)
+                {
+                    btn_Repack.Left -= 48;
+                    btn_OpenFolder.Left -= 48;
+                }
                 Properties.Settings.Default.prop_Theme = "Original";
                 themes_Compact.Checked = false;
                 mstrip_Main.Left -= 106;
                 tab_Main.Height -= 28; tab_Main.Top += 28;
                 btn_Back.Width += 4; btn_Back.Height -= 3; btn_Back.Left += 5; btn_Back.Top += 29; btn_Back.FlatAppearance.BorderSize = 0; 
                 btn_Forward.Width += 10; btn_Forward.Height -= 3; btn_Forward.Left += 14; btn_Forward.Top += 29; btn_Forward.FlatAppearance.BorderSize = 0; 
-                btn_NewTab.Width -= 2; btn_NewTab.Height -= 3; btn_NewTab.Left -= 139; btn_NewTab.Top += 29; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 0;
+                btn_NewTab.Width -= 2; btn_NewTab.Height -= 3; btn_NewTab.Left -= 140; btn_NewTab.Top += 29; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 0;
                 btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Left += 18; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
                 btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Left += 20; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
                 btn_SessionID.Height -= 3; btn_SessionID.Left -= 173; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
