@@ -30,5 +30,10 @@ namespace Sonic_06_Toolkit
         {
             new Logo().ShowDialog();
         }
+
+        void Btn_Credits_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sonic '06 Toolkit\nDeveloped by Hyper Development Team\nHosted by SEGA Carnival\n\nLicensed under the GNU General Public License (v2.0).\n\nContributors:\nHyper - Lead Developer\nShadow LAG - Sonic '06 SDK\nxose - ARC Unpacker\ng0ldenlink - ARC Repacker\nSkyth - XNO Converter\nDarioSamo - XNO Converter\nNatsumi - Design Guidance", "Credits", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

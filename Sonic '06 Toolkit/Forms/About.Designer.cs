@@ -35,6 +35,7 @@
             this.lbl_Description = new System.Windows.Forms.Label();
             this.btn_GitHub = new System.Windows.Forms.Button();
             this.btn_Close = new System.Windows.Forms.Button();
+            this.btn_Credits = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -87,7 +88,7 @@
             this.btn_GitHub.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(218)))), ((int)(((byte)(240)))));
             this.btn_GitHub.FlatAppearance.BorderSize = 0;
             this.btn_GitHub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GitHub.Location = new System.Drawing.Point(408, 144);
+            this.btn_GitHub.Location = new System.Drawing.Point(409, 114);
             this.btn_GitHub.Name = "btn_GitHub";
             this.btn_GitHub.Size = new System.Drawing.Size(75, 23);
             this.btn_GitHub.TabIndex = 4;
@@ -100,13 +101,26 @@
             this.btn_Close.BackColor = System.Drawing.Color.Tomato;
             this.btn_Close.FlatAppearance.BorderSize = 0;
             this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Close.Location = new System.Drawing.Point(408, 172);
+            this.btn_Close.Location = new System.Drawing.Point(409, 172);
             this.btn_Close.Name = "btn_Close";
             this.btn_Close.Size = new System.Drawing.Size(75, 23);
             this.btn_Close.TabIndex = 5;
             this.btn_Close.Text = "Close";
             this.btn_Close.UseVisualStyleBackColor = false;
             this.btn_Close.Click += new System.EventHandler(this.Btn_Close_Click);
+            // 
+            // btn_Credits
+            // 
+            this.btn_Credits.BackColor = System.Drawing.Color.Gold;
+            this.btn_Credits.FlatAppearance.BorderSize = 0;
+            this.btn_Credits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Credits.Location = new System.Drawing.Point(409, 143);
+            this.btn_Credits.Name = "btn_Credits";
+            this.btn_Credits.Size = new System.Drawing.Size(75, 23);
+            this.btn_Credits.TabIndex = 6;
+            this.btn_Credits.Text = "Credits";
+            this.btn_Credits.UseVisualStyleBackColor = false;
+            this.btn_Credits.Click += new System.EventHandler(this.Btn_Credits_Click);
             // 
             // About
             // 
@@ -116,6 +130,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClientSize = new System.Drawing.Size(494, 206);
             this.ControlBox = false;
+            this.Controls.Add(this.btn_Credits);
             this.Controls.Add(this.btn_Close);
             this.Controls.Add(this.btn_GitHub);
             this.Controls.Add(this.lbl_Description);
@@ -144,5 +159,6 @@
         private System.Windows.Forms.Label lbl_Description;
         private System.Windows.Forms.Button btn_GitHub;
         private System.Windows.Forms.Button btn_Close;
+        private System.Windows.Forms.Button btn_Credits;
     }
 }
