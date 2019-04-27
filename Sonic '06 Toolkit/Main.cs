@@ -15,6 +15,12 @@ namespace Sonic_06_Toolkit
             newTab(); //Opens a new tab on launch.
             tm_tabCheck.Start(); //Starts the timer that watches tab activity.
 
+            #region Session ID...
+            var generateSessionID = new Random();
+            Global.sessionID = generateSessionID.Next(1, 99999); //Generates a random number between 1 to 99999 for a unique Session ID.
+            btn_SessionID.Text = Global.sessionID.ToString();
+            #endregion
+
             //The below code checks the command line arguments and unpacks the file that was dragged into the application.
             if (args.Length > 0)
             {
@@ -109,12 +115,6 @@ namespace Sonic_06_Toolkit
 
         void Main_Load(object sender, EventArgs e)
         {
-            #region Session ID...
-            var generateSessionID = new Random();
-            Global.sessionID = generateSessionID.Next(1, 99999); //Generates a random number between 1 to 99999 for a unique Session ID.
-            btn_SessionID.Text = Global.sessionID.ToString();
-            #endregion
-
             #region Directory Check...
             try
             {
