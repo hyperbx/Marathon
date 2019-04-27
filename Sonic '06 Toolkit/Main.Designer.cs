@@ -163,7 +163,7 @@
             this.themes_Compact,
             this.themes_Original});
             this.preferences_Themes.Name = "preferences_Themes";
-            this.preferences_Themes.Size = new System.Drawing.Size(180, 22);
+            this.preferences_Themes.Size = new System.Drawing.Size(159, 22);
             this.preferences_Themes.Text = "Themes";
             // 
             // themes_Compact
@@ -172,7 +172,7 @@
             this.themes_Compact.CheckOnClick = true;
             this.themes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.themes_Compact.Name = "themes_Compact";
-            this.themes_Compact.Size = new System.Drawing.Size(180, 22);
+            this.themes_Compact.Size = new System.Drawing.Size(123, 22);
             this.themes_Compact.Text = "Compact";
             this.themes_Compact.CheckedChanged += new System.EventHandler(this.Themes_Compact_CheckedChanged);
             // 
@@ -180,14 +180,14 @@
             // 
             this.themes_Original.CheckOnClick = true;
             this.themes_Original.Name = "themes_Original";
-            this.themes_Original.Size = new System.Drawing.Size(180, 22);
+            this.themes_Original.Size = new System.Drawing.Size(123, 22);
             this.themes_Original.Text = "Original";
             this.themes_Original.CheckedChanged += new System.EventHandler(this.Themes_Original_CheckedChanged);
             // 
             // preferences_Separator1
             // 
             this.preferences_Separator1.Name = "preferences_Separator1";
-            this.preferences_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.preferences_Separator1.Size = new System.Drawing.Size(156, 6);
             // 
             // preferences_ShowSessionID
             // 
@@ -195,7 +195,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -496,7 +496,7 @@
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mstrip_Main;
-            this.MinimumSize = new System.Drawing.Size(510, 245);
+            this.MinimumSize = new System.Drawing.Size(500, 245);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
