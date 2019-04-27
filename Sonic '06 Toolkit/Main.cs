@@ -388,6 +388,10 @@ namespace Sonic_06_Toolkit
                 }
                 catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
+            else
+            {
+                MessageBox.Show("Unpack State set to invalid value: " + Global.unpackState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void repackARC()
@@ -476,6 +480,10 @@ namespace Sonic_06_Toolkit
                     }
                     catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Repack State set to invalid value: " + Global.repackState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
