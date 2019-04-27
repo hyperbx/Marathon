@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
 using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Sonic_06_Toolkit
