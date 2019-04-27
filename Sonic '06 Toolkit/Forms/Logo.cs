@@ -9,7 +9,7 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
-        void Btn_SaveToDisk_Click(object sender, System.EventArgs e)
+        void Btn_SaveToDisk_Click_1(object sender, System.EventArgs e)
         {
             if (sfd_SaveLogo.ShowDialog() == DialogResult.OK)
             {

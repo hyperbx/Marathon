@@ -34,5 +34,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["prop_ShowSessionID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string prop_Theme {
+            get {
+                return ((string)(this["prop_Theme"]));
+            }
+            set {
+                this["prop_Theme"] = value;
+            }
+        }
     }
 }

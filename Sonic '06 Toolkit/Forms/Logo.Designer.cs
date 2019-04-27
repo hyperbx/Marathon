@@ -62,6 +62,7 @@
             this.btn_SaveToDisk.TabIndex = 0;
             this.btn_SaveToDisk.Text = "Save to disk";
             this.btn_SaveToDisk.UseVisualStyleBackColor = false;
+            this.btn_SaveToDisk.Click += new System.EventHandler(this.Btn_SaveToDisk_Click_1);
             // 
             // pic_Logo
             // 
@@ -104,6 +105,7 @@
             this.Controls.Add(this.lbl_Credit);
             this.Controls.Add(this.pic_Logo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(510, 478);
             this.Name = "Logo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

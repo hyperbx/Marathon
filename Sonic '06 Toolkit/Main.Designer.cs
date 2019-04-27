@@ -38,6 +38,10 @@
             this.file_RepackARCAs = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.file_Preferences = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferences_Themes = new System.Windows.Forms.ToolStripMenuItem();
+            this.themes_Compact = new System.Windows.Forms.ToolStripMenuItem();
+            this.themes_Original = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferences_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
             this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,6 +64,7 @@
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
+            this.btn_NewTab = new System.Windows.Forms.Button();
             this.btn_Forward = new System.Windows.Forms.Button();
             this.btn_Back = new System.Windows.Forms.Button();
             this.btn_Repack = new System.Windows.Forms.Button();
@@ -82,7 +87,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -144,11 +149,45 @@
             // file_Preferences
             // 
             this.file_Preferences.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.preferences_Themes,
+            this.preferences_Separator1,
             this.preferences_ShowSessionID});
             this.file_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("file_Preferences.Image")));
             this.file_Preferences.Name = "file_Preferences";
             this.file_Preferences.Size = new System.Drawing.Size(226, 22);
             this.file_Preferences.Text = "Preferences";
+            // 
+            // preferences_Themes
+            // 
+            this.preferences_Themes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.themes_Compact,
+            this.themes_Original});
+            this.preferences_Themes.Name = "preferences_Themes";
+            this.preferences_Themes.Size = new System.Drawing.Size(180, 22);
+            this.preferences_Themes.Text = "Themes";
+            // 
+            // themes_Compact
+            // 
+            this.themes_Compact.Checked = true;
+            this.themes_Compact.CheckOnClick = true;
+            this.themes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.themes_Compact.Name = "themes_Compact";
+            this.themes_Compact.Size = new System.Drawing.Size(180, 22);
+            this.themes_Compact.Text = "Compact";
+            this.themes_Compact.CheckedChanged += new System.EventHandler(this.Themes_Compact_CheckedChanged);
+            // 
+            // themes_Original
+            // 
+            this.themes_Original.CheckOnClick = true;
+            this.themes_Original.Name = "themes_Original";
+            this.themes_Original.Size = new System.Drawing.Size(180, 22);
+            this.themes_Original.Text = "Original";
+            this.themes_Original.CheckedChanged += new System.EventHandler(this.Themes_Original_CheckedChanged);
+            // 
+            // preferences_Separator1
+            // 
+            this.preferences_Separator1.Name = "preferences_Separator1";
+            this.preferences_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // preferences_ShowSessionID
             // 
@@ -156,7 +195,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -348,6 +387,20 @@
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
             this.pnl_Backdrop.TabIndex = 3;
             // 
+            // btn_NewTab
+            // 
+            this.btn_NewTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(161)))), ((int)(((byte)(226)))));
+            this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_NewTab.Location = new System.Drawing.Point(275, -1);
+            this.btn_NewTab.Name = "btn_NewTab";
+            this.btn_NewTab.Size = new System.Drawing.Size(23, 26);
+            this.btn_NewTab.TabIndex = 1;
+            this.btn_NewTab.Text = "+";
+            this.btn_NewTab.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btn_NewTab.UseVisualStyleBackColor = false;
+            this.btn_NewTab.Click += new System.EventHandler(this.Btn_NewTab_Click);
+            // 
             // btn_Forward
             // 
             this.btn_Forward.BackColor = System.Drawing.Color.SkyBlue;
@@ -436,6 +489,7 @@
             this.Controls.Add(this.btn_OpenFolder);
             this.Controls.Add(this.tab_Main);
             this.Controls.Add(this.btn_Repack);
+            this.Controls.Add(this.btn_NewTab);
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Forward);
             this.Controls.Add(this.btn_SessionID);
@@ -494,6 +548,11 @@
         private System.Windows.Forms.ToolStripMenuItem preferences_ShowSessionID;
         private System.Windows.Forms.ToolStripMenuItem help_Documentation;
         private System.Windows.Forms.ToolStripSeparator help_Separator1;
+        private System.Windows.Forms.Button btn_NewTab;
+        private System.Windows.Forms.ToolStripMenuItem preferences_Themes;
+        private System.Windows.Forms.ToolStripMenuItem themes_Compact;
+        private System.Windows.Forms.ToolStripMenuItem themes_Original;
+        private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
     }
 }
 
