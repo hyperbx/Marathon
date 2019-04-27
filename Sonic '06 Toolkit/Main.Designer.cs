@@ -72,6 +72,8 @@
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
+            this.preferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
             this.SuspendLayout();
@@ -87,7 +89,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -150,6 +152,8 @@
             // 
             this.file_Preferences.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.preferences_Themes,
+            this.toolStripSeparator1,
+            this.preferences_Paths,
             this.preferences_Separator1,
             this.preferences_ShowSessionID});
             this.file_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("file_Preferences.Image")));
@@ -163,7 +167,7 @@
             this.themes_Compact,
             this.themes_Original});
             this.preferences_Themes.Name = "preferences_Themes";
-            this.preferences_Themes.Size = new System.Drawing.Size(159, 22);
+            this.preferences_Themes.Size = new System.Drawing.Size(180, 22);
             this.preferences_Themes.Text = "Themes";
             // 
             // themes_Compact
@@ -187,7 +191,7 @@
             // preferences_Separator1
             // 
             this.preferences_Separator1.Name = "preferences_Separator1";
-            this.preferences_Separator1.Size = new System.Drawing.Size(156, 6);
+            this.preferences_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // preferences_ShowSessionID
             // 
@@ -195,7 +199,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -481,6 +485,18 @@
             this.sfd_RepackARCAs.RestoreDirectory = true;
             this.sfd_RepackARCAs.Title = "Repack ARC As...";
             // 
+            // preferences_Paths
+            // 
+            this.preferences_Paths.Name = "preferences_Paths";
+            this.preferences_Paths.Size = new System.Drawing.Size(180, 22);
+            this.preferences_Paths.Text = "Paths...";
+            this.preferences_Paths.Click += new System.EventHandler(this.Preferences_Paths_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -553,6 +569,8 @@
         private System.Windows.Forms.ToolStripMenuItem themes_Compact;
         private System.Windows.Forms.ToolStripMenuItem themes_Original;
         private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem preferences_Paths;
     }
 }
 

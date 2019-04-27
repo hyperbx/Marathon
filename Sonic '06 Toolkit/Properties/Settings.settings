@@ -2,10 +2,19 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sonic_06_Toolkit.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="prop_ShowSessionID" Type="System.Boolean" Scope="User">
+    <Setting Name="showSessionID" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="prop_Theme" Type="System.String" Scope="User">
+    <Setting Name="theme" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Compact</Value>
+    </Setting>
+    <Setting Name="rootPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="toolsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="archivesPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

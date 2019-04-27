@@ -26,24 +26,60 @@ namespace Sonic_06_Toolkit.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool prop_ShowSessionID {
+        public bool showSessionID {
             get {
-                return ((bool)(this["prop_ShowSessionID"]));
+                return ((bool)(this["showSessionID"]));
             }
             set {
-                this["prop_ShowSessionID"] = value;
+                this["showSessionID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Compact")]
+        public string theme {
+            get {
+                return ((string)(this["theme"]));
+            }
+            set {
+                this["theme"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string prop_Theme {
+        public string rootPath {
             get {
-                return ((string)(this["prop_Theme"]));
+                return ((string)(this["rootPath"]));
             }
             set {
-                this["prop_Theme"] = value;
+                this["rootPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string toolsPath {
+            get {
+                return ((string)(this["toolsPath"]));
+            }
+            set {
+                this["toolsPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string archivesPath {
+            get {
+                return ((string)(this["archivesPath"]));
+            }
+            set {
+                this["archivesPath"] = value;
             }
         }
     }

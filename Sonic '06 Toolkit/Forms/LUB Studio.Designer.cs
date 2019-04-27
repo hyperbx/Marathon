@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LUB_Studio));
             this.lbl_Title = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.clb_LUBs = new System.Windows.Forms.CheckedListBox();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_Decompile = new System.Windows.Forms.Button();
-            this.panel1.SuspendLayout();
+            this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,18 +51,18 @@
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "LUB Studio";
             // 
-            // panel1
+            // pnl_Backdrop
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pic_Logo);
-            this.panel1.Controls.Add(this.lbl_Title);
-            this.panel1.Location = new System.Drawing.Point(-3, -2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(418, 69);
-            this.panel1.TabIndex = 6;
+            this.pnl_Backdrop.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnl_Backdrop.Controls.Add(this.pic_Logo);
+            this.pnl_Backdrop.Controls.Add(this.lbl_Title);
+            this.pnl_Backdrop.Location = new System.Drawing.Point(-3, -2);
+            this.pnl_Backdrop.Name = "pnl_Backdrop";
+            this.pnl_Backdrop.Size = new System.Drawing.Size(418, 69);
+            this.pnl_Backdrop.TabIndex = 6;
             // 
             // pic_Logo
             // 
@@ -143,15 +143,15 @@
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
             this.Controls.Add(this.clb_LUBs);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(429, 458);
             this.Name = "LUB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LUB Studio";
             this.Load += new System.EventHandler(this.LUB_Studio_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnl_Backdrop.ResumeLayout(false);
+            this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
 
@@ -160,7 +160,7 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_Title;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnl_Backdrop;
         private System.Windows.Forms.CheckedListBox clb_LUBs;
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.Button btn_DeselectAll;

@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(XNO_Studio));
             this.lbl_Title = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pic_Logo = new System.Windows.Forms.PictureBox();
+            this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.btn_Decompile = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_XNOs = new System.Windows.Forms.CheckedListBox();
-            this.panel1.SuspendLayout();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
+            this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,30 +51,18 @@
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "XNO Studio";
             // 
-            // panel1
+            // pnl_Backdrop
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.pic_Logo);
-            this.panel1.Controls.Add(this.lbl_Title);
-            this.panel1.Location = new System.Drawing.Point(-3, -2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(418, 69);
-            this.panel1.TabIndex = 16;
-            // 
-            // pic_Logo
-            // 
-            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
-            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
-            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(341, 1);
-            this.pic_Logo.Name = "pic_Logo";
-            this.pic_Logo.Size = new System.Drawing.Size(67, 67);
-            this.pic_Logo.TabIndex = 11;
-            this.pic_Logo.TabStop = false;
+            this.pnl_Backdrop.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnl_Backdrop.Controls.Add(this.pic_Logo);
+            this.pnl_Backdrop.Controls.Add(this.lbl_Title);
+            this.pnl_Backdrop.Location = new System.Drawing.Point(-3, -2);
+            this.pnl_Backdrop.Name = "pnl_Backdrop";
+            this.pnl_Backdrop.Size = new System.Drawing.Size(418, 69);
+            this.pnl_Backdrop.TabIndex = 16;
             // 
             // btn_Decompile
             // 
@@ -133,12 +121,24 @@
             this.clb_XNOs.TabIndex = 17;
             this.clb_XNOs.SelectedIndexChanged += new System.EventHandler(this.Clb_XNOs_SelectedIndexChanged);
             // 
+            // pic_Logo
+            // 
+            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
+            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
+            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pic_Logo.Location = new System.Drawing.Point(341, 1);
+            this.pic_Logo.Name = "pic_Logo";
+            this.pic_Logo.Size = new System.Drawing.Size(67, 67);
+            this.pic_Logo.TabIndex = 11;
+            this.pic_Logo.TabStop = false;
+            // 
             // XNO_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(413, 419);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.pnl_Backdrop);
             this.Controls.Add(this.btn_Decompile);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
@@ -149,8 +149,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "XNO Studio";
             this.Load += new System.EventHandler(this.XNO_Studio_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.pnl_Backdrop.ResumeLayout(false);
+            this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
 
@@ -159,7 +159,7 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_Title;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnl_Backdrop;
         internal System.Windows.Forms.PictureBox pic_Logo;
         private System.Windows.Forms.Button btn_Decompile;
         private System.Windows.Forms.Button btn_DeselectAll;

@@ -116,10 +116,18 @@ namespace Sonic_06_Toolkit
         void Main_Load(object sender, EventArgs e)
         {
             #region Directory Check...
+            if (!Directory.Exists(Properties.Settings.Default.rootPath)) Properties.Settings.Default.rootPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\");
+            if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Properties.Settings.Default.toolsPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\");
+            if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Properties.Settings.Default.archivesPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\");
+            if (Properties.Settings.Default.rootPath == "") Properties.Settings.Default.rootPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\");
+            if (Properties.Settings.Default.toolsPath == "") Properties.Settings.Default.toolsPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\");
+            if (Properties.Settings.Default.archivesPath == "") Properties.Settings.Default.archivesPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\");
+            Properties.Settings.Default.Save();
+
             try
             {
                 //The below code checks if the directories in the Global class exist; if not, they will be created.
-                if (!Directory.Exists(Global.tempPath)) Directory.CreateDirectory(Global.tempPath);
+                if (!Directory.Exists(Global.rootPath)) Directory.CreateDirectory(Global.rootPath);
                 if (!Directory.Exists(Global.archivesPath)) Directory.CreateDirectory(Global.archivesPath);
                 if (!Directory.Exists(Global.toolsPath)) Directory.CreateDirectory(Global.toolsPath);
                 if (!Directory.Exists(Global.unlubPath)) Directory.CreateDirectory(Global.unlubPath);
@@ -140,8 +148,8 @@ namespace Sonic_06_Toolkit
 
             #region Setting saved properties...
             //Gets user-defined settings and sets them in runtime.
-            if (Properties.Settings.Default.prop_ShowSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
-            if (Properties.Settings.Default.prop_Theme == "Compact") themes_Compact.Checked = true; else if (Properties.Settings.Default.prop_Theme == "Original") themes_Original.Checked = true;
+            if (Properties.Settings.Default.showSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
+            if (Properties.Settings.Default.theme == "Compact") themes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") themes_Original.Checked = true;
             #endregion
         }
 
@@ -152,31 +160,31 @@ namespace Sonic_06_Toolkit
         {
             if (preferences_ShowSessionID.Checked == true)
             {
-                if (Properties.Settings.Default.prop_Theme == "Compact")
+                if (Properties.Settings.Default.theme == "Compact")
                 {
-                    Properties.Settings.Default.prop_ShowSessionID = true;
+                    Properties.Settings.Default.showSessionID = true;
                     btn_SessionID.Visible = true;
                     btn_Repack.Left -= 48;
                     btn_OpenFolder.Left -= 48;
                 }
-                else if (Properties.Settings.Default.prop_Theme == "Original")
+                else if (Properties.Settings.Default.theme == "Original")
                 {
-                    Properties.Settings.Default.prop_ShowSessionID = true;
+                    Properties.Settings.Default.showSessionID = true;
                     btn_SessionID.Visible = true;
                 }
             }
             else
             {
-                if (Properties.Settings.Default.prop_Theme == "Compact")
+                if (Properties.Settings.Default.theme == "Compact")
                 {
-                    Properties.Settings.Default.prop_ShowSessionID = false;
+                    Properties.Settings.Default.showSessionID = false;
                     btn_SessionID.Visible = false;
                     btn_Repack.Left += 48;
                     btn_OpenFolder.Left += 48;
                 }
-                else if (Properties.Settings.Default.prop_Theme == "Original")
+                else if (Properties.Settings.Default.theme == "Original")
                 {
-                    Properties.Settings.Default.prop_ShowSessionID = false;
+                    Properties.Settings.Default.showSessionID = false;
                     btn_SessionID.Visible = false;
                 }
             }
@@ -189,12 +197,12 @@ namespace Sonic_06_Toolkit
         {
             if (themes_Compact.Checked == true)
             {
-                if (Properties.Settings.Default.prop_ShowSessionID == false)
+                if (Properties.Settings.Default.showSessionID == false)
                 {
                     btn_Repack.Left += 48;
                     btn_OpenFolder.Left += 48;
                 }
-                Properties.Settings.Default.prop_Theme = "Compact";
+                Properties.Settings.Default.theme = "Compact";
                 themes_Original.Checked = false;
                 mstrip_Main.Left += 106;
                 tab_Main.Height += 28; tab_Main.Top -= 28;
@@ -214,12 +222,12 @@ namespace Sonic_06_Toolkit
         {
             if (themes_Original.Checked == true)
             {
-                if (Properties.Settings.Default.prop_ShowSessionID == false)
+                if (Properties.Settings.Default.showSessionID == false)
                 {
                     btn_Repack.Left -= 48;
                     btn_OpenFolder.Left -= 48;
                 }
-                Properties.Settings.Default.prop_Theme = "Original";
+                Properties.Settings.Default.theme = "Original";
                 themes_Compact.Checked = false;
                 mstrip_Main.Left -= 106;
                 tab_Main.Height -= 28; tab_Main.Top += 28;
@@ -770,6 +778,11 @@ namespace Sonic_06_Toolkit
         void Btn_NewTab_Click(object sender, EventArgs e)
         {
             newTab();
+        }
+
+        void Preferences_Paths_Click(object sender, EventArgs e)
+        {
+            new Paths().ShowDialog();
         }
     }
 }
