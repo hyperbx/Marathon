@@ -116,13 +116,17 @@ namespace Sonic_06_Toolkit
         void Main_Load(object sender, EventArgs e)
         {
             #region Directory Check...
-            if (!Directory.Exists(Properties.Settings.Default.rootPath)) Properties.Settings.Default.rootPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\");
-            if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Properties.Settings.Default.toolsPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\");
-            if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Properties.Settings.Default.archivesPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\");
-            if (Properties.Settings.Default.rootPath == "") Properties.Settings.Default.rootPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\");
-            if (Properties.Settings.Default.toolsPath == "") Properties.Settings.Default.toolsPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\");
-            if (Properties.Settings.Default.archivesPath == "") Properties.Settings.Default.archivesPath = Path.Combine(Global.applicationData, @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\");
+
+            #region Validating Paths...
+            if (!Directory.Exists(Properties.Settings.Default.rootPath)) Directory.CreateDirectory(Properties.Settings.Default.rootPath);
+            if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
+            if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
+
+            if (Properties.Settings.Default.rootPath == "") Properties.Settings.Default.rootPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\";
+            if (Properties.Settings.Default.toolsPath == "") Properties.Settings.Default.toolsPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\";
+            if (Properties.Settings.Default.archivesPath == "") Properties.Settings.Default.archivesPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\";
             Properties.Settings.Default.Save();
+            #endregion
 
             try
             {
@@ -783,6 +787,73 @@ namespace Sonic_06_Toolkit
         void Preferences_Paths_Click(object sender, EventArgs e)
         {
             new Paths().ShowDialog();
+        }
+
+        void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            switch (e.CloseReason)
+            {
+                case CloseReason.UserClosing:
+                    //Checks if the only tab is called 'New Tab' before asking for confirmation.
+                    //If all of the tabs are called 'New Tab,' confirmation is intended to show up as it counts as a session.
+                    if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
+                    {
+                        tab_Main.Dispose();
+                        if (Directory.Exists(Global.archivesPath + Global.sessionID)) Directory.Delete(Global.archivesPath + Global.sessionID, true);
+                        if (Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.Delete(Global.unlubPath + Global.sessionID, true);
+                        if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
+                    }
+                    else
+                    {
+                        DialogResult confirmUserClosure = MessageBox.Show("Are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        switch (confirmUserClosure)
+                        {
+                            case DialogResult.Yes:
+                                tab_Main.Dispose();
+                                if (Directory.Exists(Global.archivesPath + Global.sessionID)) Directory.Delete(Global.archivesPath + Global.sessionID, true);
+                                if (Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.Delete(Global.unlubPath + Global.sessionID, true);
+                                if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
+                                break;
+                            case DialogResult.No:
+                                e.Cancel = true;
+                                break;
+                        }
+                    }
+                    break;
+                case CloseReason.WindowsShutDown:
+                    //Checks if the only tab is called 'New Tab' before asking for confirmation.
+                    //If all of the tabs are called 'New Tab,' confirmation is intended to show up as it counts as a session.
+                    if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
+                    {
+                        tab_Main.Dispose();
+                        if (Directory.Exists(Global.archivesPath + Global.sessionID)) Directory.Delete(Global.archivesPath + Global.sessionID, true);
+                        if (Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.Delete(Global.unlubPath + Global.sessionID, true);
+                        if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
+                    }
+                    else
+                    {
+                        DialogResult confirmShutdownClosure = MessageBox.Show("Sonic '06 Toolkit is still running, are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        switch (confirmShutdownClosure)
+                        {
+                            case DialogResult.Yes:
+                                tab_Main.Dispose();
+                                if (Directory.Exists(Global.archivesPath + Global.sessionID)) Directory.Delete(Global.archivesPath + Global.sessionID, true);
+                                if (Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.Delete(Global.unlubPath + Global.sessionID, true);
+                                if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
+                                break;
+                            case DialogResult.No:
+                                e.Cancel = true;
+                                break;
+                        }
+                    }
+                    break;
+                case CloseReason.ApplicationExitCall:
+                    tab_Main.Dispose();
+                    if (Directory.Exists(Global.archivesPath + Global.sessionID)) Directory.Delete(Global.archivesPath + Global.sessionID, true);
+                    if (Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.Delete(Global.unlubPath + Global.sessionID, true);
+                    if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
+                    break;
+            }
         }
     }
 }

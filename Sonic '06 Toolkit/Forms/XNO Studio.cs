@@ -56,9 +56,6 @@ namespace Sonic_06_Toolkit
             {
                 //Unchecks all available checkboxes.
                 for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
-                btn_Convert.Enabled = false;
-
-                //Unchecks all available checkboxes.
                 for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
                 btn_Convert.Enabled = false;
             }
@@ -351,14 +348,17 @@ namespace Sonic_06_Toolkit
 
         void Tm_ItemCheck_Tick(object sender, EventArgs e)
         {
-            //Enables/disables the Convert button, depending on whether a box has been checked.
-            if (clb_XNOs_XNM.CheckedItems.Count > 0 && clb_XNMs.CheckedItems.Count > 0)
+            if (check_XNM.Checked == true)
             {
-                btn_Convert.Enabled = true;
-            }
-            else
-            {
-                btn_Convert.Enabled = false;
+                //Enables/disables the Convert button, depending on whether a box has been checked.
+                if (clb_XNOs_XNM.CheckedItems.Count > 0 && clb_XNMs.CheckedItems.Count > 0)
+                {
+                    btn_Convert.Enabled = true;
+                }
+                else
+                {
+                    btn_Convert.Enabled = false;
+                }
             }
         }
     }

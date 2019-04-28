@@ -543,6 +543,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
             this.Load += new System.EventHandler(this.Main_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.mstrip_Main.ResumeLayout(false);
             this.mstrip_Main.PerformLayout();
             this.pnl_Backdrop.ResumeLayout(false);
