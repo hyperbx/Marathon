@@ -47,7 +47,7 @@
             // 
             // pnl_windowCheck
             // 
-            this.pnl_windowCheck.BackColor = System.Drawing.Color.Ivory;
+            this.pnl_windowCheck.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(224)))), ((int)(((byte)(201)))));
             this.pnl_windowCheck.Controls.Add(this.pic_Logo);
             this.pnl_windowCheck.Controls.Add(this.lbl_convertState);
             this.pnl_windowCheck.Location = new System.Drawing.Point(0, 0);
@@ -72,7 +72,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.BackColor = System.Drawing.Color.Ivory;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(224)))), ((int)(((byte)(201)))));
             this.ClientSize = new System.Drawing.Size(283, 97);
             this.ControlBox = false;
             this.Controls.Add(this.pnl_windowCheck);

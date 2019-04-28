@@ -41,6 +41,8 @@
             this.preferences_Themes = new System.Windows.Forms.ToolStripMenuItem();
             this.themes_Compact = new System.Windows.Forms.ToolStripMenuItem();
             this.themes_Original = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.preferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
             this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,6 +55,8 @@
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_Separator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.sdk_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Tabs = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs_Separator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -72,8 +76,6 @@
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
-            this.preferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
             this.SuspendLayout();
@@ -167,7 +169,7 @@
             this.themes_Compact,
             this.themes_Original});
             this.preferences_Themes.Name = "preferences_Themes";
-            this.preferences_Themes.Size = new System.Drawing.Size(180, 22);
+            this.preferences_Themes.Size = new System.Drawing.Size(159, 22);
             this.preferences_Themes.Text = "Themes";
             // 
             // themes_Compact
@@ -188,10 +190,22 @@
             this.themes_Original.Text = "Original";
             this.themes_Original.CheckedChanged += new System.EventHandler(this.Themes_Original_CheckedChanged);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(156, 6);
+            // 
+            // preferences_Paths
+            // 
+            this.preferences_Paths.Name = "preferences_Paths";
+            this.preferences_Paths.Size = new System.Drawing.Size(159, 22);
+            this.preferences_Paths.Text = "Paths...";
+            this.preferences_Paths.Click += new System.EventHandler(this.Preferences_Paths_Click);
+            // 
             // preferences_Separator1
             // 
             this.preferences_Separator1.Name = "preferences_Separator1";
-            this.preferences_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.preferences_Separator1.Size = new System.Drawing.Size(156, 6);
             // 
             // preferences_ShowSessionID
             // 
@@ -199,7 +213,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -229,7 +243,9 @@
             this.sdk_XNOStudio,
             this.sdk_ConvertXNOs,
             this.sdk_Separator2,
-            this.mSTStudioToolStripMenuItem});
+            this.mSTStudioToolStripMenuItem,
+            this.sdk_Separator3,
+            this.sdk_ADXStudio});
             this.menu_SDK.Name = "menu_SDK";
             this.menu_SDK.Size = new System.Drawing.Size(40, 20);
             this.menu_SDK.Text = "SDK";
@@ -237,6 +253,7 @@
             // sdk_LUBStudio
             // 
             this.sdk_LUBStudio.Enabled = false;
+            this.sdk_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_LUBStudio.Image")));
             this.sdk_LUBStudio.Name = "sdk_LUBStudio";
             this.sdk_LUBStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.D)));
@@ -247,6 +264,7 @@
             // sdk_DecompileLUBs
             // 
             this.sdk_DecompileLUBs.Enabled = false;
+            this.sdk_DecompileLUBs.Image = ((System.Drawing.Image)(resources.GetObject("sdk_DecompileLUBs.Image")));
             this.sdk_DecompileLUBs.Name = "sdk_DecompileLUBs";
             this.sdk_DecompileLUBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
@@ -262,6 +280,7 @@
             // sdk_XNOStudio
             // 
             this.sdk_XNOStudio.Enabled = false;
+            this.sdk_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_XNOStudio.Image")));
             this.sdk_XNOStudio.Name = "sdk_XNOStudio";
             this.sdk_XNOStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.X)));
@@ -272,6 +291,7 @@
             // sdk_ConvertXNOs
             // 
             this.sdk_ConvertXNOs.Enabled = false;
+            this.sdk_ConvertXNOs.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ConvertXNOs.Image")));
             this.sdk_ConvertXNOs.Name = "sdk_ConvertXNOs";
             this.sdk_ConvertXNOs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.X)));
@@ -283,6 +303,7 @@
             // 
             this.sdk_Separator2.Name = "sdk_Separator2";
             this.sdk_Separator2.Size = new System.Drawing.Size(331, 6);
+            this.sdk_Separator2.Visible = false;
             // 
             // mSTStudioToolStripMenuItem
             // 
@@ -292,6 +313,23 @@
             | System.Windows.Forms.Keys.M)));
             this.mSTStudioToolStripMenuItem.Size = new System.Drawing.Size(334, 22);
             this.mSTStudioToolStripMenuItem.Text = "MST Studio...";
+            this.mSTStudioToolStripMenuItem.Visible = false;
+            // 
+            // sdk_Separator3
+            // 
+            this.sdk_Separator3.Name = "sdk_Separator3";
+            this.sdk_Separator3.Size = new System.Drawing.Size(331, 6);
+            this.sdk_Separator3.Visible = false;
+            // 
+            // sdk_ADXStudio
+            // 
+            this.sdk_ADXStudio.Enabled = false;
+            this.sdk_ADXStudio.Name = "sdk_ADXStudio";
+            this.sdk_ADXStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.A)));
+            this.sdk_ADXStudio.Size = new System.Drawing.Size(334, 22);
+            this.sdk_ADXStudio.Text = "ADX Studio...";
+            this.sdk_ADXStudio.Visible = false;
             // 
             // menu_Tabs
             // 
@@ -308,14 +346,14 @@
             this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tabs_CloseTab
             // 
@@ -323,7 +361,7 @@
             this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -342,20 +380,20 @@
             this.help_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("help_Documentation.Image")));
             this.help_Documentation.Name = "help_Documentation";
             this.help_Documentation.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.help_Documentation.Size = new System.Drawing.Size(176, 22);
+            this.help_Documentation.Size = new System.Drawing.Size(180, 22);
             this.help_Documentation.Text = "Documentation";
             this.help_Documentation.Click += new System.EventHandler(this.Help_Documentation_Click);
             // 
             // help_Separator1
             // 
             this.help_Separator1.Name = "help_Separator1";
-            this.help_Separator1.Size = new System.Drawing.Size(173, 6);
+            this.help_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // help_About
             // 
             this.help_About.Image = ((System.Drawing.Image)(resources.GetObject("help_About.Image")));
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(176, 22);
+            this.help_About.Size = new System.Drawing.Size(180, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -485,18 +523,6 @@
             this.sfd_RepackARCAs.RestoreDirectory = true;
             this.sfd_RepackARCAs.Title = "Repack ARC As...";
             // 
-            // preferences_Paths
-            // 
-            this.preferences_Paths.Name = "preferences_Paths";
-            this.preferences_Paths.Size = new System.Drawing.Size(180, 22);
-            this.preferences_Paths.Text = "Paths...";
-            this.preferences_Paths.Click += new System.EventHandler(this.Preferences_Paths_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -571,6 +597,8 @@
         private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem preferences_Paths;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator3;
+        private System.Windows.Forms.ToolStripMenuItem sdk_ADXStudio;
     }
 }
 

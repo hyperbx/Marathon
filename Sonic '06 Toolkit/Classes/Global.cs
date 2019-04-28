@@ -4,12 +4,13 @@ namespace Sonic_06_Toolkit
 {
     public class Global
     {
-        public static string versionNumber = "1.78-beta";
+        public static string versionNumber = "1.78";
         public static int sessionID;
         public static string currentPath;
         public static int getIndex;
         public static string repackState = "save";
         public static string unpackState = "typical";
+        public static string convertState = "XNO";
 
         #region Directories
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

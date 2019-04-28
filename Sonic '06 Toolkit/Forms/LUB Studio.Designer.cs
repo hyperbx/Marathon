@@ -55,7 +55,7 @@
             // 
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnl_Backdrop.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.pnl_Backdrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(124)))));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -125,6 +125,8 @@
             this.btn_Decompile.Enabled = false;
             this.btn_Decompile.FlatAppearance.BorderSize = 0;
             this.btn_Decompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Decompile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Decompile.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_Decompile.Location = new System.Drawing.Point(329, 387);
             this.btn_Decompile.Name = "btn_Decompile";
             this.btn_Decompile.Size = new System.Drawing.Size(75, 23);
@@ -145,6 +147,7 @@
             this.Controls.Add(this.clb_LUBs);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(429, 458);
             this.Name = "LUB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
