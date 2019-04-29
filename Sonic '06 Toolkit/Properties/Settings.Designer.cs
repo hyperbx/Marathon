@@ -82,5 +82,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["archivesPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool disableSoftwareUpdater {
+            get {
+                return ((bool)(this["disableSoftwareUpdater"]));
+            }
+            set {
+                this["disableSoftwareUpdater"] = value;
+            }
+        }
     }
 }

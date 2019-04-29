@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Drawing;
 using System.Diagnostics;
@@ -154,6 +155,15 @@ namespace Sonic_06_Toolkit
             //Gets user-defined settings and sets them in runtime.
             if (Properties.Settings.Default.showSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
             if (Properties.Settings.Default.theme == "Compact") themes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") themes_Original.Checked = true;
+            if (Properties.Settings.Default.disableSoftwareUpdater == true)
+            {
+                preferences_disableSoftwareUpdater.Checked = true;
+            }
+            else
+            {
+                preferences_disableSoftwareUpdater.Checked = false;
+                CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+            }
             #endregion
         }
 
@@ -195,6 +205,21 @@ namespace Sonic_06_Toolkit
             Properties.Settings.Default.Save();
         }
 
+        //[Preferences] - Disable software updater
+        //Disables the software update function on launch.
+        void Preferences_disableSoftwareUpdater_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preferences_disableSoftwareUpdater.Checked == true)
+            {
+                Properties.Settings.Default.disableSoftwareUpdater = true;
+            }
+            else
+            {
+                Properties.Settings.Default.disableSoftwareUpdater = false;
+            }
+            Properties.Settings.Default.Save();
+        }
+
         //[Themes] - Compact
         //Moves certain controls in runtime to switch to the Compact theme.
         void Themes_Compact_CheckedChanged(object sender, EventArgs e)
@@ -216,6 +241,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Left -= 18; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
                 btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Left -= 20; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
                 btn_SessionID.Height += 3; btn_SessionID.Left += 173; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
+                pnl_Updater.Left -= 186;
             }
             Properties.Settings.Default.Save();
         }
@@ -241,6 +267,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Left += 18; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
                 btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Left += 20; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
                 btn_SessionID.Height -= 3; btn_SessionID.Left -= 173; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
+                pnl_Updater.Left += 186;
             }
             Properties.Settings.Default.Save();
         }
@@ -795,7 +822,6 @@ namespace Sonic_06_Toolkit
             {
                 case CloseReason.UserClosing:
                     //Checks if the only tab is called 'New Tab' before asking for confirmation.
-                    //If all of the tabs are called 'New Tab,' confirmation is intended to show up as it counts as a session.
                     if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
                     {
                         tab_Main.Dispose();
@@ -822,7 +848,6 @@ namespace Sonic_06_Toolkit
                     break;
                 case CloseReason.WindowsShutDown:
                     //Checks if the only tab is called 'New Tab' before asking for confirmation.
-                    //If all of the tabs are called 'New Tab,' confirmation is intended to show up as it counts as a session.
                     if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
                     {
                         tab_Main.Dispose();
@@ -854,6 +879,55 @@ namespace Sonic_06_Toolkit
                     if (Directory.Exists(Global.xnoPath + Global.sessionID)) Directory.Delete(Global.xnoPath + Global.sessionID, true);
                     break;
             }
+        }
+
+        void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string versionInfoLink)
+        {
+            var clientInfo = new WebClient();
+            var latestVersion = clientInfo.DownloadString(versionInfoLink);
+            if (latestVersion.Contains("Version"))
+            {
+                if (latestVersion != currentVersion)
+                {
+                    DialogResult confirmUpdate = MessageBox.Show("Sonic '06 Toolkit - " + latestVersion + " is now available!\n\nDo you wish to download it?", "New update available!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    switch (confirmUpdate)
+                    {
+                        case DialogResult.Yes:
+                            pnl_Updater.Visible = true;
+                            if (themes_Original.Checked == true) { btn_Backdrop.Visible = true; btn_Backdrop.Left += 186; }
+                            try
+                            {
+                                var clientApplication = new WebClient();
+                                clientApplication.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                clientApplication.DownloadFileAsync(new Uri(newVersionDownloadLink), Application.ExecutablePath + ".pak");
+                                clientApplication.DownloadFileCompleted += (s, e) =>
+                                {
+                                    File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
+                                    Process.Start(Application.ExecutablePath);
+                                    Application.Exit();
+                                };
+                            }
+                            catch
+                            {
+                                if (themes_Original.Checked == true) { btn_Backdrop.Visible = false; btn_Backdrop.Left -= 186; }
+                                MessageBox.Show("An error occurred when updating Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                Global.serverStatus = false;
+                if (Properties.Settings.Default.disableSoftwareUpdater == true) MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        void Help_CheckForUpdates_Click(object sender, EventArgs e)
+        {
+            if (!Global.serverStatus) MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
     }
 }

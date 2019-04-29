@@ -64,6 +64,7 @@
             this.menu_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.help_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
@@ -76,8 +77,14 @@
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
+            this.pgb_updateStatus = new System.Windows.Forms.ProgressBar();
+            this.lbl_updateStatus = new System.Windows.Forms.Label();
+            this.pnl_Updater = new System.Windows.Forms.Panel();
+            this.btn_Backdrop = new System.Windows.Forms.Button();
+            this.preferences_disableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
+            this.pnl_Updater.SuspendLayout();
             this.SuspendLayout();
             // 
             // mstrip_Main
@@ -157,7 +164,8 @@
             this.toolStripSeparator1,
             this.preferences_Paths,
             this.preferences_Separator1,
-            this.preferences_ShowSessionID});
+            this.preferences_ShowSessionID,
+            this.preferences_disableSoftwareUpdater});
             this.file_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("file_Preferences.Image")));
             this.file_Preferences.Name = "file_Preferences";
             this.file_Preferences.Size = new System.Drawing.Size(226, 22);
@@ -169,7 +177,7 @@
             this.themes_Compact,
             this.themes_Original});
             this.preferences_Themes.Name = "preferences_Themes";
-            this.preferences_Themes.Size = new System.Drawing.Size(159, 22);
+            this.preferences_Themes.Size = new System.Drawing.Size(204, 22);
             this.preferences_Themes.Text = "Themes";
             // 
             // themes_Compact
@@ -193,19 +201,19 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(156, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
             // 
             // preferences_Paths
             // 
             this.preferences_Paths.Name = "preferences_Paths";
-            this.preferences_Paths.Size = new System.Drawing.Size(159, 22);
+            this.preferences_Paths.Size = new System.Drawing.Size(204, 22);
             this.preferences_Paths.Text = "Paths...";
             this.preferences_Paths.Click += new System.EventHandler(this.Preferences_Paths_Click);
             // 
             // preferences_Separator1
             // 
             this.preferences_Separator1.Name = "preferences_Separator1";
-            this.preferences_Separator1.Size = new System.Drawing.Size(156, 6);
+            this.preferences_Separator1.Size = new System.Drawing.Size(201, 6);
             // 
             // preferences_ShowSessionID
             // 
@@ -213,7 +221,7 @@
             this.preferences_ShowSessionID.CheckOnClick = true;
             this.preferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.preferences_ShowSessionID.Name = "preferences_ShowSessionID";
-            this.preferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
+            this.preferences_ShowSessionID.Size = new System.Drawing.Size(204, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
             // 
@@ -346,14 +354,14 @@
             this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
             // 
             // tabs_CloseTab
             // 
@@ -361,7 +369,7 @@
             this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -370,6 +378,7 @@
             this.menu_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.help_Documentation,
             this.help_Separator1,
+            this.help_CheckForUpdates,
             this.help_About});
             this.menu_Help.Name = "menu_Help";
             this.menu_Help.Size = new System.Drawing.Size(44, 20);
@@ -388,6 +397,14 @@
             // 
             this.help_Separator1.Name = "help_Separator1";
             this.help_Separator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // help_CheckForUpdates
+            // 
+            this.help_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("help_CheckForUpdates.Image")));
+            this.help_CheckForUpdates.Name = "help_CheckForUpdates";
+            this.help_CheckForUpdates.Size = new System.Drawing.Size(180, 22);
+            this.help_CheckForUpdates.Text = "Check for updates...";
+            this.help_CheckForUpdates.Click += new System.EventHandler(this.Help_CheckForUpdates_Click);
             // 
             // help_About
             // 
@@ -423,6 +440,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnl_Backdrop.Controls.Add(this.pnl_Updater);
+            this.pnl_Backdrop.Controls.Add(this.btn_Backdrop);
             this.pnl_Backdrop.Controls.Add(this.mstrip_Main);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-2, -2);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
@@ -523,6 +542,61 @@
             this.sfd_RepackARCAs.RestoreDirectory = true;
             this.sfd_RepackARCAs.Title = "Repack ARC As...";
             // 
+            // pgb_updateStatus
+            // 
+            this.pgb_updateStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
+            this.pgb_updateStatus.Name = "pgb_updateStatus";
+            this.pgb_updateStatus.Size = new System.Drawing.Size(239, 18);
+            this.pgb_updateStatus.TabIndex = 10;
+            // 
+            // lbl_updateStatus
+            // 
+            this.lbl_updateStatus.AutoSize = true;
+            this.lbl_updateStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lbl_updateStatus.Location = new System.Drawing.Point(8, 5);
+            this.lbl_updateStatus.Name = "lbl_updateStatus";
+            this.lbl_updateStatus.Size = new System.Drawing.Size(59, 13);
+            this.lbl_updateStatus.TabIndex = 11;
+            this.lbl_updateStatus.Text = "Updating...";
+            // 
+            // pnl_Updater
+            // 
+            this.pnl_Updater.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnl_Updater.BackColor = System.Drawing.Color.Azure;
+            this.pnl_Updater.Controls.Add(this.lbl_updateStatus);
+            this.pnl_Updater.Controls.Add(this.pgb_updateStatus);
+            this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pnl_Updater.Location = new System.Drawing.Point(299, 0);
+            this.pnl_Updater.Name = "pnl_Updater";
+            this.pnl_Updater.Size = new System.Drawing.Size(314, 24);
+            this.pnl_Updater.TabIndex = 1;
+            this.pnl_Updater.Visible = false;
+            // 
+            // btn_Backdrop
+            // 
+            this.btn_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Backdrop.Enabled = false;
+            this.btn_Backdrop.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Backdrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Backdrop.Location = new System.Drawing.Point(298, 0);
+            this.btn_Backdrop.Name = "btn_Backdrop";
+            this.btn_Backdrop.Size = new System.Drawing.Size(315, 24);
+            this.btn_Backdrop.TabIndex = 2;
+            this.btn_Backdrop.UseVisualStyleBackColor = true;
+            this.btn_Backdrop.Visible = false;
+            // 
+            // preferences_disableSoftwareUpdater
+            // 
+            this.preferences_disableSoftwareUpdater.CheckOnClick = true;
+            this.preferences_disableSoftwareUpdater.Name = "preferences_disableSoftwareUpdater";
+            this.preferences_disableSoftwareUpdater.Size = new System.Drawing.Size(204, 22);
+            this.preferences_disableSoftwareUpdater.Text = "Disable software updater";
+            this.preferences_disableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.Preferences_disableSoftwareUpdater_CheckedChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -542,12 +616,14 @@
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
-            this.Load += new System.EventHandler(this.Main_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
+            this.Load += new System.EventHandler(this.Main_Load);
             this.mstrip_Main.ResumeLayout(false);
             this.mstrip_Main.PerformLayout();
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
+            this.pnl_Updater.ResumeLayout(false);
+            this.pnl_Updater.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -600,6 +676,12 @@
         private System.Windows.Forms.ToolStripMenuItem preferences_Paths;
         private System.Windows.Forms.ToolStripSeparator sdk_Separator3;
         private System.Windows.Forms.ToolStripMenuItem sdk_ADXStudio;
+        private System.Windows.Forms.ToolStripMenuItem help_CheckForUpdates;
+        private System.Windows.Forms.Panel pnl_Updater;
+        private System.Windows.Forms.Label lbl_updateStatus;
+        private System.Windows.Forms.ProgressBar pgb_updateStatus;
+        private System.Windows.Forms.Button btn_Backdrop;
+        private System.Windows.Forms.ToolStripMenuItem preferences_disableSoftwareUpdater;
     }
 }
 

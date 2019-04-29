@@ -5,6 +5,7 @@ namespace Sonic_06_Toolkit
     public class Global
     {
         public static string versionNumber = "1.78";
+        public static string latestVersion = "Version " + versionNumber;
         public static int sessionID;
         public static string currentPath;
         public static int getIndex;
@@ -12,6 +13,7 @@ namespace Sonic_06_Toolkit
         public static string unpackState = "typical";
         public static string convertState = "XNO";
         public static int pathChange = 0;
+        public static bool serverStatus = true;
 
         #region Directories
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
