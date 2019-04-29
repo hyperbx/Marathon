@@ -915,6 +915,7 @@ namespace Sonic_06_Toolkit
                             break;
                     }
                 }
+                else if (Global.updateState == "user") MessageBox.Show("There are currently no updates available.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
@@ -927,7 +928,7 @@ namespace Sonic_06_Toolkit
         void Help_CheckForUpdates_Click(object sender, EventArgs e)
         {
             if (!Global.serverStatus) MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+            else Global.updateState = "user"; CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
     }
 }

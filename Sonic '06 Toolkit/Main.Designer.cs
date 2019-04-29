@@ -45,6 +45,7 @@
             this.preferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferences_disableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SDK = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,6 +70,10 @@
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
+            this.pnl_Updater = new System.Windows.Forms.Panel();
+            this.lbl_updateStatus = new System.Windows.Forms.Label();
+            this.pgb_updateStatus = new System.Windows.Forms.ProgressBar();
+            this.btn_Backdrop = new System.Windows.Forms.Button();
             this.btn_NewTab = new System.Windows.Forms.Button();
             this.btn_Forward = new System.Windows.Forms.Button();
             this.btn_Back = new System.Windows.Forms.Button();
@@ -77,11 +82,6 @@
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
-            this.pgb_updateStatus = new System.Windows.Forms.ProgressBar();
-            this.lbl_updateStatus = new System.Windows.Forms.Label();
-            this.pnl_Updater = new System.Windows.Forms.Panel();
-            this.btn_Backdrop = new System.Windows.Forms.Button();
-            this.preferences_disableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -98,7 +98,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -224,6 +224,14 @@
             this.preferences_ShowSessionID.Size = new System.Drawing.Size(204, 22);
             this.preferences_ShowSessionID.Text = "Show Session ID";
             this.preferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.Preferences_ShowSessionID_CheckedChanged);
+            // 
+            // preferences_disableSoftwareUpdater
+            // 
+            this.preferences_disableSoftwareUpdater.CheckOnClick = true;
+            this.preferences_disableSoftwareUpdater.Name = "preferences_disableSoftwareUpdater";
+            this.preferences_disableSoftwareUpdater.Size = new System.Drawing.Size(204, 22);
+            this.preferences_disableSoftwareUpdater.Text = "Disable software updater";
+            this.preferences_disableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.Preferences_disableSoftwareUpdater_CheckedChanged);
             // 
             // file_CloseARC
             // 
@@ -354,14 +362,14 @@
             this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_NewTab.Text = "New Tab";
             this.tabs_NewTab.Click += new System.EventHandler(this.Tabs_NewTab_Click);
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(177, 6);
             // 
             // tabs_CloseTab
             // 
@@ -369,7 +377,7 @@
             this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             this.tabs_CloseTab.Click += new System.EventHandler(this.Tabs_CloseTab_Click);
             // 
@@ -447,6 +455,53 @@
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
             this.pnl_Backdrop.TabIndex = 3;
+            // 
+            // pnl_Updater
+            // 
+            this.pnl_Updater.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnl_Updater.BackColor = System.Drawing.Color.Azure;
+            this.pnl_Updater.Controls.Add(this.lbl_updateStatus);
+            this.pnl_Updater.Controls.Add(this.pgb_updateStatus);
+            this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pnl_Updater.Location = new System.Drawing.Point(299, 0);
+            this.pnl_Updater.Name = "pnl_Updater";
+            this.pnl_Updater.Size = new System.Drawing.Size(314, 24);
+            this.pnl_Updater.TabIndex = 1;
+            this.pnl_Updater.Visible = false;
+            // 
+            // lbl_updateStatus
+            // 
+            this.lbl_updateStatus.AutoSize = true;
+            this.lbl_updateStatus.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.lbl_updateStatus.Location = new System.Drawing.Point(8, 5);
+            this.lbl_updateStatus.Name = "lbl_updateStatus";
+            this.lbl_updateStatus.Size = new System.Drawing.Size(59, 13);
+            this.lbl_updateStatus.TabIndex = 11;
+            this.lbl_updateStatus.Text = "Updating...";
+            // 
+            // pgb_updateStatus
+            // 
+            this.pgb_updateStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
+            this.pgb_updateStatus.Name = "pgb_updateStatus";
+            this.pgb_updateStatus.Size = new System.Drawing.Size(239, 18);
+            this.pgb_updateStatus.TabIndex = 10;
+            // 
+            // btn_Backdrop
+            // 
+            this.btn_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Backdrop.Enabled = false;
+            this.btn_Backdrop.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_Backdrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Backdrop.Location = new System.Drawing.Point(298, 0);
+            this.btn_Backdrop.Name = "btn_Backdrop";
+            this.btn_Backdrop.Size = new System.Drawing.Size(315, 24);
+            this.btn_Backdrop.TabIndex = 2;
+            this.btn_Backdrop.UseVisualStyleBackColor = true;
+            this.btn_Backdrop.Visible = false;
             // 
             // btn_NewTab
             // 
@@ -541,61 +596,6 @@
             this.sfd_RepackARCAs.Filter = "ARC Files|*.arc";
             this.sfd_RepackARCAs.RestoreDirectory = true;
             this.sfd_RepackARCAs.Title = "Repack ARC As...";
-            // 
-            // pgb_updateStatus
-            // 
-            this.pgb_updateStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
-            this.pgb_updateStatus.Name = "pgb_updateStatus";
-            this.pgb_updateStatus.Size = new System.Drawing.Size(239, 18);
-            this.pgb_updateStatus.TabIndex = 10;
-            // 
-            // lbl_updateStatus
-            // 
-            this.lbl_updateStatus.AutoSize = true;
-            this.lbl_updateStatus.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.lbl_updateStatus.Location = new System.Drawing.Point(8, 5);
-            this.lbl_updateStatus.Name = "lbl_updateStatus";
-            this.lbl_updateStatus.Size = new System.Drawing.Size(59, 13);
-            this.lbl_updateStatus.TabIndex = 11;
-            this.lbl_updateStatus.Text = "Updating...";
-            // 
-            // pnl_Updater
-            // 
-            this.pnl_Updater.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnl_Updater.BackColor = System.Drawing.Color.Azure;
-            this.pnl_Updater.Controls.Add(this.lbl_updateStatus);
-            this.pnl_Updater.Controls.Add(this.pgb_updateStatus);
-            this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.pnl_Updater.Location = new System.Drawing.Point(299, 0);
-            this.pnl_Updater.Name = "pnl_Updater";
-            this.pnl_Updater.Size = new System.Drawing.Size(314, 24);
-            this.pnl_Updater.TabIndex = 1;
-            this.pnl_Updater.Visible = false;
-            // 
-            // btn_Backdrop
-            // 
-            this.btn_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Backdrop.Enabled = false;
-            this.btn_Backdrop.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
-            this.btn_Backdrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Backdrop.Location = new System.Drawing.Point(298, 0);
-            this.btn_Backdrop.Name = "btn_Backdrop";
-            this.btn_Backdrop.Size = new System.Drawing.Size(315, 24);
-            this.btn_Backdrop.TabIndex = 2;
-            this.btn_Backdrop.UseVisualStyleBackColor = true;
-            this.btn_Backdrop.Visible = false;
-            // 
-            // preferences_disableSoftwareUpdater
-            // 
-            this.preferences_disableSoftwareUpdater.CheckOnClick = true;
-            this.preferences_disableSoftwareUpdater.Name = "preferences_disableSoftwareUpdater";
-            this.preferences_disableSoftwareUpdater.Size = new System.Drawing.Size(204, 22);
-            this.preferences_disableSoftwareUpdater.Text = "Disable software updater";
-            this.preferences_disableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.Preferences_disableSoftwareUpdater_CheckedChanged);
             // 
             // Main
             // 
