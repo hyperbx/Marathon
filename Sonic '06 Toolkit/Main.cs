@@ -119,10 +119,6 @@ namespace Sonic_06_Toolkit
             #region Directory Check...
 
             #region Validating Paths...
-            if (!Directory.Exists(Properties.Settings.Default.rootPath)) Directory.CreateDirectory(Properties.Settings.Default.rootPath);
-            if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
-            if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
-
             if (Properties.Settings.Default.rootPath == "") Properties.Settings.Default.rootPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\";
             if (Properties.Settings.Default.toolsPath == "") Properties.Settings.Default.toolsPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\Tools\";
             if (Properties.Settings.Default.archivesPath == "") Properties.Settings.Default.archivesPath = Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\Archives\";
@@ -132,9 +128,9 @@ namespace Sonic_06_Toolkit
             try
             {
                 //The below code checks if the directories in the Global class exist; if not, they will be created.
-                if (!Directory.Exists(Global.rootPath)) Directory.CreateDirectory(Global.rootPath);
-                if (!Directory.Exists(Global.archivesPath)) Directory.CreateDirectory(Global.archivesPath);
-                if (!Directory.Exists(Global.toolsPath)) Directory.CreateDirectory(Global.toolsPath);
+                if (!Directory.Exists(Properties.Settings.Default.rootPath)) Directory.CreateDirectory(Properties.Settings.Default.rootPath);
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
+                if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
                 if (!Directory.Exists(Global.unlubPath)) Directory.CreateDirectory(Global.unlubPath);
                 if (!Directory.Exists(Global.xnoPath)) Directory.CreateDirectory(Global.xnoPath);
             }
