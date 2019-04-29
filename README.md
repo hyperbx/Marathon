@@ -2,16 +2,14 @@
 Sonic '06 Toolkit is an application originally written in VB.NET to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.
 
 # Project Goals
-Because this is a complete rewrite, the goal is to include everything that was in the VB.NET version so users aren't missing out on the original features.
+### ARC Unpacking and Repacking (to be replaced)
+- Currently based off [Shadow LAG](https://github.com/lllsondowlll) and [ModdingUnderground](https://www.youtube.com/user/ModdingUnderground)'s ARC unpacker/repacker. Once [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) ARC class is complete, we will be able to make use of that.
 
-### ARC Unpacking and Repacking (done)
-- Yes, the key features to at least modify the contents of the archives.
+### LUB Decompiling (to be replaced)
+- Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
 
-### LUB Decompiling (needs work)
-- Sonic '06 Toolkit currently uses a Java-based Lua decompiler. It would be more beneficial to write a Lua decompiler in C, rather than depending on Java as a requirement.
-
-### XNO Converting (done) and XNM Pairing
-- Likely using the same method as last time to convert these files, but improving XNM pairing as it can be rather tedious.
+### XNO Converting and XNM Pairing (done)
+- Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
 
 ### ADX Encoding
 - Planned features to add tools for encoding and decoding ADX files for sound modding.
