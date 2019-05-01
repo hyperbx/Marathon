@@ -9,7 +9,7 @@ namespace Sonic_06_Toolkit
 
         public TimedWebClient()
         {
-            Timeout = 600000;
+            Timeout = 100000;
         }
 
         protected override WebRequest GetWebRequest(Uri address)

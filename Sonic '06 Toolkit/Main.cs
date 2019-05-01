@@ -118,7 +118,7 @@ namespace Sonic_06_Toolkit
         {
             try
             {
-                var latestVersion = new TimedWebClient { Timeout = 500 }.DownloadString(versionInfoLink);
+                var latestVersion = new TimedWebClient { Timeout = 100000 }.DownloadString(versionInfoLink);
                 if (latestVersion.Contains("Version"))
                 {
                     if (latestVersion != currentVersion)
@@ -985,8 +985,8 @@ namespace Sonic_06_Toolkit
 
         void Help_CheckForUpdates_Click(object sender, EventArgs e)
         {
-            if (Global.serverStatus == "down") MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else if (Global.serverStatus == "offline") MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (Global.serverStatus == "offline") MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else if (Global.serverStatus == "down") MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else Global.updateState = "user"; CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
     }
