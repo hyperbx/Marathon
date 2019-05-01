@@ -98,7 +98,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -397,20 +397,20 @@
             this.help_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("help_Documentation.Image")));
             this.help_Documentation.Name = "help_Documentation";
             this.help_Documentation.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.help_Documentation.Size = new System.Drawing.Size(180, 22);
+            this.help_Documentation.Size = new System.Drawing.Size(179, 22);
             this.help_Documentation.Text = "Documentation";
             this.help_Documentation.Click += new System.EventHandler(this.Help_Documentation_Click);
             // 
             // help_Separator1
             // 
             this.help_Separator1.Name = "help_Separator1";
-            this.help_Separator1.Size = new System.Drawing.Size(177, 6);
+            this.help_Separator1.Size = new System.Drawing.Size(176, 6);
             // 
             // help_CheckForUpdates
             // 
             this.help_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("help_CheckForUpdates.Image")));
             this.help_CheckForUpdates.Name = "help_CheckForUpdates";
-            this.help_CheckForUpdates.Size = new System.Drawing.Size(180, 22);
+            this.help_CheckForUpdates.Size = new System.Drawing.Size(179, 22);
             this.help_CheckForUpdates.Text = "Check for updates...";
             this.help_CheckForUpdates.Click += new System.EventHandler(this.Help_CheckForUpdates_Click);
             // 
@@ -418,7 +418,7 @@
             // 
             this.help_About.Image = ((System.Drawing.Image)(resources.GetObject("help_About.Image")));
             this.help_About.Name = "help_About";
-            this.help_About.Size = new System.Drawing.Size(180, 22);
+            this.help_About.Size = new System.Drawing.Size(179, 22);
             this.help_About.Text = "About";
             this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
@@ -508,9 +508,9 @@
             this.btn_NewTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_NewTab.Location = new System.Drawing.Point(276, -1);
+            this.btn_NewTab.Location = new System.Drawing.Point(276, 0);
             this.btn_NewTab.Name = "btn_NewTab";
-            this.btn_NewTab.Size = new System.Drawing.Size(23, 26);
+            this.btn_NewTab.Size = new System.Drawing.Size(23, 25);
             this.btn_NewTab.TabIndex = 1;
             this.btn_NewTab.Text = "+";
             this.btn_NewTab.TextAlign = System.Drawing.ContentAlignment.TopRight;

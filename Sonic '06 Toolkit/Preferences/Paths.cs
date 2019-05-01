@@ -13,9 +13,9 @@ namespace Sonic_06_Toolkit
 
         void Paths_Load(object sender, EventArgs e)
         {
-            text_RootPath.Text = Global.rootPath;
-            text_ToolsPath.Text = Global.toolsPath;
-            text_ArchivesPath.Text = Global.archivesPath;
+            text_RootPath.Text = Properties.Settings.Default.rootPath;
+            text_ToolsPath.Text = Properties.Settings.Default.toolsPath;
+            text_ArchivesPath.Text = Properties.Settings.Default.archivesPath;
         }
 
         #region Browse tasks...

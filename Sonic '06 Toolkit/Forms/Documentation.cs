@@ -67,6 +67,22 @@ namespace Sonic_06_Toolkit
             else if (tree_InfoSelect.SelectedNode.Text == "PKG") rtb_InfoDisplay.Text = "PKG files are BINA string tables that group together some common file formats (such as; FXO, LUA, DDS, PLC, XNF, XNO, XNI, XNM and XNV files).";
             #endregion
 
+            #region Sonic '06 Toolkit
+
+            #region Troubleshooting
+
+            #region LUB Studio
+            else if (tree_InfoSelect.SelectedNode.Text == "Lua binaries are decompiling empty...") rtb_InfoDisplay.Text = "You need to install Java. This should never occur under any circumstances, so please report this immediately.";
+            #endregion
+
+            #region XNO Studio
+            else if (tree_InfoSelect.SelectedNode.Text == "MSVCR100.dll is missing...") rtb_InfoDisplay.Text = "You need to install both x86 and x64 variations of Microsoft Visual C++ 2010 SP1.\n\nx86: https://www.microsoft.com/de-de/download/details.aspx?id=8328 \nx64: https://www.microsoft.com/en-us/download/details.aspx?id=13523";
+            #endregion
+
+            #endregion
+
+            #endregion
+
             else rtb_InfoDisplay.Text = "";
         }
     }

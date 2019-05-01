@@ -94,5 +94,65 @@ namespace Sonic_06_Toolkit.Properties {
                 this["disableSoftwareUpdater"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string unlubPath {
+            get {
+                return ((string)(this["unlubPath"]));
+            }
+            set {
+                this["unlubPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xnoPath {
+            get {
+                return ((string)(this["xnoPath"]));
+            }
+            set {
+                this["xnoPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string unpackFile {
+            get {
+                return ((string)(this["unpackFile"]));
+            }
+            set {
+                this["unpackFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string repackFile {
+            get {
+                return ((string)(this["repackFile"]));
+            }
+            set {
+                this["repackFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xnoFile {
+            get {
+                return ((string)(this["xnoFile"]));
+            }
+            set {
+                this["xnoFile"] = value;
+            }
+        }
     }
 }

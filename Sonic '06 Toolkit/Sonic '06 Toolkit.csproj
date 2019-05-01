@@ -117,6 +117,9 @@
     <Compile Include="Forms\XNO Studio.Designer.cs">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Classes\TimedWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

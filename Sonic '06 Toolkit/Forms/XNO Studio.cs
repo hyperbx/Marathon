@@ -65,15 +65,13 @@ namespace Sonic_06_Toolkit
         {
             if (Global.convertState == "XNO")
             {
-                //In the odd chance that someone is ever able to click Convert without anything selected, this will prevent that.
-                if (clb_XNOs_XNM.CheckedItems.Count == 0) MessageBox.Show("Please select an XNO.", "No XNO specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 try
                 {
                     #region Getting current ARC failsafe...
                     //Gets the failsafe directory.
-                    if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                    if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
                     var failsafeBuildSession = new StringBuilder();
-                    failsafeBuildSession.Append(Global.archivesPath);
+                    failsafeBuildSession.Append(Properties.Settings.Default.archivesPath);
                     failsafeBuildSession.Append(Global.sessionID);
                     failsafeBuildSession.Append(@"\");
                     string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + Global.getIndex);
@@ -81,9 +79,9 @@ namespace Sonic_06_Toolkit
 
                     #region Writing converter...
                     //Writes the decompiler to the failsafe directory to ensure any XNOs left over from other open archives aren't copied over to the selected archive.
-                    if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck);
-                    if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
-                    if (!File.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
+                    if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck);
+                    if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
+                    if (!File.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
                     #endregion
 
                     #region Getting selected XNOs...
@@ -94,12 +92,12 @@ namespace Sonic_06_Toolkit
                         //Gets the location of the converter and writes a BASIC application.
                         string convertPath = Path.Combine(Global.currentPath, selectedXNO);
                         var checkedBuildSession = new StringBuilder();
-                        checkedBuildSession.Append(Global.xnoPath);
+                        checkedBuildSession.Append(Properties.Settings.Default.xnoPath);
                         checkedBuildSession.Append(Global.sessionID);
                         checkedBuildSession.Append(@"\");
                         checkedBuildSession.Append(failsafeCheck);
                         checkedBuildSession.Append(@"\xno2dae.exe");
-                        var checkedWrite = File.Create(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                        var checkedWrite = File.Create(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         var checkedText = new UTF8Encoding(true).GetBytes("\"" + checkedBuildSession.ToString() + "\" \"" + selectedXNO + "\"");
                         checkedWrite.Write(checkedText, 0, checkedText.Length);
                         checkedWrite.Close();
@@ -107,7 +105,7 @@ namespace Sonic_06_Toolkit
 
                         #region Converting XNOs...
                         //Sets up the BASIC application and executes the conversion process.
-                        var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                        var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
@@ -136,9 +134,9 @@ namespace Sonic_06_Toolkit
                     {
                         #region Getting current ARC failsafe...
                         //Gets the failsafe directory.
-                        if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                        if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
                         var failsafeBuildSession = new StringBuilder();
-                        failsafeBuildSession.Append(Global.archivesPath);
+                        failsafeBuildSession.Append(Properties.Settings.Default.archivesPath);
                         failsafeBuildSession.Append(Global.sessionID);
                         failsafeBuildSession.Append(@"\");
                         string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + Global.getIndex);
@@ -146,9 +144,9 @@ namespace Sonic_06_Toolkit
 
                         #region Writing converter...
                         //Writes the decompiler to the failsafe directory to ensure any XNOs left over from other open archives aren't copied over to the selected archive.
-                        if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck);
-                        if (!Directory.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
-                        if (!File.Exists(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
+                        if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck);
+                        if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos")) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xnos");
+                        if (!File.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe")) File.WriteAllBytes(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.exe", Properties.Resources.xno2dae);
                         #endregion
 
                         #region Pairing XNO with XNM...
@@ -159,7 +157,7 @@ namespace Sonic_06_Toolkit
                             //Gets the location of the converter and writes a BASIC application.
                             string XNOconvertPath = Path.Combine(Global.currentPath, selectedXNO);
                             var checkedBuildSession = new StringBuilder();
-                            checkedBuildSession.Append(Global.xnoPath);
+                            checkedBuildSession.Append(Properties.Settings.Default.xnoPath);
                             checkedBuildSession.Append(Global.sessionID);
                             checkedBuildSession.Append(@"\");
                             checkedBuildSession.Append(failsafeCheck);
@@ -171,7 +169,7 @@ namespace Sonic_06_Toolkit
                                 #region Applying XNM...
                                 //Gets the location of the converter and writes a BASIC application.
                                 string XNMconvertPath = Path.Combine(Global.currentPath, selectedXNM);
-                                var XNMcheckedWrite = File.Create(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                                var XNMcheckedWrite = File.Create(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                                 var XNMcheckedText = new UTF8Encoding(true).GetBytes("\"" + checkedBuildSession.ToString() + "\" \"" + selectedXNO + "\" \"" + selectedXNM + "\"");
                                 XNMcheckedWrite.Write(XNMcheckedText, 0, XNMcheckedText.Length);
                                 XNMcheckedWrite.Close();
@@ -181,7 +179,7 @@ namespace Sonic_06_Toolkit
 
                         #region Converting XNOs...
                         //Sets up the BASIC application and executes the conversion process.
-                        var convertSession = new ProcessStartInfo(Global.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
+                        var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);

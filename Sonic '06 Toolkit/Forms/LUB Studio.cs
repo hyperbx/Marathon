@@ -61,9 +61,9 @@ namespace Sonic_06_Toolkit
             {
                 #region Getting current ARC failsafe...
                 //Gets the failsafe directory.
-                if (!Directory.Exists(Global.unlubPath + Global.sessionID)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID);
+                if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
                 var failsafeBuildSession = new StringBuilder();
-                failsafeBuildSession.Append(Global.archivesPath);
+                failsafeBuildSession.Append(Properties.Settings.Default.archivesPath);
                 failsafeBuildSession.Append(Global.sessionID);
                 failsafeBuildSession.Append(@"\");
                 string failsafeCheck = File.ReadAllText(failsafeBuildSession.ToString() + Global.getIndex);
@@ -71,10 +71,10 @@ namespace Sonic_06_Toolkit
 
                 #region Writing decompiler...
                 //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
-                if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck);
-                if (!Directory.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
-                if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
-                if (!File.Exists(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
+                if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck);
+                if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
+                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
+                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
                 #endregion
 
                 #region Getting selected Lua binaries...
@@ -94,12 +94,12 @@ namespace Sonic_06_Toolkit
                         if (Path.GetFileName(selectedLUB) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         if (Path.GetFileName(selectedLUB) == "object.lub") MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
-                        File.Copy(checkedBuildSession.ToString(), Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
+                        File.Copy(checkedBuildSession.ToString(), Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
 
                         #region Decompiling Lua binaries...
                         //Sets up the BASIC application and executes the decompiling process.
-                        var decompileSession = new ProcessStartInfo(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
-                        decompileSession.WorkingDirectory = Global.unlubPath + Global.sessionID + @"\" + failsafeCheck;
+                        var decompileSession = new ProcessStartInfo(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                        decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                         decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Decompile = Process.Start(decompileSession);
                         var decompileDialog = new Decompiling();
@@ -113,11 +113,11 @@ namespace Sonic_06_Toolkit
 
                         #region Moving decompiled Lua binaries...
                         //Copies all LUBs to the final directory, then erases leftovers.
-                        foreach (string LUB in Directory.GetFiles(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
+                        foreach (string LUB in Directory.GetFiles(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", "*.lub", SearchOption.TopDirectoryOnly))
                         {
                             if (File.Exists(LUB))
                             {
-                                File.Copy(Path.Combine(Global.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                File.Copy(Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\luas\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
                                 File.Delete(LUB);
                             }
                         }
