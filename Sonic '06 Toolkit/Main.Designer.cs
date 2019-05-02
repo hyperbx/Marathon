@@ -49,14 +49,16 @@
             this.file_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_SDK = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.sdk_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.sdk_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_Separator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_Separator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_Separator4 = new System.Windows.Forms.ToolStripSeparator();
             this.sdk_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Tabs = new System.Windows.Forms.ToolStripMenuItem();
             this.tabs_NewTab = new System.Windows.Forms.ToolStripMenuItem();
@@ -98,7 +100,7 @@
             this.menu_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(292, 24);
             this.mstrip_Main.TabIndex = 0;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -253,18 +255,33 @@
             // menu_SDK
             // 
             this.menu_SDK.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sdk_ARCStudio,
+            this.sdk_Separator1,
             this.sdk_LUBStudio,
             this.sdk_DecompileLUBs,
-            this.sdk_Separator1,
+            this.sdk_Separator2,
             this.sdk_XNOStudio,
             this.sdk_ConvertXNOs,
-            this.sdk_Separator2,
-            this.mSTStudioToolStripMenuItem,
             this.sdk_Separator3,
+            this.mSTStudioToolStripMenuItem,
+            this.sdk_Separator4,
             this.sdk_ADXStudio});
             this.menu_SDK.Name = "menu_SDK";
             this.menu_SDK.Size = new System.Drawing.Size(40, 20);
             this.menu_SDK.Text = "SDK";
+            // 
+            // sdk_ARCStudio
+            // 
+            this.sdk_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ARCStudio.Image")));
+            this.sdk_ARCStudio.Name = "sdk_ARCStudio";
+            this.sdk_ARCStudio.Size = new System.Drawing.Size(334, 22);
+            this.sdk_ARCStudio.Text = "ARC Studio...";
+            this.sdk_ARCStudio.Click += new System.EventHandler(this.Sdk_ARCStudio_Click);
+            // 
+            // sdk_Separator1
+            // 
+            this.sdk_Separator1.Name = "sdk_Separator1";
+            this.sdk_Separator1.Size = new System.Drawing.Size(331, 6);
             // 
             // sdk_LUBStudio
             // 
@@ -288,10 +305,10 @@
             this.sdk_DecompileLUBs.Text = "Decompile all LUBs in this directory";
             this.sdk_DecompileLUBs.Click += new System.EventHandler(this.Sdk_DecompileLUBs_Click);
             // 
-            // sdk_Separator1
+            // sdk_Separator2
             // 
-            this.sdk_Separator1.Name = "sdk_Separator1";
-            this.sdk_Separator1.Size = new System.Drawing.Size(331, 6);
+            this.sdk_Separator2.Name = "sdk_Separator2";
+            this.sdk_Separator2.Size = new System.Drawing.Size(331, 6);
             // 
             // sdk_XNOStudio
             // 
@@ -315,15 +332,16 @@
             this.sdk_ConvertXNOs.Text = "Convert all XNOs in this directory";
             this.sdk_ConvertXNOs.Click += new System.EventHandler(this.Sdk_ConvertXNOs_Click);
             // 
-            // sdk_Separator2
+            // sdk_Separator3
             // 
-            this.sdk_Separator2.Name = "sdk_Separator2";
-            this.sdk_Separator2.Size = new System.Drawing.Size(331, 6);
-            this.sdk_Separator2.Visible = false;
+            this.sdk_Separator3.Name = "sdk_Separator3";
+            this.sdk_Separator3.Size = new System.Drawing.Size(331, 6);
+            this.sdk_Separator3.Visible = false;
             // 
             // mSTStudioToolStripMenuItem
             // 
             this.mSTStudioToolStripMenuItem.Enabled = false;
+            this.mSTStudioToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("mSTStudioToolStripMenuItem.Image")));
             this.mSTStudioToolStripMenuItem.Name = "mSTStudioToolStripMenuItem";
             this.mSTStudioToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.M)));
@@ -331,15 +349,16 @@
             this.mSTStudioToolStripMenuItem.Text = "MST Studio...";
             this.mSTStudioToolStripMenuItem.Visible = false;
             // 
-            // sdk_Separator3
+            // sdk_Separator4
             // 
-            this.sdk_Separator3.Name = "sdk_Separator3";
-            this.sdk_Separator3.Size = new System.Drawing.Size(331, 6);
-            this.sdk_Separator3.Visible = false;
+            this.sdk_Separator4.Name = "sdk_Separator4";
+            this.sdk_Separator4.Size = new System.Drawing.Size(331, 6);
+            this.sdk_Separator4.Visible = false;
             // 
             // sdk_ADXStudio
             // 
             this.sdk_ADXStudio.Enabled = false;
+            this.sdk_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ADXStudio.Image")));
             this.sdk_ADXStudio.Name = "sdk_ADXStudio";
             this.sdk_ADXStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.A)));
@@ -644,7 +663,7 @@
         private System.Windows.Forms.ToolStripMenuItem help_About;
         private System.Windows.Forms.ToolStripMenuItem sdk_LUBStudio;
         private System.Windows.Forms.ToolStripMenuItem sdk_DecompileLUBs;
-        private System.Windows.Forms.ToolStripSeparator sdk_Separator1;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator2;
         private System.Windows.Forms.ToolStripMenuItem sdk_XNOStudio;
         private System.Windows.Forms.ToolStripMenuItem sdk_ConvertXNOs;
         private System.Windows.Forms.OpenFileDialog ofd_OpenARC;
@@ -658,7 +677,7 @@
         private System.Windows.Forms.ToolStripSeparator file_Separator2;
         private System.Windows.Forms.Button btn_OpenFolder;
         private System.Windows.Forms.TabControl tab_Main;
-        private System.Windows.Forms.ToolStripSeparator sdk_Separator2;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator3;
         private System.Windows.Forms.ToolStripMenuItem mSTStudioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem file_CloseARC;
         private System.Windows.Forms.ToolStripMenuItem file_RepackARCAs;
@@ -674,7 +693,7 @@
         private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem preferences_Paths;
-        private System.Windows.Forms.ToolStripSeparator sdk_Separator3;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator4;
         private System.Windows.Forms.ToolStripMenuItem sdk_ADXStudio;
         private System.Windows.Forms.ToolStripMenuItem help_CheckForUpdates;
         private System.Windows.Forms.Panel pnl_Updater;
@@ -682,6 +701,8 @@
         private System.Windows.Forms.ProgressBar pgb_updateStatus;
         private System.Windows.Forms.Button btn_Backdrop;
         private System.Windows.Forms.ToolStripMenuItem preferences_disableSoftwareUpdater;
+        private System.Windows.Forms.ToolStripMenuItem sdk_ARCStudio;
+        private System.Windows.Forms.ToolStripSeparator sdk_Separator1;
     }
 }
 

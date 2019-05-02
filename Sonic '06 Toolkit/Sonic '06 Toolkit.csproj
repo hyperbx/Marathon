@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ARC Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ARC Studio.Designer.cs">
+      <DependentUpon>ARC Studio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Notifications\Converting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,6 +116,12 @@
     <Compile Include="Preferences\Paths.Designer.cs">
       <DependentUpon>Paths.cs</DependentUpon>
     </Compile>
+    <Compile Include="Notifications\Processing.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notifications\Processing.Designer.cs">
+      <DependentUpon>Processing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\XNO Studio.cs">
       <SubType>Form</SubType>
@@ -120,6 +132,9 @@
     <Compile Include="Classes\TimedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="Forms\ARC Studio.resx">
+      <DependentUpon>ARC Studio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -140,6 +155,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Notifications\Decompiling.resx">
       <DependentUpon>Decompiling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Notifications\Processing.resx">
+      <DependentUpon>Processing.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Notifications\Repacking.resx">
       <DependentUpon>Repacking.cs</DependentUpon>
