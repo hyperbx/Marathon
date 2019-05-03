@@ -154,5 +154,41 @@ namespace Sonic_06_Toolkit.Properties {
                 this["xnoFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string csbFile {
+            get {
+                return ((string)(this["csbFile"]));
+            }
+            set {
+                this["csbFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string adx2wavFile {
+            get {
+                return ((string)(this["adx2wavFile"]));
+            }
+            set {
+                this["adx2wavFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string criconverterFile {
+            get {
+                return ((string)(this["criconverterFile"]));
+            }
+            set {
+                this["criconverterFile"] = value;
+            }
+        }
     }
 }

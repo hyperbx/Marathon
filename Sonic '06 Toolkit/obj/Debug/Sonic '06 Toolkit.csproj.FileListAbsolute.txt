@@ -18,15 +18,21 @@ C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic 
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.csproj.CoreCompileInputs.cache
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.exe
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic '06 Toolkit.pdb
-C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Unpacking.resources
-C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Repacking.resources
-C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Decompiling.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.LUB_Studio.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\bin\Debug\Sonic '06 Toolkit.exe.config
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Documentation.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Logo.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.XNO_Studio.resources
-C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Converting.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Paths.resources
 C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.ARC_Studio.resources
-C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Processing.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.CSB_Studio.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Unpacking_CSB.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Repacking_ARC.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Unpacking_ARC.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Repacking_CSB.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Converting_XNO.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Decompiling_LUB.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Processing_ARC.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.ADX_Studio.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Converting_WAV.resources
+C:\Users\gabe1\source\repos\Sonic '06 Toolkit\Sonic '06 Toolkit\obj\Debug\Sonic_06_Toolkit.Converting_ADX.resources

@@ -56,7 +56,7 @@ namespace Sonic_06_Toolkit
             //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
 
             //In the odd chance that someone is ever able to click Decompile without anything selected, this will prevent that.
-            if (clb_LUBs.CheckedItems.Count == 0) MessageBox.Show("Please select an Lua binary.", "No Lua binaries specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (clb_LUBs.CheckedItems.Count == 0) MessageBox.Show("Please select a Lua binary.", "No Lua binaries specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
             try
             {
                 #region Getting current ARC failsafe...
@@ -102,7 +102,7 @@ namespace Sonic_06_Toolkit
                         decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                         decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Decompile = Process.Start(decompileSession);
-                        var decompileDialog = new Decompiling();
+                        var decompileDialog = new Decompiling_LUB();
                         var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
                         var parentTop = Top + ((Height - decompileDialog.Height) / 2);
                         decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);

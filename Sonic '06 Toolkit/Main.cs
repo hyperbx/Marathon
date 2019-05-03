@@ -65,7 +65,7 @@ namespace Sonic_06_Toolkit
                         unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                         unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Unpacking();
+                        var unpackDialog = new Unpacking_ARC();
                         unpackDialog.StartPosition = FormStartPosition.CenterScreen;
                         unpackDialog.Show();
                         Unpack.WaitForExit();
@@ -178,6 +178,8 @@ namespace Sonic_06_Toolkit
                 //The below code checks if the directories in the Global class exist; if not, they will be created.
                 if (!Directory.Exists(Properties.Settings.Default.rootPath)) Directory.CreateDirectory(Properties.Settings.Default.rootPath);
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CsbEditor\");
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CriWare\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CriWare\");
                 if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
                 if (!Directory.Exists(Properties.Settings.Default.unlubPath)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath);
                 if (!Directory.Exists(Properties.Settings.Default.xnoPath)) Directory.CreateDirectory(Properties.Settings.Default.xnoPath);
@@ -190,6 +192,9 @@ namespace Sonic_06_Toolkit
             #region Validating Files...
             if (Properties.Settings.Default.unpackFile == string.Empty) Properties.Settings.Default.unpackFile = Properties.Settings.Default.toolsPath + @"unpack.exe";
             if (Properties.Settings.Default.repackFile == string.Empty) Properties.Settings.Default.repackFile = Properties.Settings.Default.toolsPath + @"repack.exe";
+            if (Properties.Settings.Default.csbFile == string.Empty) Properties.Settings.Default.csbFile = Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe";
+            if (Properties.Settings.Default.adx2wavFile == string.Empty) Properties.Settings.Default.adx2wavFile = Properties.Settings.Default.toolsPath + @"CriWare\ADX2WAV.exe";
+            if (Properties.Settings.Default.criconverterFile == string.Empty) Properties.Settings.Default.criconverterFile = Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe";
             #endregion
 
             try
@@ -197,6 +202,17 @@ namespace Sonic_06_Toolkit
                 //The below code checks if the files in the Global class exist; if not, they will be created.
                 if (!File.Exists(Properties.Settings.Default.unpackFile)) File.WriteAllBytes(Properties.Settings.Default.unpackFile, Properties.Resources.unpack);
                 if (!File.Exists(Properties.Settings.Default.repackFile)) File.WriteAllBytes(Properties.Settings.Default.repackFile, Properties.Resources.repack);
+                if (!File.Exists(Properties.Settings.Default.csbFile)) File.WriteAllBytes(Properties.Settings.Default.csbFile, Properties.Resources.CsbEditor);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll", Properties.Resources.SonicAudioLib);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config", Properties.Resources.CsbEditorConfig);
+                if (!File.Exists(Properties.Settings.Default.adx2wavFile)) File.WriteAllBytes(Properties.Settings.Default.adx2wavFile, Properties.Resources.ADX2WAV);
+                if (!File.Exists(Properties.Settings.Default.criconverterFile)) File.WriteAllBytes(Properties.Settings.Default.criconverterFile, Properties.Resources.criatomencd);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\AsyncAudioEncoder.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\AsyncAudioEncoder.dll", Properties.Resources.AsyncAudioEncoder);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\AudioStream.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\AudioStream.dll", Properties.Resources.AudioStream);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe.config")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe.config", Properties.Resources.criatomencdConfig);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\CriAtomEncoderComponent.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\CriAtomEncoderComponent.dll", Properties.Resources.CriAtomEncoderComponent);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\CriSamplingRateConverter.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\CriSamplingRateConverter.dll", Properties.Resources.CriSamplingRateConverter);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll", Properties.Resources.vsthost);
             }
             catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
@@ -261,7 +277,7 @@ namespace Sonic_06_Toolkit
         #region File
 
         #region Unpack States
-        void File_OpenARC_Click(object sender, EventArgs e)
+        void mainFile_OpenARC_Click(object sender, EventArgs e)
         {
             if (ofd_OpenARC.ShowDialog() == DialogResult.OK)
             {
@@ -276,13 +292,13 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Repack States
-        void File_RepackARC_Click(object sender, EventArgs e)
+        void MainFile_RepackARC_Click(object sender, EventArgs e)
         {
             Global.repackState = "save";
             repackARC();
         }
 
-        void File_RepackARCAs_Click(object sender, EventArgs e)
+        void MainFile_RepackARCAs_Click(object sender, EventArgs e)
         {
             Global.repackState = "save-as";
             repackARC();
@@ -292,9 +308,9 @@ namespace Sonic_06_Toolkit
         #region Preferences
         //[Preferences] - Show Session ID
         //Moves certain controls in runtime to hide the Session ID properly.
-        void Preferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
+        void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
         {
-            if (preferences_ShowSessionID.Checked == true)
+            if (mainPreferences_ShowSessionID.Checked == true)
             {
                 if (Properties.Settings.Default.theme == "Compact")
                 {
@@ -329,9 +345,9 @@ namespace Sonic_06_Toolkit
 
         //[Preferences] - Disable software updater
         //Disables the software update function on launch.
-        void Preferences_disableSoftwareUpdater_CheckedChanged(object sender, EventArgs e)
+        void MainPreferences_DisableSoftwareUpdater_CheckedChanged(object sender, EventArgs e)
         {
-            if (preferences_disableSoftwareUpdater.Checked == true)
+            if (mainPreferences_DisableSoftwareUpdater.Checked == true)
             {
                 Properties.Settings.Default.disableSoftwareUpdater = true;
             }
@@ -344,9 +360,9 @@ namespace Sonic_06_Toolkit
 
         //[Themes] - Compact
         //Moves certain controls in runtime to switch to the Compact theme.
-        void Themes_Compact_CheckedChanged(object sender, EventArgs e)
+        void MainThemes_Compact_CheckedChanged(object sender, EventArgs e)
         {
-            if (themes_Compact.Checked == true)
+            if (mainThemes_Compact.Checked == true)
             {
                 if (Properties.Settings.Default.showSessionID == false)
                 {
@@ -354,7 +370,7 @@ namespace Sonic_06_Toolkit
                     btn_OpenFolder.Left += 48;
                 }
                 Properties.Settings.Default.theme = "Compact";
-                themes_Original.Checked = false;
+                mainThemes_Original.Checked = false;
                 mstrip_Main.Left += 106;
                 tab_Main.Height += 28; tab_Main.Top -= 28;
                 btn_Back.Width -= 4; btn_Back.Height += 3; btn_Back.Left -= 5; btn_Back.Top -= 29; btn_Back.FlatAppearance.BorderSize = 1;
@@ -370,9 +386,9 @@ namespace Sonic_06_Toolkit
 
         //[Themes] - Original
         //Moves certain controls in runtime to switch to the Original theme.
-        void Themes_Original_CheckedChanged(object sender, EventArgs e)
+        void MainThemes_Original_CheckedChanged(object sender, EventArgs e)
         {
-            if (themes_Original.Checked == true)
+            if (mainThemes_Original.Checked == true)
             {
                 if (Properties.Settings.Default.showSessionID == false)
                 {
@@ -380,7 +396,7 @@ namespace Sonic_06_Toolkit
                     btn_OpenFolder.Left -= 48;
                 }
                 Properties.Settings.Default.theme = "Original";
-                themes_Compact.Checked = false;
+                mainThemes_Compact.Checked = false;
                 mstrip_Main.Left -= 106;
                 tab_Main.Height -= 28; tab_Main.Top += 28;
                 btn_Back.Width += 4; btn_Back.Height -= 3; btn_Back.Left += 5; btn_Back.Top += 29; btn_Back.FlatAppearance.BorderSize = 0;
@@ -396,13 +412,13 @@ namespace Sonic_06_Toolkit
 
         //Paths
         //Opens a form to allow the user to enter their own paths.
-        void Preferences_Paths_Click(object sender, EventArgs e)
+        void MainPreferences_Paths_Click(object sender, EventArgs e)
         {
             new Paths().ShowDialog();
         }
         #endregion
 
-        void File_CloseARC_Click(object sender, EventArgs e)
+        void MainFile_CloseARC_Click(object sender, EventArgs e)
         {
             //Asks for user confirmation before closing an archive.
             DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this archive? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -412,19 +428,29 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void File_Exit_Click(object sender, EventArgs e)
+        void MainFile_Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
         #endregion
 
         #region SDK
-        void Sdk_ARCStudio_Click(object sender, EventArgs e)
+        void MainSDK_ARCStudio_Click(object sender, EventArgs e)
         {
             new ARC_Studio().ShowDialog();
         }
 
-        void Sdk_LUBStudio_Click(object sender, EventArgs e)
+        void MainSDK_ADXStudio_Click(object sender, EventArgs e)
+        {
+            new ADX_Studio().ShowDialog();
+        }
+
+        void MainSDK_CSBStudio_Click(object sender, EventArgs e)
+        {
+            new CSB_Studio().ShowDialog();
+        }
+
+        void MainSDK_LUBStudio_Click(object sender, EventArgs e)
         {
             //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
             //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
@@ -435,7 +461,7 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void Sdk_DecompileLUBs_Click(object sender, EventArgs e)
+        void MainSDK_DecompileLUBs_Click(object sender, EventArgs e)
         {
             //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
             //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
@@ -495,7 +521,7 @@ namespace Sonic_06_Toolkit
                             decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                             decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Decompile = Process.Start(decompileSession);
-                            var decompileDialog = new Decompiling();
+                            var decompileDialog = new Decompiling_LUB();
                             var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
                             var parentTop = Top + ((Height - decompileDialog.Height) / 2);
                             decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -523,12 +549,12 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void Sdk_XNOStudio_Click(object sender, EventArgs e)
+        void MainSDK_XNOStudio_Click(object sender, EventArgs e)
         {
             new XNO_Studio().ShowDialog();
         }
 
-        void Sdk_ConvertXNOs_Click(object sender, EventArgs e)
+        void MainSDK_ConvertXNOs_Click(object sender, EventArgs e)
         {
             //Checks if there are any XNOs in the directory.
             if (Directory.GetFiles(Global.currentPath, "*.xno").Length == 0) MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -580,7 +606,7 @@ namespace Sonic_06_Toolkit
                             convertSession.WorkingDirectory = Global.currentPath;
                             convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Convert = Process.Start(convertSession);
-                            var convertDialog = new Converting();
+                            var convertDialog = new Converting_XNO();
                             var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                             var parentTop = Top + ((Height - convertDialog.Height) / 2);
                             convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -599,12 +625,12 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Tabs
-        void Tabs_NewTab_Click(object sender, EventArgs e)
+        void MainTabs_NewTab_Click(object sender, EventArgs e)
         {
             newTab();
         }
 
-        void Tabs_CloseTab_Click(object sender, EventArgs e)
+        void MainTabs_CloseTab_Click(object sender, EventArgs e)
         {
             //Checks if the tab's text reads 'New Tab' (a name only assigned by the application).
             if (tab_Main.SelectedTab.Text == "New Tab")
@@ -623,7 +649,7 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Help
-        void Help_Documentation_Click(object sender, EventArgs e)
+        void MainHelp_Documentation_Click(object sender, EventArgs e)
         {
             //Opens the Documentation form in the centre of the parent window without disabling it.
             var documentation = new Documentation();
@@ -633,14 +659,14 @@ namespace Sonic_06_Toolkit
             documentation.Show();
         }
 
-        void Help_CheckForUpdates_Click(object sender, EventArgs e)
+        void MainHelp_CheckForUpdates_Click(object sender, EventArgs e)
         {
             if (Global.serverStatus == "offline") MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else if (Global.serverStatus == "down") MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else Global.updateState = "user"; CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
 
-        void Help_About_Click(object sender, EventArgs e)
+        void MainHelp_About_Click(object sender, EventArgs e)
         {
             new About().ShowDialog();
         }
@@ -682,7 +708,7 @@ namespace Sonic_06_Toolkit
         void Tm_tabCheck_Tick(object sender, EventArgs e)
         {
             //Ensures there's at least only one tab left on the control.
-            if (tab_Main.TabPages.Count == 1) tabs_CloseTab.Enabled = false; else tabs_CloseTab.Enabled = true;
+            if (tab_Main.TabPages.Count == 1) mainTabs_CloseTab.Enabled = false; else mainTabs_CloseTab.Enabled = true;
 
             #region Tab Check...
             if (tab_Main.SelectedTab.Text != "New Tab")
@@ -692,14 +718,16 @@ namespace Sonic_06_Toolkit
                 btn_Back.Enabled = true;
                 btn_Forward.Enabled = true;
                 btn_Repack.Enabled = true;
-                file_RepackARC.Enabled = true;
+                mainFile_RepackARC.Enabled = true;
                 btn_OpenFolder.Enabled = true;
-                sdk_DecompileLUBs.Enabled = true;
-                sdk_LUBStudio.Enabled = true;
-                file_CloseARC.Enabled = true;
-                file_RepackARCAs.Enabled = true;
-                sdk_XNOStudio.Enabled = true;
-                sdk_ConvertXNOs.Enabled = true;
+                mainSDK_DecompileLUBs.Enabled = true;
+                mainSDK_LUBStudio.Enabled = true;
+                mainFile_CloseARC.Enabled = true;
+                mainFile_RepackARCAs.Enabled = true;
+                mainSDK_XNOStudio.Enabled = true;
+                mainSDK_ConvertXNOs.Enabled = true;
+                mainSDK_CSBStudio.Enabled = true;
+                mainSDK_ADXStudio.Enabled = true;
                 #endregion
 
                 //Updates the currentPath global variable.
@@ -712,14 +740,16 @@ namespace Sonic_06_Toolkit
                 btn_Back.Enabled = false;
                 btn_Forward.Enabled = false;
                 btn_Repack.Enabled = false;
-                file_RepackARC.Enabled = false;
+                mainFile_RepackARC.Enabled = false;
                 btn_OpenFolder.Enabled = false;
-                sdk_DecompileLUBs.Enabled = false;
-                sdk_LUBStudio.Enabled = false;
-                file_CloseARC.Enabled = false;
-                file_RepackARCAs.Enabled = false;
-                sdk_XNOStudio.Enabled = false;
-                sdk_ConvertXNOs.Enabled = false;
+                mainSDK_DecompileLUBs.Enabled = false;
+                mainSDK_LUBStudio.Enabled = false;
+                mainFile_CloseARC.Enabled = false;
+                mainFile_RepackARCAs.Enabled = false;
+                mainSDK_XNOStudio.Enabled = false;
+                mainSDK_ConvertXNOs.Enabled = false;
+                mainSDK_CSBStudio.Enabled = false;
+                mainSDK_ADXStudio.Enabled = false;
                 #endregion
             }
             #endregion
@@ -767,7 +797,7 @@ namespace Sonic_06_Toolkit
                     unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                     unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                     var Unpack = Process.Start(unpackSession);
-                    var unpackDialog = new Unpacking();
+                    var unpackDialog = new Unpacking_ARC();
                     var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
                     var parentTop = Top + ((Height - unpackDialog.Height) / 2);
                     unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -850,7 +880,7 @@ namespace Sonic_06_Toolkit
                     repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                     repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                     var Repack = Process.Start(repackSession);
-                    var repackDialog = new Repacking();
+                    var repackDialog = new Repacking_ARC();
                     var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                     var parentTop = Top + ((Height - repackDialog.Height) / 2);
                     repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -893,7 +923,7 @@ namespace Sonic_06_Toolkit
                         repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                         repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Repack = Process.Start(repackSession);
-                        var repackDialog = new Repacking();
+                        var repackDialog = new Repacking_ARC();
                         var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                         var parentTop = Top + ((Height - repackDialog.Height) / 2);
                         repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);

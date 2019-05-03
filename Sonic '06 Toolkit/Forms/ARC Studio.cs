@@ -53,7 +53,7 @@ namespace Sonic_06_Toolkit
                 unpackSession1.WorkingDirectory = Properties.Settings.Default.toolsPath;
                 unpackSession1.WindowStyle = ProcessWindowStyle.Hidden;
                 var Unpack1 = Process.Start(unpackSession1);
-                var unpackDialog1 = new Unpacking();
+                var unpackDialog1 = new Unpacking_ARC();
                 var parentLeft1 = Left + ((Width - unpackDialog1.Width) / 2);
                 var parentTop1 = Top + ((Height - unpackDialog1.Height) / 2);
                 unpackDialog1.Location = new System.Drawing.Point(parentLeft1, parentTop1);
@@ -107,7 +107,7 @@ namespace Sonic_06_Toolkit
                 unpackSession2.WorkingDirectory = Properties.Settings.Default.toolsPath;
                 unpackSession2.WindowStyle = ProcessWindowStyle.Hidden;
                 var Unpack2 = Process.Start(unpackSession2);
-                var unpackDialog2 = new Unpacking();
+                var unpackDialog2 = new Unpacking_ARC();
                 var parentLeft2 = Left + ((Width - unpackDialog2.Width) / 2);
                 var parentTop2 = Top + ((Height - unpackDialog2.Height) / 2);
                 unpackDialog2.Location = new System.Drawing.Point(parentLeft2, parentTop2);
@@ -126,7 +126,7 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 #region Processing ARCs...
-                var processDialog = new Processing();
+                var processDialog = new Processing_ARC();
                 var parentLeftProc = Left + ((Width - processDialog.Width) / 2);
                 var parentTopProc = Top + ((Height - processDialog.Height) / 2);
                 processDialog.Location = new System.Drawing.Point(parentLeft1, parentTop1);
@@ -149,7 +149,7 @@ namespace Sonic_06_Toolkit
                 repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                 repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                 var Repack = Process.Start(repackSession);
-                var repackDialog = new Repacking();
+                var repackDialog = new Repacking_ARC();
                 var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                 var parentTop = Top + ((Height - repackDialog.Height) / 2);
                 repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);

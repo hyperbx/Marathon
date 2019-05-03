@@ -71,6 +71,96 @@ namespace Sonic_06_Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ADX2WAV {
+            get {
+                object obj = ResourceManager.GetObject("ADX2WAV", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AsyncAudioEncoder {
+            get {
+                object obj = ResourceManager.GetObject("AsyncAudioEncoder", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AudioStream {
+            get {
+                object obj = ResourceManager.GetObject("AudioStream", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] criatomencd {
+            get {
+                object obj = ResourceManager.GetObject("criatomencd", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] criatomencdConfig {
+            get {
+                object obj = ResourceManager.GetObject("criatomencdConfig", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CriAtomEncoderComponent {
+            get {
+                object obj = ResourceManager.GetObject("CriAtomEncoderComponent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CriSamplingRateConverter {
+            get {
+                object obj = ResourceManager.GetObject("CriSamplingRateConverter", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CsbEditor {
+            get {
+                object obj = ResourceManager.GetObject("CsbEditor", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CsbEditorConfig {
+            get {
+                object obj = ResourceManager.GetObject("CsbEditorConfig", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo_main {
@@ -86,6 +176,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] repack {
             get {
                 object obj = ResourceManager.GetObject("repack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SonicAudioLib {
+            get {
+                object obj = ResourceManager.GetObject("SonicAudioLib", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -116,6 +216,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] unpack {
             get {
                 object obj = ResourceManager.GetObject("unpack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] vsthost {
+            get {
+                object obj = ResourceManager.GetObject("vsthost", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -63,13 +63,14 @@
             System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("AT3");
             System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("PAM");
             System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("CSB");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("XMA");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("WMV");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("EPB");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("SBK");
-            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("XNE");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("PTB");
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("Audio/Video", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("ADX");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("XMA");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("WMV");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("EPB");
+            System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("SBK");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("XNE");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("PTB");
+            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Audio/Video", new System.Windows.Forms.TreeNode[] {
             treeNode18,
             treeNode19,
             treeNode20,
@@ -78,51 +79,52 @@
             treeNode23,
             treeNode24,
             treeNode25,
-            treeNode26});
-            System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("SET");
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("HKX");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("XNA");
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("MBI");
-            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("BIN");
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("RAB");
-            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("TEV");
-            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("ELF");
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("Engine", new System.Windows.Forms.TreeNode[] {
-            treeNode28,
+            treeNode26,
+            treeNode27});
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("SET");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("HKX");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("XNA");
+            System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("MBI");
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("BIN");
+            System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("RAB");
+            System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("TEV");
+            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("ELF");
+            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Engine", new System.Windows.Forms.TreeNode[] {
             treeNode29,
             treeNode30,
             treeNode31,
             treeNode32,
             treeNode33,
             treeNode34,
-            treeNode35});
-            System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("LUB");
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("PATH");
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("KBF");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("MST");
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("PFI");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("PROP");
-            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("PKG");
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Scripts", new System.Windows.Forms.TreeNode[] {
-            treeNode37,
+            treeNode35,
+            treeNode36});
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("LUB");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("PATH");
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("KBF");
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("MST");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("PFI");
+            System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("PROP");
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("PKG");
+            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Scripts", new System.Windows.Forms.TreeNode[] {
             treeNode38,
             treeNode39,
             treeNode40,
             treeNode41,
             treeNode42,
-            treeNode43});
-            System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("");
-            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Lua binaries are decompiling empty...");
-            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("LUB Studio", new System.Windows.Forms.TreeNode[] {
-            treeNode46});
-            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("MSVCR100.dll is missing...");
-            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("XNO Studio", new System.Windows.Forms.TreeNode[] {
-            treeNode48});
-            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
-            treeNode47,
+            treeNode43,
+            treeNode44});
+            System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("");
+            System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Lua binaries are decompiling empty...");
+            System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("LUB Studio", new System.Windows.Forms.TreeNode[] {
+            treeNode47});
+            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("MSVCR100.dll is missing...");
+            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("XNO Studio", new System.Windows.Forms.TreeNode[] {
             treeNode49});
-            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
+            treeNode48,
             treeNode50});
+            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
+            treeNode51});
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -239,77 +241,79 @@
             treeNode19.Text = "PAM";
             treeNode20.Name = "node_CSB";
             treeNode20.Text = "CSB";
-            treeNode21.Name = "node_XMA";
-            treeNode21.Text = "XMA";
-            treeNode22.Name = "node_WMV";
-            treeNode22.Text = "WMV";
-            treeNode23.Name = "node_EPB";
-            treeNode23.Text = "EPB";
-            treeNode24.Name = "node_SBK";
-            treeNode24.Text = "SBK";
-            treeNode25.Name = "node_XNE";
-            treeNode25.Text = "XNE";
-            treeNode26.Name = "node_PTB";
-            treeNode26.Text = "PTB";
-            treeNode27.Name = "node_AudioVideo";
-            treeNode27.Text = "Audio/Video";
-            treeNode28.Name = "node_SET";
-            treeNode28.Text = "SET";
-            treeNode29.Name = "node_HKX";
-            treeNode29.Text = "HKX";
-            treeNode30.Name = "node_XNA";
-            treeNode30.Text = "XNA";
-            treeNode31.Name = "node_MBI";
-            treeNode31.Text = "MBI";
-            treeNode32.Name = "node_BIN";
-            treeNode32.Text = "BIN";
-            treeNode33.Name = "node_RAB";
-            treeNode33.Text = "RAB";
-            treeNode34.Name = "node_TEV";
-            treeNode34.Text = "TEV";
-            treeNode35.Name = "node_ELF";
-            treeNode35.Text = "ELF";
-            treeNode36.Name = "node_Engine";
-            treeNode36.Text = "Engine";
-            treeNode37.Name = "node_LUB";
-            treeNode37.Text = "LUB";
-            treeNode38.Name = "node_PATH";
-            treeNode38.Text = "PATH";
-            treeNode39.Name = "node_KBF";
-            treeNode39.Text = "KBF";
-            treeNode40.Name = "node_MST";
-            treeNode40.Text = "MST";
-            treeNode41.Name = "node_PFI";
-            treeNode41.Text = "PFI";
-            treeNode42.Name = "node_PROP";
-            treeNode42.Text = "PROP";
-            treeNode43.Name = "node_PKG";
-            treeNode43.Text = "PKG";
-            treeNode44.Name = "node_Scripts";
-            treeNode44.Text = "Scripts";
-            treeNode45.Name = "Node0";
-            treeNode45.Text = "";
-            treeNode46.Name = "node_Error02";
-            treeNode46.Text = "Lua binaries are decompiling empty...";
-            treeNode47.Name = "node_LUBStudio";
-            treeNode47.Text = "LUB Studio";
-            treeNode48.Name = "node_Error01";
-            treeNode48.Text = "MSVCR100.dll is missing...";
-            treeNode49.Name = "node_XNOStudio";
-            treeNode49.Text = "XNO Studio";
-            treeNode50.Name = "node_Troubleshooting";
-            treeNode50.Text = "Troubleshooting";
-            treeNode51.Name = "node_Sonic06Toolkit";
-            treeNode51.Text = "Sonic \'06 Toolkit";
+            treeNode21.Name = "node_ADX";
+            treeNode21.Text = "ADX";
+            treeNode22.Name = "node_XMA";
+            treeNode22.Text = "XMA";
+            treeNode23.Name = "node_WMV";
+            treeNode23.Text = "WMV";
+            treeNode24.Name = "node_EPB";
+            treeNode24.Text = "EPB";
+            treeNode25.Name = "node_SBK";
+            treeNode25.Text = "SBK";
+            treeNode26.Name = "node_XNE";
+            treeNode26.Text = "XNE";
+            treeNode27.Name = "node_PTB";
+            treeNode27.Text = "PTB";
+            treeNode28.Name = "node_AudioVideo";
+            treeNode28.Text = "Audio/Video";
+            treeNode29.Name = "node_SET";
+            treeNode29.Text = "SET";
+            treeNode30.Name = "node_HKX";
+            treeNode30.Text = "HKX";
+            treeNode31.Name = "node_XNA";
+            treeNode31.Text = "XNA";
+            treeNode32.Name = "node_MBI";
+            treeNode32.Text = "MBI";
+            treeNode33.Name = "node_BIN";
+            treeNode33.Text = "BIN";
+            treeNode34.Name = "node_RAB";
+            treeNode34.Text = "RAB";
+            treeNode35.Name = "node_TEV";
+            treeNode35.Text = "TEV";
+            treeNode36.Name = "node_ELF";
+            treeNode36.Text = "ELF";
+            treeNode37.Name = "node_Engine";
+            treeNode37.Text = "Engine";
+            treeNode38.Name = "node_LUB";
+            treeNode38.Text = "LUB";
+            treeNode39.Name = "node_PATH";
+            treeNode39.Text = "PATH";
+            treeNode40.Name = "node_KBF";
+            treeNode40.Text = "KBF";
+            treeNode41.Name = "node_MST";
+            treeNode41.Text = "MST";
+            treeNode42.Name = "node_PFI";
+            treeNode42.Text = "PFI";
+            treeNode43.Name = "node_PROP";
+            treeNode43.Text = "PROP";
+            treeNode44.Name = "node_PKG";
+            treeNode44.Text = "PKG";
+            treeNode45.Name = "node_Scripts";
+            treeNode45.Text = "Scripts";
+            treeNode46.Name = "Node0";
+            treeNode46.Text = "";
+            treeNode47.Name = "node_Error02";
+            treeNode47.Text = "Lua binaries are decompiling empty...";
+            treeNode48.Name = "node_LUBStudio";
+            treeNode48.Text = "LUB Studio";
+            treeNode49.Name = "node_Error01";
+            treeNode49.Text = "MSVCR100.dll is missing...";
+            treeNode50.Name = "node_XNOStudio";
+            treeNode50.Text = "XNO Studio";
+            treeNode51.Name = "node_Troubleshooting";
+            treeNode51.Text = "Troubleshooting";
+            treeNode52.Name = "node_Sonic06Toolkit";
+            treeNode52.Text = "Sonic \'06 Toolkit";
             this.tree_InfoSelect.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
             treeNode12,
             treeNode17,
-            treeNode27,
-            treeNode36,
-            treeNode44,
+            treeNode28,
+            treeNode37,
             treeNode45,
-            treeNode51});
+            treeNode46,
+            treeNode52});
             this.tree_InfoSelect.Size = new System.Drawing.Size(264, 381);
             this.tree_InfoSelect.TabIndex = 0;
             this.tree_InfoSelect.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tree_InfoSelect_AfterSelect);

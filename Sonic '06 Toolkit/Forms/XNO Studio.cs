@@ -109,7 +109,7 @@ namespace Sonic_06_Toolkit
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting();
+                        var convertDialog = new Converting_XNO();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -183,7 +183,7 @@ namespace Sonic_06_Toolkit
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting();
+                        var convertDialog = new Converting_XNO();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);

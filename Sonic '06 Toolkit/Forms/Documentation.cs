@@ -37,7 +37,8 @@ namespace Sonic_06_Toolkit
             #region Audio/Video
             else if (tree_InfoSelect.SelectedNode.Text == "AT3") rtb_InfoDisplay.Text = "AT3 files are PlayStation 3 audio files that use the ATRAC 3 format.";
             else if (tree_InfoSelect.SelectedNode.Text == "PAM") rtb_InfoDisplay.Text = "PAM files are PlayStation 3 video files that contain both an AVI for video and an AT3 for audio.";
-            else if (tree_InfoSelect.SelectedNode.Text == "CSB") rtb_InfoDisplay.Text = "CSB files are archives for sound formats; namely in the AIF and ADX format. CSBs can be unpacked using Skyth's SonicAudioTools.";
+            else if (tree_InfoSelect.SelectedNode.Text == "CSB") rtb_InfoDisplay.Text = "CSB files are archives for sound formats; namely in the AIF and ADX format. CSBs can be unpacked using CSB Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "ADX") rtb_InfoDisplay.Text = "ADX files are proprietary CriWare audio files. ADX files can be converted to WAV files using ADX Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "XMA") rtb_InfoDisplay.Text = "XMA files contain music and voice data";
             else if (tree_InfoSelect.SelectedNode.Text == "WMV") rtb_InfoDisplay.Text = "WMV files are Windows Media Video encoded files; typically used for cutscenes and the title screen for the Xbox 360 version of the game.";
             else if (tree_InfoSelect.SelectedNode.Text == "EPB") rtb_InfoDisplay.Text = "EPB files control cutscene playback in-game.";
