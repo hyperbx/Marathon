@@ -72,6 +72,10 @@ namespace Sonic_06_Toolkit
 
             #region Troubleshooting
 
+            #region ADX Studio
+            else if (tree_InfoSelect.SelectedNode.Text == "WAV files aren't converting back to ADX...") rtb_InfoDisplay.Text = "You need to install both x86 and x64 variations of Microsoft Visual C++ 2010 SP1.\n\nx86: https://www.microsoft.com/de-de/download/details.aspx?id=8328 \nx64: https://www.microsoft.com/en-us/download/details.aspx?id=13523";
+            #endregion
+
             #region LUB Studio
             else if (tree_InfoSelect.SelectedNode.Text == "Lua binaries are decompiling empty...") rtb_InfoDisplay.Text = "You need to install Java. This should never occur under any circumstances, so please report this immediately.";
             #endregion
