@@ -45,7 +45,7 @@ namespace Sonic_06_Toolkit
                 "Shadow LAG - Sonic '06 SDK\n" +
                 "xose - ARC Unpacker\n" +
                 "g0ldenlink - ARC Repacker\n" +
-                "Skyth - XNO Converter & CSB Unpacker\n" +
+                "Skyth - XNO Converter & Sonic Audio Tools\n" +
                 "DarioSamo - XNO Converter\n" +
                 "Natsumi - Design Guidance\n" +
                 "CRI Middleware - ADX Encoding",
