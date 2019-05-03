@@ -16,3 +16,13 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 
 ### MST Decoding
 - Planned features to decode MST files, which are BINA string tables with null terminated unicode.
+
+# Requirements
+### LUB Decompiler
+- Currently requires the [latest version of Java](https://www.java.com/en/download/) to work.
+
+### ADX Encoder
+- Currently requires both [x86](https://www.microsoft.com/de-de/download/details.aspx?id=8328) and [x64](https://www.microsoft.com/en-us/download/details.aspx?id=13523) versions of Microsoft Visual C++ 2010 SP1.
+
+### XNO Converter
+- Currently requires both [x86](https://www.microsoft.com/de-de/download/details.aspx?id=8328) and [x64](https://www.microsoft.com/en-us/download/details.aspx?id=13523) versions of Microsoft Visual C++ 2010 SP1.
