@@ -11,7 +11,7 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 ### XNO Converting and XNM Pairing (done)
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
 
-### CSB Extracting (done) and ADX Encoding (done)
+### CSB Extracting and ADX Encoding (done)
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds)'s [Sonic Audio Tools](https://github.com/blueskythlikesclouds/SonicAudioTools) for extracting CSB files and some tools from [CRI Middleware Corporation](https://www.criware.com/en/) for encoding ADX files.
 
 ### MST Decoding
