@@ -252,7 +252,6 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\WAV2ADX.EXE" />
     <None Include="Resources\vsthost.dll" />
     <None Include="Resources\SonicAudioLib.dll" />
     <None Include="Resources\unlub.jar" />
