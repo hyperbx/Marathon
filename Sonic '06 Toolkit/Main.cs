@@ -461,7 +461,49 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void MainSDK_DecompileLUBs_Click(object sender, EventArgs e)
+        void MainSDK_XNOStudio_Click(object sender, EventArgs e)
+        {
+            new XNO_Studio().ShowDialog();
+        }
+        #endregion
+
+        #region Shortcuts
+        void Shortcuts_ExtractCSBs_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                #region Getting selected CSBs...
+                //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
+                foreach (string CSB in Directory.GetFiles(Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
+                {
+                    if (File.Exists(CSB))
+                    {
+                        var checkedBuildSession = new StringBuilder();
+                        checkedBuildSession.Append(Path.Combine(Global.currentPath, CSB));
+
+                        #region Extracting CSBs...
+                        //Sets up the BASIC application and executes the extracting process.
+                        var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
+                        unpackSession.WorkingDirectory = Global.currentPath;
+                        unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Unpack = Process.Start(unpackSession);
+                        var unpackDialog = new Unpacking_CSB();
+                        var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                        var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                        unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        unpackDialog.Show();
+                        Unpack.WaitForExit();
+                        Unpack.Close();
+                        unpackDialog.Close();
+                        #endregion
+                    }
+                }
+                #endregion
+            }
+            catch { MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        void Shortcuts_DecompileLUBs_Click(object sender, EventArgs e)
         {
             //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
             //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
@@ -555,12 +597,7 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void MainSDK_XNOStudio_Click(object sender, EventArgs e)
-        {
-            new XNO_Studio().ShowDialog();
-        }
-
-        void MainSDK_ConvertXNOs_Click(object sender, EventArgs e)
+        void Shortcuts_ConvertXNOs_Click(object sender, EventArgs e)
         {
             //Checks if there are any XNOs in the directory.
             if (Directory.GetFiles(Global.currentPath, "*.xno").Length == 0) MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -726,14 +763,15 @@ namespace Sonic_06_Toolkit
                 btn_Repack.Enabled = true;
                 mainFile_RepackARC.Enabled = true;
                 btn_OpenFolder.Enabled = true;
-                mainSDK_DecompileLUBs.Enabled = true;
+                shortcuts_DecompileLUBs.Enabled = true;
                 mainSDK_LUBStudio.Enabled = true;
                 mainFile_CloseARC.Enabled = true;
                 mainFile_RepackARCAs.Enabled = true;
                 mainSDK_XNOStudio.Enabled = true;
-                mainSDK_ConvertXNOs.Enabled = true;
+                shortcuts_ConvertXNOs.Enabled = true;
                 mainSDK_CSBStudio.Enabled = true;
                 mainSDK_ADXStudio.Enabled = true;
+                shortcuts_ExtractCSBs.Enabled = true;
                 #endregion
 
                 //Updates the currentPath global variable.
@@ -748,14 +786,15 @@ namespace Sonic_06_Toolkit
                 btn_Repack.Enabled = false;
                 mainFile_RepackARC.Enabled = false;
                 btn_OpenFolder.Enabled = false;
-                mainSDK_DecompileLUBs.Enabled = false;
+                shortcuts_DecompileLUBs.Enabled = false;
                 mainSDK_LUBStudio.Enabled = false;
                 mainFile_CloseARC.Enabled = false;
                 mainFile_RepackARCAs.Enabled = false;
                 mainSDK_XNOStudio.Enabled = false;
-                mainSDK_ConvertXNOs.Enabled = false;
+                shortcuts_ConvertXNOs.Enabled = false;
                 mainSDK_CSBStudio.Enabled = false;
                 mainSDK_ADXStudio.Enabled = false;
+                shortcuts_ExtractCSBs.Enabled = false;
                 #endregion
             }
             #endregion

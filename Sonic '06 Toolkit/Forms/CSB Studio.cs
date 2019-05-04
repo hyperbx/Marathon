@@ -50,7 +50,7 @@ namespace Sonic_06_Toolkit
         void Btn_Extract_Click(object sender, System.EventArgs e)
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
-            if (clb_CSBs.CheckedItems.Count == 0) MessageBox.Show("Please select a CSB file.", "No CSBs specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (clb_CSBs.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No CSBs specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (Global.csbState == "unpack")
             {
                 try

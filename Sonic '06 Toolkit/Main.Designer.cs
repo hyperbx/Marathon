@@ -92,17 +92,15 @@
             this.mainFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mainSDK_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_CSBStudio = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.mainSDK_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainSDK_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.mainSDK_MSTStudio = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.mainSDK_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainSDK_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcutsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Tabs = new System.Windows.Forms.ToolStripMenuItem();
             this.mainTabs_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
@@ -481,11 +479,12 @@
             this.mstrip_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_File,
             this.main_SDK,
+            this.shortcutsToolStripMenuItem,
             this.main_Tabs,
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(172, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -641,17 +640,11 @@
             // 
             this.main_SDK.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_ARCStudio,
-            this.toolStripSeparator6,
             this.mainSDK_ADXStudio,
             this.mainSDK_CSBStudio,
-            this.toolStripSeparator9,
             this.mainSDK_LUBStudio,
-            this.mainSDK_DecompileLUBs,
-            this.toolStripSeparator7,
             this.mainSDK_MSTStudio,
-            this.toolStripSeparator8,
-            this.mainSDK_XNOStudio,
-            this.mainSDK_ConvertXNOs});
+            this.mainSDK_XNOStudio});
             this.main_SDK.Name = "main_SDK";
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
             this.main_SDK.Text = "SDK";
@@ -660,14 +653,9 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(281, 6);
             // 
             // mainSDK_ADXStudio
             // 
@@ -676,7 +664,7 @@
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
             this.mainSDK_ADXStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.A)));
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -685,16 +673,11 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.A)));
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_CSBStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.C)));
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
-            // 
-            // toolStripSeparator9
-            // 
-            this.toolStripSeparator9.Name = "toolStripSeparator9";
-            this.toolStripSeparator9.Size = new System.Drawing.Size(281, 6);
             // 
             // mainSDK_LUBStudio
             // 
@@ -703,25 +686,9 @@
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
             this.mainSDK_LUBStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.D)));
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
-            // 
-            // mainSDK_DecompileLUBs
-            // 
-            this.mainSDK_DecompileLUBs.Enabled = false;
-            this.mainSDK_DecompileLUBs.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DecompileLUBs.Image")));
-            this.mainSDK_DecompileLUBs.Name = "mainSDK_DecompileLUBs";
-            this.mainSDK_DecompileLUBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
-            this.mainSDK_DecompileLUBs.Size = new System.Drawing.Size(284, 22);
-            this.mainSDK_DecompileLUBs.Text = "Decompile all LUBs here...";
-            this.mainSDK_DecompileLUBs.Click += new System.EventHandler(this.MainSDK_DecompileLUBs_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(281, 6);
             // 
             // mainSDK_MSTStudio
             // 
@@ -730,13 +697,8 @@
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
             this.mainSDK_MSTStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.M)));
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(281, 6);
             // 
             // mainSDK_XNOStudio
             // 
@@ -745,20 +707,49 @@
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
             this.mainSDK_XNOStudio.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.X)));
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(284, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(212, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
             // 
-            // mainSDK_ConvertXNOs
+            // shortcutsToolStripMenuItem
             // 
-            this.mainSDK_ConvertXNOs.Enabled = false;
-            this.mainSDK_ConvertXNOs.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ConvertXNOs.Image")));
-            this.mainSDK_ConvertXNOs.Name = "mainSDK_ConvertXNOs";
-            this.mainSDK_ConvertXNOs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.shortcutsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_ExtractCSBs,
+            this.shortcuts_DecompileLUBs,
+            this.shortcuts_ConvertXNOs});
+            this.shortcutsToolStripMenuItem.Name = "shortcutsToolStripMenuItem";
+            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(69, 20);
+            this.shortcutsToolStripMenuItem.Text = "Shortcuts";
+            // 
+            // shortcuts_ExtractCSBs
+            // 
+            this.shortcuts_ExtractCSBs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ExtractCSBs.Image")));
+            this.shortcuts_ExtractCSBs.Name = "shortcuts_ExtractCSBs";
+            this.shortcuts_ExtractCSBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.shortcuts_ExtractCSBs.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_ExtractCSBs.Text = "Extract all CSBs here...";
+            this.shortcuts_ExtractCSBs.Click += new System.EventHandler(this.Shortcuts_ExtractCSBs_Click);
+            // 
+            // shortcuts_DecompileLUBs
+            // 
+            this.shortcuts_DecompileLUBs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecompileLUBs.Image")));
+            this.shortcuts_DecompileLUBs.Name = "shortcuts_DecompileLUBs";
+            this.shortcuts_DecompileLUBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.shortcuts_DecompileLUBs.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_DecompileLUBs.Text = "Decompile all LUBs here...";
+            this.shortcuts_DecompileLUBs.Click += new System.EventHandler(this.Shortcuts_DecompileLUBs_Click);
+            // 
+            // shortcuts_ConvertXNOs
+            // 
+            this.shortcuts_ConvertXNOs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertXNOs.Image")));
+            this.shortcuts_ConvertXNOs.Name = "shortcuts_ConvertXNOs";
+            this.shortcuts_ConvertXNOs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.X)));
-            this.mainSDK_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
-            this.mainSDK_ConvertXNOs.Text = "Convert all XNOs here...";
-            this.mainSDK_ConvertXNOs.Click += new System.EventHandler(this.MainSDK_ConvertXNOs_Click);
+            this.shortcuts_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_ConvertXNOs.Text = "Convert all XNOs here...";
+            this.shortcuts_ConvertXNOs.Click += new System.EventHandler(this.Shortcuts_ConvertXNOs_Click);
             // 
             // main_Tabs
             // 
@@ -775,14 +766,14 @@
             this.mainTabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_NewTab.Image")));
             this.mainTabs_NewTab.Name = "mainTabs_NewTab";
             this.mainTabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.mainTabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.mainTabs_NewTab.Size = new System.Drawing.Size(180, 22);
             this.mainTabs_NewTab.Text = "New Tab";
             this.mainTabs_NewTab.Click += new System.EventHandler(this.MainTabs_NewTab_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
             // 
             // mainTabs_CloseTab
             // 
@@ -790,7 +781,7 @@
             this.mainTabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_CloseTab.Image")));
             this.mainTabs_CloseTab.Name = "mainTabs_CloseTab";
             this.mainTabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.mainTabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.mainTabs_CloseTab.Size = new System.Drawing.Size(180, 22);
             this.mainTabs_CloseTab.Text = "Close Tab";
             this.mainTabs_CloseTab.Click += new System.EventHandler(this.MainTabs_CloseTab_Click);
             // 
@@ -843,9 +834,9 @@
             this.pnl_Updater.Controls.Add(this.lbl_updateStatus);
             this.pnl_Updater.Controls.Add(this.pgb_updateStatus);
             this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.pnl_Updater.Location = new System.Drawing.Point(299, 0);
+            this.pnl_Updater.Location = new System.Drawing.Point(368, 0);
             this.pnl_Updater.Name = "pnl_Updater";
-            this.pnl_Updater.Size = new System.Drawing.Size(314, 24);
+            this.pnl_Updater.Size = new System.Drawing.Size(245, 24);
             this.pnl_Updater.TabIndex = 1;
             this.pnl_Updater.Visible = false;
             // 
@@ -865,7 +856,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
             this.pgb_updateStatus.Name = "pgb_updateStatus";
-            this.pgb_updateStatus.Size = new System.Drawing.Size(239, 18);
+            this.pgb_updateStatus.Size = new System.Drawing.Size(170, 18);
             this.pgb_updateStatus.TabIndex = 10;
             // 
             // btn_Backdrop
@@ -887,7 +878,7 @@
             this.btn_NewTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_NewTab.Location = new System.Drawing.Point(276, 0);
+            this.btn_NewTab.Location = new System.Drawing.Point(345, 0);
             this.btn_NewTab.Name = "btn_NewTab";
             this.btn_NewTab.Size = new System.Drawing.Size(23, 25);
             this.btn_NewTab.TabIndex = 1;
@@ -1081,15 +1072,9 @@
         private System.Windows.Forms.ToolStripMenuItem mainFile_Exit;
         private System.Windows.Forms.ToolStripMenuItem main_SDK;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_ARCStudio;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_LUBStudio;
-        private System.Windows.Forms.ToolStripMenuItem mainSDK_DecompileLUBs;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_XNOStudio;
-        private System.Windows.Forms.ToolStripMenuItem mainSDK_ConvertXNOs;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_MSTStudio;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator9;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_ADXStudio;
         private System.Windows.Forms.ToolStripMenuItem main_Tabs;
         private System.Windows.Forms.ToolStripMenuItem mainTabs_NewTab;
@@ -1101,6 +1086,10 @@
         private System.Windows.Forms.ToolStripMenuItem mainHelp_CheckForUpdates;
         private System.Windows.Forms.ToolStripMenuItem mainHelp_About;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_CSBStudio;
+        private System.Windows.Forms.ToolStripMenuItem shortcutsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ExtractCSBs;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileLUBs;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertXNOs;
     }
 }
 

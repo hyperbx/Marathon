@@ -32,14 +32,30 @@
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
-            this.lbl_Mode = new System.Windows.Forms.Label();
-            this.combo_Mode = new System.Windows.Forms.ComboBox();
             this.btn_Convert = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_ADX = new System.Windows.Forms.CheckedListBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
+            this.modes_ADXtoWAV = new System.Windows.Forms.ToolStripMenuItem();
+            this.modes_WAVtoADX = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_Volume = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.volume_0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_Looping = new System.Windows.Forms.ToolStripMenuItem();
+            this.looping_Ignore = new System.Windows.Forms.ToolStripMenuItem();
+            this.looping_Remove = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_DownmixToMono = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_Status = new System.Windows.Forms.Label();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_Backdrop
@@ -77,30 +93,6 @@
             this.lbl_Title.Size = new System.Drawing.Size(210, 47);
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "ADX Studio";
-            // 
-            // lbl_Mode
-            // 
-            this.lbl_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Mode.AutoSize = true;
-            this.lbl_Mode.Location = new System.Drawing.Point(184, 392);
-            this.lbl_Mode.Name = "lbl_Mode";
-            this.lbl_Mode.Size = new System.Drawing.Size(37, 13);
-            this.lbl_Mode.TabIndex = 42;
-            this.lbl_Mode.Text = "Mode:";
-            // 
-            // combo_Mode
-            // 
-            this.combo_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.combo_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combo_Mode.FormattingEnabled = true;
-            this.combo_Mode.Items.AddRange(new object[] {
-            "ADX to WAV",
-            "WAV to ADX"});
-            this.combo_Mode.Location = new System.Drawing.Point(223, 388);
-            this.combo_Mode.Name = "combo_Mode";
-            this.combo_Mode.Size = new System.Drawing.Size(121, 21);
-            this.combo_Mode.TabIndex = 41;
-            this.combo_Mode.SelectedIndexChanged += new System.EventHandler(this.Combo_Mode_SelectedIndexChanged);
             // 
             // btn_Convert
             // 
@@ -161,19 +153,186 @@
             this.clb_ADX.TabIndex = 37;
             this.clb_ADX.SelectedIndexChanged += new System.EventHandler(this.Clb_ADX_SelectedIndexChanged);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.optionsToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(278, 386);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(69, 24);
+            this.menuStrip1.TabIndex = 43;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.options_Modes,
+            this.options_Volume,
+            this.options_Looping,
+            this.options_DownmixToMono});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // options_Modes
+            // 
+            this.options_Modes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modes_ADXtoWAV,
+            this.modes_WAVtoADX});
+            this.options_Modes.Name = "options_Modes";
+            this.options_Modes.Size = new System.Drawing.Size(180, 22);
+            this.options_Modes.Text = "Modes";
+            // 
+            // modes_ADXtoWAV
+            // 
+            this.modes_ADXtoWAV.Checked = true;
+            this.modes_ADXtoWAV.CheckOnClick = true;
+            this.modes_ADXtoWAV.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.modes_ADXtoWAV.Name = "modes_ADXtoWAV";
+            this.modes_ADXtoWAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.modes_ADXtoWAV.Size = new System.Drawing.Size(180, 22);
+            this.modes_ADXtoWAV.Text = "ADX to WAV";
+            this.modes_ADXtoWAV.CheckedChanged += new System.EventHandler(this.Modes_ADXtoWAV_CheckedChanged);
+            // 
+            // modes_WAVtoADX
+            // 
+            this.modes_WAVtoADX.CheckOnClick = true;
+            this.modes_WAVtoADX.Name = "modes_WAVtoADX";
+            this.modes_WAVtoADX.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
+            this.modes_WAVtoADX.Size = new System.Drawing.Size(180, 22);
+            this.modes_WAVtoADX.Text = "WAV to ADX";
+            this.modes_WAVtoADX.CheckedChanged += new System.EventHandler(this.Modes_WAVtoADX_CheckedChanged);
+            // 
+            // options_Volume
+            // 
+            this.options_Volume.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.volume_5,
+            this.volume_4,
+            this.volume_3,
+            this.volume_2,
+            this.volume_1,
+            this.volume_0});
+            this.options_Volume.Name = "options_Volume";
+            this.options_Volume.Size = new System.Drawing.Size(180, 22);
+            this.options_Volume.Text = "Volume";
+            this.options_Volume.Visible = false;
+            // 
+            // volume_5
+            // 
+            this.volume_5.CheckOnClick = true;
+            this.volume_5.Name = "volume_5";
+            this.volume_5.Size = new System.Drawing.Size(180, 22);
+            this.volume_5.Text = "5";
+            this.volume_5.CheckedChanged += new System.EventHandler(this.Volume_5_CheckedChanged);
+            // 
+            // volume_4
+            // 
+            this.volume_4.CheckOnClick = true;
+            this.volume_4.Name = "volume_4";
+            this.volume_4.Size = new System.Drawing.Size(80, 22);
+            this.volume_4.Text = "4";
+            this.volume_4.CheckedChanged += new System.EventHandler(this.Volume_4_CheckedChanged);
+            // 
+            // volume_3
+            // 
+            this.volume_3.CheckOnClick = true;
+            this.volume_3.Name = "volume_3";
+            this.volume_3.Size = new System.Drawing.Size(180, 22);
+            this.volume_3.Text = "3";
+            this.volume_3.CheckedChanged += new System.EventHandler(this.Volume_3_CheckedChanged);
+            // 
+            // volume_2
+            // 
+            this.volume_2.CheckOnClick = true;
+            this.volume_2.Name = "volume_2";
+            this.volume_2.Size = new System.Drawing.Size(80, 22);
+            this.volume_2.Text = "2";
+            this.volume_2.CheckedChanged += new System.EventHandler(this.Volume_2_CheckedChanged);
+            // 
+            // volume_1
+            // 
+            this.volume_1.Checked = true;
+            this.volume_1.CheckOnClick = true;
+            this.volume_1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.volume_1.Name = "volume_1";
+            this.volume_1.Size = new System.Drawing.Size(180, 22);
+            this.volume_1.Text = "1";
+            this.volume_1.CheckedChanged += new System.EventHandler(this.Volume_1_CheckedChanged);
+            // 
+            // volume_0
+            // 
+            this.volume_0.CheckOnClick = true;
+            this.volume_0.Name = "volume_0";
+            this.volume_0.Size = new System.Drawing.Size(80, 22);
+            this.volume_0.Text = "0";
+            this.volume_0.CheckedChanged += new System.EventHandler(this.Volume_0_CheckedChanged);
+            // 
+            // options_Looping
+            // 
+            this.options_Looping.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.looping_Ignore,
+            this.looping_Remove});
+            this.options_Looping.Name = "options_Looping";
+            this.options_Looping.Size = new System.Drawing.Size(180, 22);
+            this.options_Looping.Text = "Looping";
+            this.options_Looping.Visible = false;
+            // 
+            // looping_Ignore
+            // 
+            this.looping_Ignore.CheckOnClick = true;
+            this.looping_Ignore.Name = "looping_Ignore";
+            this.looping_Ignore.Size = new System.Drawing.Size(230, 22);
+            this.looping_Ignore.Text = "Ignore All Loop Markers";
+            this.looping_Ignore.CheckedChanged += new System.EventHandler(this.Looping_Ignore_CheckedChanged);
+            // 
+            // looping_Remove
+            // 
+            this.looping_Remove.CheckOnClick = true;
+            this.looping_Remove.Name = "looping_Remove";
+            this.looping_Remove.Size = new System.Drawing.Size(230, 22);
+            this.looping_Remove.Text = "Remove End of Loop Position";
+            this.looping_Remove.CheckedChanged += new System.EventHandler(this.Looping_Remove_CheckedChanged);
+            // 
+            // options_DownmixToMono
+            // 
+            this.options_DownmixToMono.Checked = true;
+            this.options_DownmixToMono.CheckOnClick = true;
+            this.options_DownmixToMono.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.options_DownmixToMono.Name = "options_DownmixToMono";
+            this.options_DownmixToMono.Size = new System.Drawing.Size(180, 22);
+            this.options_DownmixToMono.Text = "Downmix to Mono";
+            this.options_DownmixToMono.Visible = false;
+            this.options_DownmixToMono.CheckedChanged += new System.EventHandler(this.Options_DownmixToStereo_CheckedChanged);
+            // 
+            // lbl_Status
+            // 
+            this.lbl_Status.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lbl_Status.AutoSize = true;
+            this.lbl_Status.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Status.Location = new System.Drawing.Point(96, 210);
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(238, 13);
+            this.lbl_Status.TabIndex = 44;
+            this.lbl_Status.Text = "There are no ADX files to convert in this directory";
+            this.lbl_Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Status.Visible = false;
+            // 
             // ADX_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(434, 419);
+            this.Controls.Add(this.lbl_Status);
             this.Controls.Add(this.pnl_Backdrop);
-            this.Controls.Add(this.lbl_Mode);
-            this.Controls.Add(this.combo_Mode);
             this.Controls.Add(this.btn_Convert);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
             this.Controls.Add(this.clb_ADX);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 458);
@@ -184,6 +343,8 @@
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,11 +355,26 @@
         private System.Windows.Forms.Panel pnl_Backdrop;
         internal System.Windows.Forms.PictureBox pic_Logo;
         private System.Windows.Forms.Label lbl_Title;
-        private System.Windows.Forms.Label lbl_Mode;
-        private System.Windows.Forms.ComboBox combo_Mode;
         private System.Windows.Forms.Button btn_Convert;
         private System.Windows.Forms.Button btn_DeselectAll;
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.CheckedListBox clb_ADX;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem options_Modes;
+        private System.Windows.Forms.ToolStripMenuItem modes_ADXtoWAV;
+        private System.Windows.Forms.ToolStripMenuItem modes_WAVtoADX;
+        private System.Windows.Forms.ToolStripMenuItem options_Volume;
+        private System.Windows.Forms.ToolStripMenuItem volume_5;
+        private System.Windows.Forms.ToolStripMenuItem volume_4;
+        private System.Windows.Forms.ToolStripMenuItem volume_3;
+        private System.Windows.Forms.ToolStripMenuItem volume_2;
+        private System.Windows.Forms.ToolStripMenuItem volume_1;
+        private System.Windows.Forms.ToolStripMenuItem volume_0;
+        private System.Windows.Forms.ToolStripMenuItem options_Looping;
+        private System.Windows.Forms.ToolStripMenuItem looping_Ignore;
+        private System.Windows.Forms.ToolStripMenuItem looping_Remove;
+        private System.Windows.Forms.ToolStripMenuItem options_DownmixToMono;
+        private System.Windows.Forms.Label lbl_Status;
     }
 }
