@@ -5,7 +5,7 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 ### ARC Unpacking and Repacking (to be replaced)
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll) and [ModdingUnderground](https://www.youtube.com/user/ModdingUnderground)'s ARC unpacker/repacker. Once [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) ARC class is complete, we will be able to make use of that.
 
-### CSB Extracting and ADX Encoding (done)
+### ADX Encoding and CSB Extracting (done)
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds)'s [Sonic Audio Tools](https://github.com/blueskythlikesclouds/SonicAudioTools) for extracting CSB files and some tools from [CRI Middleware Corporation](https://www.criware.com/en/) for encoding ADX files.
 
 ### LUB Decompiling (to be replaced)
