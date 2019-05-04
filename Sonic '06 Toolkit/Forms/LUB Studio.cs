@@ -74,7 +74,13 @@ namespace Sonic_06_Toolkit
                 if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck);
                 if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs")) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs");
                 if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar")) File.WriteAllBytes(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.jar", Properties.Resources.unlub);
-                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat")) File.WriteAllBytes(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat", Properties.Resources.unlubBASIC);
+                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat"))
+                {
+                    var decompilerWrite = File.Create(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
+                    var decompilerText = new UTF8Encoding(true).GetBytes("cd \".\\lubs\"\nfor /r %%i in (*.lub) do java -jar ..\\unlub.jar \"%%~dpni.lub\" > \"%%~dpni.lua\"\nxcopy \".\\*.lua\" \"..\\luas\" /y /i\ndel \".\\*.lua\" /q\n@ECHO OFF\n:delete\ndel /q /f *.lub\n@ECHO OFF\n:rename\ncd \"..\\luas\"\nrename \"*.lua\" \"*.lub\"\nexit");
+                    decompilerWrite.Write(decompilerText, 0, decompilerText.Length);
+                    decompilerWrite.Close();
+                }
                 #endregion
 
                 #region Getting selected Lua binaries...

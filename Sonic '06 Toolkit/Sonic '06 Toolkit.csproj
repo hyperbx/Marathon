@@ -255,7 +255,6 @@
     <Content Include="Resources\WAV2ADX.EXE" />
     <None Include="Resources\vsthost.dll" />
     <None Include="Resources\SonicAudioLib.dll" />
-    <None Include="Resources\unlub.bat" />
     <None Include="Resources\unlub.jar" />
     <None Include="Resources\xno2dae.exe" />
     <None Include="Resources\repack.exe" />

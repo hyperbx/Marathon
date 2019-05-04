@@ -203,16 +203,6 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] unlubBASIC {
-            get {
-                object obj = ResourceManager.GetObject("unlubBASIC", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
         internal static byte[] unpack {
             get {
                 object obj = ResourceManager.GetObject("unpack", resourceCulture);
