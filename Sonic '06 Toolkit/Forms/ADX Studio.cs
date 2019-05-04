@@ -65,7 +65,7 @@ namespace Sonic_06_Toolkit
         void Btn_Convert_Click(object sender, EventArgs e)
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
-            if (clb_ADX.CheckedItems.Count == 0) MessageBox.Show("Please select an ADX file.", "No ADX files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (clb_ADX.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (Global.csbState == "adx")
             {
                 try
