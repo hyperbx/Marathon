@@ -12,7 +12,10 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
 
 ### MST Decoding
-- Planned features to decode MST files, which are BINA string tables with null terminated unicode.
+- Planned features to be able to decode MST files, which are BINA string tables with null terminated unicode.
+
+### SET Converting
+- Planned features to be able to convert SET files to the XML format. Once [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) SET class is complete, we will be able to make use of that. It is already in a decent state, but converting the XML back to SET can cause issues, so it isn't worth including yet.
 
 ### XNO Converting and XNM Pairing (done)
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
