@@ -36,7 +36,7 @@ namespace Sonic_06_Toolkit
         {
             clb_CSBs.ClearSelected(); //Removes the blue highlight on recently checked boxes.
 
-            //Enables/disables the Decompile button, depending on whether a box has been checked.
+            //Enables/disables the Extract button, depending on whether a box has been checked.
             if (clb_CSBs.CheckedItems.Count > 0)
             {
                 btn_Extract.Enabled = true;

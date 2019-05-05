@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using HedgeLib.Sets;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -219,6 +220,7 @@ namespace Sonic_06_Toolkit
 
             #region Setting saved properties...
             //Gets user-defined settings and sets them in runtime.
+            if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = true; else pb_Logo.Visible = false;
             if (Properties.Settings.Default.showSessionID == true) mainPreferences_ShowSessionID.Checked = true; else mainPreferences_ShowSessionID.Checked = false;
             if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
@@ -306,6 +308,22 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Preferences
+        //[Preferences] - Show Logo
+        //Disables the Sonic '06 Toolkit logo appearing on new tabs.
+        void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mainPreferences_ShowLogo.Checked == true)
+            {
+                Properties.Settings.Default.showLogo = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.showLogo = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         //[Preferences] - Show Session ID
         //Moves certain controls in runtime to hide the Session ID properly.
         void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
@@ -461,6 +479,11 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        void MainSDK_SETStudio_Click(object sender, EventArgs e)
+        {
+            new SET_Studio().ShowDialog();
+        }
+
         void MainSDK_XNOStudio_Click(object sender, EventArgs e)
         {
             new XNO_Studio().ShowDialog();
@@ -598,6 +621,28 @@ namespace Sonic_06_Toolkit
                         catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
                 }
+            }
+        }
+
+        void Shortcuts_ConvertSETs_Click(object sender, EventArgs e)
+        {
+            //Checks if there are any SETs in the directory.
+            if (Directory.GetFiles(Global.currentPath, "*.set").Length == 0) MessageBox.Show("There are no SETs to convert in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+            {
+                try
+                {
+                    foreach (string SET in Directory.GetFiles(Global.currentPath, "*.set", SearchOption.TopDirectoryOnly))
+                    {
+                        if (File.Exists(SET))
+                        {
+                            var readSET = new S06SetData();
+                            readSET.Load(SET);
+                            readSET.ExportXML(Global.currentPath + Path.GetFileNameWithoutExtension(SET) + ".xml");
+                        }
+                    }
+                }
+                catch { MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
 
@@ -776,7 +821,11 @@ namespace Sonic_06_Toolkit
                 mainSDK_CSBStudio.Enabled = true;
                 mainSDK_ADXStudio.Enabled = true;
                 shortcuts_ExtractCSBs.Enabled = true;
+                shortcuts_ConvertSETs.Enabled = true;
+                mainSDK_SETStudio.Enabled = true;
                 #endregion
+
+                if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = false;
 
                 //Updates the currentPath global variable.
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
@@ -799,7 +848,11 @@ namespace Sonic_06_Toolkit
                 mainSDK_CSBStudio.Enabled = false;
                 mainSDK_ADXStudio.Enabled = false;
                 shortcuts_ExtractCSBs.Enabled = false;
+                shortcuts_ConvertSETs.Enabled = false;
+                mainSDK_SETStudio.Enabled = false;
                 #endregion
+
+                if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = true; else pb_Logo.Visible = false;
             }
             #endregion
         }

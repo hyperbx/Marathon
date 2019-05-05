@@ -167,6 +167,7 @@ namespace Sonic_06_Toolkit
                 options_Volume.Visible = false;
                 options_Looping.Visible = false;
                 options_DownmixToMono.Visible = false;
+                btn_Convert.Enabled = false;
 
                 //Checks if there are any WAV files in the directory.
                 if (clb_ADX.Items.Count == 0)
@@ -200,6 +201,7 @@ namespace Sonic_06_Toolkit
                 options_Volume.Visible = true;
                 options_Looping.Visible = true;
                 options_DownmixToMono.Visible = true;
+                btn_Convert.Enabled = false;
 
                 //Checks if there are any WAV files in the directory.
                 if (clb_ADX.Items.Count == 0)

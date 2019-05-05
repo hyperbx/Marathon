@@ -5,7 +5,7 @@ namespace Sonic_06_Toolkit
     public class Global
     {
         #region Strings
-        public static string versionNumber = "1.8";
+        public static string versionNumber = "1.81";
         public static string latestVersion = "Version " + versionNumber;
         public static string unpackState = "typical";
         public static string repackState = "save";
@@ -14,6 +14,7 @@ namespace Sonic_06_Toolkit
         public static string serverStatus = "online";
         public static string csbState = "unpack";
         public static string adxState = "adx";
+        public static string setState = "export";
         public static string currentPath;
 
         #region Directories

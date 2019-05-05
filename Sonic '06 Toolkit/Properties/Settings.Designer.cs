@@ -190,5 +190,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["criconverterFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool showLogo {
+            get {
+                return ((bool)(this["showLogo"]));
+            }
+            set {
+                this["showLogo"] = value;
+            }
+        }
     }
 }

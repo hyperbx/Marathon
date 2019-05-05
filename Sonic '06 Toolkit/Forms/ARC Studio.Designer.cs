@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ARC_Studio));
             this.lbl_Title = new System.Windows.Forms.Label();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.group_RootPath = new System.Windows.Forms.GroupBox();
             this.btn_BrowseARC1 = new System.Windows.Forms.Button();
             this.text_ARC1 = new System.Windows.Forms.TextBox();
@@ -42,13 +43,12 @@
             this.text_Output = new System.Windows.Forms.TextBox();
             this.btn_Merge = new System.Windows.Forms.Button();
             this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
-            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.sfd_Output = new System.Windows.Forms.SaveFileDialog();
             this.pnl_Backdrop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.group_RootPath.SuspendLayout();
             this.group_ToolsPath.SuspendLayout();
             this.group_ArchivesPath.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -74,6 +74,18 @@
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(536, 69);
             this.pnl_Backdrop.TabIndex = 18;
+            // 
+            // pic_Logo
+            // 
+            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
+            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
+            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pic_Logo.Location = new System.Drawing.Point(459, 1);
+            this.pic_Logo.Name = "pic_Logo";
+            this.pic_Logo.Size = new System.Drawing.Size(67, 67);
+            this.pic_Logo.TabIndex = 11;
+            this.pic_Logo.TabStop = false;
             // 
             // group_RootPath
             // 
@@ -176,6 +188,7 @@
             this.btn_Merge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(127)))), ((int)(((byte)(0)))));
             this.btn_Merge.FlatAppearance.BorderSize = 0;
             this.btn_Merge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Merge.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_Merge.Location = new System.Drawing.Point(447, 297);
             this.btn_Merge.Name = "btn_Merge";
             this.btn_Merge.Size = new System.Drawing.Size(75, 23);
@@ -187,18 +200,6 @@
             // ofd_OpenARC
             // 
             this.ofd_OpenARC.FileName = "openFileDialog1";
-            // 
-            // pic_Logo
-            // 
-            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
-            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
-            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(459, 1);
-            this.pic_Logo.Name = "pic_Logo";
-            this.pic_Logo.Size = new System.Drawing.Size(67, 67);
-            this.pic_Logo.TabIndex = 11;
-            this.pic_Logo.TabStop = false;
             // 
             // sfd_Output
             // 
@@ -226,13 +227,13 @@
             this.Text = "ARC Studio";
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.group_RootPath.ResumeLayout(false);
             this.group_RootPath.PerformLayout();
             this.group_ToolsPath.ResumeLayout(false);
             this.group_ToolsPath.PerformLayout();
             this.group_ArchivesPath.ResumeLayout(false);
             this.group_ArchivesPath.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
 
         }

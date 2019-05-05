@@ -63,11 +63,11 @@
             // 
             this.lbl_versionNumber.AutoSize = true;
             this.lbl_versionNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_versionNumber.Location = new System.Drawing.Point(453, 38);
+            this.lbl_versionNumber.Location = new System.Drawing.Point(444, 38);
             this.lbl_versionNumber.Name = "lbl_versionNumber";
-            this.lbl_versionNumber.Size = new System.Drawing.Size(31, 21);
+            this.lbl_versionNumber.Size = new System.Drawing.Size(40, 21);
             this.lbl_versionNumber.TabIndex = 2;
-            this.lbl_versionNumber.Text = "0.0";
+            this.lbl_versionNumber.Text = "0.00";
             this.lbl_versionNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_Description

@@ -36,8 +36,8 @@
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_ADX = new System.Windows.Forms.CheckedListBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mstrip_Options = new System.Windows.Forms.MenuStrip();
+            this.main_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_ADXtoWAV = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_WAVtoADX = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,7 +55,7 @@
             this.lbl_Status = new System.Windows.Forms.Label();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
-            this.menuStrip1.SuspendLayout();
+            this.mstrip_Options.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_Backdrop
@@ -153,29 +153,29 @@
             this.clb_ADX.TabIndex = 37;
             this.clb_ADX.SelectedIndexChanged += new System.EventHandler(this.Clb_ADX_SelectedIndexChanged);
             // 
-            // menuStrip1
+            // mstrip_Options
             // 
-            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.optionsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(278, 386);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(69, 24);
-            this.menuStrip1.TabIndex = 43;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mstrip_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mstrip_Options.BackColor = System.Drawing.SystemColors.Control;
+            this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
+            this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.main_Options});
+            this.mstrip_Options.Location = new System.Drawing.Point(158, 386);
+            this.mstrip_Options.Name = "mstrip_Options";
+            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
+            this.mstrip_Options.TabIndex = 43;
+            this.mstrip_Options.Text = "menuStrip1";
             // 
-            // optionsToolStripMenuItem
+            // main_Options
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.main_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.options_Modes,
             this.options_Volume,
             this.options_Looping,
             this.options_DownmixToMono});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.optionsToolStripMenuItem.Text = "Options";
+            this.main_Options.Name = "main_Options";
+            this.main_Options.Size = new System.Drawing.Size(61, 20);
+            this.main_Options.Text = "Options";
             // 
             // options_Modes
             // 
@@ -224,7 +224,7 @@
             // 
             this.volume_5.CheckOnClick = true;
             this.volume_5.Name = "volume_5";
-            this.volume_5.Size = new System.Drawing.Size(180, 22);
+            this.volume_5.Size = new System.Drawing.Size(80, 22);
             this.volume_5.Text = "5";
             this.volume_5.CheckedChanged += new System.EventHandler(this.Volume_5_CheckedChanged);
             // 
@@ -240,7 +240,7 @@
             // 
             this.volume_3.CheckOnClick = true;
             this.volume_3.Name = "volume_3";
-            this.volume_3.Size = new System.Drawing.Size(180, 22);
+            this.volume_3.Size = new System.Drawing.Size(80, 22);
             this.volume_3.Text = "3";
             this.volume_3.CheckedChanged += new System.EventHandler(this.Volume_3_CheckedChanged);
             // 
@@ -258,7 +258,7 @@
             this.volume_1.CheckOnClick = true;
             this.volume_1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.volume_1.Name = "volume_1";
-            this.volume_1.Size = new System.Drawing.Size(180, 22);
+            this.volume_1.Size = new System.Drawing.Size(80, 22);
             this.volume_1.Text = "1";
             this.volume_1.CheckedChanged += new System.EventHandler(this.Volume_1_CheckedChanged);
             // 
@@ -332,7 +332,7 @@
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
             this.Controls.Add(this.clb_ADX);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.mstrip_Options);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 458);
@@ -343,8 +343,8 @@
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mstrip_Options.ResumeLayout(false);
+            this.mstrip_Options.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -359,8 +359,8 @@
         private System.Windows.Forms.Button btn_DeselectAll;
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.CheckedListBox clb_ADX;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip mstrip_Options;
+        private System.Windows.Forms.ToolStripMenuItem main_Options;
         private System.Windows.Forms.ToolStripMenuItem options_Modes;
         private System.Windows.Forms.ToolStripMenuItem modes_ADXtoWAV;
         private System.Windows.Forms.ToolStripMenuItem modes_WAVtoADX;
