@@ -1,7 +1,7 @@
 # Sonic '06 Toolkit
 Sonic '06 Toolkit is an application originally written in VB.NET to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.
 
-# Project Goals
+# Features
 ### ARC Unpacking and Repacking (to be replaced)
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll) and [ModdingUnderground](https://www.youtube.com/user/ModdingUnderground)'s ARC unpacker/repacker. Once [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) ARC class is complete, we will be able to make use of that.
 
@@ -11,10 +11,10 @@ Sonic '06 Toolkit is an application originally written in VB.NET to help make mo
 ### LUB Decompiling (to be replaced)
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
 
-### MST Decoding
+### MST Decoding (planned)
 - Planned features to be able to decode MST files, which are BINA string tables with null terminated unicode.
 
-### SET Converting
+### SET Converting (planned)
 - Planned features to be able to convert SET files to the XML format. Once [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) SET class is complete, we will be able to make use of that. It is already in a decent state, but converting the XML back to SET can cause issues, so it isn't worth including yet.
 
 ### XNO Converting and XNM Pairing (done)
