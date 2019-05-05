@@ -219,15 +219,15 @@ namespace Sonic_06_Toolkit
 
             #region Setting saved properties...
             //Gets user-defined settings and sets them in runtime.
-            if (Properties.Settings.Default.showSessionID == true) preferences_ShowSessionID.Checked = true; else preferences_ShowSessionID.Checked = false;
-            if (Properties.Settings.Default.theme == "Compact") themes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") themes_Original.Checked = true;
+            if (Properties.Settings.Default.showSessionID == true) mainPreferences_ShowSessionID.Checked = true; else mainPreferences_ShowSessionID.Checked = false;
+            if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
             {
-                preferences_disableSoftwareUpdater.Checked = true;
+                mainPreferences_DisableSoftwareUpdater.Checked = true;
             }
             else
             {
-                preferences_disableSoftwareUpdater.Checked = false;
+                mainPreferences_DisableSoftwareUpdater.Checked = false;
                 CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
             }
             #endregion
