@@ -21,7 +21,7 @@
 ### MST Decoding (planned)
 - Planned features to be able to decode MST files, which are BINA string tables with null terminated unicode.
 
-### SET Exporting (experimental)
+### SET Exporting and XML Importing (experimental)
 - Currently based off [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
 
 ### XNO Converting and XNM Pairing (done)
