@@ -1,5 +1,12 @@
-# Sonic '06 Toolkit
-Sonic '06 Toolkit is an application originally written in VB.NET to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.
+<p align="center">
+    <a href="https://github.com/HyperPolygon64/Sonic-06-Toolkit/blob/master/">
+        <img src="https://github.com/HyperPolygon64/Sonic-06-Toolkit/blob/master/logo_small.png" />
+    </a>
+</p>
+
+<h1 align="center">Sonic '06 Toolkit</h1>
+
+<p align="center">Sonic '06 Toolkit is an application developed to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.</p>
 
 # Features
 ### ARC Unpacking and Repacking (to be replaced)
