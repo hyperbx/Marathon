@@ -486,7 +486,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(241, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -656,7 +656,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -665,7 +665,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -674,7 +674,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -683,7 +683,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -692,7 +692,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             // 
             // mainSDK_SETStudio
@@ -700,7 +700,7 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             // 
             // mainSDK_XNOStudio
@@ -708,7 +708,7 @@
             this.mainSDK_XNOStudio.Enabled = false;
             this.mainSDK_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XNOStudio.Image")));
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
             // 
@@ -781,14 +781,14 @@
             this.mainTabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_NewTab.Image")));
             this.mainTabs_NewTab.Name = "mainTabs_NewTab";
             this.mainTabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.mainTabs_NewTab.Size = new System.Drawing.Size(180, 22);
+            this.mainTabs_NewTab.Size = new System.Drawing.Size(170, 22);
             this.mainTabs_NewTab.Text = "New Tab";
             this.mainTabs_NewTab.Click += new System.EventHandler(this.MainTabs_NewTab_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(167, 6);
             // 
             // mainTabs_CloseTab
             // 
@@ -796,7 +796,7 @@
             this.mainTabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_CloseTab.Image")));
             this.mainTabs_CloseTab.Name = "mainTabs_CloseTab";
             this.mainTabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.mainTabs_CloseTab.Size = new System.Drawing.Size(180, 22);
+            this.mainTabs_CloseTab.Size = new System.Drawing.Size(170, 22);
             this.mainTabs_CloseTab.Text = "Close Tab";
             this.mainTabs_CloseTab.Click += new System.EventHandler(this.MainTabs_CloseTab_Click);
             // 
@@ -816,20 +816,20 @@
             this.mainHelp_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_Documentation.Image")));
             this.mainHelp_Documentation.Name = "mainHelp_Documentation";
             this.mainHelp_Documentation.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mainHelp_Documentation.Size = new System.Drawing.Size(180, 22);
+            this.mainHelp_Documentation.Size = new System.Drawing.Size(179, 22);
             this.mainHelp_Documentation.Text = "Documentation";
             this.mainHelp_Documentation.Click += new System.EventHandler(this.MainHelp_Documentation_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(176, 6);
             // 
             // mainHelp_CheckForUpdates
             // 
             this.mainHelp_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_CheckForUpdates.Image")));
             this.mainHelp_CheckForUpdates.Name = "mainHelp_CheckForUpdates";
-            this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(180, 22);
+            this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(179, 22);
             this.mainHelp_CheckForUpdates.Text = "Check for updates...";
             this.mainHelp_CheckForUpdates.Click += new System.EventHandler(this.MainHelp_CheckForUpdates_Click);
             // 
@@ -837,7 +837,7 @@
             // 
             this.mainHelp_About.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_About.Image")));
             this.mainHelp_About.Name = "mainHelp_About";
-            this.mainHelp_About.Size = new System.Drawing.Size(180, 22);
+            this.mainHelp_About.Size = new System.Drawing.Size(179, 22);
             this.mainHelp_About.Text = "About";
             this.mainHelp_About.Click += new System.EventHandler(this.MainHelp_About_Click);
             // 
