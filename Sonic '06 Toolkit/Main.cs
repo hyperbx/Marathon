@@ -470,37 +470,41 @@ namespace Sonic_06_Toolkit
         #region Shortcuts
         void Shortcuts_ExtractCSBs_Click(object sender, EventArgs e)
         {
-            try
+            if (Directory.GetFiles(Global.currentPath, "*.csb").Length == 0) MessageBox.Show("There are no CSBs to unpack in this directory.", "No CSBs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
             {
-                #region Getting selected CSBs...
-                //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
-                foreach (string CSB in Directory.GetFiles(Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
+                try
                 {
-                    if (File.Exists(CSB))
+                    #region Getting selected CSBs...
+                    //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
+                    foreach (string CSB in Directory.GetFiles(Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
                     {
-                        var checkedBuildSession = new StringBuilder();
-                        checkedBuildSession.Append(Path.Combine(Global.currentPath, CSB));
+                        if (File.Exists(CSB))
+                        {
+                            var checkedBuildSession = new StringBuilder();
+                            checkedBuildSession.Append(Path.Combine(Global.currentPath, CSB));
 
-                        #region Extracting CSBs...
-                        //Sets up the BASIC application and executes the extracting process.
-                        var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
-                        unpackSession.WorkingDirectory = Global.currentPath;
-                        unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
-                        var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Unpacking_CSB();
-                        var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                        var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                        unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        unpackDialog.Show();
-                        Unpack.WaitForExit();
-                        Unpack.Close();
-                        unpackDialog.Close();
-                        #endregion
+                            #region Extracting CSBs...
+                            //Sets up the BASIC application and executes the extracting process.
+                            var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
+                            unpackSession.WorkingDirectory = Global.currentPath;
+                            unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                            var Unpack = Process.Start(unpackSession);
+                            var unpackDialog = new Unpacking_CSB();
+                            var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                            var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                            unpackDialog.Show();
+                            Unpack.WaitForExit();
+                            Unpack.Close();
+                            unpackDialog.Close();
+                            #endregion
+                        }
                     }
+                    #endregion
                 }
-                #endregion
+                catch { MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            catch { MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         void Shortcuts_DecompileLUBs_Click(object sender, EventArgs e)
