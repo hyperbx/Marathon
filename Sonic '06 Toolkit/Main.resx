@@ -481,7 +481,7 @@
         x0u3fO6vlqGeEilty5Gg+etFhqZ9B9+0ef3WczNjAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="sETStudioToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="mainSDK_SETStudio.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wwAADsMBx2+oZAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAZ5JREFUOE+9kF8o
@@ -538,6 +538,19 @@
         xTQAGZf8A2lycnICYzQDPrAyMBS1YtdYg2IrsgEwzPDr11+Gurrd8kBD9uMyAKYRHYMNADkDlLZra8GG
         tEG8A/b7d2DsbCTKABCGZhg2YJiIggIWiCWBGYcXpAiGkTXCMNwAQhjdAJg4hkJcGNlWhAH/GQBW/oUj
         JyDctgAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="convertAllSETsHereToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAYNJREFUOE+Vkz9I
+        AlEcx40gaG5tqixNESSEhkBwaC/MoZDCykGIgkTNO83EsCEaigaDBtvaJAjCVglqaKmc24KQlFDrvLv3
+        7e5xZ55/6HrwgXuP3/fz3nc4Ax8dHZJ4FJgxaEjaOeEqkRZLr4OGtgWgiUEaHu4Iy+w7IDznGyJX2yaE
+        G1CydOkWiMVbEIF/J0ScJ4T0K3mdgj0bxIdLEFGU8sITqZadSl6nQIYdhxC2gg9ZSSNoPlby/xBoOVHy
+        +gWNmAW5lXV8MZPyXp+gEbeAZyfod3FzFluL1+AYE7iY5bRURl9PAcea8HbgwcVaGuVdJ3jGiEN3CoUN
+        HyohG+r1ugaN4DNqx5knjqT7HC+pgPQKKz4iUwjOZVGLmKUqZhpyuVyUDsG31PFm1Y+M7wi5pQCqcQfy
+        fh+yy1HNra0ClWYFuXeFnUbB70UlPoOMN4G7wIIm2A4V8NER+V+4pxKKkVIJS713TH8L1C69kIdUWoMq
+        XUPdaBeo5x2DvWi99VcAww8io5CtSNdqhQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="shortcuts_ConvertXNOs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
