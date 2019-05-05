@@ -21,8 +21,8 @@
 ### MST Decoding (planned)
 - Planned features to be able to decode MST files, which are BINA string tables with null terminated unicode.
 
-### SET Exporting (planned)
-- Planned features to be able to convert SET files to the XML format.
+### SET Exporting (experimental)
+- Currently based off [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
 
 ### XNO Converting and XNM Pairing (done)
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
