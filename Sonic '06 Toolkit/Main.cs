@@ -31,89 +31,112 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
-                        Global.arcState = "typical";
-
-                        #region Building unpack data...
-                        //Builds the main string which locates the ARC's final unpack directory.
-                        string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                        var unpackBuildSession = new StringBuilder();
-                        unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
-                        unpackBuildSession.Append(Global.sessionID);
-                        unpackBuildSession.Append(@"\");
-                        unpackBuildSession.Append(failsafeCheck);
-                        unpackBuildSession.Append(@"\");
-                        unpackBuildSession.Append(Path.GetFileNameWithoutExtension(args[0]));
-                        unpackBuildSession.Append(@"\");
-                        if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
-                        #endregion
-
-                        #region Building ARC data...
-                        //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                        var arcBuildSession = new StringBuilder();
-                        arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                        arcBuildSession.Append(Global.sessionID);
-                        arcBuildSession.Append(@"\");
-                        arcBuildSession.Append(failsafeCheck);
-                        arcBuildSession.Append(@"\");
-                        if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                        if (File.Exists(args[0])) File.Copy(args[0], arcBuildSession.ToString() + Path.GetFileName(args[0]), true);
-                        #endregion
-
-                        #region Unpacking ARC...
-                        //Sets up the BASIC application and executes the unpacking process.
-                        var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
-                        var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(args[0]) + "\"");
-                        basicWrite.Write(basicSession, 0, basicSession.Length);
-                        basicWrite.Close();
-                        var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
-                        unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
-                        unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
-                        var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Status();
-                        unpackDialog.StartPosition = FormStartPosition.CenterScreen;
-                        unpackDialog.Show();
-                        Unpack.WaitForExit();
-                        Unpack.Close();
-
-                        Global.arcState = null;
-                        #endregion
-
-                        #region Writing metadata...
-                        //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                        var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                        var metadataSession = new UTF8Encoding(true).GetBytes(args[0]);
-                        metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                        metadataWrite.Close();
-                        unpackDialog.Close();
-                        #endregion
-
-                        #region Navigating...
-                        //Creates a new tab if the selected one is being used.
-                        if (tab_Main.SelectedTab.Text == "New Tab")
+                        if (File.Exists(args[0]))
                         {
-                            currentARC().Navigate(unpackBuildSession.ToString());
-                            tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
-                        }
-                        else
-                        {
-                            newTab();
-                            currentARC().Navigate(unpackBuildSession.ToString());
-                            tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
-                        }
-                        #endregion
+                            byte[] bytes = File.ReadAllBytes(args[0]).Take(4).ToArray();
+                            var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                            if (hexString != "55 AA 38 2D")
+                            {
+                                byte[] angryBytes = File.ReadAllBytes(args[0]).Take(300).ToArray();
+                                var angryHexString = BitConverter.ToString(angryBytes); angryHexString = angryHexString.Replace("-", " ");
+                                if (angryHexString.Contains("4D 49 47 2E 30 30 2E 31 50 53 50"))
+                                {
+                                    MessageBox.Show("This is an Angry Birds ARC file... You need to use GitMO to extract these. Sonic '06 Toolkit will never support this format.", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Close();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid ARC file detected.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Close();
+                                }
+                            }
+                            else
+                            {
+                                #region Building unpack data...
+                                //Builds the main string which locates the ARC's final unpack directory.
+                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                var unpackBuildSession = new StringBuilder();
+                                unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                unpackBuildSession.Append(Global.sessionID);
+                                unpackBuildSession.Append(@"\");
+                                unpackBuildSession.Append(failsafeCheck);
+                                unpackBuildSession.Append(@"\");
+                                unpackBuildSession.Append(Path.GetFileNameWithoutExtension(args[0]));
+                                unpackBuildSession.Append(@"\");
+                                if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
+                                #endregion
 
-                        #region Building location data...
-                        //Writes a file to store the failsafe directory to be referenced later.
-                        var storageSession = new StringBuilder();
-                        storageSession.Append(Properties.Settings.Default.archivesPath);
-                        storageSession.Append(Global.sessionID);
-                        storageSession.Append(@"\");
-                        storageSession.Append(tab_Main.SelectedIndex);
-                        var storageWrite = File.Create(storageSession.ToString());
-                        var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                        storageWrite.Write(storageText, 0, storageText.Length);
-                        storageWrite.Close();
-                        #endregion
+                                #region Building ARC data...
+                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                var arcBuildSession = new StringBuilder();
+                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                arcBuildSession.Append(Global.sessionID);
+                                arcBuildSession.Append(@"\");
+                                arcBuildSession.Append(failsafeCheck);
+                                arcBuildSession.Append(@"\");
+                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                if (File.Exists(args[0])) File.Copy(args[0], arcBuildSession.ToString() + Path.GetFileName(args[0]), true);
+                                #endregion
+
+                                #region Unpacking ARC...
+                                Global.arcState = "typical";
+
+                                //Sets up the BASIC application and executes the unpacking process.
+                                var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(args[0]) + "\"");
+                                basicWrite.Write(basicSession, 0, basicSession.Length);
+                                basicWrite.Close();
+                                var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
+                                unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                                var Unpack = Process.Start(unpackSession);
+                                var unpackDialog = new Status();
+                                unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                                unpackDialog.Show();
+                                Unpack.WaitForExit();
+                                Unpack.Close();
+
+                                Global.arcState = null;
+                                #endregion
+
+                                #region Writing metadata...
+                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                var metadataSession = new UTF8Encoding(true).GetBytes(args[0]);
+                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                metadataWrite.Close();
+                                unpackDialog.Close();
+                                #endregion
+
+                                #region Navigating...
+                                //Creates a new tab if the selected one is being used.
+                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                {
+                                    currentARC().Navigate(unpackBuildSession.ToString());
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                }
+                                else
+                                {
+                                    newTab();
+                                    currentARC().Navigate(unpackBuildSession.ToString());
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                }
+                                #endregion
+
+                                #region Building location data...
+                                //Writes a file to store the failsafe directory to be referenced later.
+                                var storageSession = new StringBuilder();
+                                storageSession.Append(Properties.Settings.Default.archivesPath);
+                                storageSession.Append(Global.sessionID);
+                                storageSession.Append(@"\");
+                                storageSession.Append(tab_Main.SelectedIndex);
+                                var storageWrite = File.Create(storageSession.ToString());
+                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                storageWrite.Write(storageText, 0, storageText.Length);
+                                storageWrite.Close();
+                                #endregion
+                            }
+                        }
                     }
                     catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
