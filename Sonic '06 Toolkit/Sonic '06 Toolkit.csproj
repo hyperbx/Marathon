@@ -94,29 +94,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Notifications\Converting %28WAV%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Converting %28WAV%29.Designer.cs">
-      <DependentUpon>Converting %28WAV%29.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Notifications\Converting %28ADX%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Converting %28ADX%29.Designer.cs">
-      <DependentUpon>Converting %28ADX%29.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\ADX Studio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ADX Studio.Designer.cs">
       <DependentUpon>ADX Studio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Notifications\Unpacking %28CSB%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Unpacking %28CSB%29.Designer.cs">
-      <DependentUpon>Unpacking %28CSB%29.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\CSB Studio.cs">
       <SubType>Form</SubType>
@@ -129,12 +111,6 @@
     </Compile>
     <Compile Include="Forms\ARC Studio.Designer.cs">
       <DependentUpon>ARC Studio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Notifications\Converting %28XNO%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Converting %28XNO%29.Designer.cs">
-      <DependentUpon>Converting %28XNO%29.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Documentation.cs">
       <SubType>Form</SubType>
@@ -154,12 +130,6 @@
     <Compile Include="Forms\LUB Studio.Designer.cs">
       <DependentUpon>LUB Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Notifications\Decompiling %28LUB%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Decompiling %28LUB%29.Designer.cs">
-      <DependentUpon>Decompiling %28LUB%29.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -167,18 +137,6 @@
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Global.cs" />
-    <Compile Include="Notifications\Repacking %28ARC%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Repacking %28ARC%29.Designer.cs">
-      <DependentUpon>Repacking %28ARC%29.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Notifications\Unpacking %28ARC%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Unpacking %28ARC%29.Designer.cs">
-      <DependentUpon>Unpacking %28ARC%29.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,12 +150,6 @@
     <Compile Include="Preferences\Paths.Designer.cs">
       <DependentUpon>Paths.cs</DependentUpon>
     </Compile>
-    <Compile Include="Notifications\Processing %28ARC%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Processing %28ARC%29.Designer.cs">
-      <DependentUpon>Processing %28ARC%29.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\XNO Studio.cs">
       <SubType>Form</SubType>
@@ -208,26 +160,20 @@
     <Compile Include="Classes\TimedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Notifications\Repacking %28CSB%29.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Notifications\Repacking %28CSB%29.Designer.cs">
-      <DependentUpon>Repacking %28CSB%29.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\SET Studio.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\SET Studio.Designer.cs">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Notifications\Status.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Notifications\Status.Designer.cs">
+      <DependentUpon>Status.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\SET Studio.resx">
       <DependentUpon>SET Studio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Converting %28WAV%29.resx">
-      <DependentUpon>Converting %28WAV%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Converting %28ADX%29.resx">
-      <DependentUpon>Converting %28ADX%29.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ADX Studio.resx">
       <DependentUpon>ADX Studio.cs</DependentUpon>
@@ -253,24 +199,6 @@
     <EmbeddedResource Include="Forms\XNO Studio.resx">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Converting %28XNO%29.resx">
-      <DependentUpon>Converting %28XNO%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Decompiling %28LUB%29.resx">
-      <DependentUpon>Decompiling %28LUB%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Unpacking %28CSB%29.resx">
-      <DependentUpon>Unpacking %28CSB%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Processing %28ARC%29.resx">
-      <DependentUpon>Processing %28ARC%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Repacking %28ARC%29.resx">
-      <DependentUpon>Repacking %28ARC%29.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Notifications\Unpacking %28ARC%29.resx">
-      <DependentUpon>Unpacking %28ARC%29.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
@@ -287,8 +215,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Notifications\Repacking %28CSB%29.resx">
-      <DependentUpon>Repacking %28CSB%29.cs</DependentUpon>
+    <EmbeddedResource Include="Notifications\Status.resx">
+      <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

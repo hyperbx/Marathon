@@ -20,7 +20,7 @@ namespace Sonic_06_Toolkit
 
         void ADX_Studio_Load(object sender, EventArgs e)
         {
-            Global.csbState = "adx";
+            Global.adxState = "adx";
 
             clb_ADX.Items.Clear();
 
@@ -66,7 +66,7 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
             if (clb_ADX.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Global.csbState == "adx")
+            if (Global.adxState == "adx")
             {
                 try
                 {
@@ -78,12 +78,14 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedADX));
 
                         #region Converting ADX files...
+                        Global.adxState = "adx";
+
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.adx2wavFile, "\"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".wav\"");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting_ADX();
+                        var convertDialog = new Status();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -91,13 +93,15 @@ namespace Sonic_06_Toolkit
                         Convert.WaitForExit();
                         Convert.Close();
                         convertDialog.Close();
+
+                        Global.adxState = null;
                         #endregion
                     }
                     #endregion
                 }
                 catch { MessageBox.Show("An error occurred when converting the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            else if (Global.csbState == "wav")
+            else if (Global.adxState == "wav")
             {
                 try
                 {
@@ -109,12 +113,14 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedWAV));
 
                         #region Converting WAV files...
+                        Global.adxState = "wav";
+
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.criconverterFile, "\"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".adx\" -codec=adx -volume=" + vol + " -downmix=" + downmix + ignoreLoop + removeLoop);
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting_WAV();
+                        var convertDialog = new Status();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -122,11 +128,17 @@ namespace Sonic_06_Toolkit
                         Convert.WaitForExit();
                         Convert.Close();
                         convertDialog.Close();
+
+                        Global.adxState = null;
                         #endregion
                     }
                     #endregion
                 }
                 catch { MessageBox.Show("An error occurred when converting the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+            else
+            {
+                MessageBox.Show("ADX State set to invalid value: " + Global.adxState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -149,7 +161,7 @@ namespace Sonic_06_Toolkit
         {
             if (modes_ADXtoWAV.Checked == true)
             {
-                Global.csbState = "adx";
+                Global.adxState = "adx";
 
                 clb_ADX.Items.Clear();
 
@@ -183,7 +195,7 @@ namespace Sonic_06_Toolkit
         {
             if (modes_WAVtoADX.Checked == true)
             {
-                Global.csbState = "wav";
+                Global.adxState = "wav";
 
                 clb_ADX.Items.Clear();
 

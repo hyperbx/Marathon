@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
 using HedgeLib.Sets;
 using System.Drawing;
 using System.Diagnostics;
@@ -30,6 +31,8 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
+                        Global.arcState = "typical";
+
                         #region Building unpack data...
                         //Builds the main string which locates the ARC's final unpack directory.
                         string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
@@ -66,11 +69,13 @@ namespace Sonic_06_Toolkit
                         unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                         unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Unpacking_ARC();
+                        var unpackDialog = new Status();
                         unpackDialog.StartPosition = FormStartPosition.CenterScreen;
                         unpackDialog.Show();
                         Unpack.WaitForExit();
                         Unpack.Close();
+
+                        Global.arcState = null;
                         #endregion
 
                         #region Writing metadata...
@@ -220,7 +225,7 @@ namespace Sonic_06_Toolkit
 
             #region Setting saved properties...
             //Gets user-defined settings and sets them in runtime.
-            if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = true; else pb_Logo.Visible = false;
+            if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = true; else pic_Logo.Visible = false;
             if (Properties.Settings.Default.showSessionID == true) mainPreferences_ShowSessionID.Checked = true; else mainPreferences_ShowSessionID.Checked = false;
             if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
@@ -285,7 +290,7 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
-                    Global.unpackState = "typical";
+                    Global.arcState = "typical";
                     unpackARC();
                 }
                 catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -296,13 +301,13 @@ namespace Sonic_06_Toolkit
         #region Repack States
         void MainFile_RepackARC_Click(object sender, EventArgs e)
         {
-            Global.repackState = "save";
+            Global.arcState = "save";
             repackARC();
         }
 
         void MainFile_RepackARCAs_Click(object sender, EventArgs e)
         {
-            Global.repackState = "save-as";
+            Global.arcState = "save-as";
             repackARC();
         }
         #endregion
@@ -508,12 +513,14 @@ namespace Sonic_06_Toolkit
                             checkedBuildSession.Append(Path.Combine(Global.currentPath, CSB));
 
                             #region Extracting CSBs...
+                            Global.csbState = "unpack";
+
                             //Sets up the BASIC application and executes the extracting process.
                             var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                             unpackSession.WorkingDirectory = Global.currentPath;
                             unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Unpack = Process.Start(unpackSession);
-                            var unpackDialog = new Unpacking_CSB();
+                            var unpackDialog = new Status();
                             var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
                             var parentTop = Top + ((Height - unpackDialog.Height) / 2);
                             unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -521,6 +528,8 @@ namespace Sonic_06_Toolkit
                             Unpack.WaitForExit();
                             Unpack.Close();
                             unpackDialog.Close();
+
+                            Global.csbState = null;
                             #endregion
                         }
                     }
@@ -591,18 +600,22 @@ namespace Sonic_06_Toolkit
                             #endregion
 
                             #region Decompiling Lua binaries...
+                            Global.lubState = "decompile";
+
                             //Sets up the BASIC application and executes the decompiling process.
                             var decompileSession = new ProcessStartInfo(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
                             decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                             decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Decompile = Process.Start(decompileSession);
-                            var decompileDialog = new Decompiling_LUB();
+                            var decompileDialog = new Status();
                             var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
                             var parentTop = Top + ((Height - decompileDialog.Height) / 2);
                             decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                             decompileDialog.Show();
                             Decompile.WaitForExit();
                             Decompile.Close();
+
+                            Global.lubState = null;
                             #endregion
 
                             #region Moving decompiled Lua binaries...
@@ -627,7 +640,7 @@ namespace Sonic_06_Toolkit
         void Shortcuts_ConvertSETs_Click(object sender, EventArgs e)
         {
             //Checks if there are any SETs in the directory.
-            if (Directory.GetFiles(Global.currentPath, "*.set").Length == 0) MessageBox.Show("There are no SETs to convert in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (Directory.GetFiles(Global.currentPath, "*.set").Length == 0) MessageBox.Show("There are no SETs to export in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 try
@@ -642,7 +655,7 @@ namespace Sonic_06_Toolkit
                         }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch { MessageBox.Show("An error occurred when exporting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
 
@@ -693,12 +706,14 @@ namespace Sonic_06_Toolkit
                             #endregion
 
                             #region Converting XNOs...
+                            Global.xnoState = "xno";
+
                             //Sets up the BASIC application and executes the conversion process.
                             var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                             convertSession.WorkingDirectory = Global.currentPath;
                             convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Convert = Process.Start(convertSession);
-                            var convertDialog = new Converting_XNO();
+                            var convertDialog = new Status();
                             var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                             var parentTop = Top + ((Height - convertDialog.Height) / 2);
                             convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -706,6 +721,8 @@ namespace Sonic_06_Toolkit
                             Convert.WaitForExit();
                             Convert.Close();
                             convertDialog.Close();
+
+                            Global.xnoState = null;
                             #endregion
                         }
                     }
@@ -787,7 +804,7 @@ namespace Sonic_06_Toolkit
 
         void Btn_Repack_Click(object sender, EventArgs e)
         {
-            Global.repackState = "save";
+            Global.arcState = "save";
             repackARC();
         }
 
@@ -795,7 +812,6 @@ namespace Sonic_06_Toolkit
         {
             Global.getIndex = tab_Main.SelectedIndex;
         }
-        #endregion
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
         {
@@ -825,7 +841,7 @@ namespace Sonic_06_Toolkit
                 mainSDK_SETStudio.Enabled = true;
                 #endregion
 
-                if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = false;
+                if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = false;
 
                 //Updates the currentPath global variable.
                 Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
@@ -852,110 +868,148 @@ namespace Sonic_06_Toolkit
                 mainSDK_SETStudio.Enabled = false;
                 #endregion
 
-                if (Properties.Settings.Default.showLogo == true) pb_Logo.Visible = true; else pb_Logo.Visible = false;
+                if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = true; else pic_Logo.Visible = false;
             }
+
             #endregion
         }
 
+        void Tab_Main_MouseClick(object sender, MouseEventArgs e)
+        {
+            var mainTab = sender as TabControl;
+            var tabs = mainTab.TabPages;
+
+            if (e.Button == MouseButtons.Middle)
+            {
+                if (tab_Main.TabPages.Count != 1)
+                {
+                    tabs.Remove(tabs.Cast<TabPage>()
+                        .Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location))
+                        .First());
+                }
+            }
+        }
+        #endregion
+
         void unpackARC()
         {
-            if (Global.unpackState == "typical")
+            if (Global.arcState == "typical")
             {
                 try
                 {
-                    #region Building unpack data...
-                    //Builds the main string which locates the ARC's final unpack directory.
-                    string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                    var unpackBuildSession = new StringBuilder();
-                    unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
-                    unpackBuildSession.Append(Global.sessionID);
-                    unpackBuildSession.Append(@"\");
-                    unpackBuildSession.Append(failsafeCheck);
-                    unpackBuildSession.Append(@"\");
-                    unpackBuildSession.Append(Path.GetFileNameWithoutExtension(ofd_OpenARC.FileName));
-                    unpackBuildSession.Append(@"\");
-                    if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
-                    #endregion
-
-                    #region Building ARC data...
-                    //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                    var arcBuildSession = new StringBuilder();
-                    arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                    arcBuildSession.Append(Global.sessionID);
-                    arcBuildSession.Append(@"\");
-                    arcBuildSession.Append(failsafeCheck);
-                    arcBuildSession.Append(@"\");
-                    if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                    if (File.Exists(ofd_OpenARC.FileName)) File.Copy(ofd_OpenARC.FileName, arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName), true);
-                    #endregion
-
-                    #region Unpacking ARC...
-                    //Sets up the BASIC application and executes the unpacking process.
-                    var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
-                    var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName) + "\"");
-                    basicWrite.Write(basicSession, 0, basicSession.Length);
-                    basicWrite.Close();
-                    var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
-                    unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
-                    unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
-                    var Unpack = Process.Start(unpackSession);
-                    var unpackDialog = new Unpacking_ARC();
-                    var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                    var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                    unpackDialog.Show();
-                    Unpack.WaitForExit();
-                    Unpack.Close();
-                    #endregion
-
-                    #region Writing metadata...
-                    //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                    var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                    var metadataSession = new UTF8Encoding(true).GetBytes(ofd_OpenARC.FileName);
-                    metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                    metadataWrite.Close();
-                    unpackDialog.Close();
-                    #endregion
-
-                    #region Navigating...
-                    //Creates a new tab if the selected one is being used.
-                    if (tab_Main.SelectedTab.Text == "New Tab")
+                    if (File.Exists(ofd_OpenARC.FileName))
                     {
-                        currentARC().Navigate(unpackBuildSession.ToString());
-                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
-                    }
-                    else
-                    {
-                        newTab();
-                        currentARC().Navigate(unpackBuildSession.ToString());
-                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
-                    }
-                    #endregion
+                        byte[] bytes = File.ReadAllBytes(ofd_OpenARC.FileName).Take(4).ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                        if (hexString != "55 AA 38 2D")
+                        {
+                            byte[] angryBytes = File.ReadAllBytes(ofd_OpenARC.FileName).Take(300).ToArray();
+                            var angryHexString = BitConverter.ToString(angryBytes); angryHexString = angryHexString.Replace("-", " ");
+                            if (angryHexString.Contains("4D 49 47 2E 30 30 2E 31 50 53 50"))
+                            {
+                                MessageBox.Show("This is an Angry Birds ARC file... You need to use GitMO to extract these. Sonic '06 Toolkit will never support this format.", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            else { MessageBox.Show("Invalid ARC file detected.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        }
+                        else
+                        {
+                            #region Building unpack data...
+                            //Builds the main string which locates the ARC's final unpack directory.
+                            string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                            var unpackBuildSession = new StringBuilder();
+                            unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
+                            unpackBuildSession.Append(Global.sessionID);
+                            unpackBuildSession.Append(@"\");
+                            unpackBuildSession.Append(failsafeCheck);
+                            unpackBuildSession.Append(@"\");
+                            unpackBuildSession.Append(Path.GetFileNameWithoutExtension(ofd_OpenARC.FileName));
+                            unpackBuildSession.Append(@"\");
+                            if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
+                            #endregion
 
-                    #region Building location data...
-                    //Writes a file to store the failsafe directory to be referenced later.
-                    var storageSession = new StringBuilder();
-                    storageSession.Append(Properties.Settings.Default.archivesPath);
-                    storageSession.Append(Global.sessionID);
-                    storageSession.Append(@"\");
-                    storageSession.Append(tab_Main.SelectedIndex);
-                    var storageWrite = File.Create(storageSession.ToString());
-                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                    storageWrite.Write(storageText, 0, storageText.Length);
-                    storageWrite.Close();
-                    #endregion
+                            #region Building ARC data...
+                            //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                            var arcBuildSession = new StringBuilder();
+                            arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                            arcBuildSession.Append(Global.sessionID);
+                            arcBuildSession.Append(@"\");
+                            arcBuildSession.Append(failsafeCheck);
+                            arcBuildSession.Append(@"\");
+                            if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                            if (File.Exists(ofd_OpenARC.FileName)) File.Copy(ofd_OpenARC.FileName, arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName), true);
+                            #endregion
+
+                            #region Unpacking ARC...
+                            //Sets up the BASIC application and executes the unpacking process.
+                            var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
+                            var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(ofd_OpenARC.FileName) + "\"");
+                            basicWrite.Write(basicSession, 0, basicSession.Length);
+                            basicWrite.Close();
+                            var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
+                            unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
+                            unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                            var Unpack = Process.Start(unpackSession);
+                            var unpackDialog = new Status();
+                            var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                            var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                            unpackDialog.Show();
+                            Unpack.WaitForExit();
+                            Unpack.Close();
+                            #endregion
+
+                            #region Writing metadata...
+                            //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                            var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                            var metadataSession = new UTF8Encoding(true).GetBytes(ofd_OpenARC.FileName);
+                            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                            metadataWrite.Close();
+                            unpackDialog.Close();
+
+                            Global.arcState = null;
+                            #endregion
+
+                            #region Navigating...
+                            //Creates a new tab if the selected one is being used.
+                            if (tab_Main.SelectedTab.Text == "New Tab")
+                            {
+                                currentARC().Navigate(unpackBuildSession.ToString());
+                                tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
+                            }
+                            else
+                            {
+                                newTab();
+                                currentARC().Navigate(unpackBuildSession.ToString());
+                                tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenARC.FileName);
+                            }
+                            #endregion
+
+                            #region Building location data...
+                            //Writes a file to store the failsafe directory to be referenced later.
+                            var storageSession = new StringBuilder();
+                            storageSession.Append(Properties.Settings.Default.archivesPath);
+                            storageSession.Append(Global.sessionID);
+                            storageSession.Append(@"\");
+                            storageSession.Append(tab_Main.SelectedIndex);
+                            var storageWrite = File.Create(storageSession.ToString());
+                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                            storageWrite.Write(storageText, 0, storageText.Length);
+                            storageWrite.Close();
+                            #endregion
+                        }
+                    }
                 }
                 catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             else
             {
-                MessageBox.Show("Unpack State set to invalid value: " + Global.unpackState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unpack State set to invalid value: " + Global.arcState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         void repackARC()
         {
-            if (Global.repackState == "save")
+            if (Global.arcState == "save")
             {
                 try
                 {
@@ -982,7 +1036,7 @@ namespace Sonic_06_Toolkit
                     repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                     repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                     var Repack = Process.Start(repackSession);
-                    var repackDialog = new Repacking_ARC();
+                    var repackDialog = new Status();
                     var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                     var parentTop = Top + ((Height - repackDialog.Height) / 2);
                     repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -992,11 +1046,13 @@ namespace Sonic_06_Toolkit
                     string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
                     if (File.Exists(archivePath)) File.Copy(archivePath, metadata, true); //Copies the repacked ARC back to the original location.
                     repackDialog.Close();
+
+                    Global.arcState = null;
                     #endregion
                 }
                 catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            else if (Global.repackState == "save-as")
+            else if (Global.arcState == "save-as")
             {
                 if (sfd_RepackARCAs.ShowDialog() == DialogResult.OK)
                 {
@@ -1025,7 +1081,7 @@ namespace Sonic_06_Toolkit
                         repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                         repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Repack = Process.Start(repackSession);
-                        var repackDialog = new Repacking_ARC();
+                        var repackDialog = new Status();
                         var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                         var parentTop = Top + ((Height - repackDialog.Height) / 2);
                         repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -1035,6 +1091,8 @@ namespace Sonic_06_Toolkit
                         string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
                         if (File.Exists(archivePath)) File.Copy(archivePath, sfd_RepackARCAs.FileName, true);
                         repackDialog.Close();
+
+                        Global.arcState = null;
                         #endregion
                     }
                     catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -1042,7 +1100,7 @@ namespace Sonic_06_Toolkit
             }
             else
             {
-                MessageBox.Show("Repack State set to invalid value: " + Global.repackState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Repack State set to invalid value: " + Global.arcState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

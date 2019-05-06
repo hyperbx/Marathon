@@ -103,18 +103,22 @@ namespace Sonic_06_Toolkit
                         File.Copy(checkedBuildSession.ToString(), Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
 
                         #region Decompiling Lua binaries...
+                        Global.lubState = "decompile";
+
                         //Sets up the BASIC application and executes the decompiling process.
                         var decompileSession = new ProcessStartInfo(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
                         decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                         decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Decompile = Process.Start(decompileSession);
-                        var decompileDialog = new Decompiling_LUB();
+                        var decompileDialog = new Status();
                         var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
                         var parentTop = Top + ((Height - decompileDialog.Height) / 2);
                         decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                         decompileDialog.Show();
                         Decompile.WaitForExit();
                         Decompile.Close();
+
+                        Global.lubState = null;
                         #endregion
 
                         #region Moving decompiled Lua binaries...

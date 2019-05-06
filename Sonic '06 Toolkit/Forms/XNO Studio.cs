@@ -33,7 +33,7 @@ namespace Sonic_06_Toolkit
             #endregion
 
             split_XNMStudio.Visible = false;
-            Global.convertState = "XNO";
+            Global.xnoState = "xno";
             tm_ItemCheck.Start();
         }
 
@@ -46,13 +46,13 @@ namespace Sonic_06_Toolkit
 
         void Btn_DeselectAll_Click(object sender, EventArgs e)
         {
-            if (Global.convertState == "XNO")
+            if (Global.xnoState == "xnm")
             {
                 //Unchecks all available checkboxes.
                 for (int i = 0; i < clb_XNOs.Items.Count; i++) clb_XNOs.SetItemChecked(i, false);
                 btn_Convert.Enabled = false;
             }
-            else if (Global.convertState == "XNM")
+            else if (Global.xnoState == "xnm")
             {
                 //Unchecks all available checkboxes.
                 for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
@@ -63,7 +63,7 @@ namespace Sonic_06_Toolkit
 
         void Btn_Decompile_Click(object sender, EventArgs e)
         {
-            if (Global.convertState == "XNO")
+            if (Global.xnoState == "xno")
             {
                 try
                 {
@@ -104,12 +104,14 @@ namespace Sonic_06_Toolkit
                         #endregion
 
                         #region Converting XNOs...
+                        Global.xnoState = "xno";
+
                         //Sets up the BASIC application and executes the conversion process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting_XNO();
+                        var convertDialog = new Status();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -117,13 +119,15 @@ namespace Sonic_06_Toolkit
                         Convert.WaitForExit();
                         Convert.Close();
                         convertDialog.Close();
+
+                        Global.xnoState = null;
                         #endregion
                     }
                     #endregion
                 }
                 catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
-            else if (Global.convertState == "XNM")
+            else if (Global.xnoState == "xnm")
             {
                 //In the odd chance that someone is ever able to click Convert without anything selected, this will prevent that.
                 if (clb_XNOs_XNM.CheckedItems.Count == 0) MessageBox.Show("Please select an XNO.", "No XNO specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -178,12 +182,14 @@ namespace Sonic_06_Toolkit
                         }
 
                         #region Converting XNOs...
+                        Global.xnoState = "xnm";
+
                         //Sets up the BASIC application and executes the conversion process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Converting_XNO();
+                        var convertDialog = new Status();
                         var parentLeft = Left + ((Width - convertDialog.Width) / 2);
                         var parentTop = Top + ((Height - convertDialog.Height) / 2);
                         convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -191,12 +197,18 @@ namespace Sonic_06_Toolkit
                         Convert.WaitForExit();
                         Convert.Close();
                         convertDialog.Close();
+
+                        Global.xnoState = null;
                         #endregion
 
                         #endregion
                     }
                     catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
+            }
+            else
+            {
+                MessageBox.Show("XNO State set to invalid value: " + Global.xnoState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -242,7 +254,7 @@ namespace Sonic_06_Toolkit
                 btn_SelectAll.Enabled = false;
                 clb_XNOs.Visible = false;
 
-                Global.convertState = "XNM";
+                Global.xnoState = "xnm";
                 #endregion
 
                 #region Getting XNOs...
@@ -308,7 +320,7 @@ namespace Sonic_06_Toolkit
                 btn_SelectAll.Enabled = true;
                 clb_XNOs.Visible = true;
 
-                Global.convertState = "XNO";
+                Global.xnoState = "xno";
 
                 clb_XNOs_XNM.Items.Clear();
                 clb_XNMs.Items.Clear();

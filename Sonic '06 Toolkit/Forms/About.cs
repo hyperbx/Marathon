@@ -48,7 +48,7 @@ namespace Sonic_06_Toolkit
                 "Natsumi - Design Guidance\n" +
                 "Skyth - XNO Converter & Sonic Audio Tools\n" +
                 "DarioSamo - XNO Converter\n" +
-                "CRI Middleware - ADX Encoding\n" +
+                "CRI Middleware - ADX Encoder\n" +
                 "RadfordHound - HedgeLib",
                 "Credits", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }

@@ -35,7 +35,7 @@ namespace Sonic_06_Toolkit
                 //Checks if there are any CSBs in the directory.
                 if (clb_SETs.Items.Count == 0)
                 {
-                    MessageBox.Show("There are no SETs to unpack in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("There are no SETs to export in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Close();
                 }
                 #endregion
@@ -113,6 +113,10 @@ namespace Sonic_06_Toolkit
                 }
                 catch { MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
+            else
+            {
+                MessageBox.Show("SET State set to invalid value: " + Global.setState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         void Modes_Export_CheckedChanged(object sender, EventArgs e)
@@ -141,7 +145,7 @@ namespace Sonic_06_Toolkit
                 //Checks if there are any CSBs in the directory.
                 if (clb_SETs.Items.Count == 0)
                 {
-                    MessageBox.Show("There are no SETs to unpack in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("There are no SETs to export in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Close();
                 }
                 #endregion
@@ -174,7 +178,7 @@ namespace Sonic_06_Toolkit
                 //Checks if there are any CSBs in the directory.
                 if (clb_SETs.Items.Count == 0)
                 {
-                    MessageBox.Show("There are no XMLs to unpack in this directory.", "No XMLs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("There are no XMLs to import in this directory.", "No XMLs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     modes_Import.Checked = false;
                     modes_Export.Checked = true;
                 }

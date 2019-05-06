@@ -63,12 +63,14 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedCSB));
 
                         #region Extracting CSBs...
+                        Global.csbState = "unpack";
+
                         //Sets up the BASIC application and executes the extracting process.
                         var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                         unpackSession.WorkingDirectory = Global.currentPath;
                         unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Unpacking_CSB();
+                        var unpackDialog = new Status();
                         var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
                         var parentTop = Top + ((Height - unpackDialog.Height) / 2);
                         unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -76,6 +78,8 @@ namespace Sonic_06_Toolkit
                         Unpack.WaitForExit();
                         Unpack.Close();
                         unpackDialog.Close();
+
+                        Global.csbState = null;
                         #endregion
                     }
                     #endregion
@@ -94,12 +98,14 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedCSB));
 
                         #region Extracting CSBs...
+                        Global.csbState = "repack";
+
                         //Sets up the BASIC application and executes the extracting process.
                         var repackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                         repackSession.WorkingDirectory = Global.currentPath;
                         repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Repack = Process.Start(repackSession);
-                        var repackDialog = new Repacking_CSB();
+                        var repackDialog = new Status();
                         var parentLeft = Left + ((Width - repackDialog.Width) / 2);
                         var parentTop = Top + ((Height - repackDialog.Height) / 2);
                         repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
@@ -107,11 +113,17 @@ namespace Sonic_06_Toolkit
                         Repack.WaitForExit();
                         Repack.Close();
                         repackDialog.Close();
+
+                        Global.csbState = null;
                         #endregion
                     }
                     #endregion
                 }
                 catch { MessageBox.Show("An error occurred when repacking the selected CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+            else
+            {
+                MessageBox.Show("CSB State set to invalid value: " + Global.csbState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

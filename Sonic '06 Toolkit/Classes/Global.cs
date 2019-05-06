@@ -7,15 +7,15 @@ namespace Sonic_06_Toolkit
         #region Strings
         public static string versionNumber = "1.81";
         public static string latestVersion = "Version " + versionNumber;
-        public static string unpackState = "typical";
-        public static string repackState = "save";
-        public static string convertState = "XNO";
-        public static string updateState = "launch";
-        public static string serverStatus = "online";
-        public static string csbState = "unpack";
-        public static string adxState = "adx";
-        public static string setState = "export";
+        public static string serverStatus;
         public static string currentPath;
+        public static string updateState;
+        public static string arcState;
+        public static string adxState;
+        public static string csbState;
+        public static string lubState;
+        public static string setState;
+        public static string xnoState;
 
         #region Directories
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
