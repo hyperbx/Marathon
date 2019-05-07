@@ -407,11 +407,12 @@ namespace Sonic_06_Toolkit
             try
             {
                 var latestVersion = new TimedWebClient { Timeout = 100000 }.DownloadString(versionInfoLink);
+                var changeLogs = new TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
                 if (latestVersion.Contains("Version"))
                 {
                     if (latestVersion != currentVersion)
                     {
-                        DialogResult confirmUpdate = MessageBox.Show("Sonic '06 Toolkit - " + latestVersion + " is now available!\n\nDo you wish to download it?", "New update available!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        DialogResult confirmUpdate = MessageBox.Show("Sonic '06 Toolkit - " + latestVersion + " is now available!\n\nChangelogs:\n" + changeLogs + "\n\nDo you wish to download it?", "New update available!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         switch (confirmUpdate)
                         {
                             case DialogResult.Yes:
