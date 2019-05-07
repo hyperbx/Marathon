@@ -278,7 +278,6 @@ namespace Sonic_06_Toolkit
                                     if (File.ReadAllLines(args[0])[0].Contains("LuaP"))
                                     {
                                         Global.currentPath = Path.GetDirectoryName(args[0]);
-                                        MessageBox.Show(Global.currentPath);
                                         File.Copy(args[0], Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\lubs\", Path.GetFileName(args[0])), true);
                                     }
                                 }
@@ -345,7 +344,7 @@ namespace Sonic_06_Toolkit
                     {
                         if (File.Exists(args[0]))
                         {
-                            if (File.Exists(Path.GetFileNameWithoutExtension(args[0]) + ".set")) File.Copy(Path.GetFileNameWithoutExtension(args[0]) + ".set", Path.GetDirectoryName(args[0]) + Path.GetFileNameWithoutExtension(args[0]) + ".set.bak", true);
+                            if (File.Exists(Path.GetFileNameWithoutExtension(args[0]) + ".set")) File.Copy(Path.GetFileNameWithoutExtension(args[0]) + ".set", Path.GetDirectoryName(args[0]) + @"\" + Path.GetFileNameWithoutExtension(args[0]) + ".set.bak", true);
 
                             if (File.Exists(Path.GetFileNameWithoutExtension(args[0]) + ".set")) File.Delete(Path.GetFileNameWithoutExtension(args[0]) + ".set");
 
