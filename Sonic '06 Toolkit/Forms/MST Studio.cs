@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -67,6 +68,8 @@ namespace Sonic_06_Toolkit
 
         void Btn_Decode_Click(object sender, EventArgs e)
         {
+            Global.mstState = "decode";
+
             UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
             byte[] buffer = new byte[1024];
 
@@ -115,6 +118,8 @@ namespace Sonic_06_Toolkit
                 }
 
                 File.WriteAllLines(Global.currentPath + Path.GetFileNameWithoutExtension(selectedMST) + ".txt", results);
+
+                Global.mstState = null;
             }
         }
     }
