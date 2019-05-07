@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MST_Studio));
-            this.lbl_Title = new System.Windows.Forms.Label();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.btn_Decode = new System.Windows.Forms.Button();
@@ -41,6 +40,8 @@
             this.clb_XNOs_XNM = new System.Windows.Forms.CheckedListBox();
             this.clb_XNMs = new System.Windows.Forms.CheckedListBox();
             this.tm_ItemCheck = new System.Windows.Forms.Timer(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_Title = new System.Windows.Forms.Label();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.split_MSTStudio)).BeginInit();
@@ -49,23 +50,13 @@
             this.split_MSTStudio.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lbl_Title
-            // 
-            this.lbl_Title.AutoSize = true;
-            this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Title.Location = new System.Drawing.Point(14, 10);
-            this.lbl_Title.Name = "lbl_Title";
-            this.lbl_Title.Size = new System.Drawing.Size(212, 47);
-            this.lbl_Title.TabIndex = 1;
-            this.lbl_Title.Text = "MST Studio";
-            // 
             // pnl_Backdrop
             // 
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.DarkOrchid;
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnl_Backdrop.Controls.Add(this.label1);
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-3, -2);
@@ -186,6 +177,28 @@
             this.clb_XNMs.Size = new System.Drawing.Size(193, 302);
             this.clb_XNMs.TabIndex = 0;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(19, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 38;
+            this.label1.Text = "experimental";
+            // 
+            // lbl_Title
+            // 
+            this.lbl_Title.AutoSize = true;
+            this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_Title.Location = new System.Drawing.Point(14, 3);
+            this.lbl_Title.Name = "lbl_Title";
+            this.lbl_Title.Size = new System.Drawing.Size(212, 47);
+            this.lbl_Title.TabIndex = 37;
+            this.lbl_Title.Text = "MST Studio";
+            // 
             // MST_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -217,8 +230,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lbl_Title;
         private System.Windows.Forms.Panel pnl_Backdrop;
         internal System.Windows.Forms.PictureBox pic_Logo;
         private System.Windows.Forms.Button btn_Decode;
@@ -229,5 +240,7 @@
         private System.Windows.Forms.CheckedListBox clb_XNOs_XNM;
         private System.Windows.Forms.CheckedListBox clb_XNMs;
         private System.Windows.Forms.Timer tm_ItemCheck;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_Title;
     }
 }

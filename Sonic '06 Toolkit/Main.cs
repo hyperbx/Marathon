@@ -7,6 +7,7 @@ using HedgeLib.Sets;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Sonic_06_Toolkit
 {
@@ -946,6 +947,63 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        void Shortcuts_DecodeMSTs_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
+                byte[] buffer = new byte[1024];
+
+                // arg0 is assumed to be a file to split
+                foreach (string MST in Directory.GetFiles(Global.currentPath, "*.mst", SearchOption.TopDirectoryOnly))
+                {
+                    List<string> results = new List<string>();          // <- BTW Hyper this array contains ALL the lines read from the file, including any bugged non-unicode lines.
+
+                    using (FileStream fs = new FileStream(MST, FileMode.Open))
+                    {
+                        byte[] strbuf = new byte[1024];
+                        int len = 0, pos = 0;
+
+                        while ((len = fs.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            for (int i = 0; i < len; i += 2)
+                            {
+
+                                // check if the next 2 bytes are an end token. Check second byte last because its most likely 0 anyway but we gotta be sure...
+                                if ((buffer[i + 1] == 0 || buffer[i + 1] == 0xA) && buffer[i] == 0)
+                                {
+                                    // this is a null terminator or a newline
+                                    results.Add(unicode.GetString(strbuf, 0, pos));
+                                    pos = 0;
+
+                                }
+                                else
+                                {
+                                    // if the buffer we allocated is too small, reallocate a larger array...
+                                    if (pos >= strbuf.Length)
+                                    {
+                                        byte[] _sbuf = strbuf;
+                                        strbuf = new byte[_sbuf.Length << 1];
+                                        Array.Copy(_sbuf, strbuf, _sbuf.Length);
+                                    }
+
+                                    // copy next 2 bytes into strbuffer... If file size is not divisible by 2, this is gonna be a real problem here
+                                    strbuf[pos++] = buffer[i];
+                                    strbuf[pos++] = buffer[i + 1];
+                                }
+                            }
+                        }
+
+                        // if the last string is not terminated, print it anyway
+                        if (pos > 0) results.Add(unicode.GetString(strbuf, 0, pos));
+                    }
+
+                    File.WriteAllLines(Global.currentPath + Path.GetFileNameWithoutExtension(MST) + ".txt", results);
+                }
+            }
+            catch { MessageBox.Show("An error occurred when decoding the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
         void Shortcuts_ConvertSETs_Click(object sender, EventArgs e)
         {
             //Checks if there are any SETs in the directory.
@@ -1148,7 +1206,8 @@ namespace Sonic_06_Toolkit
                 shortcuts_ExtractCSBs.Enabled = true;
                 shortcuts_ConvertSETs.Enabled = true;
                 mainSDK_SETStudio.Enabled = true;
-                //mainSDK_MSTStudio.Enabled = true;
+                mainSDK_MSTStudio.Enabled = true;
+                shortcuts_DecodeMSTs.Enabled = true;
                 #endregion
 
                 if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = false;
@@ -1176,7 +1235,8 @@ namespace Sonic_06_Toolkit
                 shortcuts_ExtractCSBs.Enabled = false;
                 shortcuts_ConvertSETs.Enabled = false;
                 mainSDK_SETStudio.Enabled = false;
-                //mainSDK_MSTStudio.Enabled = false;
+                mainSDK_MSTStudio.Enabled = false;
+                shortcuts_DecodeMSTs.Enabled = false;
                 #endregion
 
                 if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = true; else pic_Logo.Visible = false;

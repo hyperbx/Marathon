@@ -95,6 +95,7 @@
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMSTs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertSETs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Tabs = new System.Windows.Forms.ToolStripMenuItem();
@@ -413,7 +414,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(241, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -503,7 +504,7 @@
             this.mainThemes_Compact.CheckOnClick = true;
             this.mainThemes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainThemes_Compact.Name = "mainThemes_Compact";
-            this.mainThemes_Compact.Size = new System.Drawing.Size(180, 22);
+            this.mainThemes_Compact.Size = new System.Drawing.Size(159, 22);
             this.mainThemes_Compact.Text = "Compact";
             this.mainThemes_Compact.CheckedChanged += new System.EventHandler(this.MainThemes_Compact_CheckedChanged);
             // 
@@ -511,14 +512,14 @@
             // 
             this.mainThemes_Original.CheckOnClick = true;
             this.mainThemes_Original.Name = "mainThemes_Original";
-            this.mainThemes_Original.Size = new System.Drawing.Size(180, 22);
+            this.mainThemes_Original.Size = new System.Drawing.Size(159, 22);
             this.mainThemes_Original.Text = "Original";
             this.mainThemes_Original.CheckedChanged += new System.EventHandler(this.MainThemes_Original_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(156, 6);
             // 
             // mainPreferences_ShowLogo
             // 
@@ -526,7 +527,7 @@
             this.mainPreferences_ShowLogo.CheckOnClick = true;
             this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowLogo.Text = "Show Logo";
             this.mainPreferences_ShowLogo.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowLogo_CheckedChanged);
             // 
@@ -536,7 +537,7 @@
             this.mainPreferences_ShowSessionID.CheckOnClick = true;
             this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
-            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
             // 
@@ -600,7 +601,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -609,7 +610,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -618,7 +619,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -627,7 +628,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -636,7 +637,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -645,7 +646,7 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
             // 
@@ -654,7 +655,7 @@
             this.mainSDK_XNOStudio.Enabled = false;
             this.mainSDK_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XNOStudio.Image")));
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
             // 
@@ -663,6 +664,7 @@
             this.main_Shortcuts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.shortcuts_ExtractCSBs,
             this.shortcuts_DecompileLUBs,
+            this.shortcuts_DecodeMSTs,
             this.shortcuts_ConvertSETs,
             this.shortcuts_ConvertXNOs});
             this.main_Shortcuts.Name = "main_Shortcuts";
@@ -690,6 +692,17 @@
             this.shortcuts_DecompileLUBs.Size = new System.Drawing.Size(282, 22);
             this.shortcuts_DecompileLUBs.Text = "Decompile all LUBs here...";
             this.shortcuts_DecompileLUBs.Click += new System.EventHandler(this.Shortcuts_DecompileLUBs_Click);
+            // 
+            // shortcuts_DecodeMSTs
+            // 
+            this.shortcuts_DecodeMSTs.Enabled = false;
+            this.shortcuts_DecodeMSTs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeMSTs.Image")));
+            this.shortcuts_DecodeMSTs.Name = "shortcuts_DecodeMSTs";
+            this.shortcuts_DecodeMSTs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.M)));
+            this.shortcuts_DecodeMSTs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_DecodeMSTs.Text = "Decode all MSTs here...";
+            this.shortcuts_DecodeMSTs.Click += new System.EventHandler(this.Shortcuts_DecodeMSTs_Click);
             // 
             // shortcuts_ConvertSETs
             // 
@@ -1149,6 +1162,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowLogo;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowSessionID;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMSTs;
     }
 }
 
