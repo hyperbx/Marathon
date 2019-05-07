@@ -1244,6 +1244,33 @@ namespace Sonic_06_Toolkit
         void Tab_Main_SelectedIndexChanged(object sender, EventArgs e)
         {
             Global.getIndex = tab_Main.SelectedIndex;
+
+            if (tab_Main.SelectedTab.Text != "New Tab")
+            {
+                #region Building location data...
+                //Reads the metadata to get the original location of the ARC.
+                var repackBuildSession = new StringBuilder();
+                repackBuildSession.Append(Properties.Settings.Default.archivesPath);
+                repackBuildSession.Append(Global.sessionID);
+                repackBuildSession.Append(@"\");
+                string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
+                repackBuildSession.Append(@"\");
+                repackBuildSession.Append(failsafeCheck);
+                repackBuildSession.Append(@"\");
+                #endregion
+
+                if (File.Exists(repackBuildSession.ToString() + "metadata.ini"))
+                {
+                    string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
+                    Text = "Sonic '06 Toolkit - '" + metadata + "'";
+                }
+                else
+                {
+                    MessageBox.Show("This archive's metadata is missing or unreadable. It will be removed from the session.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+                }
+            }
+            else { Text = "Sonic '06 Toolkit"; }
         }
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
@@ -1433,6 +1460,8 @@ namespace Sonic_06_Toolkit
                             storageWrite.Write(storageText, 0, storageText.Length);
                             storageWrite.Close();
                             #endregion
+
+                            Text = "Sonic '06 Toolkit - '" + ofd_OpenARC.FileName +"'";
                         }
                     }
                 }
