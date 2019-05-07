@@ -160,9 +160,9 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
+            this.mstrip_Options.Location = new System.Drawing.Point(158, 386);
             this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
+            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
             this.mstrip_Options.TabIndex = 43;
             this.mstrip_Options.Text = "menuStrip1";
             // 
@@ -183,14 +183,12 @@
             this.modes_ADXtoWAV,
             this.modes_WAVtoADX});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(173, 22);
+            this.options_Modes.Size = new System.Drawing.Size(180, 22);
             this.options_Modes.Text = "Modes";
             // 
             // modes_ADXtoWAV
             // 
-            this.modes_ADXtoWAV.Checked = true;
             this.modes_ADXtoWAV.CheckOnClick = true;
-            this.modes_ADXtoWAV.CheckState = System.Windows.Forms.CheckState.Checked;
             this.modes_ADXtoWAV.Name = "modes_ADXtoWAV";
             this.modes_ADXtoWAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
             this.modes_ADXtoWAV.Size = new System.Drawing.Size(180, 22);
@@ -216,7 +214,7 @@
             this.volume_1,
             this.volume_0});
             this.options_Volume.Name = "options_Volume";
-            this.options_Volume.Size = new System.Drawing.Size(173, 22);
+            this.options_Volume.Size = new System.Drawing.Size(180, 22);
             this.options_Volume.Text = "Volume";
             this.options_Volume.Visible = false;
             // 
@@ -276,7 +274,7 @@
             this.looping_Ignore,
             this.looping_Remove});
             this.options_Looping.Name = "options_Looping";
-            this.options_Looping.Size = new System.Drawing.Size(173, 22);
+            this.options_Looping.Size = new System.Drawing.Size(180, 22);
             this.options_Looping.Text = "Looping";
             this.options_Looping.Visible = false;
             // 
@@ -302,7 +300,7 @@
             this.options_DownmixToMono.CheckOnClick = true;
             this.options_DownmixToMono.CheckState = System.Windows.Forms.CheckState.Checked;
             this.options_DownmixToMono.Name = "options_DownmixToMono";
-            this.options_DownmixToMono.Size = new System.Drawing.Size(173, 22);
+            this.options_DownmixToMono.Size = new System.Drawing.Size(180, 22);
             this.options_DownmixToMono.Text = "Downmix to Mono";
             this.options_DownmixToMono.Visible = false;
             this.options_DownmixToMono.CheckedChanged += new System.EventHandler(this.Options_DownmixToStereo_CheckedChanged);

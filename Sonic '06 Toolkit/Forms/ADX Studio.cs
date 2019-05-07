@@ -24,28 +24,23 @@ namespace Sonic_06_Toolkit
 
             clb_ADX.Items.Clear();
 
-            #region Getting ADX files to convert...
-            foreach (string ADX in Directory.GetFiles(Global.currentPath, "*.adx", SearchOption.TopDirectoryOnly))
+            if (Directory.GetFiles(Global.currentPath, "*.adx").Length > 0)
             {
-                if (File.Exists(ADX))
-                {
-                    clb_ADX.Items.Add(Path.GetFileName(ADX));
-                }
+                modes_ADXtoWAV.Checked = true;
+                modes_WAVtoADX.Checked = false;
+                options_Volume.Visible = false;
+                options_Looping.Visible = false;
+                options_DownmixToMono.Visible = false;
             }
-            #endregion
-
-            modes_WAVtoADX.Checked = false;
-            options_Volume.Visible = false;
-            options_Looping.Visible = false;
-            options_DownmixToMono.Visible = false;
-
-            //Checks if there are any WAV files in the directory.
-            if (clb_ADX.Items.Count == 0)
+            else if (Directory.GetFiles(Global.currentPath, "*.wav").Length > 0)
             {
-                lbl_Status.Visible = true;
-                lbl_Status.Text = "There are no ADX files to convert in this directory";
+                modes_ADXtoWAV.Checked = false;
+                modes_WAVtoADX.Checked = true;
+                options_Volume.Visible = true;
+                options_Looping.Visible = true;
+                options_DownmixToMono.Visible = true;
             }
-            else { lbl_Status.Visible = false; }
+            else { MessageBox.Show("There are no encodable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -181,13 +176,20 @@ namespace Sonic_06_Toolkit
                 options_DownmixToMono.Visible = false;
                 btn_Convert.Enabled = false;
 
-                //Checks if there are any WAV files in the directory.
-                if (clb_ADX.Items.Count == 0)
+                if (Directory.GetFiles(Global.currentPath, "*.adx").Length == 0)
                 {
-                    lbl_Status.Visible = true;
-                    lbl_Status.Text = "There are no ADX files to convert in this directory";
+                    MessageBox.Show("There are no ADX files to encode in this directory.", "No ADX files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (Directory.GetFiles(Global.currentPath, "*.wav").Length == 0)
+                    {
+                        Close();
+                    }
+                    else
+                    {
+                        modes_ADXtoWAV.Checked = false;
+                        modes_WAVtoADX.Checked = true;
+                    }
                 }
-                else { lbl_Status.Visible = false; }
             }
         }
 
@@ -215,13 +217,20 @@ namespace Sonic_06_Toolkit
                 options_DownmixToMono.Visible = true;
                 btn_Convert.Enabled = false;
 
-                //Checks if there are any WAV files in the directory.
-                if (clb_ADX.Items.Count == 0)
+                if (Directory.GetFiles(Global.currentPath, "*.wav").Length == 0)
                 {
-                    lbl_Status.Visible = true;
-                    lbl_Status.Text = "There are no WAV files to convert in this directory";
+                    MessageBox.Show("There are no WAV files to encode in this directory.", "No WAV files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (Directory.GetFiles(Global.currentPath, "*.adx").Length == 0)
+                    {
+                        Close();
+                    }
+                    else
+                    {
+                        modes_ADXtoWAV.Checked = true;
+                        modes_WAVtoADX.Checked = false;
+                    }
                 }
-                else { lbl_Status.Visible = false; }
             }
         }
 

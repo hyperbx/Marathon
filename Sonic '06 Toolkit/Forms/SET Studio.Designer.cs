@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SET_Studio));
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.btn_Convert = new System.Windows.Forms.Button();
@@ -43,7 +44,6 @@
             this.modes_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.options_CreateBackupSET = new System.Windows.Forms.ToolStripMenuItem();
             this.options_DeleteXML = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.mstrip_Options.SuspendLayout();
@@ -62,6 +62,17 @@
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(440, 69);
             this.pnl_Backdrop.TabIndex = 36;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(19, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "experimental";
             // 
             // pic_Logo
             // 
@@ -179,12 +190,10 @@
             // 
             // modes_Export
             // 
-            this.modes_Export.Checked = true;
             this.modes_Export.CheckOnClick = true;
-            this.modes_Export.CheckState = System.Windows.Forms.CheckState.Checked;
             this.modes_Export.Name = "modes_Export";
             this.modes_Export.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.modes_Export.Size = new System.Drawing.Size(143, 22);
+            this.modes_Export.Size = new System.Drawing.Size(180, 22);
             this.modes_Export.Text = "Export";
             this.modes_Export.CheckedChanged += new System.EventHandler(this.Modes_Export_CheckedChanged);
             // 
@@ -193,7 +202,7 @@
             this.modes_Import.CheckOnClick = true;
             this.modes_Import.Name = "modes_Import";
             this.modes_Import.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.modes_Import.Size = new System.Drawing.Size(143, 22);
+            this.modes_Import.Size = new System.Drawing.Size(180, 22);
             this.modes_Import.Text = "Import";
             this.modes_Import.CheckedChanged += new System.EventHandler(this.Modes_Import_CheckedChanged);
             // 
@@ -216,17 +225,6 @@
             this.options_DeleteXML.Size = new System.Drawing.Size(190, 22);
             this.options_DeleteXML.Text = "Delete XML on Import";
             this.options_DeleteXML.Visible = false;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(19, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "experimental";
             // 
             // SET_Studio
             // 

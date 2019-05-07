@@ -14,32 +14,27 @@ namespace Sonic_06_Toolkit
 
         void SET_Studio_Load(object sender, EventArgs e)
         {
-            if (modes_Export.Checked == true)
+            Global.setState = "export";
+            btn_Convert.Text = "Export";
+
+            clb_SETs.Items.Clear();
+
+            if (Directory.GetFiles(Global.currentPath, "*.set").Length > 0)
             {
+                modes_Export.Checked = true;
                 modes_Import.Checked = false;
-
-                Global.setState = "export";
-                btn_Convert.Text = "Export";
-
-                clb_SETs.Items.Clear();
-
-                #region Getting SETs to unpack...
-                foreach (string SET in Directory.GetFiles(Global.currentPath, "*.set", SearchOption.TopDirectoryOnly))
-                {
-                    if (File.Exists(SET))
-                    {
-                        clb_SETs.Items.Add(Path.GetFileName(SET));
-                    }
-                }
-
-                //Checks if there are any CSBs in the directory.
-                if (clb_SETs.Items.Count == 0)
-                {
-                    MessageBox.Show("There are no SETs to export in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Close();
-                }
-                #endregion
+                options_DeleteXML.Visible = false;
+                options_CreateBackupSET.Visible = false;
             }
+            else if (Directory.GetFiles(Global.currentPath, "*.xml").Length > 0)
+            {
+                modes_Export.Checked = false;
+                modes_Import.Checked = true;
+                options_DeleteXML.Visible = true;
+                options_CreateBackupSET.Visible = true;
+            }
+            else { MessageBox.Show("There are no convertable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
+
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -141,14 +136,22 @@ namespace Sonic_06_Toolkit
                         clb_SETs.Items.Add(Path.GetFileName(SET));
                     }
                 }
+                #endregion
 
-                //Checks if there are any CSBs in the directory.
-                if (clb_SETs.Items.Count == 0)
+                if (Directory.GetFiles(Global.currentPath, "*.set").Length == 0)
                 {
                     MessageBox.Show("There are no SETs to export in this directory.", "No SETs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Close();
+
+                    if (Directory.GetFiles(Global.currentPath, "*.xml").Length == 0)
+                    {
+                        Close();
+                    }
+                    else
+                    {
+                        modes_Export.Checked = false;
+                        modes_Import.Checked = true;
+                    }
                 }
-                #endregion
             }
         }
 
@@ -174,15 +177,22 @@ namespace Sonic_06_Toolkit
                         clb_SETs.Items.Add(Path.GetFileName(XML));
                     }
                 }
+                #endregion
 
-                //Checks if there are any CSBs in the directory.
-                if (clb_SETs.Items.Count == 0)
+                if (Directory.GetFiles(Global.currentPath, "*.xml").Length == 0)
                 {
                     MessageBox.Show("There are no XMLs to import in this directory.", "No XMLs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    modes_Import.Checked = false;
-                    modes_Export.Checked = true;
+
+                    if (Directory.GetFiles(Global.currentPath, "*.set").Length == 0)
+                    {
+                        Close();
+                    }
+                    else
+                    {
+                        modes_Export.Checked = true;
+                        modes_Import.Checked = false;
+                    }
                 }
-                #endregion
             }
         }
     }
