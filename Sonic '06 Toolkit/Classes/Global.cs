@@ -15,6 +15,7 @@ namespace Sonic_06_Toolkit
         public static string csbState;
         public static string lubState;
         public static string setState;
+        public static string mstState;
         public static string xnoState;
 
         #region Directories

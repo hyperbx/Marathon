@@ -78,8 +78,6 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.mainPreferences_ShowLogo = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainPreferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -126,6 +124,9 @@
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
+            this.mainPreferences_ShowLogo = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainPreferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -412,7 +413,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(241, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -478,8 +479,6 @@
             this.toolStripSeparator4,
             this.mainPreferences_Paths,
             this.toolStripSeparator5,
-            this.mainPreferences_ShowLogo,
-            this.mainPreferences_ShowSessionID,
             this.mainPreferences_DisableSoftwareUpdater});
             this.mainFile_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Preferences.Image")));
             this.mainFile_Preferences.Name = "mainFile_Preferences";
@@ -490,7 +489,10 @@
             // 
             this.mainPreferences_Themes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainThemes_Compact,
-            this.mainThemes_Original});
+            this.mainThemes_Original,
+            this.toolStripSeparator6,
+            this.mainPreferences_ShowLogo,
+            this.mainPreferences_ShowSessionID});
             this.mainPreferences_Themes.Name = "mainPreferences_Themes";
             this.mainPreferences_Themes.Size = new System.Drawing.Size(204, 22);
             this.mainPreferences_Themes.Text = "Themes";
@@ -501,7 +503,7 @@
             this.mainThemes_Compact.CheckOnClick = true;
             this.mainThemes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainThemes_Compact.Name = "mainThemes_Compact";
-            this.mainThemes_Compact.Size = new System.Drawing.Size(123, 22);
+            this.mainThemes_Compact.Size = new System.Drawing.Size(180, 22);
             this.mainThemes_Compact.Text = "Compact";
             this.mainThemes_Compact.CheckedChanged += new System.EventHandler(this.MainThemes_Compact_CheckedChanged);
             // 
@@ -509,7 +511,7 @@
             // 
             this.mainThemes_Original.CheckOnClick = true;
             this.mainThemes_Original.Name = "mainThemes_Original";
-            this.mainThemes_Original.Size = new System.Drawing.Size(123, 22);
+            this.mainThemes_Original.Size = new System.Drawing.Size(180, 22);
             this.mainThemes_Original.Text = "Original";
             this.mainThemes_Original.CheckedChanged += new System.EventHandler(this.MainThemes_Original_CheckedChanged);
             // 
@@ -529,26 +531,6 @@
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(201, 6);
-            // 
-            // mainPreferences_ShowLogo
-            // 
-            this.mainPreferences_ShowLogo.Checked = true;
-            this.mainPreferences_ShowLogo.CheckOnClick = true;
-            this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(204, 22);
-            this.mainPreferences_ShowLogo.Text = "Show Logo";
-            this.mainPreferences_ShowLogo.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowLogo_CheckedChanged);
-            // 
-            // mainPreferences_ShowSessionID
-            // 
-            this.mainPreferences_ShowSessionID.Checked = true;
-            this.mainPreferences_ShowSessionID.CheckOnClick = true;
-            this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
-            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(204, 22);
-            this.mainPreferences_ShowSessionID.Text = "Show Session ID";
-            this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
             // 
             // mainPreferences_DisableSoftwareUpdater
             // 
@@ -593,7 +575,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -602,7 +584,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -611,7 +593,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -620,7 +602,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -629,15 +611,16 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
+            this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
             // mainSDK_SETStudio
             // 
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
             // 
@@ -646,7 +629,7 @@
             this.mainSDK_XNOStudio.Enabled = false;
             this.mainSDK_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XNOStudio.Image")));
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
             // 
@@ -1005,11 +988,34 @@
             this.pic_Logo.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
             this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(457, 179);
+            this.pic_Logo.Location = new System.Drawing.Point(464, 185);
             this.pic_Logo.Name = "pic_Logo";
-            this.pic_Logo.Size = new System.Drawing.Size(400, 300);
+            this.pic_Logo.Size = new System.Drawing.Size(334, 263);
             this.pic_Logo.TabIndex = 10;
             this.pic_Logo.TabStop = false;
+            // 
+            // mainPreferences_ShowLogo
+            // 
+            this.mainPreferences_ShowLogo.Checked = true;
+            this.mainPreferences_ShowLogo.CheckOnClick = true;
+            this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowLogo.Text = "Show Logo";
+            // 
+            // mainPreferences_ShowSessionID
+            // 
+            this.mainPreferences_ShowSessionID.Checked = true;
+            this.mainPreferences_ShowSessionID.CheckOnClick = true;
+            this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
+            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowSessionID.Text = "Show Session ID";
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
             // 
             // Main
             // 
@@ -1112,7 +1118,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_Paths;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowSessionID;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_DisableSoftwareUpdater;
         private System.Windows.Forms.ToolStripMenuItem mainFile_CloseARC;
         private System.Windows.Forms.ToolStripMenuItem mainFile_Exit;
@@ -1139,7 +1144,9 @@
         private System.Windows.Forms.ToolStripMenuItem mainSDK_SETStudio;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertSETs;
         private System.Windows.Forms.PictureBox pic_Logo;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowLogo;
+        private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowSessionID;
     }
 }
 

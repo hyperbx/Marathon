@@ -6,6 +6,7 @@ namespace Sonic_06_Toolkit
     static class Program
     {
         [STAThread]
+
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();

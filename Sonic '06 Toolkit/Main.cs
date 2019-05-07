@@ -5,8 +5,10 @@ using System.Text;
 using System.Linq;
 using HedgeLib.Sets;
 using System.Drawing;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace Sonic_06_Toolkit
 {
@@ -27,7 +29,39 @@ namespace Sonic_06_Toolkit
             //The below code checks the command line arguments and unpacks the file that was dragged into the application.
             if (args.Length > 0)
             {
-                if (Path.GetExtension(args[0]) == ".arc")
+                #region ADX
+                if (Path.GetExtension(args[0]) == ".adx")
+                {
+                    try
+                    {
+                        #region Converting ADX files...
+                        Global.adxState = "adx";
+
+                        //Sets up the BASIC application and executes the converting process.
+                        var convertSession = new ProcessStartInfo(Properties.Settings.Default.adx2wavFile, "\"" + args[0] + "\" \"" + Path.GetDirectoryName(args[0]) + @"\" + Path.GetFileNameWithoutExtension(args[0]) + ".wav\"");
+                        convertSession.WorkingDirectory = Global.currentPath;
+                        convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Convert = Process.Start(convertSession);
+                        var convertDialog = new Status();
+                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.Show();
+                        Convert.WaitForExit();
+                        Convert.Close();
+                        convertDialog.Close();
+
+                        Global.adxState = null;
+                        #endregion
+
+                        Close();
+                    }
+                    catch { MessageBox.Show("An error occurred when encoding the ADX file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
+
+                #region ARC
+                else if (Path.GetExtension(args[0]) == ".arc")
                 {
                     try
                     {
@@ -37,7 +71,7 @@ namespace Sonic_06_Toolkit
                             var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                             if (hexString != "55 AA 38 2D")
                             {
-                                byte[] angryBytes = File.ReadAllBytes(args[0]).Take(300).ToArray();
+                                byte[] angryBytes = File.ReadAllBytes(args[0]).ToArray();
                                 var angryHexString = BitConverter.ToString(angryBytes); angryHexString = angryHexString.Replace("-", " ");
                                 if (angryHexString.Contains("4D 49 47 2E 30 30 2E 31 50 53 50"))
                                 {
@@ -140,8 +174,246 @@ namespace Sonic_06_Toolkit
                     }
                     catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
+                #endregion
+
+                #region WAV
+                else if (Path.GetExtension(args[0]) == ".wav")
+                {
+                    try
+                    {
+                        #region Converting WAV files...
+                        Global.adxState = "wav";
+
+                        //Sets up the BASIC application and executes the converting process.
+                        var convertSession = new ProcessStartInfo(Properties.Settings.Default.criconverterFile, "\"" + args[0] + "\" \"" + Path.GetDirectoryName(args[0]) + @"\" + Path.GetFileNameWithoutExtension(args[0]) + ".adx\" -codec=adx -volume=1 -downmix=MONO");
+                        convertSession.WorkingDirectory = Global.currentPath;
+                        convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Convert = Process.Start(convertSession);
+                        var convertDialog = new Status();
+                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.Show();
+                        Convert.WaitForExit();
+                        Convert.Close();
+                        convertDialog.Close();
+
+                        Global.adxState = null;
+                        #endregion
+
+                        Close();
+                    }
+                    catch { MessageBox.Show("An error occurred when encoding the WAV file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
+
+                #region CSB
+                else if (Path.GetExtension(args[0]) == ".csb")
+                {
+                    try
+                    {
+                        #region Extracting CSBs...
+                        Global.csbState = "unpack";
+
+                        //Sets up the BASIC application and executes the extracting process.
+                        var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + args[0] + "\"");
+                        unpackSession.WorkingDirectory = Global.currentPath;
+                        unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Unpack = Process.Start(unpackSession);
+                        var unpackDialog = new Status();
+                        var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                        var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                        unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        unpackDialog.Show();
+                        Unpack.WaitForExit();
+                        Unpack.Close();
+                        unpackDialog.Close();
+
+                        Global.csbState = null;
+                        #endregion
+
+                        Close();
+                    }
+                    catch { MessageBox.Show("An error occurred when unpacking the CSB.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
+
+                #region LUB
+                else if (Path.GetExtension(args[0]) == ".lub")
+                {
+                    //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
+                    //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
+                    if (Global.javaCheck == false) MessageBox.Show("Java is required to decompile Lua binaries. Please install Java and restart Sonic '06 Toolkit.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    {
+                        //Temporary solution; would probably be better to use an array.
+                        //Checks if the first file to be processed is blacklisted. If so, abort the operation to ensure the file doesn't get corrupted.
+                        if (Path.GetFileNameWithoutExtension(args[0]) == @"standard.lub") MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        else
+                        {
+                            //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
+                            if (Path.GetFileNameWithoutExtension(args[0]) == @"render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (Path.GetFileNameWithoutExtension(args[0]) == @"game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (Path.GetFileNameWithoutExtension(args[0]) == @"object.lub") MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            try
+                            {
+                                #region Writing decompiler...
+                                //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
+                                if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\")) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\");
+                                if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\lubs")) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID + @"\lubs");
+                                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\unlub.jar")) File.WriteAllBytes(Properties.Settings.Default.unlubPath + Global.sessionID + @"\unlub.jar", Properties.Resources.unlub);
+                                if (!File.Exists(Properties.Settings.Default.unlubPath + Global.sessionID + @"\unlub.bat"))
+                                {
+                                    var decompilerWrite = File.Create(Properties.Settings.Default.unlubPath + Global.sessionID + @"\unlub.bat");
+                                    var decompilerText = new UTF8Encoding(true).GetBytes("cd \".\\lubs\"\nfor /r %%i in (*.lub) do java -jar ..\\unlub.jar \"%%~dpni.lub\" > \"%%~dpni.lua\"\nxcopy \".\\*.lua\" \"..\\luas\" /y /i\ndel \".\\*.lua\" /q\n@ECHO OFF\n:delete\ndel /q /f *.lub\n@ECHO OFF\n:rename\ncd \"..\\luas\"\nrename \"*.lua\" \"*.lub\"\nexit");
+                                    decompilerWrite.Write(decompilerText, 0, decompilerText.Length);
+                                    decompilerWrite.Close();
+                                }
+                                #endregion
+
+                                #region Verifying Lua binaries...
+                                //Checks the header for each file to ensure that it can be safely decompiled.
+                                if (File.Exists(args[0]))
+                                {
+                                    if (File.ReadAllLines(args[0])[0].Contains("LuaP"))
+                                    {
+                                        Global.currentPath = Path.GetDirectoryName(args[0]);
+                                        MessageBox.Show(Global.currentPath);
+                                        File.Copy(args[0], Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\lubs\", Path.GetFileName(args[0])), true);
+                                    }
+                                }
+                                #endregion
+
+                                #region Decompiling Lua binaries...
+                                Global.lubState = "decompile";
+                                //Sets up the BASIC application and executes the decompiling process.
+                                var decompileSession = new ProcessStartInfo(Properties.Settings.Default.unlubPath + Global.sessionID + @"\unlub.bat");
+                                decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\";
+                                decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
+                                var Decompile = Process.Start(decompileSession);
+                                var decompileDialog = new Status();
+                                var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                                var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                                decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                                decompileDialog.Show();
+                                Decompile.WaitForExit();
+                                Decompile.Close();
+
+                                Global.lubState = null;
+                                #endregion
+
+                                #region Moving decompiled Lua binaries...
+                                //Copies all LUBs to the final directory, then erases leftovers.
+                                if (File.Exists(Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\luas\", Path.GetFileName(args[0]))))
+                                {
+                                    File.Copy(Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\luas\", Path.GetFileName(args[0])), Path.Combine(Global.currentPath, Path.GetFileName(args[0])), true);
+                                    File.Delete(Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\luas\", Path.GetFileName(args[0])));
+                                }
+                                decompileDialog.Close();
+                                #endregion
+
+                                Close();
+                            }
+                            catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        }
+                    }
+                }
+                #endregion
+
+                #region SET
+                else if (Path.GetExtension(args[0]) == ".set")
+                {
+                    try
+                    {
+                        if (File.Exists(args[0]))
+                        {
+                            var readSET = new S06SetData();
+                            readSET.Load(args[0]);
+                            readSET.ExportXML(Global.currentPath + Path.GetFileNameWithoutExtension(args[0]) + ".xml");
+
+                            Close();
+                        }
+                    }
+                    catch { MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
+
+                #region XML
+                else if (Path.GetExtension(args[0]) == ".xml")
+                {
+                    try
+                    {
+                        if (File.Exists(args[0]))
+                        {
+                            if (File.Exists(Path.GetFileNameWithoutExtension(args[0]) + ".set")) File.Copy(Path.GetFileNameWithoutExtension(args[0]) + ".set", Path.GetDirectoryName(args[0]) + Path.GetFileNameWithoutExtension(args[0]) + ".set.bak", true);
+
+                            if (File.Exists(Path.GetFileNameWithoutExtension(args[0]) + ".set")) File.Delete(Path.GetFileNameWithoutExtension(args[0]) + ".set");
+
+                            var readXML = new S06SetData();
+                            readXML.ImportXML(args[0]);
+                            readXML.Save(Path.GetFileNameWithoutExtension(args[0]) + ".set");
+
+                            if (File.Exists(args[0])) File.Delete(args[0]);
+
+                            Close();
+                        }
+                    }
+                    catch { MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
+
+                #region XNO
+                else if (Path.GetExtension(args[0]) == ".xno")
+                {
+                    try
+                    {
+                        #region Writing converter...
+                        //Writes the decompiler to the failsafe directory to ensure any XNOs left over from other open archives aren't copied over to the selected archive.
+                        if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\")) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\");
+                        if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xnos")) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xnos");
+                        if (!File.Exists(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xno2dae.exe")) File.WriteAllBytes(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xno2dae.exe", Properties.Resources.xno2dae);
+                        #endregion
+
+                        #region Building XNOs...
+                        //Gets the location of the converter and writes a BASIC application.
+                        var checkedBuildSession = new StringBuilder();
+                        checkedBuildSession.Append(Properties.Settings.Default.xnoPath);
+                        checkedBuildSession.Append(Global.sessionID);
+                        checkedBuildSession.Append(@"\xno2dae.exe");
+                        var checkedWrite = File.Create(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xno2dae.bat");
+                        var checkedText = new UTF8Encoding(true).GetBytes("\"" + checkedBuildSession.ToString() + "\" \"" + args[0] + "\"");
+                        checkedWrite.Write(checkedText, 0, checkedText.Length);
+                        checkedWrite.Close();
+                        #endregion
+
+                        #region Converting XNOs...
+                        Global.xnoState = "xno";
+
+                        //Sets up the BASIC application and executes the conversion process.
+                        var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\xno2dae.bat");
+                        convertSession.WorkingDirectory = Global.currentPath;
+                        convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                        var Convert = Process.Start(convertSession);
+                        var convertDialog = new Status();
+                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.Show();
+                        Convert.WaitForExit();
+                        Convert.Close();
+                        convertDialog.Close();
+
+                        Global.xnoState = null;
+                        #endregion
+
+                        Close();
+                    }
+                    catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                }
+                #endregion
             }
         }
+
 
         void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string versionInfoLink)
         {
@@ -336,59 +608,6 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Preferences
-        //[Preferences] - Show Logo
-        //Disables the Sonic '06 Toolkit logo appearing on new tabs.
-        void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
-        {
-            if (mainPreferences_ShowLogo.Checked == true)
-            {
-                Properties.Settings.Default.showLogo = true;
-                Properties.Settings.Default.Save();
-            }
-            else
-            {
-                Properties.Settings.Default.showLogo = false;
-                Properties.Settings.Default.Save();
-            }
-        }
-
-        //[Preferences] - Show Session ID
-        //Moves certain controls in runtime to hide the Session ID properly.
-        void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
-        {
-            if (mainPreferences_ShowSessionID.Checked == true)
-            {
-                if (Properties.Settings.Default.theme == "Compact")
-                {
-                    Properties.Settings.Default.showSessionID = true;
-                    btn_SessionID.Visible = true;
-                    btn_Repack.Left -= 48;
-                    btn_OpenFolder.Left -= 48;
-                }
-                else if (Properties.Settings.Default.theme == "Original")
-                {
-                    Properties.Settings.Default.showSessionID = true;
-                    btn_SessionID.Visible = true;
-                }
-            }
-            else
-            {
-                if (Properties.Settings.Default.theme == "Compact")
-                {
-                    Properties.Settings.Default.showSessionID = false;
-                    btn_SessionID.Visible = false;
-                    btn_Repack.Left += 48;
-                    btn_OpenFolder.Left += 48;
-                }
-                else if (Properties.Settings.Default.theme == "Original")
-                {
-                    Properties.Settings.Default.showSessionID = false;
-                    btn_SessionID.Visible = false;
-                }
-            }
-            Properties.Settings.Default.Save();
-        }
-
         //[Preferences] - Disable software updater
         //Disables the software update function on launch.
         void MainPreferences_DisableSoftwareUpdater_CheckedChanged(object sender, EventArgs e)
@@ -402,6 +621,13 @@ namespace Sonic_06_Toolkit
                 Properties.Settings.Default.disableSoftwareUpdater = false;
             }
             Properties.Settings.Default.Save();
+        }
+
+        //Paths
+        //Opens a form to allow the user to enter their own paths.
+        void MainPreferences_Paths_Click(object sender, EventArgs e)
+        {
+            new Paths().ShowDialog();
         }
 
         //[Themes] - Compact
@@ -456,11 +682,57 @@ namespace Sonic_06_Toolkit
             Properties.Settings.Default.Save();
         }
 
-        //Paths
-        //Opens a form to allow the user to enter their own paths.
-        void MainPreferences_Paths_Click(object sender, EventArgs e)
+        //[Themes] - Show Logo
+        //Disables the Sonic '06 Toolkit logo appearing on new tabs.
+        void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
         {
-            new Paths().ShowDialog();
+            if (mainPreferences_ShowLogo.Checked == true)
+            {
+                Properties.Settings.Default.showLogo = true;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                Properties.Settings.Default.showLogo = false;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        //[Themes] - Show Session ID
+        //Moves certain controls in runtime to hide the Session ID properly.
+        void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mainPreferences_ShowSessionID.Checked == true)
+            {
+                if (Properties.Settings.Default.theme == "Compact")
+                {
+                    Properties.Settings.Default.showSessionID = true;
+                    btn_SessionID.Visible = true;
+                    btn_Repack.Left -= 48;
+                    btn_OpenFolder.Left -= 48;
+                }
+                else if (Properties.Settings.Default.theme == "Original")
+                {
+                    Properties.Settings.Default.showSessionID = true;
+                    btn_SessionID.Visible = true;
+                }
+            }
+            else
+            {
+                if (Properties.Settings.Default.theme == "Compact")
+                {
+                    Properties.Settings.Default.showSessionID = false;
+                    btn_SessionID.Visible = false;
+                    btn_Repack.Left += 48;
+                    btn_OpenFolder.Left += 48;
+                }
+                else if (Properties.Settings.Default.theme == "Original")
+                {
+                    Properties.Settings.Default.showSessionID = false;
+                    btn_SessionID.Visible = false;
+                }
+            }
+            Properties.Settings.Default.Save();
         }
         #endregion
 
@@ -505,6 +777,11 @@ namespace Sonic_06_Toolkit
             {
                 new LUB_Studio().ShowDialog();
             }
+        }
+
+        void MainSDK_MSTStudio_Click(object sender, EventArgs e)
+        {
+            new MST_Studio().ShowDialog();
         }
 
         void MainSDK_SETStudio_Click(object sender, EventArgs e)
@@ -862,6 +1139,7 @@ namespace Sonic_06_Toolkit
                 shortcuts_ExtractCSBs.Enabled = true;
                 shortcuts_ConvertSETs.Enabled = true;
                 mainSDK_SETStudio.Enabled = true;
+                //mainSDK_MSTStudio.Enabled = true;
                 #endregion
 
                 if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = false;
@@ -889,6 +1167,7 @@ namespace Sonic_06_Toolkit
                 shortcuts_ExtractCSBs.Enabled = false;
                 shortcuts_ConvertSETs.Enabled = false;
                 mainSDK_SETStudio.Enabled = false;
+                //mainSDK_MSTStudio.Enabled = false;
                 #endregion
 
                 if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = true; else pic_Logo.Visible = false;
@@ -926,7 +1205,7 @@ namespace Sonic_06_Toolkit
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString != "55 AA 38 2D")
                         {
-                            byte[] angryBytes = File.ReadAllBytes(ofd_OpenARC.FileName).Take(300).ToArray();
+                            byte[] angryBytes = File.ReadAllBytes(ofd_OpenARC.FileName).ToArray();
                             var angryHexString = BitConverter.ToString(angryBytes); angryHexString = angryHexString.Replace("-", " ");
                             if (angryHexString.Contains("4D 49 47 2E 30 30 2E 31 50 53 50"))
                             {
@@ -1174,6 +1453,7 @@ namespace Sonic_06_Toolkit
                     //Checks if the only tab is called 'New Tab' before asking for confirmation.
                     if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
                     {
+                        pic_Logo.Dispose();
                         tab_Main.Dispose();
                         EraseData();
                     }
@@ -1183,6 +1463,7 @@ namespace Sonic_06_Toolkit
                         switch (confirmUserClosure)
                         {
                             case DialogResult.Yes:
+                                pic_Logo.Dispose();
                                 tab_Main.Dispose();
                                 EraseData();
                                 break;
@@ -1197,6 +1478,7 @@ namespace Sonic_06_Toolkit
                     //Checks if the only tab is called 'New Tab' before asking for confirmation.
                     if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
                     {
+                        pic_Logo.Dispose();
                         tab_Main.Dispose();
                         EraseData();
                     }
@@ -1206,6 +1488,7 @@ namespace Sonic_06_Toolkit
                         switch (confirmShutdownClosure)
                         {
                             case DialogResult.Yes:
+                                pic_Logo.Dispose();
                                 tab_Main.Dispose();
                                 EraseData();
                                 break;
@@ -1216,6 +1499,7 @@ namespace Sonic_06_Toolkit
                     }
                     break;
                 case CloseReason.ApplicationExitCall:
+                    pic_Logo.Dispose();
                     tab_Main.Dispose();
                     EraseData();
                     break;

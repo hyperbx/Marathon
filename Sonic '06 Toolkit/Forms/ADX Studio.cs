@@ -99,7 +99,7 @@ namespace Sonic_06_Toolkit
                     }
                     #endregion
                 }
-                catch { MessageBox.Show("An error occurred when converting the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch { MessageBox.Show("An error occurred when encoding the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             else if (Global.adxState == "wav")
             {
@@ -134,7 +134,7 @@ namespace Sonic_06_Toolkit
                     }
                     #endregion
                 }
-                catch { MessageBox.Show("An error occurred when converting the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch { MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
             else
             {
