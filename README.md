@@ -18,8 +18,8 @@
 ### LUB Decompiling (to be replaced)
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
 
-### MST Decoding (planned)
-- Planned features to be able to decode MST files, which are BINA string tables with null terminated unicode.
+### MST Decoding (experimental)
+- Currently using [Natsumi](https://github.com/TheRetroSnake)'s BINA to string converter. We currently don't have a way to convert text back to the MST format. 
 
 ### SET Exporting and XML Importing (experimental)
 - Currently based off [RadfordHound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
