@@ -5,10 +5,8 @@ using System.Text;
 using System.Linq;
 using HedgeLib.Sets;
 using System.Drawing;
-using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace Sonic_06_Toolkit
 {
@@ -43,9 +41,7 @@ namespace Sonic_06_Toolkit
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
                         var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.StartPosition = FormStartPosition.CenterScreen;
                         convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
@@ -190,9 +186,7 @@ namespace Sonic_06_Toolkit
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
                         var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.StartPosition = FormStartPosition.CenterScreen;
                         convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
@@ -221,9 +215,7 @@ namespace Sonic_06_Toolkit
                         unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Unpack = Process.Start(unpackSession);
                         var unpackDialog = new Status();
-                        var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                        var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                        unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        unpackDialog.StartPosition = FormStartPosition.CenterScreen;
                         unpackDialog.Show();
                         Unpack.WaitForExit();
                         Unpack.Close();
@@ -291,9 +283,7 @@ namespace Sonic_06_Toolkit
                                 decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                                 var Decompile = Process.Start(decompileSession);
                                 var decompileDialog = new Status();
-                                var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
-                                var parentTop = Top + ((Height - decompileDialog.Height) / 2);
-                                decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                                decompileDialog.StartPosition = FormStartPosition.CenterScreen;
                                 decompileDialog.Show();
                                 Decompile.WaitForExit();
                                 Decompile.Close();
@@ -394,9 +384,7 @@ namespace Sonic_06_Toolkit
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
                         var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.StartPosition = FormStartPosition.CenterScreen;
                         convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
