@@ -402,7 +402,7 @@ namespace Sonic_06_Toolkit
         }
 
 
-        void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string versionInfoLink)
+        void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string libDownloadLink, string versionInfoLink)
         {
             try
             {
@@ -420,15 +420,36 @@ namespace Sonic_06_Toolkit
                                 if (themes_Original.Checked == true) { btn_Backdrop.Visible = true; btn_Backdrop.Left += 186; }
                                 try
                                 {
-                                    var clientApplication = new WebClient();
-                                    clientApplication.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
-                                    clientApplication.DownloadFileAsync(new Uri(newVersionDownloadLink), Application.ExecutablePath + ".pak");
-                                    clientApplication.DownloadFileCompleted += (s, e) =>
+                                    if (File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll"))
                                     {
-                                        File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
-                                        Process.Start(Application.ExecutablePath);
-                                        Application.Exit();
-                                    };
+                                        var clientHedgeLib = new WebClient();
+                                        clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                        clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak");
+                                        clientHedgeLib.DownloadFileCompleted += (s, e) =>
+                                        {
+                                            File.Replace(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.bak");
+                                        };
+                                    }
+                                    else
+                                    {
+                                        var clientHedgeLib = new WebClient();
+                                        clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                        clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll");
+                                    }
+
+                                    if (File.Exists(Application.ExecutablePath))
+                                    {
+                                        var clientApplication = new WebClient();
+                                        clientApplication.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                        clientApplication.DownloadFileAsync(new Uri(newVersionDownloadLink), Application.ExecutablePath + ".pak");
+                                        clientApplication.DownloadFileCompleted += (s, e) =>
+                                        {
+                                            File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
+                                            Process.Start(Application.ExecutablePath);
+                                            Application.Exit();
+                                        };
+                                    }
+                                    else { MessageBox.Show("Sonic '06 Toolkit doesn't exist... What?!", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                                 }
                                 catch
                                 {
@@ -518,7 +539,7 @@ namespace Sonic_06_Toolkit
             else
             {
                 mainPreferences_DisableSoftwareUpdater.Checked = false;
-                CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+                CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/lib.dll", "https://segacarnival.com/hyper/updates/latest_master.txt");
             }
             #endregion
 
@@ -1060,7 +1081,7 @@ namespace Sonic_06_Toolkit
         {
             if (Global.serverStatus == "offline") MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else if (Global.serverStatus == "down") MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else Global.updateState = "user"; CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+            else Global.updateState = "user"; CheckForUpdates(Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/lib.dll", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
 
         void MainHelp_About_Click(object sender, EventArgs e)

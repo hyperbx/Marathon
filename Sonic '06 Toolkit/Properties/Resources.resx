@@ -169,4 +169,7 @@
   <data name="vsthost" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vsthost.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\bin\Debug\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
