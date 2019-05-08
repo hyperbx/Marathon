@@ -44,7 +44,7 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 #region Unpacking ARC...
-                Global.arcState = "unpack";
+                Global.arcState = "processing";
 
                 //Sets up the BASIC application and executes the unpacking process.
                 var basicWrite1 = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
@@ -62,8 +62,6 @@ namespace Sonic_06_Toolkit
                 unpackDialog1.Show();
                 Unpack1.WaitForExit();
                 Unpack1.Close();
-
-                Global.arcState = null;
                 #endregion
 
                 #region Writing metadata...
@@ -72,7 +70,6 @@ namespace Sonic_06_Toolkit
                 var metadataSession1 = new UTF8Encoding(true).GetBytes(text_ARC1.Text);
                 metadataWrite1.Write(metadataSession1, 0, metadataSession1.Length);
                 metadataWrite1.Close();
-                unpackDialog1.Close();
                 #endregion
 
                 #region Building unpack data...
@@ -102,8 +99,6 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 #region Unpacking ARC...
-                Global.arcState = "unpack";
-
                 //Sets up the BASIC application and executes the unpacking process.
                 var basicWrite2 = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
                 var basicSession2 = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession2.ToString() + Path.GetFileName(text_ARC2.Text) + "\"");
@@ -113,15 +108,8 @@ namespace Sonic_06_Toolkit
                 unpackSession2.WorkingDirectory = Properties.Settings.Default.toolsPath;
                 unpackSession2.WindowStyle = ProcessWindowStyle.Hidden;
                 var Unpack2 = Process.Start(unpackSession2);
-                var unpackDialog2 = new Status();
-                var parentLeft2 = Left + ((Width - unpackDialog2.Width) / 2);
-                var parentTop2 = Top + ((Height - unpackDialog2.Height) / 2);
-                unpackDialog2.Location = new System.Drawing.Point(parentLeft2, parentTop2);
-                unpackDialog2.Show();
                 Unpack2.WaitForExit();
                 Unpack2.Close();
-
-                Global.arcState = null;
                 #endregion
 
                 #region Writing metadata...
@@ -130,30 +118,16 @@ namespace Sonic_06_Toolkit
                 var metadataSession2 = new UTF8Encoding(true).GetBytes(text_ARC2.Text);
                 metadataWrite2.Write(metadataSession2, 0, metadataSession2.Length);
                 metadataWrite2.Close();
-                unpackDialog2.Close();
                 #endregion
 
                 #region Processing ARCs...
-                Global.arcState = "processing";
-
-                var processDialog = new Status();
-                var parentLeftProc = Left + ((Width - processDialog.Width) / 2);
-                var parentTopProc = Top + ((Height - processDialog.Height) / 2);
-                processDialog.Location = new System.Drawing.Point(parentLeft1, parentTop1);
-                processDialog.Show();
-
                 var arcData1 = unpackBuildSession1.ToString();
                 var arcData2 = unpackBuildSession2electricboogaloo.ToString() + @"\";
                 foreach (string dirPath in Directory.GetDirectories(arcData1, "*", SearchOption.AllDirectories)) Directory.CreateDirectory(dirPath.Replace(arcData1, arcData2));
                 foreach (string newPath in Directory.GetFiles(arcData1, "*.*", SearchOption.AllDirectories)) File.Copy(newPath, newPath.Replace(arcData1, arcData2), true);
-                processDialog.Close();
-
-                Global.arcState = null;
                 #endregion
 
                 #region Repacking merged ARC...
-                Global.arcState = "repack";
-
                 //Sets up the BASIC application and executes the repacking process.
                 var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
                 var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.repackFile + "\" \"" + unpackBuildSession2electricboogaloo.ToString() + "\"");
@@ -163,19 +137,15 @@ namespace Sonic_06_Toolkit
                 repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                 repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                 var Repack = Process.Start(repackSession);
-                var repackDialog = new Status();
-                var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-                var parentTop = Top + ((Height - repackDialog.Height) / 2);
-                repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                repackDialog.Show();
                 Repack.WaitForExit();
                 Repack.Close();
                 string archivePath = unpackBuildSession2electricboogaloo.ToString() + ".arc";
                 if (File.Exists(archivePath)) File.Copy(archivePath, text_Output.Text, true);
-                repackDialog.Close();
+                #endregion
+
+                unpackDialog1.Close();
 
                 Global.arcState = null;
-                #endregion
             }
             catch { MessageBox.Show("An error occurred when merging the archives.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
@@ -213,6 +183,11 @@ namespace Sonic_06_Toolkit
             {
                 text_Output.Text = sfd_Output.FileName;
             }
+        }
+
+        private void ARC_Studio_Load(object sender, EventArgs e)
+        {
+            Global.arcState = "unpack";
         }
     }
 }

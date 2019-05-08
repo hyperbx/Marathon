@@ -202,5 +202,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["showLogo"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool unpackAndLaunch {
+            get {
+                return ((bool)(this["unpackAndLaunch"]));
+            }
+            set {
+                this["unpackAndLaunch"] = value;
+            }
+        }
     }
 }

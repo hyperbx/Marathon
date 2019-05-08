@@ -28,7 +28,13 @@ namespace Sonic_06_Toolkit
                     }
                     catch { MessageBox.Show("Failed to write HedgeLib.dll. You need to reinstall Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                //else { MessageBox.Show("Unable to initialise Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else
+                {
+                    if (args[0] == null)
+                    {
+                        MessageBox.Show("Unable to initialise Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
     }

@@ -96,7 +96,7 @@
             this.group_RootPath.Size = new System.Drawing.Size(513, 71);
             this.group_RootPath.TabIndex = 22;
             this.group_RootPath.TabStop = false;
-            this.group_RootPath.Text = "ARC #1";
+            this.group_RootPath.Text = "Source";
             // 
             // btn_BrowseARC1
             // 
@@ -128,7 +128,7 @@
             this.group_ToolsPath.Size = new System.Drawing.Size(513, 71);
             this.group_ToolsPath.TabIndex = 23;
             this.group_ToolsPath.TabStop = false;
-            this.group_ToolsPath.Text = "ARC #2";
+            this.group_ToolsPath.Text = "Merge";
             // 
             // btn_BrowseARC2
             // 
@@ -225,6 +225,7 @@
             this.Name = "ARC_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ARC Studio";
+            this.Load += new System.EventHandler(this.ARC_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();

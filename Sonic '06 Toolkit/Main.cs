@@ -83,89 +83,117 @@ namespace Sonic_06_Toolkit
                             }
                             else
                             {
-                                #region Building unpack data...
-                                //Builds the main string which locates the ARC's final unpack directory.
-                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                                var unpackBuildSession = new StringBuilder();
-                                unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
-                                unpackBuildSession.Append(Global.sessionID);
-                                unpackBuildSession.Append(@"\");
-                                unpackBuildSession.Append(failsafeCheck);
-                                unpackBuildSession.Append(@"\");
-                                unpackBuildSession.Append(Path.GetFileNameWithoutExtension(args[0]));
-                                unpackBuildSession.Append(@"\");
-                                if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
-                                #endregion
-
-                                #region Building ARC data...
-                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                                var arcBuildSession = new StringBuilder();
-                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                                arcBuildSession.Append(Global.sessionID);
-                                arcBuildSession.Append(@"\");
-                                arcBuildSession.Append(failsafeCheck);
-                                arcBuildSession.Append(@"\");
-                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                                if (File.Exists(args[0])) File.Copy(args[0], arcBuildSession.ToString() + Path.GetFileName(args[0]), true);
-                                #endregion
-
-                                #region Unpacking ARC...
-                                Global.arcState = "typical";
-
-                                //Sets up the BASIC application and executes the unpacking process.
-                                var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
-                                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(args[0]) + "\"");
-                                basicWrite.Write(basicSession, 0, basicSession.Length);
-                                basicWrite.Close();
-                                var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
-                                unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
-                                unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
-                                var Unpack = Process.Start(unpackSession);
-                                var unpackDialog = new Status();
-                                unpackDialog.StartPosition = FormStartPosition.CenterScreen;
-                                unpackDialog.Show();
-                                Unpack.WaitForExit();
-                                Unpack.Close();
-
-                                Global.arcState = null;
-                                #endregion
-
-                                #region Writing metadata...
-                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                                var metadataSession = new UTF8Encoding(true).GetBytes(args[0]);
-                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                                metadataWrite.Close();
-                                unpackDialog.Close();
-                                #endregion
-
-                                #region Navigating...
-                                //Creates a new tab if the selected one is being used.
-                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                if (Properties.Settings.Default.unpackAndLaunch == false)
                                 {
-                                    currentARC().Navigate(unpackBuildSession.ToString());
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                    #region Unpacking ARC...
+                                    Global.arcState = "typical";
+
+                                    //Sets up the BASIC application and executes the unpacking process.
+                                    var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                    var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + args[0] + "\"");
+                                    basicWrite.Write(basicSession, 0, basicSession.Length);
+                                    basicWrite.Close();
+                                    var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                    unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
+                                    unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                                    var Unpack = Process.Start(unpackSession);
+                                    var unpackDialog = new Status();
+                                    unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                                    unpackDialog.Show();
+                                    Unpack.WaitForExit();
+                                    Unpack.Close();
+
+                                    Global.arcState = null;
+                                    #endregion
+
+                                    Close();
                                 }
                                 else
                                 {
-                                    newTab();
-                                    currentARC().Navigate(unpackBuildSession.ToString());
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
-                                }
-                                #endregion
+                                    #region Building unpack data...
+                                    //Builds the main string which locates the ARC's final unpack directory.
+                                    string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                    var unpackBuildSession = new StringBuilder();
+                                    unpackBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                    unpackBuildSession.Append(Global.sessionID);
+                                    unpackBuildSession.Append(@"\");
+                                    unpackBuildSession.Append(failsafeCheck);
+                                    unpackBuildSession.Append(@"\");
+                                    unpackBuildSession.Append(Path.GetFileNameWithoutExtension(args[0]));
+                                    unpackBuildSession.Append(@"\");
+                                    if (!Directory.Exists(unpackBuildSession.ToString())) Directory.CreateDirectory(unpackBuildSession.ToString());
+                                    #endregion
 
-                                #region Building location data...
-                                //Writes a file to store the failsafe directory to be referenced later.
-                                var storageSession = new StringBuilder();
-                                storageSession.Append(Properties.Settings.Default.archivesPath);
-                                storageSession.Append(Global.sessionID);
-                                storageSession.Append(@"\");
-                                storageSession.Append(tab_Main.SelectedIndex);
-                                var storageWrite = File.Create(storageSession.ToString());
-                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                                storageWrite.Write(storageText, 0, storageText.Length);
-                                storageWrite.Close();
-                                #endregion
+                                    #region Building ARC data...
+                                    //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                    var arcBuildSession = new StringBuilder();
+                                    arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                    arcBuildSession.Append(Global.sessionID);
+                                    arcBuildSession.Append(@"\");
+                                    arcBuildSession.Append(failsafeCheck);
+                                    arcBuildSession.Append(@"\");
+                                    if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                    if (File.Exists(args[0])) File.Copy(args[0], arcBuildSession.ToString() + Path.GetFileName(args[0]), true);
+                                    #endregion
+
+                                    #region Unpacking ARC...
+                                    Global.arcState = "typical";
+
+                                    //Sets up the BASIC application and executes the unpacking process.
+                                    var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                    var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.unpackFile + "\" \"" + arcBuildSession.ToString() + Path.GetFileName(args[0]) + "\"");
+                                    basicWrite.Write(basicSession, 0, basicSession.Length);
+                                    basicWrite.Close();
+                                    var unpackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "unpack.bat");
+                                    unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
+                                    unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
+                                    var Unpack = Process.Start(unpackSession);
+                                    var unpackDialog = new Status();
+                                    unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                                    unpackDialog.Show();
+                                    Unpack.WaitForExit();
+                                    Unpack.Close();
+
+                                    Global.arcState = null;
+                                    #endregion
+
+                                    #region Writing metadata...
+                                    //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                    var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                    var metadataSession = new UTF8Encoding(true).GetBytes(args[0]);
+                                    metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                    metadataWrite.Close();
+                                    unpackDialog.Close();
+                                    #endregion
+
+                                    #region Navigating...
+                                    //Creates a new tab if the selected one is being used.
+                                    if (tab_Main.SelectedTab.Text == "New Tab")
+                                    {
+                                        currentARC().Navigate(unpackBuildSession.ToString());
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                    }
+                                    else
+                                    {
+                                        newTab();
+                                        currentARC().Navigate(unpackBuildSession.ToString());
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                    }
+                                    #endregion
+
+                                    #region Building location data...
+                                    //Writes a file to store the failsafe directory to be referenced later.
+                                    var storageSession = new StringBuilder();
+                                    storageSession.Append(Properties.Settings.Default.archivesPath);
+                                    storageSession.Append(Global.sessionID);
+                                    storageSession.Append(@"\");
+                                    storageSession.Append(tab_Main.SelectedIndex);
+                                    var storageWrite = File.Create(storageSession.ToString());
+                                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                    storageWrite.Write(storageText, 0, storageText.Length);
+                                    storageWrite.Close();
+                                    #endregion
+                                }
                             }
                         }
                     }
@@ -595,6 +623,7 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.showLogo == true) pic_Logo.Visible = true; else pic_Logo.Visible = false;
             if (Properties.Settings.Default.showSessionID == true) mainPreferences_ShowSessionID.Checked = true; else mainPreferences_ShowSessionID.Checked = false;
             if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
+            if (Properties.Settings.Default.unpackAndLaunch == true) ARC_UnpackAndLaunch.Checked = true; else ARC_UnpackRoot.Checked = true;
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
             {
                 mainPreferences_DisableSoftwareUpdater.Checked = true;
@@ -684,14 +713,8 @@ namespace Sonic_06_Toolkit
         //Disables the software update function on launch.
         void MainPreferences_DisableSoftwareUpdater_CheckedChanged(object sender, EventArgs e)
         {
-            if (mainPreferences_DisableSoftwareUpdater.Checked == true)
-            {
-                Properties.Settings.Default.disableSoftwareUpdater = true;
-            }
-            else
-            {
-                Properties.Settings.Default.disableSoftwareUpdater = false;
-            }
+            if (mainPreferences_DisableSoftwareUpdater.Checked == true) Properties.Settings.Default.disableSoftwareUpdater = true;
+            else Properties.Settings.Default.disableSoftwareUpdater = false;
             Properties.Settings.Default.Save();
         }
 
@@ -758,16 +781,9 @@ namespace Sonic_06_Toolkit
         //Disables the Sonic '06 Toolkit logo appearing on new tabs.
         void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
         {
-            if (mainPreferences_ShowLogo.Checked == true)
-            {
-                Properties.Settings.Default.showLogo = true;
-                Properties.Settings.Default.Save();
-            }
-            else
-            {
-                Properties.Settings.Default.showLogo = false;
-                Properties.Settings.Default.Save();
-            }
+            if (mainPreferences_ShowLogo.Checked == true) Properties.Settings.Default.showLogo = true;
+            else Properties.Settings.Default.showLogo = false;
+            Properties.Settings.Default.Save();
         }
 
         //[Themes] - Show Session ID
@@ -803,6 +819,42 @@ namespace Sonic_06_Toolkit
                     Properties.Settings.Default.showSessionID = false;
                     btn_SessionID.Visible = false;
                 }
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        //[ARC] - Unpack and launch Sonic '06 Toolkit
+        //Sets the ARC launch procedure to launch Sonic '06 Toolkit upon unpack.
+        void ARC_UnpackAndLaunch_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ARC_UnpackAndLaunch.Checked == true)
+            {
+                Properties.Settings.Default.unpackAndLaunch = true;
+                ARC_UnpackAndLaunch.Checked = true;
+                ARC_UnpackRoot.Checked = false;
+            }
+            else
+            {
+                ARC_UnpackAndLaunch.Checked = false;
+                ARC_UnpackRoot.Checked = true;
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        //[ARC] - Unpack in archive directory
+        //Sets the ARC launch procedure to unpack and finish.
+        void ARC_UnpackRoot_CheckedChanged(object sender, EventArgs e)
+        {
+            if (ARC_UnpackRoot.Checked == true)
+            {
+                Properties.Settings.Default.unpackAndLaunch = false;
+                ARC_UnpackAndLaunch.Checked = false;
+                ARC_UnpackRoot.Checked = true;
+            }
+            else
+            {
+                ARC_UnpackAndLaunch.Checked = true;
+                ARC_UnpackRoot.Checked = false;
             }
             Properties.Settings.Default.Save();
         }

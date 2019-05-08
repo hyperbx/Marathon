@@ -24,6 +24,7 @@ namespace Sonic_06_Toolkit
                 Text = "Processing ARCs...";
                 lbl_unpackState.Text = "Processing ARCs. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 236;
             }
             else if (Global.arcState == "save")
             {

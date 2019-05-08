@@ -78,6 +78,10 @@
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_ShowLogo = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPreferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferences_LaunchProcedures = new System.Windows.Forms.ToolStripMenuItem();
+            this.launch_ARC = new System.Windows.Forms.ToolStripMenuItem();
+            this.ARC_UnpackAndLaunch = new System.Windows.Forms.ToolStripMenuItem();
+            this.ARC_UnpackRoot = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -414,7 +418,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(241, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -477,6 +481,7 @@
             // 
             this.mainFile_Preferences.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainPreferences_Themes,
+            this.preferences_LaunchProcedures,
             this.toolStripSeparator4,
             this.mainPreferences_Paths,
             this.toolStripSeparator5,
@@ -540,6 +545,41 @@
             this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
+            // 
+            // preferences_LaunchProcedures
+            // 
+            this.preferences_LaunchProcedures.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.launch_ARC});
+            this.preferences_LaunchProcedures.Name = "preferences_LaunchProcedures";
+            this.preferences_LaunchProcedures.Size = new System.Drawing.Size(204, 22);
+            this.preferences_LaunchProcedures.Text = "Launch Procedures";
+            // 
+            // launch_ARC
+            // 
+            this.launch_ARC.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ARC_UnpackAndLaunch,
+            this.ARC_UnpackRoot});
+            this.launch_ARC.Name = "launch_ARC";
+            this.launch_ARC.Size = new System.Drawing.Size(180, 22);
+            this.launch_ARC.Text = "ARC";
+            // 
+            // ARC_UnpackAndLaunch
+            // 
+            this.ARC_UnpackAndLaunch.Checked = true;
+            this.ARC_UnpackAndLaunch.CheckOnClick = true;
+            this.ARC_UnpackAndLaunch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ARC_UnpackAndLaunch.Name = "ARC_UnpackAndLaunch";
+            this.ARC_UnpackAndLaunch.Size = new System.Drawing.Size(265, 22);
+            this.ARC_UnpackAndLaunch.Text = "Unpack and launch Sonic \'06 Toolkit";
+            this.ARC_UnpackAndLaunch.CheckedChanged += new System.EventHandler(this.ARC_UnpackAndLaunch_CheckedChanged);
+            // 
+            // ARC_UnpackRoot
+            // 
+            this.ARC_UnpackRoot.CheckOnClick = true;
+            this.ARC_UnpackRoot.Name = "ARC_UnpackRoot";
+            this.ARC_UnpackRoot.Size = new System.Drawing.Size(265, 22);
+            this.ARC_UnpackRoot.Text = "Unpack in archive directory";
+            this.ARC_UnpackRoot.CheckedChanged += new System.EventHandler(this.ARC_UnpackRoot_CheckedChanged);
             // 
             // toolStripSeparator4
             // 
@@ -1163,6 +1203,10 @@
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowLogo;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_ShowSessionID;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMSTs;
+        private System.Windows.Forms.ToolStripMenuItem preferences_LaunchProcedures;
+        private System.Windows.Forms.ToolStripMenuItem launch_ARC;
+        private System.Windows.Forms.ToolStripMenuItem ARC_UnpackAndLaunch;
+        private System.Windows.Forms.ToolStripMenuItem ARC_UnpackRoot;
     }
 }
 
