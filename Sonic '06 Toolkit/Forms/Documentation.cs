@@ -35,7 +35,7 @@ namespace Sonic_06_Toolkit
             #endregion
 
             #region Audio/Video
-            else if (tree_InfoSelect.SelectedNode.Text == "AT3") rtb_InfoDisplay.Text = "AT3 files are PlayStation 3 audio files that use the ATRAC 3 format.";
+            else if (tree_InfoSelect.SelectedNode.Text == "AT3") rtb_InfoDisplay.Text = "AT3 files are PlayStation 3 audio files that use the ATRAC 3 format. These can be edited using AT3 Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "PAM") rtb_InfoDisplay.Text = "PAM files are PlayStation 3 video files that contain both an AVI for video and an AT3 for audio.";
             else if (tree_InfoSelect.SelectedNode.Text == "CSB") rtb_InfoDisplay.Text = "CSB files are archives for sound formats; namely in the AIF and ADX format. CSBs can be unpacked using CSB Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "ADX") rtb_InfoDisplay.Text = "ADX files are proprietary CriWare audio files. ADX files can be converted to WAV files using ADX Studio.";
@@ -74,6 +74,10 @@ namespace Sonic_06_Toolkit
 
             #region ADX Studio
             else if (tree_InfoSelect.SelectedNode.Text == "WAV files aren't converting back to ADX...") rtb_InfoDisplay.Text = "You need to install both x86 and x64 variations of Microsoft Visual C++ 2010 SP1.\n\nx86: https://www.microsoft.com/de-de/download/details.aspx?id=8328 \nx64: https://www.microsoft.com/en-us/download/details.aspx?id=13523";
+            #endregion
+
+            #region AT3 Studio
+            else if (tree_InfoSelect.SelectedNode.Text == "MSVCR71.dll is missing...") rtb_InfoDisplay.Text = "You need to install the x86 variant of Microsoft Visual C++ 2010.\n\nx86: https://www.microsoft.com/en-us/download/details.aspx?id=5555";
             #endregion
 
             #region LUB Studio

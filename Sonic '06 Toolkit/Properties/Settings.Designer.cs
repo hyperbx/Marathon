@@ -214,5 +214,41 @@ namespace Sonic_06_Toolkit.Properties {
                 this["unpackAndLaunch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string gamePath {
+            get {
+                return ((string)(this["gamePath"]));
+            }
+            set {
+                this["gamePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string exisoFile {
+            get {
+                return ((string)(this["exisoFile"]));
+            }
+            set {
+                this["exisoFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string at3File {
+            get {
+                return ((string)(this["at3File"]));
+            }
+            set {
+                this["at3File"] = value;
+            }
+        }
     }
 }

@@ -10,10 +10,10 @@ namespace Sonic_06_Toolkit
 
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Main(args));
             }
             catch

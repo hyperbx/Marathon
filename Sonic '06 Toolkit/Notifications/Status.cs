@@ -18,6 +18,7 @@ namespace Sonic_06_Toolkit
                 Text = "Unpacking ARC...";
                 lbl_unpackState.Text = "Unpacking ARC. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 284;
             }
             if (Global.arcState == "processing")
             {
@@ -31,26 +32,42 @@ namespace Sonic_06_Toolkit
                 Text = "Repacking ARC...";
                 lbl_unpackState.Text = "Repacking ARC. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 284;
             }
             else if (Global.arcState == "save-as")
             {
                 Text = "Repacking ARC...";
                 lbl_unpackState.Text = "Repacking ARC. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 284;
             }
             else if (Global.adxState == "adx")
             {
                 Text = "Encoding ADX files...";
                 lbl_unpackState.Text = "Encoding ADX files. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
-                Width = 308;
+                Width = 300;
             }
             else if (Global.adxState == "wav")
             {
                 Text = "Encoding WAV files...";
                 lbl_unpackState.Text = "Encoding WAV files. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
-                Width = 308;
+                Width = 300;
+            }
+            else if (Global.at3State == "at3")
+            {
+                Text = "Encoding AT3 files...";
+                lbl_unpackState.Text = "Encoding AT3 files. Please wait...";
+                pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
+                Width = 300;
+            }
+            else if (Global.at3State == "wav")
+            {
+                Text = "Encoding WAV files...";
+                lbl_unpackState.Text = "Encoding WAV files. Please wait...";
+                pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
+                Width = 300;
             }
             else if (Global.csbState == "unpack")
             {
@@ -86,6 +103,12 @@ namespace Sonic_06_Toolkit
                 lbl_unpackState.Text = "Converting XNOs. Please wait...";
                 pnl_windowCheck.BackColor = Color.FromArgb(239, 224, 201); BackColor = Color.FromArgb(239, 224, 201);
                 Width = 219;
+            }
+            else if (Global.exisoState == "extract")
+            {
+                Text = "Extracting ISO...";
+                lbl_unpackState.Text = "Extracting ISO. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
             }
         }
     }

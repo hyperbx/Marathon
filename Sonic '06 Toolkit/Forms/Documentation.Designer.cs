@@ -117,18 +117,22 @@
             System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("WAV files aren\'t converting back to ADX...");
             System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("ADX Studio", new System.Windows.Forms.TreeNode[] {
             treeNode47});
-            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Lua binaries are decompiling empty...");
-            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("LUB Studio", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("MSVCR71.dll is missing...");
+            System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("AT3 Studio", new System.Windows.Forms.TreeNode[] {
             treeNode49});
-            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("MSVCR100.dll is missing...");
-            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("XNO Studio", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Lua binaries are decompiling empty...");
+            System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("LUB Studio", new System.Windows.Forms.TreeNode[] {
             treeNode51});
-            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("MSVCR100.dll is missing...");
+            System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("XNO Studio", new System.Windows.Forms.TreeNode[] {
+            treeNode53});
+            System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
             treeNode48,
             treeNode50,
-            treeNode52});
-            System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
-            treeNode53});
+            treeNode52,
+            treeNode54});
+            System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
+            treeNode55});
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -302,17 +306,21 @@
             treeNode48.Name = "node_ADXStudio";
             treeNode48.Text = "ADX Studio";
             treeNode49.Name = "node_Error02";
-            treeNode49.Text = "Lua binaries are decompiling empty...";
-            treeNode50.Name = "node_LUBStudio";
-            treeNode50.Text = "LUB Studio";
-            treeNode51.Name = "node_Error01";
-            treeNode51.Text = "MSVCR100.dll is missing...";
-            treeNode52.Name = "node_XNOStudio";
-            treeNode52.Text = "XNO Studio";
-            treeNode53.Name = "node_Troubleshooting";
-            treeNode53.Text = "Troubleshooting";
-            treeNode54.Name = "node_Sonic06Toolkit";
-            treeNode54.Text = "Sonic \'06 Toolkit";
+            treeNode49.Text = "MSVCR71.dll is missing...";
+            treeNode50.Name = "node_AT3Studio";
+            treeNode50.Text = "AT3 Studio";
+            treeNode51.Name = "node_Error02";
+            treeNode51.Text = "Lua binaries are decompiling empty...";
+            treeNode52.Name = "node_LUBStudio";
+            treeNode52.Text = "LUB Studio";
+            treeNode53.Name = "node_Error01";
+            treeNode53.Text = "MSVCR100.dll is missing...";
+            treeNode54.Name = "node_XNOStudio";
+            treeNode54.Text = "XNO Studio";
+            treeNode55.Name = "node_Troubleshooting";
+            treeNode55.Text = "Troubleshooting";
+            treeNode56.Name = "node_Sonic06Toolkit";
+            treeNode56.Text = "Sonic \'06 Toolkit";
             this.tree_InfoSelect.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
             treeNode12,
@@ -321,7 +329,7 @@
             treeNode37,
             treeNode45,
             treeNode46,
-            treeNode54});
+            treeNode56});
             this.tree_InfoSelect.Size = new System.Drawing.Size(296, 381);
             this.tree_InfoSelect.TabIndex = 0;
             this.tree_InfoSelect.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tree_InfoSelect_AfterSelect);

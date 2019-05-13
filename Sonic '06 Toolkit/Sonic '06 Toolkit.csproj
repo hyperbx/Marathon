@@ -94,7 +94,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HedgeLib">
-      <HintPath>..\..\HedgeLib\HedgeLib\bin\Debug\HedgeLib.dll</HintPath>
+      <HintPath>bin\HedgeLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -109,22 +109,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\ADX Studio.cs">
+    <Compile Include="Unused\Loop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ADX Studio.Designer.cs">
+    <Compile Include="Unused\Loop.Designer.cs">
+      <DependentUpon>Loop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Studios\AT3 Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Studios\AT3 Studio.Designer.cs">
+      <DependentUpon>AT3 Studio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Studios\ADX Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Studios\ADX Studio.Designer.cs">
       <DependentUpon>ADX Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\CSB Studio.cs">
+    <Compile Include="Studios\CSB Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\CSB Studio.Designer.cs">
+    <Compile Include="Studios\CSB Studio.Designer.cs">
       <DependentUpon>CSB Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ARC Studio.cs">
+    <Compile Include="Studios\ARC Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ARC Studio.Designer.cs">
+    <Compile Include="Studios\ARC Studio.Designer.cs">
       <DependentUpon>ARC Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Documentation.cs">
@@ -139,10 +151,10 @@
     <Compile Include="Forms\Logo.Designer.cs">
       <DependentUpon>Logo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\LUB Studio.cs">
+    <Compile Include="Studios\LUB Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\LUB Studio.Designer.cs">
+    <Compile Include="Studios\LUB Studio.Designer.cs">
       <DependentUpon>LUB Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\About.cs">
@@ -159,10 +171,10 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Program.cs" />
-    <Compile Include="Forms\MST Studio.cs">
+    <Compile Include="Studios\MST Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MST Studio.Designer.cs">
+    <Compile Include="Studios\MST Studio.Designer.cs">
       <DependentUpon>MST Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Preferences\Paths.cs">
@@ -172,19 +184,19 @@
       <DependentUpon>Paths.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Forms\XNO Studio.cs">
+    <Compile Include="Studios\XNO Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\XNO Studio.Designer.cs">
+    <Compile Include="Studios\XNO Studio.Designer.cs">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\TimedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\SET Studio.cs">
+    <Compile Include="Studios\SET Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SET Studio.Designer.cs">
+    <Compile Include="Studios\SET Studio.Designer.cs">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Notifications\Status.cs">
@@ -193,19 +205,25 @@
     <Compile Include="Notifications\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\MST Studio.resx">
+    <EmbeddedResource Include="Unused\Loop.resx">
+      <DependentUpon>Loop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Studios\AT3 Studio.resx">
+      <DependentUpon>AT3 Studio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Studios\MST Studio.resx">
       <DependentUpon>MST Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SET Studio.resx">
+    <EmbeddedResource Include="Studios\SET Studio.resx">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ADX Studio.resx">
+    <EmbeddedResource Include="Studios\ADX Studio.resx">
       <DependentUpon>ADX Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CSB Studio.resx">
+    <EmbeddedResource Include="Studios\CSB Studio.resx">
       <DependentUpon>CSB Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ARC Studio.resx">
+    <EmbeddedResource Include="Studios\ARC Studio.resx">
       <DependentUpon>ARC Studio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
@@ -217,10 +235,10 @@
     <EmbeddedResource Include="Forms\Logo.resx">
       <DependentUpon>Logo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LUB Studio.resx">
+    <EmbeddedResource Include="Studios\LUB Studio.resx">
       <DependentUpon>LUB Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\XNO Studio.resx">
+    <EmbeddedResource Include="Studios\XNO Studio.resx">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
@@ -243,7 +261,6 @@
       <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="bin\Debug\HedgeLib.dll" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -260,6 +277,7 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PS3_at3tool.exe" />
     <None Include="Resources\vsthost.dll" />
     <None Include="Resources\SonicAudioLib.dll" />
     <None Include="Resources\unlub.jar" />
@@ -274,6 +292,8 @@
     <None Include="Resources\CriAtomEncoderComponent.dll" />
     <None Include="Resources\CriSamplingRateConverter.dll" />
     <None Include="Resources\AsyncAudioEncoder.dll" />
+    <None Include="Resources\HedgeLib.dll" />
+    <None Include="Resources\exiso.exe" />
     <Content Include="Resources\logo_main_icon.ico" />
   </ItemGroup>
   <ItemGroup>

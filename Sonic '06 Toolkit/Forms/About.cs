@@ -45,11 +45,15 @@ namespace Sonic_06_Toolkit
                 "Shadow LAG - Sonic '06 SDK\n" +
                 "xose - ARC Unpacker\n" +
                 "g0ldenlink - ARC Repacker\n" +
-                "Natsumi - MST Decoder & Design Guidance\n" +
+                "Natsumi - MST Decoder (1.83) & Design Guidance\n" +
                 "Skyth - XNO Converter & Sonic Audio Tools\n" +
                 "DarioSamo - XNO Converter\n" +
-                "CRI Middleware - ADX Encoder\n" +
-                "RadfordHound - HedgeLib",
+                "CRI Middleware Co. - ADX Encoder\n" +
+                "Radfordhound - HedgeLib\n" +
+                "in - extract-xiso\n" +
+                "Aiyyo - extract-xiso\n" +
+                "somski - extract-xiso\n" +
+                "SONY Computer Entertainment Inc. - AT3 Tool",
                 "Credits", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }

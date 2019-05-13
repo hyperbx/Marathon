@@ -170,6 +170,12 @@
     <value>..\Resources\vsthost.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\bin\Debug\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="exiso" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exiso.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="at3tool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PS3_at3tool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

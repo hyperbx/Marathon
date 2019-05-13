@@ -61,12 +61,15 @@
             this.help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.help_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.help_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.ofd_OpenARC = new System.Windows.Forms.OpenFileDialog();
+            this.ofd_OpenFiles = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.mstrip_Main = new System.Windows.Forms.MenuStrip();
             this.main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_OpenARC = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.mainFile_ExtractISO = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainFile_OpenSonic = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mainFile_RepackARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_RepackARCAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,13 +87,15 @@
             this.ARC_UnpackRoot = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
+            this.paths_ClearGame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainSDK_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainSDK_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainSDK_AT3Studio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_CSBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_MSTStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -102,10 +107,12 @@
             this.shortcuts_DecodeMSTs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertSETs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
-            this.main_Tabs = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainTabs_NewTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.main_Window = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWindow_NewTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWindow_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
-            this.mainTabs_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWindow_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWindow_CloseWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
@@ -122,7 +129,10 @@
             this.tab_Main = new System.Windows.Forms.TabControl();
             this.tm_tabCheck = new System.Windows.Forms.Timer(this.components);
             this.btn_OpenFolder = new System.Windows.Forms.Button();
-            this.sfd_RepackARCAs = new System.Windows.Forms.SaveFileDialog();
+            this.sfd_SaveFiles = new System.Windows.Forms.SaveFileDialog();
+            this.lbl_SetDefault = new System.Windows.Forms.Label();
+            this.fbd_BrowseFolders = new System.Windows.Forms.FolderBrowserDialog();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.sdk_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_CSBStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,7 +141,6 @@
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
-            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -372,11 +381,9 @@
             this.help_About.Size = new System.Drawing.Size(179, 22);
             this.help_About.Text = "About";
             // 
-            // ofd_OpenARC
+            // ofd_OpenFiles
             // 
-            this.ofd_OpenARC.DefaultExt = "arc";
-            this.ofd_OpenARC.Filter = "ARC Files|*.arc";
-            this.ofd_OpenARC.Title = "Please select an ARC file...";
+            this.ofd_OpenFiles.DefaultExt = "arc";
             // 
             // btn_SessionID
             // 
@@ -414,11 +421,11 @@
             this.main_File,
             this.main_SDK,
             this.main_Shortcuts,
-            this.main_Tabs,
+            this.main_Window,
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(361, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -426,6 +433,9 @@
             // 
             this.main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainFile_OpenARC,
+            this.toolStripSeparator7,
+            this.mainFile_ExtractISO,
+            this.mainFile_OpenSonic,
             this.toolStripSeparator2,
             this.mainFile_RepackARC,
             this.mainFile_RepackARCAs,
@@ -442,14 +452,37 @@
             this.mainFile_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_OpenARC.Image")));
             this.mainFile_OpenARC.Name = "mainFile_OpenARC";
             this.mainFile_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mainFile_OpenARC.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_OpenARC.Size = new System.Drawing.Size(298, 22);
             this.mainFile_OpenARC.Text = "Open ARC";
             this.mainFile_OpenARC.Click += new System.EventHandler(this.mainFile_OpenARC_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(295, 6);
+            // 
+            // mainFile_ExtractISO
+            // 
+            this.mainFile_ExtractISO.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_ExtractISO.Image")));
+            this.mainFile_ExtractISO.Name = "mainFile_ExtractISO";
+            this.mainFile_ExtractISO.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_ExtractISO.Text = "Extract Xbox 360 ISO...";
+            this.mainFile_ExtractISO.Click += new System.EventHandler(this.MainFile_ExtractISO_Click);
+            // 
+            // mainFile_OpenSonic
+            // 
+            this.mainFile_OpenSonic.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_OpenSonic.Image")));
+            this.mainFile_OpenSonic.Name = "mainFile_OpenSonic";
+            this.mainFile_OpenSonic.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.O)));
+            this.mainFile_OpenSonic.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
+            this.mainFile_OpenSonic.Click += new System.EventHandler(this.MainFile_OpenSonic_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(223, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(295, 6);
             // 
             // mainFile_RepackARC
             // 
@@ -457,7 +490,7 @@
             this.mainFile_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_RepackARC.Image")));
             this.mainFile_RepackARC.Name = "mainFile_RepackARC";
             this.mainFile_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARC.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_RepackARC.Size = new System.Drawing.Size(298, 22);
             this.mainFile_RepackARC.Text = "Repack ARC";
             this.mainFile_RepackARC.Click += new System.EventHandler(this.MainFile_RepackARC_Click);
             // 
@@ -468,14 +501,14 @@
             this.mainFile_RepackARCAs.Name = "mainFile_RepackARCAs";
             this.mainFile_RepackARCAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(298, 22);
             this.mainFile_RepackARCAs.Text = "Repack ARC As...";
             this.mainFile_RepackARCAs.Click += new System.EventHandler(this.MainFile_RepackARCAs_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(223, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(295, 6);
             // 
             // mainFile_Preferences
             // 
@@ -488,7 +521,7 @@
             this.mainPreferences_DisableSoftwareUpdater});
             this.mainFile_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Preferences.Image")));
             this.mainFile_Preferences.Name = "mainFile_Preferences";
-            this.mainFile_Preferences.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_Preferences.Size = new System.Drawing.Size(298, 22);
             this.mainFile_Preferences.Text = "Preferences";
             // 
             // mainPreferences_Themes
@@ -534,7 +567,7 @@
             this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
             this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowLogo.Text = "Show Logo";
-            this.mainPreferences_ShowLogo.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowLogo_CheckedChanged);
+            this.mainPreferences_ShowLogo.Visible = false;
             // 
             // mainPreferences_ShowSessionID
             // 
@@ -560,7 +593,7 @@
             this.ARC_UnpackAndLaunch,
             this.ARC_UnpackRoot});
             this.launch_ARC.Name = "launch_ARC";
-            this.launch_ARC.Size = new System.Drawing.Size(180, 22);
+            this.launch_ARC.Size = new System.Drawing.Size(97, 22);
             this.launch_ARC.Text = "ARC";
             // 
             // ARC_UnpackAndLaunch
@@ -588,10 +621,19 @@
             // 
             // mainPreferences_Paths
             // 
+            this.mainPreferences_Paths.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.paths_ClearGame});
             this.mainPreferences_Paths.Name = "mainPreferences_Paths";
             this.mainPreferences_Paths.Size = new System.Drawing.Size(204, 22);
             this.mainPreferences_Paths.Text = "Paths...";
             this.mainPreferences_Paths.Click += new System.EventHandler(this.MainPreferences_Paths_Click);
+            // 
+            // paths_ClearGame
+            // 
+            this.paths_ClearGame.Name = "paths_ClearGame";
+            this.paths_ClearGame.Size = new System.Drawing.Size(184, 22);
+            this.paths_ClearGame.Text = "Clear game directory";
+            this.paths_ClearGame.Click += new System.EventHandler(this.Paths_ClearGame_Click);
             // 
             // toolStripSeparator5
             // 
@@ -611,7 +653,7 @@
             this.mainFile_CloseARC.Enabled = false;
             this.mainFile_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_CloseARC.Image")));
             this.mainFile_CloseARC.Name = "mainFile_CloseARC";
-            this.mainFile_CloseARC.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_CloseARC.Size = new System.Drawing.Size(298, 22);
             this.mainFile_CloseARC.Text = "Close ARC";
             this.mainFile_CloseARC.Click += new System.EventHandler(this.MainFile_CloseARC_Click);
             // 
@@ -619,15 +661,16 @@
             // 
             this.mainFile_Exit.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Exit.Image")));
             this.mainFile_Exit.Name = "mainFile_Exit";
-            this.mainFile_Exit.Size = new System.Drawing.Size(226, 22);
+            this.mainFile_Exit.Size = new System.Drawing.Size(298, 22);
             this.mainFile_Exit.Text = "Exit";
             this.mainFile_Exit.Click += new System.EventHandler(this.MainFile_Exit_Click);
             // 
             // main_SDK
             // 
             this.main_SDK.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mainSDK_ARCStudio,
             this.mainSDK_ADXStudio,
+            this.mainSDK_ARCStudio,
+            this.mainSDK_AT3Studio,
             this.mainSDK_CSBStudio,
             this.mainSDK_LUBStudio,
             this.mainSDK_MSTStudio,
@@ -637,14 +680,6 @@
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
             this.main_SDK.Text = "SDK";
             // 
-            // mainSDK_ARCStudio
-            // 
-            this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
-            this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
-            this.mainSDK_ARCStudio.Text = "ARC Studio...";
-            this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
-            // 
             // mainSDK_ADXStudio
             // 
             this.mainSDK_ADXStudio.Enabled = false;
@@ -653,6 +688,23 @@
             this.mainSDK_ADXStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
+            // 
+            // mainSDK_ARCStudio
+            // 
+            this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
+            this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_ARCStudio.Text = "ARC Studio...";
+            this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
+            // 
+            // mainSDK_AT3Studio
+            // 
+            this.mainSDK_AT3Studio.Enabled = false;
+            this.mainSDK_AT3Studio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_AT3Studio.Image")));
+            this.mainSDK_AT3Studio.Name = "mainSDK_AT3Studio";
+            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_AT3Studio.Text = "AT3 Studio...";
+            this.mainSDK_AT3Studio.Click += new System.EventHandler(this.MainSDK_AT3Studio_Click);
             // 
             // mainSDK_CSBStudio
             // 
@@ -766,39 +818,58 @@
             this.shortcuts_ConvertXNOs.Text = "Convert all XNOs here...";
             this.shortcuts_ConvertXNOs.Click += new System.EventHandler(this.Shortcuts_ConvertXNOs_Click);
             // 
-            // main_Tabs
+            // main_Window
             // 
-            this.main_Tabs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mainTabs_NewTab,
+            this.main_Window.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainWindow_NewTab,
+            this.mainWindow_NewWindow,
             this.toolStripSeparator10,
-            this.mainTabs_CloseTab});
-            this.main_Tabs.Name = "main_Tabs";
-            this.main_Tabs.Size = new System.Drawing.Size(43, 20);
-            this.main_Tabs.Text = "Tabs";
+            this.mainWindow_CloseTab,
+            this.mainWindow_CloseWindow});
+            this.main_Window.Name = "main_Window";
+            this.main_Window.Size = new System.Drawing.Size(63, 20);
+            this.main_Window.Text = "Window";
             // 
-            // mainTabs_NewTab
+            // mainWindow_NewTab
             // 
-            this.mainTabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_NewTab.Image")));
-            this.mainTabs_NewTab.Name = "mainTabs_NewTab";
-            this.mainTabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.mainTabs_NewTab.Size = new System.Drawing.Size(170, 22);
-            this.mainTabs_NewTab.Text = "New Tab";
-            this.mainTabs_NewTab.Click += new System.EventHandler(this.MainTabs_NewTab_Click);
+            this.mainWindow_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_NewTab.Image")));
+            this.mainWindow_NewTab.Name = "mainWindow_NewTab";
+            this.mainWindow_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.mainWindow_NewTab.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_NewTab.Text = "New Tab";
+            this.mainWindow_NewTab.Click += new System.EventHandler(this.MainWindow_NewTab_Click);
+            // 
+            // mainWindow_NewWindow
+            // 
+            this.mainWindow_NewWindow.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_NewWindow.Image")));
+            this.mainWindow_NewWindow.Name = "mainWindow_NewWindow";
+            this.mainWindow_NewWindow.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.mainWindow_NewWindow.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_NewWindow.Text = "New Window";
+            this.mainWindow_NewWindow.Click += new System.EventHandler(this.MainWindow_NewWindow_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(167, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(185, 6);
             // 
-            // mainTabs_CloseTab
+            // mainWindow_CloseTab
             // 
-            this.mainTabs_CloseTab.Enabled = false;
-            this.mainTabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("mainTabs_CloseTab.Image")));
-            this.mainTabs_CloseTab.Name = "mainTabs_CloseTab";
-            this.mainTabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.mainTabs_CloseTab.Size = new System.Drawing.Size(170, 22);
-            this.mainTabs_CloseTab.Text = "Close Tab";
-            this.mainTabs_CloseTab.Click += new System.EventHandler(this.MainTabs_CloseTab_Click);
+            this.mainWindow_CloseTab.Enabled = false;
+            this.mainWindow_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_CloseTab.Image")));
+            this.mainWindow_CloseTab.Name = "mainWindow_CloseTab";
+            this.mainWindow_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.mainWindow_CloseTab.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_CloseTab.Text = "Close Tab";
+            this.mainWindow_CloseTab.Click += new System.EventHandler(this.MainWindow_CloseTab_Click);
+            // 
+            // mainWindow_CloseWindow
+            // 
+            this.mainWindow_CloseWindow.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_CloseWindow.Image")));
+            this.mainWindow_CloseWindow.Name = "mainWindow_CloseWindow";
+            this.mainWindow_CloseWindow.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_CloseWindow.Text = "Close Window";
+            this.mainWindow_CloseWindow.Click += new System.EventHandler(this.MainWindow_CloseWindow_Click);
             // 
             // main_Help
             // 
@@ -849,9 +920,9 @@
             this.pnl_Updater.Controls.Add(this.lbl_updateStatus);
             this.pnl_Updater.Controls.Add(this.pgb_updateStatus);
             this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.pnl_Updater.Location = new System.Drawing.Point(368, 0);
+            this.pnl_Updater.Location = new System.Drawing.Point(388, 0);
             this.pnl_Updater.Name = "pnl_Updater";
-            this.pnl_Updater.Size = new System.Drawing.Size(245, 24);
+            this.pnl_Updater.Size = new System.Drawing.Size(225, 24);
             this.pnl_Updater.TabIndex = 1;
             this.pnl_Updater.Visible = false;
             // 
@@ -871,7 +942,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
             this.pgb_updateStatus.Name = "pgb_updateStatus";
-            this.pgb_updateStatus.Size = new System.Drawing.Size(170, 18);
+            this.pgb_updateStatus.Size = new System.Drawing.Size(150, 18);
             this.pgb_updateStatus.TabIndex = 10;
             // 
             // btn_Backdrop
@@ -893,7 +964,7 @@
             this.btn_NewTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_NewTab.Location = new System.Drawing.Point(345, 0);
+            this.btn_NewTab.Location = new System.Drawing.Point(365, 0);
             this.btn_NewTab.Name = "btn_NewTab";
             this.btn_NewTab.Size = new System.Drawing.Size(23, 25);
             this.btn_NewTab.TabIndex = 1;
@@ -977,11 +1048,34 @@
             this.btn_OpenFolder.UseVisualStyleBackColor = false;
             this.btn_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
             // 
-            // sfd_RepackARCAs
+            // sfd_SaveFiles
             // 
-            this.sfd_RepackARCAs.Filter = "ARC Files|*.arc";
-            this.sfd_RepackARCAs.RestoreDirectory = true;
-            this.sfd_RepackARCAs.Title = "Repack ARC As...";
+            this.sfd_SaveFiles.RestoreDirectory = true;
+            // 
+            // lbl_SetDefault
+            // 
+            this.lbl_SetDefault.AutoSize = true;
+            this.lbl_SetDefault.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_SetDefault.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_SetDefault.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_SetDefault.Location = new System.Drawing.Point(7, 53);
+            this.lbl_SetDefault.Name = "lbl_SetDefault";
+            this.lbl_SetDefault.Size = new System.Drawing.Size(315, 15);
+            this.lbl_SetDefault.TabIndex = 11;
+            this.lbl_SetDefault.Text = "Click here to select your SONIC THE HEDGEHOG directory...";
+            this.lbl_SetDefault.Click += new System.EventHandler(this.Lbl_SetDefault_Click);
+            // 
+            // pic_Logo
+            // 
+            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.pic_Logo.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
+            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pic_Logo.Location = new System.Drawing.Point(464, 185);
+            this.pic_Logo.Name = "pic_Logo";
+            this.pic_Logo.Size = new System.Drawing.Size(334, 263);
+            this.pic_Logo.TabIndex = 10;
+            this.pic_Logo.TabStop = false;
             // 
             // sdk_ARCStudio
             // 
@@ -1060,23 +1154,12 @@
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs here...";
             // 
-            // pic_Logo
-            // 
-            this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pic_Logo.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
-            this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(464, 185);
-            this.pic_Logo.Name = "pic_Logo";
-            this.pic_Logo.Size = new System.Drawing.Size(334, 263);
-            this.pic_Logo.TabIndex = 10;
-            this.pic_Logo.TabStop = false;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbl_SetDefault);
             this.Controls.Add(this.pic_Logo);
             this.Controls.Add(this.btn_OpenFolder);
             this.Controls.Add(this.tab_Main);
@@ -1101,6 +1184,7 @@
             this.pnl_Updater.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1121,8 +1205,7 @@
         private System.Windows.Forms.ToolStripSeparator sdk_Separator2;
         private System.Windows.Forms.ToolStripMenuItem sdk_XNOStudio;
         private System.Windows.Forms.ToolStripMenuItem sdk_ConvertXNOs;
-        private System.Windows.Forms.OpenFileDialog ofd_OpenARC;
-        private System.Windows.Forms.Button btn_SessionID;
+        private System.Windows.Forms.OpenFileDialog ofd_OpenFiles;
         private System.Windows.Forms.Panel pnl_Backdrop;
         private System.Windows.Forms.Button btn_Forward;
         private System.Windows.Forms.Button btn_Back;
@@ -1136,7 +1219,7 @@
         private System.Windows.Forms.ToolStripMenuItem mSTStudioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem file_CloseARC;
         private System.Windows.Forms.ToolStripMenuItem file_RepackARCAs;
-        private System.Windows.Forms.SaveFileDialog sfd_RepackARCAs;
+        private System.Windows.Forms.SaveFileDialog sfd_SaveFiles;
         private System.Windows.Forms.ToolStripMenuItem file_Preferences;
         private System.Windows.Forms.ToolStripMenuItem preferences_ShowSessionID;
         private System.Windows.Forms.ToolStripMenuItem help_Documentation;
@@ -1182,10 +1265,10 @@
         private System.Windows.Forms.ToolStripMenuItem mainSDK_XNOStudio;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_MSTStudio;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_ADXStudio;
-        private System.Windows.Forms.ToolStripMenuItem main_Tabs;
-        private System.Windows.Forms.ToolStripMenuItem mainTabs_NewTab;
+        private System.Windows.Forms.ToolStripMenuItem main_Window;
+        private System.Windows.Forms.ToolStripMenuItem mainWindow_NewTab;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.ToolStripMenuItem mainTabs_CloseTab;
+        private System.Windows.Forms.ToolStripMenuItem mainWindow_CloseTab;
         private System.Windows.Forms.ToolStripMenuItem main_Help;
         private System.Windows.Forms.ToolStripMenuItem mainHelp_Documentation;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator11;
@@ -1207,6 +1290,16 @@
         private System.Windows.Forms.ToolStripMenuItem launch_ARC;
         private System.Windows.Forms.ToolStripMenuItem ARC_UnpackAndLaunch;
         private System.Windows.Forms.ToolStripMenuItem ARC_UnpackRoot;
+        private System.Windows.Forms.ToolStripMenuItem mainWindow_NewWindow;
+        private System.Windows.Forms.ToolStripMenuItem mainWindow_CloseWindow;
+        public System.Windows.Forms.Button btn_SessionID;
+        private System.Windows.Forms.ToolStripMenuItem mainSDK_AT3Studio;
+        private System.Windows.Forms.Label lbl_SetDefault;
+        private System.Windows.Forms.FolderBrowserDialog fbd_BrowseFolders;
+        private System.Windows.Forms.ToolStripMenuItem mainFile_OpenSonic;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem mainFile_ExtractISO;
+        private System.Windows.Forms.ToolStripMenuItem paths_ClearGame;
     }
 }
 

@@ -93,6 +93,16 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] at3tool {
+            get {
+                object obj = ResourceManager.GetObject("at3tool", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AudioStream {
             get {
                 object obj = ResourceManager.GetObject("AudioStream", resourceCulture);
@@ -156,6 +166,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] CsbEditorConfig {
             get {
                 object obj = ResourceManager.GetObject("CsbEditorConfig", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] exiso {
+            get {
+                object obj = ResourceManager.GetObject("exiso", resourceCulture);
                 return ((byte[])(obj));
             }
         }

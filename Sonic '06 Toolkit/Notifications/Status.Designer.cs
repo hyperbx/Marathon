@@ -37,11 +37,10 @@
             // 
             // pic_Logo
             // 
-            this.pic_Logo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.pic_Logo.BackgroundImage = global::Sonic_06_Toolkit.Properties.Resources.logo_main;
             this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pic_Logo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pic_Logo.Location = new System.Drawing.Point(8, 7);
+            this.pic_Logo.Location = new System.Drawing.Point(9, 8);
             this.pic_Logo.Name = "pic_Logo";
             this.pic_Logo.Size = new System.Drawing.Size(86, 83);
             this.pic_Logo.TabIndex = 7;
@@ -49,23 +48,20 @@
             // 
             // pnl_windowCheck
             // 
-            this.pnl_windowCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_windowCheck.AutoSize = true;
             this.pnl_windowCheck.BackColor = System.Drawing.Color.Honeydew;
             this.pnl_windowCheck.Controls.Add(this.pic_Logo);
             this.pnl_windowCheck.Controls.Add(this.lbl_unpackState);
             this.pnl_windowCheck.Location = new System.Drawing.Point(0, 0);
             this.pnl_windowCheck.Name = "pnl_windowCheck";
-            this.pnl_windowCheck.Size = new System.Drawing.Size(268, 97);
+            this.pnl_windowCheck.Size = new System.Drawing.Size(259, 97);
             this.pnl_windowCheck.TabIndex = 8;
             // 
             // lbl_unpackState
             // 
             this.lbl_unpackState.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbl_unpackState.AutoSize = true;
-            this.lbl_unpackState.Location = new System.Drawing.Point(105, 43);
+            this.lbl_unpackState.Location = new System.Drawing.Point(105, 46);
             this.lbl_unpackState.Name = "lbl_unpackState";
             this.lbl_unpackState.Size = new System.Drawing.Size(35, 13);
             this.lbl_unpackState.TabIndex = 6;
@@ -76,7 +72,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(268, 97);
+            this.ClientSize = new System.Drawing.Size(259, 97);
             this.ControlBox = false;
             this.Controls.Add(this.pnl_windowCheck);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

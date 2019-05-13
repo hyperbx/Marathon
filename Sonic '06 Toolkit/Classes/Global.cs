@@ -5,13 +5,15 @@ namespace Sonic_06_Toolkit
     public class Global
     {
         #region Strings
-        public static string versionNumber = "1.83";
+        public static string versionNumber = "1.84";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
         public static string updateState;
+        public static string exisoState;
         public static string arcState;
         public static string adxState;
+        public static string at3State;
         public static string csbState;
         public static string lubState;
         public static string setState;
@@ -25,12 +27,12 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Integers
-        public static int pathChange = 0;
         public static int sessionID;
         public static int getIndex;
 
         #region Boolean
         public static bool javaCheck = true;
+        public static bool gameChanged = false;
         #endregion
 
         #endregion

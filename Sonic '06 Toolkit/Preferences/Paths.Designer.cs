@@ -46,11 +46,15 @@
             this.btn_Confirm = new System.Windows.Forms.Button();
             this.fbd_Browse = new System.Windows.Forms.FolderBrowserDialog();
             this.btn_Cancel = new System.Windows.Forms.Button();
+            this.group_GamePath = new System.Windows.Forms.GroupBox();
+            this.btn_BrowseGame = new System.Windows.Forms.Button();
+            this.text_GamePath = new System.Windows.Forms.TextBox();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.group_RootPath.SuspendLayout();
             this.group_ToolsPath.SuspendLayout();
             this.group_ArchivesPath.SuspendLayout();
+            this.group_GamePath.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -190,7 +194,7 @@
             this.btn_Restore.BackColor = System.Drawing.Color.Tomato;
             this.btn_Restore.FlatAppearance.BorderSize = 0;
             this.btn_Restore.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Restore.Location = new System.Drawing.Point(9, 297);
+            this.btn_Restore.Location = new System.Drawing.Point(9, 372);
             this.btn_Restore.Name = "btn_Restore";
             this.btn_Restore.Size = new System.Drawing.Size(103, 23);
             this.btn_Restore.TabIndex = 22;
@@ -203,7 +207,7 @@
             this.btn_AppPath.BackColor = System.Drawing.Color.Tomato;
             this.btn_AppPath.FlatAppearance.BorderSize = 0;
             this.btn_AppPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_AppPath.Location = new System.Drawing.Point(118, 297);
+            this.btn_AppPath.Location = new System.Drawing.Point(118, 372);
             this.btn_AppPath.Name = "btn_AppPath";
             this.btn_AppPath.Size = new System.Drawing.Size(125, 23);
             this.btn_AppPath.TabIndex = 23;
@@ -216,7 +220,7 @@
             this.btn_Confirm.BackColor = System.Drawing.Color.LightGreen;
             this.btn_Confirm.FlatAppearance.BorderSize = 0;
             this.btn_Confirm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Confirm.Location = new System.Drawing.Point(366, 297);
+            this.btn_Confirm.Location = new System.Drawing.Point(366, 372);
             this.btn_Confirm.Name = "btn_Confirm";
             this.btn_Confirm.Size = new System.Drawing.Size(75, 23);
             this.btn_Confirm.TabIndex = 24;
@@ -229,7 +233,7 @@
             this.btn_Cancel.BackColor = System.Drawing.Color.Tomato;
             this.btn_Cancel.FlatAppearance.BorderSize = 0;
             this.btn_Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Cancel.Location = new System.Drawing.Point(447, 297);
+            this.btn_Cancel.Location = new System.Drawing.Point(447, 372);
             this.btn_Cancel.Name = "btn_Cancel";
             this.btn_Cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_Cancel.TabIndex = 25;
@@ -237,13 +241,46 @@
             this.btn_Cancel.UseVisualStyleBackColor = false;
             this.btn_Cancel.Click += new System.EventHandler(this.Btn_Cancel_Click);
             // 
+            // group_GamePath
+            // 
+            this.group_GamePath.Controls.Add(this.btn_BrowseGame);
+            this.group_GamePath.Controls.Add(this.text_GamePath);
+            this.group_GamePath.Location = new System.Drawing.Point(9, 295);
+            this.group_GamePath.Name = "group_GamePath";
+            this.group_GamePath.Size = new System.Drawing.Size(513, 71);
+            this.group_GamePath.TabIndex = 22;
+            this.group_GamePath.TabStop = false;
+            this.group_GamePath.Text = "Game Path";
+            // 
+            // btn_BrowseGame
+            // 
+            this.btn_BrowseGame.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(171)))), ((int)(((byte)(83)))));
+            this.btn_BrowseGame.FlatAppearance.BorderSize = 0;
+            this.btn_BrowseGame.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_BrowseGame.Location = new System.Drawing.Point(471, 30);
+            this.btn_BrowseGame.Name = "btn_BrowseGame";
+            this.btn_BrowseGame.Size = new System.Drawing.Size(25, 20);
+            this.btn_BrowseGame.TabIndex = 19;
+            this.btn_BrowseGame.Text = "...";
+            this.btn_BrowseGame.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_BrowseGame.UseVisualStyleBackColor = false;
+            this.btn_BrowseGame.Click += new System.EventHandler(this.Btn_BrowseGame_Click);
+            // 
+            // text_GamePath
+            // 
+            this.text_GamePath.Location = new System.Drawing.Point(17, 30);
+            this.text_GamePath.Name = "text_GamePath";
+            this.text_GamePath.Size = new System.Drawing.Size(449, 20);
+            this.text_GamePath.TabIndex = 0;
+            // 
             // Paths
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClientSize = new System.Drawing.Size(531, 330);
+            this.ClientSize = new System.Drawing.Size(531, 403);
             this.ControlBox = false;
+            this.Controls.Add(this.group_GamePath);
             this.Controls.Add(this.btn_Cancel);
             this.Controls.Add(this.btn_Confirm);
             this.Controls.Add(this.btn_AppPath);
@@ -259,6 +296,7 @@
             this.Name = "Paths";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Paths";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Paths_FormClosing);
             this.Load += new System.EventHandler(this.Paths_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
@@ -269,6 +307,8 @@
             this.group_ToolsPath.PerformLayout();
             this.group_ArchivesPath.ResumeLayout(false);
             this.group_ArchivesPath.PerformLayout();
+            this.group_GamePath.ResumeLayout(false);
+            this.group_GamePath.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -292,5 +332,8 @@
         private System.Windows.Forms.Button btn_Confirm;
         private System.Windows.Forms.FolderBrowserDialog fbd_Browse;
         internal System.Windows.Forms.Button btn_Cancel;
+        private System.Windows.Forms.GroupBox group_GamePath;
+        internal System.Windows.Forms.Button btn_BrowseGame;
+        private System.Windows.Forms.TextBox text_GamePath;
     }
 }
