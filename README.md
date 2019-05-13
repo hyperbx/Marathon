@@ -35,7 +35,7 @@
 
 # Project Goals
 ### XMA Encoding
-- <b>Help wanted!</b> We currently don't have a way to encode XMA files to a format appropriate for SONIC THE HEDGEHOG. The XMA tools we <i>do</i> have will either crash the game or produce an XMA that will not play in-game (if encoded to XACT's standards).
+- <b>Help wanted!</b> We currently don't have a way to encode XMA files to a format appropriate for the Xbox 360 version of SONIC THE HEDGEHOG. The XMA tools we <i>do</i> have will either crash the game or produce an XMA that will not play in-game (if encoded to XACT's standards).
 
 ### XNCP Decompiling
 - <b>Help wanted!</b> We currently don't have a way to decompile XNCP files. These files potentially contain information and/or values for menu placement, colour and whatnot.
