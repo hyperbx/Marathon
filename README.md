@@ -27,11 +27,18 @@
 ### SET Exporting and XML Importing (experimental)
 - Currently based off [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
 
+### Xbox 360 ISO Extracting
+- Currently based off Aiyyo and somski's modified variant of in's extract-xiso tool.
+
 ### XNO Converting and XNM Pairing
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
 
-### Xbox 360 ISO Extracting
-- Currently based off Aiyyo and somski's modified variant of in's extract-xiso tool.
+# Project Goals
+### XMA Encoding
+- <b>Help wanted!</b> We currently don't have a way to encode XMA files to a format appropriate for SONIC THE HEDGEHOG. The XMA tools we <i>do</i> have will either crash the game or produce an XMA that will not play in-game (if encoded to XACT's standards).
+
+### XNCP Decompiling
+- <b>Help wanted!</b> We currently don't have a way to decompile XNCP files. These files potentially contain information and/or values for menu placement, colour and whatnot.
 
 # Requirements
 ### ADX Encoder
