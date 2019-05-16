@@ -5,7 +5,7 @@ namespace Sonic_06_Toolkit
     public class Global
     {
         #region Strings
-        public static string versionNumber = "1.84";
+        public static string versionNumber = "1.85";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
