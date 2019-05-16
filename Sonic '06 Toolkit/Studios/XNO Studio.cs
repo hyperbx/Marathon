@@ -67,9 +67,17 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.xnoState = "xno";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting current ARC failsafe...
                     //Gets the failsafe directory.
-                    if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
+                    if (!Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.xnoPath + Global.sessionID);
                     var failsafeBuildSession = new StringBuilder();
                     failsafeBuildSession.Append(Properties.Settings.Default.archivesPath);
                     failsafeBuildSession.Append(Global.sessionID);
@@ -103,26 +111,20 @@ namespace Sonic_06_Toolkit
                         #endregion
 
                         #region Converting XNOs...
-                        Global.xnoState = "xno";
-
                         //Sets up the BASIC application and executes the conversion process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.xnoState = null;
                         #endregion
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -135,6 +137,14 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
+                        Global.xnoState = "xnm";
+
+                        var convertDialog = new Status();
+                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        convertDialog.Show();
+
                         #region Getting current ARC failsafe...
                         //Gets the failsafe directory.
                         if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
@@ -181,25 +191,18 @@ namespace Sonic_06_Toolkit
                         }
 
                         #region Converting XNOs...
-                        Global.xnoState = "xnm";
-
                         //Sets up the BASIC application and executes the conversion process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.xnoState = null;
                         #endregion
 
+                        convertDialog.Close();
                         #endregion
                     }
                     catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }

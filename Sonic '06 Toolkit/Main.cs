@@ -3,9 +3,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Linq;
+using HedgeLib.IO;
 using HedgeLib.Sets;
 using System.Drawing;
 using System.Diagnostics;
+using HedgeLib.Exceptions;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
@@ -176,14 +178,23 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
+                                        if (Properties.Settings.Default.gamePath != null)
+                                        {
+                                            navigateToGame = false;
+                                            resetTab();
+                                        }
                                         currentARC().Navigate(unpackBuildSession.ToString());
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                        navigateToGame = true;
                                     }
                                     else
                                     {
+                                        navigateToGame = false;
                                         newTab();
+
                                         currentARC().Navigate(unpackBuildSession.ToString());
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                        navigateToGame = true;
                                     }
                                     #endregion
 
@@ -586,6 +597,7 @@ namespace Sonic_06_Toolkit
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CsbEditor\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CriWare\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CriWare\");
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"DirectX\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"DirectX\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"exiso\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"exiso\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"SONY\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"SONY\");
                 if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
@@ -603,8 +615,10 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.csbFile == string.Empty) Properties.Settings.Default.csbFile = Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe";
             if (Properties.Settings.Default.adx2wavFile == string.Empty) Properties.Settings.Default.adx2wavFile = Properties.Settings.Default.toolsPath + @"CriWare\ADX2WAV.exe";
             if (Properties.Settings.Default.criconverterFile == string.Empty) Properties.Settings.Default.criconverterFile = Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe";
+            if (Properties.Settings.Default.directXFile == string.Empty) Properties.Settings.Default.directXFile = Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe";
             if (Properties.Settings.Default.exisoFile == string.Empty) Properties.Settings.Default.exisoFile = Properties.Settings.Default.toolsPath + @"exiso\exiso.exe";
             if (Properties.Settings.Default.at3File == string.Empty) Properties.Settings.Default.at3File = Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe";
+            Properties.Settings.Default.Save();
             #endregion
 
             try
@@ -625,6 +639,7 @@ namespace Sonic_06_Toolkit
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll", Properties.Resources.vsthost);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"exiso\exiso.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"exiso\exiso.exe", Properties.Resources.exiso);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe", Properties.Resources.at3tool);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe", Properties.Resources.texconv);
             }
             catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
@@ -663,11 +678,10 @@ namespace Sonic_06_Toolkit
                 javaProcess.StartInfo = javaArg;
                 javaProcess.Start();
             }
-            catch
-            {
-                Global.javaCheck = false;
-            }
+            catch { Global.javaCheck = false; }
         }
+
+        static bool navigateToGame = true;
 
         void newTab()
         {
@@ -679,13 +693,16 @@ namespace Sonic_06_Toolkit
             nextTab.Controls.Add(nextBrowser);
             tab_Main.SelectedTab = nextTab;
             nextBrowser.Dock = DockStyle.Fill;
-            if (Properties.Settings.Default.gamePath != null)
+            if (navigateToGame == true)
             {
-                if (Directory.Exists(Properties.Settings.Default.gamePath))
+                if (Properties.Settings.Default.gamePath != null)
                 {
-                    currentARC().Navigate(Properties.Settings.Default.gamePath);
-                    lbl_SetDefault.Visible = false;
-                    pic_Logo.Visible = false;
+                    if (Directory.Exists(Properties.Settings.Default.gamePath))
+                    {
+                        currentARC().Navigate(Properties.Settings.Default.gamePath);
+                        lbl_SetDefault.Visible = false;
+                        pic_Logo.Visible = false;
+                    }
                 }
             }
             currentARC().AllowWebBrowserDrop = false;
@@ -829,14 +846,23 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
+                                if (Properties.Settings.Default.gamePath != null)
+                                {
+                                    navigateToGame = false;
+                                    resetTab();
+                                }
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             else
                             {
+                                navigateToGame = false;
                                 newTab();
+
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             #endregion
 
@@ -893,14 +919,23 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
+                                if (Properties.Settings.Default.gamePath != null)
+                                {
+                                    navigateToGame = false;
+                                    resetTab();
+                                }
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             else
                             {
+                                navigateToGame = false;
                                 newTab();
+
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             #endregion
 
@@ -954,14 +989,23 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
+                                if (Properties.Settings.Default.gamePath != null)
+                                {
+                                    navigateToGame = false;
+                                    resetTab();
+                                }
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             else
                             {
+                                navigateToGame = false;
                                 newTab();
+
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             #endregion
 
@@ -1015,14 +1059,23 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
+                                if (Properties.Settings.Default.gamePath != null)
+                                {
+                                    navigateToGame = false;
+                                    resetTab();
+                                }
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             else
                             {
+                                navigateToGame = false;
                                 newTab();
+
                                 currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                 tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                navigateToGame = true;
                             }
                             #endregion
 
@@ -1043,6 +1096,32 @@ namespace Sonic_06_Toolkit
         {
             Global.arcState = "save";
             repackARC();
+        }
+
+        void Btn_Repack_Click(object sender, EventArgs e)
+        {
+            Global.arcState = "save";
+            repackARC();
+        }
+
+        void RepackToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Global.arcState = "save";
+            repackARC();
+        }
+
+        void RepackAndLaunchXeniaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Global.arcState = "save";
+            if (Properties.Settings.Default.xeniaFile != "")
+            {
+                xenia = true;
+                repackARC();
+            }
+            else
+            {
+                SpecifyXenia();
+            }
         }
 
         void MainFile_RepackARCAs_Click(object sender, EventArgs e)
@@ -1086,6 +1165,14 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        //[Paths] - Clear Xenia directory
+        //Resets the Xenia directory.
+        void ClearXeniaDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.xeniaFile = null;
+            Properties.Settings.Default.Save();
+        }
+
         //[Themes] - Compact
         //Moves certain controls in runtime to switch to the Compact theme.
         void MainThemes_Compact_CheckedChanged(object sender, EventArgs e)
@@ -1104,12 +1191,16 @@ namespace Sonic_06_Toolkit
                 btn_Back.Width -= 4; btn_Back.Height += 3; btn_Back.Left -= 5; btn_Back.Top -= 29; btn_Back.FlatAppearance.BorderSize = 1;
                 btn_Forward.Width -= 10; btn_Forward.Height += 3; btn_Forward.Left -= 14; btn_Forward.Top -= 29; btn_Forward.FlatAppearance.BorderSize = 1;
                 btn_NewTab.Width += 2; btn_NewTab.Height += 2; btn_NewTab.Left += 229; btn_NewTab.Top -= 28; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 1;
-                btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Left -= 18; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
-                btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Left -= 20; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
-                btn_SessionID.Height += 3; btn_SessionID.Left += 173; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
+                btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Left -= 16; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
+                btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Left -= 18; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
+                btn_RepackOptions.Height += 3; btn_RepackOptions.Left -= 44; btn_RepackOptions.Top -= 29; btn_RepackOptions.FlatAppearance.BorderSize = 1;
+                btn_SessionID.Height += 3; btn_SessionID.Left += 193; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
                 pnl_Updater.Left -= 186;
+                lbl_SetDefault.Top = 53;
+
+                Properties.Settings.Default.Save();
             }
-            Properties.Settings.Default.Save();
+            else { mainThemes_Original.Checked = true; }
         }
 
         //[Themes] - Original
@@ -1130,21 +1221,66 @@ namespace Sonic_06_Toolkit
                 btn_Back.Width += 4; btn_Back.Height -= 3; btn_Back.Left += 5; btn_Back.Top += 29; btn_Back.FlatAppearance.BorderSize = 0;
                 btn_Forward.Width += 10; btn_Forward.Height -= 3; btn_Forward.Left += 14; btn_Forward.Top += 29; btn_Forward.FlatAppearance.BorderSize = 0;
                 btn_NewTab.Width -= 2; btn_NewTab.Height -= 2; btn_NewTab.Left -= 229; btn_NewTab.Top += 28; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 0;
-                btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Left += 18; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
-                btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Left += 20; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
-                btn_SessionID.Height -= 3; btn_SessionID.Left -= 173; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
+                btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Left += 16; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
+                btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Left += 18; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
+                btn_RepackOptions.Height -= 3; btn_RepackOptions.Left += 44; btn_RepackOptions.Top += 29; btn_RepackOptions.FlatAppearance.BorderSize = 0;
+                btn_SessionID.Height -= 3; btn_SessionID.Left -= 193; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
                 pnl_Updater.Left += 186;
+                lbl_SetDefault.Top = 81;
+
+                Properties.Settings.Default.Save();
             }
-            Properties.Settings.Default.Save();
+            else { mainThemes_Compact.Checked = true; }
         }
 
         //[Themes] - Show Logo
         //Disables the Sonic '06 Toolkit logo appearing on new tabs.
         //void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
-        //{
+        #region //{
+        static bool debug = false;
+
+        void Free_Mode(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var debugger = new Debugger();
+
+                if (!debug)
+                {
+                    debug = true;
+                    MessageBox.Show("Debug Mode is now enabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    debugger.Show();
+                }
+                else
+                {
+                    debug = false;
+                    MessageBox.Show("Debug Mode is now disabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        Debugger debugForm = (Debugger)Application.OpenForms["Debugger"];
+                        debugForm.Close();
+                    }
+                    catch { }
+                }
+            }
+        }
+        #endregion
         //    if (mainPreferences_ShowLogo.Checked == true) Properties.Settings.Default.showLogo = true;
         //    else Properties.Settings.Default.showLogo = false;
-        //    Properties.Settings.Default.Save();
+        #region //    Properties.Settings.Default.Save();
+        void None(object sender, EventArgs e)
+        {
+            btn_Back.Text = "None";
+            btn_Forward.Text = "None";
+            btn_OpenFolder.Text = "None";
+            btn_Repack.Text = "None";
+            main_File.Text = "None";
+            main_SDK.Text = "None";
+            main_Shortcuts.Text = "None";
+            main_Window.Text = "None";
+            main_Help.Text = "None";
+        }
+        #endregion
         //}
 
         //[Themes] - Show Session ID
@@ -1227,8 +1363,34 @@ namespace Sonic_06_Toolkit
             DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this archive? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             switch (confirmClosure)
             {
-                case DialogResult.Yes: tab_Main.TabPages.Remove(tab_Main.SelectedTab); newTab(); break;
+                case DialogResult.Yes:
+                    resetTab();
+                    break;
             }
+        }
+
+        void resetTab()
+        {
+            //Creates a new web browser instance (which hooks into File Explorer).
+            currentARC().Dispose();
+            var nextBrowser = new WebBrowser();
+            tab_Main.SelectedTab.Text = "New Tab";
+            tab_Main.SelectedTab.Controls.Add(nextBrowser);
+            nextBrowser.Dock = DockStyle.Fill;
+            if (navigateToGame == true)
+            {
+                if (Properties.Settings.Default.gamePath != null)
+                {
+                    if (Directory.Exists(Properties.Settings.Default.gamePath))
+                    {
+                        currentARC().Navigate(Properties.Settings.Default.gamePath);
+                        lbl_SetDefault.Visible = false;
+                        pic_Logo.Visible = false;
+                    }
+                }
+            }
+            currentARC().AllowWebBrowserDrop = false;
+            Text = "Sonic '06 Toolkit";
         }
 
         void MainFile_Exit_Click(object sender, EventArgs e)
@@ -1270,6 +1432,11 @@ namespace Sonic_06_Toolkit
         void MainSDK_CSBStudio_Click(object sender, EventArgs e)
         {
             new CSB_Studio().ShowDialog();
+        }
+
+        void MainSDK_DDSStudio_Click(object sender, EventArgs e)
+        {
+            new DDS_Studio().ShowDialog();
         }
 
         void MainSDK_LUBStudio_Click(object sender, EventArgs e)
@@ -1341,6 +1508,34 @@ namespace Sonic_06_Toolkit
                 }
                 catch { MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
+        }
+
+        void Shortcuts_ConvertDDS_Click(object sender, EventArgs e)
+        {
+            Global.ddsState = "dds";
+
+            var convertDialog = new Status();
+            var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+            var parentTop = Top + ((Height - convertDialog.Height) / 2);
+            convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+            convertDialog.Show();
+
+            foreach (string DDS in Directory.GetFiles(Global.currentPath, "*.dds", SearchOption.TopDirectoryOnly))
+            {
+                #region Converting DDS files...
+                //Sets up the BASIC application and executes the converting process.
+                var convertSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, "\"" + DDS + "\" -ft PNG -nogpu -singleproc -f R8G8B8A8_UNORM");
+                convertSession.WorkingDirectory = Global.currentPath;
+                convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                var Convert = Process.Start(convertSession);
+                Convert.WaitForExit();
+                Convert.Close();
+                #endregion
+            }
+
+            convertDialog.Close();
+
+            Global.ddsState = null;
         }
 
         void Shortcuts_DecompileLUBs_Click(object sender, EventArgs e)
@@ -1451,54 +1646,103 @@ namespace Sonic_06_Toolkit
                 {
                     Global.mstState = "decode";
 
-                    UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
-                    byte[] buffer = new byte[1024];
+                    //UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
+                    //byte[] buffer = new byte[1024];
 
                     // arg0 is assumed to be a file to split
                     foreach (string MST in Directory.GetFiles(Global.currentPath, "*.mst", SearchOption.TopDirectoryOnly))
                     {
-                        List<string> results = new List<string>();          // <- BTW Hyper this array contains ALL the lines read from the file, including any bugged non-unicode lines.
+                        Global.mstState = "decode";
 
-                        using (FileStream fs = new FileStream(MST, FileMode.Open))
+                        #region Natsumi Decoder (inactive)
+                        //List<string> results = new List<string>();          // <- BTW Hyper this array contains ALL the lines read from the file, including any bugged non-unicode lines.
+
+                        //using (FileStream fs = new FileStream(Global.currentPath + selectedMST, FileMode.Open))
+                        //{
+                        //    byte[] strbuf = new byte[1024];
+                        //    int len = 0, pos = 0;
+
+                        //    while ((len = fs.Read(buffer, 0, buffer.Length)) > 0)
+                        //    {
+                        //        for (int i = 0; i < len; i += 2)
+                        //        {
+
+                        //            // check if the next 2 bytes are an end token. Check second byte last because its most likely 0 anyway but we gotta be sure...
+                        //            if ((buffer[i + 1] == 0 || buffer[i + 1] == 0xA) && buffer[i] == 0)
+                        //            {
+                        //                // this is a null terminator or a newline
+                        //                results.Add(unicode.GetString(strbuf, 0, pos));
+                        //                pos = 0;
+
+                        //            }
+                        //            else
+                        //            {
+                        //                // if the buffer we allocated is too small, reallocate a larger array...
+                        //                if (pos >= strbuf.Length)
+                        //                {
+                        //                    byte[] _sbuf = strbuf;
+                        //                    strbuf = new byte[_sbuf.Length << 1];
+                        //                    Array.Copy(_sbuf, strbuf, _sbuf.Length);
+                        //                }
+
+                        //                // copy next 2 bytes into strbuffer... If file size is not divisible by 2, this is gonna be a real problem here
+                        //                strbuf[pos++] = buffer[i];
+                        //                strbuf[pos++] = buffer[i + 1];
+                        //            }
+                        //        }
+                        //    }
+
+                        //    // if the last string is not terminated, print it anyway
+                        //    if (pos > 0) results.Add(unicode.GetString(strbuf, 0, pos));
+                        //}
+
+                        //File.WriteAllLines(Global.currentPath + Path.GetFileNameWithoutExtension(selectedMST) + ".txt", results);
+                        #endregion
+
+                        #region HedgeLib Decoder (active)
+                        // Read MST
+                        var msgs = new Dictionary<string, string>();
+                        string mstPath = Path.Combine(Global.currentPath, MST);
+
+                        using (var fs = File.OpenRead(mstPath))
                         {
-                            byte[] strbuf = new byte[1024];
-                            int len = 0, pos = 0;
+                            var reader = new BINAReader(fs);
+                            var header = reader.ReadHeader();
+                            var sig = reader.ReadSignature();
 
-                            while ((len = fs.Read(buffer, 0, buffer.Length)) > 0)
+                            if (sig != "WTXT")
+                                throw new InvalidSignatureException("WTXT", sig);
+
+                            uint stringTableOff = reader.ReadUInt32();
+                            uint msgEntryCount = reader.ReadUInt32();
+
+                            for (uint i = 0; i < msgEntryCount; ++i)
                             {
-                                for (int i = 0; i < len; i += 2)
-                                {
+                                string name = reader.GetString();
+                                uint textOffset = reader.ReadUInt32();
+                                uint unknown1 = reader.ReadUInt32();
+                                long pos = reader.BaseStream.Position;
 
-                                    // check if the next 2 bytes are an end token. Check second byte last because its most likely 0 anyway but we gotta be sure...
-                                    if ((buffer[i + 1] == 0 || buffer[i + 1] == 0xA) && buffer[i] == 0)
-                                    {
-                                        // this is a null terminator or a newline
-                                        results.Add(unicode.GetString(strbuf, 0, pos));
-                                        pos = 0;
+                                reader.JumpTo(textOffset, false);
+                                string text = reader.ReadNullTerminatedStringUTF16();
 
-                                    }
-                                    else
-                                    {
-                                        // if the buffer we allocated is too small, reallocate a larger array...
-                                        if (pos >= strbuf.Length)
-                                        {
-                                            byte[] _sbuf = strbuf;
-                                            strbuf = new byte[_sbuf.Length << 1];
-                                            Array.Copy(_sbuf, strbuf, _sbuf.Length);
-                                        }
-
-                                        // copy next 2 bytes into strbuffer... If file size is not divisible by 2, this is gonna be a real problem here
-                                        strbuf[pos++] = buffer[i];
-                                        strbuf[pos++] = buffer[i + 1];
-                                    }
-                                }
+                                msgs.Add(name, text);
+                                reader.JumpTo(pos, true);
                             }
-
-                            // if the last string is not terminated, print it anyway
-                            if (pos > 0) results.Add(unicode.GetString(strbuf, 0, pos));
                         }
 
-                        File.WriteAllLines(Global.currentPath + Path.GetFileNameWithoutExtension(MST) + ".txt", results);
+                        // Generate CSV
+                        string csvPath = Path.Combine(Global.currentPath,
+                        $"{Path.GetFileNameWithoutExtension(MST)}.csv");
+
+                        var lines = new List<string>();
+                        foreach (var msg in msgs)
+                        {
+                            lines.Add($"{msg.Key},{msg.Value}");
+                        }
+
+                        File.WriteAllLines(csvPath, lines, Encoding.Unicode);
+                        #endregion
 
                         Global.mstState = null;
                     }
@@ -1601,6 +1845,41 @@ namespace Sonic_06_Toolkit
                 catch { MessageBox.Show("An error occurred when converting the XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
+
+        void MainShortcuts_Xenia_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.xeniaFile != "")
+            {
+                if (File.Exists(Properties.Settings.Default.xeniaFile))
+                {
+                    var xeniaLocation = new ProcessStartInfo(Properties.Settings.Default.xeniaFile);
+                    xeniaLocation.WorkingDirectory = Path.GetDirectoryName(Properties.Settings.Default.xeniaFile);
+                    Process.Start(xeniaLocation);
+                }
+                else SpecifyXenia();
+            }
+            else
+            {
+                SpecifyXenia();
+            }
+        }
+
+        void SpecifyXenia()
+        {
+            xenia = false;
+
+            MessageBox.Show("Please specify your executable file for Xenia.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            ofd_OpenFiles.Title = "Please select a Xenia executable...";
+            ofd_OpenFiles.Filter = "Programs|*.exe";
+            ofd_OpenFiles.DefaultExt = "exe";
+
+            if (ofd_OpenFiles.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(ofd_OpenFiles.FileName)) Properties.Settings.Default.xeniaFile = ofd_OpenFiles.FileName;
+                Properties.Settings.Default.Save();
+            }
+        }
         #endregion
 
         #region Window
@@ -1700,10 +1979,46 @@ namespace Sonic_06_Toolkit
             Process.Start(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
         }
 
-        void Btn_Repack_Click(object sender, EventArgs e)
+        static bool repackMenu = false;
+
+        void Btn_RepackOptions_Click(object sender, EventArgs e)
         {
-            Global.arcState = "save";
-            repackARC();
+            if (repackMenu == false)
+            {
+                cms_Repack.Show(btn_Repack, new Point(0, btn_Repack.Height));
+                if (Properties.Settings.Default.theme != "Original")
+                {
+                    btn_RepackOptions.FlatAppearance.BorderSize = 0;
+                    btn_RepackOptions.Height = 25;
+                }
+                btn_RepackOptions.BackColor = Color.DarkSeaGreen;
+                btn_Repack.BackColor = Color.DarkSeaGreen;
+                repackMenu = true;
+            }
+            else
+            {
+                cms_Repack.Hide();
+                if (Properties.Settings.Default.theme != "Original")
+                {
+                    btn_RepackOptions.FlatAppearance.BorderSize = 1;
+                    btn_RepackOptions.Height = 26;
+                }
+                btn_RepackOptions.BackColor = Color.LightGreen;
+                btn_Repack.BackColor = Color.LightGreen;
+                repackMenu = false;
+            }
+        }
+
+        void Cms_Repack_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            if (Properties.Settings.Default.theme != "Original")
+            {
+                btn_RepackOptions.FlatAppearance.BorderSize = 1;
+                btn_RepackOptions.Height = 26;
+            }
+            btn_RepackOptions.BackColor = Color.LightGreen;
+            btn_Repack.BackColor = Color.LightGreen;
+            repackMenu = false;
         }
 
         void Tab_Main_SelectedIndexChanged(object sender, EventArgs e)
@@ -1734,7 +2049,7 @@ namespace Sonic_06_Toolkit
                     else
                     {
                         MessageBox.Show("This archive's metadata is missing or unreadable. It will be removed from the session.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+                        resetTab();
                     }
                 }
                 else { Text = "Sonic '06 Toolkit"; }
@@ -1771,6 +2086,9 @@ namespace Sonic_06_Toolkit
                 mainSDK_MSTStudio.Enabled = true;
                 shortcuts_DecodeMSTs.Enabled = true;
                 mainSDK_AT3Studio.Enabled = false;
+                btn_RepackOptions.Enabled = true;
+                mainSDK_DDSStudio.Enabled = true;
+                shortcuts_ConvertDDS.Enabled = true;
                 #endregion
 
                 pic_Logo.Visible = false;
@@ -1809,6 +2127,9 @@ namespace Sonic_06_Toolkit
                     mainSDK_MSTStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = true;
+                    btn_RepackOptions.Enabled = false;
+                    mainSDK_DDSStudio.Enabled = false;
+                    shortcuts_ConvertDDS.Enabled = false;
                     #endregion
                 }
                 else
@@ -1837,6 +2158,9 @@ namespace Sonic_06_Toolkit
                     mainSDK_MSTStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = false;
+                    btn_RepackOptions.Enabled = false;
+                    mainSDK_DDSStudio.Enabled = false;
+                    shortcuts_ConvertDDS.Enabled = false;
                     #endregion
                 }
             }
@@ -1863,6 +2187,9 @@ namespace Sonic_06_Toolkit
                 mainSDK_MSTStudio.Enabled = false;
                 shortcuts_DecodeMSTs.Enabled = false;
                 mainSDK_AT3Studio.Enabled = false;
+                btn_RepackOptions.Enabled = false;
+                mainSDK_DDSStudio.Enabled = false;
+                shortcuts_ConvertDDS.Enabled = false;
                 #endregion
 
                 pic_Logo.Visible = true;
@@ -2096,14 +2423,23 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
+                                if (Properties.Settings.Default.gamePath != null)
+                                {
+                                    navigateToGame = false;
+                                    resetTab();
+                                }
                                 currentARC().Navigate(unpackBuildSession.ToString());
                                 tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                navigateToGame = true;
                             }
                             else
                             {
+                                navigateToGame = false;
                                 newTab();
+
                                 currentARC().Navigate(unpackBuildSession.ToString());
                                 tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                navigateToGame = true;
                             }
                             #endregion
 
@@ -2131,6 +2467,8 @@ namespace Sonic_06_Toolkit
                 MessageBox.Show("Unpack State set to invalid value: " + Global.arcState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        static bool xenia = false;
 
         void repackARC()
         {
@@ -2174,6 +2512,18 @@ namespace Sonic_06_Toolkit
 
                     Global.arcState = null;
                     #endregion
+
+                    if (xenia == true)
+                    {
+                        if (File.Exists(Properties.Settings.Default.xeniaFile))
+                        {
+                            var xeniaLocation = new ProcessStartInfo(Properties.Settings.Default.xeniaFile);
+                            xeniaLocation.WorkingDirectory = Path.GetDirectoryName(Properties.Settings.Default.xeniaFile);
+                            Process.Start(xeniaLocation);
+                            xenia = false;
+                        }
+                        else { SpecifyXenia(); }
+                    }
                 }
                 catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -2222,6 +2572,18 @@ namespace Sonic_06_Toolkit
 
                         Global.arcState = null;
                         #endregion
+
+                        if (xenia == true)
+                        {
+                            if (File.Exists(Properties.Settings.Default.xeniaFile))
+                            {
+                                var xeniaLocation = new ProcessStartInfo(Properties.Settings.Default.xeniaFile);
+                                xeniaLocation.WorkingDirectory = Path.GetDirectoryName(Properties.Settings.Default.xeniaFile);
+                                Process.Start(xeniaLocation);
+                                xenia = false;
+                            }
+                            else { SpecifyXenia(); }
+                        }
                     }
                     catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }

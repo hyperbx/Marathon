@@ -156,6 +156,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.at3State = "at3";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting selected AT3 files...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each AT3.
                     foreach (string selectedAT3 in clb_AT3.CheckedItems)
@@ -164,26 +172,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedAT3));
 
                         #region Converting ADX files...
-                        Global.at3State = "at3";
-
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.at3File, "-d \"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".wav\"");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.at3State = null;
                         #endregion
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when encoding the selected AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -191,6 +193,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.at3State = "wav";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting selected WAV files...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_AT3.CheckedItems)
@@ -199,26 +209,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedWAV));
 
                         #region Converting WAV files...
-                        Global.at3State = "wav";
-
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.at3File, "-e " + wholeLoop + beginLoop + startLoop + endLoop + "\"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".at3\"");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.at3State = null;
                         #endregion
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }

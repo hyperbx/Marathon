@@ -250,5 +250,29 @@ namespace Sonic_06_Toolkit.Properties {
                 this["at3File"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xeniaFile {
+            get {
+                return ((string)(this["xeniaFile"]));
+            }
+            set {
+                this["xeniaFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string directXFile {
+            get {
+                return ((string)(this["directXFile"]));
+            }
+            set {
+                this["directXFile"] = value;
+            }
+        }
     }
 }

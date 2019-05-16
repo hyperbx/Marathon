@@ -109,6 +109,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Studios\DDS Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Studios\DDS Studio.Designer.cs">
+      <DependentUpon>DDS Studio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Unused\Debugger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Unused\Debugger.Designer.cs">
+      <DependentUpon>Debugger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Unused\Loop.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +217,12 @@
     <Compile Include="Notifications\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Studios\DDS Studio.resx">
+      <DependentUpon>DDS Studio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unused\Debugger.resx">
+      <DependentUpon>Debugger.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Unused\Loop.resx">
       <DependentUpon>Loop.cs</DependentUpon>
     </EmbeddedResource>
@@ -277,6 +295,7 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\texconv.exe" />
     <None Include="Resources\PS3_at3tool.exe" />
     <None Include="Resources\vsthost.dll" />
     <None Include="Resources\SonicAudioLib.dll" />

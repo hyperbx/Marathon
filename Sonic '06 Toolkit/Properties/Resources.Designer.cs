@@ -223,6 +223,16 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] texconv {
+            get {
+                object obj = ResourceManager.GetObject("texconv", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] unlub {
             get {
                 object obj = ResourceManager.GetObject("unlub", resourceCulture);

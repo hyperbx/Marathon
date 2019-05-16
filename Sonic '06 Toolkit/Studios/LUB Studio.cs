@@ -59,6 +59,14 @@ namespace Sonic_06_Toolkit
             if (clb_LUBs.CheckedItems.Count == 0) MessageBox.Show("Please select a Lua binary.", "No Lua binaries specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
             try
             {
+                Global.lubState = "decompile";
+
+                var decompileDialog = new Status();
+                var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
+                var parentTop = Top + ((Height - decompileDialog.Height) / 2);
+                decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                decompileDialog.Show();
+
                 #region Getting current ARC failsafe...
                 //Gets the failsafe directory.
                 if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
@@ -103,18 +111,11 @@ namespace Sonic_06_Toolkit
                         File.Copy(checkedBuildSession.ToString(), Path.Combine(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\lubs\", Path.GetFileName(selectedLUB)), true);
 
                         #region Decompiling Lua binaries...
-                        Global.lubState = "decompile";
-
                         //Sets up the BASIC application and executes the decompiling process.
                         var decompileSession = new ProcessStartInfo(Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck + @"\unlub.bat");
                         decompileSession.WorkingDirectory = Properties.Settings.Default.unlubPath + Global.sessionID + @"\" + failsafeCheck;
                         decompileSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Decompile = Process.Start(decompileSession);
-                        var decompileDialog = new Status();
-                        var parentLeft = Left + ((Width - decompileDialog.Width) / 2);
-                        var parentTop = Top + ((Height - decompileDialog.Height) / 2);
-                        decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        decompileDialog.Show();
                         Decompile.WaitForExit();
                         Decompile.Close();
 
@@ -131,11 +132,12 @@ namespace Sonic_06_Toolkit
                                 File.Delete(LUB);
                             }
                         }
-                        decompileDialog.Close();
                         #endregion
                     }
                 }
                 #endregion
+
+                decompileDialog.Close();
             }
             catch { MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }

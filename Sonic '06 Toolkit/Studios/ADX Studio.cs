@@ -65,6 +65,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.adxState = "adx";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting selected ADX files...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each ADX.
                     foreach (string selectedADX in clb_ADX.CheckedItems)
@@ -73,26 +81,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedADX));
 
                         #region Converting ADX files...
-                        Global.adxState = "adx";
-
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.adx2wavFile, "\"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".wav\"");
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.adxState = null;
                         #endregion
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when encoding the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -100,6 +102,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.adxState = "wav";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting selected WAV files...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_ADX.CheckedItems)
@@ -108,26 +118,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedWAV));
 
                         #region Converting WAV files...
-                        Global.adxState = "wav";
-
                         //Sets up the BASIC application and executes the converting process.
                         var convertSession = new ProcessStartInfo(Properties.Settings.Default.criconverterFile, "\"" + checkedBuildSession.ToString() + "\" \"" + Path.GetDirectoryName(checkedBuildSession.ToString()) + @"\" + Path.GetFileNameWithoutExtension(checkedBuildSession.ToString()) + ".adx\" -codec=adx -volume=" + vol + " -downmix=" + downmix + ignoreLoop + removeLoop);
                         convertSession.WorkingDirectory = Global.currentPath;
                         convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Convert = Process.Start(convertSession);
-                        var convertDialog = new Status();
-                        var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                        var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                        convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        convertDialog.Show();
                         Convert.WaitForExit();
                         Convert.Close();
-                        convertDialog.Close();
 
                         Global.adxState = null;
                         #endregion
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -141,7 +145,7 @@ namespace Sonic_06_Toolkit
         {
             clb_ADX.ClearSelected(); //Removes the blue highlight on recently checked boxes.
 
-            //Enables/disables the Decompile button, depending on whether a box has been checked.
+            //Enables/disables the Encode button, depending on whether a box has been checked.
             if (clb_ADX.CheckedItems.Count > 0)
             {
                 btn_Convert.Enabled = true;

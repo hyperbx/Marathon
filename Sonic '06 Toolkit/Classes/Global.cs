@@ -15,6 +15,7 @@ namespace Sonic_06_Toolkit
         public static string adxState;
         public static string at3State;
         public static string csbState;
+        public static string ddsState;
         public static string lubState;
         public static string setState;
         public static string mstState;

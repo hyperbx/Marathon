@@ -69,6 +69,20 @@ namespace Sonic_06_Toolkit
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
                 Width = 300;
             }
+            else if (Global.ddsState == "dds")
+            {
+                Text = "Converting DDS files...";
+                lbl_unpackState.Text = "Converting DDS files. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 302;
+            }
+            else if (Global.ddsState == "png")
+            {
+                Text = "Converting PNG files...";
+                lbl_unpackState.Text = "Converting PNG files. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 302;
+            }
             else if (Global.csbState == "unpack")
             {
                 Text = "Unpacking CSBs...";

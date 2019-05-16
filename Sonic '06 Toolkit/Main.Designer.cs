@@ -88,6 +88,7 @@
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.paths_ClearGame = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearXeniaDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
@@ -97,16 +98,20 @@
             this.mainSDK_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_AT3Studio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_CSBStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainSDK_DDSStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_MSTStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_SETStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeMSTs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertSETs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainShortcuts_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mainShortcuts_Xenia = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Window = new System.Windows.Forms.ToolStripMenuItem();
             this.mainWindow_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.mainWindow_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,6 +127,7 @@
             this.lbl_updateStatus = new System.Windows.Forms.Label();
             this.pgb_updateStatus = new System.Windows.Forms.ProgressBar();
             this.btn_Backdrop = new System.Windows.Forms.Button();
+            this.btn_RepackOptions = new System.Windows.Forms.Button();
             this.btn_NewTab = new System.Windows.Forms.Button();
             this.btn_Forward = new System.Windows.Forms.Button();
             this.btn_Back = new System.Windows.Forms.Button();
@@ -132,6 +138,9 @@
             this.sfd_SaveFiles = new System.Windows.Forms.SaveFileDialog();
             this.lbl_SetDefault = new System.Windows.Forms.Label();
             this.fbd_BrowseFolders = new System.Windows.Forms.FolderBrowserDialog();
+            this.cms_Repack = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.repackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.repackAndLaunchXeniaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.sdk_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -144,6 +153,7 @@
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
+            this.cms_Repack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -425,7 +435,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -542,7 +552,7 @@
             this.mainThemes_Compact.CheckOnClick = true;
             this.mainThemes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainThemes_Compact.Name = "mainThemes_Compact";
-            this.mainThemes_Compact.Size = new System.Drawing.Size(159, 22);
+            this.mainThemes_Compact.Size = new System.Drawing.Size(180, 22);
             this.mainThemes_Compact.Text = "Compact";
             this.mainThemes_Compact.CheckedChanged += new System.EventHandler(this.MainThemes_Compact_CheckedChanged);
             // 
@@ -550,14 +560,15 @@
             // 
             this.mainThemes_Original.CheckOnClick = true;
             this.mainThemes_Original.Name = "mainThemes_Original";
-            this.mainThemes_Original.Size = new System.Drawing.Size(159, 22);
+            this.mainThemes_Original.Size = new System.Drawing.Size(180, 22);
             this.mainThemes_Original.Text = "Original";
             this.mainThemes_Original.CheckedChanged += new System.EventHandler(this.MainThemes_Original_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(156, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Free_Mode);
             // 
             // mainPreferences_ShowLogo
             // 
@@ -565,7 +576,7 @@
             this.mainPreferences_ShowLogo.CheckOnClick = true;
             this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(159, 22);
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(180, 22);
             this.mainPreferences_ShowLogo.Text = "Show Logo";
             this.mainPreferences_ShowLogo.Visible = false;
             // 
@@ -575,7 +586,7 @@
             this.mainPreferences_ShowSessionID.CheckOnClick = true;
             this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
-            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
+            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
             // 
@@ -622,7 +633,8 @@
             // mainPreferences_Paths
             // 
             this.mainPreferences_Paths.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.paths_ClearGame});
+            this.paths_ClearGame,
+            this.clearXeniaDirectoryToolStripMenuItem});
             this.mainPreferences_Paths.Name = "mainPreferences_Paths";
             this.mainPreferences_Paths.Size = new System.Drawing.Size(204, 22);
             this.mainPreferences_Paths.Text = "Paths...";
@@ -634,6 +646,13 @@
             this.paths_ClearGame.Size = new System.Drawing.Size(184, 22);
             this.paths_ClearGame.Text = "Clear game directory";
             this.paths_ClearGame.Click += new System.EventHandler(this.Paths_ClearGame_Click);
+            // 
+            // clearXeniaDirectoryToolStripMenuItem
+            // 
+            this.clearXeniaDirectoryToolStripMenuItem.Name = "clearXeniaDirectoryToolStripMenuItem";
+            this.clearXeniaDirectoryToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.clearXeniaDirectoryToolStripMenuItem.Text = "Clear Xenia directory";
+            this.clearXeniaDirectoryToolStripMenuItem.Click += new System.EventHandler(this.ClearXeniaDirectoryToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -672,6 +691,7 @@
             this.mainSDK_ARCStudio,
             this.mainSDK_AT3Studio,
             this.mainSDK_CSBStudio,
+            this.mainSDK_DDSStudio,
             this.mainSDK_LUBStudio,
             this.mainSDK_MSTStudio,
             this.mainSDK_SETStudio,
@@ -715,6 +735,15 @@
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
+            // mainSDK_DDSStudio
+            // 
+            this.mainSDK_DDSStudio.Enabled = false;
+            this.mainSDK_DDSStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DDSStudio.Image")));
+            this.mainSDK_DDSStudio.Name = "mainSDK_DDSStudio";
+            this.mainSDK_DDSStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_DDSStudio.Text = "DDS Studio...";
+            this.mainSDK_DDSStudio.Click += new System.EventHandler(this.MainSDK_DDSStudio_Click);
+            // 
             // mainSDK_LUBStudio
             // 
             this.mainSDK_LUBStudio.Enabled = false;
@@ -755,10 +784,13 @@
             // 
             this.main_Shortcuts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.shortcuts_ExtractCSBs,
+            this.shortcuts_ConvertDDS,
             this.shortcuts_DecompileLUBs,
             this.shortcuts_DecodeMSTs,
             this.shortcuts_ConvertSETs,
-            this.shortcuts_ConvertXNOs});
+            this.shortcuts_ConvertXNOs,
+            this.mainShortcuts_Separator1,
+            this.mainShortcuts_Xenia});
             this.main_Shortcuts.Name = "main_Shortcuts";
             this.main_Shortcuts.Size = new System.Drawing.Size(69, 20);
             this.main_Shortcuts.Text = "Shortcuts";
@@ -770,9 +802,20 @@
             this.shortcuts_ExtractCSBs.Name = "shortcuts_ExtractCSBs";
             this.shortcuts_ExtractCSBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.C)));
-            this.shortcuts_ExtractCSBs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_ExtractCSBs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_ExtractCSBs.Text = "Unpack all CSBs here...";
             this.shortcuts_ExtractCSBs.Click += new System.EventHandler(this.Shortcuts_ExtractCSBs_Click);
+            // 
+            // shortcuts_ConvertDDS
+            // 
+            this.shortcuts_ConvertDDS.Enabled = false;
+            this.shortcuts_ConvertDDS.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertDDS.Image")));
+            this.shortcuts_ConvertDDS.Name = "shortcuts_ConvertDDS";
+            this.shortcuts_ConvertDDS.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.shortcuts_ConvertDDS.Size = new System.Drawing.Size(289, 22);
+            this.shortcuts_ConvertDDS.Text = "Convert all DDS files here...";
+            this.shortcuts_ConvertDDS.Click += new System.EventHandler(this.Shortcuts_ConvertDDS_Click);
             // 
             // shortcuts_DecompileLUBs
             // 
@@ -781,7 +824,7 @@
             this.shortcuts_DecompileLUBs.Name = "shortcuts_DecompileLUBs";
             this.shortcuts_DecompileLUBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.L)));
-            this.shortcuts_DecompileLUBs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_DecompileLUBs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_DecompileLUBs.Text = "Decompile all LUBs here...";
             this.shortcuts_DecompileLUBs.Click += new System.EventHandler(this.Shortcuts_DecompileLUBs_Click);
             // 
@@ -792,7 +835,7 @@
             this.shortcuts_DecodeMSTs.Name = "shortcuts_DecodeMSTs";
             this.shortcuts_DecodeMSTs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.M)));
-            this.shortcuts_DecodeMSTs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_DecodeMSTs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_DecodeMSTs.Text = "Decode all MSTs here...";
             this.shortcuts_DecodeMSTs.Click += new System.EventHandler(this.Shortcuts_DecodeMSTs_Click);
             // 
@@ -803,7 +846,7 @@
             this.shortcuts_ConvertSETs.Name = "shortcuts_ConvertSETs";
             this.shortcuts_ConvertSETs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.shortcuts_ConvertSETs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_ConvertSETs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_ConvertSETs.Text = "Export all SETs here...";
             this.shortcuts_ConvertSETs.Click += new System.EventHandler(this.Shortcuts_ConvertSETs_Click);
             // 
@@ -814,9 +857,23 @@
             this.shortcuts_ConvertXNOs.Name = "shortcuts_ConvertXNOs";
             this.shortcuts_ConvertXNOs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.X)));
-            this.shortcuts_ConvertXNOs.Size = new System.Drawing.Size(282, 22);
+            this.shortcuts_ConvertXNOs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_ConvertXNOs.Text = "Convert all XNOs here...";
             this.shortcuts_ConvertXNOs.Click += new System.EventHandler(this.Shortcuts_ConvertXNOs_Click);
+            // 
+            // mainShortcuts_Separator1
+            // 
+            this.mainShortcuts_Separator1.Name = "mainShortcuts_Separator1";
+            this.mainShortcuts_Separator1.Size = new System.Drawing.Size(286, 6);
+            // 
+            // mainShortcuts_Xenia
+            // 
+            this.mainShortcuts_Xenia.Image = ((System.Drawing.Image)(resources.GetObject("mainShortcuts_Xenia.Image")));
+            this.mainShortcuts_Xenia.Name = "mainShortcuts_Xenia";
+            this.mainShortcuts_Xenia.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.X)));
+            this.mainShortcuts_Xenia.Size = new System.Drawing.Size(289, 22);
+            this.mainShortcuts_Xenia.Text = "Launch Xenia";
+            this.mainShortcuts_Xenia.Click += new System.EventHandler(this.MainShortcuts_Xenia_Click);
             // 
             // main_Window
             // 
@@ -895,6 +952,7 @@
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(176, 6);
+            this.toolStripSeparator11.Click += new System.EventHandler(this.None);
             // 
             // mainHelp_CheckForUpdates
             // 
@@ -922,7 +980,7 @@
             this.pnl_Updater.ForeColor = System.Drawing.SystemColors.ControlText;
             this.pnl_Updater.Location = new System.Drawing.Point(388, 0);
             this.pnl_Updater.Name = "pnl_Updater";
-            this.pnl_Updater.Size = new System.Drawing.Size(225, 24);
+            this.pnl_Updater.Size = new System.Drawing.Size(206, 24);
             this.pnl_Updater.TabIndex = 1;
             this.pnl_Updater.Visible = false;
             // 
@@ -942,7 +1000,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pgb_updateStatus.Location = new System.Drawing.Point(72, 3);
             this.pgb_updateStatus.Name = "pgb_updateStatus";
-            this.pgb_updateStatus.Size = new System.Drawing.Size(150, 18);
+            this.pgb_updateStatus.Size = new System.Drawing.Size(131, 18);
             this.pgb_updateStatus.TabIndex = 10;
             // 
             // btn_Backdrop
@@ -952,12 +1010,28 @@
             this.btn_Backdrop.Enabled = false;
             this.btn_Backdrop.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Backdrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Backdrop.Location = new System.Drawing.Point(298, 0);
+            this.btn_Backdrop.Location = new System.Drawing.Point(388, 0);
             this.btn_Backdrop.Name = "btn_Backdrop";
             this.btn_Backdrop.Size = new System.Drawing.Size(315, 24);
             this.btn_Backdrop.TabIndex = 2;
             this.btn_Backdrop.UseVisualStyleBackColor = true;
             this.btn_Backdrop.Visible = false;
+            // 
+            // btn_RepackOptions
+            // 
+            this.btn_RepackOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_RepackOptions.BackColor = System.Drawing.Color.LightGreen;
+            this.btn_RepackOptions.Enabled = false;
+            this.btn_RepackOptions.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_RepackOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_RepackOptions.Location = new System.Drawing.Point(732, -1);
+            this.btn_RepackOptions.Name = "btn_RepackOptions";
+            this.btn_RepackOptions.Size = new System.Drawing.Size(20, 26);
+            this.btn_RepackOptions.TabIndex = 13;
+            this.btn_RepackOptions.Text = "⮟";
+            this.btn_RepackOptions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_RepackOptions.UseVisualStyleBackColor = false;
+            this.btn_RepackOptions.Click += new System.EventHandler(this.Btn_RepackOptions_Click);
             // 
             // btn_NewTab
             // 
@@ -1008,7 +1082,7 @@
             this.btn_Repack.Enabled = false;
             this.btn_Repack.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Repack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Repack.Location = new System.Drawing.Point(690, -1);
+            this.btn_Repack.Location = new System.Drawing.Point(671, -1);
             this.btn_Repack.Name = "btn_Repack";
             this.btn_Repack.Size = new System.Drawing.Size(62, 26);
             this.btn_Repack.TabIndex = 7;
@@ -1040,7 +1114,7 @@
             this.btn_OpenFolder.Enabled = false;
             this.btn_OpenFolder.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_OpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_OpenFolder.Location = new System.Drawing.Point(613, -1);
+            this.btn_OpenFolder.Location = new System.Drawing.Point(594, -1);
             this.btn_OpenFolder.Name = "btn_OpenFolder";
             this.btn_OpenFolder.Size = new System.Drawing.Size(78, 26);
             this.btn_OpenFolder.TabIndex = 9;
@@ -1064,6 +1138,34 @@
             this.lbl_SetDefault.TabIndex = 11;
             this.lbl_SetDefault.Text = "Click here to select your SONIC THE HEDGEHOG directory...";
             this.lbl_SetDefault.Click += new System.EventHandler(this.Lbl_SetDefault_Click);
+            // 
+            // cms_Repack
+            // 
+            this.cms_Repack.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.repackToolStripMenuItem,
+            this.repackAndLaunchXeniaToolStripMenuItem});
+            this.cms_Repack.Name = "cms_Repack";
+            this.cms_Repack.ShowItemToolTips = false;
+            this.cms_Repack.Size = new System.Drawing.Size(210, 48);
+            this.cms_Repack.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Cms_Repack_Closed);
+            // 
+            // repackToolStripMenuItem
+            // 
+            this.repackToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+            this.repackToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("repackToolStripMenuItem.Image")));
+            this.repackToolStripMenuItem.Name = "repackToolStripMenuItem";
+            this.repackToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.repackToolStripMenuItem.Text = "Repack";
+            this.repackToolStripMenuItem.Click += new System.EventHandler(this.RepackToolStripMenuItem_Click);
+            // 
+            // repackAndLaunchXeniaToolStripMenuItem
+            // 
+            this.repackAndLaunchXeniaToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
+            this.repackAndLaunchXeniaToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("repackAndLaunchXeniaToolStripMenuItem.Image")));
+            this.repackAndLaunchXeniaToolStripMenuItem.Name = "repackAndLaunchXeniaToolStripMenuItem";
+            this.repackAndLaunchXeniaToolStripMenuItem.Size = new System.Drawing.Size(209, 22);
+            this.repackAndLaunchXeniaToolStripMenuItem.Text = "Repack and Launch Xenia";
+            this.repackAndLaunchXeniaToolStripMenuItem.Click += new System.EventHandler(this.RepackAndLaunchXeniaToolStripMenuItem_Click);
             // 
             // pic_Logo
             // 
@@ -1162,6 +1264,7 @@
             this.Controls.Add(this.lbl_SetDefault);
             this.Controls.Add(this.pic_Logo);
             this.Controls.Add(this.btn_OpenFolder);
+            this.Controls.Add(this.btn_RepackOptions);
             this.Controls.Add(this.tab_Main);
             this.Controls.Add(this.btn_Repack);
             this.Controls.Add(this.btn_NewTab);
@@ -1182,6 +1285,7 @@
             this.mstrip_Main.PerformLayout();
             this.pnl_Updater.ResumeLayout(false);
             this.pnl_Updater.PerformLayout();
+            this.cms_Repack.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1300,6 +1404,15 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem mainFile_ExtractISO;
         private System.Windows.Forms.ToolStripMenuItem paths_ClearGame;
+        private System.Windows.Forms.ToolStripSeparator mainShortcuts_Separator1;
+        private System.Windows.Forms.ToolStripMenuItem mainShortcuts_Xenia;
+        private System.Windows.Forms.ContextMenuStrip cms_Repack;
+        private System.Windows.Forms.ToolStripMenuItem repackToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem repackAndLaunchXeniaToolStripMenuItem;
+        private System.Windows.Forms.Button btn_RepackOptions;
+        private System.Windows.Forms.ToolStripMenuItem mainSDK_DDSStudio;
+        private System.Windows.Forms.ToolStripMenuItem clearXeniaDirectoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDS;
     }
 }
 

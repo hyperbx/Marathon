@@ -55,6 +55,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.csbState = "unpack";
+
+                    var unpackDialog = new Status();
+                    var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    unpackDialog.Show();
+
                     #region Getting selected CSBs...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
                     foreach (string selectedCSB in clb_CSBs.CheckedItems)
@@ -63,26 +71,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedCSB));
 
                         #region Extracting CSBs...
-                        Global.csbState = "unpack";
-
                         //Sets up the BASIC application and executes the extracting process.
                         var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                         unpackSession.WorkingDirectory = Global.currentPath;
                         unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Unpack = Process.Start(unpackSession);
-                        var unpackDialog = new Status();
-                        var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                        var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                        unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        unpackDialog.Show();
                         Unpack.WaitForExit();
                         Unpack.Close();
-                        unpackDialog.Close();
 
                         Global.csbState = null;
                         #endregion
                     }
                     #endregion
+
+                    unpackDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when unpacking the selected CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -90,6 +92,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.csbState = "repack";
+
+                    var repackDialog = new Status();
+                    var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                    repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    repackDialog.Show();
+
                     #region Getting selected CSBs...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
                     foreach (string selectedCSB in clb_CSBs.CheckedItems)
@@ -98,26 +108,20 @@ namespace Sonic_06_Toolkit
                         checkedBuildSession.Append(Path.Combine(Global.currentPath, selectedCSB));
 
                         #region Extracting CSBs...
-                        Global.csbState = "repack";
-
                         //Sets up the BASIC application and executes the extracting process.
                         var repackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                         repackSession.WorkingDirectory = Global.currentPath;
                         repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Repack = Process.Start(repackSession);
-                        var repackDialog = new Status();
-                        var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-                        var parentTop = Top + ((Height - repackDialog.Height) / 2);
-                        repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        repackDialog.Show();
                         Repack.WaitForExit();
                         Repack.Close();
-                        repackDialog.Close();
 
                         Global.csbState = null;
                         #endregion
                     }
                     #endregion
+
+                    repackDialog.Close();
                 }
                 catch { MessageBox.Show("An error occurred when repacking the selected CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
