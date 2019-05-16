@@ -61,7 +61,12 @@ namespace Sonic_06_Toolkit
 
                         Close();
                     }
-                    catch { MessageBox.Show("An error occurred when encoding the ADX file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when encoding the ADX file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -214,7 +219,12 @@ namespace Sonic_06_Toolkit
                             }
                         }
                     }
-                    catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -243,7 +253,12 @@ namespace Sonic_06_Toolkit
 
                         Close();
                     }
-                    catch { MessageBox.Show("An error occurred when encoding the WAV file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when encoding the WAV file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -272,7 +287,12 @@ namespace Sonic_06_Toolkit
 
                         Close();
                     }
-                    catch { MessageBox.Show("An error occurred when unpacking the CSB.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when unpacking the CSB.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -349,7 +369,12 @@ namespace Sonic_06_Toolkit
 
                                 Close();
                             }
-                            catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                            catch
+                            {
+                                MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                escapeStatus();
+                                Close();
+                            }
                         }
                     }
                 }
@@ -413,7 +438,12 @@ namespace Sonic_06_Toolkit
 
                         Close();
                     }
-                    catch { MessageBox.Show("An error occurred when decoding the MST.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Close(); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when decoding the MST.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -431,7 +461,12 @@ namespace Sonic_06_Toolkit
                             Close();
                         }
                     }
-                    catch { MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -455,7 +490,12 @@ namespace Sonic_06_Toolkit
                             Close();
                         }
                     }
-                    catch { MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
 
@@ -503,7 +543,12 @@ namespace Sonic_06_Toolkit
 
                         Close();
                     }
-                    catch { MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                        Close();
+                    }
                 }
                 #endregion
             }
@@ -730,7 +775,11 @@ namespace Sonic_06_Toolkit
                     Global.arcState = "typical";
                     unpackARC();
                 }
-                catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
         }
         #endregion
@@ -766,6 +815,7 @@ namespace Sonic_06_Toolkit
 
                         Global.exisoState = null;
                         break;
+
                     case DialogResult.Cancel:
                         Global.exisoState = "extract";
 
@@ -1474,6 +1524,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.csbState = "unpack";
+
+                    var unpackDialog = new Status();
+                    var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    unpackDialog.Show();
+
                     #region Getting selected CSBs...
                     //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
                     foreach (string CSB in Directory.GetFiles(Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
@@ -1484,29 +1542,27 @@ namespace Sonic_06_Toolkit
                             checkedBuildSession.Append(Path.Combine(Global.currentPath, CSB));
 
                             #region Extracting CSBs...
-                            Global.csbState = "unpack";
-
                             //Sets up the BASIC application and executes the extracting process.
                             var unpackSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, "\"" + checkedBuildSession.ToString() + "\"");
                             unpackSession.WorkingDirectory = Global.currentPath;
                             unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Unpack = Process.Start(unpackSession);
-                            var unpackDialog = new Status();
-                            var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                            var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                            unpackDialog.Show();
                             Unpack.WaitForExit();
                             Unpack.Close();
-                            unpackDialog.Close();
 
                             Global.csbState = null;
                             #endregion
                         }
                     }
                     #endregion
+
+                    unpackDialog.Close();
                 }
-                catch { MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
         }
 
@@ -1630,7 +1686,11 @@ namespace Sonic_06_Toolkit
                             decompileDialog.Close();
                             #endregion
                         }
-                        catch { MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        catch
+                        {
+                            MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            escapeStatus();
+                        }
                     }
                 }
             }
@@ -1747,7 +1807,11 @@ namespace Sonic_06_Toolkit
                         Global.mstState = null;
                     }
                 }
-                catch { MessageBox.Show("An error occurred when decoding the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when decoding the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
         }
 
@@ -1769,7 +1833,11 @@ namespace Sonic_06_Toolkit
                         }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when exporting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when exporting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
         }
 
@@ -1781,6 +1849,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.xnoState = "xno";
+
+                    var convertDialog = new Status();
+                    var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                    var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+
                     #region Getting current ARC failsafe...
                     //Gets the failsafe directory.
                     if (!Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID)) Directory.CreateDirectory(Properties.Settings.Default.unlubPath + Global.sessionID);
@@ -1820,29 +1896,27 @@ namespace Sonic_06_Toolkit
                             #endregion
 
                             #region Converting XNOs...
-                            Global.xnoState = "xno";
-
                             //Sets up the BASIC application and executes the conversion process.
                             var convertSession = new ProcessStartInfo(Properties.Settings.Default.xnoPath + Global.sessionID + @"\" + failsafeCheck + @"\xno2dae.bat");
                             convertSession.WorkingDirectory = Global.currentPath;
                             convertSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Convert = Process.Start(convertSession);
-                            var convertDialog = new Status();
-                            var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-                            var parentTop = Top + ((Height - convertDialog.Height) / 2);
-                            convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                            convertDialog.Show();
                             Convert.WaitForExit();
                             Convert.Close();
-                            convertDialog.Close();
 
                             Global.xnoState = null;
                             #endregion
                         }
                     }
                     #endregion
+
+                    convertDialog.Close();
                 }
-                catch { MessageBox.Show("An error occurred when converting the XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when converting the XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
         }
 
@@ -2339,6 +2413,16 @@ namespace Sonic_06_Toolkit
                 else { MessageBox.Show("This directory does not exist.", "Path Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
+        }
         #endregion
 
         void unpackARC()
@@ -2460,7 +2544,11 @@ namespace Sonic_06_Toolkit
                         }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else
             {
@@ -2525,7 +2613,11 @@ namespace Sonic_06_Toolkit
                         else { SpecifyXenia(); }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else if (Global.arcState == "save-as")
             {
@@ -2585,7 +2677,11 @@ namespace Sonic_06_Toolkit
                             else { SpecifyXenia(); }
                         }
                     }
-                    catch { MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        escapeStatus();
+                    }
                 }
             }
             else

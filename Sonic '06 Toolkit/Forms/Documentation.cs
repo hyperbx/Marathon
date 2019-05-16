@@ -68,6 +68,7 @@ namespace Sonic_06_Toolkit
             else if (tree_InfoSelect.SelectedNode.Text == "PKG") rtb_InfoDisplay.Text = "PKG files are BINA string tables that group together some common file formats (such as; FXO, LUA, DDS, PLC, XNF, XNO, XNI, XNM and XNV files).";
             #endregion
 
+
             #region Sonic '06 Toolkit
 
             #region Troubleshooting
@@ -78,6 +79,7 @@ namespace Sonic_06_Toolkit
 
             #region AT3 Studio
             else if (tree_InfoSelect.SelectedNode.Text == "MSVCR71.dll is missing...") rtb_InfoDisplay.Text = "You need to install the x86 variant of Microsoft Visual C++ 2010.\n\nx86: https://www.microsoft.com/en-us/download/details.aspx?id=5555";
+            else if (tree_InfoSelect.SelectedNode.Text == "AT3 files are encoding empty...") rtb_InfoDisplay.Text = "Encode your WAV file using a 48000Hz sample rate and try again.";
             #endregion
 
             #region LUB Studio

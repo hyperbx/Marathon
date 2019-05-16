@@ -187,7 +187,11 @@ namespace Sonic_06_Toolkit
 
                     convertDialog.Close();
                 }
-                catch { MessageBox.Show("An error occurred when encoding the selected AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when encoding the selected AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else if (Global.at3State == "wav")
             {
@@ -224,12 +228,26 @@ namespace Sonic_06_Toolkit
 
                     convertDialog.Close();
                 }
-                catch { MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else
             {
                 MessageBox.Show("AT3 State set to invalid value: " + Global.adxState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
         }
 
         void Looping_Whole_CheckedChanged(object sender, EventArgs e)

@@ -139,7 +139,21 @@ namespace Sonic_06_Toolkit
 
                 decompileDialog.Close();
             }
-            catch { MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch
+            {
+                MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                escapeStatus();
+            }
+        }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
         }
 
         void Clb_LUBs_SelectedIndexChanged(object sender, EventArgs e)

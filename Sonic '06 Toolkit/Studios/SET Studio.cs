@@ -84,7 +84,11 @@ namespace Sonic_06_Toolkit
                         }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else if (Global.setState == "import")
             {
@@ -106,12 +110,26 @@ namespace Sonic_06_Toolkit
                         }
                     }
                 }
-                catch { MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch
+                {
+                    MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
+                }
             }
             else
             {
                 MessageBox.Show("SET State set to invalid value: " + Global.setState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
         }
 
         void Modes_Export_CheckedChanged(object sender, EventArgs e)

@@ -147,7 +147,21 @@ namespace Sonic_06_Toolkit
 
                 Global.arcState = null;
             }
-            catch { MessageBox.Show("An error occurred when merging the archives.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            catch
+            {
+                MessageBox.Show("An error occurred when merging the archives.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                escapeStatus();
+            }
+        }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
         }
 
         void Btn_Merge_Click(object sender, EventArgs e)

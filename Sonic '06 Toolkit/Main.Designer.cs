@@ -435,7 +435,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -552,7 +552,7 @@
             this.mainThemes_Compact.CheckOnClick = true;
             this.mainThemes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainThemes_Compact.Name = "mainThemes_Compact";
-            this.mainThemes_Compact.Size = new System.Drawing.Size(180, 22);
+            this.mainThemes_Compact.Size = new System.Drawing.Size(159, 22);
             this.mainThemes_Compact.Text = "Compact";
             this.mainThemes_Compact.CheckedChanged += new System.EventHandler(this.MainThemes_Compact_CheckedChanged);
             // 
@@ -560,14 +560,14 @@
             // 
             this.mainThemes_Original.CheckOnClick = true;
             this.mainThemes_Original.Name = "mainThemes_Original";
-            this.mainThemes_Original.Size = new System.Drawing.Size(180, 22);
+            this.mainThemes_Original.Size = new System.Drawing.Size(159, 22);
             this.mainThemes_Original.Text = "Original";
             this.mainThemes_Original.CheckedChanged += new System.EventHandler(this.MainThemes_Original_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(156, 6);
             this.toolStripSeparator6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Free_Mode);
             // 
             // mainPreferences_ShowLogo
@@ -576,7 +576,7 @@
             this.mainPreferences_ShowLogo.CheckOnClick = true;
             this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowLogo.Text = "Show Logo";
             this.mainPreferences_ShowLogo.Visible = false;
             // 
@@ -586,7 +586,7 @@
             this.mainPreferences_ShowSessionID.CheckOnClick = true;
             this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
-            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(180, 22);
+            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
             // 
