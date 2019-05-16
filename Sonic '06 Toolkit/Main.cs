@@ -1329,6 +1329,7 @@ namespace Sonic_06_Toolkit
             main_Shortcuts.Text = "None";
             main_Window.Text = "None";
             main_Help.Text = "None";
+            Text = "None";
         }
         #endregion
         //}
