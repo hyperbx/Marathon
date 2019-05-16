@@ -184,7 +184,7 @@ namespace Sonic_06_Toolkit
                                             resetTab();
                                         }
                                         currentARC().Navigate(unpackBuildSession.ToString());
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
                                         navigateToGame = true;
                                     }
                                     else
@@ -193,7 +193,7 @@ namespace Sonic_06_Toolkit
                                         newTab();
 
                                         currentARC().Navigate(unpackBuildSession.ToString());
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
                                         navigateToGame = true;
                                     }
                                     #endregion
