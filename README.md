@@ -18,6 +18,9 @@
 ### AT3 Encoding
 - Currently based off AT3 Tool, developed by SONY Computer Entertainment Inc.
 
+### DDS Converting
+- Currently based off Microsoft DirectX. This may need more work as converting PNG to DDS results in a slightly darker image.
+
 ### LUB Decompiling
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
 
