@@ -170,5 +170,10 @@ namespace Sonic_06_Toolkit
                 btn_Decompile.Enabled = false;
             }
         }
+
+        void LUB_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.lubState = null;
+        }
     }
 }

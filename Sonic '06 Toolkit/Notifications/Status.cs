@@ -104,13 +104,13 @@ namespace Sonic_06_Toolkit
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
                 Width = 295;
             }
-            else if (Global.mstState == "decode")
-            {
-                Text = "Decoding MSTs...";
-                lbl_unpackState.Text = "Decoding MSTs. Please wait...";
-                pnl_windowCheck.BackColor = Color.Thistle; BackColor = Color.Thistle;
-                Width = 219;
-            }
+            //else if (Global.mstState == "decode")
+            //{
+            //    Text = "Decoding MSTs...";
+            //    lbl_unpackState.Text = "Decoding MSTs. Please wait...";
+            //    pnl_windowCheck.BackColor = Color.Thistle; BackColor = Color.Thistle;
+            //    Width = 219;
+            //}
             else if (Global.xnoState == "xno" || Global.xnoState == "xnm")
             {
                 Text = "Converting XNOs...";

@@ -313,6 +313,9 @@
     <None Include="Resources\AsyncAudioEncoder.dll" />
     <None Include="Resources\HedgeLib.dll" />
     <None Include="Resources\exiso.exe" />
+    <None Include="Resources\arctool.exe" />
+    <None Include="Resources\arcc.php" />
+    <None Include="Resources\arctool.php" />
     <Content Include="Resources\logo_main_icon.ico" />
   </ItemGroup>
   <ItemGroup>

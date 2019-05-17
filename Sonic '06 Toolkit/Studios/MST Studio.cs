@@ -69,8 +69,6 @@ namespace Sonic_06_Toolkit
 
         void Btn_Decode_Click(object sender, EventArgs e)
         {
-            Global.mstState = "decode";
-
             //UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
             //byte[] buffer = new byte[1024];
 
@@ -123,52 +121,73 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 #region HedgeLib Decoder (active)
-                // Read MST
-                var msgs = new Dictionary<string, string>();
-                string mstPath = Path.Combine(Global.currentPath, selectedMST);
-
-                using (var fs = File.OpenRead(mstPath))
+                try
                 {
-                    var reader = new BINAReader(fs);
-                    var header = reader.ReadHeader();
-                    var sig = reader.ReadSignature();
+                    // Read MST
+                    var msgs = new Dictionary<string, string>();
+                    string mstPath = Path.Combine(Global.currentPath, selectedMST);
 
-                    if (sig != "WTXT")
-                        throw new InvalidSignatureException("WTXT", sig);
-
-                    uint stringTableOff = reader.ReadUInt32();
-                    uint msgEntryCount = reader.ReadUInt32();
-
-                    for (uint i = 0; i < msgEntryCount; ++i)
+                    using (var fs = File.OpenRead(mstPath))
                     {
-                        string name = reader.GetString();
-                        uint textOffset = reader.ReadUInt32();
-                        uint unknown1 = reader.ReadUInt32();
-                        long pos = reader.BaseStream.Position;
+                        var reader = new BINAReader(fs);
+                        var header = reader.ReadHeader();
+                        var sig = reader.ReadSignature();
 
-                        reader.JumpTo(textOffset, false);
-                        string text = reader.ReadNullTerminatedStringUTF16();
+                        if (sig != "WTXT")
+                            throw new InvalidSignatureException("WTXT", sig);
 
-                        msgs.Add(name, text);
-                        reader.JumpTo(pos, true);
+                        uint stringTableOff = reader.ReadUInt32();
+                        uint msgEntryCount = reader.ReadUInt32();
+
+                        for (uint i = 0; i < msgEntryCount; ++i)
+                        {
+                            string name = reader.GetString();
+                            uint textOffset = reader.ReadUInt32();
+                            uint unknown1 = reader.ReadUInt32();
+                            long pos = reader.BaseStream.Position;
+
+                            reader.JumpTo(textOffset, false);
+                            string text = reader.ReadNullTerminatedStringUTF16();
+
+                            msgs.Add(name, text);
+                            reader.JumpTo(pos, true);
+                        }
                     }
+
+                    // Generate CSV
+                    string csvPath = Path.Combine(Global.currentPath,
+                    $"{Path.GetFileNameWithoutExtension(selectedMST)}.csv");
+
+                    var lines = new List<string>();
+                    foreach (var msg in msgs)
+                    {
+                        lines.Add($"{msg.Key},{msg.Value}");
+                    }
+
+                    File.WriteAllLines(csvPath, lines, Encoding.Unicode);
                 }
-
-                // Generate CSV
-                string csvPath = Path.Combine(Global.currentPath,
-                $"{Path.GetFileNameWithoutExtension(selectedMST)}.csv");
-
-                var lines = new List<string>();
-                foreach (var msg in msgs)
+                catch
                 {
-                    lines.Add($"{msg.Key},{msg.Value}");
+                    MessageBox.Show("An error occurred when decoding the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    escapeStatus();
                 }
-
-                File.WriteAllLines(csvPath, lines, Encoding.Unicode);
                 #endregion
-
-                Global.mstState = null;
             }
+        }
+
+        void escapeStatus()
+        {
+            try
+            {
+                Status statusForm = (Status)Application.OpenForms["Status"];
+                statusForm.Close();
+            }
+            catch { }
+        }
+
+        void MST_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.mstState = null;
         }
     }
 }

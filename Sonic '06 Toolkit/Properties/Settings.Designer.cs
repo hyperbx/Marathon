@@ -274,5 +274,125 @@ namespace Sonic_06_Toolkit.Properties {
                 this["directXFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string arctoolFile {
+            get {
+                return ((string)(this["arctoolFile"]));
+            }
+            set {
+                this["arctoolFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ignoreLoop {
+            get {
+                return ((bool)(this["ignoreLoop"]));
+            }
+            set {
+                this["ignoreLoop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool removeLoop {
+            get {
+                return ((bool)(this["removeLoop"]));
+            }
+            set {
+                this["removeLoop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool downmix {
+            get {
+                return ((bool)(this["downmix"]));
+            }
+            set {
+                this["downmix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double volume {
+            get {
+                return ((double)(this["volume"]));
+            }
+            set {
+                this["volume"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool wholeLoop {
+            get {
+                return ((bool)(this["wholeLoop"]));
+            }
+            set {
+                this["wholeLoop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool useGPU {
+            get {
+                return ((bool)(this["useGPU"]));
+            }
+            set {
+                this["useGPU"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool forceDirectX10 {
+            get {
+                return ((bool)(this["forceDirectX10"]));
+            }
+            set {
+                this["forceDirectX10"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool backupSET {
+            get {
+                return ((bool)(this["backupSET"]));
+            }
+            set {
+                this["backupSET"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool deleteXML {
+            get {
+                return ((bool)(this["deleteXML"]));
+            }
+            set {
+                this["deleteXML"] = value;
+            }
+        }
     }
 }

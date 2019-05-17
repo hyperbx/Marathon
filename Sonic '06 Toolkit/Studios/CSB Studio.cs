@@ -200,5 +200,10 @@ namespace Sonic_06_Toolkit
                 #endregion
             }
         }
+
+        void CSB_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.csbState = null;
+        }
     }
 }

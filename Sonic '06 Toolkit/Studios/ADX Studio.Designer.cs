@@ -251,9 +251,7 @@
             // 
             // volume_1
             // 
-            this.volume_1.Checked = true;
             this.volume_1.CheckOnClick = true;
-            this.volume_1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.volume_1.Name = "volume_1";
             this.volume_1.Size = new System.Drawing.Size(80, 22);
             this.volume_1.Text = "1";
@@ -295,9 +293,7 @@
             // 
             // options_DownmixToMono
             // 
-            this.options_DownmixToMono.Checked = true;
             this.options_DownmixToMono.CheckOnClick = true;
-            this.options_DownmixToMono.CheckState = System.Windows.Forms.CheckState.Checked;
             this.options_DownmixToMono.Name = "options_DownmixToMono";
             this.options_DownmixToMono.Size = new System.Drawing.Size(173, 22);
             this.options_DownmixToMono.Text = "Downmix to Mono";
@@ -322,6 +318,7 @@
             this.Name = "ADX_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ADX Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ADX_Studio_FormClosing);
             this.Load += new System.EventHandler(this.ADX_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

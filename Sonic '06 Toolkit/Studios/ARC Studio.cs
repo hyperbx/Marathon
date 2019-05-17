@@ -199,9 +199,14 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        private void ARC_Studio_Load(object sender, EventArgs e)
+        void ARC_Studio_Load(object sender, EventArgs e)
         {
             Global.arcState = "unpack";
+        }
+
+        void ARC_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.arcState = null;
         }
     }
 }

@@ -33,6 +33,9 @@ namespace Sonic_06_Toolkit
                 modes_PNGtoDDS.Checked = true;
             }
             else { MessageBox.Show("There are no convertable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
+
+            if (Properties.Settings.Default.useGPU == true) options_UseGPU.Checked = true;
+            if (Properties.Settings.Default.forceDirectX10 == true) options_ForceDX10.Checked = true;
         }
 
         void Clb_DDS_SelectedIndexChanged(object sender, EventArgs e)
@@ -131,8 +134,14 @@ namespace Sonic_06_Toolkit
             if (options_UseGPU.Checked == true)
             {
                 useGPU = "";
+                Properties.Settings.Default.useGPU = true;
             }
-            else { useGPU = " -nogpu"; }
+            else
+            {
+                useGPU = " -nogpu";
+                Properties.Settings.Default.useGPU = false;
+            }
+            Properties.Settings.Default.Save();
         }
 
         void Options_ForceDX10_CheckedChanged(object sender, EventArgs e)
@@ -140,8 +149,14 @@ namespace Sonic_06_Toolkit
             if (options_ForceDX10.Checked == true)
             {
                 forceDirectX10 = " -dx10";
+                Properties.Settings.Default.forceDirectX10 = true;
             }
-            else { forceDirectX10 = ""; }
+            else
+            {
+                forceDirectX10 = "";
+                Properties.Settings.Default.forceDirectX10 = false;
+            }
+            Properties.Settings.Default.Save();
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -258,6 +273,11 @@ namespace Sonic_06_Toolkit
                 statusForm.Close();
             }
             catch { }
+        }
+
+        void DDS_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.ddsState = null;
         }
     }
 }

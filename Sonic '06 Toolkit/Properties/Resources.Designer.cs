@@ -83,6 +83,36 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] arcphp {
+            get {
+                object obj = ResourceManager.GetObject("arcphp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] arctool {
+            get {
+                object obj = ResourceManager.GetObject("arctool", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] arctoolphp {
+            get {
+                object obj = ResourceManager.GetObject("arctoolphp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] AsyncAudioEncoder {
             get {
                 object obj = ResourceManager.GetObject("AsyncAudioEncoder", resourceCulture);

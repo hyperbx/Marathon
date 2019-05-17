@@ -225,6 +225,7 @@
             this.Name = "ARC_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ARC Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ARC_Studio_FormClosing);
             this.Load += new System.EventHandler(this.ARC_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

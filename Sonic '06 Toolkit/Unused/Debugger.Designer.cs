@@ -75,6 +75,16 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
             this.label61 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -96,6 +106,16 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.deleteXML = new System.Windows.Forms.Label();
+            this.backupSET = new System.Windows.Forms.Label();
+            this.forceDirectX10 = new System.Windows.Forms.Label();
+            this.useGPU = new System.Windows.Forms.Label();
+            this.wholeLoop = new System.Windows.Forms.Label();
+            this.volume = new System.Windows.Forms.Label();
+            this.downmix = new System.Windows.Forms.Label();
+            this.removeLoop = new System.Windows.Forms.Label();
+            this.ignoreLoop = new System.Windows.Forms.Label();
+            this.arctoolFile = new System.Windows.Forms.Label();
             this.directXFile = new System.Windows.Forms.Label();
             this.xeniaFile = new System.Windows.Forms.Label();
             this.at3File = new System.Windows.Forms.Label();
@@ -142,7 +162,7 @@
             this.tabControl1.Location = new System.Drawing.Point(1, 1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(336, 315);
+            this.tabControl1.Size = new System.Drawing.Size(336, 443);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -151,7 +171,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(328, 308);
+            this.tabPage1.Size = new System.Drawing.Size(328, 417);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -208,7 +228,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(322, 302);
+            this.splitContainer1.Size = new System.Drawing.Size(322, 411);
             this.splitContainer1.SplitterDistance = 104;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -445,6 +465,7 @@
             this.xnoState.Size = new System.Drawing.Size(49, 13);
             this.xnoState.TabIndex = 34;
             this.xnoState.Text = "xnoState";
+            this.xnoState.Click += new System.EventHandler(this.XnoState_Click);
             // 
             // mstState
             // 
@@ -454,6 +475,7 @@
             this.mstState.Size = new System.Drawing.Size(48, 13);
             this.mstState.TabIndex = 33;
             this.mstState.Text = "mstState";
+            this.mstState.Click += new System.EventHandler(this.MstState_Click);
             // 
             // setState
             // 
@@ -463,6 +485,7 @@
             this.setState.Size = new System.Drawing.Size(46, 13);
             this.setState.TabIndex = 32;
             this.setState.Text = "setState";
+            this.setState.Click += new System.EventHandler(this.SetState_Click);
             // 
             // lubState
             // 
@@ -472,6 +495,7 @@
             this.lubState.Size = new System.Drawing.Size(46, 13);
             this.lubState.TabIndex = 31;
             this.lubState.Text = "lubState";
+            this.lubState.Click += new System.EventHandler(this.LubState_Click);
             // 
             // ddsState
             // 
@@ -481,6 +505,7 @@
             this.ddsState.Size = new System.Drawing.Size(49, 13);
             this.ddsState.TabIndex = 30;
             this.ddsState.Text = "ddsState";
+            this.ddsState.Click += new System.EventHandler(this.DdsState_Click);
             // 
             // csbState
             // 
@@ -490,6 +515,7 @@
             this.csbState.Size = new System.Drawing.Size(49, 13);
             this.csbState.TabIndex = 29;
             this.csbState.Text = "csbState";
+            this.csbState.Click += new System.EventHandler(this.CsbState_Click);
             // 
             // at3State
             // 
@@ -499,6 +525,7 @@
             this.at3State.Size = new System.Drawing.Size(47, 13);
             this.at3State.TabIndex = 28;
             this.at3State.Text = "at3State";
+            this.at3State.Click += new System.EventHandler(this.At3State_Click);
             // 
             // adxState
             // 
@@ -508,6 +535,7 @@
             this.adxState.Size = new System.Drawing.Size(49, 13);
             this.adxState.TabIndex = 27;
             this.adxState.Text = "adxState";
+            this.adxState.Click += new System.EventHandler(this.AdxState_Click);
             // 
             // arcState
             // 
@@ -517,6 +545,7 @@
             this.arcState.Size = new System.Drawing.Size(47, 13);
             this.arcState.TabIndex = 26;
             this.arcState.Text = "arcState";
+            this.arcState.Click += new System.EventHandler(this.ArcState_Click);
             // 
             // exisoState
             // 
@@ -578,7 +607,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(328, 289);
+            this.tabPage2.Size = new System.Drawing.Size(328, 417);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -592,6 +621,16 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label41);
+            this.splitContainer2.Panel1.Controls.Add(this.label42);
+            this.splitContainer2.Panel1.Controls.Add(this.label43);
+            this.splitContainer2.Panel1.Controls.Add(this.label44);
+            this.splitContainer2.Panel1.Controls.Add(this.label45);
+            this.splitContainer2.Panel1.Controls.Add(this.label46);
+            this.splitContainer2.Panel1.Controls.Add(this.label47);
+            this.splitContainer2.Panel1.Controls.Add(this.label48);
+            this.splitContainer2.Panel1.Controls.Add(this.label49);
+            this.splitContainer2.Panel1.Controls.Add(this.label50);
             this.splitContainer2.Panel1.Controls.Add(this.label61);
             this.splitContainer2.Panel1.Controls.Add(this.label21);
             this.splitContainer2.Panel1.Controls.Add(this.label22);
@@ -616,6 +655,16 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.deleteXML);
+            this.splitContainer2.Panel2.Controls.Add(this.backupSET);
+            this.splitContainer2.Panel2.Controls.Add(this.forceDirectX10);
+            this.splitContainer2.Panel2.Controls.Add(this.useGPU);
+            this.splitContainer2.Panel2.Controls.Add(this.wholeLoop);
+            this.splitContainer2.Panel2.Controls.Add(this.volume);
+            this.splitContainer2.Panel2.Controls.Add(this.downmix);
+            this.splitContainer2.Panel2.Controls.Add(this.removeLoop);
+            this.splitContainer2.Panel2.Controls.Add(this.ignoreLoop);
+            this.splitContainer2.Panel2.Controls.Add(this.arctoolFile);
             this.splitContainer2.Panel2.Controls.Add(this.directXFile);
             this.splitContainer2.Panel2.Controls.Add(this.xeniaFile);
             this.splitContainer2.Panel2.Controls.Add(this.at3File);
@@ -637,9 +686,99 @@
             this.splitContainer2.Panel2.Controls.Add(this.rootPath);
             this.splitContainer2.Panel2.Controls.Add(this.theme);
             this.splitContainer2.Panel2.Controls.Add(this.showSessionID);
-            this.splitContainer2.Size = new System.Drawing.Size(322, 283);
+            this.splitContainer2.Size = new System.Drawing.Size(322, 411);
             this.splitContainer2.SplitterDistance = 132;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(3, 392);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(58, 13);
+            this.label41.TabIndex = 30;
+            this.label41.Text = "deleteXML";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(3, 379);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(64, 13);
+            this.label42.TabIndex = 29;
+            this.label42.Text = "backupSET";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(3, 366);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(78, 13);
+            this.label43.TabIndex = 28;
+            this.label43.Text = "forceDirectX10";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(3, 353);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(47, 13);
+            this.label44.TabIndex = 27;
+            this.label44.Text = "useGPU";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(3, 340);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(59, 13);
+            this.label45.TabIndex = 26;
+            this.label45.Text = "wholeLoop";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(3, 327);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(41, 13);
+            this.label46.TabIndex = 25;
+            this.label46.Text = "volume";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(3, 314);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(48, 13);
+            this.label47.TabIndex = 24;
+            this.label47.Text = "downmix";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(3, 301);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(66, 13);
+            this.label48.TabIndex = 23;
+            this.label48.Text = "removeLoop";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(3, 288);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(60, 13);
+            this.label49.TabIndex = 22;
+            this.label49.Text = "ignoreLoop";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(3, 275);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(55, 13);
+            this.label50.TabIndex = 21;
+            this.label50.Text = "arctoolFile";
             // 
             // label61
             // 
@@ -830,6 +969,104 @@
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
             // 
+            // deleteXML
+            // 
+            this.deleteXML.AutoSize = true;
+            this.deleteXML.Location = new System.Drawing.Point(4, 392);
+            this.deleteXML.Name = "deleteXML";
+            this.deleteXML.Size = new System.Drawing.Size(58, 13);
+            this.deleteXML.TabIndex = 51;
+            this.deleteXML.Text = "deleteXML";
+            this.deleteXML.Click += new System.EventHandler(this.DeleteXML_Click);
+            // 
+            // backupSET
+            // 
+            this.backupSET.AutoSize = true;
+            this.backupSET.Location = new System.Drawing.Point(4, 379);
+            this.backupSET.Name = "backupSET";
+            this.backupSET.Size = new System.Drawing.Size(64, 13);
+            this.backupSET.TabIndex = 50;
+            this.backupSET.Text = "backupSET";
+            this.backupSET.Click += new System.EventHandler(this.BackupSET_Click);
+            // 
+            // forceDirectX10
+            // 
+            this.forceDirectX10.AutoSize = true;
+            this.forceDirectX10.Location = new System.Drawing.Point(4, 366);
+            this.forceDirectX10.Name = "forceDirectX10";
+            this.forceDirectX10.Size = new System.Drawing.Size(78, 13);
+            this.forceDirectX10.TabIndex = 49;
+            this.forceDirectX10.Text = "forceDirectX10";
+            this.forceDirectX10.Click += new System.EventHandler(this.ForceDirectX10_Click);
+            // 
+            // useGPU
+            // 
+            this.useGPU.AutoSize = true;
+            this.useGPU.Location = new System.Drawing.Point(4, 353);
+            this.useGPU.Name = "useGPU";
+            this.useGPU.Size = new System.Drawing.Size(47, 13);
+            this.useGPU.TabIndex = 48;
+            this.useGPU.Text = "useGPU";
+            this.useGPU.Click += new System.EventHandler(this.UseGPU_Click);
+            // 
+            // wholeLoop
+            // 
+            this.wholeLoop.AutoSize = true;
+            this.wholeLoop.Location = new System.Drawing.Point(4, 340);
+            this.wholeLoop.Name = "wholeLoop";
+            this.wholeLoop.Size = new System.Drawing.Size(59, 13);
+            this.wholeLoop.TabIndex = 47;
+            this.wholeLoop.Text = "wholeLoop";
+            this.wholeLoop.Click += new System.EventHandler(this.WholeLoop_Click);
+            // 
+            // volume
+            // 
+            this.volume.AutoSize = true;
+            this.volume.Location = new System.Drawing.Point(4, 327);
+            this.volume.Name = "volume";
+            this.volume.Size = new System.Drawing.Size(41, 13);
+            this.volume.TabIndex = 46;
+            this.volume.Text = "volume";
+            // 
+            // downmix
+            // 
+            this.downmix.AutoSize = true;
+            this.downmix.Location = new System.Drawing.Point(4, 314);
+            this.downmix.Name = "downmix";
+            this.downmix.Size = new System.Drawing.Size(48, 13);
+            this.downmix.TabIndex = 45;
+            this.downmix.Text = "downmix";
+            this.downmix.Click += new System.EventHandler(this.Downmix_Click);
+            // 
+            // removeLoop
+            // 
+            this.removeLoop.AutoSize = true;
+            this.removeLoop.Location = new System.Drawing.Point(4, 301);
+            this.removeLoop.Name = "removeLoop";
+            this.removeLoop.Size = new System.Drawing.Size(66, 13);
+            this.removeLoop.TabIndex = 44;
+            this.removeLoop.Text = "removeLoop";
+            this.removeLoop.Click += new System.EventHandler(this.RemoveLoop_Click);
+            // 
+            // ignoreLoop
+            // 
+            this.ignoreLoop.AutoSize = true;
+            this.ignoreLoop.Location = new System.Drawing.Point(4, 288);
+            this.ignoreLoop.Name = "ignoreLoop";
+            this.ignoreLoop.Size = new System.Drawing.Size(60, 13);
+            this.ignoreLoop.TabIndex = 43;
+            this.ignoreLoop.Text = "ignoreLoop";
+            this.ignoreLoop.Click += new System.EventHandler(this.IgnoreLoop_Click);
+            // 
+            // arctoolFile
+            // 
+            this.arctoolFile.AutoSize = true;
+            this.arctoolFile.Location = new System.Drawing.Point(4, 275);
+            this.arctoolFile.Name = "arctoolFile";
+            this.arctoolFile.Size = new System.Drawing.Size(55, 13);
+            this.arctoolFile.TabIndex = 42;
+            this.arctoolFile.Text = "arctoolFile";
+            // 
             // directXFile
             // 
             this.directXFile.AutoSize = true;
@@ -883,6 +1120,7 @@
             this.unpackAndLaunch.Size = new System.Drawing.Size(98, 13);
             this.unpackAndLaunch.TabIndex = 36;
             this.unpackAndLaunch.Text = "unpackAndLaunch";
+            this.unpackAndLaunch.Click += new System.EventHandler(this.UnpackAndLaunch_Click);
             // 
             // showLogo
             // 
@@ -892,6 +1130,7 @@
             this.showLogo.Size = new System.Drawing.Size(56, 13);
             this.showLogo.TabIndex = 35;
             this.showLogo.Text = "showLogo";
+            this.showLogo.Click += new System.EventHandler(this.ShowLogo_Click);
             // 
             // criconverterFile
             // 
@@ -973,6 +1212,7 @@
             this.disableSoftwareUpdater.Size = new System.Drawing.Size(120, 13);
             this.disableSoftwareUpdater.TabIndex = 26;
             this.disableSoftwareUpdater.Text = "disableSoftwareUpdater";
+            this.disableSoftwareUpdater.Click += new System.EventHandler(this.DisableSoftwareUpdater_Click);
             // 
             // archivesPath
             // 
@@ -1018,6 +1258,7 @@
             this.showSessionID.Size = new System.Drawing.Size(80, 13);
             this.showSessionID.TabIndex = 21;
             this.showSessionID.Text = "showSessionID";
+            this.showSessionID.Click += new System.EventHandler(this.ShowSessionID_Click);
             // 
             // tm_Update
             // 
@@ -1025,10 +1266,11 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.BackColor = System.Drawing.Color.Tomato;
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(5, 320);
+            this.button1.Location = new System.Drawing.Point(5, 448);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(326, 23);
             this.button1.TabIndex = 1;
@@ -1041,7 +1283,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(336, 349);
+            this.ClientSize = new System.Drawing.Size(336, 477);
             this.ControlBox = false;
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
@@ -1163,5 +1405,25 @@
         private System.Windows.Forms.Label theme;
         private System.Windows.Forms.Label showSessionID;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
+        private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.Label label47;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label deleteXML;
+        private System.Windows.Forms.Label backupSET;
+        private System.Windows.Forms.Label forceDirectX10;
+        private System.Windows.Forms.Label useGPU;
+        private System.Windows.Forms.Label wholeLoop;
+        private System.Windows.Forms.Label volume;
+        private System.Windows.Forms.Label downmix;
+        private System.Windows.Forms.Label removeLoop;
+        private System.Windows.Forms.Label ignoreLoop;
+        private System.Windows.Forms.Label arctoolFile;
     }
 }

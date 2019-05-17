@@ -640,6 +640,8 @@ namespace Sonic_06_Toolkit
                 //The below code checks if the directories in the Global class exist; if not, they will be created.
                 if (!Directory.Exists(Properties.Settings.Default.rootPath)) Directory.CreateDirectory(Properties.Settings.Default.rootPath);
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath)) Directory.CreateDirectory(Properties.Settings.Default.toolsPath);
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"Arctool\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"Arctool\");
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"Arctool\arctool\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"Arctool\arctool\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CsbEditor\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CriWare\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CriWare\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"DirectX\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"DirectX\");
@@ -657,6 +659,7 @@ namespace Sonic_06_Toolkit
             #region Validating Files...
             if (Properties.Settings.Default.unpackFile == string.Empty) Properties.Settings.Default.unpackFile = Properties.Settings.Default.toolsPath + @"unpack.exe";
             if (Properties.Settings.Default.repackFile == string.Empty) Properties.Settings.Default.repackFile = Properties.Settings.Default.toolsPath + @"repack.exe";
+            if (Properties.Settings.Default.arctoolFile == string.Empty) Properties.Settings.Default.arctoolFile = Properties.Settings.Default.toolsPath + @"Arctool\arctool.exe";
             if (Properties.Settings.Default.csbFile == string.Empty) Properties.Settings.Default.csbFile = Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe";
             if (Properties.Settings.Default.adx2wavFile == string.Empty) Properties.Settings.Default.adx2wavFile = Properties.Settings.Default.toolsPath + @"CriWare\ADX2WAV.exe";
             if (Properties.Settings.Default.criconverterFile == string.Empty) Properties.Settings.Default.criconverterFile = Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe";
@@ -671,7 +674,10 @@ namespace Sonic_06_Toolkit
                 //The below code checks if the files in the Global class exist; if not, they will be created.
                 if (!File.Exists(Properties.Settings.Default.unpackFile)) File.WriteAllBytes(Properties.Settings.Default.unpackFile, Properties.Resources.unpack);
                 if (!File.Exists(Properties.Settings.Default.repackFile)) File.WriteAllBytes(Properties.Settings.Default.repackFile, Properties.Resources.repack);
+                if (!File.Exists(Properties.Settings.Default.arctoolFile)) File.WriteAllBytes(Properties.Settings.Default.arctoolFile, Properties.Resources.arctool);
                 if (!File.Exists(Properties.Settings.Default.csbFile)) File.WriteAllBytes(Properties.Settings.Default.csbFile, Properties.Resources.CsbEditor);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arcc.php")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arcc.php", Properties.Resources.arcphp);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arctool.php")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arctool.php", Properties.Resources.arctoolphp);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll", Properties.Resources.SonicAudioLib);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config", Properties.Resources.CsbEditorConfig);
                 if (!File.Exists(Properties.Settings.Default.adx2wavFile)) File.WriteAllBytes(Properties.Settings.Default.adx2wavFile, Properties.Resources.ADX2WAV);
@@ -840,329 +846,442 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        public bool freeMode = false;
+
         void MainFile_OpenSonic_Click(object sender, EventArgs e)
         {
-            fbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
-
-            if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
+            if (!freeMode)
             {
-                if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
+                fbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
+
+                if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
                 {
-
-                    #region Xbox 360
-                    if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\default.xex"))
+                    if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
                     {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
-                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-                        if (hexString == "58 45 58 32")
+
+                        #region Xbox 360
+                        if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\default.xex"))
                         {
-                            lbl_SetDefault.Visible = false;
-                            pic_Logo.Visible = false;
-
-                            #region Building directory data...
-                            //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                            string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                            var arcBuildSession = new StringBuilder();
-                            arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                            arcBuildSession.Append(Global.sessionID);
-                            arcBuildSession.Append(@"\");
-                            arcBuildSession.Append(failsafeCheck);
-                            arcBuildSession.Append(@"\");
-                            if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                            #endregion
-
-                            #region Writing metadata...
-                            //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                            var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                            var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
-                            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                            metadataWrite.Close();
-                            #endregion
-
-                            #region Building location data...
-                            //Writes a file to store the failsafe directory to be referenced later.
-                            var storageSession = new StringBuilder();
-                            storageSession.Append(Properties.Settings.Default.archivesPath);
-                            storageSession.Append(Global.sessionID);
-                            storageSession.Append(@"\");
-                            storageSession.Append(tab_Main.SelectedIndex);
-                            var storageWrite = File.Create(storageSession.ToString());
-                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                            storageWrite.Write(storageText, 0, storageText.Length);
-                            storageWrite.Close();
-                            #endregion
-
-                            #region Navigating...
-                            //Creates a new tab if the selected one is being used.
-                            if (tab_Main.SelectedTab.Text == "New Tab")
+                            byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
+                            var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                            if (hexString == "58 45 58 32")
                             {
-                                if (Properties.Settings.Default.gamePath != null)
+                                lbl_SetDefault.Visible = false;
+                                pic_Logo.Visible = false;
+
+                                #region Building directory data...
+                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                var arcBuildSession = new StringBuilder();
+                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                arcBuildSession.Append(Global.sessionID);
+                                arcBuildSession.Append(@"\");
+                                arcBuildSession.Append(failsafeCheck);
+                                arcBuildSession.Append(@"\");
+                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                #endregion
+
+                                #region Writing metadata...
+                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                metadataWrite.Close();
+                                #endregion
+
+                                #region Building location data...
+                                //Writes a file to store the failsafe directory to be referenced later.
+                                var storageSession = new StringBuilder();
+                                storageSession.Append(Properties.Settings.Default.archivesPath);
+                                storageSession.Append(Global.sessionID);
+                                storageSession.Append(@"\");
+                                storageSession.Append(tab_Main.SelectedIndex);
+                                var storageWrite = File.Create(storageSession.ToString());
+                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                storageWrite.Write(storageText, 0, storageText.Length);
+                                storageWrite.Close();
+                                #endregion
+
+                                #region Navigating...
+                                //Creates a new tab if the selected one is being used.
+                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                {
+                                    if (Properties.Settings.Default.gamePath != null)
+                                    {
+                                        navigateToGame = false;
+                                        resetTab();
+                                    }
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                else
                                 {
                                     navigateToGame = false;
-                                    resetTab();
+                                    newTab();
+
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
                                 }
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            else
-                            {
-                                navigateToGame = false;
-                                newTab();
+                                #endregion
 
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
+                                Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                             }
-                            #endregion
-
-                            Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                            else { MessageBox.Show("I see you're trying to cheat the system...", "XEX Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
-                        else { MessageBox.Show("I see you're trying to cheat the system...", "XEX Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        #endregion
+
+                        #region PlayStation 3
+                        else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
+                        {
+                            byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
+                            var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                            if (hexString == "2E 53 46 42")
+                            {
+                                lbl_SetDefault.Visible = false;
+                                pic_Logo.Visible = false;
+
+                                #region Building directory data...
+                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                var arcBuildSession = new StringBuilder();
+                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                arcBuildSession.Append(Global.sessionID);
+                                arcBuildSession.Append(@"\");
+                                arcBuildSession.Append(failsafeCheck);
+                                arcBuildSession.Append(@"\");
+                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                #endregion
+
+                                #region Writing metadata...
+                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                metadataWrite.Close();
+                                #endregion
+
+                                #region Building location data...
+                                //Writes a file to store the failsafe directory to be referenced later.
+                                var storageSession = new StringBuilder();
+                                storageSession.Append(Properties.Settings.Default.archivesPath);
+                                storageSession.Append(Global.sessionID);
+                                storageSession.Append(@"\");
+                                storageSession.Append(tab_Main.SelectedIndex);
+                                var storageWrite = File.Create(storageSession.ToString());
+                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                storageWrite.Write(storageText, 0, storageText.Length);
+                                storageWrite.Close();
+                                #endregion
+
+                                #region Navigating...
+                                //Creates a new tab if the selected one is being used.
+                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                {
+                                    if (Properties.Settings.Default.gamePath != null)
+                                    {
+                                        navigateToGame = false;
+                                        resetTab();
+                                    }
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                else
+                                {
+                                    navigateToGame = false;
+                                    newTab();
+
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                #endregion
+
+                                Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                            }
+                            else { MessageBox.Show("I see you're trying to cheat the system...", "SFB Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        }
+                        else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
+                        {
+                            byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
+                            var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                            if (hexString == "00 50 53 46")
+                            {
+                                lbl_SetDefault.Visible = false;
+                                pic_Logo.Visible = false;
+
+                                #region Building directory data...
+                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                var arcBuildSession = new StringBuilder();
+                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                arcBuildSession.Append(Global.sessionID);
+                                arcBuildSession.Append(@"\");
+                                arcBuildSession.Append(failsafeCheck);
+                                arcBuildSession.Append(@"\");
+                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                #endregion
+
+                                #region Writing metadata...
+                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                metadataWrite.Close();
+                                #endregion
+
+                                #region Building location data...
+                                //Writes a file to store the failsafe directory to be referenced later.
+                                var storageSession = new StringBuilder();
+                                storageSession.Append(Properties.Settings.Default.archivesPath);
+                                storageSession.Append(Global.sessionID);
+                                storageSession.Append(@"\");
+                                storageSession.Append(tab_Main.SelectedIndex);
+                                var storageWrite = File.Create(storageSession.ToString());
+                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                storageWrite.Write(storageText, 0, storageText.Length);
+                                storageWrite.Close();
+                                #endregion
+
+                                #region Navigating...
+                                //Creates a new tab if the selected one is being used.
+                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                {
+                                    if (Properties.Settings.Default.gamePath != null)
+                                    {
+                                        navigateToGame = false;
+                                        resetTab();
+                                    }
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                else
+                                {
+                                    navigateToGame = false;
+                                    newTab();
+
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                #endregion
+
+                                Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                            }
+                            else { MessageBox.Show("I see you're trying to cheat the system...", "SFO Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        }
+                        else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
+                        {
+                            byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
+                            var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                            if (hexString == "53 43 45")
+                            {
+                                lbl_SetDefault.Visible = false;
+                                pic_Logo.Visible = false;
+
+                                #region Building directory data...
+                                //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                                string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                                var arcBuildSession = new StringBuilder();
+                                arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                                arcBuildSession.Append(Global.sessionID);
+                                arcBuildSession.Append(@"\");
+                                arcBuildSession.Append(failsafeCheck);
+                                arcBuildSession.Append(@"\");
+                                if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                                #endregion
+
+                                #region Writing metadata...
+                                //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                                var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                                var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                                metadataWrite.Close();
+                                #endregion
+
+                                #region Building location data...
+                                //Writes a file to store the failsafe directory to be referenced later.
+                                var storageSession = new StringBuilder();
+                                storageSession.Append(Properties.Settings.Default.archivesPath);
+                                storageSession.Append(Global.sessionID);
+                                storageSession.Append(@"\");
+                                storageSession.Append(tab_Main.SelectedIndex);
+                                var storageWrite = File.Create(storageSession.ToString());
+                                var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                storageWrite.Write(storageText, 0, storageText.Length);
+                                storageWrite.Close();
+                                #endregion
+
+                                #region Navigating...
+                                //Creates a new tab if the selected one is being used.
+                                if (tab_Main.SelectedTab.Text == "New Tab")
+                                {
+                                    if (Properties.Settings.Default.gamePath != null)
+                                    {
+                                        navigateToGame = false;
+                                        resetTab();
+                                    }
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                else
+                                {
+                                    navigateToGame = false;
+                                    newTab();
+
+                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                                    navigateToGame = true;
+                                }
+                                #endregion
+
+                                Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                            }
+                            else { MessageBox.Show("I see you're trying to cheat the system...", "BIN Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                        }
+                        else { MessageBox.Show("Please select a valid SONIC THE HEDGEHOG directory.", "Path Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
                     #endregion
 
-                    #region PlayStation 3
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
-                    {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
-                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-                        if (hexString == "2E 53 46 42")
-                        {
-                            lbl_SetDefault.Visible = false;
-                            pic_Logo.Visible = false;
-
-                            #region Building directory data...
-                            //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                            string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                            var arcBuildSession = new StringBuilder();
-                            arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                            arcBuildSession.Append(Global.sessionID);
-                            arcBuildSession.Append(@"\");
-                            arcBuildSession.Append(failsafeCheck);
-                            arcBuildSession.Append(@"\");
-                            if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                            #endregion
-
-                            #region Writing metadata...
-                            //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                            var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                            var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
-                            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                            metadataWrite.Close();
-                            #endregion
-
-                            #region Building location data...
-                            //Writes a file to store the failsafe directory to be referenced later.
-                            var storageSession = new StringBuilder();
-                            storageSession.Append(Properties.Settings.Default.archivesPath);
-                            storageSession.Append(Global.sessionID);
-                            storageSession.Append(@"\");
-                            storageSession.Append(tab_Main.SelectedIndex);
-                            var storageWrite = File.Create(storageSession.ToString());
-                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                            storageWrite.Write(storageText, 0, storageText.Length);
-                            storageWrite.Close();
-                            #endregion
-
-                            #region Navigating...
-                            //Creates a new tab if the selected one is being used.
-                            if (tab_Main.SelectedTab.Text == "New Tab")
-                            {
-                                if (Properties.Settings.Default.gamePath != null)
-                                {
-                                    navigateToGame = false;
-                                    resetTab();
-                                }
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            else
-                            {
-                                navigateToGame = false;
-                                newTab();
-
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            #endregion
-
-                            Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
-                        }
-                        else { MessageBox.Show("I see you're trying to cheat the system...", "SFB Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                    }
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
-                    {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
-                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-                        if (hexString == "00 50 53 46")
-                        {
-                            lbl_SetDefault.Visible = false;
-                            pic_Logo.Visible = false;
-
-                            #region Building directory data...
-                            //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                            string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                            var arcBuildSession = new StringBuilder();
-                            arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                            arcBuildSession.Append(Global.sessionID);
-                            arcBuildSession.Append(@"\");
-                            arcBuildSession.Append(failsafeCheck);
-                            arcBuildSession.Append(@"\");
-                            if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                            #endregion
-
-                            #region Writing metadata...
-                            //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                            var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                            var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
-                            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                            metadataWrite.Close();
-                            #endregion
-
-                            #region Building location data...
-                            //Writes a file to store the failsafe directory to be referenced later.
-                            var storageSession = new StringBuilder();
-                            storageSession.Append(Properties.Settings.Default.archivesPath);
-                            storageSession.Append(Global.sessionID);
-                            storageSession.Append(@"\");
-                            storageSession.Append(tab_Main.SelectedIndex);
-                            var storageWrite = File.Create(storageSession.ToString());
-                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                            storageWrite.Write(storageText, 0, storageText.Length);
-                            storageWrite.Close();
-                            #endregion
-
-                            #region Navigating...
-                            //Creates a new tab if the selected one is being used.
-                            if (tab_Main.SelectedTab.Text == "New Tab")
-                            {
-                                if (Properties.Settings.Default.gamePath != null)
-                                {
-                                    navigateToGame = false;
-                                    resetTab();
-                                }
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            else
-                            {
-                                navigateToGame = false;
-                                newTab();
-
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            #endregion
-
-                            Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
-                        }
-                        else { MessageBox.Show("I see you're trying to cheat the system...", "SFO Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                    }
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
-                    {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
-                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-                        if (hexString == "53 43 45")
-                        {
-                            lbl_SetDefault.Visible = false;
-                            pic_Logo.Visible = false;
-
-                            #region Building directory data...
-                            //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
-                            string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
-                            var arcBuildSession = new StringBuilder();
-                            arcBuildSession.Append(Properties.Settings.Default.archivesPath);
-                            arcBuildSession.Append(Global.sessionID);
-                            arcBuildSession.Append(@"\");
-                            arcBuildSession.Append(failsafeCheck);
-                            arcBuildSession.Append(@"\");
-                            if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
-                            #endregion
-
-                            #region Writing metadata...
-                            //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                            var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                            var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
-                            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                            metadataWrite.Close();
-                            #endregion
-
-                            #region Building location data...
-                            //Writes a file to store the failsafe directory to be referenced later.
-                            var storageSession = new StringBuilder();
-                            storageSession.Append(Properties.Settings.Default.archivesPath);
-                            storageSession.Append(Global.sessionID);
-                            storageSession.Append(@"\");
-                            storageSession.Append(tab_Main.SelectedIndex);
-                            var storageWrite = File.Create(storageSession.ToString());
-                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                            storageWrite.Write(storageText, 0, storageText.Length);
-                            storageWrite.Close();
-                            #endregion
-
-                            #region Navigating...
-                            //Creates a new tab if the selected one is being used.
-                            if (tab_Main.SelectedTab.Text == "New Tab")
-                            {
-                                if (Properties.Settings.Default.gamePath != null)
-                                {
-                                    navigateToGame = false;
-                                    resetTab();
-                                }
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            else
-                            {
-                                navigateToGame = false;
-                                newTab();
-
-                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                navigateToGame = true;
-                            }
-                            #endregion
-
-                            Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
-                        }
-                        else { MessageBox.Show("I see you're trying to cheat the system...", "BIN Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                    }
-                    else { MessageBox.Show("Please select a valid SONIC THE HEDGEHOG directory.", "Path Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MessageBox.Show("This directory does not exist.", "Path Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                #endregion
+            }
+            else
+            {
+                fbd_BrowseFolders.Description = "Please select a path.";
 
-                else { MessageBox.Show("This directory does not exist.", "Path Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
+                {
+                    if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
+                    {
+
+                        #region Building directory data...
+                        //Establishes the failsafe directory and copies the ARC prepare for the unpacking process.
+                        string failsafeCheck = Path.GetRandomFileName(); //Unpacked ARCs will have a unique directory to prevent overwriting.
+                        var arcBuildSession = new StringBuilder();
+                        arcBuildSession.Append(Properties.Settings.Default.archivesPath);
+                        arcBuildSession.Append(Global.sessionID);
+                        arcBuildSession.Append(@"\");
+                        arcBuildSession.Append(failsafeCheck);
+                        arcBuildSession.Append(@"\");
+                        if (!Directory.Exists(arcBuildSession.ToString())) Directory.CreateDirectory(arcBuildSession.ToString());
+                        #endregion
+
+                        #region Writing metadata...
+                        //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                        var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
+                        var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                        metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                        metadataWrite.Close();
+                        #endregion
+
+                        #region Building location data...
+                        //Writes a file to store the failsafe directory to be referenced later.
+                        var storageSession = new StringBuilder();
+                        storageSession.Append(Properties.Settings.Default.archivesPath);
+                        storageSession.Append(Global.sessionID);
+                        storageSession.Append(@"\");
+                        storageSession.Append(tab_Main.SelectedIndex);
+                        var storageWrite = File.Create(storageSession.ToString());
+                        var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                        storageWrite.Write(storageText, 0, storageText.Length);
+                        storageWrite.Close();
+                        #endregion
+
+                        #region Navigating...
+                        //Creates a new tab if the selected one is being used.
+                        if (tab_Main.SelectedTab.Text == "New Tab")
+                        {
+                            if (Properties.Settings.Default.gamePath != null)
+                            {
+                                navigateToGame = false;
+                                resetTab();
+                            }
+                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                            navigateToGame = true;
+                        }
+                        else
+                        {
+                            navigateToGame = false;
+                            newTab();
+
+                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
+                            navigateToGame = true;
+                        }
+                        #endregion
+                    }
+                }
+            }
+        }
+
+        void Preferences_FreeMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preferences_FreeMode.Checked == true)
+            {
+                freeMode = true;
+                mainFile_OpenSonic.Text = "Open Folder";
+            }
+            else
+            {
+                freeMode = false;
+                mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
             }
         }
 
         #region Repack States
         void MainFile_RepackARC_Click(object sender, EventArgs e)
         {
-            Global.arcState = "save";
+            if (tab_Main.SelectedTab.Text.Contains(".arc"))
+            {
+                Global.arcState = "save";
+            }
+            else { Global.arcState = "save-as"; }
+
             repackARC();
         }
 
         void Btn_Repack_Click(object sender, EventArgs e)
         {
-            Global.arcState = "save";
+            if (tab_Main.SelectedTab.Text.Contains(".arc"))
+            {
+                Global.arcState = "save";
+            }
+            else { Global.arcState = "save-as"; }
+
             repackARC();
         }
 
         void RepackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Global.arcState = "save";
+            if (tab_Main.SelectedTab.Text.Contains(".arc"))
+            {
+                Global.arcState = "save";
+            }
+            else { Global.arcState = "save-as"; }
+
+            repackARC();
+        }
+
+        void RepackARCAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Global.arcState = "save-as";
             repackARC();
         }
 
         void RepackAndLaunchXeniaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Global.arcState = "save";
+            if (tab_Main.SelectedTab.Text.Contains(".arc"))
+            {
+                Global.arcState = "save";
+            }
+            else { Global.arcState = "save-as"; }
+
             if (Properties.Settings.Default.xeniaFile != "")
             {
                 xenia = true;
@@ -1705,16 +1824,12 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
-                    Global.mstState = "decode";
-
                     //UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
                     //byte[] buffer = new byte[1024];
 
                     // arg0 is assumed to be a file to split
                     foreach (string MST in Directory.GetFiles(Global.currentPath, "*.mst", SearchOption.TopDirectoryOnly))
                     {
-                        Global.mstState = "decode";
-
                         #region Natsumi Decoder (inactive)
                         //List<string> results = new List<string>();          // <- BTW Hyper this array contains ALL the lines read from the file, including any bugged non-unicode lines.
 
@@ -1804,8 +1919,6 @@ namespace Sonic_06_Toolkit
 
                         File.WriteAllLines(csvPath, lines, Encoding.Unicode);
                         #endregion
-
-                        Global.mstState = null;
                     }
                 }
                 catch
@@ -2138,7 +2251,49 @@ namespace Sonic_06_Toolkit
             if (tab_Main.TabPages.Count == 1) mainWindow_CloseTab.Enabled = false; else mainWindow_CloseTab.Enabled = true;
 
             #region Tab Check...
-            if (tab_Main.SelectedTab.Text != "New Tab" && tab_Main.SelectedTab.Text.Contains(".arc"))
+            if (freeMode == true)
+            {
+                #region Enable controls...
+                //Enables all viable controls if the tab isn't empty.
+                btn_Back.Enabled = true;
+                btn_Forward.Enabled = true;
+                btn_OpenFolder.Enabled = true;
+                shortcuts_DecompileLUBs.Enabled = true;
+                mainSDK_LUBStudio.Enabled = true;
+                mainFile_CloseARC.Enabled = true;
+                mainSDK_XNOStudio.Enabled = true;
+                shortcuts_ConvertXNOs.Enabled = true;
+                mainSDK_CSBStudio.Enabled = true;
+                mainSDK_ADXStudio.Enabled = true;
+                shortcuts_ExtractCSBs.Enabled = true;
+                shortcuts_ConvertSETs.Enabled = true;
+                mainSDK_SETStudio.Enabled = true;
+                mainSDK_MSTStudio.Enabled = true;
+                shortcuts_DecodeMSTs.Enabled = true;
+                mainSDK_AT3Studio.Enabled = true;
+                mainSDK_DDSStudio.Enabled = true;
+                shortcuts_ConvertDDS.Enabled = true;
+
+                if (tab_Main.SelectedTab.Text != "New Tab")
+                {
+                    btn_Repack.Enabled = true;
+                    btn_RepackOptions.Enabled = true;
+                    mainFile_RepackARC.Enabled = true;
+                    mainFile_RepackARCAs.Enabled = true;
+                }
+                #endregion
+
+                pic_Logo.Visible = false;
+                lbl_SetDefault.Visible = false;
+
+                try
+                {
+                    //Updates the currentPath global variable.
+                    Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                }
+                catch { }
+            }
+            else if (tab_Main.SelectedTab.Text != "New Tab" && tab_Main.SelectedTab.Text.Contains(".arc"))
             {
                 #region Enable controls...
                 //Enables all viable controls if the tab isn't empty.
@@ -2169,15 +2324,24 @@ namespace Sonic_06_Toolkit
                 pic_Logo.Visible = false;
                 lbl_SetDefault.Visible = false;
 
-                //Updates the currentPath global variable.
-                Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                try
+                {
+                    //Updates the currentPath global variable.
+                    Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                }
+                catch { }
             }
             else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != null || tab_Main.SelectedTab.Text != "New Tab" && !tab_Main.SelectedTab.Text.Contains(".arc"))
             {
                 if (currentARC().Url != null)
                 {
-                    //Updates the currentPath global variable.
-                    Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                    try
+                    {
+                        //Updates the currentPath global variable.
+                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                    }
+                    catch { }
+
                     pic_Logo.Visible = false;
                     lbl_SetDefault.Visible = false;
 
@@ -2432,6 +2596,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.arcState = "typical";
+
+                    var unpackDialog = new Status();
+                    var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - unpackDialog.Height) / 2);
+                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    unpackDialog.Show();
+
                     if (File.Exists(ofd_OpenFiles.FileName))
                     {
                         byte[] bytes = File.ReadAllBytes(ofd_OpenFiles.FileName).Take(4).ToArray();
@@ -2484,11 +2656,6 @@ namespace Sonic_06_Toolkit
                             unpackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                             unpackSession.WindowStyle = ProcessWindowStyle.Hidden;
                             var Unpack = Process.Start(unpackSession);
-                            var unpackDialog = new Status();
-                            var parentLeft = Left + ((Width - unpackDialog.Width) / 2);
-                            var parentTop = Top + ((Height - unpackDialog.Height) / 2);
-                            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                            unpackDialog.Show();
                             Unpack.WaitForExit();
                             Unpack.Close();
                             #endregion
@@ -2499,9 +2666,6 @@ namespace Sonic_06_Toolkit
                             var metadataSession = new UTF8Encoding(true).GetBytes(ofd_OpenFiles.FileName);
                             metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                             metadataWrite.Close();
-                            unpackDialog.Close();
-
-                            Global.arcState = null;
                             #endregion
 
                             #region Navigating...
@@ -2542,6 +2706,9 @@ namespace Sonic_06_Toolkit
                             #endregion
 
                             Text = "Sonic '06 Toolkit - '" + ofd_OpenFiles.FileName +"'";
+
+                            Global.arcState = null;
+                            unpackDialog.Close();
                         }
                     }
                 }
@@ -2565,6 +2732,14 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
+                    Global.arcState = "save";
+
+                    var repackDialog = new Status();
+                    var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                    var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                    repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    repackDialog.Show();
+
                     #region Building repack data...
                     //Reads the metadata to get the original location of the ARC.
                     var repackBuildSession = new StringBuilder();
@@ -2581,25 +2756,23 @@ namespace Sonic_06_Toolkit
                     #region Repacking ARC...
                     //Sets up the BASIC application and executes the repacking process.
                     var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
-                    var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
-                    basicWrite.Write(basicSession, 0, basicSession.Length);
-                    basicWrite.Close();
+                    if (tab_Main.SelectedTab.Text.Contains(".arc"))
+                    {
+                        var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
+                        basicWrite.Write(basicSession, 0, basicSession.Length);
+                        basicWrite.Close();
+                    }
+                    else { MessageBox.Show("Please use the Repack ARC As option.", "Free Mode", MessageBoxButtons.OK, MessageBoxIcon.Information); }
+
                     var repackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "repack.bat");
                     repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                     repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                     var Repack = Process.Start(repackSession);
-                    var repackDialog = new Status();
-                    var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-                    var parentTop = Top + ((Height - repackDialog.Height) / 2);
-                    repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                    repackDialog.Show();
                     Repack.WaitForExit();
                     Repack.Close();
+
                     string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
                     if (File.Exists(archivePath)) File.Copy(archivePath, metadata, true); //Copies the repacked ARC back to the original location.
-                    repackDialog.Close();
-
-                    Global.arcState = null;
                     #endregion
 
                     if (xenia == true)
@@ -2613,6 +2786,9 @@ namespace Sonic_06_Toolkit
                         }
                         else { SpecifyXenia(); }
                     }
+
+                    Global.arcState = null;
+                    repackDialog.Close();
                 }
                 catch
                 {
@@ -2629,6 +2805,14 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
+                        Global.arcState = "save-as";
+
+                        var repackDialog = new Status();
+                        var parentLeft = Left + ((Width - repackDialog.Width) / 2);
+                        var parentTop = Top + ((Height - repackDialog.Height) / 2);
+                        repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                        repackDialog.Show();
+
                         #region Building repack data...
                         //Reads the metadata to get the original name of the ARC.
                         var repackBuildSession = new StringBuilder();
@@ -2645,25 +2829,40 @@ namespace Sonic_06_Toolkit
                         #region Repacking ARC...
                         //Sets up the BASIC application and executes the repacking process.
                         var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
-                        var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
-                        basicWrite.Write(basicSession, 0, basicSession.Length);
-                        basicWrite.Close();
+                        if (tab_Main.SelectedTab.Text.Contains(".arc"))
+                        {
+                            var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.repackFile + "\" \"" + repackBuildSession.ToString() + Path.GetFileNameWithoutExtension(metadata) + "\"");
+                            basicWrite.Write(basicSession, 0, basicSession.Length);
+                            basicWrite.Close();
+                        }
+                        else
+                        {
+                            if (metadata.EndsWith(@"\"))
+                            {
+                                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.arctoolFile + "\" -i \"" + metadata.Remove(metadata.Length - 1) + "\" -c \"" + sfd_SaveFiles.FileName + "\"");
+                                basicWrite.Write(basicSession, 0, basicSession.Length);
+                                basicWrite.Close();
+                            }
+                            else
+                            {
+                                var basicSession = new UTF8Encoding(true).GetBytes("\"" + Properties.Settings.Default.arctoolFile + "\" -i \"" + metadata + "\" -c \"" + sfd_SaveFiles.FileName + "\"");
+                                basicWrite.Write(basicSession, 0, basicSession.Length);
+                                basicWrite.Close();
+                            }
+                        }
+
                         var repackSession = new ProcessStartInfo(Properties.Settings.Default.toolsPath + "repack.bat");
                         repackSession.WorkingDirectory = Properties.Settings.Default.toolsPath;
                         repackSession.WindowStyle = ProcessWindowStyle.Hidden;
                         var Repack = Process.Start(repackSession);
-                        var repackDialog = new Status();
-                        var parentLeft = Left + ((Width - repackDialog.Width) / 2);
-                        var parentTop = Top + ((Height - repackDialog.Height) / 2);
-                        repackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                        repackDialog.Show();
                         Repack.WaitForExit();
                         Repack.Close();
-                        string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
-                        if (File.Exists(archivePath)) File.Copy(archivePath, sfd_SaveFiles.FileName, true);
-                        repackDialog.Close();
 
-                        Global.arcState = null;
+                        if (tab_Main.SelectedTab.Text.Contains(".arc"))
+                        {
+                            string archivePath = repackBuildSession.ToString() + Path.GetFileName(metadata);
+                            if (File.Exists(archivePath)) File.Copy(archivePath, sfd_SaveFiles.FileName, true);
+                        }
                         #endregion
 
                         if (xenia == true)
@@ -2677,6 +2876,9 @@ namespace Sonic_06_Toolkit
                             }
                             else { SpecifyXenia(); }
                         }
+
+                        Global.arcState = null;
+                        repackDialog.Close();
                     }
                     catch
                     {
@@ -2693,40 +2895,52 @@ namespace Sonic_06_Toolkit
 
         void EraseData()
         {
-            var archiveData = new DirectoryInfo(Properties.Settings.Default.archivesPath + Global.sessionID);
-            var unlubData = new DirectoryInfo(Properties.Settings.Default.unlubPath);
-            var xnoData = new DirectoryInfo(Properties.Settings.Default.xnoPath);
-
-            try
+            if (Properties.Settings.Default.archivesPath != "" && Properties.Settings.Default.unlubPath != "" && Properties.Settings.Default.xnoPath != "")
             {
-                foreach (FileInfo file in archiveData.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo directory in archiveData.GetDirectories())
-                {
-                    directory.Delete(true);
-                }
+                var archiveData = new DirectoryInfo(Properties.Settings.Default.archivesPath + Global.sessionID);
+                var unlubData = new DirectoryInfo(Properties.Settings.Default.unlubPath + Global.sessionID);
+                var xnoData = new DirectoryInfo(Properties.Settings.Default.xnoPath + Global.sessionID);
 
-                foreach (FileInfo file in unlubData.GetFiles())
+                try
                 {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo directory in unlubData.GetDirectories())
-                {
-                    directory.Delete(true);
-                }
+                    if (Directory.Exists(Properties.Settings.Default.archivesPath + Global.sessionID))
+                    {
+                        foreach (FileInfo file in archiveData.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        foreach (DirectoryInfo directory in archiveData.GetDirectories())
+                        {
+                            directory.Delete(true);
+                        }
+                    }
 
-                foreach (FileInfo file in xnoData.GetFiles())
-                {
-                    file.Delete();
+                    if (Directory.Exists(Properties.Settings.Default.unlubPath + Global.sessionID))
+                    {
+                        foreach (FileInfo file in unlubData.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        foreach (DirectoryInfo directory in unlubData.GetDirectories())
+                        {
+                            directory.Delete(true);
+                        }
+                    }
+
+                    if (Directory.Exists(Properties.Settings.Default.xnoPath + Global.sessionID))
+                    {
+                        foreach (FileInfo file in xnoData.GetFiles())
+                        {
+                            file.Delete();
+                        }
+                        foreach (DirectoryInfo directory in xnoData.GetDirectories())
+                        {
+                            directory.Delete(true);
+                        }
+                    }
                 }
-                foreach (DirectoryInfo directory in xnoData.GetDirectories())
-                {
-                    directory.Delete(true);
-                }
+                catch { }
             }
-            catch { }
         }
 
         void Main_FormClosing(object sender, FormClosingEventArgs e)

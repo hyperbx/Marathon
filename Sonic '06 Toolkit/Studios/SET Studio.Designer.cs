@@ -193,7 +193,7 @@
             this.modes_Export.CheckOnClick = true;
             this.modes_Export.Name = "modes_Export";
             this.modes_Export.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.modes_Export.Size = new System.Drawing.Size(180, 22);
+            this.modes_Export.Size = new System.Drawing.Size(143, 22);
             this.modes_Export.Text = "Export";
             this.modes_Export.CheckedChanged += new System.EventHandler(this.Modes_Export_CheckedChanged);
             // 
@@ -202,29 +202,27 @@
             this.modes_Import.CheckOnClick = true;
             this.modes_Import.Name = "modes_Import";
             this.modes_Import.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.modes_Import.Size = new System.Drawing.Size(180, 22);
+            this.modes_Import.Size = new System.Drawing.Size(143, 22);
             this.modes_Import.Text = "Import";
             this.modes_Import.CheckedChanged += new System.EventHandler(this.Modes_Import_CheckedChanged);
             // 
             // options_CreateBackupSET
             // 
-            this.options_CreateBackupSET.Checked = true;
             this.options_CreateBackupSET.CheckOnClick = true;
-            this.options_CreateBackupSET.CheckState = System.Windows.Forms.CheckState.Checked;
             this.options_CreateBackupSET.Name = "options_CreateBackupSET";
             this.options_CreateBackupSET.Size = new System.Drawing.Size(190, 22);
             this.options_CreateBackupSET.Text = "Create a backup SET";
             this.options_CreateBackupSET.Visible = false;
+            this.options_CreateBackupSET.CheckedChanged += new System.EventHandler(this.Options_CreateBackupSET_CheckedChanged);
             // 
             // options_DeleteXML
             // 
-            this.options_DeleteXML.Checked = true;
             this.options_DeleteXML.CheckOnClick = true;
-            this.options_DeleteXML.CheckState = System.Windows.Forms.CheckState.Checked;
             this.options_DeleteXML.Name = "options_DeleteXML";
             this.options_DeleteXML.Size = new System.Drawing.Size(190, 22);
             this.options_DeleteXML.Text = "Delete XML on Import";
             this.options_DeleteXML.Visible = false;
+            this.options_DeleteXML.CheckedChanged += new System.EventHandler(this.Options_DeleteXML_CheckedChanged);
             // 
             // SET_Studio
             // 
@@ -242,6 +240,7 @@
             this.Name = "SET_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SET Studio (experimental)";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SET_Studio_FormClosing);
             this.Load += new System.EventHandler(this.SET_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

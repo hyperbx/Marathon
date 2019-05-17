@@ -391,5 +391,10 @@ namespace Sonic_06_Toolkit
                 }
             }
         }
+
+        void XNO_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.xnoState = null;
+        }
     }
 }

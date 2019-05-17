@@ -180,6 +180,7 @@
             this.Name = "CSB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CSB Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CSB_Studio_FormClosing);
             this.Load += new System.EventHandler(this.ADX_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

@@ -152,6 +152,7 @@
             this.Name = "LUB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LUB Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LUB_Studio_FormClosing);
             this.Load += new System.EventHandler(this.LUB_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

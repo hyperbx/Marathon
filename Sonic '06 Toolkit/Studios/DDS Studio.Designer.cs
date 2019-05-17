@@ -40,9 +40,9 @@
             this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_DDStoPNG = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_PNGtoDDS = new System.Windows.Forms.ToolStripMenuItem();
-            this.mstrip_Options = new System.Windows.Forms.MenuStrip();
             this.options_UseGPU = new System.Windows.Forms.ToolStripMenuItem();
             this.options_ForceDX10 = new System.Windows.Forms.ToolStripMenuItem();
+            this.mstrip_Options = new System.Windows.Forms.MenuStrip();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Options.SuspendLayout();
@@ -167,7 +167,7 @@
             this.modes_DDStoPNG.CheckOnClick = true;
             this.modes_DDStoPNG.Name = "modes_DDStoPNG";
             this.modes_DDStoPNG.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.modes_DDStoPNG.Size = new System.Drawing.Size(180, 22);
+            this.modes_DDStoPNG.Size = new System.Drawing.Size(175, 22);
             this.modes_DDStoPNG.Text = "DDS to PNG";
             this.modes_DDStoPNG.CheckedChanged += new System.EventHandler(this.Modes_DDStoPNG_CheckedChanged);
             // 
@@ -176,22 +176,9 @@
             this.modes_PNGtoDDS.CheckOnClick = true;
             this.modes_PNGtoDDS.Name = "modes_PNGtoDDS";
             this.modes_PNGtoDDS.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.P)));
-            this.modes_PNGtoDDS.Size = new System.Drawing.Size(180, 22);
+            this.modes_PNGtoDDS.Size = new System.Drawing.Size(175, 22);
             this.modes_PNGtoDDS.Text = "PNG to DDS";
             this.modes_PNGtoDDS.CheckedChanged += new System.EventHandler(this.Modes_PNGtoDDS_CheckedChanged);
-            // 
-            // mstrip_Options
-            // 
-            this.mstrip_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.mstrip_Options.BackColor = System.Drawing.SystemColors.Control;
-            this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
-            this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
-            this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
-            this.mstrip_Options.TabIndex = 49;
-            this.mstrip_Options.Text = "menuStrip1";
             // 
             // options_UseGPU
             // 
@@ -209,6 +196,19 @@
             this.options_ForceDX10.Text = "Force DirectX 10";
             this.options_ForceDX10.CheckedChanged += new System.EventHandler(this.Options_ForceDX10_CheckedChanged);
             // 
+            // mstrip_Options
+            // 
+            this.mstrip_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mstrip_Options.BackColor = System.Drawing.SystemColors.Control;
+            this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
+            this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.main_Options});
+            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
+            this.mstrip_Options.Name = "mstrip_Options";
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
+            this.mstrip_Options.TabIndex = 49;
+            this.mstrip_Options.Text = "menuStrip1";
+            // 
             // DDS_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,6 +225,7 @@
             this.Name = "DDS_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DDS Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DDS_Studio_FormClosing);
             this.Load += new System.EventHandler(this.DDS_Studio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.pnl_Backdrop.ResumeLayout(false);

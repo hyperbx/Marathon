@@ -41,6 +41,19 @@ namespace Sonic_06_Toolkit
                 options_DownmixToMono.Visible = true;
             }
             else { MessageBox.Show("There are no encodable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
+
+            #region Setting saved properties...
+            if (Properties.Settings.Default.ignoreLoop == true) looping_Ignore.Checked = true;
+            if (Properties.Settings.Default.removeLoop == true) looping_Remove.Checked = true;
+            if (Properties.Settings.Default.downmix == true) options_DownmixToMono.Checked = true;
+
+            if (Properties.Settings.Default.volume == 0.0) volume_0.Checked = true;
+            if (Properties.Settings.Default.volume == 1.0) volume_1.Checked = true;
+            if (Properties.Settings.Default.volume == 2.0) volume_2.Checked = true;
+            if (Properties.Settings.Default.volume == 3.0) volume_3.Checked = true;
+            if (Properties.Settings.Default.volume == 4.0) volume_4.Checked = true;
+            if (Properties.Settings.Default.volume == 5.0) volume_5.Checked = true;
+            #endregion
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -261,15 +274,16 @@ namespace Sonic_06_Toolkit
         {
             if (volume_5.Checked == true)
             {
-                vol = 5.0;
+                vol = 5.0; Properties.Settings.Default.volume = 5.0;
                 volume_4.Checked = false;
                 volume_3.Checked = false;
                 volume_2.Checked = false;
                 volume_1.Checked = false;
                 volume_0.Checked = false;
 
-                MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            Properties.Settings.Default.Save();
         }
 
         void Volume_4_CheckedChanged(object sender, EventArgs e)
@@ -277,14 +291,15 @@ namespace Sonic_06_Toolkit
             if (volume_4.Checked == true)
             {
                 volume_5.Checked = false;
-                vol = 4.0;
+                vol = 4.0; Properties.Settings.Default.volume = 4.0;
                 volume_3.Checked = false;
                 volume_2.Checked = false;
                 volume_1.Checked = false;
                 volume_0.Checked = false;
 
-                MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            Properties.Settings.Default.Save();
         }
 
         void Volume_3_CheckedChanged(object sender, EventArgs e)
@@ -293,13 +308,14 @@ namespace Sonic_06_Toolkit
             {
                 volume_5.Checked = false;
                 volume_4.Checked = false;
-                vol = 3.0;
+                vol = 3.0; Properties.Settings.Default.volume = 3.0;
                 volume_2.Checked = false;
                 volume_1.Checked = false;
                 volume_0.Checked = false;
 
-                MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            Properties.Settings.Default.Save();
         }
 
         void Volume_2_CheckedChanged(object sender, EventArgs e)
@@ -309,12 +325,13 @@ namespace Sonic_06_Toolkit
                 volume_5.Checked = false;
                 volume_4.Checked = false;
                 volume_3.Checked = false;
-                vol = 2.0;
+                vol = 2.0; Properties.Settings.Default.volume = 2.0;
                 volume_1.Checked = false;
                 volume_0.Checked = false;
 
-                MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //MessageBox.Show("Using a volume greater than 1.0 will likely produce noise in original ADX files.", "Sound Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+            Properties.Settings.Default.Save();
         }
 
         void Volume_1_CheckedChanged(object sender, EventArgs e)
@@ -325,9 +342,10 @@ namespace Sonic_06_Toolkit
                 volume_4.Checked = false;
                 volume_3.Checked = false;
                 volume_2.Checked = false;
-                vol = 1.0;
+                vol = 1.0; Properties.Settings.Default.volume = 1.0;
                 volume_0.Checked = false;
             }
+            Properties.Settings.Default.Save();
         }
 
         void Volume_0_CheckedChanged(object sender, EventArgs e)
@@ -339,8 +357,9 @@ namespace Sonic_06_Toolkit
                 volume_3.Checked = false;
                 volume_2.Checked = false;
                 volume_1.Checked = false;
-                vol = 0.0;
+                vol = 0.0; Properties.Settings.Default.volume = 0.0;
             }
+            Properties.Settings.Default.Save();
         }
         #endregion
 
@@ -349,8 +368,14 @@ namespace Sonic_06_Toolkit
             if (looping_Ignore.Checked == true)
             {
                 ignoreLoop = " -lpoff";
+                Properties.Settings.Default.ignoreLoop = true;
             }
-            else { ignoreLoop = ""; }
+            else
+            {
+                ignoreLoop = "";
+                Properties.Settings.Default.ignoreLoop = false;
+            }
+            Properties.Settings.Default.Save();
         }
 
         void Looping_Remove_CheckedChanged(object sender, EventArgs e)
@@ -358,8 +383,14 @@ namespace Sonic_06_Toolkit
             if (looping_Remove.Checked == true)
             {
                 removeLoop = " -nodelterm";
+                Properties.Settings.Default.removeLoop = true;
             }
-            else { removeLoop = ""; }
+            else
+            {
+                removeLoop = "";
+                Properties.Settings.Default.removeLoop = false;
+            }
+            Properties.Settings.Default.Save();
         }
 
         void Options_DownmixToStereo_CheckedChanged(object sender, EventArgs e)
@@ -367,8 +398,19 @@ namespace Sonic_06_Toolkit
             if (options_DownmixToMono.Checked == true)
             {
                 downmix = "MONO";
+                Properties.Settings.Default.downmix = true;
             }
-            else { downmix = "STEREO"; }
+            else
+            {
+                downmix = "STEREO";
+                Properties.Settings.Default.downmix = false;
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        private void ADX_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.adxState = null;
         }
     }
 }

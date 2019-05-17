@@ -35,6 +35,8 @@ namespace Sonic_06_Toolkit
             }
             else { MessageBox.Show("There are no convertable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
 
+            if (Properties.Settings.Default.backupSET == true) options_CreateBackupSET.Checked = true;
+            if (Properties.Settings.Default.deleteXML == true) options_DeleteXML.Checked = true;
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -212,6 +214,23 @@ namespace Sonic_06_Toolkit
                     }
                 }
             }
+        }
+
+        void Options_CreateBackupSET_CheckedChanged(object sender, EventArgs e)
+        {
+            if (options_CreateBackupSET.Checked == true) Properties.Settings.Default.backupSET = true;
+            else Properties.Settings.Default.backupSET = false;
+        }
+
+        void Options_DeleteXML_CheckedChanged(object sender, EventArgs e)
+        {
+            if (options_DeleteXML.Checked == true) Properties.Settings.Default.deleteXML = true;
+            else Properties.Settings.Default.deleteXML = false;
+        }
+
+        void SET_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.setState = null;
         }
     }
 }

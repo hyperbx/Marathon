@@ -181,4 +181,13 @@
   <data name="texconv" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\texconv.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="arcphp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arcc.php;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="arctool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arctool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="arctoolphp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arctool.php;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

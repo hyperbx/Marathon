@@ -69,6 +69,16 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.at3File != "") at3File.Text = Properties.Settings.Default.at3File; else at3File.Text = "None";
             if (Properties.Settings.Default.xeniaFile != "") xeniaFile.Text = Properties.Settings.Default.xeniaFile; else xeniaFile.Text = "None";
             if (Properties.Settings.Default.directXFile != "") directXFile.Text = Properties.Settings.Default.directXFile; else directXFile.Text = "None";
+            if (Properties.Settings.Default.arctoolFile != "") arctoolFile.Text = Properties.Settings.Default.arctoolFile; else arctoolFile.Text = "None";
+            ignoreLoop.Text = Properties.Settings.Default.ignoreLoop.ToString();
+            removeLoop.Text = Properties.Settings.Default.removeLoop.ToString();
+            downmix.Text = Properties.Settings.Default.downmix.ToString();
+            volume.Text = Properties.Settings.Default.volume.ToString();
+            wholeLoop.Text = Properties.Settings.Default.wholeLoop.ToString();
+            useGPU.Text = Properties.Settings.Default.useGPU.ToString();
+            forceDirectX10.Text = Properties.Settings.Default.forceDirectX10.ToString();
+            backupSET.Text = Properties.Settings.Default.backupSET.ToString();
+            deleteXML.Text = Properties.Settings.Default.deleteXML.ToString();
             #endregion
 
             foreach (Control x in this.Controls)
@@ -83,6 +93,135 @@ namespace Sonic_06_Toolkit
         void Button1_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reset();
+        }
+
+        private void ShowSessionID_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.showSessionID == true) Properties.Settings.Default.showSessionID = false;
+            else Properties.Settings.Default.showSessionID = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DisableSoftwareUpdater_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.disableSoftwareUpdater == true) Properties.Settings.Default.disableSoftwareUpdater = false;
+            else Properties.Settings.Default.disableSoftwareUpdater = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ShowLogo_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.showLogo == true) Properties.Settings.Default.showLogo = false;
+            else Properties.Settings.Default.showLogo = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void UnpackAndLaunch_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.unpackAndLaunch == true) Properties.Settings.Default.unpackAndLaunch = false;
+            else Properties.Settings.Default.unpackAndLaunch = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void IgnoreLoop_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.ignoreLoop == true) Properties.Settings.Default.ignoreLoop = false;
+            else Properties.Settings.Default.ignoreLoop = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void RemoveLoop_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.removeLoop == true) Properties.Settings.Default.removeLoop = false;
+            else Properties.Settings.Default.removeLoop = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void Downmix_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.downmix == true) Properties.Settings.Default.downmix = false;
+            else Properties.Settings.Default.downmix = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void WholeLoop_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.wholeLoop == true) Properties.Settings.Default.wholeLoop = false;
+            else Properties.Settings.Default.wholeLoop = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void UseGPU_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.useGPU == true) Properties.Settings.Default.useGPU = false;
+            else Properties.Settings.Default.useGPU = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ForceDirectX10_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.forceDirectX10 == true) Properties.Settings.Default.forceDirectX10 = false;
+            else Properties.Settings.Default.forceDirectX10 = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void BackupSET_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.backupSET == true) Properties.Settings.Default.backupSET = false;
+            else Properties.Settings.Default.backupSET = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void DeleteXML_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.deleteXML == true) Properties.Settings.Default.deleteXML = false;
+            else Properties.Settings.Default.deleteXML = true;
+            Properties.Settings.Default.Save();
+        }
+
+        private void ArcState_Click(object sender, EventArgs e)
+        {
+            if (Global.arcState != "") Global.arcState = "";
+        }
+
+        private void AdxState_Click(object sender, EventArgs e)
+        {
+            if (Global.adxState != "") Global.adxState = "";
+        }
+
+        private void At3State_Click(object sender, EventArgs e)
+        {
+            if (Global.at3State != "") Global.at3State = "";
+        }
+
+        private void CsbState_Click(object sender, EventArgs e)
+        {
+            if (Global.csbState != "") Global.csbState = "";
+        }
+
+        private void DdsState_Click(object sender, EventArgs e)
+        {
+            if (Global.ddsState != "") Global.ddsState = "";
+        }
+
+        private void LubState_Click(object sender, EventArgs e)
+        {
+            if (Global.lubState != "") Global.lubState = "";
+        }
+
+        private void SetState_Click(object sender, EventArgs e)
+        {
+            if (Global.setState != "") Global.setState = "";
+        }
+
+        private void MstState_Click(object sender, EventArgs e)
+        {
+            if (Global.mstState != "") Global.mstState = "";
+        }
+
+        private void XnoState_Click(object sender, EventArgs e)
+        {
+            if (Global.xnoState != "") Global.xnoState = "";
         }
     }
 }

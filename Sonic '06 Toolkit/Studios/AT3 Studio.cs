@@ -39,6 +39,8 @@ namespace Sonic_06_Toolkit
             else { MessageBox.Show("There are no encodable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
 
             tm_wholeLoopCheck.Start();
+
+            if (Properties.Settings.Default.wholeLoop == true) looping_Whole.Checked = true;
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -255,8 +257,14 @@ namespace Sonic_06_Toolkit
             if (looping_Whole.Checked == true)
             {
                 wholeLoop = "-wholeloop ";
+                Properties.Settings.Default.wholeLoop = true;
             }
-            else { wholeLoop = ""; }
+            else
+            {
+                wholeLoop = "";
+                Properties.Settings.Default.wholeLoop = false;
+            }
+            Properties.Settings.Default.Save();
         }
 
         //Opens the unused looping form. This feature was removed because it doesn't work correctly.
@@ -268,6 +276,11 @@ namespace Sonic_06_Toolkit
         void Tm_wholeLoopCheck_Tick(object sender, EventArgs e)
         {
             if (wholeLoop != "") looping_Whole.Checked = true; else looping_Whole.Checked = false;
+        }
+
+        void AT3_Studio_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Global.at3State = null;
         }
     }
 }

@@ -54,17 +54,15 @@
             // looping_SetLoop
             // 
             this.looping_SetLoop.Name = "looping_SetLoop";
-            this.looping_SetLoop.Size = new System.Drawing.Size(180, 22);
+            this.looping_SetLoop.Size = new System.Drawing.Size(172, 22);
             this.looping_SetLoop.Text = "Set loop position...";
             this.looping_SetLoop.Visible = false;
             // 
             // looping_Whole
             // 
-            this.looping_Whole.Checked = true;
             this.looping_Whole.CheckOnClick = true;
-            this.looping_Whole.CheckState = System.Windows.Forms.CheckState.Checked;
             this.looping_Whole.Name = "looping_Whole";
-            this.looping_Whole.Size = new System.Drawing.Size(180, 22);
+            this.looping_Whole.Size = new System.Drawing.Size(172, 22);
             this.looping_Whole.Text = "Loop entire track";
             this.looping_Whole.CheckedChanged += new System.EventHandler(this.Looping_Whole_CheckedChanged);
             // 
@@ -74,7 +72,7 @@
             this.looping_Whole,
             this.looping_SetLoop});
             this.options_Looping.Name = "options_Looping";
-            this.options_Looping.Size = new System.Drawing.Size(180, 22);
+            this.options_Looping.Size = new System.Drawing.Size(118, 22);
             this.options_Looping.Text = "Looping";
             this.options_Looping.Visible = false;
             // 
@@ -102,7 +100,7 @@
             this.modes_AT3toWAV,
             this.modes_WAVtoAT3});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(180, 22);
+            this.options_Modes.Size = new System.Drawing.Size(118, 22);
             this.options_Modes.Text = "Modes";
             // 
             // main_Options
@@ -180,9 +178,9 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(158, 386);
+            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
             this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 50;
             this.mstrip_Options.Text = "menuStrip1";
             // 
@@ -243,6 +241,7 @@
             this.Name = "AT3_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AT3 Studio";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AT3_Studio_FormClosing);
             this.Load += new System.EventHandler(this.AT3_Studio_Load);
             this.mstrip_Options.ResumeLayout(false);
             this.mstrip_Options.PerformLayout();
