@@ -2253,45 +2253,121 @@ namespace Sonic_06_Toolkit
             #region Tab Check...
             if (freeMode == true)
             {
-                #region Enable controls...
-                //Enables all viable controls if the tab isn't empty.
-                btn_Back.Enabled = true;
-                btn_Forward.Enabled = true;
-                btn_OpenFolder.Enabled = true;
-                shortcuts_DecompileLUBs.Enabled = true;
-                mainSDK_LUBStudio.Enabled = true;
-                mainFile_CloseARC.Enabled = true;
-                mainSDK_XNOStudio.Enabled = true;
-                shortcuts_ConvertXNOs.Enabled = true;
-                mainSDK_CSBStudio.Enabled = true;
-                mainSDK_ADXStudio.Enabled = true;
-                shortcuts_ExtractCSBs.Enabled = true;
-                shortcuts_ConvertSETs.Enabled = true;
-                mainSDK_SETStudio.Enabled = true;
-                mainSDK_MSTStudio.Enabled = true;
-                shortcuts_DecodeMSTs.Enabled = true;
-                mainSDK_AT3Studio.Enabled = true;
-                mainSDK_DDSStudio.Enabled = true;
-                shortcuts_ConvertDDS.Enabled = true;
-
-                if (tab_Main.SelectedTab.Text != "New Tab")
+                if (Properties.Settings.Default.gamePath != "")
                 {
-                    btn_Repack.Enabled = true;
-                    btn_RepackOptions.Enabled = true;
-                    mainFile_RepackARC.Enabled = true;
-                    mainFile_RepackARCAs.Enabled = true;
+                    #region Enable controls...
+                    //Enables all viable controls if the tab isn't empty.
+                    btn_Back.Enabled = true;
+                    btn_Forward.Enabled = true;
+                    btn_OpenFolder.Enabled = true;
+                    shortcuts_DecompileLUBs.Enabled = true;
+                    mainSDK_LUBStudio.Enabled = true;
+                    mainFile_CloseARC.Enabled = true;
+                    mainSDK_XNOStudio.Enabled = true;
+                    shortcuts_ConvertXNOs.Enabled = true;
+                    mainSDK_CSBStudio.Enabled = true;
+                    mainSDK_ADXStudio.Enabled = true;
+                    shortcuts_ExtractCSBs.Enabled = true;
+                    shortcuts_ConvertSETs.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
+                    mainSDK_MSTStudio.Enabled = true;
+                    shortcuts_DecodeMSTs.Enabled = true;
+                    mainSDK_AT3Studio.Enabled = true;
+                    mainSDK_DDSStudio.Enabled = true;
+                    shortcuts_ConvertDDS.Enabled = true;
+
+                    if (tab_Main.SelectedTab.Text != "New Tab")
+                    {
+                        btn_Repack.Enabled = true;
+                        btn_RepackOptions.Enabled = true;
+                        mainFile_RepackARC.Enabled = true;
+                        mainFile_RepackARCAs.Enabled = true;
+                    }
+                    #endregion
+
+                    pic_Logo.Visible = false;
+                    lbl_SetDefault.Visible = false;
+
+                    try
+                    {
+                        //Updates the currentPath global variable.
+                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                    }
+                    catch { }
                 }
-                #endregion
-
-                pic_Logo.Visible = false;
-                lbl_SetDefault.Visible = false;
-
-                try
+                else if (tab_Main.SelectedTab.Text != "New Tab")
                 {
-                    //Updates the currentPath global variable.
-                    Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                    #region Enable controls...
+                    //Enables all viable controls if the tab isn't empty.
+                    btn_Back.Enabled = true;
+                    btn_Forward.Enabled = true;
+                    btn_OpenFolder.Enabled = true;
+                    shortcuts_DecompileLUBs.Enabled = true;
+                    mainSDK_LUBStudio.Enabled = true;
+                    mainFile_CloseARC.Enabled = true;
+                    mainSDK_XNOStudio.Enabled = true;
+                    shortcuts_ConvertXNOs.Enabled = true;
+                    mainSDK_CSBStudio.Enabled = true;
+                    mainSDK_ADXStudio.Enabled = true;
+                    shortcuts_ExtractCSBs.Enabled = true;
+                    shortcuts_ConvertSETs.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
+                    mainSDK_MSTStudio.Enabled = true;
+                    shortcuts_DecodeMSTs.Enabled = true;
+                    mainSDK_AT3Studio.Enabled = true;
+                    mainSDK_DDSStudio.Enabled = true;
+                    shortcuts_ConvertDDS.Enabled = true;
+
+                    if (tab_Main.SelectedTab.Text != "New Tab")
+                    {
+                        btn_Repack.Enabled = true;
+                        btn_RepackOptions.Enabled = true;
+                        mainFile_RepackARC.Enabled = true;
+                        mainFile_RepackARCAs.Enabled = true;
+                    }
+                    #endregion
+
+                    pic_Logo.Visible = false;
+                    lbl_SetDefault.Visible = false;
+
+                    try
+                    {
+                        //Updates the currentPath global variable.
+                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                    }
+                    catch { }
                 }
-                catch { }
+                else
+                {
+                    #region Disable controls...
+                    //Disables all viable controls if the tab is empty.
+                    btn_Back.Enabled = false;
+                    btn_Forward.Enabled = false;
+                    btn_Repack.Enabled = false;
+                    mainFile_RepackARC.Enabled = false;
+                    btn_OpenFolder.Enabled = false;
+                    shortcuts_DecompileLUBs.Enabled = false;
+                    mainSDK_LUBStudio.Enabled = false;
+                    mainFile_CloseARC.Enabled = false;
+                    mainFile_RepackARCAs.Enabled = false;
+                    mainSDK_XNOStudio.Enabled = false;
+                    shortcuts_ConvertXNOs.Enabled = false;
+                    mainSDK_CSBStudio.Enabled = false;
+                    mainSDK_ADXStudio.Enabled = false;
+                    shortcuts_ExtractCSBs.Enabled = false;
+                    shortcuts_ConvertSETs.Enabled = false;
+                    mainSDK_SETStudio.Enabled = false;
+                    mainSDK_MSTStudio.Enabled = false;
+                    shortcuts_DecodeMSTs.Enabled = false;
+                    mainSDK_AT3Studio.Enabled = false;
+                    btn_RepackOptions.Enabled = false;
+                    mainSDK_DDSStudio.Enabled = false;
+                    shortcuts_ConvertDDS.Enabled = false;
+                    #endregion
+
+                    pic_Logo.Visible = true;
+                    lbl_SetDefault.Visible = true;
+                }
             }
             else if (tab_Main.SelectedTab.Text != "New Tab" && tab_Main.SelectedTab.Text.Contains(".arc"))
             {
@@ -2324,16 +2400,7 @@ namespace Sonic_06_Toolkit
                 pic_Logo.Visible = false;
                 lbl_SetDefault.Visible = false;
 
-                try
-                {
-                    //Updates the currentPath global variable.
-                    Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                }
-                catch { }
-            }
-            else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != null || tab_Main.SelectedTab.Text != "New Tab" && !tab_Main.SelectedTab.Text.Contains(".arc"))
-            {
-                if (currentARC().Url != null)
+                if (Properties.Settings.Default.gamePath != "")
                 {
                     try
                     {
@@ -2341,6 +2408,21 @@ namespace Sonic_06_Toolkit
                         Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
                     }
                     catch { }
+                }
+            }
+            else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != null || tab_Main.SelectedTab.Text != "New Tab" && !tab_Main.SelectedTab.Text.Contains(".arc"))
+            {
+                if (currentARC().Url != null)
+                {
+                    if (Properties.Settings.Default.gamePath != "")
+                    {
+                        try
+                        {
+                            //Updates the currentPath global variable.
+                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        }
+                        catch { }
+                    }
 
                     pic_Logo.Visible = false;
                     lbl_SetDefault.Visible = false;
