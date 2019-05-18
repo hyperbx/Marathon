@@ -13,7 +13,7 @@
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds)'s [Sonic Audio Tools](https://github.com/blueskythlikesclouds/SonicAudioTools) for extracting CSB files and some tools from [CRI Middleware](https://www.criware.com/en/) for encoding ADX files.
 
 ### ARC Unpacking and Repacking
-- Currently based off [Shadow LAG](https://github.com/lllsondowlll) and [ModdingUnderground](https://www.youtube.com/user/ModdingUnderground)'s ARC unpacker/repacker. Once [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) ARC class is complete, we will be able to make use of that.
+- Currently based off g0ldenlink, xose and [Shadow LAG](https://github.com/lllsondowlll)'s ARC unpacker/repacker.
 
 ### AT3 Encoding
 - Currently based off AT3 Tool, developed by SONY Computer Entertainment Inc.
@@ -22,7 +22,7 @@
 - Currently based off Microsoft DirectX. This may need more work as converting PNG to DDS results in a slightly darker image.
 
 ### LUB Decompiling
-- Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler which is soon to be replaced.
+- Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler.
 
 ### MST Decoding (experimental)
 - Currently based off [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) BINAv1Header class.
