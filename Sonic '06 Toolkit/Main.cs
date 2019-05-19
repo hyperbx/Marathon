@@ -183,11 +183,9 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
-                                        if (Properties.Settings.Default.gamePath != null)
-                                        {
-                                            navigateToGame = false;
-                                            resetTab();
-                                        }
+                                        navigateToGame = false;
+                                        resetTab();
+
                                         currentARC().Navigate(unpackBuildSession.ToString());
                                         tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
                                         navigateToGame = true;
@@ -744,9 +742,9 @@ namespace Sonic_06_Toolkit
             nextTab.Controls.Add(nextBrowser);
             tab_Main.SelectedTab = nextTab;
             nextBrowser.Dock = DockStyle.Fill;
-            if (navigateToGame == true)
+            if (navigateToGame)
             {
-                if (Properties.Settings.Default.gamePath != null)
+                if (Properties.Settings.Default.gamePath != "")
                 {
                     if (Directory.Exists(Properties.Settings.Default.gamePath))
                     {
@@ -906,11 +904,9 @@ namespace Sonic_06_Toolkit
                                 //Creates a new tab if the selected one is being used.
                                 if (tab_Main.SelectedTab.Text == "New Tab")
                                 {
-                                    if (Properties.Settings.Default.gamePath != null)
-                                    {
-                                        navigateToGame = false;
-                                        resetTab();
-                                    }
+                                    navigateToGame = false;
+                                    resetTab();
+
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
                                     navigateToGame = true;
@@ -979,11 +975,9 @@ namespace Sonic_06_Toolkit
                                 //Creates a new tab if the selected one is being used.
                                 if (tab_Main.SelectedTab.Text == "New Tab")
                                 {
-                                    if (Properties.Settings.Default.gamePath != null)
-                                    {
-                                        navigateToGame = false;
-                                        resetTab();
-                                    }
+                                    navigateToGame = false;
+                                    resetTab();
+
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
                                     navigateToGame = true;
@@ -1049,11 +1043,9 @@ namespace Sonic_06_Toolkit
                                 //Creates a new tab if the selected one is being used.
                                 if (tab_Main.SelectedTab.Text == "New Tab")
                                 {
-                                    if (Properties.Settings.Default.gamePath != null)
-                                    {
-                                        navigateToGame = false;
-                                        resetTab();
-                                    }
+                                    navigateToGame = false;
+                                    resetTab();
+
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
                                     navigateToGame = true;
@@ -1119,11 +1111,9 @@ namespace Sonic_06_Toolkit
                                 //Creates a new tab if the selected one is being used.
                                 if (tab_Main.SelectedTab.Text == "New Tab")
                                 {
-                                    if (Properties.Settings.Default.gamePath != null)
-                                    {
-                                        navigateToGame = false;
-                                        resetTab();
-                                    }
+                                    navigateToGame = false;
+                                    resetTab();
+
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
                                     navigateToGame = true;
@@ -1196,11 +1186,9 @@ namespace Sonic_06_Toolkit
                         //Creates a new tab if the selected one is being used.
                         if (tab_Main.SelectedTab.Text == "New Tab")
                         {
-                            if (Properties.Settings.Default.gamePath != null)
-                            {
-                                navigateToGame = false;
-                                resetTab();
-                            }
+                            navigateToGame = false;
+                            resetTab();
+
                             currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                             tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
                             navigateToGame = true;
@@ -1215,6 +1203,8 @@ namespace Sonic_06_Toolkit
                             navigateToGame = true;
                         }
                         #endregion
+
+                        Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                     }
                 }
             }
@@ -1321,7 +1311,7 @@ namespace Sonic_06_Toolkit
         //Resets the game directory.
         void Paths_ClearGame_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.gamePath = null;
+            Properties.Settings.Default.gamePath = "";
             Properties.Settings.Default.Save();
 
             foreach (TabPage tab in tab_Main.TabPages)
@@ -1549,7 +1539,7 @@ namespace Sonic_06_Toolkit
             nextBrowser.Dock = DockStyle.Fill;
             if (navigateToGame == true)
             {
-                if (Properties.Settings.Default.gamePath != null)
+                if (Properties.Settings.Default.gamePath != "")
                 {
                     if (Directory.Exists(Properties.Settings.Default.gamePath))
                     {
@@ -1688,36 +1678,39 @@ namespace Sonic_06_Toolkit
 
         void Shortcuts_ConvertDDS_Click(object sender, EventArgs e)
         {
-            Global.ddsState = "dds";
-
-            var convertDialog = new Status();
-            var parentLeft = Left + ((Width - convertDialog.Width) / 2);
-            var parentTop = Top + ((Height - convertDialog.Height) / 2);
-            convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-            convertDialog.Show();
-
-            foreach (string DDS in Directory.GetFiles(Global.currentPath, "*.dds", SearchOption.TopDirectoryOnly))
+            //Checks if there are any DDSs in the directory.
+            if (Directory.GetFiles(Global.currentPath, "*.dds").Length == 0) MessageBox.Show("There are no DDS files to convert in this directory.", "No DDS files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
             {
-                #region Converting DDS files...
-                //Sets up the BASIC application and executes the converting process.
-                var convertSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, "\"" + DDS + "\" -ft PNG -nogpu -singleproc -f R8G8B8A8_UNORM");
-                convertSession.WorkingDirectory = Global.currentPath;
-                convertSession.WindowStyle = ProcessWindowStyle.Hidden;
-                var Convert = Process.Start(convertSession);
-                Convert.WaitForExit();
-                Convert.Close();
-                #endregion
+                Global.ddsState = "dds";
+
+                var convertDialog = new Status();
+                var parentLeft = Left + ((Width - convertDialog.Width) / 2);
+                var parentTop = Top + ((Height - convertDialog.Height) / 2);
+                convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                convertDialog.Show();
+
+                foreach (string DDS in Directory.GetFiles(Global.currentPath, "*.dds", SearchOption.TopDirectoryOnly))
+                {
+                    #region Converting DDS files...
+                    //Sets up the BASIC application and executes the converting process.
+                    var convertSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, "\"" + DDS + "\" -ft PNG -nogpu -singleproc -f R8G8B8A8_UNORM");
+                    convertSession.WorkingDirectory = Global.currentPath;
+                    convertSession.WindowStyle = ProcessWindowStyle.Hidden;
+                    var Convert = Process.Start(convertSession);
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    #endregion
+                }
+
+                convertDialog.Close();
+
+                Global.ddsState = null;
             }
-
-            convertDialog.Close();
-
-            Global.ddsState = null;
         }
 
         void Shortcuts_DecompileLUBs_Click(object sender, EventArgs e)
         {
-            //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
-            //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
             if (Global.javaCheck == false) MessageBox.Show("Java is required to decompile Lua binaries. Please install Java and restart Sonic '06 Toolkit.", "Java Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
@@ -2250,10 +2243,9 @@ namespace Sonic_06_Toolkit
             //Ensures there's at least only one tab left on the control.
             if (tab_Main.TabPages.Count == 1) mainWindow_CloseTab.Enabled = false; else mainWindow_CloseTab.Enabled = true;
 
-            #region Tab Check...
-            if (freeMode == true)
+            if (freeMode)
             {
-                if (Properties.Settings.Default.gamePath != "")
+                if (tab_Main.SelectedTab.Text != "New Tab")
                 {
                     #region Enable controls...
                     //Enables all viable controls if the tab isn't empty.
@@ -2275,14 +2267,10 @@ namespace Sonic_06_Toolkit
                     mainSDK_AT3Studio.Enabled = true;
                     mainSDK_DDSStudio.Enabled = true;
                     shortcuts_ConvertDDS.Enabled = true;
-
-                    if (tab_Main.SelectedTab.Text != "New Tab")
-                    {
-                        btn_Repack.Enabled = true;
-                        btn_RepackOptions.Enabled = true;
-                        mainFile_RepackARC.Enabled = true;
-                        mainFile_RepackARCAs.Enabled = true;
-                    }
+                    btn_Repack.Enabled = true;
+                    btn_RepackOptions.Enabled = true;
+                    mainFile_RepackARC.Enabled = true;
+                    mainFile_RepackARCAs.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2290,12 +2278,15 @@ namespace Sonic_06_Toolkit
 
                     try
                     {
-                        //Updates the currentPath global variable.
-                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        if (currentARC().Url != null)
+                        {
+                            //Updates the currentPath global variable.
+                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        }
                     }
                     catch { }
                 }
-                else if (tab_Main.SelectedTab.Text != "New Tab")
+                else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != "")
                 {
                     #region Enable controls...
                     //Enables all viable controls if the tab isn't empty.
@@ -2317,14 +2308,10 @@ namespace Sonic_06_Toolkit
                     mainSDK_AT3Studio.Enabled = true;
                     mainSDK_DDSStudio.Enabled = true;
                     shortcuts_ConvertDDS.Enabled = true;
-
-                    if (tab_Main.SelectedTab.Text != "New Tab")
-                    {
-                        btn_Repack.Enabled = true;
-                        btn_RepackOptions.Enabled = true;
-                        mainFile_RepackARC.Enabled = true;
-                        mainFile_RepackARCAs.Enabled = true;
-                    }
+                    btn_Repack.Enabled = false;
+                    btn_RepackOptions.Enabled = false;
+                    mainFile_RepackARC.Enabled = false;
+                    mainFile_RepackARCAs.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2332,8 +2319,11 @@ namespace Sonic_06_Toolkit
 
                     try
                     {
-                        //Updates the currentPath global variable.
-                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        if (currentARC().Url != null)
+                        {
+                            //Updates the currentPath global variable.
+                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        }
                     }
                     catch { }
                 }
@@ -2369,64 +2359,51 @@ namespace Sonic_06_Toolkit
                     lbl_SetDefault.Visible = true;
                 }
             }
-            else if (tab_Main.SelectedTab.Text != "New Tab" && tab_Main.SelectedTab.Text.Contains(".arc"))
+            else
             {
-                #region Enable controls...
-                //Enables all viable controls if the tab isn't empty.
-                btn_Back.Enabled = true;
-                btn_Forward.Enabled = true;
-                btn_Repack.Enabled = true;
-                mainFile_RepackARC.Enabled = true;
-                btn_OpenFolder.Enabled = true;
-                shortcuts_DecompileLUBs.Enabled = true;
-                mainSDK_LUBStudio.Enabled = true;
-                mainFile_CloseARC.Enabled = true;
-                mainFile_RepackARCAs.Enabled = true;
-                mainSDK_XNOStudio.Enabled = true;
-                shortcuts_ConvertXNOs.Enabled = true;
-                mainSDK_CSBStudio.Enabled = true;
-                mainSDK_ADXStudio.Enabled = true;
-                shortcuts_ExtractCSBs.Enabled = true;
-                shortcuts_ConvertSETs.Enabled = true;
-                mainSDK_SETStudio.Enabled = true;
-                mainSDK_MSTStudio.Enabled = true;
-                shortcuts_DecodeMSTs.Enabled = true;
-                mainSDK_AT3Studio.Enabled = false;
-                btn_RepackOptions.Enabled = true;
-                mainSDK_DDSStudio.Enabled = true;
-                shortcuts_ConvertDDS.Enabled = true;
-                #endregion
-
-                pic_Logo.Visible = false;
-                lbl_SetDefault.Visible = false;
-
-                if (Properties.Settings.Default.gamePath != "")
+                if (tab_Main.SelectedTab.Text.Contains(".arc"))
                 {
-                    try
-                    {
-                        //Updates the currentPath global variable.
-                        Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                    }
-                    catch { }
-                }
-            }
-            else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != null || tab_Main.SelectedTab.Text != "New Tab" && !tab_Main.SelectedTab.Text.Contains(".arc"))
-            {
-                if (currentARC().Url != null)
-                {
-                    if (Properties.Settings.Default.gamePath != "")
-                    {
-                        try
-                        {
-                            //Updates the currentPath global variable.
-                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                        }
-                        catch { }
-                    }
+                    #region Enable controls...
+                    //Enables all viable controls if the tab isn't empty.
+                    btn_Back.Enabled = true;
+                    btn_Forward.Enabled = true;
+                    btn_Repack.Enabled = true;
+                    mainFile_RepackARC.Enabled = true;
+                    btn_OpenFolder.Enabled = true;
+                    shortcuts_DecompileLUBs.Enabled = true;
+                    mainSDK_LUBStudio.Enabled = true;
+                    mainFile_CloseARC.Enabled = true;
+                    mainFile_RepackARCAs.Enabled = true;
+                    mainSDK_XNOStudio.Enabled = true;
+                    shortcuts_ConvertXNOs.Enabled = true;
+                    mainSDK_CSBStudio.Enabled = true;
+                    mainSDK_ADXStudio.Enabled = true;
+                    shortcuts_ExtractCSBs.Enabled = true;
+                    shortcuts_ConvertSETs.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
+                    mainSDK_MSTStudio.Enabled = true;
+                    shortcuts_DecodeMSTs.Enabled = true;
+                    mainSDK_AT3Studio.Enabled = false;
+                    btn_RepackOptions.Enabled = true;
+                    mainSDK_DDSStudio.Enabled = true;
+                    shortcuts_ConvertDDS.Enabled = true;
+                    #endregion
 
                     pic_Logo.Visible = false;
                     lbl_SetDefault.Visible = false;
 
+                    try
+                    {
+                        if (currentARC().Url != null)
+                        {
+                            //Updates the currentPath global variable.
+                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        }
+                    }
+                    catch { }
+                }
+                else if (tab_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.gamePath != "")
+                {
                     #region Set controls...
                     //Enables all viable controls if the tab isn't empty.
                     btn_Back.Enabled = true;
@@ -2452,14 +2429,24 @@ namespace Sonic_06_Toolkit
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
                     #endregion
+
+                    pic_Logo.Visible = false;
+                    lbl_SetDefault.Visible = false;
+
+                    try
+                    {
+                        if (currentARC().Url != null)
+                        {
+                            //Updates the currentPath global variable.
+                            Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                        }
+                    }
+                    catch { }
                 }
                 else
                 {
-                    pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
-
-                    #region Set controls...
-                    //Enables all viable controls if the tab isn't empty.
+                    #region Disable controls...
+                    //Disables all viable controls if the tab is empty.
                     btn_Back.Enabled = false;
                     btn_Forward.Enabled = false;
                     btn_Repack.Enabled = false;
@@ -2483,40 +2470,11 @@ namespace Sonic_06_Toolkit
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
                     #endregion
+
+                    pic_Logo.Visible = true;
+                    lbl_SetDefault.Visible = true;
                 }
             }
-            else
-            {
-                #region Disable controls...
-                //Disables all viable controls if the tab is empty.
-                btn_Back.Enabled = false;
-                btn_Forward.Enabled = false;
-                btn_Repack.Enabled = false;
-                mainFile_RepackARC.Enabled = false;
-                btn_OpenFolder.Enabled = false;
-                shortcuts_DecompileLUBs.Enabled = false;
-                mainSDK_LUBStudio.Enabled = false;
-                mainFile_CloseARC.Enabled = false;
-                mainFile_RepackARCAs.Enabled = false;
-                mainSDK_XNOStudio.Enabled = false;
-                shortcuts_ConvertXNOs.Enabled = false;
-                mainSDK_CSBStudio.Enabled = false;
-                mainSDK_ADXStudio.Enabled = false;
-                shortcuts_ExtractCSBs.Enabled = false;
-                shortcuts_ConvertSETs.Enabled = false;
-                mainSDK_SETStudio.Enabled = false;
-                mainSDK_MSTStudio.Enabled = false;
-                shortcuts_DecodeMSTs.Enabled = false;
-                mainSDK_AT3Studio.Enabled = false;
-                btn_RepackOptions.Enabled = false;
-                mainSDK_DDSStudio.Enabled = false;
-                shortcuts_ConvertDDS.Enabled = false;
-                #endregion
-
-                pic_Logo.Visible = true;
-                lbl_SetDefault.Visible = true;
-            }
-            #endregion
 
             if (Global.gameChanged == true)
             {
@@ -2544,9 +2502,21 @@ namespace Sonic_06_Toolkit
             {
                 if (tab_Main.TabPages.Count != 1)
                 {
-                    tabs.Remove(tabs.Cast<TabPage>()
-                        .Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location))
-                        .First());
+                    //Checks if the tab's text reads 'New Tab' (a name only assigned by the application).
+                    if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().Text == "New Tab")
+                    {
+                        tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
+                    }
+                    else
+                    {
+                        DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        switch (confirmClosure)
+                        {
+                            case DialogResult.Yes:
+                                tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -2756,11 +2726,9 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
-                                if (Properties.Settings.Default.gamePath != null)
-                                {
-                                    navigateToGame = false;
-                                    resetTab();
-                                }
+                                navigateToGame = false;
+                                resetTab();
+
                                 currentARC().Navigate(unpackBuildSession.ToString());
                                 tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
                                 navigateToGame = true;

@@ -440,7 +440,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 

@@ -52,9 +52,6 @@ namespace Sonic_06_Toolkit
 
         void Btn_Decompile_Click(object sender, EventArgs e)
         {
-            //This process needs work. It would be better to decompile directly with a C# decompiler, rather than depending on a Java decompiler.
-            //It's based on Lua's own source, so it wouldn't be too difficult to set up (if you know what you're doing).
-
             //In the odd chance that someone is ever able to click Decompile without anything selected, this will prevent that.
             if (clb_LUBs.CheckedItems.Count == 0) MessageBox.Show("Please select a Lua binary.", "No Lua binaries specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
             try
