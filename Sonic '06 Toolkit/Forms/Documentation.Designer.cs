@@ -128,18 +128,23 @@
             System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("MSVCR100.dll is missing...");
             System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("XNO Studio", new System.Windows.Forms.TreeNode[] {
             treeNode54});
-            System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("");
+            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Nothing is working!");
+            System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("Troubleshooting", new System.Windows.Forms.TreeNode[] {
             treeNode48,
             treeNode51,
             treeNode53,
-            treeNode55});
-            System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
-            treeNode56});
+            treeNode55,
+            treeNode56,
+            treeNode57});
+            System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Sonic \'06 Toolkit", new System.Windows.Forms.TreeNode[] {
+            treeNode58});
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.split_Main = new System.Windows.Forms.SplitContainer();
             this.tree_InfoSelect = new System.Windows.Forms.TreeView();
+            this.btn_Reset = new System.Windows.Forms.Button();
             this.rtb_InfoDisplay = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.panel1.SuspendLayout();
@@ -200,6 +205,7 @@
             // 
             // split_Main.Panel2
             // 
+            this.split_Main.Panel2.Controls.Add(this.btn_Reset);
             this.split_Main.Panel2.Controls.Add(this.rtb_InfoDisplay);
             this.split_Main.Size = new System.Drawing.Size(800, 383);
             this.split_Main.SplitterDistance = 298;
@@ -321,10 +327,14 @@
             treeNode54.Text = "MSVCR100.dll is missing...";
             treeNode55.Name = "node_XNOStudio";
             treeNode55.Text = "XNO Studio";
-            treeNode56.Name = "node_Troubleshooting";
-            treeNode56.Text = "Troubleshooting";
-            treeNode57.Name = "node_Sonic06Toolkit";
-            treeNode57.Text = "Sonic \'06 Toolkit";
+            treeNode56.Name = "Node0";
+            treeNode56.Text = "";
+            treeNode57.Name = "Node1";
+            treeNode57.Text = "Nothing is working!";
+            treeNode58.Name = "node_Troubleshooting";
+            treeNode58.Text = "Troubleshooting";
+            treeNode59.Name = "node_Sonic06Toolkit";
+            treeNode59.Text = "Sonic \'06 Toolkit";
             this.tree_InfoSelect.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
             treeNode12,
@@ -333,10 +343,24 @@
             treeNode37,
             treeNode45,
             treeNode46,
-            treeNode57});
+            treeNode59});
             this.tree_InfoSelect.Size = new System.Drawing.Size(296, 381);
             this.tree_InfoSelect.TabIndex = 0;
             this.tree_InfoSelect.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.Tree_InfoSelect_AfterSelect);
+            // 
+            // btn_Reset
+            // 
+            this.btn_Reset.BackColor = System.Drawing.Color.Tomato;
+            this.btn_Reset.FlatAppearance.BorderSize = 0;
+            this.btn_Reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Reset.Location = new System.Drawing.Point(0, 0);
+            this.btn_Reset.Name = "btn_Reset";
+            this.btn_Reset.Size = new System.Drawing.Size(496, 23);
+            this.btn_Reset.TabIndex = 1;
+            this.btn_Reset.Text = "Click here to reset Sonic \'06 Toolkit";
+            this.btn_Reset.UseVisualStyleBackColor = false;
+            this.btn_Reset.Visible = false;
+            this.btn_Reset.Click += new System.EventHandler(this.Button1_Click);
             // 
             // rtb_InfoDisplay
             // 
@@ -380,5 +404,6 @@
         private System.Windows.Forms.SplitContainer split_Main;
         private System.Windows.Forms.TreeView tree_InfoSelect;
         private System.Windows.Forms.RichTextBox rtb_InfoDisplay;
+        private System.Windows.Forms.Button btn_Reset;
     }
 }

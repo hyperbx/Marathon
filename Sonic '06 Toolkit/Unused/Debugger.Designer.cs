@@ -420,6 +420,7 @@
             this.gameChanged.Size = new System.Drawing.Size(76, 13);
             this.gameChanged.TabIndex = 39;
             this.gameChanged.Text = "gameChanged";
+            this.gameChanged.Click += new System.EventHandler(this.GameChanged_Click);
             // 
             // javaCheck
             // 
@@ -429,6 +430,7 @@
             this.javaCheck.Size = new System.Drawing.Size(58, 13);
             this.javaCheck.TabIndex = 38;
             this.javaCheck.Text = "javaCheck";
+            this.javaCheck.Click += new System.EventHandler(this.JavaCheck_Click);
             // 
             // getIndex
             // 

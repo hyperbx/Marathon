@@ -2531,6 +2531,8 @@ namespace Sonic_06_Toolkit
 
                 Global.gameChanged = false;
             }
+
+            if (Global.getIndex == -1) Global.getIndex = 0;
         }
 
         void Tab_Main_MouseClick(object sender, MouseEventArgs e)
@@ -3085,6 +3087,47 @@ namespace Sonic_06_Toolkit
                     tab_Main.Dispose();
                     EraseData();
                     break;
+            }
+        }
+
+        void Advanced_Reset_Click(object sender, EventArgs e)
+        {
+            DialogResult reset = MessageBox.Show("This will completely reset Sonic '06 Toolkit.\n\n" +
+                "" +
+                "The following data will be erased:\n" +
+                "► Your selected settings.\n" +
+                "► Your specified paths.\n" +
+                "► Studio settings.\n" +
+                "► Archives in the application data.\n" +
+                "► Tools in the application data.\n\n" +
+                "" +
+                "Are you sure you want to continue?", "Reset?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            switch (reset)
+            {
+                case DialogResult.Yes:
+                    var s06toolkitData = new DirectoryInfo(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\");
+
+                    try
+                    {
+                        if (Directory.Exists(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\"))
+                        {
+                            foreach (FileInfo file in s06toolkitData.GetFiles())
+                            {
+                                file.Delete();
+                            }
+                            foreach (DirectoryInfo directory in s06toolkitData.GetDirectories())
+                            {
+                                directory.Delete(true);
+                            }
+                        }
+                    }
+                    catch { }
+
+                    Properties.Settings.Default.Reset();
+
+                    Application.Exit();
+                break;
             }
         }
     }

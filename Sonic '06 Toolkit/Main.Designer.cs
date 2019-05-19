@@ -92,6 +92,9 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_FreeMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.preferences_Advanced = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanced_Reset = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
@@ -141,6 +144,7 @@
             this.fbd_BrowseFolders = new System.Windows.Forms.FolderBrowserDialog();
             this.cms_Repack = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.repackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.repackARCAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repackAndLaunchXeniaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.sdk_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,7 +155,6 @@
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
-            this.repackARCAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -531,7 +534,9 @@
             this.mainPreferences_Paths,
             this.toolStripSeparator5,
             this.mainPreferences_DisableSoftwareUpdater,
-            this.preferences_FreeMode});
+            this.preferences_FreeMode,
+            this.toolStripSeparator8,
+            this.preferences_Advanced});
             this.mainFile_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Preferences.Image")));
             this.mainFile_Preferences.Name = "mainFile_Preferences";
             this.mainFile_Preferences.Size = new System.Drawing.Size(298, 22);
@@ -684,6 +689,28 @@
             this.preferences_FreeMode.Size = new System.Drawing.Size(204, 22);
             this.preferences_FreeMode.Text = "Free Mode";
             this.preferences_FreeMode.CheckedChanged += new System.EventHandler(this.Preferences_FreeMode_CheckedChanged);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(201, 6);
+            // 
+            // preferences_Advanced
+            // 
+            this.preferences_Advanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advanced_Reset});
+            this.preferences_Advanced.Image = ((System.Drawing.Image)(resources.GetObject("preferences_Advanced.Image")));
+            this.preferences_Advanced.Name = "preferences_Advanced";
+            this.preferences_Advanced.Size = new System.Drawing.Size(204, 22);
+            this.preferences_Advanced.Text = "Advanced";
+            // 
+            // advanced_Reset
+            // 
+            this.advanced_Reset.Image = ((System.Drawing.Image)(resources.GetObject("advanced_Reset.Image")));
+            this.advanced_Reset.Name = "advanced_Reset";
+            this.advanced_Reset.Size = new System.Drawing.Size(191, 22);
+            this.advanced_Reset.Text = "Reset Sonic \'06 Toolkit";
+            this.advanced_Reset.Click += new System.EventHandler(this.Advanced_Reset_Click);
             // 
             // mainFile_CloseARC
             // 
@@ -1177,6 +1204,14 @@
             this.repackToolStripMenuItem.Text = "Repack ARC";
             this.repackToolStripMenuItem.Click += new System.EventHandler(this.RepackToolStripMenuItem_Click);
             // 
+            // repackARCAsToolStripMenuItem
+            // 
+            this.repackARCAsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("repackARCAsToolStripMenuItem.Image")));
+            this.repackARCAsToolStripMenuItem.Name = "repackARCAsToolStripMenuItem";
+            this.repackARCAsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.repackARCAsToolStripMenuItem.Text = "Repack ARC As...";
+            this.repackARCAsToolStripMenuItem.Click += new System.EventHandler(this.RepackARCAsToolStripMenuItem_Click);
+            // 
             // repackAndLaunchXeniaToolStripMenuItem
             // 
             this.repackAndLaunchXeniaToolStripMenuItem.BackColor = System.Drawing.SystemColors.Control;
@@ -1274,14 +1309,6 @@
             | System.Windows.Forms.Keys.X)));
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs here...";
-            // 
-            // repackARCAsToolStripMenuItem
-            // 
-            this.repackARCAsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("repackARCAsToolStripMenuItem.Image")));
-            this.repackARCAsToolStripMenuItem.Name = "repackARCAsToolStripMenuItem";
-            this.repackARCAsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
-            this.repackARCAsToolStripMenuItem.Text = "Repack ARC As...";
-            this.repackARCAsToolStripMenuItem.Click += new System.EventHandler(this.RepackARCAsToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -1442,6 +1469,9 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDS;
         private System.Windows.Forms.ToolStripMenuItem preferences_FreeMode;
         private System.Windows.Forms.ToolStripMenuItem repackARCAsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripMenuItem preferences_Advanced;
+        private System.Windows.Forms.ToolStripMenuItem advanced_Reset;
     }
 }
 

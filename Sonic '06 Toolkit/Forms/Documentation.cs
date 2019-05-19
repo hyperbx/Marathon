@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.IO;
+using System.Windows.Forms;
 
 namespace Sonic_06_Toolkit
 {
@@ -90,11 +91,67 @@ namespace Sonic_06_Toolkit
             else if (tree_InfoSelect.SelectedNode.Text == "MSVCR100.dll is missing...") rtb_InfoDisplay.Text = "You need to install both x86 and x64 variations of Microsoft Visual C++ 2010 SP1.\n\nx86: https://www.microsoft.com/de-de/download/details.aspx?id=8328 \nx64: https://www.microsoft.com/en-us/download/details.aspx?id=13523";
             #endregion
 
+
+            #region Nothing is working!
+            else if (tree_InfoSelect.SelectedNode.Text == "Nothing is working!")
+            {
+                rtb_InfoDisplay.Text = "";
+                btn_Reset.Visible = true;
+            }
             #endregion
 
             #endregion
 
-            else rtb_InfoDisplay.Text = "";
+            #endregion
+
+            else
+            {
+                rtb_InfoDisplay.Text = "";
+                btn_Reset.Visible = false;
+            }
+
+            if (tree_InfoSelect.SelectedNode.Text != "Nothing is working!") btn_Reset.Visible = false;
+        }
+
+        void Button1_Click(object sender, System.EventArgs e)
+        {
+            DialogResult reset = MessageBox.Show("This will completely reset Sonic '06 Toolkit.\n\n" +
+                "" +
+                "The following data will be erased:\n" +
+                "► Your selected settings.\n" +
+                "► Your specified paths.\n" +
+                "► Studio settings.\n" +
+                "► Archives in the application data.\n" +
+                "► Tools in the application data.\n\n" +
+                "" +
+                "Are you sure you want to continue?", "Reset?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            switch (reset)
+            {
+                case DialogResult.Yes:
+                    var s06toolkitData = new DirectoryInfo(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\");
+
+                    try
+                    {
+                        if (Directory.Exists(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\"))
+                        {
+                            foreach (FileInfo file in s06toolkitData.GetFiles())
+                            {
+                                file.Delete();
+                            }
+                            foreach (DirectoryInfo directory in s06toolkitData.GetDirectories())
+                            {
+                                directory.Delete(true);
+                            }
+                        }
+                    }
+                    catch { }
+
+                    Properties.Settings.Default.Reset();
+
+                    Application.Exit();
+                break;
+            }
         }
     }
 }

@@ -223,5 +223,17 @@ namespace Sonic_06_Toolkit
         {
             if (Global.xnoState != "") Global.xnoState = "";
         }
+
+        private void JavaCheck_Click(object sender, EventArgs e)
+        {
+            if (Global.javaCheck == true) Global.javaCheck = false;
+            else Global.javaCheck = true;
+        }
+
+        private void GameChanged_Click(object sender, EventArgs e)
+        {
+            if (Global.gameChanged == true) Global.gameChanged = false;
+            else Global.gameChanged = true;
+        }
     }
 }
