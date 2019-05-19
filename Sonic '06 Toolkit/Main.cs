@@ -2361,7 +2361,7 @@ namespace Sonic_06_Toolkit
             }
             else
             {
-                if (tab_Main.SelectedTab.Text.Contains(".arc"))
+                if (tab_Main.SelectedTab.Text != "New Tab" || tab_Main.SelectedTab.Text.Contains(".arc"))
                 {
                     #region Enable controls...
                     //Enables all viable controls if the tab isn't empty.
