@@ -906,21 +906,21 @@ namespace Sonic_06_Toolkit
                                 {
                                     navigateToGame = false;
                                     resetTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 else
                                 {
                                     navigateToGame = false;
                                     newTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 #endregion
+
+                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                {
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                }
+                                else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                navigateToGame = true;
 
                                 Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                             }
@@ -977,21 +977,21 @@ namespace Sonic_06_Toolkit
                                 {
                                     navigateToGame = false;
                                     resetTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 else
                                 {
                                     navigateToGame = false;
                                     newTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 #endregion
+
+                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                {
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                }
+                                else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                navigateToGame = true;
 
                                 Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                             }
@@ -1045,21 +1045,21 @@ namespace Sonic_06_Toolkit
                                 {
                                     navigateToGame = false;
                                     resetTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 else
                                 {
                                     navigateToGame = false;
                                     newTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 #endregion
+
+                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                {
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                }
+                                else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                navigateToGame = true;
 
                                 Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                             }
@@ -1113,21 +1113,21 @@ namespace Sonic_06_Toolkit
                                 {
                                     navigateToGame = false;
                                     resetTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 else
                                 {
                                     navigateToGame = false;
                                     newTab();
-
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                                    navigateToGame = true;
                                 }
                                 #endregion
+
+                                currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                                if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                {
+                                    tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                }
+                                else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                navigateToGame = true;
 
                                 Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                             }
@@ -1188,21 +1188,21 @@ namespace Sonic_06_Toolkit
                         {
                             navigateToGame = false;
                             resetTab();
-
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                            tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                            navigateToGame = true;
                         }
                         else
                         {
                             navigateToGame = false;
                             newTab();
-
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                            tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath);
-                            navigateToGame = true;
                         }
                         #endregion
+
+                        currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                        if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                        {
+                            tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                        }
+                        else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                        navigateToGame = true;
 
                         Text = "Sonic '06 Toolkit - '" + fbd_BrowseFolders.SelectedPath + @"\'";
                     }
