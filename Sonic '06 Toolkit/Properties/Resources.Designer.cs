@@ -233,6 +233,16 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] mst06 {
+            get {
+                object obj = ResourceManager.GetObject("mst06", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] repack {
             get {
                 object obj = ResourceManager.GetObject("repack", resourceCulture);
@@ -256,6 +266,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] texconv {
             get {
                 object obj = ResourceManager.GetObject("texconv", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] tinyxml2d {
+            get {
+                object obj = ResourceManager.GetObject("tinyxml2d", resourceCulture);
                 return ((byte[])(obj));
             }
         }

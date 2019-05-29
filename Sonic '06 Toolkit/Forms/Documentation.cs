@@ -129,11 +129,11 @@ namespace Sonic_06_Toolkit
             switch (reset)
             {
                 case DialogResult.Yes:
-                    var s06toolkitData = new DirectoryInfo(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\");
+                    var s06toolkitData = new DirectoryInfo(Tools.Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\");
 
                     try
                     {
-                        if (Directory.Exists(Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\"))
+                        if (Directory.Exists(Tools.Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\"))
                         {
                             foreach (FileInfo file in s06toolkitData.GetFiles())
                             {

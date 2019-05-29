@@ -13,7 +13,7 @@ namespace Sonic_06_Toolkit
 
         void About_Load(object sender, EventArgs e)
         {
-            lbl_versionNumber.Text = Global.versionNumber;
+            lbl_versionNumber.Text = Tools.Global.versionNumber;
         }
 
         void Btn_GitHub_Click(object sender, EventArgs e)

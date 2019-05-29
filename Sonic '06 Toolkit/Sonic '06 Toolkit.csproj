@@ -109,46 +109,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Studios\DDS Studio.cs">
+    <Compile Include="Forms\Studios\DDS Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\DDS Studio.Designer.cs">
+    <Compile Include="Forms\Studios\DDS Studio.Designer.cs">
       <DependentUpon>DDS Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Unused\Debugger.cs">
+    <Compile Include="Tools.cs" />
+    <Compile Include="Forms\Unused\Debugger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Unused\Debugger.Designer.cs">
+    <Compile Include="Forms\Unused\Debugger.Designer.cs">
       <DependentUpon>Debugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="Unused\Loop.cs">
+    <Compile Include="Forms\Unused\Loop.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Unused\Loop.Designer.cs">
+    <Compile Include="Forms\Unused\Loop.Designer.cs">
       <DependentUpon>Loop.cs</DependentUpon>
     </Compile>
-    <Compile Include="Studios\AT3 Studio.cs">
+    <Compile Include="Forms\Studios\AT3 Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\AT3 Studio.Designer.cs">
+    <Compile Include="Forms\Studios\AT3 Studio.Designer.cs">
       <DependentUpon>AT3 Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Studios\ADX Studio.cs">
+    <Compile Include="Forms\Studios\ADX Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\ADX Studio.Designer.cs">
+    <Compile Include="Forms\Studios\ADX Studio.Designer.cs">
       <DependentUpon>ADX Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Studios\CSB Studio.cs">
+    <Compile Include="Forms\Studios\CSB Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\CSB Studio.Designer.cs">
+    <Compile Include="Forms\Studios\CSB Studio.Designer.cs">
       <DependentUpon>CSB Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Studios\ARC Studio.cs">
+    <Compile Include="Forms\Studios\ARC Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\ARC Studio.Designer.cs">
+    <Compile Include="Forms\Studios\ARC Studio.Designer.cs">
       <DependentUpon>ARC Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Documentation.cs">
@@ -163,10 +164,10 @@
     <Compile Include="Forms\Logo.Designer.cs">
       <DependentUpon>Logo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Studios\LUB Studio.cs">
+    <Compile Include="Forms\Studios\LUB Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\LUB Studio.Designer.cs">
+    <Compile Include="Forms\Studios\LUB Studio.Designer.cs">
       <DependentUpon>LUB Studio.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\About.cs">
@@ -175,73 +176,69 @@
     <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Global.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Program.cs" />
-    <Compile Include="Studios\MST Studio.cs">
+    <Compile Include="Program.cs" />
+    <Compile Include="Forms\Studios\MST Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\MST Studio.Designer.cs">
+    <Compile Include="Forms\Studios\MST Studio.Designer.cs">
       <DependentUpon>MST Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Preferences\Paths.cs">
+    <Compile Include="Forms\Preferences\Paths.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Preferences\Paths.Designer.cs">
+    <Compile Include="Forms\Preferences\Paths.Designer.cs">
       <DependentUpon>Paths.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Studios\XNO Studio.cs">
+    <Compile Include="Forms\Studios\XNO Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\XNO Studio.Designer.cs">
+    <Compile Include="Forms\Studios\XNO Studio.Designer.cs">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\TimedWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Studios\SET Studio.cs">
+    <Compile Include="Forms\Studios\SET Studio.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Studios\SET Studio.Designer.cs">
+    <Compile Include="Forms\Studios\SET Studio.Designer.cs">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Notifications\Status.cs">
+    <Compile Include="Forms\Notifications\Status.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Notifications\Status.Designer.cs">
+    <Compile Include="Forms\Notifications\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Studios\DDS Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\DDS Studio.resx">
       <DependentUpon>DDS Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unused\Debugger.resx">
+    <EmbeddedResource Include="Forms\Unused\Debugger.resx">
       <DependentUpon>Debugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unused\Loop.resx">
+    <EmbeddedResource Include="Forms\Unused\Loop.resx">
       <DependentUpon>Loop.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\AT3 Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\AT3 Studio.resx">
       <DependentUpon>AT3 Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\MST Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\MST Studio.resx">
       <DependentUpon>MST Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\SET Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\SET Studio.resx">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\ADX Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\ADX Studio.resx">
       <DependentUpon>ADX Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\CSB Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\CSB Studio.resx">
       <DependentUpon>CSB Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\ARC Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\ARC Studio.resx">
       <DependentUpon>ARC Studio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
@@ -253,16 +250,16 @@
     <EmbeddedResource Include="Forms\Logo.resx">
       <DependentUpon>Logo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\LUB Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\LUB Studio.resx">
       <DependentUpon>LUB Studio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Studios\XNO Studio.resx">
+    <EmbeddedResource Include="Forms\Studios\XNO Studio.resx">
       <DependentUpon>XNO Studio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Preferences\Paths.resx">
+    <EmbeddedResource Include="Forms\Preferences\Paths.resx">
       <DependentUpon>Paths.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -275,7 +272,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Notifications\Status.resx">
+    <EmbeddedResource Include="Forms\Notifications\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -295,6 +292,8 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\mst06.exe" />
+    <None Include="Resources\tinyxml2d.dll" />
     <None Include="Resources\texconv.exe" />
     <None Include="Resources\PS3_at3tool.exe" />
     <None Include="Resources\vsthost.dll" />
