@@ -24,10 +24,10 @@
 ### LUB Decompiling
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler.
 
-### MST Decoding (experimental)
-- Currently based off [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) BINAv1Header class.
+### MST Exporting and Importing
+- Currently based off [GerbilSoft](https://github.com/GerbilSoft)'s [mst06](https://github.com/GerbilSoft/mst06) tool.
 
-### SET Exporting and XML Importing (experimental)
+### SET Exporting and Importing (experimental)
 - Currently based off [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
 
 ### Xbox 360 ISO Extracting
