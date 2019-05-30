@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -293,7 +293,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mst06.exe" />
-    <None Include="Resources\tinyxml2d.dll" />
+    <None Include="Resources\tinyxml2.dll" />
     <None Include="Resources\texconv.exe" />
     <None Include="Resources\PS3_at3tool.exe" />
     <None Include="Resources\vsthost.dll" />

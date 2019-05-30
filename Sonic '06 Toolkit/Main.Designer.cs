@@ -91,6 +91,7 @@
             this.clearXeniaDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainPreferences_DisableGameDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_FreeMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_Advanced = new System.Windows.Forms.ToolStripMenuItem();
@@ -341,13 +342,13 @@
             this.tabs_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_NewTab.Image")));
             this.tabs_NewTab.Name = "tabs_NewTab";
             this.tabs_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.tabs_NewTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_NewTab.Size = new System.Drawing.Size(169, 22);
             this.tabs_NewTab.Text = "New Tab";
             // 
             // tabs_Separator1
             // 
             this.tabs_Separator1.Name = "tabs_Separator1";
-            this.tabs_Separator1.Size = new System.Drawing.Size(167, 6);
+            this.tabs_Separator1.Size = new System.Drawing.Size(166, 6);
             // 
             // tabs_CloseTab
             // 
@@ -355,7 +356,7 @@
             this.tabs_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("tabs_CloseTab.Image")));
             this.tabs_CloseTab.Name = "tabs_CloseTab";
             this.tabs_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.tabs_CloseTab.Size = new System.Drawing.Size(170, 22);
+            this.tabs_CloseTab.Size = new System.Drawing.Size(169, 22);
             this.tabs_CloseTab.Text = "Close Tab";
             // 
             // menu_Help
@@ -440,7 +441,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -467,20 +468,20 @@
             this.mainFile_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_OpenARC.Image")));
             this.mainFile_OpenARC.Name = "mainFile_OpenARC";
             this.mainFile_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mainFile_OpenARC.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_OpenARC.Size = new System.Drawing.Size(297, 22);
             this.mainFile_OpenARC.Text = "Open ARC";
             this.mainFile_OpenARC.Click += new System.EventHandler(this.mainFile_OpenARC_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(295, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(294, 6);
             // 
             // mainFile_ExtractISO
             // 
             this.mainFile_ExtractISO.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_ExtractISO.Image")));
             this.mainFile_ExtractISO.Name = "mainFile_ExtractISO";
-            this.mainFile_ExtractISO.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_ExtractISO.Size = new System.Drawing.Size(297, 22);
             this.mainFile_ExtractISO.Text = "Extract Xbox 360 ISO...";
             this.mainFile_ExtractISO.Click += new System.EventHandler(this.MainFile_ExtractISO_Click);
             // 
@@ -490,14 +491,14 @@
             this.mainFile_OpenSonic.Name = "mainFile_OpenSonic";
             this.mainFile_OpenSonic.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
-            this.mainFile_OpenSonic.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_OpenSonic.Size = new System.Drawing.Size(297, 22);
             this.mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
             this.mainFile_OpenSonic.Click += new System.EventHandler(this.MainFile_OpenSonic_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(295, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(294, 6);
             // 
             // mainFile_RepackARC
             // 
@@ -505,7 +506,7 @@
             this.mainFile_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_RepackARC.Image")));
             this.mainFile_RepackARC.Name = "mainFile_RepackARC";
             this.mainFile_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARC.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_RepackARC.Size = new System.Drawing.Size(297, 22);
             this.mainFile_RepackARC.Text = "Repack ARC";
             this.mainFile_RepackARC.Click += new System.EventHandler(this.MainFile_RepackARC_Click);
             // 
@@ -516,14 +517,14 @@
             this.mainFile_RepackARCAs.Name = "mainFile_RepackARCAs";
             this.mainFile_RepackARCAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(297, 22);
             this.mainFile_RepackARCAs.Text = "Repack ARC As...";
             this.mainFile_RepackARCAs.Click += new System.EventHandler(this.MainFile_RepackARCAs_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(295, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(294, 6);
             // 
             // mainFile_Preferences
             // 
@@ -534,12 +535,13 @@
             this.mainPreferences_Paths,
             this.toolStripSeparator5,
             this.mainPreferences_DisableSoftwareUpdater,
+            this.mainPreferences_DisableGameDirectory,
             this.preferences_FreeMode,
             this.toolStripSeparator8,
             this.preferences_Advanced});
             this.mainFile_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Preferences.Image")));
             this.mainFile_Preferences.Name = "mainFile_Preferences";
-            this.mainFile_Preferences.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_Preferences.Size = new System.Drawing.Size(297, 22);
             this.mainFile_Preferences.Text = "Preferences";
             // 
             // mainPreferences_Themes
@@ -623,7 +625,7 @@
             this.ARC_UnpackAndLaunch.CheckOnClick = true;
             this.ARC_UnpackAndLaunch.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ARC_UnpackAndLaunch.Name = "ARC_UnpackAndLaunch";
-            this.ARC_UnpackAndLaunch.Size = new System.Drawing.Size(265, 22);
+            this.ARC_UnpackAndLaunch.Size = new System.Drawing.Size(264, 22);
             this.ARC_UnpackAndLaunch.Text = "Unpack and launch Sonic \'06 Toolkit";
             this.ARC_UnpackAndLaunch.CheckedChanged += new System.EventHandler(this.ARC_UnpackAndLaunch_CheckedChanged);
             // 
@@ -631,7 +633,7 @@
             // 
             this.ARC_UnpackRoot.CheckOnClick = true;
             this.ARC_UnpackRoot.Name = "ARC_UnpackRoot";
-            this.ARC_UnpackRoot.Size = new System.Drawing.Size(265, 22);
+            this.ARC_UnpackRoot.Size = new System.Drawing.Size(264, 22);
             this.ARC_UnpackRoot.Text = "Unpack in archive directory";
             this.ARC_UnpackRoot.CheckedChanged += new System.EventHandler(this.ARC_UnpackRoot_CheckedChanged);
             // 
@@ -680,6 +682,14 @@
             this.mainPreferences_DisableSoftwareUpdater.Text = "Disable software updater";
             this.mainPreferences_DisableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.MainPreferences_DisableSoftwareUpdater_CheckedChanged);
             // 
+            // mainPreferences_DisableGameDirectory
+            // 
+            this.mainPreferences_DisableGameDirectory.CheckOnClick = true;
+            this.mainPreferences_DisableGameDirectory.Name = "mainPreferences_DisableGameDirectory";
+            this.mainPreferences_DisableGameDirectory.Size = new System.Drawing.Size(204, 22);
+            this.mainPreferences_DisableGameDirectory.Text = "Disable game directory";
+            this.mainPreferences_DisableGameDirectory.CheckedChanged += new System.EventHandler(this.MainPreferences_DisableGameDirectory_CheckedChanged);
+            // 
             // preferences_FreeMode
             // 
             this.preferences_FreeMode.CheckOnClick = true;
@@ -708,7 +718,7 @@
             // 
             this.advanced_Reset.Image = ((System.Drawing.Image)(resources.GetObject("advanced_Reset.Image")));
             this.advanced_Reset.Name = "advanced_Reset";
-            this.advanced_Reset.Size = new System.Drawing.Size(191, 22);
+            this.advanced_Reset.Size = new System.Drawing.Size(190, 22);
             this.advanced_Reset.Text = "Reset Sonic \'06 Toolkit";
             this.advanced_Reset.Click += new System.EventHandler(this.Advanced_Reset_Click);
             // 
@@ -717,7 +727,7 @@
             this.mainFile_CloseARC.Enabled = false;
             this.mainFile_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_CloseARC.Image")));
             this.mainFile_CloseARC.Name = "mainFile_CloseARC";
-            this.mainFile_CloseARC.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_CloseARC.Size = new System.Drawing.Size(297, 22);
             this.mainFile_CloseARC.Text = "Close ARC";
             this.mainFile_CloseARC.Click += new System.EventHandler(this.MainFile_CloseARC_Click);
             // 
@@ -725,7 +735,7 @@
             // 
             this.mainFile_Exit.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Exit.Image")));
             this.mainFile_Exit.Name = "mainFile_Exit";
-            this.mainFile_Exit.Size = new System.Drawing.Size(298, 22);
+            this.mainFile_Exit.Size = new System.Drawing.Size(297, 22);
             this.mainFile_Exit.Text = "Exit";
             this.mainFile_Exit.Click += new System.EventHandler(this.MainFile_Exit_Click);
             // 
@@ -997,7 +1007,7 @@
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
             this.toolStripSeparator11.Size = new System.Drawing.Size(176, 6);
-            this.toolStripSeparator11.Click += new System.EventHandler(this.None);
+            this.toolStripSeparator11.MouseUp += new System.Windows.Forms.MouseEventHandler(this.None);
             // 
             // mainHelp_CheckForUpdates
             // 
@@ -1472,6 +1482,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem preferences_Advanced;
         private System.Windows.Forms.ToolStripMenuItem advanced_Reset;
+        private System.Windows.Forms.ToolStripMenuItem mainPreferences_DisableGameDirectory;
     }
 }
 

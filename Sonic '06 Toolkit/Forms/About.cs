@@ -11,22 +11,11 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
+        public string changeLogs = new Tools.TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
+
         void About_Load(object sender, EventArgs e)
         {
             lbl_versionNumber.Text = Tools.Global.versionNumber;
-
-            //rtb_License.SelectAll();
-            //rtb_License.SelectionAlignment = HorizontalAlignment.Center;
-            //rtb_License.DeselectAll();
-
-            //rtb_Credits.SelectAll();
-            //rtb_Credits.SelectionAlignment = HorizontalAlignment.Center;
-            //rtb_Credits.DeselectAll();
-        }
-
-        void Btn_GitHub_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit");
         }
 
         void Btn_Close_Click(object sender, EventArgs e)
@@ -37,6 +26,11 @@ namespace Sonic_06_Toolkit
         void Lbl_Title_Click(object sender, EventArgs e)
         {
             new Logo().ShowDialog();
+        }
+
+        private void Btn_GitHub_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit");
         }
 
         //void Btn_Credits_Click(object sender, EventArgs e)

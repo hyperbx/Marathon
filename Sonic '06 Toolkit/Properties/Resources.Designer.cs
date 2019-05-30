@@ -273,9 +273,9 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] tinyxml2d {
+        internal static byte[] tinyxml2 {
             get {
-                object obj = ResourceManager.GetObject("tinyxml2d", resourceCulture);
+                object obj = ResourceManager.GetObject("tinyxml2", resourceCulture);
                 return ((byte[])(obj));
             }
         }

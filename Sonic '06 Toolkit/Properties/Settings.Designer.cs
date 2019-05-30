@@ -406,5 +406,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["mstFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool gameDir {
+            get {
+                return ((bool)(this["gameDir"]));
+            }
+            set {
+                this["gameDir"] = value;
+            }
+        }
     }
 }

@@ -117,49 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="richTextBox1.Text" xml:space="preserve">
-    <value>Sonic '06 Toolkit began development on 14th December 2018 as a small project to assist with unpacking several 'sprite.arc' files during my work on the HUDs for Sonic '06 mod; Legacy of Solaris. Unpacking and repacking so many of the same file over and over was the motive behind making a simple tool to make things less cluttered around my computer. Formerly known as 'Sonic '06 ARC Editor,' the project was closed-source and being written in Visual Basic .NET (VB.NET); a language I was most comfortable with at the time. The project was only intended to be used on my own computer and the plan was to just hard-code paths that I had set manually. Eventually, I realised how useful of a tool this could be to have a GUI for editing ARCs, similarly to opening a ZIP file in an application like 7-Zip and/or WinRAR.
-
-== Sonic '06 ARC Editor - History ==
-
-- On 17th December 2018, Version 1.0 of Sonic '06 ARC Editor was released. It was a basic tool, just providing a GUI for g0ldenlink, xose and Shadow LAG's Arctool. It was in no clear state to even be released, having 'planned features' which were cut and even a single bug of it's own.
-
-- On 7th January 2019, Version 1.14 of Sonic '06 ARC Editor was released. This update introduced the Light, Dark, Hyper, Lightning and Custom theme options.
-
-- On 9th January 2019, Version 1.29 of Sonic '06 ARC Editor was released. This update introduced Shadow LAG's Java-based Lua decompiler in it's most basic form. It could only decompile all Lua binaries in the current directory.
-
-- On 16th January 2019, Version 1.43 of Sonic '06 ARC Editor was released. This update introduced Discord Rich Presence and very buggy tab support.
-
-- On 18th January 2019, Version 1.49 of Sonic '06 ARC Editor was released. This update introduced experimental ARC conversion to convert Xbox 360 ARC files to work with the PlayStation 3 and vice-versa.
-
-- On 26th January 2019, Version 1.54 of Sonic '06 ARC Editor was released. This update was a transition between SEGA Carnival moving from HTTP to HTTPS. It also introduced multi-window support; not quite multi-instance, but it was getting there. Despite how annoying it was to manage.
-
-- On 4th February 2019, Version 1.55 of Sonic '06 ARC Editor was released. This update added the Open Folder button to quickly navigate to the opened ARC in Windows Explorer. It was also the release where, thanks to Natsumi, I started becoming more aware about my use of space when designing forms.
-
-- On 6th February 2019, Version 1.56 of Sonic '06 ARC Editor was released. This update added a link to Sonic Retro's file information speculation webpage. This was the first instance of Sonic '06 Toolkit receiving documentation.
-
-- On 15th February 2019, Version 1.57 of Sonic '06 ARC Editor was released. This update added Documentation, using information from Sonic Retro's file information speculation webpage as a reference.
-
-- On 19th February 2019, Version 1.59 of Sonic '06 ARC Editor was released. This update corrected my terminology, switching to using 'decompile,' rather than 'decode' for Lua binaries.
-
-- On 21st February 2019, Version 1.62 of Sonic '06 ARC Editor was released. This update set the Cornflower Blue theme to default... What was I thinking?
-
-- On the same day, Version 1.63 of Sonic '06 ARC Editor was released exclusively to the software updater as a transition update to Sonic '06 Toolkit. This was the last known build with the name 'Sonic '06 ARC Editor.'
-
-== Sonic '06 Toolkit - History ==
-
-- On 25th March 2019, Version 1.64 of Sonic '06 Toolkit was released. This update included a plethora of upgrades over the previous build. It was the first build to introduce ZLIB compression for ARCs, whilst also removing a load of other useless features that just bloated the software, like themes and Discord Rich Presence. This update also introduced Skyth's xno2dae tool as a new addition alongside the Lua decompiler. This was where the Studios got their names.
-
-- On 28th March 2019, Version 1.65 of Sonic '06 Toolkit was released. This update was when things began to get more polished. Introducing the use of Session IDs allowed the application to be fully multi-instance.
-
-- On 30th March 2019, Version 1.68 of Sonic '06 Toolkit was released. This update was a transition to the new update location on SEGA Carnival to accomodate for the re-written software updater.
-
-- On 5th April 2019, Version 1.7 of Sonic '06 Toolkit was released. This update introduces a new look for Sonic '06 Toolkit, inspired by Ircluzar's form designs.
-
-- On 15th April 2019, Version 1.76 of Sonic '06 Toolkit was released. This was the final closed-source build of Sonic '06 Toolkit compiled under the Visual Basic .NET (VB.NET) source code.
-
-- On 20th April 2019, development began on the C# re-write of Sonic '06 Toolkit after much convincing from DarkPhoenix10 to make the project open-source. The GitHub repository was opened on 21st April 2019 and here we are now!</value>
-  </data>
   <data name="rtb_License.Text" xml:space="preserve">
     <value>                    GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
@@ -523,6 +480,49 @@ Aiyyo - extract-xiso
 somski - extract-xiso
 SONY Computer Entertainment Inc. - AT3 Tool
 GerbilSoft - mst06</value>
+  </data>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Sonic '06 Toolkit began development on 14th December 2018 as a small project to assist with unpacking several 'sprite.arc' files during my work on the HUDs for Sonic '06 mod; Legacy of Solaris. Unpacking and repacking so many of the same file over and over was the motive behind making a simple tool to make things less cluttered around my computer. Formerly known as 'Sonic '06 ARC Editor,' the project was closed-source and being written in Visual Basic .NET (VB.NET); a language I was most comfortable with at the time. The project was only intended to be used on my own computer and the plan was to just hard-code paths that I had set manually. Eventually, I realised how useful of a tool this could be to have a GUI for editing ARCs, similarly to opening a ZIP file in an application like 7-Zip and/or WinRAR.
+
+== Sonic '06 ARC Editor - History ==
+
+- On 17th December 2018, Version 1.0 of Sonic '06 ARC Editor was released. It was a basic tool, just providing a GUI for g0ldenlink, xose and Shadow LAG's Arctool. It was in no clear state to even be released, having 'planned features' which were cut and even a single bug of it's own.
+
+- On 7th January 2019, Version 1.14 of Sonic '06 ARC Editor was released. This update introduced the Light, Dark, Hyper, Lightning and Custom theme options.
+
+- On 9th January 2019, Version 1.29 of Sonic '06 ARC Editor was released. This update introduced Shadow LAG's Java-based Lua decompiler in it's most basic form. It could only decompile all Lua binaries in the current directory.
+
+- On 16th January 2019, Version 1.43 of Sonic '06 ARC Editor was released. This update introduced Discord Rich Presence and very buggy tab support.
+
+- On 18th January 2019, Version 1.49 of Sonic '06 ARC Editor was released. This update introduced experimental ARC conversion to convert Xbox 360 ARC files to work with the PlayStation 3 and vice-versa.
+
+- On 26th January 2019, Version 1.54 of Sonic '06 ARC Editor was released. This update was a transition between SEGA Carnival moving from HTTP to HTTPS. It also introduced multi-window support; not quite multi-instance, but it was getting there. Despite how annoying it was to manage.
+
+- On 4th February 2019, Version 1.55 of Sonic '06 ARC Editor was released. This update added the Open Folder button to quickly navigate to the opened ARC in Windows Explorer. It was also the release where, thanks to Natsumi, I started becoming more aware about my use of space when designing forms.
+
+- On 6th February 2019, Version 1.56 of Sonic '06 ARC Editor was released. This update added a link to Sonic Retro's file information speculation webpage. This was the first instance of Sonic '06 Toolkit receiving documentation.
+
+- On 15th February 2019, Version 1.57 of Sonic '06 ARC Editor was released. This update added Documentation, using information from Sonic Retro's file information speculation webpage as a reference.
+
+- On 19th February 2019, Version 1.59 of Sonic '06 ARC Editor was released. This update corrected my terminology, switching to using 'decompile,' rather than 'decode' for Lua binaries.
+
+- On 21st February 2019, Version 1.62 of Sonic '06 ARC Editor was released. This update set the Cornflower Blue theme to default... What was I thinking?
+
+- On the same day, Version 1.63 of Sonic '06 ARC Editor was released exclusively to the software updater as a transition update to Sonic '06 Toolkit. This was the last known build with the name 'Sonic '06 ARC Editor.'
+
+== Sonic '06 Toolkit - History ==
+
+- On 25th March 2019, Version 1.64 of Sonic '06 Toolkit was released. This update included a plethora of upgrades over the previous build. It was the first build to introduce ZLIB compression for ARCs, whilst also removing a load of other useless features that just bloated the software, like themes and Discord Rich Presence. This update also introduced Skyth's xno2dae tool as a new addition alongside the Lua decompiler. This was where the Studios got their names.
+
+- On 28th March 2019, Version 1.65 of Sonic '06 Toolkit was released. This update was when things began to get more polished. Introducing the use of Session IDs allowed the application to be fully multi-instance.
+
+- On 30th March 2019, Version 1.68 of Sonic '06 Toolkit was released. This update was a transition to the new update location on SEGA Carnival to accomodate for the re-written software updater.
+
+- On 5th April 2019, Version 1.7 of Sonic '06 Toolkit was released. This update introduces a new look for Sonic '06 Toolkit, inspired by Ircluzar's form designs.
+
+- On 15th April 2019, Version 1.76 of Sonic '06 Toolkit was released. This was the final closed-source build of Sonic '06 Toolkit compiled under the Visual Basic .NET (VB.NET) source code.
+
+- On 20th April 2019, development began on the C# re-write of Sonic '06 Toolkit after much convincing from DarkPhoenix10 to make the project open-source. The GitHub repository was opened on 21st April 2019 and here we are now!</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

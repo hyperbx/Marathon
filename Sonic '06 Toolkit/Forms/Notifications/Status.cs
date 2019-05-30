@@ -55,7 +55,7 @@ namespace Sonic_06_Toolkit
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
                 Width = 300;
             }
-            else if (Tools.Global.at3State == "at3")
+            else if (Tools.Global.at3State == "at3" || Tools.Global.at3State == "launch-at3")
             {
                 Text = "Encoding AT3 files...";
                 lbl_unpackState.Text = "Encoding AT3 files. Please wait...";

@@ -103,6 +103,25 @@ namespace Sonic_06_Toolkit
                 }
                 #endregion
 
+                #region AT3
+                else if (Path.GetExtension(args[0]) == ".at3")
+                {
+                    try
+                    {
+                        Tools.Global.at3State = "launch-at3";
+                        Tools.AT3.ConvertToWAV(args[0], string.Empty);
+
+                        Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the AT3.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                        Close();
+                    }
+                }
+                #endregion
+
                 #region CSB
                 else if (Path.GetExtension(args[0]) == ".csb")
                 {
@@ -369,8 +388,8 @@ namespace Sonic_06_Toolkit
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arctool.php")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Arctool\arctool\arctool.php", Properties.Resources.arctoolphp);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\SonicAudioLib.dll", Properties.Resources.SonicAudioLib);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe.config", Properties.Resources.CsbEditorConfig);
-                if (!File.Exists(Properties.Settings.Default.toolsPath + @"GerbilSoft\mst06.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"GerbilSoft\mst06.exe", Properties.Resources.mst06);
-                if (!File.Exists(Properties.Settings.Default.toolsPath + @"GerbilSoft\tinyxml2d.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"GerbilSoft\tinyxml2d.dll", Properties.Resources.tinyxml2d);
+                /* if (!File.Exists(Properties.Settings.Default.toolsPath + @"GerbilSoft\mst06.exe")) */ File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"GerbilSoft\mst06.exe", Properties.Resources.mst06);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"GerbilSoft\tinyxml2.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"GerbilSoft\tinyxml2.dll", Properties.Resources.tinyxml2);
                 if (!File.Exists(Properties.Settings.Default.adx2wavFile)) File.WriteAllBytes(Properties.Settings.Default.adx2wavFile, Properties.Resources.ADX2WAV);
                 if (!File.Exists(Properties.Settings.Default.criconverterFile)) File.WriteAllBytes(Properties.Settings.Default.criconverterFile, Properties.Resources.criatomencd);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\AsyncAudioEncoder.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\AsyncAudioEncoder.dll", Properties.Resources.AsyncAudioEncoder);
@@ -392,6 +411,7 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.showSessionID == true) mainPreferences_ShowSessionID.Checked = true; else mainPreferences_ShowSessionID.Checked = false;
             if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
             if (Properties.Settings.Default.unpackAndLaunch == true) ARC_UnpackAndLaunch.Checked = true; else ARC_UnpackRoot.Checked = true;
+            if (Properties.Settings.Default.gameDir == true) mainPreferences_DisableGameDirectory.Checked = false; else mainPreferences_DisableGameDirectory.Checked = true;
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
             {
                 mainPreferences_DisableSoftwareUpdater.Checked = true;
@@ -932,20 +952,6 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void Preferences_FreeMode_CheckedChanged(object sender, EventArgs e)
-        {
-            if (preferences_FreeMode.Checked == true)
-            {
-                freeMode = true;
-                mainFile_OpenSonic.Text = "Open Folder";
-            }
-            else
-            {
-                freeMode = false;
-                mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
-            }
-        }
-
         #region Repack States
         void MainFile_RepackARC_Click(object sender, EventArgs e)
         {
@@ -1033,6 +1039,29 @@ namespace Sonic_06_Toolkit
         //Resets the game directory.
         void Paths_ClearGame_Click(object sender, EventArgs e)
         {
+            ClearGameDirectory();
+        }
+
+        void MainPreferences_DisableGameDirectory_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mainPreferences_DisableGameDirectory.Checked)
+            {
+                ClearGameDirectory();
+                lbl_SetDefault.Visible = false;
+
+                Properties.Settings.Default.gameDir = false;
+            }
+            else
+            {
+                lbl_SetDefault.Visible = true;
+
+                Properties.Settings.Default.gameDir = true;
+            }
+            Properties.Settings.Default.Save();
+        }
+
+        void ClearGameDirectory()
+        {
             Properties.Settings.Default.gamePath = "";
             Properties.Settings.Default.Save();
 
@@ -1043,6 +1072,20 @@ namespace Sonic_06_Toolkit
                     tab_Main.TabPages.Remove(tab);
                     newTab();
                 }
+            }
+        }
+
+        void Preferences_FreeMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (preferences_FreeMode.Checked == true)
+            {
+                freeMode = true;
+                mainFile_OpenSonic.Text = "Open Folder";
+            }
+            else
+            {
+                freeMode = false;
+                mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
             }
         }
 
@@ -1149,18 +1192,21 @@ namespace Sonic_06_Toolkit
         //    if (mainPreferences_ShowLogo.Checked == true) Properties.Settings.Default.showLogo = true;
         //    else Properties.Settings.Default.showLogo = false;
         #region //    Properties.Settings.Default.Save();
-        void None(object sender, EventArgs e)
+        private void None(object sender, MouseEventArgs e)
         {
-            btn_Back.Text = "None";
-            btn_Forward.Text = "None";
-            btn_OpenFolder.Text = "None";
-            btn_Repack.Text = "None";
-            main_File.Text = "None";
-            main_SDK.Text = "None";
-            main_Shortcuts.Text = "None";
-            main_Window.Text = "None";
-            main_Help.Text = "None";
-            Text = "None";
+            if (e.Button == MouseButtons.Right)
+            {
+                btn_Back.Text = "None";
+                btn_Forward.Text = "None";
+                btn_OpenFolder.Text = "None";
+                btn_Repack.Text = "None";
+                main_File.Text = "None";
+                main_SDK.Text = "None";
+                main_Shortcuts.Text = "None";
+                main_Window.Text = "None";
+                main_Help.Text = "None";
+                Text = "None";
+            }
         }
         #endregion
         //}
@@ -1802,7 +1848,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
+                    if (mainPreferences_DisableGameDirectory.Checked == false) lbl_SetDefault.Visible = true;
                 }
             }
             else
@@ -1959,7 +2005,7 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
+                    if (mainPreferences_DisableGameDirectory.Checked == false) lbl_SetDefault.Visible = true;
                 }
             }
 
