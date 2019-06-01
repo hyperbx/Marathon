@@ -95,7 +95,7 @@ namespace Sonic_06_Toolkit
                     foreach (string selectedXML in clb_SETs.CheckedItems)
                     {
                         Tools.Global.setState = "import";
-                        Tools.SET.Import(string.Empty, selectedXML);
+                        Tools.SET.Import(selectedXML);
                     }
                     MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

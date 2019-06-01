@@ -605,7 +605,7 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(string.Empty);
         }
 
         public static void Import(string args, string selectedXML)
@@ -629,10 +629,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(selectedXML);
         }
 
-        static void Begin()
+        static void Begin(string selectedXML)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -724,7 +724,7 @@ namespace Sonic_06_Toolkit.Tools
             }
         }
 
-        public static void Import(string args, string XML)
+        public static void Import(string XML)
         {
             if (Properties.Settings.Default.backupSET == true) if (File.Exists($"{Global.currentPath}{Path.GetFileNameWithoutExtension(XML)}.set")) File.Copy($"{Global.currentPath}{Path.GetFileNameWithoutExtension(XML)}.set", $"{Global.currentPath}{Path.GetFileNameWithoutExtension(XML)}.set.bak", true);
 
@@ -869,7 +869,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.91";
+        public static string versionNumber = "1.92";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

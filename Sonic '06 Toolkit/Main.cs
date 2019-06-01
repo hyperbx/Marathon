@@ -1612,6 +1612,7 @@ namespace Sonic_06_Toolkit
                             Tools.Global.mstState = "mst";
                             Tools.MST.Export(string.Empty, MST);
                         }
+                        MessageBox.Show("All MSTs have been exported in this directory.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch
                     {
@@ -1638,6 +1639,7 @@ namespace Sonic_06_Toolkit
                             Tools.Global.setState = "export";
                             Tools.SET.Export(string.Empty, SET);
                         }
+                        MessageBox.Show("All SETs have been exported in this directory.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch
                     {

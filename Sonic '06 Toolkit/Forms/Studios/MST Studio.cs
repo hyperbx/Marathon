@@ -13,7 +13,7 @@ namespace Sonic_06_Toolkit
 
         void MST_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.setState = "export";
+            Tools.Global.mstState = "export";
             btn_Convert.Text = "Export";
 
             clb_MSTs.Items.Clear();
