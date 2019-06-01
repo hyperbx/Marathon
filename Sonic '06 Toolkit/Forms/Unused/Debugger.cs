@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +18,20 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
+        private Main mainForm = null;
+        public Debugger(Form callingForm)
+        {
+            mainForm = callingForm as Main;
+            InitializeComponent();
+        }
+
+        public static bool unsafeState = false;
+
         void Debugger_Load(object sender, EventArgs e)
         {
+            if (Properties.Settings.Default.debugShow == true) { check_DebugAdvanced.Checked = true; }
+            else { check_DebugAdvanced.Checked = false; }
+
             tm_Update.Start();
         }
 
@@ -79,6 +92,10 @@ namespace Sonic_06_Toolkit
             forceDirectX10.Text = Properties.Settings.Default.forceDirectX10.ToString();
             backupSET.Text = Properties.Settings.Default.backupSET.ToString();
             deleteXML.Text = Properties.Settings.Default.deleteXML.ToString();
+            if (Properties.Settings.Default.mstFile != "") mstFile.Text = Properties.Settings.Default.mstFile; else mstFile.Text = "None";
+            gameDir.Text = Properties.Settings.Default.gameDir.ToString();
+            debugMode.Text = Properties.Settings.Default.debugMode.ToString();
+            debugShow.Text = Properties.Settings.Default.debugShow.ToString();
             #endregion
 
             foreach (Control x in this.Controls)
@@ -88,11 +105,6 @@ namespace Sonic_06_Toolkit
                     ((Label)x).Update();
                 }
             }
-        }
-
-        void Button1_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.Reset();
         }
 
         private void ShowSessionID_Click(object sender, EventArgs e)
@@ -234,6 +246,97 @@ namespace Sonic_06_Toolkit
         {
             if (Tools.Global.gameChanged == true) Tools.Global.gameChanged = false;
             else Tools.Global.gameChanged = true;
+        }
+
+        private void Btn_PreviewUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var latestVersion = new Tools.TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/latest_master.txt");
+                var changeLogs = new Tools.TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
+                if (latestVersion.Contains("Version"))
+                {
+                    DialogResult confirmUpdate = MessageBox.Show("Sonic '06 Toolkit - " + latestVersion + " is now available!\n\nChangelogs:\n" + changeLogs + "\n\nDo you wish to download it?", "New update available!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    switch (confirmUpdate)
+                    {
+                        case DialogResult.Yes:
+                            MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                        case DialogResult.No:
+                            MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            break;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch { MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void Btn_EraseSettings_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+        }
+
+        private void Btn_UserClosing_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmUserClosure = MessageBox.Show("Are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            switch (confirmUserClosure)
+            {
+                case DialogResult.Yes:
+                    MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case DialogResult.No:
+                    MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
+        }
+
+        private void Btn_WindowsShutdown_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmShutdownClosure = MessageBox.Show("Sonic '06 Toolkit is still running, are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            switch (confirmShutdownClosure)
+            {
+                case DialogResult.Yes:
+                    MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+                case DialogResult.No:
+                    MessageBox.Show("CONGRATURATIONS!\nAll Pages are displayed.\nTHANK YOU!\nYou are great debugger!", "CONGRATURATIONS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    break;
+            }
+        }
+
+        private void Btn_UnsafeState_Click(object sender, EventArgs e)
+        {
+            if (unsafeState)
+            {
+                unsafeState = false;
+                MessageBox.Show("Sonic '06 Toolkit is now in a safe state.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                unsafeState = true;
+                MessageBox.Show("Sonic '06 Toolkit is now in an unsafe state.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        void Check_DebugAdvanced_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_DebugAdvanced.Checked == true)
+            {
+                this.mainForm.advanced_DebugMode.Visible = true;
+                this.mainForm.advanced_Separator1.Visible = true;
+                Properties.Settings.Default.debugShow = true;
+            }
+            else
+            {
+                this.mainForm.advanced_DebugMode.Visible = false;
+                this.mainForm.advanced_Separator1.Visible = false;
+                Properties.Settings.Default.debugShow = false;
+            }
+            Properties.Settings.Default.Save();
         }
     }
 }

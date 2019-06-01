@@ -418,5 +418,29 @@ namespace Sonic_06_Toolkit.Properties {
                 this["gameDir"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool debugMode {
+            get {
+                return ((bool)(this["debugMode"]));
+            }
+            set {
+                this["debugMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool debugShow {
+            get {
+                return ((bool)(this["debugShow"]));
+            }
+            set {
+                this["debugShow"] = value;
+            }
+        }
     }
 }

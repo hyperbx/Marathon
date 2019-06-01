@@ -75,6 +75,8 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
             this.label42 = new System.Windows.Forms.Label();
             this.label43 = new System.Windows.Forms.Label();
@@ -106,6 +108,8 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.gameDir = new System.Windows.Forms.Label();
+            this.mstFile = new System.Windows.Forms.Label();
             this.deleteXML = new System.Windows.Forms.Label();
             this.backupSET = new System.Windows.Forms.Label();
             this.forceDirectX10 = new System.Windows.Forms.Label();
@@ -137,8 +141,19 @@
             this.rootPath = new System.Windows.Forms.Label();
             this.theme = new System.Windows.Forms.Label();
             this.showSessionID = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_UnsafeState = new System.Windows.Forms.Button();
+            this.btn_WindowsShutdown = new System.Windows.Forms.Button();
+            this.btn_UserClosing = new System.Windows.Forms.Button();
+            this.btn_EraseSettings = new System.Windows.Forms.Button();
+            this.btn_PreviewUpdate = new System.Windows.Forms.Button();
             this.tm_Update = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.tm_sendUpdate = new System.Windows.Forms.Timer(this.components);
+            this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.debugShow = new System.Windows.Forms.Label();
+            this.debugMode = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -150,19 +165,19 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(1, 1);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(336, 443);
+            this.tabControl1.Size = new System.Drawing.Size(406, 527);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -171,7 +186,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(328, 417);
+            this.tabPage1.Size = new System.Drawing.Size(398, 501);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -228,8 +243,8 @@
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(322, 411);
-            this.splitContainer1.SplitterDistance = 104;
+            this.splitContainer1.Size = new System.Drawing.Size(392, 495);
+            this.splitContainer1.SplitterDistance = 126;
             this.splitContainer1.TabIndex = 0;
             // 
             // label20
@@ -609,7 +624,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(328, 417);
+            this.tabPage2.Size = new System.Drawing.Size(398, 501);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -623,6 +638,10 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label53);
+            this.splitContainer2.Panel1.Controls.Add(this.label54);
+            this.splitContainer2.Panel1.Controls.Add(this.label51);
+            this.splitContainer2.Panel1.Controls.Add(this.label52);
             this.splitContainer2.Panel1.Controls.Add(this.label41);
             this.splitContainer2.Panel1.Controls.Add(this.label42);
             this.splitContainer2.Panel1.Controls.Add(this.label43);
@@ -657,6 +676,10 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.debugShow);
+            this.splitContainer2.Panel2.Controls.Add(this.debugMode);
+            this.splitContainer2.Panel2.Controls.Add(this.gameDir);
+            this.splitContainer2.Panel2.Controls.Add(this.mstFile);
             this.splitContainer2.Panel2.Controls.Add(this.deleteXML);
             this.splitContainer2.Panel2.Controls.Add(this.backupSET);
             this.splitContainer2.Panel2.Controls.Add(this.forceDirectX10);
@@ -688,9 +711,27 @@
             this.splitContainer2.Panel2.Controls.Add(this.rootPath);
             this.splitContainer2.Panel2.Controls.Add(this.theme);
             this.splitContainer2.Panel2.Controls.Add(this.showSessionID);
-            this.splitContainer2.Size = new System.Drawing.Size(322, 411);
-            this.splitContainer2.SplitterDistance = 132;
+            this.splitContainer2.Size = new System.Drawing.Size(392, 495);
+            this.splitContainer2.SplitterDistance = 160;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(3, 418);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(46, 13);
+            this.label51.TabIndex = 32;
+            this.label51.Text = "gameDir";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(3, 405);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(39, 13);
+            this.label52.TabIndex = 31;
+            this.label52.Text = "mstFile";
             // 
             // label41
             // 
@@ -970,6 +1011,24 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // gameDir
+            // 
+            this.gameDir.AutoSize = true;
+            this.gameDir.Location = new System.Drawing.Point(4, 418);
+            this.gameDir.Name = "gameDir";
+            this.gameDir.Size = new System.Drawing.Size(46, 13);
+            this.gameDir.TabIndex = 53;
+            this.gameDir.Text = "gameDir";
+            // 
+            // mstFile
+            // 
+            this.mstFile.AutoSize = true;
+            this.mstFile.Location = new System.Drawing.Point(4, 405);
+            this.mstFile.Name = "mstFile";
+            this.mstFile.Size = new System.Drawing.Size(39, 13);
+            this.mstFile.TabIndex = 52;
+            this.mstFile.Text = "mstFile";
             // 
             // deleteXML
             // 
@@ -1262,39 +1321,157 @@
             this.showSessionID.Text = "showSessionID";
             this.showSessionID.Click += new System.EventHandler(this.ShowSessionID_Click);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.check_DebugAdvanced);
+            this.tabPage3.Controls.Add(this.btn_UnsafeState);
+            this.tabPage3.Controls.Add(this.btn_WindowsShutdown);
+            this.tabPage3.Controls.Add(this.btn_UserClosing);
+            this.tabPage3.Controls.Add(this.btn_EraseSettings);
+            this.tabPage3.Controls.Add(this.btn_PreviewUpdate);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(398, 501);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Debug";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btn_UnsafeState
+            // 
+            this.btn_UnsafeState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_UnsafeState.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_UnsafeState.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_UnsafeState.Location = new System.Drawing.Point(5, 93);
+            this.btn_UnsafeState.Name = "btn_UnsafeState";
+            this.btn_UnsafeState.Size = new System.Drawing.Size(388, 23);
+            this.btn_UnsafeState.TabIndex = 6;
+            this.btn_UnsafeState.Text = "Simulate Unsafe State";
+            this.btn_UnsafeState.UseVisualStyleBackColor = false;
+            this.btn_UnsafeState.Click += new System.EventHandler(this.Btn_UnsafeState_Click);
+            // 
+            // btn_WindowsShutdown
+            // 
+            this.btn_WindowsShutdown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_WindowsShutdown.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_WindowsShutdown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_WindowsShutdown.Location = new System.Drawing.Point(5, 64);
+            this.btn_WindowsShutdown.Name = "btn_WindowsShutdown";
+            this.btn_WindowsShutdown.Size = new System.Drawing.Size(388, 23);
+            this.btn_WindowsShutdown.TabIndex = 5;
+            this.btn_WindowsShutdown.Text = "Simulate WindowsShutDown";
+            this.btn_WindowsShutdown.UseVisualStyleBackColor = false;
+            this.btn_WindowsShutdown.Click += new System.EventHandler(this.Btn_WindowsShutdown_Click);
+            // 
+            // btn_UserClosing
+            // 
+            this.btn_UserClosing.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_UserClosing.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_UserClosing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_UserClosing.Location = new System.Drawing.Point(5, 35);
+            this.btn_UserClosing.Name = "btn_UserClosing";
+            this.btn_UserClosing.Size = new System.Drawing.Size(388, 23);
+            this.btn_UserClosing.TabIndex = 4;
+            this.btn_UserClosing.Text = "Simulate UserClosing";
+            this.btn_UserClosing.UseVisualStyleBackColor = false;
+            this.btn_UserClosing.Click += new System.EventHandler(this.Btn_UserClosing_Click);
+            // 
+            // btn_EraseSettings
+            // 
+            this.btn_EraseSettings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_EraseSettings.BackColor = System.Drawing.Color.Tomato;
+            this.btn_EraseSettings.FlatAppearance.BorderSize = 0;
+            this.btn_EraseSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_EraseSettings.Location = new System.Drawing.Point(5, 473);
+            this.btn_EraseSettings.Name = "btn_EraseSettings";
+            this.btn_EraseSettings.Size = new System.Drawing.Size(388, 23);
+            this.btn_EraseSettings.TabIndex = 3;
+            this.btn_EraseSettings.Text = "Erase all settings";
+            this.btn_EraseSettings.UseVisualStyleBackColor = false;
+            this.btn_EraseSettings.Click += new System.EventHandler(this.Btn_EraseSettings_Click);
+            // 
+            // btn_PreviewUpdate
+            // 
+            this.btn_PreviewUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_PreviewUpdate.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_PreviewUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_PreviewUpdate.Location = new System.Drawing.Point(5, 6);
+            this.btn_PreviewUpdate.Name = "btn_PreviewUpdate";
+            this.btn_PreviewUpdate.Size = new System.Drawing.Size(388, 23);
+            this.btn_PreviewUpdate.TabIndex = 2;
+            this.btn_PreviewUpdate.Text = "Simulate Software Update";
+            this.btn_PreviewUpdate.UseVisualStyleBackColor = false;
+            this.btn_PreviewUpdate.Click += new System.EventHandler(this.Btn_PreviewUpdate_Click);
+            // 
             // tm_Update
             // 
             this.tm_Update.Tick += new System.EventHandler(this.Tm_Update_Tick);
             // 
-            // button1
+            // check_DebugAdvanced
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.Tomato;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(5, 448);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(326, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Erase all settings";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.check_DebugAdvanced.AutoSize = true;
+            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 124);
+            this.check_DebugAdvanced.Name = "check_DebugAdvanced";
+            this.check_DebugAdvanced.Size = new System.Drawing.Size(174, 17);
+            this.check_DebugAdvanced.TabIndex = 7;
+            this.check_DebugAdvanced.Text = "Add Debug Mode to Advanced";
+            this.check_DebugAdvanced.UseVisualStyleBackColor = true;
+            this.check_DebugAdvanced.CheckedChanged += new System.EventHandler(this.Check_DebugAdvanced_CheckedChanged);
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(3, 444);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(64, 13);
+            this.label53.TabIndex = 34;
+            this.label53.Text = "debugShow";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(3, 431);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(64, 13);
+            this.label54.TabIndex = 33;
+            this.label54.Text = "debugMode";
+            // 
+            // debugShow
+            // 
+            this.debugShow.AutoSize = true;
+            this.debugShow.Location = new System.Drawing.Point(4, 444);
+            this.debugShow.Name = "debugShow";
+            this.debugShow.Size = new System.Drawing.Size(64, 13);
+            this.debugShow.TabIndex = 55;
+            this.debugShow.Text = "debugShow";
+            // 
+            // debugMode
+            // 
+            this.debugMode.AutoSize = true;
+            this.debugMode.Location = new System.Drawing.Point(4, 431);
+            this.debugMode.Name = "debugMode";
+            this.debugMode.Size = new System.Drawing.Size(64, 13);
+            this.debugMode.TabIndex = 54;
+            this.debugMode.Text = "debugMode";
             // 
             // Debugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(336, 477);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(406, 527);
             this.ControlBox = false;
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(352, 351);
+            this.MinimumSize = new System.Drawing.Size(422, 543);
             this.Name = "Debugger";
             this.Text = "Debugger";
             this.Load += new System.EventHandler(this.Debugger_Load);
@@ -1313,6 +1490,8 @@
             this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1407,7 +1586,6 @@
         private System.Windows.Forms.Label rootPath;
         private System.Windows.Forms.Label theme;
         private System.Windows.Forms.Label showSessionID;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
@@ -1428,5 +1606,21 @@
         private System.Windows.Forms.Label removeLoop;
         private System.Windows.Forms.Label ignoreLoop;
         private System.Windows.Forms.Label arctoolFile;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label gameDir;
+        private System.Windows.Forms.Label mstFile;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button btn_PreviewUpdate;
+        private System.Windows.Forms.Button btn_EraseSettings;
+        private System.Windows.Forms.Button btn_WindowsShutdown;
+        private System.Windows.Forms.Button btn_UserClosing;
+        private System.Windows.Forms.Timer tm_sendUpdate;
+        private System.Windows.Forms.Button btn_UnsafeState;
+        private System.Windows.Forms.CheckBox check_DebugAdvanced;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.Label debugShow;
+        private System.Windows.Forms.Label debugMode;
     }
 }

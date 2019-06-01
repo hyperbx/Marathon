@@ -95,6 +95,8 @@
             this.preferences_FreeMode = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_Advanced = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanced_DebugMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanced_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.advanced_Reset = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_CloseARC = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -708,11 +710,28 @@
             // preferences_Advanced
             // 
             this.preferences_Advanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.advanced_DebugMode,
+            this.advanced_Separator1,
             this.advanced_Reset});
             this.preferences_Advanced.Image = ((System.Drawing.Image)(resources.GetObject("preferences_Advanced.Image")));
             this.preferences_Advanced.Name = "preferences_Advanced";
             this.preferences_Advanced.Size = new System.Drawing.Size(204, 22);
             this.preferences_Advanced.Text = "Advanced";
+            // 
+            // advanced_DebugMode
+            // 
+            this.advanced_DebugMode.CheckOnClick = true;
+            this.advanced_DebugMode.Name = "advanced_DebugMode";
+            this.advanced_DebugMode.Size = new System.Drawing.Size(190, 22);
+            this.advanced_DebugMode.Text = "Debug Mode";
+            this.advanced_DebugMode.Visible = false;
+            this.advanced_DebugMode.CheckedChanged += new System.EventHandler(this.Advanced_DebugMode_CheckedChanged);
+            // 
+            // advanced_Separator1
+            // 
+            this.advanced_Separator1.Name = "advanced_Separator1";
+            this.advanced_Separator1.Size = new System.Drawing.Size(187, 6);
+            this.advanced_Separator1.Visible = false;
             // 
             // advanced_Reset
             // 
@@ -1483,6 +1502,8 @@
         private System.Windows.Forms.ToolStripMenuItem preferences_Advanced;
         private System.Windows.Forms.ToolStripMenuItem advanced_Reset;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_DisableGameDirectory;
+        public System.Windows.Forms.ToolStripMenuItem advanced_DebugMode;
+        public System.Windows.Forms.ToolStripSeparator advanced_Separator1;
     }
 }
 

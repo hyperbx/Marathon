@@ -71,6 +71,7 @@ namespace Sonic_06_Toolkit
                         Tools.Global.mstState = "mst";
                         Tools.MST.Export(string.Empty, selectedMST);
                     }
+                    MessageBox.Show("All selected MSTs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
                 {
@@ -87,6 +88,7 @@ namespace Sonic_06_Toolkit
                         Tools.Global.mstState = "xml";
                         Tools.MST.Import(string.Empty, selectedXML);
                     }
+                    MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch
                 {

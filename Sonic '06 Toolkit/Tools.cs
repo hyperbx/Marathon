@@ -51,15 +51,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Convert = Process.Start(adxSession);
-            var convertDialog = new Status();
-            convertDialog.StartPosition = FormStartPosition.CenterScreen;
-            convertDialog.Show();
-            Convert.WaitForExit();
-            Convert.Close();
-            convertDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.adx2wavFile) || File.Exists(Properties.Settings.Default.criconverterFile))
+                {
+                    var Convert = Process.Start(adxSession);
+                    var convertDialog = new Status();
+                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
 
-            Global.adxState = null;
+                    Global.adxState = null;
+                }
+                else { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -230,15 +238,15 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var ARC = Process.Start(arcSession);
-            var unpackDialog = new Status();
-            unpackDialog.StartPosition = FormStartPosition.CenterScreen;
-            unpackDialog.Show();
-            ARC.WaitForExit();
-            ARC.Close();
-            unpackDialog.Close();
+                var ARC = Process.Start(arcSession);
+                var unpackDialog = new Status();
+                unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                unpackDialog.Show();
+                ARC.WaitForExit();
+                ARC.Close();
+                unpackDialog.Close();
 
-            Global.arcState = null;
+                Global.arcState = null;
         }
     }
 
@@ -284,15 +292,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Convert = Process.Start(at3Session);
-            var convertDialog = new Status();
-            convertDialog.StartPosition = FormStartPosition.CenterScreen;
-            convertDialog.Show();
-            Convert.WaitForExit();
-            Convert.Close();
-            convertDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("SONY tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.at3File))
+                {
+                    var Convert = Process.Start(at3Session);
+                    var convertDialog = new Status();
+                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
 
-            Global.at3State = null;
+                    Global.at3State = null;
+                }
+                else { MessageBox.Show("SONY tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -324,15 +340,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Unpack = Process.Start(csbSession);
-            var unpackDialog = new Status();
-            unpackDialog.StartPosition = FormStartPosition.CenterScreen;
-            unpackDialog.Show();
-            Unpack.WaitForExit();
-            Unpack.Close();
-            unpackDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("SonicAudioTools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.csbFile))
+                {
+                    var Unpack = Process.Start(csbSession);
+                    var unpackDialog = new Status();
+                    unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                    unpackDialog.Show();
+                    Unpack.WaitForExit();
+                    Unpack.Close();
+                    unpackDialog.Close();
 
-            Global.csbState = null;
+                    Global.csbState = null;
+                }
+                else { MessageBox.Show("SonicAudioTools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -366,15 +390,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Convert = Process.Start(ddsSession);
-            var convertDialog = new Status();
-            convertDialog.StartPosition = FormStartPosition.CenterScreen;
-            convertDialog.Show();
-            Convert.WaitForExit();
-            Convert.Close();
-            convertDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.directXFile))
+                {
+                    var Convert = Process.Start(ddsSession);
+                    var convertDialog = new Status();
+                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
 
-            Global.ddsState = null;
+                    Global.ddsState = null;
+                }
+                else { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -490,53 +522,61 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin(string args)
         {
-            var Decompile = Process.Start(lubSession);
-            var decompileDialog = new Status();
-            decompileDialog.StartPosition = FormStartPosition.CenterScreen;
-            decompileDialog.Show();
-            Decompile.WaitForExit();
-            Decompile.Close();
-
-            if (Global.lubState == "launch-decompile")
+            if (Debugger.unsafeState == true) { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
             {
-                //Copies all LUBs to the final directory, then erases leftovers.
-                foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
+                if (File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar"))
                 {
-                    if (File.Exists(LUB))
-                    {
-                        File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), args, true);
-                        File.Delete(LUB);
-                    }
-                }
-            }
-            else if (Global.lubState == "decompile")
-            {
-                //Copies all LUBs to the final directory, then erases leftovers.
-                foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
-                {
-                    if (File.Exists(LUB))
-                    {
-                        File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                        File.Delete(LUB);
-                    }
-                }
-            }
-            else if (Global.lubState == "decompile-all")
-            {
-                //Copies all LUBs to the final directory, then erases leftovers.
-                foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
-                {
-                    if (File.Exists(LUB))
-                    {
-                        File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                        File.Delete(LUB);
-                    }
-                }
-            }
+                    var Decompile = Process.Start(lubSession);
+                    var decompileDialog = new Status();
+                    decompileDialog.StartPosition = FormStartPosition.CenterScreen;
+                    decompileDialog.Show();
+                    Decompile.WaitForExit();
+                    Decompile.Close();
 
-            decompileDialog.Close();
+                    if (Global.lubState == "launch-decompile")
+                    {
+                        //Copies all LUBs to the final directory, then erases leftovers.
+                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), args, true);
+                                File.Delete(LUB);
+                            }
+                        }
+                    }
+                    else if (Global.lubState == "decompile")
+                    {
+                        //Copies all LUBs to the final directory, then erases leftovers.
+                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                File.Delete(LUB);
+                            }
+                        }
+                    }
+                    else if (Global.lubState == "decompile-all")
+                    {
+                        //Copies all LUBs to the final directory, then erases leftovers.
+                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(LUB))
+                            {
+                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
+                                File.Delete(LUB);
+                            }
+                        }
+                    }
 
-            Global.lubState = null;
+                    decompileDialog.Close();
+
+                    Global.lubState = null;
+                }
+                else { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -594,11 +634,19 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Decode = Process.Start(mstSession);
-            Decode.WaitForExit();
-            Decode.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.mstFile))
+                {
+                    var Decode = Process.Start(mstSession);
+                    Decode.WaitForExit();
+                    Decode.Close();
 
-            Global.mstState = null;
+                    Global.mstState = null;
+                }
+                else { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -632,15 +680,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Convert = Process.Start(pngSession);
-            var convertDialog = new Status();
-            convertDialog.StartPosition = FormStartPosition.CenterScreen;
-            convertDialog.Show();
-            Convert.WaitForExit();
-            Convert.Close();
-            convertDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.directXFile))
+                {
+                    var Convert = Process.Start(pngSession);
+                    var convertDialog = new Status();
+                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
 
-            Global.ddsState = null;
+                    Global.ddsState = null;
+                }
+                else { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -756,15 +812,23 @@ namespace Sonic_06_Toolkit.Tools
 
         static void Begin()
         {
-            var Convert = Process.Start(xnoSession);
-            var convertDialog = new Status();
-            convertDialog.StartPosition = FormStartPosition.CenterScreen;
-            convertDialog.Show();
-            Convert.WaitForExit();
-            Convert.Close();
-            convertDialog.Close();
+            if (Debugger.unsafeState == true) { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.xnoFile) || Debugger.unsafeState == false)
+                {
+                    var Convert = Process.Start(xnoSession);
+                    var convertDialog = new Status();
+                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
 
-            Global.xnoState = null;
+                    Global.xnoState = null;
+                }
+                else { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
     }
 
@@ -805,7 +869,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.9";
+        public static string versionNumber = "1.91";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

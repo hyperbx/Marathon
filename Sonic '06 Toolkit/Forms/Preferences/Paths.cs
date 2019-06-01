@@ -7,7 +7,7 @@ namespace Sonic_06_Toolkit
 {
     public partial class Paths : Form
     {
-        static bool changes = false;
+        public static bool changes = false;
 
         public Paths()
         {
@@ -138,6 +138,7 @@ namespace Sonic_06_Toolkit
                         Properties.Settings.Default.gamePath = text_GamePath.Text;
                         Properties.Settings.Default.Save();
 
+                        changes = true;
                         Tools.Global.gameChanged = true;
                     }
                     else { MessageBox.Show("I see you're trying to cheat the system...", "XEX Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -154,6 +155,7 @@ namespace Sonic_06_Toolkit
                         Properties.Settings.Default.gamePath = text_GamePath.Text;
                         Properties.Settings.Default.Save();
 
+                        changes = true;
                         Tools.Global.gameChanged = true;
                     }
                     else { MessageBox.Show("I see you're trying to cheat the system...", "SFB Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -167,6 +169,7 @@ namespace Sonic_06_Toolkit
                         Properties.Settings.Default.gamePath = text_GamePath.Text;
                         Properties.Settings.Default.Save();
 
+                        changes = true;
                         Tools.Global.gameChanged = true;
                     }
                     else { MessageBox.Show("I see you're trying to cheat the system...", "SFO Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -180,6 +183,7 @@ namespace Sonic_06_Toolkit
                         Properties.Settings.Default.gamePath = text_GamePath.Text;
                         Properties.Settings.Default.Save();
 
+                        changes = true;
                         Tools.Global.gameChanged = true;
                     }
                     else { MessageBox.Show("I see you're trying to cheat the system...", "BIN Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -190,9 +194,10 @@ namespace Sonic_06_Toolkit
             }
             else if (text_GamePath.Text == "")
             {
-                Properties.Settings.Default.gamePath = null;
+                Properties.Settings.Default.gamePath = "";
                 Properties.Settings.Default.Save();
 
+                changes = true;
                 Tools.Global.gameChanged = true;
             }
 
@@ -207,7 +212,7 @@ namespace Sonic_06_Toolkit
 
         void Paths_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (changes) MessageBox.Show("Please restart Sonic '06 Toolkit to accept any changes.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            if (changes) { MessageBox.Show("Please restart Sonic '06 Toolkit.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information); }
         }
     }
 }

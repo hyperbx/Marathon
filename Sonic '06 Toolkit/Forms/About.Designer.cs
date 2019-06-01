@@ -38,19 +38,19 @@
             this.tab_Information = new System.Windows.Forms.TabControl();
             this.page_About = new System.Windows.Forms.TabPage();
             this.btn_GitHub = new System.Windows.Forms.Button();
+            this.page_History = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rtb_License = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.page_History = new System.Windows.Forms.TabPage();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
             this.page_About.SuspendLayout();
+            this.page_History.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage6.SuspendLayout();
-            this.page_History.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -80,11 +80,11 @@
             this.lbl_versionNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_versionNumber.AutoSize = true;
             this.lbl_versionNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_versionNumber.Location = new System.Drawing.Point(453, 38);
+            this.lbl_versionNumber.Location = new System.Drawing.Point(445, 38);
             this.lbl_versionNumber.Name = "lbl_versionNumber";
-            this.lbl_versionNumber.Size = new System.Drawing.Size(31, 21);
+            this.lbl_versionNumber.Size = new System.Drawing.Size(40, 21);
             this.lbl_versionNumber.TabIndex = 2;
-            this.lbl_versionNumber.Text = "0.0";
+            this.lbl_versionNumber.Text = "0.00";
             this.lbl_versionNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_Description
@@ -165,6 +165,27 @@
             this.btn_GitHub.UseVisualStyleBackColor = false;
             this.btn_GitHub.Click += new System.EventHandler(this.Btn_GitHub_Click_1);
             // 
+            // page_History
+            // 
+            this.page_History.Controls.Add(this.richTextBox1);
+            this.page_History.Location = new System.Drawing.Point(4, 22);
+            this.page_History.Name = "page_History";
+            this.page_History.Size = new System.Drawing.Size(466, 201);
+            this.page_History.TabIndex = 3;
+            this.page_History.Text = "History";
+            this.page_History.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(466, 201);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.rtb_License);
@@ -211,27 +232,6 @@
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
             // 
-            // page_History
-            // 
-            this.page_History.Controls.Add(this.richTextBox1);
-            this.page_History.Location = new System.Drawing.Point(4, 22);
-            this.page_History.Name = "page_History";
-            this.page_History.Size = new System.Drawing.Size(466, 201);
-            this.page_History.TabIndex = 3;
-            this.page_History.Text = "History";
-            this.page_History.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(466, 201);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
-            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,9 +256,9 @@
             this.tab_Information.ResumeLayout(false);
             this.page_About.ResumeLayout(false);
             this.page_About.PerformLayout();
+            this.page_History.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
-            this.page_History.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
