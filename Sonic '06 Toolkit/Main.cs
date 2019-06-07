@@ -266,6 +266,11 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        public static int FormTop;
+        public static int FormLeft;
+        public static int FormHeight;
+        public static int FormWidth;
+
         void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string libDownloadLink, string versionInfoLink)
         {
             try
@@ -419,16 +424,24 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.theme == "Compact") mainThemes_Compact.Checked = true; else if (Properties.Settings.Default.theme == "Original") mainThemes_Original.Checked = true;
             if (Properties.Settings.Default.unpackAndLaunch == true) ARC_UnpackAndLaunch.Checked = true; else ARC_UnpackRoot.Checked = true;
             if (Properties.Settings.Default.gameDir == true) mainPreferences_DisableGameDirectory.Checked = false; else mainPreferences_DisableGameDirectory.Checked = true;
-            if (Properties.Settings.Default.debugMode == true) advanced_DebugMode.Checked = true; else advanced_DebugMode.Checked = false;
+            if (Properties.Settings.Default.disableWarns == true) advanced_DisableWarnings.Checked = true; else advanced_DisableWarnings.Checked = false;
+            if (Properties.Settings.Default.debugMode == true)
+            {
+                if (!debug) { advanced_DebugMode.Checked = true; }
+            }
+            else
+            {
+                if (debug) { advanced_DebugMode.Checked = false; }
+            }
             if (Properties.Settings.Default.debugShow == true)
             {
                 advanced_DebugMode.Visible = true;
-                advanced_Separator1.Visible = true;
+                //advanced_Separator1.Visible = true;
             }
             else
             {
                 advanced_DebugMode.Visible = false;
-                advanced_Separator1.Visible = false;
+                //advanced_Separator1.Visible = false;
             }
             if (Properties.Settings.Default.disableSoftwareUpdater == true)
             {
@@ -1208,7 +1221,11 @@ namespace Sonic_06_Toolkit
                 if (!debug)
                 {
                     debug = true;
-                    MessageBox.Show("Debug Mode is now enabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (!Properties.Settings.Default.disableWarns)
+                    {
+                        main_File.DropDown.Visible = false;
+                        MessageBox.Show("Debug Mode is now enabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                     new Debugger(this).Show();
                     advanced_DebugMode.Checked = true;
                     Properties.Settings.Default.debugMode = true;
@@ -1216,7 +1233,11 @@ namespace Sonic_06_Toolkit
                 else
                 {
                     debug = false;
-                    MessageBox.Show("Debug Mode is now disabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (!Properties.Settings.Default.disableWarns)
+                    {
+                        main_File.DropDown.Visible = false;
+                        MessageBox.Show("Debug Mode is now disabled.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
 
                     Debugger debugger = Application.OpenForms["Debugger"] != null ? (Debugger)Application.OpenForms["Debugger"] : null;
 
@@ -1226,11 +1247,12 @@ namespace Sonic_06_Toolkit
                         {
                             debugger = (Debugger)Application.OpenForms["Debugger"];
                             debugger.Close();
-                            advanced_DebugMode.Checked = false;
-                            Properties.Settings.Default.debugMode = false;
                         }
                         catch { }
                     }
+
+                    advanced_DebugMode.Checked = false;
+                    Properties.Settings.Default.debugMode = false;
                 }
 
                 Properties.Settings.Default.Save();
@@ -1243,25 +1265,26 @@ namespace Sonic_06_Toolkit
             set { advanced_DebugMode.Visible = value; }
         }
 
-        public bool SeparatorVisibility
-        {
-            get { return advanced_Separator1.Visible; }
-            set { advanced_Separator1.Visible = value; }
-        }
+        //public bool SeparatorVisibility
+        //{
+        //    get { return advanced_Separator1.Visible; }
+        //    set { advanced_Separator1.Visible = value; }
+        //}
 
         void Advanced_DebugMode_CheckedChanged(object sender, EventArgs e)
         {
             if (advanced_DebugMode.Checked == true)
             {
-                debug = true;
-                new Debugger(this).Show();
-                advanced_DebugMode.Checked = true;
-                Properties.Settings.Default.debugMode = true;
+                if (!debug)
+                {
+                    debug = true;
+                    new Debugger(this).Show();
+                    Properties.Settings.Default.debugMode = true;
+                }
             }
             else
             {
                 debug = false;
-
                 Debugger debugger = Application.OpenForms["Debugger"] != null ? (Debugger)Application.OpenForms["Debugger"] : null;
 
                 if (debugger != null)
@@ -1270,11 +1293,12 @@ namespace Sonic_06_Toolkit
                     {
                         debugger = (Debugger)Application.OpenForms["Debugger"];
                         debugger.Close();
-                        advanced_DebugMode.Checked = false;
-                        Properties.Settings.Default.debugMode = false;
                     }
                     catch { }
                 }
+
+                advanced_DebugMode.Checked = false;
+                Properties.Settings.Default.debugMode = false;
             }
 
             Properties.Settings.Default.Save();
@@ -1372,6 +1396,36 @@ namespace Sonic_06_Toolkit
                 ARC_UnpackAndLaunch.Checked = true;
                 ARC_UnpackRoot.Checked = false;
             }
+            Properties.Settings.Default.Save();
+        }
+
+        //[Advanced] - Disable warning messages
+        //Disables all warning messages.
+        void Advanced_DisableWarnings_Click(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.disableWarns == false)
+            {
+                DialogResult disableConfirm = MessageBox.Show("Are you sure you want to disable warnings and notifications?", "Sonic '06 Toolkit", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                switch (disableConfirm)
+                {
+                    case DialogResult.Yes:
+                        advanced_DisableWarnings.Checked = true;
+                        Properties.Settings.Default.disableWarns = true;
+                        break;
+
+                    case DialogResult.No:
+                        advanced_DisableWarnings.Checked = false;
+                        Properties.Settings.Default.disableWarns = false;
+                        break;
+                }
+            }
+            else
+            {
+                advanced_DisableWarnings.Checked = false;
+                Properties.Settings.Default.disableWarns = false;
+            }
+
             Properties.Settings.Default.Save();
         }
         #endregion
@@ -1890,9 +1944,6 @@ namespace Sonic_06_Toolkit
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
         {
-            //Ensures there's at least only one tab left on the control.
-            if (tab_Main.TabPages.Count == 1) mainWindow_CloseTab.Enabled = false; else mainWindow_CloseTab.Enabled = true;
-
             if (freeMode)
             {
                 if (tab_Main.SelectedTab.Text != "New Tab")
@@ -2182,6 +2233,11 @@ namespace Sonic_06_Toolkit
             }
 
             if (Tools.Global.getIndex == -1) Tools.Global.getIndex = 0;
+
+            FormTop = Top;
+            FormLeft = Left;
+            FormWidth = Width;
+            FormHeight = Height;
         }
 
         void Tab_Main_MouseClick(object sender, MouseEventArgs e)
@@ -2205,6 +2261,26 @@ namespace Sonic_06_Toolkit
                         {
                             case DialogResult.Yes:
                                 tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
+                                break;
+                        }
+                    }
+                }
+                else if (tab_Main.TabPages.Count == 1)
+                {
+                    //Checks if the tab's text reads 'New Tab' (a name only assigned by the application).
+                    if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().Text == "New Tab")
+                    {
+                        tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
+                        newTab();
+                    }
+                    else
+                    {
+                        DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        switch (confirmClosure)
+                        {
+                            case DialogResult.Yes:
+                                tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
+                                newTab();
                                 break;
                         }
                     }
@@ -2442,79 +2518,83 @@ namespace Sonic_06_Toolkit
 
         void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            switch (e.CloseReason)
+            if (Properties.Settings.Default.disableWarns == false)
             {
-                case CloseReason.UserClosing:
-                    //[UserClosing] - This method occurs if the user clicks Exit.
-                    //Checks if the only tab is called 'New Tab' before asking for confirmation.
-                    if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
-                    {
+                switch (e.CloseReason)
+                {
+                    case CloseReason.UserClosing:
+                        //[UserClosing] - This method occurs if the user clicks Exit.
+                        //Checks if the only tab is called 'New Tab' before asking for confirmation.
+                        if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
+                        {
+                            pic_Logo.Dispose();
+                            tab_Main.Dispose();
+                            EraseData();
+                        }
+                        else
+                        {
+                            DialogResult confirmUserClosure = MessageBox.Show("Are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            switch (confirmUserClosure)
+                            {
+                                case DialogResult.Yes:
+                                    pic_Logo.Dispose();
+                                    tab_Main.Dispose();
+                                    EraseData();
+                                    break;
+                                case DialogResult.No:
+                                    e.Cancel = true;
+                                    break;
+                            }
+                        }
+                        break;
+                    case CloseReason.WindowsShutDown:
+                        //[WindowsShutDown] - This method occurs if the user clicks Shutdown without closing Sonic '06 Toolkit.
+                        //Checks if the only tab is called 'New Tab' before asking for confirmation.
+                        if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
+                        {
+                            pic_Logo.Dispose();
+                            tab_Main.Dispose();
+                            EraseData();
+                        }
+                        else
+                        {
+                            DialogResult confirmShutdownClosure = MessageBox.Show("Sonic '06 Toolkit is still running, are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            switch (confirmShutdownClosure)
+                            {
+                                case DialogResult.Yes:
+                                    pic_Logo.Dispose();
+                                    tab_Main.Dispose();
+                                    EraseData();
+                                    break;
+                                case DialogResult.No:
+                                    e.Cancel = true;
+                                    break;
+                            }
+                        }
+                        break;
+                    case CloseReason.ApplicationExitCall:
+                        //[ApplicationExitCall] - This method occurs if the application calls the Application.Exit() method.
                         pic_Logo.Dispose();
                         tab_Main.Dispose();
                         EraseData();
-                    }
-                    else
-                    {
-                        DialogResult confirmUserClosure = MessageBox.Show("Are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        switch (confirmUserClosure)
-                        {
-                            case DialogResult.Yes:
-                                pic_Logo.Dispose();
-                                tab_Main.Dispose();
-                                EraseData();
-                                break;
-                            case DialogResult.No:
-                                e.Cancel = true;
-                                break;
-                        }
-                    }
-                    break;
-                case CloseReason.WindowsShutDown:
-                    //[WindowsShutDown] - This method occurs if the user clicks Shutdown without closing Sonic '06 Toolkit.
-                    //Checks if the only tab is called 'New Tab' before asking for confirmation.
-                    if (tab_Main.TabPages.Count == 1 && tab_Main.SelectedTab.Text == "New Tab")
-                    {
-                        pic_Logo.Dispose();
-                        tab_Main.Dispose();
-                        EraseData();
-                    }
-                    else
-                    {
-                        DialogResult confirmShutdownClosure = MessageBox.Show("Sonic '06 Toolkit is still running, are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        switch (confirmShutdownClosure)
-                        {
-                            case DialogResult.Yes:
-                                pic_Logo.Dispose();
-                                tab_Main.Dispose();
-                                EraseData();
-                                break;
-                            case DialogResult.No:
-                                e.Cancel = true;
-                                break;
-                        }
-                    }
-                    break;
-                case CloseReason.ApplicationExitCall:
-                    //[ApplicationExitCall] - This method occurs if the application calls the Application.Exit() method.
-                    pic_Logo.Dispose();
-                    tab_Main.Dispose();
-                    EraseData();
-                    break;
+                        break;
+                }
             }
+            else { EraseData(); }
         }
 
         void Advanced_Reset_Click(object sender, EventArgs e)
         {
             DialogResult reset = MessageBox.Show("This will completely reset Sonic '06 Toolkit.\n\n" +
-                "" +
-                "The following data will be erased:\n" +
-                "► Your selected settings.\n" +
-                "► Your specified paths.\n" +
-                "► Studio settings.\n" +
-                "► Archives in the application data.\n" +
-                "► Tools in the application data.\n\n" +
-                "" +
-                "Are you sure you want to continue?", "Reset?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            "" +
+            "The following data will be erased:\n" +
+            "► Your selected settings.\n" +
+            "► Your specified paths.\n" +
+            "► Studio settings.\n" +
+            "► Archives in the application data.\n" +
+            "► Tools in the application data.\n\n" +
+            "" +
+            "Are you sure you want to continue?", "Reset?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             switch (reset)
             {

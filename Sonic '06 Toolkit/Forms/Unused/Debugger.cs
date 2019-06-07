@@ -1,12 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sonic_06_Toolkit
@@ -96,6 +88,7 @@ namespace Sonic_06_Toolkit
             gameDir.Text = Properties.Settings.Default.gameDir.ToString();
             debugMode.Text = Properties.Settings.Default.debugMode.ToString();
             debugShow.Text = Properties.Settings.Default.debugShow.ToString();
+            disableWarns.Text = Properties.Settings.Default.disableWarns.ToString();
             #endregion
 
             foreach (Control x in this.Controls)
@@ -327,13 +320,13 @@ namespace Sonic_06_Toolkit
             if (check_DebugAdvanced.Checked == true)
             {
                 this.mainForm.advanced_DebugMode.Visible = true;
-                this.mainForm.advanced_Separator1.Visible = true;
+                //this.mainForm.advanced_Separator1.Visible = true;
                 Properties.Settings.Default.debugShow = true;
             }
             else
             {
                 this.mainForm.advanced_DebugMode.Visible = false;
-                this.mainForm.advanced_Separator1.Visible = false;
+                //this.mainForm.advanced_Separator1.Visible = false;
                 Properties.Settings.Default.debugShow = false;
             }
             Properties.Settings.Default.Save();

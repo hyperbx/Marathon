@@ -80,7 +80,7 @@ namespace Sonic_06_Toolkit
                         Tools.Global.setState = "export";
                         Tools.SET.Export(string.Empty, selectedSET);
                     }
-                    MessageBox.Show("All selected SETs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected SETs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
                 catch
                 {
@@ -97,7 +97,7 @@ namespace Sonic_06_Toolkit
                         Tools.Global.setState = "import";
                         Tools.SET.Import(selectedXML);
                     }
-                    MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
                 catch
                 {

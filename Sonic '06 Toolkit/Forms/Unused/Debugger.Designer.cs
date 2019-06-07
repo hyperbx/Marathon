@@ -75,6 +75,8 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
             this.label51 = new System.Windows.Forms.Label();
             this.label52 = new System.Windows.Forms.Label();
             this.label41 = new System.Windows.Forms.Label();
@@ -108,6 +110,8 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.debugShow = new System.Windows.Forms.Label();
+            this.debugMode = new System.Windows.Forms.Label();
             this.gameDir = new System.Windows.Forms.Label();
             this.mstFile = new System.Windows.Forms.Label();
             this.deleteXML = new System.Windows.Forms.Label();
@@ -142,6 +146,7 @@
             this.theme = new System.Windows.Forms.Label();
             this.showSessionID = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
             this.btn_UnsafeState = new System.Windows.Forms.Button();
             this.btn_WindowsShutdown = new System.Windows.Forms.Button();
             this.btn_UserClosing = new System.Windows.Forms.Button();
@@ -149,11 +154,8 @@
             this.btn_PreviewUpdate = new System.Windows.Forms.Button();
             this.tm_Update = new System.Windows.Forms.Timer(this.components);
             this.tm_sendUpdate = new System.Windows.Forms.Timer(this.components);
-            this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.debugShow = new System.Windows.Forms.Label();
-            this.debugMode = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.disableWarns = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -638,6 +640,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label55);
             this.splitContainer2.Panel1.Controls.Add(this.label53);
             this.splitContainer2.Panel1.Controls.Add(this.label54);
             this.splitContainer2.Panel1.Controls.Add(this.label51);
@@ -676,6 +679,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.disableWarns);
             this.splitContainer2.Panel2.Controls.Add(this.debugShow);
             this.splitContainer2.Panel2.Controls.Add(this.debugMode);
             this.splitContainer2.Panel2.Controls.Add(this.gameDir);
@@ -714,6 +718,24 @@
             this.splitContainer2.Size = new System.Drawing.Size(392, 495);
             this.splitContainer2.SplitterDistance = 160;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(3, 444);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(64, 13);
+            this.label53.TabIndex = 34;
+            this.label53.Text = "debugShow";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(3, 431);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(64, 13);
+            this.label54.TabIndex = 33;
+            this.label54.Text = "debugMode";
             // 
             // label51
             // 
@@ -1011,6 +1033,24 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // debugShow
+            // 
+            this.debugShow.AutoSize = true;
+            this.debugShow.Location = new System.Drawing.Point(4, 444);
+            this.debugShow.Name = "debugShow";
+            this.debugShow.Size = new System.Drawing.Size(64, 13);
+            this.debugShow.TabIndex = 55;
+            this.debugShow.Text = "debugShow";
+            // 
+            // debugMode
+            // 
+            this.debugMode.AutoSize = true;
+            this.debugMode.Location = new System.Drawing.Point(4, 431);
+            this.debugMode.Name = "debugMode";
+            this.debugMode.Size = new System.Drawing.Size(64, 13);
+            this.debugMode.TabIndex = 54;
+            this.debugMode.Text = "debugMode";
             // 
             // gameDir
             // 
@@ -1336,6 +1376,17 @@
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // check_DebugAdvanced
+            // 
+            this.check_DebugAdvanced.AutoSize = true;
+            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 124);
+            this.check_DebugAdvanced.Name = "check_DebugAdvanced";
+            this.check_DebugAdvanced.Size = new System.Drawing.Size(174, 17);
+            this.check_DebugAdvanced.TabIndex = 7;
+            this.check_DebugAdvanced.Text = "Add Debug Mode to Advanced";
+            this.check_DebugAdvanced.UseVisualStyleBackColor = true;
+            this.check_DebugAdvanced.CheckedChanged += new System.EventHandler(this.Check_DebugAdvanced_CheckedChanged);
+            // 
             // btn_UnsafeState
             // 
             this.btn_UnsafeState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -1411,52 +1462,23 @@
             // 
             this.tm_Update.Tick += new System.EventHandler(this.Tm_Update_Tick);
             // 
-            // check_DebugAdvanced
+            // label55
             // 
-            this.check_DebugAdvanced.AutoSize = true;
-            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 124);
-            this.check_DebugAdvanced.Name = "check_DebugAdvanced";
-            this.check_DebugAdvanced.Size = new System.Drawing.Size(174, 17);
-            this.check_DebugAdvanced.TabIndex = 7;
-            this.check_DebugAdvanced.Text = "Add Debug Mode to Advanced";
-            this.check_DebugAdvanced.UseVisualStyleBackColor = true;
-            this.check_DebugAdvanced.CheckedChanged += new System.EventHandler(this.Check_DebugAdvanced_CheckedChanged);
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(3, 457);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(71, 13);
+            this.label55.TabIndex = 35;
+            this.label55.Text = "disableWarns";
             // 
-            // label53
+            // disableWarns
             // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(3, 444);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(64, 13);
-            this.label53.TabIndex = 34;
-            this.label53.Text = "debugShow";
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(3, 431);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(64, 13);
-            this.label54.TabIndex = 33;
-            this.label54.Text = "debugMode";
-            // 
-            // debugShow
-            // 
-            this.debugShow.AutoSize = true;
-            this.debugShow.Location = new System.Drawing.Point(4, 444);
-            this.debugShow.Name = "debugShow";
-            this.debugShow.Size = new System.Drawing.Size(64, 13);
-            this.debugShow.TabIndex = 55;
-            this.debugShow.Text = "debugShow";
-            // 
-            // debugMode
-            // 
-            this.debugMode.AutoSize = true;
-            this.debugMode.Location = new System.Drawing.Point(4, 431);
-            this.debugMode.Name = "debugMode";
-            this.debugMode.Size = new System.Drawing.Size(64, 13);
-            this.debugMode.TabIndex = 54;
-            this.debugMode.Text = "debugMode";
+            this.disableWarns.AutoSize = true;
+            this.disableWarns.Location = new System.Drawing.Point(4, 457);
+            this.disableWarns.Name = "disableWarns";
+            this.disableWarns.Size = new System.Drawing.Size(71, 13);
+            this.disableWarns.TabIndex = 56;
+            this.disableWarns.Text = "disableWarns";
             // 
             // Debugger
             // 
@@ -1622,5 +1644,7 @@
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.Label debugShow;
         private System.Windows.Forms.Label debugMode;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.Label disableWarns;
     }
 }

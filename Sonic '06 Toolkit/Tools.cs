@@ -58,7 +58,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Convert = Process.Start(adxSession);
                     var convertDialog = new Status();
-                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -240,7 +242,9 @@ namespace Sonic_06_Toolkit.Tools
         {
                 var ARC = Process.Start(arcSession);
                 var unpackDialog = new Status();
-                unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
+                var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
+                unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                 unpackDialog.Show();
                 ARC.WaitForExit();
                 ARC.Close();
@@ -299,7 +303,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Convert = Process.Start(at3Session);
                     var convertDialog = new Status();
-                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -347,7 +353,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Unpack = Process.Start(csbSession);
                     var unpackDialog = new Status();
-                    unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
+                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     unpackDialog.Show();
                     Unpack.WaitForExit();
                     Unpack.Close();
@@ -397,7 +405,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Convert = Process.Start(ddsSession);
                     var convertDialog = new Status();
-                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -529,7 +539,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Decompile = Process.Start(lubSession);
                     var decompileDialog = new Status();
-                    decompileDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - decompileDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - decompileDialog.Height) / 2);
+                    decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     decompileDialog.Show();
                     Decompile.WaitForExit();
                     Decompile.Close();
@@ -687,7 +699,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Convert = Process.Start(pngSession);
                     var convertDialog = new Status();
-                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -819,7 +833,9 @@ namespace Sonic_06_Toolkit.Tools
                 {
                     var Convert = Process.Start(xnoSession);
                     var convertDialog = new Status();
-                    convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -869,7 +885,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.92";
+        public static string versionNumber = "1.94";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

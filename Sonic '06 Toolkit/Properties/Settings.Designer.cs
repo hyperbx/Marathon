@@ -442,5 +442,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["debugShow"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool disableWarns {
+            get {
+                return ((bool)(this["disableWarns"]));
+            }
+            set {
+                this["disableWarns"] = value;
+            }
+        }
     }
 }
