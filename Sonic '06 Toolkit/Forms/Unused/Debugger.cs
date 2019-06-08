@@ -24,6 +24,8 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.debugShow == true) { check_DebugAdvanced.Checked = true; }
             else { check_DebugAdvanced.Checked = false; }
 
+            nud_Progress.Value = this.mainForm.UpdateProgressValue;
+
             tm_Update.Start();
         }
 
@@ -330,6 +332,42 @@ namespace Sonic_06_Toolkit
                 Properties.Settings.Default.debugShow = false;
             }
             Properties.Settings.Default.Save();
+        }
+
+        private void Check_ShowUpdater_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_ShowUpdater.Checked == true)
+            {
+                nud_Progress.Value = 0;
+                nud_Progress.Enabled = true;
+                btn_ResetProgress.Enabled = true;
+                this.mainForm.UpdaterVisibility = true;
+                if (Properties.Settings.Default.theme == "Original") this.mainForm.BackdropVisibility = true;
+                else this.mainForm.BackdropVisibility = false;
+                this.mainForm.UpdateNotifVisibility = false;
+                this.mainForm.UpdateTimerState = false;
+            }
+            else
+            {
+                nud_Progress.Value = 0;
+                nud_Progress.Enabled = false;
+                btn_ResetProgress.Enabled = false;
+                this.mainForm.UpdaterVisibility = false;
+                this.mainForm.BackdropVisibility = false;
+                this.mainForm.UpdateNotifVisibility = false;
+                this.mainForm.UpdateTimerState = true;
+            }
+        }
+
+        void Nud_Progress_ValueChanged(object sender, EventArgs e)
+        {
+            this.mainForm.UpdateProgressValue = Convert.ToInt32(nud_Progress.Value);
+        }
+
+        void Btn_ResetProgress_Click(object sender, EventArgs e)
+        {
+            this.mainForm.UpdateProgressValue = 0;
+            nud_Progress.Value = 0;
         }
     }
 }

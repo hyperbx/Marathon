@@ -159,6 +159,8 @@
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_UpdateNotif = new System.Windows.Forms.Label();
+            this.tm_updateCheck = new System.Windows.Forms.Timer(this.components);
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -444,7 +446,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -840,7 +842,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -1092,9 +1094,9 @@
             this.btn_Backdrop.Enabled = false;
             this.btn_Backdrop.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_Backdrop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Backdrop.Location = new System.Drawing.Point(388, 0);
+            this.btn_Backdrop.Location = new System.Drawing.Point(592, 0);
             this.btn_Backdrop.Name = "btn_Backdrop";
-            this.btn_Backdrop.Size = new System.Drawing.Size(315, 24);
+            this.btn_Backdrop.Size = new System.Drawing.Size(206, 24);
             this.btn_Backdrop.TabIndex = 2;
             this.btn_Backdrop.UseVisualStyleBackColor = true;
             this.btn_Backdrop.Visible = false;
@@ -1347,11 +1349,31 @@
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs here...";
             // 
+            // lbl_UpdateNotif
+            // 
+            this.lbl_UpdateNotif.AutoSize = true;
+            this.lbl_UpdateNotif.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_UpdateNotif.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_UpdateNotif.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UpdateNotif.Location = new System.Drawing.Point(394, 4);
+            this.lbl_UpdateNotif.Name = "lbl_UpdateNotif";
+            this.lbl_UpdateNotif.Size = new System.Drawing.Size(123, 15);
+            this.lbl_UpdateNotif.TabIndex = 14;
+            this.lbl_UpdateNotif.Text = "New update available!";
+            this.lbl_UpdateNotif.Visible = false;
+            this.lbl_UpdateNotif.Click += new System.EventHandler(this.Lbl_UpdateNotif_Click);
+            // 
+            // tm_updateCheck
+            // 
+            this.tm_updateCheck.Interval = 300000;
+            this.tm_updateCheck.Tick += new System.EventHandler(this.Tm_updateCheck_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lbl_UpdateNotif);
             this.Controls.Add(this.lbl_SetDefault);
             this.Controls.Add(this.pic_Logo);
             this.Controls.Add(this.btn_OpenFolder);
@@ -1364,7 +1386,7 @@
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(569, 489);
+            this.MinimumSize = new System.Drawing.Size(736, 489);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
@@ -1513,6 +1535,8 @@
         public System.Windows.Forms.ToolStripMenuItem advanced_DebugMode;
         public System.Windows.Forms.ToolStripSeparator advanced_Separator1;
         private System.Windows.Forms.ToolStripMenuItem advanced_DisableWarnings;
+        private System.Windows.Forms.Label lbl_UpdateNotif;
+        private System.Windows.Forms.Timer tm_updateCheck;
     }
 }
 

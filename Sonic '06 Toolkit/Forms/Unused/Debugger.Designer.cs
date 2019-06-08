@@ -75,6 +75,7 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label55 = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
             this.label54 = new System.Windows.Forms.Label();
             this.label51 = new System.Windows.Forms.Label();
@@ -110,6 +111,7 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.disableWarns = new System.Windows.Forms.Label();
             this.debugShow = new System.Windows.Forms.Label();
             this.debugMode = new System.Windows.Forms.Label();
             this.gameDir = new System.Windows.Forms.Label();
@@ -146,6 +148,8 @@
             this.theme = new System.Windows.Forms.Label();
             this.showSessionID = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.nud_Progress = new System.Windows.Forms.NumericUpDown();
+            this.check_ShowUpdater = new System.Windows.Forms.CheckBox();
             this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
             this.btn_UnsafeState = new System.Windows.Forms.Button();
             this.btn_WindowsShutdown = new System.Windows.Forms.Button();
@@ -154,8 +158,7 @@
             this.btn_PreviewUpdate = new System.Windows.Forms.Button();
             this.tm_Update = new System.Windows.Forms.Timer(this.components);
             this.tm_sendUpdate = new System.Windows.Forms.Timer(this.components);
-            this.label55 = new System.Windows.Forms.Label();
-            this.disableWarns = new System.Windows.Forms.Label();
+            this.btn_ResetProgress = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -168,6 +171,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Progress)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -719,6 +723,15 @@
             this.splitContainer2.SplitterDistance = 160;
             this.splitContainer2.TabIndex = 1;
             // 
+            // label55
+            // 
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(3, 457);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(71, 13);
+            this.label55.TabIndex = 35;
+            this.label55.Text = "disableWarns";
+            // 
             // label53
             // 
             this.label53.AutoSize = true;
@@ -1033,6 +1046,15 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // disableWarns
+            // 
+            this.disableWarns.AutoSize = true;
+            this.disableWarns.Location = new System.Drawing.Point(4, 457);
+            this.disableWarns.Name = "disableWarns";
+            this.disableWarns.Size = new System.Drawing.Size(71, 13);
+            this.disableWarns.TabIndex = 56;
+            this.disableWarns.Text = "disableWarns";
             // 
             // debugShow
             // 
@@ -1363,6 +1385,9 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btn_ResetProgress);
+            this.tabPage3.Controls.Add(this.nud_Progress);
+            this.tabPage3.Controls.Add(this.check_ShowUpdater);
             this.tabPage3.Controls.Add(this.check_DebugAdvanced);
             this.tabPage3.Controls.Add(this.btn_UnsafeState);
             this.tabPage3.Controls.Add(this.btn_WindowsShutdown);
@@ -1376,10 +1401,30 @@
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // nud_Progress
+            // 
+            this.nud_Progress.Enabled = false;
+            this.nud_Progress.Location = new System.Drawing.Point(157, 124);
+            this.nud_Progress.Name = "nud_Progress";
+            this.nud_Progress.Size = new System.Drawing.Size(183, 20);
+            this.nud_Progress.TabIndex = 9;
+            this.nud_Progress.ValueChanged += new System.EventHandler(this.Nud_Progress_ValueChanged);
+            // 
+            // check_ShowUpdater
+            // 
+            this.check_ShowUpdater.AutoSize = true;
+            this.check_ShowUpdater.Location = new System.Drawing.Point(5, 126);
+            this.check_ShowUpdater.Name = "check_ShowUpdater";
+            this.check_ShowUpdater.Size = new System.Drawing.Size(150, 17);
+            this.check_ShowUpdater.TabIndex = 8;
+            this.check_ShowUpdater.Text = "Show update progress bar";
+            this.check_ShowUpdater.UseVisualStyleBackColor = true;
+            this.check_ShowUpdater.CheckedChanged += new System.EventHandler(this.Check_ShowUpdater_CheckedChanged);
+            // 
             // check_DebugAdvanced
             // 
             this.check_DebugAdvanced.AutoSize = true;
-            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 124);
+            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 150);
             this.check_DebugAdvanced.Name = "check_DebugAdvanced";
             this.check_DebugAdvanced.Size = new System.Drawing.Size(174, 17);
             this.check_DebugAdvanced.TabIndex = 7;
@@ -1462,23 +1507,19 @@
             // 
             this.tm_Update.Tick += new System.EventHandler(this.Tm_Update_Tick);
             // 
-            // label55
+            // btn_ResetProgress
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(3, 457);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(71, 13);
-            this.label55.TabIndex = 35;
-            this.label55.Text = "disableWarns";
-            // 
-            // disableWarns
-            // 
-            this.disableWarns.AutoSize = true;
-            this.disableWarns.Location = new System.Drawing.Point(4, 457);
-            this.disableWarns.Name = "disableWarns";
-            this.disableWarns.Size = new System.Drawing.Size(71, 13);
-            this.disableWarns.TabIndex = 56;
-            this.disableWarns.Text = "disableWarns";
+            this.btn_ResetProgress.BackColor = System.Drawing.Color.Tomato;
+            this.btn_ResetProgress.Enabled = false;
+            this.btn_ResetProgress.FlatAppearance.BorderSize = 0;
+            this.btn_ResetProgress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ResetProgress.Location = new System.Drawing.Point(343, 124);
+            this.btn_ResetProgress.Name = "btn_ResetProgress";
+            this.btn_ResetProgress.Size = new System.Drawing.Size(50, 20);
+            this.btn_ResetProgress.TabIndex = 10;
+            this.btn_ResetProgress.Text = "Reset";
+            this.btn_ResetProgress.UseVisualStyleBackColor = false;
+            this.btn_ResetProgress.Click += new System.EventHandler(this.Btn_ResetProgress_Click);
             // 
             // Debugger
             // 
@@ -1489,7 +1530,6 @@
             this.ClientSize = new System.Drawing.Size(406, 527);
             this.ControlBox = false;
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -1514,6 +1554,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_Progress)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1646,5 +1687,8 @@
         private System.Windows.Forms.Label debugMode;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Label disableWarns;
+        private System.Windows.Forms.CheckBox check_ShowUpdater;
+        private System.Windows.Forms.NumericUpDown nud_Progress;
+        private System.Windows.Forms.Button btn_ResetProgress;
     }
 }

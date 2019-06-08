@@ -60,7 +60,8 @@ namespace Sonic_06_Toolkit.Tools
                     var convertDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.adxState == "launch-adx") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -244,7 +245,8 @@ namespace Sonic_06_Toolkit.Tools
                 var unpackDialog = new Status();
                 var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
                 var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
-                unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                if (Global.arcState == "launch-typical") unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                else unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                 unpackDialog.Show();
                 ARC.WaitForExit();
                 ARC.Close();
@@ -305,7 +307,8 @@ namespace Sonic_06_Toolkit.Tools
                     var convertDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.at3State == "launch-at3") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -355,7 +358,8 @@ namespace Sonic_06_Toolkit.Tools
                     var unpackDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
-                    unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.csbState == "launch-unpack") unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     unpackDialog.Show();
                     Unpack.WaitForExit();
                     Unpack.Close();
@@ -407,7 +411,8 @@ namespace Sonic_06_Toolkit.Tools
                     var convertDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.ddsState == "launch-dds") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -541,7 +546,8 @@ namespace Sonic_06_Toolkit.Tools
                     var decompileDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - decompileDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - decompileDialog.Height) / 2);
-                    decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.lubState == "launch-decompile") decompileDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     decompileDialog.Show();
                     Decompile.WaitForExit();
                     Decompile.Close();
@@ -701,7 +707,8 @@ namespace Sonic_06_Toolkit.Tools
                     var convertDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.ddsState == "launch-png") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -835,7 +842,8 @@ namespace Sonic_06_Toolkit.Tools
                     var convertDialog = new Status();
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    if (Global.xnoState == "launch-xno") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
@@ -885,7 +893,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.94";
+        public static string versionNumber = "1.95";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
