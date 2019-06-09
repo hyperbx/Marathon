@@ -8,6 +8,19 @@
 
 <p align="center">Sonic '06 Toolkit is an application developed to help make modding easier for SONIC THE HEDGEHOG (2006). Now being written in C#, Sonic '06 Toolkit has been made open-source to allow the community to contribute to the project.</p>
 
+# Usage
+### "I just want a download link."
+See the [releases page](https://github.com/HyperPolygon64/Sonic-06-Toolkit/releases), it doesn't get any simpler than that.
+
+### "I want to build it myself."
+Sure! Use Git to clone the repository to your drive. The solution was created using Visual Studio 2019, but you can still build it using Visual Studio 2017 just fine.
+
+### "Are there any dependencies that are required?"
+Yes, see the [Requirements](https://github.com/HyperPolygon64/Sonic-06-Toolkit#requirements) section at the bottom of this document.
+
+### "How do I mod this game, then?"
+Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for more in-depth information.
+
 # Features
 ### ADX Encoding and CSB Extracting
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds)'s [Sonic Audio Tools](https://github.com/blueskythlikesclouds/SonicAudioTools) for extracting CSB files and some tools from [CRI Middleware](https://www.criware.com/en/) for encoding ADX files.
