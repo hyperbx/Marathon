@@ -44,7 +44,7 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 - Currently based off [Radfordhound](https://github.com/Radfordhound)'s [HedgeLib](https://github.com/Radfordhound/HedgeLib) S06SetData class.
 
 ### Xbox 360 ISO Extracting
-- Currently based off Aiyyo and somski's modified variant of in's extract-xiso tool.
+- Currently based off in's [extract-xiso](https://github.com/XboxDev/extract-xiso) tool.
 
 ### XNO Converting and XNM Pairing
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
