@@ -842,7 +842,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -1184,6 +1184,7 @@
             this.tab_Main.SelectedIndex = 0;
             this.tab_Main.Size = new System.Drawing.Size(800, 424);
             this.tab_Main.TabIndex = 8;
+            this.tab_Main.Tag = "";
             this.tab_Main.SelectedIndexChanged += new System.EventHandler(this.Tab_Main_SelectedIndexChanged);
             this.tab_Main.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Tab_Main_MouseClick);
             // 
@@ -1386,7 +1387,7 @@
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(736, 489);
+            this.MinimumSize = new System.Drawing.Size(743, 489);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";

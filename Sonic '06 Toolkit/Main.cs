@@ -9,8 +9,30 @@ using System.Windows.Forms;
 
 // Welcome to Sonic '06 Toolkit!
 
-// To-do list:
-// TODO: Optimise the code and combine certain sections into single methods.
+// Sonic '06 Toolkit is licensed under the MIT License:
+/*
+ * MIT License
+
+ * Copyright (c) 2019 Gabriel (HyperPolygon64)
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 namespace Sonic_06_Toolkit
 {
@@ -88,10 +110,14 @@ namespace Sonic_06_Toolkit
                                     }
 
                                     //Writes a file to store the failsafe directory to be referenced later.
-                                    var storageWrite = File.Create($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
-                                    var storageSession = new UTF8Encoding(true).GetBytes(Tools.ARC.failsafeCheck);
-                                    storageWrite.Write(storageSession, 0, storageSession.Length);
-                                    storageWrite.Close();
+                                    //var storageWrite = File.Create($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
+                                    //var storageSession = new UTF8Encoding(true).GetBytes(Tools.ARC.failsafeCheck);
+                                    //storageWrite.Write(storageSession, 0, storageSession.Length);
+                                    //storageWrite.Close();
+
+                                    tab_Main.SelectedTab.ToolTipText = Tools.ARC.failsafeCheck;
+                                    Tools.Global.getStorage = Tools.ARC.failsafeCheck;
+                                    Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                     Text = "Sonic '06 Toolkit - '" + args[0] + "'";
                                 }
@@ -293,6 +319,7 @@ namespace Sonic_06_Toolkit
                                 case DialogResult.Yes:
                                     tm_updateCheck.Stop();
 
+                                    mainPreferences_DisableSoftwareUpdater.Enabled = false;
                                     lbl_UpdateNotif.Visible = false;
                                     pnl_Updater.Visible = true;
 
@@ -365,6 +392,7 @@ namespace Sonic_06_Toolkit
             }
 
             Tools.Global.updateState = null;
+            mainPreferences_DisableSoftwareUpdater.Enabled = true;
         }
 
         void Main_Load(object sender, EventArgs e)
@@ -529,6 +557,11 @@ namespace Sonic_06_Toolkit
             currentARC().AllowWebBrowserDrop = false;
         }
 
+        public string GetStorage
+        {
+            get { return tab_Main.SelectedTab.ToolTipText; }
+        }
+
         private WebBrowser currentARC()
         {
             //Returns the active web browser in the selected tab.
@@ -581,10 +614,14 @@ namespace Sonic_06_Toolkit
                                 }
 
                                 //Writes a file to store the failsafe directory to be referenced later.
-                                var storageWrite = File.Create($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
-                                var storageSession = new UTF8Encoding(true).GetBytes(Tools.ARC.failsafeCheck);
-                                storageWrite.Write(storageSession, 0, storageSession.Length);
-                                storageWrite.Close();
+                                //var storageWrite = File.Create($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
+                                //var storageSession = new UTF8Encoding(true).GetBytes(Tools.ARC.failsafeCheck);
+                                //storageWrite.Write(storageSession, 0, storageSession.Length);
+                                //storageWrite.Close();
+
+                                tab_Main.SelectedTab.ToolTipText = Tools.ARC.failsafeCheck;
+                                Tools.Global.getStorage = Tools.ARC.failsafeCheck;
+                                Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                 Text = "Sonic '06 Toolkit - '" + ofd_OpenFiles.FileName + "'";
                             }
@@ -707,18 +744,18 @@ namespace Sonic_06_Toolkit
                                     metadataWrite.Close();
                                     #endregion
 
-                                    #region Building location data...
-                                    //Writes a file to store the failsafe directory to be referenced later.
-                                    var storageSession = new StringBuilder();
-                                    storageSession.Append(Properties.Settings.Default.archivesPath);
-                                    storageSession.Append(Tools.Global.sessionID);
-                                    storageSession.Append(@"\");
-                                    storageSession.Append(tab_Main.SelectedIndex);
-                                    var storageWrite = File.Create(storageSession.ToString());
-                                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                                    storageWrite.Write(storageText, 0, storageText.Length);
-                                    storageWrite.Close();
-                                    #endregion
+                                    //#region Building location data...
+                                    ////Writes a file to store the failsafe directory to be referenced later.
+                                    //var storageSession = new StringBuilder();
+                                    //storageSession.Append(Properties.Settings.Default.archivesPath);
+                                    //storageSession.Append(Tools.Global.sessionID);
+                                    //storageSession.Append(@"\");
+                                    //storageSession.Append(tab_Main.SelectedIndex);
+                                    //var storageWrite = File.Create(storageSession.ToString());
+                                    //var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                    //storageWrite.Write(storageText, 0, storageText.Length);
+                                    //storageWrite.Close();
+                                    //#endregion
 
                                     #region Navigating...
                                     //Creates a new tab if the selected one is being used.
@@ -733,6 +770,10 @@ namespace Sonic_06_Toolkit
                                         newTab();
                                     }
                                     #endregion
+
+                                    tab_Main.SelectedTab.ToolTipText = failsafeCheck;
+                                    Tools.Global.getStorage = failsafeCheck;
+                                    Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
@@ -778,18 +819,18 @@ namespace Sonic_06_Toolkit
                                     metadataWrite.Close();
                                     #endregion
 
-                                    #region Building location data...
-                                    //Writes a file to store the failsafe directory to be referenced later.
-                                    var storageSession = new StringBuilder();
-                                    storageSession.Append(Properties.Settings.Default.archivesPath);
-                                    storageSession.Append(Tools.Global.sessionID);
-                                    storageSession.Append(@"\");
-                                    storageSession.Append(tab_Main.SelectedIndex);
-                                    var storageWrite = File.Create(storageSession.ToString());
-                                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                                    storageWrite.Write(storageText, 0, storageText.Length);
-                                    storageWrite.Close();
-                                    #endregion
+                                    //#region Building location data...
+                                    ////Writes a file to store the failsafe directory to be referenced later.
+                                    //var storageSession = new StringBuilder();
+                                    //storageSession.Append(Properties.Settings.Default.archivesPath);
+                                    //storageSession.Append(Tools.Global.sessionID);
+                                    //storageSession.Append(@"\");
+                                    //storageSession.Append(tab_Main.SelectedIndex);
+                                    //var storageWrite = File.Create(storageSession.ToString());
+                                    //var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                    //storageWrite.Write(storageText, 0, storageText.Length);
+                                    //storageWrite.Close();
+                                    //#endregion
 
                                     #region Navigating...
                                     //Creates a new tab if the selected one is being used.
@@ -804,6 +845,10 @@ namespace Sonic_06_Toolkit
                                         newTab();
                                     }
                                     #endregion
+
+                                    tab_Main.SelectedTab.ToolTipText = failsafeCheck;
+                                    Tools.Global.getStorage = failsafeCheck;
+                                    Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
@@ -846,18 +891,18 @@ namespace Sonic_06_Toolkit
                                     metadataWrite.Close();
                                     #endregion
 
-                                    #region Building location data...
-                                    //Writes a file to store the failsafe directory to be referenced later.
-                                    var storageSession = new StringBuilder();
-                                    storageSession.Append(Properties.Settings.Default.archivesPath);
-                                    storageSession.Append(Tools.Global.sessionID);
-                                    storageSession.Append(@"\");
-                                    storageSession.Append(tab_Main.SelectedIndex);
-                                    var storageWrite = File.Create(storageSession.ToString());
-                                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                                    storageWrite.Write(storageText, 0, storageText.Length);
-                                    storageWrite.Close();
-                                    #endregion
+                                    //#region Building location data...
+                                    ////Writes a file to store the failsafe directory to be referenced later.
+                                    //var storageSession = new StringBuilder();
+                                    //storageSession.Append(Properties.Settings.Default.archivesPath);
+                                    //storageSession.Append(Tools.Global.sessionID);
+                                    //storageSession.Append(@"\");
+                                    //storageSession.Append(tab_Main.SelectedIndex);
+                                    //var storageWrite = File.Create(storageSession.ToString());
+                                    //var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                    //storageWrite.Write(storageText, 0, storageText.Length);
+                                    //storageWrite.Close();
+                                    //#endregion
 
                                     #region Navigating...
                                     //Creates a new tab if the selected one is being used.
@@ -872,6 +917,10 @@ namespace Sonic_06_Toolkit
                                         newTab();
                                     }
                                     #endregion
+
+                                    tab_Main.SelectedTab.ToolTipText = failsafeCheck;
+                                    Tools.Global.getStorage = failsafeCheck;
+                                    Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
@@ -914,18 +963,18 @@ namespace Sonic_06_Toolkit
                                     metadataWrite.Close();
                                     #endregion
 
-                                    #region Building location data...
-                                    //Writes a file to store the failsafe directory to be referenced later.
-                                    var storageSession = new StringBuilder();
-                                    storageSession.Append(Properties.Settings.Default.archivesPath);
-                                    storageSession.Append(Tools.Global.sessionID);
-                                    storageSession.Append(@"\");
-                                    storageSession.Append(tab_Main.SelectedIndex);
-                                    var storageWrite = File.Create(storageSession.ToString());
-                                    var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                                    storageWrite.Write(storageText, 0, storageText.Length);
-                                    storageWrite.Close();
-                                    #endregion
+                                    //#region Building location data...
+                                    ////Writes a file to store the failsafe directory to be referenced later.
+                                    //var storageSession = new StringBuilder();
+                                    //storageSession.Append(Properties.Settings.Default.archivesPath);
+                                    //storageSession.Append(Tools.Global.sessionID);
+                                    //storageSession.Append(@"\");
+                                    //storageSession.Append(tab_Main.SelectedIndex);
+                                    //var storageWrite = File.Create(storageSession.ToString());
+                                    //var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                                    //storageWrite.Write(storageText, 0, storageText.Length);
+                                    //storageWrite.Close();
+                                    //#endregion
 
                                     #region Navigating...
                                     //Creates a new tab if the selected one is being used.
@@ -940,6 +989,10 @@ namespace Sonic_06_Toolkit
                                         newTab();
                                     }
                                     #endregion
+
+                                    tab_Main.SelectedTab.ToolTipText = failsafeCheck;
+                                    Tools.Global.getStorage = failsafeCheck;
+                                    Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                                     currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                                     if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
@@ -989,18 +1042,18 @@ namespace Sonic_06_Toolkit
                             metadataWrite.Close();
                             #endregion
 
-                            #region Building location data...
-                            //Writes a file to store the failsafe directory to be referenced later.
-                            var storageSession = new StringBuilder();
-                            storageSession.Append(Properties.Settings.Default.archivesPath);
-                            storageSession.Append(Tools.Global.sessionID);
-                            storageSession.Append(@"\");
-                            storageSession.Append(tab_Main.SelectedIndex);
-                            var storageWrite = File.Create(storageSession.ToString());
-                            var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
-                            storageWrite.Write(storageText, 0, storageText.Length);
-                            storageWrite.Close();
-                            #endregion
+                            //#region Building location data...
+                            ////Writes a file to store the failsafe directory to be referenced later.
+                            //var storageSession = new StringBuilder();
+                            //storageSession.Append(Properties.Settings.Default.archivesPath);
+                            //storageSession.Append(Tools.Global.sessionID);
+                            //storageSession.Append(@"\");
+                            //storageSession.Append(tab_Main.SelectedIndex);
+                            //var storageWrite = File.Create(storageSession.ToString());
+                            //var storageText = new UTF8Encoding(true).GetBytes(failsafeCheck);
+                            //storageWrite.Write(storageText, 0, storageText.Length);
+                            //storageWrite.Close();
+                            //#endregion
 
                             #region Navigating...
                             //Creates a new tab if the selected one is being used.
@@ -1015,6 +1068,10 @@ namespace Sonic_06_Toolkit
                                 newTab();
                             }
                             #endregion
+
+                            tab_Main.SelectedTab.ToolTipText = failsafeCheck;
+                            Tools.Global.getStorage = failsafeCheck;
+                            Tools.Global.getIndex = tab_Main.SelectedIndex;
 
                             currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
                             if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
@@ -1326,6 +1383,12 @@ namespace Sonic_06_Toolkit
         {
             get { return pgb_updateStatus.Value; }
             set { pgb_updateStatus.Value = value; }
+        }
+
+        public bool DisableUpdaterState
+        {
+            get { return mainPreferences_DisableSoftwareUpdater.Enabled; }
+            set { mainPreferences_DisableSoftwareUpdater.Enabled = value; }
         }
 
         void Advanced_DebugMode_CheckedChanged(object sender, EventArgs e)
@@ -1975,24 +2038,16 @@ namespace Sonic_06_Toolkit
             try
             {
                 Tools.Global.getIndex = tab_Main.SelectedIndex;
+                Tools.Global.getStorage = GetStorage;
 
                 if (tab_Main.SelectedTab.Text != "New Tab")
                 {
-                    #region Building location data...
                     //Reads the metadata to get the original location of the ARC.
-                    var repackBuildSession = new StringBuilder();
-                    repackBuildSession.Append(Properties.Settings.Default.archivesPath);
-                    repackBuildSession.Append(Tools.Global.sessionID);
-                    repackBuildSession.Append(@"\");
-                    string failsafeCheck = File.ReadAllText(repackBuildSession.ToString() + tab_Main.SelectedIndex);
-                    repackBuildSession.Append(@"\");
-                    repackBuildSession.Append(failsafeCheck);
-                    repackBuildSession.Append(@"\");
-                    #endregion
+                    string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
 
-                    if (File.Exists(repackBuildSession.ToString() + "metadata.ini"))
+                    if (File.Exists(repackBuildSession + "metadata.ini"))
                     {
-                        string metadata = File.ReadAllText(repackBuildSession.ToString() + "metadata.ini");
+                        string metadata = File.ReadAllText(repackBuildSession + "metadata.ini");
                         Text = "Sonic '06 Toolkit - '" + metadata + "'";
                     }
                     else
@@ -2303,8 +2358,6 @@ namespace Sonic_06_Toolkit
                 Tools.Global.gameChanged = false;
             }
 
-            if (Tools.Global.getIndex == -1) Tools.Global.getIndex = 0;
-
             FormTop = Top;
             FormLeft = Left;
             FormWidth = Width;
@@ -2480,8 +2533,8 @@ namespace Sonic_06_Toolkit
             {
                 try
                 {
-                    string failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
-                    string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{failsafeCheck}\\";
+                    //string failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
+                    string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
                     string metadata = File.ReadAllText($"{repackBuildSession}metadata.ini");
 
                     Tools.Global.arcState = "save";
@@ -2517,8 +2570,8 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
-                        string failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
-                        string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{failsafeCheck}\\";
+                        //string failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
+                        string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
                         string metadata = File.ReadAllText($"{repackBuildSession}metadata.ini");
 
                         Tools.Global.arcState = "save-as";
@@ -2670,6 +2723,7 @@ namespace Sonic_06_Toolkit
             switch (reset)
             {
                 case DialogResult.Yes:
+
                     var s06toolkitData = new DirectoryInfo(Tools.Global.applicationData + @"\Hyper_Development_Team\Sonic '06 Toolkit\");
 
                     try

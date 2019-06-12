@@ -292,8 +292,8 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mst06.exe" />
     <None Include="Resources\tinyxml2.dll" />
+    <None Include="Resources\mst06.exe" />
     <None Include="Resources\texconv.exe" />
     <None Include="Resources\PS3_at3tool.exe" />
     <None Include="Resources\vsthost.dll" />

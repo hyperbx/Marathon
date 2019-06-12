@@ -7,6 +7,31 @@ using HedgeLib.Sets;
 using System.Diagnostics;
 using System.Windows.Forms;
 
+// Sonic '06 Toolkit is licensed under the MIT License:
+/*
+ * MIT License
+
+ * Copyright (c) 2019 Gabriel (HyperPolygon64)
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 namespace Sonic_06_Toolkit.Tools
 {
     class ADX
@@ -434,7 +459,7 @@ namespace Sonic_06_Toolkit.Tools
         {
             //Gets the failsafe directory.
             if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}");
-            if (Global.lubState == "decompile" || Global.lubState == "decompile-all") failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Global.sessionID}\\{Global.getIndex}");
+            if (Global.lubState == "decompile" || Global.lubState == "decompile-all") failsafeCheck = Global.getStorage;
             else failsafeCheck = Path.GetRandomFileName();
 
             //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
@@ -769,7 +794,7 @@ namespace Sonic_06_Toolkit.Tools
             #region Getting current ARC failsafe...
             //Gets the failsafe directory.
             if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}");
-            if (Global.xnoState == "xno") failsafeCheck = File.ReadAllText($"{Properties.Settings.Default.archivesPath}{Global.sessionID}\\{Global.getIndex}");
+            if (Global.xnoState == "xno") failsafeCheck = Global.getStorage;
             else failsafeCheck = Path.GetRandomFileName();
             #endregion
 
@@ -893,12 +918,13 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.95";
+        public static string versionNumber = "1.96";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
         public static string updateState;
         public static string exisoState;
+        public static string getStorage;
         public static string arcState;
         public static string adxState;
         public static string at3State;

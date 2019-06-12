@@ -148,6 +148,7 @@
             this.theme = new System.Windows.Forms.Label();
             this.showSessionID = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_ResetProgress = new System.Windows.Forms.Button();
             this.nud_Progress = new System.Windows.Forms.NumericUpDown();
             this.check_ShowUpdater = new System.Windows.Forms.CheckBox();
             this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
@@ -158,7 +159,11 @@
             this.btn_PreviewUpdate = new System.Windows.Forms.Button();
             this.tm_Update = new System.Windows.Forms.Timer(this.components);
             this.tm_sendUpdate = new System.Windows.Forms.Timer(this.components);
-            this.btn_ResetProgress = new System.Windows.Forms.Button();
+            this.label56 = new System.Windows.Forms.Label();
+            this.getStorage = new System.Windows.Forms.Label();
+            this.tm_getStorage = new System.Windows.Forms.Timer(this.components);
+            this.label57 = new System.Windows.Forms.Label();
+            this.lbl_getStorage = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -206,6 +211,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.label57);
             this.splitContainer1.Panel1.Controls.Add(this.label20);
             this.splitContainer1.Panel1.Controls.Add(this.label19);
             this.splitContainer1.Panel1.Controls.Add(this.label18);
@@ -229,6 +235,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.lbl_getStorage);
             this.splitContainer1.Panel2.Controls.Add(this.gameChanged);
             this.splitContainer1.Panel2.Controls.Add(this.javaCheck);
             this.splitContainer1.Panel2.Controls.Add(this.getIndex);
@@ -256,7 +263,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 249);
+            this.label20.Location = new System.Drawing.Point(3, 262);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(76, 13);
             this.label20.TabIndex = 19;
@@ -265,7 +272,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 236);
+            this.label19.Location = new System.Drawing.Point(3, 249);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(58, 13);
             this.label19.TabIndex = 18;
@@ -274,7 +281,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 223);
+            this.label18.Location = new System.Drawing.Point(3, 236);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(48, 13);
             this.label18.TabIndex = 17;
@@ -283,7 +290,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 210);
+            this.label17.Location = new System.Drawing.Point(3, 223);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(53, 13);
             this.label17.TabIndex = 16;
@@ -292,7 +299,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 197);
+            this.label16.Location = new System.Drawing.Point(3, 210);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(81, 13);
             this.label16.TabIndex = 15;
@@ -301,7 +308,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 184);
+            this.label15.Location = new System.Drawing.Point(3, 197);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(49, 13);
             this.label15.TabIndex = 14;
@@ -310,7 +317,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 171);
+            this.label11.Location = new System.Drawing.Point(3, 184);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(48, 13);
             this.label11.TabIndex = 13;
@@ -319,7 +326,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 158);
+            this.label12.Location = new System.Drawing.Point(3, 171);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(46, 13);
             this.label12.TabIndex = 12;
@@ -328,7 +335,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 145);
+            this.label13.Location = new System.Drawing.Point(3, 158);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(46, 13);
             this.label13.TabIndex = 11;
@@ -337,7 +344,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 132);
+            this.label14.Location = new System.Drawing.Point(3, 145);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(49, 13);
             this.label14.TabIndex = 10;
@@ -346,7 +353,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 119);
+            this.label9.Location = new System.Drawing.Point(3, 132);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 9;
@@ -355,7 +362,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 106);
+            this.label10.Location = new System.Drawing.Point(3, 119);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(47, 13);
             this.label10.TabIndex = 8;
@@ -364,7 +371,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 93);
+            this.label8.Location = new System.Drawing.Point(3, 106);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(49, 13);
             this.label8.TabIndex = 7;
@@ -373,7 +380,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 80);
+            this.label7.Location = new System.Drawing.Point(3, 93);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(47, 13);
             this.label7.TabIndex = 6;
@@ -436,7 +443,7 @@
             // gameChanged
             // 
             this.gameChanged.AutoSize = true;
-            this.gameChanged.Location = new System.Drawing.Point(3, 249);
+            this.gameChanged.Location = new System.Drawing.Point(3, 262);
             this.gameChanged.Name = "gameChanged";
             this.gameChanged.Size = new System.Drawing.Size(76, 13);
             this.gameChanged.TabIndex = 39;
@@ -446,7 +453,7 @@
             // javaCheck
             // 
             this.javaCheck.AutoSize = true;
-            this.javaCheck.Location = new System.Drawing.Point(3, 236);
+            this.javaCheck.Location = new System.Drawing.Point(3, 249);
             this.javaCheck.Name = "javaCheck";
             this.javaCheck.Size = new System.Drawing.Size(58, 13);
             this.javaCheck.TabIndex = 38;
@@ -456,7 +463,7 @@
             // getIndex
             // 
             this.getIndex.AutoSize = true;
-            this.getIndex.Location = new System.Drawing.Point(3, 223);
+            this.getIndex.Location = new System.Drawing.Point(3, 236);
             this.getIndex.Name = "getIndex";
             this.getIndex.Size = new System.Drawing.Size(48, 13);
             this.getIndex.TabIndex = 37;
@@ -465,7 +472,7 @@
             // sessionID
             // 
             this.sessionID.AutoSize = true;
-            this.sessionID.Location = new System.Drawing.Point(3, 210);
+            this.sessionID.Location = new System.Drawing.Point(3, 223);
             this.sessionID.Name = "sessionID";
             this.sessionID.Size = new System.Drawing.Size(53, 13);
             this.sessionID.TabIndex = 36;
@@ -474,7 +481,7 @@
             // applicationData
             // 
             this.applicationData.AutoSize = true;
-            this.applicationData.Location = new System.Drawing.Point(3, 197);
+            this.applicationData.Location = new System.Drawing.Point(3, 210);
             this.applicationData.Name = "applicationData";
             this.applicationData.Size = new System.Drawing.Size(81, 13);
             this.applicationData.TabIndex = 35;
@@ -483,7 +490,7 @@
             // xnoState
             // 
             this.xnoState.AutoSize = true;
-            this.xnoState.Location = new System.Drawing.Point(3, 184);
+            this.xnoState.Location = new System.Drawing.Point(3, 197);
             this.xnoState.Name = "xnoState";
             this.xnoState.Size = new System.Drawing.Size(49, 13);
             this.xnoState.TabIndex = 34;
@@ -493,7 +500,7 @@
             // mstState
             // 
             this.mstState.AutoSize = true;
-            this.mstState.Location = new System.Drawing.Point(3, 171);
+            this.mstState.Location = new System.Drawing.Point(3, 184);
             this.mstState.Name = "mstState";
             this.mstState.Size = new System.Drawing.Size(48, 13);
             this.mstState.TabIndex = 33;
@@ -503,7 +510,7 @@
             // setState
             // 
             this.setState.AutoSize = true;
-            this.setState.Location = new System.Drawing.Point(3, 158);
+            this.setState.Location = new System.Drawing.Point(3, 171);
             this.setState.Name = "setState";
             this.setState.Size = new System.Drawing.Size(46, 13);
             this.setState.TabIndex = 32;
@@ -513,7 +520,7 @@
             // lubState
             // 
             this.lubState.AutoSize = true;
-            this.lubState.Location = new System.Drawing.Point(3, 145);
+            this.lubState.Location = new System.Drawing.Point(3, 158);
             this.lubState.Name = "lubState";
             this.lubState.Size = new System.Drawing.Size(46, 13);
             this.lubState.TabIndex = 31;
@@ -523,7 +530,7 @@
             // ddsState
             // 
             this.ddsState.AutoSize = true;
-            this.ddsState.Location = new System.Drawing.Point(3, 132);
+            this.ddsState.Location = new System.Drawing.Point(3, 145);
             this.ddsState.Name = "ddsState";
             this.ddsState.Size = new System.Drawing.Size(49, 13);
             this.ddsState.TabIndex = 30;
@@ -533,7 +540,7 @@
             // csbState
             // 
             this.csbState.AutoSize = true;
-            this.csbState.Location = new System.Drawing.Point(3, 119);
+            this.csbState.Location = new System.Drawing.Point(3, 132);
             this.csbState.Name = "csbState";
             this.csbState.Size = new System.Drawing.Size(49, 13);
             this.csbState.TabIndex = 29;
@@ -543,7 +550,7 @@
             // at3State
             // 
             this.at3State.AutoSize = true;
-            this.at3State.Location = new System.Drawing.Point(3, 106);
+            this.at3State.Location = new System.Drawing.Point(3, 119);
             this.at3State.Name = "at3State";
             this.at3State.Size = new System.Drawing.Size(47, 13);
             this.at3State.TabIndex = 28;
@@ -553,7 +560,7 @@
             // adxState
             // 
             this.adxState.AutoSize = true;
-            this.adxState.Location = new System.Drawing.Point(3, 93);
+            this.adxState.Location = new System.Drawing.Point(3, 106);
             this.adxState.Name = "adxState";
             this.adxState.Size = new System.Drawing.Size(49, 13);
             this.adxState.TabIndex = 27;
@@ -563,7 +570,7 @@
             // arcState
             // 
             this.arcState.AutoSize = true;
-            this.arcState.Location = new System.Drawing.Point(3, 80);
+            this.arcState.Location = new System.Drawing.Point(3, 93);
             this.arcState.Name = "arcState";
             this.arcState.Size = new System.Drawing.Size(47, 13);
             this.arcState.TabIndex = 26;
@@ -1401,6 +1408,20 @@
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // btn_ResetProgress
+            // 
+            this.btn_ResetProgress.BackColor = System.Drawing.Color.Tomato;
+            this.btn_ResetProgress.Enabled = false;
+            this.btn_ResetProgress.FlatAppearance.BorderSize = 0;
+            this.btn_ResetProgress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_ResetProgress.Location = new System.Drawing.Point(343, 124);
+            this.btn_ResetProgress.Name = "btn_ResetProgress";
+            this.btn_ResetProgress.Size = new System.Drawing.Size(50, 20);
+            this.btn_ResetProgress.TabIndex = 10;
+            this.btn_ResetProgress.Text = "Reset";
+            this.btn_ResetProgress.UseVisualStyleBackColor = false;
+            this.btn_ResetProgress.Click += new System.EventHandler(this.Btn_ResetProgress_Click);
+            // 
             // nud_Progress
             // 
             this.nud_Progress.Enabled = false;
@@ -1507,19 +1528,45 @@
             // 
             this.tm_Update.Tick += new System.EventHandler(this.Tm_Update_Tick);
             // 
-            // btn_ResetProgress
+            // label56
             // 
-            this.btn_ResetProgress.BackColor = System.Drawing.Color.Tomato;
-            this.btn_ResetProgress.Enabled = false;
-            this.btn_ResetProgress.FlatAppearance.BorderSize = 0;
-            this.btn_ResetProgress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ResetProgress.Location = new System.Drawing.Point(343, 124);
-            this.btn_ResetProgress.Name = "btn_ResetProgress";
-            this.btn_ResetProgress.Size = new System.Drawing.Size(50, 20);
-            this.btn_ResetProgress.TabIndex = 10;
-            this.btn_ResetProgress.Text = "Reset";
-            this.btn_ResetProgress.UseVisualStyleBackColor = false;
-            this.btn_ResetProgress.Click += new System.EventHandler(this.Btn_ResetProgress_Click);
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(142, 4);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(68, 13);
+            this.label56.TabIndex = 21;
+            this.label56.Text = "STORAGE =";
+            // 
+            // getStorage
+            // 
+            this.getStorage.AutoSize = true;
+            this.getStorage.Location = new System.Drawing.Point(206, 4);
+            this.getStorage.Name = "getStorage";
+            this.getStorage.Size = new System.Drawing.Size(13, 13);
+            this.getStorage.TabIndex = 22;
+            this.getStorage.Text = "0";
+            // 
+            // tm_getStorage
+            // 
+            this.tm_getStorage.Tick += new System.EventHandler(this.Tm_getStorage_Tick);
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(3, 80);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(59, 13);
+            this.label57.TabIndex = 20;
+            this.label57.Text = "getStorage";
+            // 
+            // lbl_getStorage
+            // 
+            this.lbl_getStorage.AutoSize = true;
+            this.lbl_getStorage.Location = new System.Drawing.Point(3, 80);
+            this.lbl_getStorage.Name = "lbl_getStorage";
+            this.lbl_getStorage.Size = new System.Drawing.Size(59, 13);
+            this.lbl_getStorage.TabIndex = 40;
+            this.lbl_getStorage.Text = "getStorage";
             // 
             // Debugger
             // 
@@ -1529,6 +1576,8 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(406, 527);
             this.ControlBox = false;
+            this.Controls.Add(this.getStorage);
+            this.Controls.Add(this.label56);
             this.Controls.Add(this.tabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -1556,6 +1605,7 @@
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nud_Progress)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1690,5 +1740,10 @@
         private System.Windows.Forms.CheckBox check_ShowUpdater;
         private System.Windows.Forms.NumericUpDown nud_Progress;
         private System.Windows.Forms.Button btn_ResetProgress;
+        private System.Windows.Forms.Label getStorage;
+        private System.Windows.Forms.Label label56;
+        private System.Windows.Forms.Timer tm_getStorage;
+        private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Label lbl_getStorage;
     }
 }
