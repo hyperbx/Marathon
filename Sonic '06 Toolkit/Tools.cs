@@ -92,7 +92,7 @@ namespace Sonic_06_Toolkit.Tools
                     Convert.Close();
                     convertDialog.Close();
 
-                    Global.adxState = null;
+                    //Global.adxState = null;
                 }
                 else { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -277,7 +277,7 @@ namespace Sonic_06_Toolkit.Tools
                 ARC.Close();
                 unpackDialog.Close();
 
-                Global.arcState = null;
+                //Global.arcState = null;
         }
     }
 
@@ -339,7 +339,7 @@ namespace Sonic_06_Toolkit.Tools
                     Convert.Close();
                     convertDialog.Close();
 
-                    Global.at3State = null;
+                    //Global.at3State = null;
                 }
                 else { MessageBox.Show("SONY tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -390,7 +390,7 @@ namespace Sonic_06_Toolkit.Tools
                     Unpack.Close();
                     unpackDialog.Close();
 
-                    Global.csbState = null;
+                    //Global.csbState = null;
                 }
                 else { MessageBox.Show("SonicAudioTools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -443,7 +443,7 @@ namespace Sonic_06_Toolkit.Tools
                     Convert.Close();
                     convertDialog.Close();
 
-                    Global.ddsState = null;
+                    //Global.ddsState = null;
                 }
                 else { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -616,7 +616,7 @@ namespace Sonic_06_Toolkit.Tools
 
                     decompileDialog.Close();
 
-                    Global.lubState = null;
+                    //Global.lubState = null;
                 }
                 else { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -648,21 +648,12 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin(string.Empty);
+            Begin();
         }
 
         public static void Import(string args, string selectedXML)
         {
-            if (Global.mstState == "launch-xml")
-            {
-                //Sets up the BASIC application and executes the converting process.
-                mstSession = new ProcessStartInfo(Properties.Settings.Default.mstFile, $"\"{args}\"")
-                {
-                    WorkingDirectory = Path.GetDirectoryName(args),
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
-            }
-            else if (Global.mstState == "xml")
+            if (Global.mstState == "xml")
             {
                 //Sets up the BASIC application and executes the converting process.
                 mstSession = new ProcessStartInfo(Properties.Settings.Default.mstFile, $"\"{Path.Combine(Global.currentPath, selectedXML)}\"")
@@ -672,10 +663,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin(selectedXML);
+            Begin();
         }
 
-        static void Begin(string selectedXML)
+        static void Begin()
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -686,7 +677,7 @@ namespace Sonic_06_Toolkit.Tools
                     Decode.WaitForExit();
                     Decode.Close();
 
-                    Global.mstState = null;
+                    //Global.mstState = null;
                 }
                 else { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -739,7 +730,7 @@ namespace Sonic_06_Toolkit.Tools
                     Convert.Close();
                     convertDialog.Close();
 
-                    Global.ddsState = null;
+                    //Global.ddsState = null;
                 }
                 else { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -874,7 +865,7 @@ namespace Sonic_06_Toolkit.Tools
                     Convert.Close();
                     convertDialog.Close();
 
-                    Global.xnoState = null;
+                    //Global.xnoState = null;
                 }
                 else { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -918,7 +909,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.96";
+        public static string versionNumber = "1.97";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

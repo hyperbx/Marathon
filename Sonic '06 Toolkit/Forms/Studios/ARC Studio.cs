@@ -192,6 +192,10 @@ namespace Sonic_06_Toolkit
 
         void Btn_BrowseARC1_Click(object sender, EventArgs e)
         {
+            ofd_OpenARC.Title = "Please select an ARC file...";
+            ofd_OpenARC.Filter = "ARC Files|*.arc";
+            ofd_OpenARC.DefaultExt = "arc";
+
             if (ofd_OpenARC.ShowDialog() == DialogResult.OK)
             {
                 text_ARC1.Text = ofd_OpenARC.FileName;
@@ -200,6 +204,10 @@ namespace Sonic_06_Toolkit
 
         void Btn_BrowseARC2_Click(object sender, EventArgs e)
         {
+            ofd_OpenARC.Title = "Please select an ARC file...";
+            ofd_OpenARC.Filter = "ARC Files|*.arc";
+            ofd_OpenARC.DefaultExt = "arc";
+
             if (ofd_OpenARC.ShowDialog() == DialogResult.OK)
             {
                 text_ARC2.Text = ofd_OpenARC.FileName;
@@ -208,6 +216,10 @@ namespace Sonic_06_Toolkit
 
         void Btn_BrowseOutput_Click(object sender, EventArgs e)
         {
+            sfd_Output.Title = "Save As...";
+            sfd_Output.Filter = "ARC Files|*.arc";
+            sfd_Output.DefaultExt = "arc";
+
             if (sfd_Output.ShowDialog() == DialogResult.OK)
             {
                 text_Output.Text = sfd_Output.FileName;

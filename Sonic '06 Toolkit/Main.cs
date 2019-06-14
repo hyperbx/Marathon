@@ -61,7 +61,6 @@ namespace Sonic_06_Toolkit
                     {
                         Tools.Global.adxState = "launch-adx";
                         Tools.ADX.ConvertToWAV(args[0], string.Empty);
-
                         Close();
                     }
                     catch
@@ -70,6 +69,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.adxState = null;
                 }
                 #endregion
 
@@ -132,6 +133,8 @@ namespace Sonic_06_Toolkit
                             Close();
                         }
                     }
+
+                    Tools.Global.arcState = null;
                 }
                 #endregion
 
@@ -142,7 +145,6 @@ namespace Sonic_06_Toolkit
                     {
                         Tools.Global.at3State = "launch-at3";
                         Tools.AT3.ConvertToWAV(args[0], string.Empty);
-
                         Close();
                     }
                     catch
@@ -151,6 +153,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.at3State = null;
                 }
                 #endregion
 
@@ -170,6 +174,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.csbState = null;
                 }
                 #endregion
 
@@ -189,6 +195,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.ddsState = null;
                 }
                 #endregion
 
@@ -208,6 +216,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.lubState = null;
                 }
                 #endregion
 
@@ -227,6 +237,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.mstState = null;
                 }
                 #endregion
 
@@ -246,6 +258,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.ddsState = null;
                 }
                 #endregion
 
@@ -268,6 +282,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.setState = null;
                 }
                 #endregion
 
@@ -287,6 +303,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                         Close();
                     }
+
+                    Tools.Global.xnoState = null;
                 }
                 #endregion
             }
@@ -481,6 +499,7 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.unpackAndLaunch == true) ARC_UnpackAndLaunch.Checked = true; else ARC_UnpackRoot.Checked = true;
             if (Properties.Settings.Default.gameDir == true) mainPreferences_DisableGameDirectory.Checked = false; else mainPreferences_DisableGameDirectory.Checked = true;
             if (Properties.Settings.Default.disableWarns == true) advanced_DisableWarnings.Checked = true; else advanced_DisableWarnings.Checked = false;
+            if (Properties.Settings.Default.NOWLOADING == true) mainPreferences_NOWLOADING.Checked = true; else mainPreferences_NOWLOADING.Checked = false;
             if (Properties.Settings.Default.debugMode == true)
             {
                 if (!debug) { advanced_DebugMode.Checked = true; }
@@ -632,6 +651,8 @@ namespace Sonic_06_Toolkit
                             MessageBox.Show("An error occurred when unpacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Tools.Notification.Dispose();
                         }
+
+                        Tools.Global.arcState = null;
                     }
                 }
             }
@@ -1304,6 +1325,54 @@ namespace Sonic_06_Toolkit
             else { mainThemes_Compact.Checked = true; }
         }
 
+        void MainPreferences_NOWLOADING_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mainPreferences_NOWLOADING.Checked == true)
+            {
+                Properties.Settings.Default.NOWLOADING = true;
+            }
+            else { Properties.Settings.Default.NOWLOADING = false; }
+
+            Properties.Settings.Default.Save();
+        }
+
+        //[Themes] - Show Session ID
+        //Moves certain controls in runtime to hide the Session ID properly.
+        void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mainPreferences_ShowSessionID.Checked == true)
+            {
+                if (Properties.Settings.Default.theme == "Compact")
+                {
+                    Properties.Settings.Default.showSessionID = true;
+                    btn_SessionID.Visible = true;
+                    btn_Repack.Left -= 48;
+                    btn_OpenFolder.Left -= 48;
+                }
+                else if (Properties.Settings.Default.theme == "Original")
+                {
+                    Properties.Settings.Default.showSessionID = true;
+                    btn_SessionID.Visible = true;
+                }
+            }
+            else
+            {
+                if (Properties.Settings.Default.theme == "Compact")
+                {
+                    Properties.Settings.Default.showSessionID = false;
+                    btn_SessionID.Visible = false;
+                    btn_Repack.Left += 48;
+                    btn_OpenFolder.Left += 48;
+                }
+                else if (Properties.Settings.Default.theme == "Original")
+                {
+                    Properties.Settings.Default.showSessionID = false;
+                    btn_SessionID.Visible = false;
+                }
+            }
+            Properties.Settings.Default.Save();
+        }
+
         //[Themes] - Show Logo
         //Disables the Sonic '06 Toolkit logo appearing on new tabs.
         //void MainPreferences_ShowLogo_CheckedChanged(object sender, EventArgs e)
@@ -1445,43 +1514,6 @@ namespace Sonic_06_Toolkit
         }
         #endregion
         //}
-
-        //[Themes] - Show Session ID
-        //Moves certain controls in runtime to hide the Session ID properly.
-        void MainPreferences_ShowSessionID_CheckedChanged(object sender, EventArgs e)
-        {
-            if (mainPreferences_ShowSessionID.Checked == true)
-            {
-                if (Properties.Settings.Default.theme == "Compact")
-                {
-                    Properties.Settings.Default.showSessionID = true;
-                    btn_SessionID.Visible = true;
-                    btn_Repack.Left -= 48;
-                    btn_OpenFolder.Left -= 48;
-                }
-                else if (Properties.Settings.Default.theme == "Original")
-                {
-                    Properties.Settings.Default.showSessionID = true;
-                    btn_SessionID.Visible = true;
-                }
-            }
-            else
-            {
-                if (Properties.Settings.Default.theme == "Compact")
-                {
-                    Properties.Settings.Default.showSessionID = false;
-                    btn_SessionID.Visible = false;
-                    btn_Repack.Left += 48;
-                    btn_OpenFolder.Left += 48;
-                }
-                else if (Properties.Settings.Default.theme == "Original")
-                {
-                    Properties.Settings.Default.showSessionID = false;
-                    btn_SessionID.Visible = false;
-                }
-            }
-            Properties.Settings.Default.Save();
-        }
 
         //[ARC] - Unpack and launch Sonic '06 Toolkit
         //Sets the ARC launch procedure to launch Sonic '06 Toolkit upon unpack.
@@ -1721,6 +1753,8 @@ namespace Sonic_06_Toolkit
                         MessageBox.Show("An error occurred when unpacking the CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Tools.Notification.Dispose();
                     }
+
+                    Tools.Global.csbState = null;
                 }
             }
         }
@@ -1739,6 +1773,8 @@ namespace Sonic_06_Toolkit
                         Tools.Global.ddsState = "dds";
                         Tools.DDS.Convert(string.Empty, DDS);
                     }
+
+                    Tools.Global.ddsState = null;
                 }
             }
         }
@@ -1765,6 +1801,8 @@ namespace Sonic_06_Toolkit
                             MessageBox.Show("An error occurred when decompiling the Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Tools.Notification.Dispose();
                         }
+
+                        Tools.Global.lubState = null;
                     }
                 }
             }
@@ -1793,6 +1831,8 @@ namespace Sonic_06_Toolkit
                         MessageBox.Show("An error occurred when decoding the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Tools.Notification.Dispose();
                     }
+
+                Tools.Global.mstState = null;
                 }
             }
         }
@@ -1820,6 +1860,8 @@ namespace Sonic_06_Toolkit
                         MessageBox.Show("An error occurred when exporting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Tools.Notification.Dispose();
                     }
+
+                    Tools.Global.setState = null;
                 }
             }
         }
@@ -1847,6 +1889,8 @@ namespace Sonic_06_Toolkit
                         MessageBox.Show("An error occurred when converting the XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Tools.Notification.Dispose();
                     }
+
+                    Tools.Global.xnoState = null;
                 }
             }
         }
@@ -1907,16 +1951,43 @@ namespace Sonic_06_Toolkit
             //Checks if the tab's text reads 'New Tab' (a name only assigned by the application).
             if (tab_Main.SelectedTab.Text == "New Tab")
             {
-                if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+                if (tab_Main.TabPages.Count > 1) { tab_Main.TabPages.Remove(tab_Main.SelectedTab); }
+                else
+                {
+                    tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+                    newTab();
+                }
             }
             else
             {
                 DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 switch (confirmClosure)
                 {
-                    case DialogResult.Yes: if (tab_Main.TabPages.Count >= 1) tab_Main.TabPages.Remove(tab_Main.SelectedTab); break;
+                    case DialogResult.Yes:
+                        if (tab_Main.TabPages.Count > 1) { tab_Main.TabPages.Remove(tab_Main.SelectedTab); }
+                        else
+                        {
+                            tab_Main.TabPages.Remove(tab_Main.SelectedTab);
+                            newTab();
+                        }
+                        break;
                 }
             }
+        }
+
+        void MainWindow_CloseAllTabs_Click(object sender, EventArgs e)
+        {
+            DialogResult confirmClosure = MessageBox.Show("Are you sure you want to close all tabs? All unsaved changes will be lost if you haven't repacked.", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            switch (confirmClosure)
+            {
+                case DialogResult.Yes:
+                    foreach (TabPage tab in tab_Main.TabPages) { tab_Main.TabPages.Remove(tab); }
+                    break;
+                case DialogResult.No:
+                    return;
+            }
+
+            newTab();
         }
 
         void MainWindow_CloseWindow_Click(object sender, EventArgs e)
@@ -2560,6 +2631,8 @@ namespace Sonic_06_Toolkit
                     MessageBox.Show("An error occurred when repacking the archive.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
+
+                Tools.Global.arcState = null;
             }
             else if (Tools.Global.arcState == "save-as")
             {
@@ -2583,6 +2656,8 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                     }
                 }
+
+                Tools.Global.arcState = null;
             }
             else
             {

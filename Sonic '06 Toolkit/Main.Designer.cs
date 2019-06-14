@@ -125,6 +125,7 @@
             this.mainWindow_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.mainWindow_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainWindow_CloseAllTabs = new System.Windows.Forms.ToolStripMenuItem();
             this.mainWindow_CloseWindow = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_Documentation = new System.Windows.Forms.ToolStripMenuItem();
@@ -161,6 +162,7 @@
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.lbl_UpdateNotif = new System.Windows.Forms.Label();
             this.tm_updateCheck = new System.Windows.Forms.Timer(this.components);
+            this.mainPreferences_NOWLOADING = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -446,7 +448,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -555,8 +557,9 @@
             this.mainThemes_Compact,
             this.mainThemes_Original,
             this.toolStripSeparator6,
-            this.mainPreferences_ShowLogo,
-            this.mainPreferences_ShowSessionID});
+            this.mainPreferences_NOWLOADING,
+            this.mainPreferences_ShowSessionID,
+            this.mainPreferences_ShowLogo});
             this.mainPreferences_Themes.Image = ((System.Drawing.Image)(resources.GetObject("mainPreferences_Themes.Image")));
             this.mainPreferences_Themes.Name = "mainPreferences_Themes";
             this.mainPreferences_Themes.Size = new System.Drawing.Size(204, 22);
@@ -568,7 +571,7 @@
             this.mainThemes_Compact.CheckOnClick = true;
             this.mainThemes_Compact.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainThemes_Compact.Name = "mainThemes_Compact";
-            this.mainThemes_Compact.Size = new System.Drawing.Size(159, 22);
+            this.mainThemes_Compact.Size = new System.Drawing.Size(207, 22);
             this.mainThemes_Compact.Text = "Compact";
             this.mainThemes_Compact.CheckedChanged += new System.EventHandler(this.MainThemes_Compact_CheckedChanged);
             // 
@@ -576,14 +579,14 @@
             // 
             this.mainThemes_Original.CheckOnClick = true;
             this.mainThemes_Original.Name = "mainThemes_Original";
-            this.mainThemes_Original.Size = new System.Drawing.Size(159, 22);
+            this.mainThemes_Original.Size = new System.Drawing.Size(207, 22);
             this.mainThemes_Original.Text = "Original";
             this.mainThemes_Original.CheckedChanged += new System.EventHandler(this.MainThemes_Original_CheckedChanged);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(156, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
             this.toolStripSeparator6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Free_Mode);
             // 
             // mainPreferences_ShowLogo
@@ -592,7 +595,7 @@
             this.mainPreferences_ShowLogo.CheckOnClick = true;
             this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(159, 22);
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(207, 22);
             this.mainPreferences_ShowLogo.Text = "Show Logo";
             this.mainPreferences_ShowLogo.Visible = false;
             // 
@@ -602,7 +605,7 @@
             this.mainPreferences_ShowSessionID.CheckOnClick = true;
             this.mainPreferences_ShowSessionID.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
-            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(159, 22);
+            this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(207, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
             // 
@@ -966,6 +969,7 @@
             this.mainWindow_NewWindow,
             this.toolStripSeparator10,
             this.mainWindow_CloseTab,
+            this.mainWindow_CloseAllTabs,
             this.mainWindow_CloseWindow});
             this.main_Window.Name = "main_Window";
             this.main_Window.Size = new System.Drawing.Size(63, 20);
@@ -976,7 +980,7 @@
             this.mainWindow_NewTab.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_NewTab.Image")));
             this.mainWindow_NewTab.Name = "mainWindow_NewTab";
             this.mainWindow_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.mainWindow_NewTab.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_NewTab.Size = new System.Drawing.Size(223, 22);
             this.mainWindow_NewTab.Text = "New Tab";
             this.mainWindow_NewTab.Click += new System.EventHandler(this.MainWindow_NewTab_Click);
             // 
@@ -985,30 +989,39 @@
             this.mainWindow_NewWindow.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_NewWindow.Image")));
             this.mainWindow_NewWindow.Name = "mainWindow_NewWindow";
             this.mainWindow_NewWindow.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mainWindow_NewWindow.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_NewWindow.Size = new System.Drawing.Size(223, 22);
             this.mainWindow_NewWindow.Text = "New Window";
             this.mainWindow_NewWindow.Click += new System.EventHandler(this.MainWindow_NewWindow_Click);
             // 
             // toolStripSeparator10
             // 
             this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(185, 6);
+            this.toolStripSeparator10.Size = new System.Drawing.Size(220, 6);
             // 
             // mainWindow_CloseTab
             // 
-            this.mainWindow_CloseTab.Enabled = false;
             this.mainWindow_CloseTab.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_CloseTab.Image")));
             this.mainWindow_CloseTab.Name = "mainWindow_CloseTab";
             this.mainWindow_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.mainWindow_CloseTab.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_CloseTab.Size = new System.Drawing.Size(223, 22);
             this.mainWindow_CloseTab.Text = "Close Tab";
             this.mainWindow_CloseTab.Click += new System.EventHandler(this.MainWindow_CloseTab_Click);
+            // 
+            // mainWindow_CloseAllTabs
+            // 
+            this.mainWindow_CloseAllTabs.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_CloseAllTabs.Image")));
+            this.mainWindow_CloseAllTabs.Name = "mainWindow_CloseAllTabs";
+            this.mainWindow_CloseAllTabs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.W)));
+            this.mainWindow_CloseAllTabs.Size = new System.Drawing.Size(223, 22);
+            this.mainWindow_CloseAllTabs.Text = "Close All Tabs";
+            this.mainWindow_CloseAllTabs.Click += new System.EventHandler(this.MainWindow_CloseAllTabs_Click);
             // 
             // mainWindow_CloseWindow
             // 
             this.mainWindow_CloseWindow.Image = ((System.Drawing.Image)(resources.GetObject("mainWindow_CloseWindow.Image")));
             this.mainWindow_CloseWindow.Name = "mainWindow_CloseWindow";
-            this.mainWindow_CloseWindow.Size = new System.Drawing.Size(188, 22);
+            this.mainWindow_CloseWindow.Size = new System.Drawing.Size(223, 22);
             this.mainWindow_CloseWindow.Text = "Close Window";
             this.mainWindow_CloseWindow.Click += new System.EventHandler(this.MainWindow_CloseWindow_Click);
             // 
@@ -1369,6 +1382,14 @@
             this.tm_updateCheck.Interval = 300000;
             this.tm_updateCheck.Tick += new System.EventHandler(this.Tm_updateCheck_Tick);
             // 
+            // mainPreferences_NOWLOADING
+            // 
+            this.mainPreferences_NOWLOADING.CheckOnClick = true;
+            this.mainPreferences_NOWLOADING.Name = "mainPreferences_NOWLOADING";
+            this.mainPreferences_NOWLOADING.Size = new System.Drawing.Size(207, 22);
+            this.mainPreferences_NOWLOADING.Text = "Sonic \'06 NOW LOADING";
+            this.mainPreferences_NOWLOADING.CheckedChanged += new System.EventHandler(this.MainPreferences_NOWLOADING_CheckedChanged);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1538,6 +1559,8 @@
         private System.Windows.Forms.ToolStripMenuItem advanced_DisableWarnings;
         private System.Windows.Forms.Label lbl_UpdateNotif;
         private System.Windows.Forms.Timer tm_updateCheck;
+        private System.Windows.Forms.ToolStripMenuItem mainWindow_CloseAllTabs;
+        private System.Windows.Forms.ToolStripMenuItem mainPreferences_NOWLOADING;
     }
 }
 

@@ -68,14 +68,14 @@
             this.richTextBox6 = new System.Windows.Forms.RichTextBox();
             this.tabPage14 = new System.Windows.Forms.TabPage();
             this.richTextBox11 = new System.Windows.Forms.RichTextBox();
+            this.tabPage20 = new System.Windows.Forms.TabPage();
+            this.richTextBox14 = new System.Windows.Forms.RichTextBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.richTextBox8 = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.richTextBox9 = new System.Windows.Forms.RichTextBox();
-            this.tabPage20 = new System.Windows.Forms.TabPage();
-            this.richTextBox14 = new System.Windows.Forms.RichTextBox();
             this.tabPage21 = new System.Windows.Forms.TabPage();
             this.richTextBox15 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
@@ -105,10 +105,10 @@
             this.tabControl4.SuspendLayout();
             this.tabPage13.SuspendLayout();
             this.tabPage14.SuspendLayout();
+            this.tabPage20.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage8.SuspendLayout();
             this.tabPage10.SuspendLayout();
-            this.tabPage20.SuspendLayout();
             this.tabPage21.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
@@ -266,8 +266,8 @@
             this.tabControl2.Controls.Add(this.tabPage20);
             this.tabControl2.Controls.Add(this.tabPage9);
             this.tabControl2.Controls.Add(this.tabPage8);
-            this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Controls.Add(this.tabPage21);
+            this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -564,6 +564,29 @@
             this.richTextBox11.TabIndex = 7;
             this.richTextBox11.Text = resources.GetString("richTextBox11.Text");
             // 
+            // tabPage20
+            // 
+            this.tabPage20.Controls.Add(this.richTextBox14);
+            this.tabPage20.Location = new System.Drawing.Point(4, 22);
+            this.tabPage20.Name = "tabPage20";
+            this.tabPage20.Size = new System.Drawing.Size(546, 274);
+            this.tabPage20.TabIndex = 11;
+            this.tabPage20.Text = "CRI Atom Encoder";
+            this.tabPage20.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox14
+            // 
+            this.richTextBox14.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox14.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox14.Name = "richTextBox14";
+            this.richTextBox14.ReadOnly = true;
+            this.richTextBox14.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox14.TabIndex = 4;
+            this.richTextBox14.Text = "CRI Atom Encoder (version 2.07.03) is copyright of CRI Middleware Co.\n\nCopyright " +
+    "(c) 2009-2016 CRI Middleware Co., Ltd.";
+            // 
             // tabPage9
             // 
             this.tabPage9.Controls.Add(this.richTextBox8);
@@ -629,29 +652,6 @@
             this.richTextBox9.Size = new System.Drawing.Size(546, 274);
             this.richTextBox9.TabIndex = 3;
             this.richTextBox9.Text = resources.GetString("richTextBox9.Text");
-            // 
-            // tabPage20
-            // 
-            this.tabPage20.Controls.Add(this.richTextBox14);
-            this.tabPage20.Location = new System.Drawing.Point(4, 22);
-            this.tabPage20.Name = "tabPage20";
-            this.tabPage20.Size = new System.Drawing.Size(546, 274);
-            this.tabPage20.TabIndex = 11;
-            this.tabPage20.Text = "CRI Atom Encoder";
-            this.tabPage20.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox14
-            // 
-            this.richTextBox14.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox14.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox14.Name = "richTextBox14";
-            this.richTextBox14.ReadOnly = true;
-            this.richTextBox14.Size = new System.Drawing.Size(546, 274);
-            this.richTextBox14.TabIndex = 4;
-            this.richTextBox14.Text = "CRI Atom Encoder (version 2.07.03) is copyright of CRI Middleware Co.\n\nCopyright " +
-    "(c) 2009-2016 CRI Middleware Co., Ltd.";
             // 
             // tabPage21
             // 
@@ -743,10 +743,10 @@
             this.tabControl4.ResumeLayout(false);
             this.tabPage13.ResumeLayout(false);
             this.tabPage14.ResumeLayout(false);
+            this.tabPage20.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
-            this.tabPage20.ResumeLayout(false);
             this.tabPage21.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);

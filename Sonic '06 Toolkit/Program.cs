@@ -35,23 +35,33 @@ namespace Sonic_06_Toolkit
 
         public static void Main(string[] args)
         {
-            try
+            if (Properties.Settings.Default.skipWorkaround == true)
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Main(args));
             }
-            catch
+            else
             {
-                if (!File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll"))
+                try
                 {
-                    try
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Main(args));
+                }
+                catch
+                {
+                    if (!File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll"))
                     {
-                        File.WriteAllBytes(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll", Properties.Resources.HedgeLib);
-                        MessageBox.Show("HedgeLib.dll was written to the application path.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        Application.Restart();
+                        try
+                        {
+                            File.WriteAllBytes(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll", Properties.Resources.HedgeLib);
+                            MessageBox.Show("HedgeLib.dll was written to the application path.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Application.Restart();
+                        }
+                        catch { MessageBox.Show("Failed to write HedgeLib.dll. You need to reinstall Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
-                    catch { MessageBox.Show("Failed to write HedgeLib.dll. You need to reinstall Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                    else { MessageBox.Show("A fatal error has occurred and Sonic '06 Toolkit was closed.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
             }
         }

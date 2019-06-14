@@ -454,5 +454,29 @@ namespace Sonic_06_Toolkit.Properties {
                 this["disableWarns"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool skipWorkaround {
+            get {
+                return ((bool)(this["skipWorkaround"]));
+            }
+            set {
+                this["skipWorkaround"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool NOWLOADING {
+            get {
+                return ((bool)(this["NOWLOADING"]));
+            }
+            set {
+                this["NOWLOADING"] = value;
+            }
+        }
     }
 }

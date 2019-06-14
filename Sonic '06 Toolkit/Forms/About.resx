@@ -438,6 +438,12 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</value>
   </data>
+  <data name="richTextBox15.Text" xml:space="preserve">
+    <value>ATRAC3plus Codec TOOL (version 3.1.0.0) is copyright of SONY Computer Entertainment Inc. and SONY Corporation. ATRAC3plus Codec TOOL (version 3.1.0.0) was built with the ATRAC3plus library (version 1.03.03).
+
+Copyright (c) 2010 SONY Computer Entertainment Inc. All Rights Reserved.
+Copyright (c) 2010 SONY Corporation.</value>
+  </data>
   <data name="richTextBox9.Text" xml:space="preserve">
     <value>                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
@@ -1113,12 +1119,6 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 &lt;https://www.gnu.org/licenses/why-not-lgpl.html&gt;.</value>
-  </data>
-  <data name="richTextBox15.Text" xml:space="preserve">
-    <value>ATRAC3plus Codec TOOL (version 3.1.0.0) is copyright of SONY Computer Entertainment Inc. and SONY Corporation. ATRAC3plus Codec TOOL (version 3.1.0.0) was built with the ATRAC3plus library (version 1.03.03).
-
-Copyright (c) 2010 SONY Computer Entertainment Inc. All Rights Reserved.
-Copyright (c) 2010 SONY Corporation.</value>
   </data>
   <data name="richTextBox2.Text" xml:space="preserve">
     <value>Sonic '06 Toolkit

@@ -87,7 +87,7 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Export without anything selected, this will prevent that.
             if (clb_MSTs.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.mstState == "export")
+            if (Tools.Global.mstState == "mst")
             {
                 try
                 {
@@ -104,7 +104,7 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.mstState == "import")
+            else if (Tools.Global.mstState == "xml")
             {
                 try
                 {
@@ -132,7 +132,7 @@ namespace Sonic_06_Toolkit
         {
             if (combo_Mode.SelectedIndex == 0)
             {
-                Tools.Global.mstState = "export";
+                Tools.Global.mstState = "mst";
                 btn_Convert.Text = "Export";
 
                 clb_MSTs.Items.Clear();
@@ -154,7 +154,7 @@ namespace Sonic_06_Toolkit
             }
             else if (combo_Mode.SelectedIndex == 1)
             {
-                Tools.Global.mstState = "import";
+                Tools.Global.mstState = "xml";
                 btn_Convert.Text = "Import";
 
                 clb_MSTs.Items.Clear();

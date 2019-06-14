@@ -49,6 +49,9 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.debugShow == true) { check_DebugAdvanced.Checked = true; }
             else { check_DebugAdvanced.Checked = false; }
 
+            if (Properties.Settings.Default.skipWorkaround == true) { check_skipWorkaround.Checked = true; }
+            else { check_skipWorkaround.Checked = false; }
+
             nud_Progress.Value = this.mainForm.UpdateProgressValue;
 
             tm_Update.Start();
@@ -118,6 +121,8 @@ namespace Sonic_06_Toolkit
             debugMode.Text = Properties.Settings.Default.debugMode.ToString();
             debugShow.Text = Properties.Settings.Default.debugShow.ToString();
             disableWarns.Text = Properties.Settings.Default.disableWarns.ToString();
+            skipWorkaround.Text = Properties.Settings.Default.skipWorkaround.ToString();
+            NOWLOADING.Text = Properties.Settings.Default.NOWLOADING.ToString();
             #endregion
 
             foreach (Control x in this.Controls)
@@ -399,13 +404,29 @@ namespace Sonic_06_Toolkit
             nud_Progress.Value = 0;
         }
 
-        private void Tm_getStorage_Tick(object sender, EventArgs e)
+        void Tm_getStorage_Tick(object sender, EventArgs e)
         {
             if (this.mainForm.GetStorage == string.Empty)
             {
                 getStorage.Text = "None";
             }
             else { getStorage.Text = this.mainForm.GetStorage; }
+        }
+
+        void Check_skipWorkaround_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_skipWorkaround.Checked == true)
+            {
+                Properties.Settings.Default.skipWorkaround = true;
+            }
+            else { Properties.Settings.Default.skipWorkaround = false; }
+
+            Properties.Settings.Default.Save();
+        }
+
+        void Check_SkipWorkaround_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("A restart is required for this option to take effect.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

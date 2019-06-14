@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Status));
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.pnl_windowCheck = new System.Windows.Forms.Panel();
+            this.NOW_LOADING = new System.Windows.Forms.PictureBox();
             this.lbl_unpackState = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.pnl_windowCheck.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NOW_LOADING)).BeginInit();
             this.SuspendLayout();
             // 
             // pic_Logo
@@ -50,18 +53,31 @@
             // 
             this.pnl_windowCheck.AutoSize = true;
             this.pnl_windowCheck.BackColor = System.Drawing.Color.Honeydew;
+            this.pnl_windowCheck.Controls.Add(this.NOW_LOADING);
             this.pnl_windowCheck.Controls.Add(this.pic_Logo);
             this.pnl_windowCheck.Controls.Add(this.lbl_unpackState);
             this.pnl_windowCheck.Location = new System.Drawing.Point(0, 0);
             this.pnl_windowCheck.Name = "pnl_windowCheck";
-            this.pnl_windowCheck.Size = new System.Drawing.Size(259, 97);
+            this.pnl_windowCheck.Size = new System.Drawing.Size(262, 100);
             this.pnl_windowCheck.TabIndex = 8;
+            // 
+            // NOW_LOADING
+            // 
+            this.NOW_LOADING.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("NOW_LOADING.BackgroundImage")));
+            this.NOW_LOADING.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.NOW_LOADING.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NOW_LOADING.Location = new System.Drawing.Point(0, 0);
+            this.NOW_LOADING.Name = "NOW_LOADING";
+            this.NOW_LOADING.Size = new System.Drawing.Size(262, 100);
+            this.NOW_LOADING.TabIndex = 8;
+            this.NOW_LOADING.TabStop = false;
+            this.NOW_LOADING.Visible = false;
             // 
             // lbl_unpackState
             // 
             this.lbl_unpackState.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lbl_unpackState.AutoSize = true;
-            this.lbl_unpackState.Location = new System.Drawing.Point(105, 46);
+            this.lbl_unpackState.Location = new System.Drawing.Point(105, 48);
             this.lbl_unpackState.Name = "lbl_unpackState";
             this.lbl_unpackState.Size = new System.Drawing.Size(35, 13);
             this.lbl_unpackState.TabIndex = 6;
@@ -71,7 +87,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(259, 97);
             this.ControlBox = false;
             this.Controls.Add(this.pnl_windowCheck);
@@ -86,6 +101,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.pnl_windowCheck.ResumeLayout(false);
             this.pnl_windowCheck.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NOW_LOADING)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,5 +112,6 @@
         internal System.Windows.Forms.PictureBox pic_Logo;
         internal System.Windows.Forms.Panel pnl_windowCheck;
         internal System.Windows.Forms.Label lbl_unpackState;
+        private System.Windows.Forms.PictureBox NOW_LOADING;
     }
 }
