@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Web;
 using System.Text;
 using System.Linq;
 using System.Drawing;
@@ -2286,7 +2287,8 @@ namespace Sonic_06_Toolkit
                         if (currentARC().Url != null)
                         {
                             //Updates the currentPath global variable.
-                            Tools.Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
                         }
                     }
                     catch { }
@@ -2330,7 +2332,8 @@ namespace Sonic_06_Toolkit
                         if (currentARC().Url != null)
                         {
                             //Updates the currentPath global variable.
-                            Tools.Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
                         }
                     }
                     catch { }
@@ -2411,7 +2414,8 @@ namespace Sonic_06_Toolkit
                         if (currentARC().Url != null)
                         {
                             //Updates the currentPath global variable.
-                            Tools.Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
                         }
                     }
                     catch { }
@@ -2455,7 +2459,8 @@ namespace Sonic_06_Toolkit
                         if (currentARC().Url != null)
                         {
                             //Updates the currentPath global variable.
-                            Tools.Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
                         }
                     }
                     catch { }
@@ -2499,7 +2504,8 @@ namespace Sonic_06_Toolkit
                         if (currentARC().Url != null)
                         {
                             //Updates the currentPath global variable.
-                            Tools.Global.currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
                         }
                     }
                     catch { }
