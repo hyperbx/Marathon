@@ -43,7 +43,6 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl5 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -74,12 +73,15 @@
             this.richTextBox8 = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.richTextBox7 = new System.Windows.Forms.RichTextBox();
-            this.tabPage10 = new System.Windows.Forms.TabPage();
-            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
             this.tabPage21 = new System.Windows.Forms.TabPage();
             this.richTextBox15 = new System.Windows.Forms.RichTextBox();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.richTextBox9 = new System.Windows.Forms.RichTextBox();
+            this.tabPage22 = new System.Windows.Forms.TabPage();
+            this.richTextBox16 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
@@ -108,8 +110,9 @@
             this.tabPage20.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage8.SuspendLayout();
-            this.tabPage10.SuspendLayout();
             this.tabPage21.SuspendLayout();
+            this.tabPage10.SuspendLayout();
+            this.tabPage22.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -268,6 +271,7 @@
             this.tabControl2.Controls.Add(this.tabPage8);
             this.tabControl2.Controls.Add(this.tabPage21);
             this.tabControl2.Controls.Add(this.tabPage10);
+            this.tabControl2.Controls.Add(this.tabPage22);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -284,18 +288,6 @@
             this.tabPage7.TabIndex = 5;
             this.tabPage7.Text = "Sonic \'06 Toolkit";
             this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox4
-            // 
-            this.richTextBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox4.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(546, 274);
-            this.richTextBox4.TabIndex = 3;
-            this.richTextBox4.Text = resources.GetString("richTextBox4.Text");
             // 
             // tabPage4
             // 
@@ -631,6 +623,28 @@
             this.richTextBox7.TabIndex = 4;
             this.richTextBox7.Text = resources.GetString("richTextBox7.Text");
             // 
+            // tabPage21
+            // 
+            this.tabPage21.Controls.Add(this.richTextBox15);
+            this.tabPage21.Location = new System.Drawing.Point(4, 22);
+            this.tabPage21.Name = "tabPage21";
+            this.tabPage21.Size = new System.Drawing.Size(546, 274);
+            this.tabPage21.TabIndex = 12;
+            this.tabPage21.Text = "ATRAC3plus Codec TOOL";
+            this.tabPage21.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox15
+            // 
+            this.richTextBox15.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox15.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox15.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox15.Name = "richTextBox15";
+            this.richTextBox15.ReadOnly = true;
+            this.richTextBox15.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox15.TabIndex = 4;
+            this.richTextBox15.Text = resources.GetString("richTextBox15.Text");
+            // 
             // tabPage10
             // 
             this.tabPage10.Controls.Add(this.richTextBox9);
@@ -653,27 +667,28 @@
             this.richTextBox9.TabIndex = 3;
             this.richTextBox9.Text = resources.GetString("richTextBox9.Text");
             // 
-            // tabPage21
+            // tabPage22
             // 
-            this.tabPage21.Controls.Add(this.richTextBox15);
-            this.tabPage21.Location = new System.Drawing.Point(4, 22);
-            this.tabPage21.Name = "tabPage21";
-            this.tabPage21.Size = new System.Drawing.Size(546, 274);
-            this.tabPage21.TabIndex = 12;
-            this.tabPage21.Text = "ATRAC3plus Codec TOOL";
-            this.tabPage21.UseVisualStyleBackColor = true;
+            this.tabPage22.Controls.Add(this.richTextBox16);
+            this.tabPage22.Location = new System.Drawing.Point(4, 22);
+            this.tabPage22.Name = "tabPage22";
+            this.tabPage22.Size = new System.Drawing.Size(546, 274);
+            this.tabPage22.TabIndex = 13;
+            this.tabPage22.Text = "XMA Encode 2008";
+            this.tabPage22.UseVisualStyleBackColor = true;
             // 
-            // richTextBox15
+            // richTextBox16
             // 
-            this.richTextBox15.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox15.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox15.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox15.Name = "richTextBox15";
-            this.richTextBox15.ReadOnly = true;
-            this.richTextBox15.Size = new System.Drawing.Size(546, 274);
-            this.richTextBox15.TabIndex = 4;
-            this.richTextBox15.Text = resources.GetString("richTextBox15.Text");
+            this.richTextBox16.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox16.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox16.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox16.Name = "richTextBox16";
+            this.richTextBox16.ReadOnly = true;
+            this.richTextBox16.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox16.TabIndex = 5;
+            this.richTextBox16.Text = "XMA Encode 2008 is copyright of Microsoft Corporation.\n\nCopyright (c) 2008 Micros" +
+    "oft Corporation.";
             // 
             // tabPage6
             // 
@@ -697,6 +712,18 @@
             this.richTextBox2.Size = new System.Drawing.Size(554, 300);
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox4.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox4.TabIndex = 5;
+            this.richTextBox4.Text = resources.GetString("richTextBox4.Text");
             // 
             // About
             // 
@@ -746,8 +773,9 @@
             this.tabPage20.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
-            this.tabPage10.ResumeLayout(false);
             this.tabPage21.ResumeLayout(false);
+            this.tabPage10.ResumeLayout(false);
+            this.tabPage22.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -802,10 +830,12 @@
         private System.Windows.Forms.RichTextBox richTextBox6;
         private System.Windows.Forms.TabPage tabPage14;
         private System.Windows.Forms.RichTextBox richTextBox11;
-        private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.TabPage tabPage20;
         private System.Windows.Forms.RichTextBox richTextBox14;
         private System.Windows.Forms.TabPage tabPage21;
         private System.Windows.Forms.RichTextBox richTextBox15;
+        private System.Windows.Forms.TabPage tabPage22;
+        private System.Windows.Forms.RichTextBox richTextBox16;
+        private System.Windows.Forms.RichTextBox richTextBox4;
     }
 }

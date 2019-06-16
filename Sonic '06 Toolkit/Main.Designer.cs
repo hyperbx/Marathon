@@ -79,8 +79,9 @@
             this.mainThemes_Compact = new System.Windows.Forms.ToolStripMenuItem();
             this.mainThemes_Original = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.mainPreferences_ShowLogo = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainPreferences_NOWLOADING = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPreferences_ShowSessionID = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainPreferences_ShowLogo = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_LaunchProcedures = new System.Windows.Forms.ToolStripMenuItem();
             this.launch_ARC = new System.Windows.Forms.ToolStripMenuItem();
             this.ARC_UnpackAndLaunch = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,13 +111,17 @@
             this.mainSDK_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_MSTStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_SETStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainSDK_XMAStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.xmaStudio_PatchXMAManually = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertAT3s = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeMSTs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertSETs = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertXMAs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.mainShortcuts_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mainShortcuts_Xenia = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,6 +156,8 @@
             this.repackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repackARCAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.repackAndLaunchXeniaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_UpdateNotif = new System.Windows.Forms.Label();
+            this.tm_updateCheck = new System.Windows.Forms.Timer(this.components);
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.sdk_ARCStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ADXStudio = new System.Windows.Forms.ToolStripMenuItem();
@@ -160,9 +167,6 @@
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
-            this.lbl_UpdateNotif = new System.Windows.Forms.Label();
-            this.tm_updateCheck = new System.Windows.Forms.Timer(this.components);
-            this.mainPreferences_NOWLOADING = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.pnl_Updater.SuspendLayout();
@@ -448,7 +452,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -589,15 +593,13 @@
             this.toolStripSeparator6.Size = new System.Drawing.Size(204, 6);
             this.toolStripSeparator6.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Free_Mode);
             // 
-            // mainPreferences_ShowLogo
+            // mainPreferences_NOWLOADING
             // 
-            this.mainPreferences_ShowLogo.Checked = true;
-            this.mainPreferences_ShowLogo.CheckOnClick = true;
-            this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
-            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(207, 22);
-            this.mainPreferences_ShowLogo.Text = "Show Logo";
-            this.mainPreferences_ShowLogo.Visible = false;
+            this.mainPreferences_NOWLOADING.CheckOnClick = true;
+            this.mainPreferences_NOWLOADING.Name = "mainPreferences_NOWLOADING";
+            this.mainPreferences_NOWLOADING.Size = new System.Drawing.Size(207, 22);
+            this.mainPreferences_NOWLOADING.Text = "Sonic \'06 NOW LOADING";
+            this.mainPreferences_NOWLOADING.CheckedChanged += new System.EventHandler(this.MainPreferences_NOWLOADING_CheckedChanged);
             // 
             // mainPreferences_ShowSessionID
             // 
@@ -608,6 +610,16 @@
             this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(207, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
             this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
+            // 
+            // mainPreferences_ShowLogo
+            // 
+            this.mainPreferences_ShowLogo.Checked = true;
+            this.mainPreferences_ShowLogo.CheckOnClick = true;
+            this.mainPreferences_ShowLogo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.mainPreferences_ShowLogo.Name = "mainPreferences_ShowLogo";
+            this.mainPreferences_ShowLogo.Size = new System.Drawing.Size(207, 22);
+            this.mainPreferences_ShowLogo.Text = "Show Logo";
+            this.mainPreferences_ShowLogo.Visible = false;
             // 
             // preferences_LaunchProcedures
             // 
@@ -782,6 +794,7 @@
             this.mainSDK_LUBStudio,
             this.mainSDK_MSTStudio,
             this.mainSDK_SETStudio,
+            this.mainSDK_XMAStudio,
             this.mainSDK_XNOStudio});
             this.main_SDK.Name = "main_SDK";
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
@@ -792,7 +805,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -800,7 +813,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -809,7 +822,7 @@
             this.mainSDK_AT3Studio.Enabled = false;
             this.mainSDK_AT3Studio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_AT3Studio.Image")));
             this.mainSDK_AT3Studio.Name = "mainSDK_AT3Studio";
-            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_AT3Studio.Text = "AT3 Studio...";
             this.mainSDK_AT3Studio.Click += new System.EventHandler(this.MainSDK_AT3Studio_Click);
             // 
@@ -818,7 +831,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -827,7 +840,7 @@
             this.mainSDK_DDSStudio.Enabled = false;
             this.mainSDK_DDSStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DDSStudio.Image")));
             this.mainSDK_DDSStudio.Name = "mainSDK_DDSStudio";
-            this.mainSDK_DDSStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_DDSStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_DDSStudio.Text = "DDS Studio...";
             this.mainSDK_DDSStudio.Click += new System.EventHandler(this.MainSDK_DDSStudio_Click);
             // 
@@ -836,7 +849,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -845,7 +858,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -854,33 +867,65 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
+            // 
+            // mainSDK_XMAStudio
+            // 
+            this.mainSDK_XMAStudio.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xmaStudio_PatchXMAManually});
+            this.mainSDK_XMAStudio.Enabled = false;
+            this.mainSDK_XMAStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XMAStudio.Image")));
+            this.mainSDK_XMAStudio.Name = "mainSDK_XMAStudio";
+            this.mainSDK_XMAStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XMAStudio.Text = "XMA Studio...";
+            this.mainSDK_XMAStudio.Click += new System.EventHandler(this.MainSDK_XMAStudio_Click);
+            // 
+            // xmaStudio_PatchXMAManually
+            // 
+            this.xmaStudio_PatchXMAManually.Image = ((System.Drawing.Image)(resources.GetObject("xmaStudio_PatchXMAManually.Image")));
+            this.xmaStudio_PatchXMAManually.Name = "xmaStudio_PatchXMAManually";
+            this.xmaStudio_PatchXMAManually.Size = new System.Drawing.Size(194, 22);
+            this.xmaStudio_PatchXMAManually.Text = "Patch XMA Manually...";
+            this.xmaStudio_PatchXMAManually.Click += new System.EventHandler(this.XmaStudio_PatchXMAManually_Click);
             // 
             // mainSDK_XNOStudio
             // 
             this.mainSDK_XNOStudio.Enabled = false;
             this.mainSDK_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XNOStudio.Image")));
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(145, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(180, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
             // 
             // main_Shortcuts
             // 
             this.main_Shortcuts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_ConvertAT3s,
             this.shortcuts_ExtractCSBs,
             this.shortcuts_ConvertDDS,
             this.shortcuts_DecompileLUBs,
             this.shortcuts_DecodeMSTs,
             this.shortcuts_ConvertSETs,
+            this.shortcuts_ConvertXMAs,
             this.shortcuts_ConvertXNOs,
             this.mainShortcuts_Separator1,
             this.mainShortcuts_Xenia});
             this.main_Shortcuts.Name = "main_Shortcuts";
             this.main_Shortcuts.Size = new System.Drawing.Size(69, 20);
             this.main_Shortcuts.Text = "Shortcuts";
+            // 
+            // shortcuts_ConvertAT3s
+            // 
+            this.shortcuts_ConvertAT3s.Enabled = false;
+            this.shortcuts_ConvertAT3s.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertAT3s.Image")));
+            this.shortcuts_ConvertAT3s.Name = "shortcuts_ConvertAT3s";
+            this.shortcuts_ConvertAT3s.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.shortcuts_ConvertAT3s.Size = new System.Drawing.Size(289, 22);
+            this.shortcuts_ConvertAT3s.Text = "Convert all AT3 files here...";
+            this.shortcuts_ConvertAT3s.Click += new System.EventHandler(this.Shortcuts_ConvertAT3s_Click);
             // 
             // shortcuts_ExtractCSBs
             // 
@@ -936,6 +981,17 @@
             this.shortcuts_ConvertSETs.Size = new System.Drawing.Size(289, 22);
             this.shortcuts_ConvertSETs.Text = "Export all SETs here...";
             this.shortcuts_ConvertSETs.Click += new System.EventHandler(this.Shortcuts_ConvertSETs_Click);
+            // 
+            // shortcuts_ConvertXMAs
+            // 
+            this.shortcuts_ConvertXMAs.Enabled = false;
+            this.shortcuts_ConvertXMAs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertXMAs.Image")));
+            this.shortcuts_ConvertXMAs.Name = "shortcuts_ConvertXMAs";
+            this.shortcuts_ConvertXMAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.W)));
+            this.shortcuts_ConvertXMAs.Size = new System.Drawing.Size(289, 22);
+            this.shortcuts_ConvertXMAs.Text = "Convert all XMAs here...";
+            this.shortcuts_ConvertXMAs.Click += new System.EventHandler(this.Shortcuts_ConvertXMAs_Click);
             // 
             // shortcuts_ConvertXNOs
             // 
@@ -1274,6 +1330,25 @@
             this.repackAndLaunchXeniaToolStripMenuItem.Text = "Repack ARC and Launch Xenia";
             this.repackAndLaunchXeniaToolStripMenuItem.Click += new System.EventHandler(this.RepackAndLaunchXeniaToolStripMenuItem_Click);
             // 
+            // lbl_UpdateNotif
+            // 
+            this.lbl_UpdateNotif.AutoSize = true;
+            this.lbl_UpdateNotif.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_UpdateNotif.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_UpdateNotif.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_UpdateNotif.Location = new System.Drawing.Point(394, 4);
+            this.lbl_UpdateNotif.Name = "lbl_UpdateNotif";
+            this.lbl_UpdateNotif.Size = new System.Drawing.Size(123, 15);
+            this.lbl_UpdateNotif.TabIndex = 14;
+            this.lbl_UpdateNotif.Text = "New update available!";
+            this.lbl_UpdateNotif.Visible = false;
+            this.lbl_UpdateNotif.Click += new System.EventHandler(this.Lbl_UpdateNotif_Click);
+            // 
+            // tm_updateCheck
+            // 
+            this.tm_updateCheck.Interval = 300000;
+            this.tm_updateCheck.Tick += new System.EventHandler(this.Tm_updateCheck_Tick);
+            // 
             // pic_Logo
             // 
             this.pic_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -1362,33 +1437,6 @@
             | System.Windows.Forms.Keys.X)));
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs here...";
-            // 
-            // lbl_UpdateNotif
-            // 
-            this.lbl_UpdateNotif.AutoSize = true;
-            this.lbl_UpdateNotif.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_UpdateNotif.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbl_UpdateNotif.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_UpdateNotif.Location = new System.Drawing.Point(394, 4);
-            this.lbl_UpdateNotif.Name = "lbl_UpdateNotif";
-            this.lbl_UpdateNotif.Size = new System.Drawing.Size(123, 15);
-            this.lbl_UpdateNotif.TabIndex = 14;
-            this.lbl_UpdateNotif.Text = "New update available!";
-            this.lbl_UpdateNotif.Visible = false;
-            this.lbl_UpdateNotif.Click += new System.EventHandler(this.Lbl_UpdateNotif_Click);
-            // 
-            // tm_updateCheck
-            // 
-            this.tm_updateCheck.Interval = 300000;
-            this.tm_updateCheck.Tick += new System.EventHandler(this.Tm_updateCheck_Tick);
-            // 
-            // mainPreferences_NOWLOADING
-            // 
-            this.mainPreferences_NOWLOADING.CheckOnClick = true;
-            this.mainPreferences_NOWLOADING.Name = "mainPreferences_NOWLOADING";
-            this.mainPreferences_NOWLOADING.Size = new System.Drawing.Size(207, 22);
-            this.mainPreferences_NOWLOADING.Text = "Sonic \'06 NOW LOADING";
-            this.mainPreferences_NOWLOADING.CheckedChanged += new System.EventHandler(this.MainPreferences_NOWLOADING_CheckedChanged);
             // 
             // Main
             // 
@@ -1561,6 +1609,10 @@
         private System.Windows.Forms.Timer tm_updateCheck;
         private System.Windows.Forms.ToolStripMenuItem mainWindow_CloseAllTabs;
         private System.Windows.Forms.ToolStripMenuItem mainPreferences_NOWLOADING;
+        private System.Windows.Forms.ToolStripMenuItem mainSDK_XMAStudio;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertAT3s;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertXMAs;
+        private System.Windows.Forms.ToolStripMenuItem xmaStudio_PatchXMAManually;
     }
 }
 

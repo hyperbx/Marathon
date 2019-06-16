@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -76,6 +77,7 @@ namespace Sonic_06_Toolkit
             if (Tools.Global.lubState != null) lubState.Text = Tools.Global.lubState; else lubState.Text = "None";
             if (Tools.Global.setState != null) setState.Text = Tools.Global.setState; else setState.Text = "None";
             if (Tools.Global.mstState != null) mstState.Text = Tools.Global.mstState; else mstState.Text = "None";
+            if (Tools.Global.xmaState != null) xmaState.Text = Tools.Global.xmaState; else xmaState.Text = "None";
             if (Tools.Global.xnoState != null) xnoState.Text = Tools.Global.xnoState; else xnoState.Text = "None";
             if (Tools.Global.applicationData != null) applicationData.Text = Tools.Global.applicationData; else applicationData.Text = "None";
             sessionID.Text = Tools.Global.sessionID.ToString();
@@ -111,7 +113,7 @@ namespace Sonic_06_Toolkit
             removeLoop.Text = Properties.Settings.Default.removeLoop.ToString();
             downmix.Text = Properties.Settings.Default.downmix.ToString();
             volume.Text = Properties.Settings.Default.volume.ToString();
-            wholeLoop.Text = Properties.Settings.Default.wholeLoop.ToString();
+            wholeLoop.Text = Properties.Settings.Default.AT3wholeLoop.ToString();
             useGPU.Text = Properties.Settings.Default.useGPU.ToString();
             forceDirectX10.Text = Properties.Settings.Default.forceDirectX10.ToString();
             backupSET.Text = Properties.Settings.Default.backupSET.ToString();
@@ -123,6 +125,10 @@ namespace Sonic_06_Toolkit
             disableWarns.Text = Properties.Settings.Default.disableWarns.ToString();
             skipWorkaround.Text = Properties.Settings.Default.skipWorkaround.ToString();
             NOWLOADING.Text = Properties.Settings.Default.NOWLOADING.ToString();
+            XMAwholeLoop.Text = Properties.Settings.Default.XMAwholeLoop.ToString();
+            patchXMA.Text = Properties.Settings.Default.patchXMA.ToString();
+            if (Properties.Settings.Default.xmaencodeFile != "") xmaencodeFile.Text = Properties.Settings.Default.xmaencodeFile; else xmaencodeFile.Text = "None";
+            if (Properties.Settings.Default.towavFile != "") towavFile.Text = Properties.Settings.Default.towavFile; else towavFile.Text = "None";
             #endregion
 
             foreach (Control x in this.Controls)
@@ -185,8 +191,8 @@ namespace Sonic_06_Toolkit
 
         private void WholeLoop_Click(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.wholeLoop == true) Properties.Settings.Default.wholeLoop = false;
-            else Properties.Settings.Default.wholeLoop = true;
+            if (Properties.Settings.Default.AT3wholeLoop == true) Properties.Settings.Default.AT3wholeLoop = false;
+            else Properties.Settings.Default.AT3wholeLoop = true;
             Properties.Settings.Default.Save();
         }
 
@@ -427,6 +433,11 @@ namespace Sonic_06_Toolkit
         void Check_SkipWorkaround_Click(object sender, EventArgs e)
         {
             MessageBox.Show("A restart is required for this option to take effect.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        void Btn_SimulateStupidError_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("A problem has been detected and Sonic '06 Toolkit has been closed to prevent nothing from happening to your computer.\n\nThe problem seems to be caused by the following file: " + Path.GetFileName(Application.ExecutablePath) + "\n\nSTUPID_ERROR\n\nIf this is the first time you've seen this Stop error screen, restart Sonic '06 Toolkit. If this screen appears again, follow these steps:\n\nCheck to be sure you have Windows installed. If .NET Framework 4.6 is not installed, please install it along with Visual C++ 2010 redistributables and Java.\n\nCheck via GitHub or GameBanana for any Sonic '06 Toolkit updates. Delete the Hyper_Development_Team folder from your Local Application Data to soft reset all binaries and settings. If you need to use a virtual machine, be my guest.\n\nTechnical information:\n\n*** STOP: 0x00000118 (0x0000000000000118, 0x0000000000000118, 0x0000000000000118, 0x0000000000000118)\n\n*** " + Path.GetFileName(Application.ExecutablePath) + " - Address 0x0000000000000118 base at 0x0000000000000118 DateStamp 0x4fa390f3", "STUPID_ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

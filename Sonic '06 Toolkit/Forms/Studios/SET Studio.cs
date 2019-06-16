@@ -222,12 +222,14 @@ namespace Sonic_06_Toolkit
         {
             if (options_CreateBackupSET.Checked == true) Properties.Settings.Default.backupSET = true;
             else Properties.Settings.Default.backupSET = false;
+            Properties.Settings.Default.Save();
         }
 
         void Options_DeleteXML_CheckedChanged(object sender, EventArgs e)
         {
             if (options_DeleteXML.Checked == true) Properties.Settings.Default.deleteXML = true;
             else Properties.Settings.Default.deleteXML = false;
+            Properties.Settings.Default.Save();
         }
 
         void SET_Studio_FormClosing(object sender, FormClosingEventArgs e)

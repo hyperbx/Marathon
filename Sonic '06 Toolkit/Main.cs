@@ -287,6 +287,26 @@ namespace Sonic_06_Toolkit
                 }
                 #endregion
 
+                #region XMA
+                else if (Path.GetExtension(args[0]) == ".xma")
+                {
+                    try
+                    {
+                        Tools.Global.xmaState = "launch-xma";
+                        Tools.XMA.ConvertToWAV(args[0], string.Empty);
+                        Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                        Close();
+                    }
+
+                    Tools.Global.at3State = null;
+                }
+                #endregion
+
                 #region XNO
                 else if (Path.GetExtension(args[0]) == ".xno")
                 {
@@ -436,7 +456,7 @@ namespace Sonic_06_Toolkit
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"GerbilSoft\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"GerbilSoft\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CsbEditor\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CsbEditor\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"CriWare\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"CriWare\");
-                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"DirectX\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"DirectX\");
+                if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"Microsoft\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"Microsoft\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"exiso\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"exiso\");
                 if (!Directory.Exists(Properties.Settings.Default.toolsPath + @"SONY\")) Directory.CreateDirectory(Properties.Settings.Default.toolsPath + @"SONY\");
                 if (!Directory.Exists(Properties.Settings.Default.archivesPath)) Directory.CreateDirectory(Properties.Settings.Default.archivesPath);
@@ -456,9 +476,11 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.csbFile == string.Empty) Properties.Settings.Default.csbFile = Properties.Settings.Default.toolsPath + @"CsbEditor\CsbEditor.exe";
             if (Properties.Settings.Default.adx2wavFile == string.Empty) Properties.Settings.Default.adx2wavFile = Properties.Settings.Default.toolsPath + @"CriWare\ADX2WAV.exe";
             if (Properties.Settings.Default.criconverterFile == string.Empty) Properties.Settings.Default.criconverterFile = Properties.Settings.Default.toolsPath + @"CriWare\criatomencd.exe";
-            if (Properties.Settings.Default.directXFile == string.Empty) Properties.Settings.Default.directXFile = Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe";
+            if (Properties.Settings.Default.directXFile == string.Empty) Properties.Settings.Default.directXFile = Properties.Settings.Default.toolsPath + @"Microsoft\texconv.exe";
             if (Properties.Settings.Default.exisoFile == string.Empty) Properties.Settings.Default.exisoFile = Properties.Settings.Default.toolsPath + @"exiso\exiso.exe";
             if (Properties.Settings.Default.at3File == string.Empty) Properties.Settings.Default.at3File = Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe";
+            if (Properties.Settings.Default.xmaencodeFile == string.Empty) Properties.Settings.Default.xmaencodeFile = Properties.Settings.Default.toolsPath + @"Microsoft\xmaencode2008.exe";
+            if (Properties.Settings.Default.towavFile == string.Empty) Properties.Settings.Default.towavFile = Properties.Settings.Default.toolsPath + @"Microsoft\towav.exe";
             Properties.Settings.Default.Save();
             #endregion
 
@@ -486,7 +508,9 @@ namespace Sonic_06_Toolkit
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"CriWare\vsthost.dll", Properties.Resources.vsthost);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"exiso\exiso.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"exiso\exiso.exe", Properties.Resources.exiso);
                 if (!File.Exists(Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"SONY\at3tool.exe", Properties.Resources.at3tool);
-                if (!File.Exists(Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"DirectX\texconv.exe", Properties.Resources.texconv);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"Microsoft\texconv.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Microsoft\texconv.exe", Properties.Resources.texconv);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"Microsoft\xmaencode2008.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Microsoft\xmaencode2008.exe", Properties.Resources.xmaencode2008);
+                if (!File.Exists(Properties.Settings.Default.toolsPath + @"Microsoft\towav.exe")) File.WriteAllBytes(Properties.Settings.Default.toolsPath + @"Microsoft\towav.exe", Properties.Resources.towav);
             }
             catch { MessageBox.Show("An error occurred when writing a file.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); Application.Exit(); }
             #endregion
@@ -1717,6 +1741,27 @@ namespace Sonic_06_Toolkit
             }
         }
 
+        void MainSDK_XMAStudio_Click(object sender, EventArgs e)
+        {
+            if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+            else
+            {
+                new XMA_Studio().ShowDialog();
+            }
+        }
+
+        void XmaStudio_PatchXMAManually_Click(object sender, EventArgs e)
+        {
+            ofd_OpenFiles.Title = "Please select an XMA to patch...";
+            ofd_OpenFiles.Filter = "XMA files|*.xma";
+            ofd_OpenFiles.DefaultExt = "xma";
+
+            if (ofd_OpenFiles.ShowDialog() == DialogResult.OK)
+            {
+                Tools.XMA.PatchXMA(ofd_OpenFiles.FileName);
+            }
+        }
+
         void MainSDK_XNOStudio_Click(object sender, EventArgs e)
         {
             if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
@@ -1728,6 +1773,36 @@ namespace Sonic_06_Toolkit
         #endregion
 
         #region Shortcuts
+        void Shortcuts_ConvertAT3s_Click(object sender, EventArgs e)
+        {
+            if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+            else
+            {
+                if (Directory.GetFiles(Tools.Global.currentPath, "*.at3").Length == 0) MessageBox.Show("There are no AT3 files to convert in this directory.", "No AT3 files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    try
+                    {
+                        foreach (string AT3 in Directory.GetFiles(Tools.Global.currentPath, "*.at3", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(AT3))
+                            {
+                                Tools.Global.at3State = "at3";
+                                Tools.AT3.ConvertToWAV(null, AT3);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                    }
+
+                    Tools.Global.at3State = null;
+                }
+            }
+        }
+
         void Shortcuts_ExtractCSBs_Click(object sender, EventArgs e)
         {
             if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
@@ -1738,7 +1813,6 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
-                        //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
                         foreach (string CSB in Directory.GetFiles(Tools.Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
                         {
                             if (File.Exists(CSB))
@@ -1832,7 +1906,7 @@ namespace Sonic_06_Toolkit
                         Tools.Notification.Dispose();
                     }
 
-                Tools.Global.mstState = null;
+                    Tools.Global.mstState = null;
                 }
             }
         }
@@ -1862,6 +1936,36 @@ namespace Sonic_06_Toolkit
                     }
 
                     Tools.Global.setState = null;
+                }
+            }
+        }
+
+        void Shortcuts_ConvertXMAs_Click(object sender, EventArgs e)
+        {
+            if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+            else
+            {
+                if (Directory.GetFiles(Tools.Global.currentPath, "*.xma").Length == 0) MessageBox.Show("There are no XMAs to convert in this directory.", "No XMAs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    try
+                    {
+                        foreach (string XMA in Directory.GetFiles(Tools.Global.currentPath, "*.xma", SearchOption.TopDirectoryOnly))
+                        {
+                            if (File.Exists(XMA))
+                            {
+                                Tools.Global.xmaState = "xma";
+                                Tools.XMA.ConvertToWAV(null, XMA);
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occurred when converting the XMAs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                    }
+
+                    Tools.Global.xmaState = null;
                 }
             }
         }
@@ -2169,6 +2273,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = true;
                     mainFile_RepackARC.Enabled = true;
                     mainFile_RepackARCAs.Enabled = true;
+                    mainSDK_XMAStudio.Enabled = true;
+                    shortcuts_ConvertAT3s.Enabled = true;
+                    shortcuts_ConvertXMAs.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2210,6 +2317,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = false;
                     mainFile_RepackARC.Enabled = false;
                     mainFile_RepackARCAs.Enabled = false;
+                    mainSDK_XMAStudio.Enabled = true;
+                    shortcuts_ConvertAT3s.Enabled = true;
+                    shortcuts_ConvertXMAs.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2251,6 +2361,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = false;
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
+                    mainSDK_XMAStudio.Enabled = false;
+                    shortcuts_ConvertAT3s.Enabled = false;
+                    shortcuts_ConvertXMAs.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;
@@ -2285,6 +2398,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = false;
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
+                    mainSDK_XMAStudio.Enabled = true;
+                    shortcuts_ConvertAT3s.Enabled = true;
+                    shortcuts_ConvertXMAs.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2326,6 +2442,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = true;
                     mainSDK_DDSStudio.Enabled = true;
                     shortcuts_ConvertDDS.Enabled = true;
+                    mainSDK_XMAStudio.Enabled = false;
+                    shortcuts_ConvertAT3s.Enabled = false;
+                    shortcuts_ConvertXMAs.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2367,6 +2486,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = false;
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
+                    mainSDK_XMAStudio.Enabled = true;
+                    shortcuts_ConvertAT3s.Enabled = true;
+                    shortcuts_ConvertXMAs.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2408,6 +2530,9 @@ namespace Sonic_06_Toolkit
                     btn_RepackOptions.Enabled = false;
                     mainSDK_DDSStudio.Enabled = false;
                     shortcuts_ConvertDDS.Enabled = false;
+                    mainSDK_XMAStudio.Enabled = false;
+                    shortcuts_ConvertAT3s.Enabled = false;
+                    shortcuts_ConvertXMAs.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;

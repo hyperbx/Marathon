@@ -338,12 +338,12 @@ namespace Sonic_06_Toolkit.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool wholeLoop {
+        public bool AT3wholeLoop {
             get {
-                return ((bool)(this["wholeLoop"]));
+                return ((bool)(this["AT3wholeLoop"]));
             }
             set {
-                this["wholeLoop"] = value;
+                this["AT3wholeLoop"] = value;
             }
         }
         
@@ -476,6 +476,54 @@ namespace Sonic_06_Toolkit.Properties {
             }
             set {
                 this["NOWLOADING"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool XMAwholeLoop {
+            get {
+                return ((bool)(this["XMAwholeLoop"]));
+            }
+            set {
+                this["XMAwholeLoop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool patchXMA {
+            get {
+                return ((bool)(this["patchXMA"]));
+            }
+            set {
+                this["patchXMA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string xmaencodeFile {
+            get {
+                return ((string)(this["xmaencodeFile"]));
+            }
+            set {
+                this["xmaencodeFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string towavFile {
+            get {
+                return ((string)(this["towavFile"]));
+            }
+            set {
+                this["towavFile"] = value;
             }
         }
     }

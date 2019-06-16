@@ -80,7 +80,7 @@
     <Setting Name="volume" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="wholeLoop" Type="System.Boolean" Scope="User">
+    <Setting Name="AT3wholeLoop" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="useGPU" Type="System.Boolean" Scope="User">
@@ -115,6 +115,18 @@
     </Setting>
     <Setting Name="NOWLOADING" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="XMAwholeLoop" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="patchXMA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="xmaencodeFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="towavFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

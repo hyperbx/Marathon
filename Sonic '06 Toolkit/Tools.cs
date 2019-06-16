@@ -775,6 +775,195 @@ namespace Sonic_06_Toolkit.Tools
         }
     }
 
+    class XMA
+    {
+        static ProcessStartInfo xmaSession;
+
+        public static void ConvertToWAV(string args, string selectedXMA)
+        {
+            if (Global.xmaState == "launch-xma")
+            {
+                //Sets up the BASIC application and executes the converting process.
+                xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{args}\"")
+                {
+                    WorkingDirectory = Path.GetDirectoryName(args),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                Begin(args);
+            }
+            else if (Global.xmaState == "xma")
+            {
+                //Sets up the BASIC application and executes the converting process.
+                xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{Path.Combine(Global.currentPath, selectedXMA)}\"")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                Begin(selectedXMA);
+            }
+        }
+
+        public static void ConvertToXMA(string selectedWAV)
+        {
+            if (Global.xmaState == "wav")
+            {
+                //Sets up the BASIC application and executes the converting process.
+                xmaSession = new ProcessStartInfo(Properties.Settings.Default.xmaencodeFile, $"\"{Path.Combine(Global.currentPath, selectedWAV)}\" {XMA_Studio.wholeLoop}")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+
+            Begin(selectedWAV);
+        }
+
+        public static void PatchXMA(string selectedXMA)
+        {
+            Global.xmaState = "patch-only";
+            Begin(selectedXMA);
+        }
+
+        static void Begin(string selectedFile)
+        {
+            if (Debugger.unsafeState == true) { MessageBox.Show("XMA Encode 2008 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.xmaencodeFile))
+                {
+                    if (Global.xmaState == "wav")
+                    {
+                        string originalXMA = $"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma";
+                        if (File.Exists($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma"))
+                        {
+                            File.Copy(originalXMA, $"{originalXMA}.bak", true);
+                            File.Delete(originalXMA);
+                        }
+                    }
+                    else if (Global.xmaState == "patch-only")
+                    {
+                        byte[] bytes = File.ReadAllBytes(selectedFile).ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                        if (hexString.Contains("58 4D 41 32 24 00 00 00 03 01 00 00 00 00 00 00 00 00 00 00 00 00 BB 80 00 FF 00 00 00 00 4C 00 00 00 48 B6 00 00 00 01 01 00 00 01 73 65 65 6B 04 00 00 00 00 00 4C 00"))
+                        {
+                            MessageBox.Show("This XMA has already been patched.", "XMA Patched", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Global.xmaState = null;
+                            return;
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                                MessageBox.Show("The selected XMA has been patched.", "XMA Patched", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                Global.xmaState = null;
+                                return;
+                            }
+                            catch
+                            {
+                                MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Notification.Dispose();
+                                Global.xmaState = null;
+                                return;
+                            }
+                        }
+                    }
+                    else if (Global.xmaState == "xma")
+                    {
+                        byte[] bytes = File.ReadAllBytes($"{Path.Combine(Global.currentPath, Path.GetFileName(selectedFile))}").ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                        if (hexString.Contains("58 4D 41 32 24 00 00 00 03 01 00 00 00 00 00 00 00 00 00 00 00 00 BB 80 00 FF 00 00 00 00 4C 00 00 00 48 B6 00 00 00 01 01 00 00 01 73 65 65 6B 04 00 00 00 00 00 4C 00"))
+                        {
+                            FileInfo fi = new FileInfo($"{Path.Combine(Global.currentPath, Path.GetFileName(selectedFile))}");
+                            FileStream fs = fi.Open(FileMode.Open);
+
+                            long bytesToDelete = 56;
+                            fs.SetLength(Math.Max(0, fi.Length - bytesToDelete));
+
+                            fs.Close();
+                        }
+
+                        Global.xmaState = "xma-repatch";
+                    }
+                    else if (Global.xmaState == "launch-xma")
+                    {
+                        byte[] bytes = File.ReadAllBytes(selectedFile).ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
+                        if (hexString.Contains("58 4D 41 32 24 00 00 00 03 01 00 00 00 00 00 00 00 00 00 00 00 00 BB 80 00 FF 00 00 00 00 4C 00 00 00 48 B6 00 00 00 01 01 00 00 01 73 65 65 6B 04 00 00 00 00 00 4C 00"))
+                        {
+                            FileInfo fi = new FileInfo(selectedFile);
+                            FileStream fs = fi.Open(FileMode.Open);
+
+                            long bytesToDelete = 56;
+                            fs.SetLength(Math.Max(0, fi.Length - bytesToDelete));
+
+                            fs.Close();
+                        }
+
+                        Global.xmaState = "xma-launch-repatch";
+                    }
+                    
+                    var Convert = Process.Start(xmaSession);
+                    var convertDialog = new Status();
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    if (Global.xmaState == "launch-xma" || Global.xmaState == "xma-launch-repatch") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+
+                    //Global.xmaState = null;
+
+                    if (Global.xmaState == "wav")
+                    {
+                        if (Properties.Settings.Default.patchXMA == true)
+                        {
+                            try
+                            {
+                                ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                            }
+                            catch
+                            {
+                                MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Notification.Dispose();
+                            }
+                        }
+                    }
+                    else if (Global.xmaState == "xma-repatch")
+                    {
+                        try
+                        {
+                            ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                        }
+                        catch
+                        {
+                            MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Notification.Dispose();
+                        }
+                    }
+                    else if (Global.xmaState == "xma-launch-repatch")
+                    {
+                        try
+                        {
+                            ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                        }
+                        catch
+                        {
+                            MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Notification.Dispose();
+                        }
+                    }
+
+                    convertDialog.Close();
+                }
+                else { MessageBox.Show("XMA Encode 2008 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+        }
+    }
+
     class XNO
     {
         static ProcessStartInfo xnoSession;
@@ -872,6 +1061,26 @@ namespace Sonic_06_Toolkit.Tools
         }
     }
 
+    class ByteArray
+    {
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+
+        public static bool ByteArrayToFile(string fileName, byte[] byteArray)
+        {
+            using (var fs = new FileStream(fileName, FileMode.Append, FileAccess.Write))
+            {
+                fs.Write(byteArray, 0, byteArray.Length);
+                return true;
+            }
+        }
+    }
+
     class Notification
     {
         public static void Dispose()
@@ -909,7 +1118,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.97";
+        public static string versionNumber = "1.98";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
@@ -924,6 +1133,7 @@ namespace Sonic_06_Toolkit.Tools
         public static string lubState;
         public static string setState;
         public static string mstState;
+        public static string xmaState;
         public static string xnoState;
 
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

@@ -196,4 +196,10 @@
   <data name="tinyxml2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\tinyxml2.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="towav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\towav.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xmaencode2008" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\xmaencode2008.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -117,6 +117,7 @@ namespace Sonic_06_Toolkit
                 lbl_unpackState.Text = "Encoding WAV files. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
                 Width = 300;
+                Height = 138;
             }
             else if (Tools.Global.ddsState == "dds" || Tools.Global.ddsState == "launch-dds")
             {
@@ -152,6 +153,7 @@ namespace Sonic_06_Toolkit
                 lbl_unpackState.Text = "Repacking CSBs. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
                 Width = 212;
+                Height = 138;
             }
             else if (Tools.Global.lubState == "decompile" || Tools.Global.lubState == "launch-decompile" || Tools.Global.lubState == "decompile-all")
             {
@@ -178,6 +180,24 @@ namespace Sonic_06_Toolkit
                 lbl_unpackState.Text = "Converting XNOs. Please wait...";
                 pnl_windowCheck.BackColor = Color.FromArgb(239, 224, 201); BackColor = Color.FromArgb(239, 224, 201);
                 Width = 219;
+                Height = 138;
+            }
+            else if (Tools.Global.xmaState == "xma" || Tools.Global.xmaState == "launch-xma" || Tools.Global.xmaState == "xma-repatch" || Tools.Global.xmaState == "xma-launch-repatch")
+            {
+                NOW_LOADING.Visible = false;
+                Text = "Encoding XMAs...";
+                lbl_unpackState.Text = "Encoding XMAs. Please wait...";
+                pnl_windowCheck.BackColor = Color.FromArgb(239, 224, 201); BackColor = Color.FromArgb(239, 224, 201);
+                Width = 284;
+                Height = 138;
+            }
+            else if (Tools.Global.xmaState == "wav")
+            {
+                NOW_LOADING.Visible = false;
+                Text = "Encoding WAV files...";
+                lbl_unpackState.Text = "Encoding WAV files. Please wait...";
+                pnl_windowCheck.BackColor = Color.FromArgb(239, 224, 201); BackColor = Color.FromArgb(239, 224, 201);
+                Width = 300;
                 Height = 138;
             }
             else if (Tools.Global.exisoState == "extract")

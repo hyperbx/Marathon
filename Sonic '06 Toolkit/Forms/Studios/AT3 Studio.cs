@@ -61,9 +61,7 @@ namespace Sonic_06_Toolkit
             }
             else { MessageBox.Show("There are no encodable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
 
-            tm_wholeLoopCheck.Start();
-
-            if (Properties.Settings.Default.wholeLoop == true) looping_Whole.Checked = true;
+            if (Properties.Settings.Default.AT3wholeLoop == true) looping_Whole.Checked = true; else looping_Whole.Checked = false;
         }
 
         void Btn_SelectAll_Click(object sender, EventArgs e)
@@ -213,7 +211,7 @@ namespace Sonic_06_Toolkit
             }
             else
             {
-                MessageBox.Show("AT3 State set to invalid value: " + Tools.Global.adxState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("AT3 State set to invalid value: " + Tools.Global.at3State + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -222,12 +220,12 @@ namespace Sonic_06_Toolkit
             if (looping_Whole.Checked == true)
             {
                 wholeLoop = "-wholeloop ";
-                Properties.Settings.Default.wholeLoop = true;
+                Properties.Settings.Default.AT3wholeLoop = true;
             }
             else
             {
                 wholeLoop = "";
-                Properties.Settings.Default.wholeLoop = false;
+                Properties.Settings.Default.AT3wholeLoop = false;
             }
             Properties.Settings.Default.Save();
         }
@@ -237,11 +235,6 @@ namespace Sonic_06_Toolkit
         //{
         //    new Loop().ShowDialog();
         //}
-
-        void Tm_wholeLoopCheck_Tick(object sender, EventArgs e)
-        {
-            if (wholeLoop != "") looping_Whole.Checked = true; else looping_Whole.Checked = false;
-        }
 
         void AT3_Studio_FormClosing(object sender, FormClosingEventArgs e)
         {

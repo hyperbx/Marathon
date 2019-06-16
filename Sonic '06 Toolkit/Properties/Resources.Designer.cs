@@ -283,6 +283,16 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] towav {
+            get {
+                object obj = ResourceManager.GetObject("towav", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] unlub {
             get {
                 object obj = ResourceManager.GetObject("unlub", resourceCulture);
@@ -306,6 +316,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] vsthost {
             get {
                 object obj = ResourceManager.GetObject("vsthost", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] xmaencode2008 {
+            get {
+                object obj = ResourceManager.GetObject("xmaencode2008", resourceCulture);
                 return ((byte[])(obj));
             }
         }
