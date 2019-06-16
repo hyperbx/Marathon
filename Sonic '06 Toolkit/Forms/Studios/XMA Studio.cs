@@ -33,8 +33,8 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 modes_WAVtoXMA.Checked = false;
-                options_Looping.Visible = false;
-                //options_PatchXMA.Visible = false;
+                //options_Looping.Visible = false;
+                options_PatchXMA.Visible = false;
                 btn_Convert.Enabled = false;
 
                 if (Directory.GetFiles(Tools.Global.currentPath, "*.xma").Length == 0)
