@@ -46,13 +46,13 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 ### Xbox 360 ISO Extracting
 - Currently based off in's [extract-xiso](https://github.com/XboxDev/extract-xiso) tool.
 
+### XMA Encoding
+- Currently based off [Microsoft](https://www.microsoft.com/en-gb)'s xmaencode2008 tool and a patcher developed for Sonic '06 Toolkit to play the XMAs in-game.
+
 ### XNO Converting and XNM Pairing
 - Currently based off [Skyth](https://github.com/blueskythlikesclouds) and [DarioSamo](https://github.com/DarioSamo)'s [XNO converter](https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe).
 
 # Project Goals
-### XMA Encoding
-- <b>Help wanted!</b> We currently don't have a way to encode XMA files to a format appropriate for the Xbox 360 version of SONIC THE HEDGEHOG. The XMA tools we <i>do</i> have will either crash the game or produce an XMA that will not play in-game (if encoded to XACT's standards).
-
 ### XNCP Decompiling
 - <b>Help wanted!</b> We currently don't have a way to decompile XNCP files. These files potentially contain information and/or values for menu placement, colour and whatnot.
 
