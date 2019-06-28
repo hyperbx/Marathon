@@ -38,8 +38,14 @@ namespace Sonic_06_Toolkit
         {
             if (sfd_SaveLogo.ShowDialog() == DialogResult.OK)
             {
-                Properties.Resources.logo_main.Save(sfd_SaveLogo.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                if (Documentation.freeModeNoMore >= 10) { Properties.Resources.sonori.Save(sfd_SaveLogo.FileName, System.Drawing.Imaging.ImageFormat.Png); }
+                else { Properties.Resources.logo_main.Save(sfd_SaveLogo.FileName, System.Drawing.Imaging.ImageFormat.Png); }
             }
+        }
+
+        private void Logo_Load(object sender, System.EventArgs e)
+        {
+            if (Documentation.freeModeNoMore >= 10) { pic_Logo.BackgroundImage = Properties.Resources.sonori; lbl_Credit.Visible = false; }
         }
     }
 }

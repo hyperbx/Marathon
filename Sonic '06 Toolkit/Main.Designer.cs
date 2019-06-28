@@ -114,6 +114,8 @@
             this.mainSDK_XMAStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.xmaStudio_PatchXMAManually = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.dbs_Separator = new System.Windows.Forms.ToolStripSeparator();
+            this.mainSDK_DebugStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertAT3s = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
@@ -136,6 +138,7 @@
             this.mainHelp_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.mainHelp_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainHelp_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_About = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_Updater = new System.Windows.Forms.Panel();
             this.lbl_updateStatus = new System.Windows.Forms.Label();
@@ -411,6 +414,7 @@
             // ofd_OpenFiles
             // 
             this.ofd_OpenFiles.DefaultExt = "arc";
+            this.ofd_OpenFiles.Filter = "ARC Files|(*arc)";
             // 
             // btn_SessionID
             // 
@@ -795,7 +799,9 @@
             this.mainSDK_MSTStudio,
             this.mainSDK_SETStudio,
             this.mainSDK_XMAStudio,
-            this.mainSDK_XNOStudio});
+            this.mainSDK_XNOStudio,
+            this.dbs_Separator,
+            this.mainSDK_DebugStudio});
             this.main_SDK.Name = "main_SDK";
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
             this.main_SDK.Text = "SDK";
@@ -805,7 +811,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -813,7 +819,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -822,7 +828,7 @@
             this.mainSDK_AT3Studio.Enabled = false;
             this.mainSDK_AT3Studio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_AT3Studio.Image")));
             this.mainSDK_AT3Studio.Name = "mainSDK_AT3Studio";
-            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_AT3Studio.Text = "AT3 Studio...";
             this.mainSDK_AT3Studio.Click += new System.EventHandler(this.MainSDK_AT3Studio_Click);
             // 
@@ -831,7 +837,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -840,7 +846,7 @@
             this.mainSDK_DDSStudio.Enabled = false;
             this.mainSDK_DDSStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DDSStudio.Image")));
             this.mainSDK_DDSStudio.Name = "mainSDK_DDSStudio";
-            this.mainSDK_DDSStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_DDSStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_DDSStudio.Text = "DDS Studio...";
             this.mainSDK_DDSStudio.Click += new System.EventHandler(this.MainSDK_DDSStudio_Click);
             // 
@@ -849,7 +855,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -858,7 +864,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -867,7 +873,7 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
             // 
@@ -878,7 +884,7 @@
             this.mainSDK_XMAStudio.Enabled = false;
             this.mainSDK_XMAStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XMAStudio.Image")));
             this.mainSDK_XMAStudio.Name = "mainSDK_XMAStudio";
-            this.mainSDK_XMAStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XMAStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_XMAStudio.Text = "XMA Studio...";
             this.mainSDK_XMAStudio.Click += new System.EventHandler(this.MainSDK_XMAStudio_Click);
             // 
@@ -895,9 +901,25 @@
             this.mainSDK_XNOStudio.Enabled = false;
             this.mainSDK_XNOStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XNOStudio.Image")));
             this.mainSDK_XNOStudio.Name = "mainSDK_XNOStudio";
-            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XNOStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_XNOStudio.Text = "XNO Studio...";
             this.mainSDK_XNOStudio.Click += new System.EventHandler(this.MainSDK_XNOStudio_Click);
+            // 
+            // dbs_Separator
+            // 
+            this.dbs_Separator.Name = "dbs_Separator";
+            this.dbs_Separator.Size = new System.Drawing.Size(152, 6);
+            this.dbs_Separator.Visible = false;
+            // 
+            // mainSDK_DebugStudio
+            // 
+            this.mainSDK_DebugStudio.Enabled = false;
+            this.mainSDK_DebugStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DebugStudio.Image")));
+            this.mainSDK_DebugStudio.Name = "mainSDK_DebugStudio";
+            this.mainSDK_DebugStudio.Size = new System.Drawing.Size(155, 22);
+            this.mainSDK_DebugStudio.Text = "Debug Studio...";
+            this.mainSDK_DebugStudio.Visible = false;
+            this.mainSDK_DebugStudio.Click += new System.EventHandler(this.MainSDK_DebugStudio_Click);
             // 
             // main_Shortcuts
             // 
@@ -1087,6 +1109,7 @@
             this.mainHelp_Documentation,
             this.toolStripSeparator11,
             this.mainHelp_CheckForUpdates,
+            this.mainHelp_ReportBug,
             this.mainHelp_About});
             this.main_Help.Name = "main_Help";
             this.main_Help.Size = new System.Drawing.Size(44, 20);
@@ -1114,6 +1137,14 @@
             this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(179, 22);
             this.mainHelp_CheckForUpdates.Text = "Check for updates...";
             this.mainHelp_CheckForUpdates.Click += new System.EventHandler(this.MainHelp_CheckForUpdates_Click);
+            // 
+            // mainHelp_ReportBug
+            // 
+            this.mainHelp_ReportBug.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_ReportBug.Image")));
+            this.mainHelp_ReportBug.Name = "mainHelp_ReportBug";
+            this.mainHelp_ReportBug.Size = new System.Drawing.Size(179, 22);
+            this.mainHelp_ReportBug.Text = "Report a bug...";
+            this.mainHelp_ReportBug.Click += new System.EventHandler(this.MainHelp_ReportBug_Click);
             // 
             // mainHelp_About
             // 
@@ -1613,6 +1644,9 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertAT3s;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertXMAs;
         private System.Windows.Forms.ToolStripMenuItem xmaStudio_PatchXMAManually;
+        private System.Windows.Forms.ToolStripMenuItem mainHelp_ReportBug;
+        private System.Windows.Forms.ToolStripSeparator dbs_Separator;
+        private System.Windows.Forms.ToolStripMenuItem mainSDK_DebugStudio;
     }
 }
 

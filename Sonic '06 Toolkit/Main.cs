@@ -356,55 +356,60 @@ namespace Sonic_06_Toolkit
                             switch (confirmUpdate)
                             {
                                 case DialogResult.Yes:
-                                    tm_updateCheck.Stop();
-
-                                    mainPreferences_DisableSoftwareUpdater.Enabled = false;
-                                    lbl_UpdateNotif.Visible = false;
-                                    pnl_Updater.Visible = true;
-
-                                    if (themes_Original.Checked == true) { btn_Backdrop.Visible = true; btn_Backdrop.Left += 186; }
-                                    try
+                                    var exists = System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1;
+                                    if (exists) { MessageBox.Show("Please close any other instances of Sonic '06 Toolkit and try again.", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                                    else
                                     {
-                                        if (File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll"))
-                                        {
-                                            var clientHedgeLib = new WebClient();
-                                            clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
-                                            clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak");
-                                            clientHedgeLib.DownloadFileCompleted += (s, e) =>
-                                            {
-                                                File.Replace(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.bak");
-                                            };
-                                        }
-                                        else
-                                        {
-                                            var clientHedgeLib = new WebClient();
-                                            clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
-                                            clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll");
-                                        }
+                                        tm_updateCheck.Stop();
 
-                                        if (File.Exists(Application.ExecutablePath))
-                                        {
-                                            var clientApplication = new WebClient();
-                                            clientApplication.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
-                                            clientApplication.DownloadFileAsync(new Uri(newVersionDownloadLink), Application.ExecutablePath + ".pak");
-                                            clientApplication.DownloadFileCompleted += (s, e) =>
-                                            {
-                                                File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
-                                                Process.Start(Application.ExecutablePath);
-                                                Application.Exit();
-                                            };
-                                        }
-                                        else { MessageBox.Show("Sonic '06 Toolkit doesn't exist... What?!", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-                                    }
-                                    catch
-                                    {
-                                        tm_updateCheck.Start();
-
+                                        mainPreferences_DisableSoftwareUpdater.Enabled = false;
                                         lbl_UpdateNotif.Visible = false;
-                                        pnl_Updater.Visible = false;
-                                        btn_Backdrop.Visible = false;
+                                        pnl_Updater.Visible = true;
 
-                                        MessageBox.Show("An error occurred when updating Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        if (themes_Original.Checked == true) { btn_Backdrop.Visible = true; btn_Backdrop.Left += 186; }
+                                        try
+                                        {
+                                            if (File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll"))
+                                            {
+                                                var clientHedgeLib = new WebClient();
+                                                clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                                clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak");
+                                                clientHedgeLib.DownloadFileCompleted += (s, e) =>
+                                                {
+                                                    File.Replace(Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.pak", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll", Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.bak");
+                                                };
+                                            }
+                                            else
+                                            {
+                                                var clientHedgeLib = new WebClient();
+                                                clientHedgeLib.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                                clientHedgeLib.DownloadFileAsync(new Uri(libDownloadLink), Path.GetDirectoryName(Application.ExecutablePath) + @"\HedgeLib.dll");
+                                            }
+
+                                            if (File.Exists(Application.ExecutablePath))
+                                            {
+                                                var clientApplication = new WebClient();
+                                                clientApplication.DownloadProgressChanged += (s, e) => { pgb_updateStatus.Value = e.ProgressPercentage; };
+                                                clientApplication.DownloadFileAsync(new Uri(newVersionDownloadLink), Application.ExecutablePath + ".pak");
+                                                clientApplication.DownloadFileCompleted += (s, e) =>
+                                                {
+                                                    File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
+                                                    Process.Start(Application.ExecutablePath);
+                                                    Application.Exit();
+                                                };
+                                            }
+                                            else { MessageBox.Show("Sonic '06 Toolkit doesn't exist... What?!", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                                        }
+                                        catch
+                                        {
+                                            tm_updateCheck.Start();
+
+                                            lbl_UpdateNotif.Visible = false;
+                                            pnl_Updater.Visible = false;
+                                            btn_Backdrop.Visible = false;
+
+                                            MessageBox.Show("An error occurred when updating Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
                                     }
                                     break;
 
@@ -1418,6 +1423,8 @@ namespace Sonic_06_Toolkit
                     }
                     new Debugger(this).Show();
                     advanced_DebugMode.Checked = true;
+                    mainSDK_DebugStudio.Visible = true;
+                    dbs_Separator.Visible = true;
                     Properties.Settings.Default.debugMode = true;
                 }
                 else
@@ -1442,6 +1449,8 @@ namespace Sonic_06_Toolkit
                     }
 
                     advanced_DebugMode.Checked = false;
+                    mainSDK_DebugStudio.Visible = false;
+                    dbs_Separator.Visible = false;
                     Properties.Settings.Default.debugMode = false;
                 }
 
@@ -1493,6 +1502,8 @@ namespace Sonic_06_Toolkit
                 {
                     debug = true;
                     new Debugger(this).Show();
+                    mainSDK_DebugStudio.Visible = true;
+                    dbs_Separator.Visible = true;
                     Properties.Settings.Default.debugMode = true;
                 }
             }
@@ -1512,6 +1523,8 @@ namespace Sonic_06_Toolkit
                 }
 
                 advanced_DebugMode.Checked = false;
+                mainSDK_DebugStudio.Visible = false;
+                dbs_Separator.Visible = false;
                 Properties.Settings.Default.debugMode = false;
             }
 
@@ -1769,6 +1782,15 @@ namespace Sonic_06_Toolkit
             else
             {
                 new XNO_Studio().ShowDialog();
+            }
+        }
+
+        void MainSDK_DebugStudio_Click(object sender, EventArgs e)
+        {
+            if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
+            else
+            {
+                new Debug_Studio().ShowDialog();
             }
         }
         #endregion
@@ -2140,6 +2162,11 @@ namespace Sonic_06_Toolkit
             else Tools.Global.updateState = "user"; CheckForUpdates(Tools.Global.latestVersion, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/lib.dll", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
 
+        void MainHelp_ReportBug_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/issues");
+        }
+
         void MainHelp_About_Click(object sender, EventArgs e)
         {
             new About().ShowDialog();
@@ -2277,6 +2304,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = true;
                     shortcuts_ConvertAT3s.Enabled = true;
                     shortcuts_ConvertXMAs.Enabled = true;
+                    mainSDK_DebugStudio.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2322,6 +2350,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = true;
                     shortcuts_ConvertAT3s.Enabled = true;
                     shortcuts_ConvertXMAs.Enabled = true;
+                    mainSDK_DebugStudio.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2367,6 +2396,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = false;
                     shortcuts_ConvertAT3s.Enabled = false;
                     shortcuts_ConvertXMAs.Enabled = false;
+                    mainSDK_DebugStudio.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;
@@ -2404,6 +2434,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = true;
                     shortcuts_ConvertAT3s.Enabled = true;
                     shortcuts_ConvertXMAs.Enabled = true;
+                    mainSDK_DebugStudio.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2449,6 +2480,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = false;
                     shortcuts_ConvertAT3s.Enabled = false;
                     shortcuts_ConvertXMAs.Enabled = false;
+                    mainSDK_DebugStudio.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2494,6 +2526,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = true;
                     shortcuts_ConvertAT3s.Enabled = true;
                     shortcuts_ConvertXMAs.Enabled = true;
+                    mainSDK_DebugStudio.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2539,6 +2572,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_XMAStudio.Enabled = false;
                     shortcuts_ConvertAT3s.Enabled = false;
                     shortcuts_ConvertXMAs.Enabled = false;
+                    mainSDK_DebugStudio.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;

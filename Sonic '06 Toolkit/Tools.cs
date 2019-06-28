@@ -795,10 +795,10 @@ namespace Sonic_06_Toolkit.Tools
             else if (Global.xmaState == "xma")
             {
                 //Sets up the BASIC application and executes the converting process.
-                xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{Path.Combine(Global.currentPath, selectedXMA)}\"")
+                xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{Path.Combine(Global.currentPath, Path.GetFileName(selectedXMA))}\"")
                 {
                     WorkingDirectory = Global.currentPath,
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    WindowStyle = ProcessWindowStyle.Hidden,
                 };
 
                 Begin(selectedXMA);
@@ -924,11 +924,13 @@ namespace Sonic_06_Toolkit.Tools
                             try
                             {
                                 ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                                Global.xmaState = "wav";
                             }
                             catch
                             {
                                 MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Notification.Dispose();
+                                Global.xmaState = "wav";
                             }
                         }
                     }
@@ -937,11 +939,13 @@ namespace Sonic_06_Toolkit.Tools
                         try
                         {
                             ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                            Global.xmaState = "xma";
                         }
                         catch
                         {
                             MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
+                            Global.xmaState = "xma";
                         }
                     }
                     else if (Global.xmaState == "xma-launch-repatch")
@@ -949,11 +953,13 @@ namespace Sonic_06_Toolkit.Tools
                         try
                         {
                             ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
+                            Global.xmaState = "xma";
                         }
                         catch
                         {
                             MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
+                            Global.xmaState = "xma";
                         }
                     }
 
@@ -1118,7 +1124,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "1.99";
+        public static string versionNumber = "2.0";
         public static string latestVersion = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

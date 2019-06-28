@@ -36,6 +36,7 @@
             this.modes_XMAtoWAV = new System.Windows.Forms.ToolStripMenuItem();
             this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Options = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_PatchXMA = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_Convert = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
@@ -43,9 +44,8 @@
             this.mstrip_Options = new System.Windows.Forms.MenuStrip();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
-            this.options_PatchXMA = new System.Windows.Forms.ToolStripMenuItem();
-            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.mstrip_Options.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
@@ -62,7 +62,7 @@
             // 
             this.looping_Whole.CheckOnClick = true;
             this.looping_Whole.Name = "looping_Whole";
-            this.looping_Whole.Size = new System.Drawing.Size(180, 22);
+            this.looping_Whole.Size = new System.Drawing.Size(172, 22);
             this.looping_Whole.Text = "Loop entire track";
             this.looping_Whole.CheckedChanged += new System.EventHandler(this.Looping_Whole_CheckedChanged);
             // 
@@ -72,7 +72,7 @@
             this.looping_Whole,
             this.looping_SetLoop});
             this.options_Looping.Name = "options_Looping";
-            this.options_Looping.Size = new System.Drawing.Size(180, 22);
+            this.options_Looping.Size = new System.Drawing.Size(133, 22);
             this.options_Looping.Text = "Looping";
             this.options_Looping.Visible = false;
             // 
@@ -112,6 +112,15 @@
             this.main_Options.Name = "main_Options";
             this.main_Options.Size = new System.Drawing.Size(61, 20);
             this.main_Options.Text = "Options";
+            // 
+            // options_PatchXMA
+            // 
+            this.options_PatchXMA.CheckOnClick = true;
+            this.options_PatchXMA.Name = "options_PatchXMA";
+            this.options_PatchXMA.Size = new System.Drawing.Size(133, 22);
+            this.options_PatchXMA.Text = "Patch XMA";
+            this.options_PatchXMA.Visible = false;
+            this.options_PatchXMA.CheckedChanged += new System.EventHandler(this.Options_PatchXMA_CheckedChanged);
             // 
             // btn_Convert
             // 
@@ -210,14 +219,16 @@
             this.pnl_Backdrop.Size = new System.Drawing.Size(440, 69);
             this.pnl_Backdrop.TabIndex = 51;
             // 
-            // options_PatchXMA
+            // label1
             // 
-            this.options_PatchXMA.CheckOnClick = true;
-            this.options_PatchXMA.Name = "options_PatchXMA";
-            this.options_PatchXMA.Size = new System.Drawing.Size(180, 22);
-            this.options_PatchXMA.Text = "Patch XMA";
-            this.options_PatchXMA.Visible = false;
-            this.options_PatchXMA.CheckedChanged += new System.EventHandler(this.Options_PatchXMA_CheckedChanged);
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label1.Location = new System.Drawing.Point(19, 44);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(73, 13);
+            this.label1.TabIndex = 57;
+            this.label1.Text = "experimental";
             // 
             // pic_Logo
             // 
@@ -231,17 +242,6 @@
             this.pic_Logo.TabIndex = 11;
             this.pic_Logo.TabStop = false;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(19, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 13);
-            this.label1.TabIndex = 57;
-            this.label1.Text = "experimental";
-            // 
             // XMA_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,6 +254,7 @@
             this.Controls.Add(this.mstrip_Options);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "XMA_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

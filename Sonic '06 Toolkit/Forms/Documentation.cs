@@ -35,6 +35,8 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
         }
 
+        public static int freeModeNoMore = 0;
+
         void Tree_InfoSelect_AfterSelect(object sender, TreeViewEventArgs e)
         {
             #region Core
@@ -122,6 +124,8 @@ namespace Sonic_06_Toolkit
             {
                 rtb_InfoDisplay.Text = "";
                 btn_Reset.Visible = true;
+
+                freeModeNoMore++;
             }
             #endregion
 

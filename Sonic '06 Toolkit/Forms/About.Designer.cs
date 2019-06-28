@@ -43,6 +43,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl5 = new System.Windows.Forms.TabControl();
             this.tabPage15 = new System.Windows.Forms.TabPage();
@@ -81,7 +82,6 @@
             this.richTextBox16 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
-            this.richTextBox4 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
@@ -143,11 +143,11 @@
             this.lbl_versionNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_versionNumber.AutoSize = true;
             this.lbl_versionNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_versionNumber.Location = new System.Drawing.Point(518, 37);
+            this.lbl_versionNumber.Location = new System.Drawing.Point(526, 37);
             this.lbl_versionNumber.Name = "lbl_versionNumber";
-            this.lbl_versionNumber.Size = new System.Drawing.Size(40, 21);
+            this.lbl_versionNumber.Size = new System.Drawing.Size(31, 21);
             this.lbl_versionNumber.TabIndex = 2;
-            this.lbl_versionNumber.Text = "0.00";
+            this.lbl_versionNumber.Text = "0.0";
             this.lbl_versionNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lbl_Description
@@ -288,6 +288,18 @@
             this.tabPage7.TabIndex = 5;
             this.tabPage7.Text = "Sonic \'06 Toolkit";
             this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox4
+            // 
+            this.richTextBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox4.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox4.Name = "richTextBox4";
+            this.richTextBox4.ReadOnly = true;
+            this.richTextBox4.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox4.TabIndex = 5;
+            this.richTextBox4.Text = resources.GetString("richTextBox4.Text");
             // 
             // tabPage4
             // 
@@ -712,18 +724,6 @@
             this.richTextBox2.Size = new System.Drawing.Size(554, 300);
             this.richTextBox2.TabIndex = 6;
             this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
-            // 
-            // richTextBox4
-            // 
-            this.richTextBox4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox4.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox4.Name = "richTextBox4";
-            this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(546, 274);
-            this.richTextBox4.TabIndex = 5;
-            this.richTextBox4.Text = resources.GetString("richTextBox4.Text");
             // 
             // About
             // 

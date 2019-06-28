@@ -33,6 +33,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label60 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -54,6 +55,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.xmaState = new System.Windows.Forms.Label();
             this.lbl_getStorage = new System.Windows.Forms.Label();
             this.gameChanged = new System.Windows.Forms.Label();
             this.javaCheck = new System.Windows.Forms.Label();
@@ -77,6 +79,10 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
             this.label58 = new System.Windows.Forms.Label();
             this.label55 = new System.Windows.Forms.Label();
@@ -115,6 +121,10 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.towavFile = new System.Windows.Forms.Label();
+            this.xmaencodeFile = new System.Windows.Forms.Label();
+            this.patchXMA = new System.Windows.Forms.Label();
+            this.XMAwholeLoop = new System.Windows.Forms.Label();
             this.NOWLOADING = new System.Windows.Forms.Label();
             this.skipWorkaround = new System.Windows.Forms.Label();
             this.disableWarns = new System.Windows.Forms.Label();
@@ -170,16 +180,6 @@
             this.label56 = new System.Windows.Forms.Label();
             this.getStorage = new System.Windows.Forms.Label();
             this.tm_getStorage = new System.Windows.Forms.Timer(this.components);
-            this.label60 = new System.Windows.Forms.Label();
-            this.xmaState = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.label63 = new System.Windows.Forms.Label();
-            this.label64 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
-            this.towavFile = new System.Windows.Forms.Label();
-            this.xmaencodeFile = new System.Windows.Forms.Label();
-            this.patchXMA = new System.Windows.Forms.Label();
-            this.XMAwholeLoop = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -213,7 +213,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(398, 509);
+            this.tabPage1.Size = new System.Drawing.Size(398, 560);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -274,9 +274,18 @@
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(392, 503);
+            this.splitContainer1.Size = new System.Drawing.Size(392, 554);
             this.splitContainer1.SplitterDistance = 125;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(3, 197);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(51, 13);
+            this.label60.TabIndex = 21;
+            this.label60.Text = "xmaState";
             // 
             // label57
             // 
@@ -466,6 +475,15 @@
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "versionNumber";
+            // 
+            // xmaState
+            // 
+            this.xmaState.AutoSize = true;
+            this.xmaState.Location = new System.Drawing.Point(3, 197);
+            this.xmaState.Name = "xmaState";
+            this.xmaState.Size = new System.Drawing.Size(51, 13);
+            this.xmaState.TabIndex = 41;
+            this.xmaState.Text = "xmaState";
             // 
             // lbl_getStorage
             // 
@@ -777,6 +795,42 @@
             this.splitContainer2.Size = new System.Drawing.Size(392, 554);
             this.splitContainer2.SplitterDistance = 159;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(3, 535);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(52, 13);
+            this.label62.TabIndex = 41;
+            this.label62.Text = "towavFile";
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(3, 522);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(78, 13);
+            this.label63.TabIndex = 40;
+            this.label63.Text = "xmaencodeFile";
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(3, 509);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(57, 13);
+            this.label64.TabIndex = 39;
+            this.label64.Text = "patchXMA";
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(3, 496);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(82, 13);
+            this.label65.TabIndex = 38;
+            this.label65.Text = "XMAwholeLoop";
             // 
             // label59
             // 
@@ -1119,6 +1173,42 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // towavFile
+            // 
+            this.towavFile.AutoSize = true;
+            this.towavFile.Location = new System.Drawing.Point(4, 535);
+            this.towavFile.Name = "towavFile";
+            this.towavFile.Size = new System.Drawing.Size(52, 13);
+            this.towavFile.TabIndex = 62;
+            this.towavFile.Text = "towavFile";
+            // 
+            // xmaencodeFile
+            // 
+            this.xmaencodeFile.AutoSize = true;
+            this.xmaencodeFile.Location = new System.Drawing.Point(4, 522);
+            this.xmaencodeFile.Name = "xmaencodeFile";
+            this.xmaencodeFile.Size = new System.Drawing.Size(78, 13);
+            this.xmaencodeFile.TabIndex = 61;
+            this.xmaencodeFile.Text = "xmaencodeFile";
+            // 
+            // patchXMA
+            // 
+            this.patchXMA.AutoSize = true;
+            this.patchXMA.Location = new System.Drawing.Point(4, 509);
+            this.patchXMA.Name = "patchXMA";
+            this.patchXMA.Size = new System.Drawing.Size(57, 13);
+            this.patchXMA.TabIndex = 60;
+            this.patchXMA.Text = "patchXMA";
+            // 
+            // XMAwholeLoop
+            // 
+            this.XMAwholeLoop.AutoSize = true;
+            this.XMAwholeLoop.Location = new System.Drawing.Point(4, 496);
+            this.XMAwholeLoop.Name = "XMAwholeLoop";
+            this.XMAwholeLoop.Size = new System.Drawing.Size(82, 13);
+            this.XMAwholeLoop.TabIndex = 59;
+            this.XMAwholeLoop.Text = "XMAwholeLoop";
             // 
             // NOWLOADING
             // 
@@ -1489,7 +1579,7 @@
             this.tabPage3.Controls.Add(this.check_skipWorkaround);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(398, 509);
+            this.tabPage3.Size = new System.Drawing.Size(398, 560);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1605,7 +1695,7 @@
             this.btn_EraseSettings.BackColor = System.Drawing.Color.Tomato;
             this.btn_EraseSettings.FlatAppearance.BorderSize = 0;
             this.btn_EraseSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 482);
+            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 533);
             this.btn_EraseSettings.Name = "btn_EraseSettings";
             this.btn_EraseSettings.Size = new System.Drawing.Size(390, 23);
             this.btn_EraseSettings.TabIndex = 3;
@@ -1664,96 +1754,6 @@
             // tm_getStorage
             // 
             this.tm_getStorage.Tick += new System.EventHandler(this.Tm_getStorage_Tick);
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(3, 197);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(51, 13);
-            this.label60.TabIndex = 21;
-            this.label60.Text = "xmaState";
-            // 
-            // xmaState
-            // 
-            this.xmaState.AutoSize = true;
-            this.xmaState.Location = new System.Drawing.Point(3, 197);
-            this.xmaState.Name = "xmaState";
-            this.xmaState.Size = new System.Drawing.Size(51, 13);
-            this.xmaState.TabIndex = 41;
-            this.xmaState.Text = "xmaState";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(3, 535);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(52, 13);
-            this.label62.TabIndex = 41;
-            this.label62.Text = "towavFile";
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(3, 522);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(78, 13);
-            this.label63.TabIndex = 40;
-            this.label63.Text = "xmaencodeFile";
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(3, 509);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(57, 13);
-            this.label64.TabIndex = 39;
-            this.label64.Text = "patchXMA";
-            // 
-            // label65
-            // 
-            this.label65.AutoSize = true;
-            this.label65.Location = new System.Drawing.Point(3, 496);
-            this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(82, 13);
-            this.label65.TabIndex = 38;
-            this.label65.Text = "XMAwholeLoop";
-            // 
-            // towavFile
-            // 
-            this.towavFile.AutoSize = true;
-            this.towavFile.Location = new System.Drawing.Point(4, 535);
-            this.towavFile.Name = "towavFile";
-            this.towavFile.Size = new System.Drawing.Size(52, 13);
-            this.towavFile.TabIndex = 62;
-            this.towavFile.Text = "towavFile";
-            // 
-            // xmaencodeFile
-            // 
-            this.xmaencodeFile.AutoSize = true;
-            this.xmaencodeFile.Location = new System.Drawing.Point(4, 522);
-            this.xmaencodeFile.Name = "xmaencodeFile";
-            this.xmaencodeFile.Size = new System.Drawing.Size(78, 13);
-            this.xmaencodeFile.TabIndex = 61;
-            this.xmaencodeFile.Text = "xmaencodeFile";
-            // 
-            // patchXMA
-            // 
-            this.patchXMA.AutoSize = true;
-            this.patchXMA.Location = new System.Drawing.Point(4, 509);
-            this.patchXMA.Name = "patchXMA";
-            this.patchXMA.Size = new System.Drawing.Size(57, 13);
-            this.patchXMA.TabIndex = 60;
-            this.patchXMA.Text = "patchXMA";
-            // 
-            // XMAwholeLoop
-            // 
-            this.XMAwholeLoop.AutoSize = true;
-            this.XMAwholeLoop.Location = new System.Drawing.Point(4, 496);
-            this.XMAwholeLoop.Name = "XMAwholeLoop";
-            this.XMAwholeLoop.Size = new System.Drawing.Size(82, 13);
-            this.XMAwholeLoop.TabIndex = 59;
-            this.XMAwholeLoop.Text = "XMAwholeLoop";
             // 
             // Debugger
             // 

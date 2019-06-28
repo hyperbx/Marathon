@@ -110,6 +110,7 @@
             this.Name = "Logo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Logo";
+            this.Load += new System.EventHandler(this.Logo_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
