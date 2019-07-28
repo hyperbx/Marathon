@@ -29,7 +29,10 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 - Currently based off g0ldenlink, xose and [Shadow LAG](https://github.com/lllsondowlll)'s ARC unpacker/repacker.
 
 ### AT3 Encoding
-- Currently based off AT3 Tool, developed by SONY Computer Entertainment Inc.
+- Currently based off ATRAC3plus TOOL, developed by SONY Computer Entertainment Inc.
+
+### BIN Exporting and Importing
+- Currently based off DarioSamo's [S06Collision](https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp) class.
 
 ### DDS Converting
 - Currently based off Microsoft DirectX. This may need more work as converting PNG to DDS results in a slightly darker image.
@@ -56,10 +59,7 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 ### XNCP Decompiling
 - <b>Help wanted!</b> We currently don't have a way to decompile XNCP files. These files potentially contain information and/or values for menu placement, colour and whatnot.
 
-### BIN Exporting and Importing
-- <b>Help wanted!</b> We currently don't have a way to export and import BIN files. These files contain collision data for stages and are located in `stage.arc`. LibS06 already has a way to modify collision, but we haven't figured out a way to make use of it, or even build it for that matter. If you want to have a go at getting it to work, [be my guest](https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp).
-
-# Requirements
+# Pre-requisites
 ### ADX Encoder
 - Currently requires both [x86](https://www.microsoft.com/de-de/download/details.aspx?id=8328) and [x64](https://www.microsoft.com/en-us/download/details.aspx?id=13523) versions of Microsoft Visual C++ 2010 SP1 to work.
 
