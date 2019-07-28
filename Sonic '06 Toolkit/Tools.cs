@@ -34,6 +34,55 @@ using System.Windows.Forms;
 
 namespace Sonic_06_Toolkit.Tools
 {
+    class AAX
+    {
+        static ProcessStartInfo aaxSession;
+
+        public static void ConvertToADX(int state, string args, string selectedADX)
+        {
+            if (state == 0)
+            {
+                aaxSession = new ProcessStartInfo(Properties.Settings.Default.aax2adxFile, $"\"{args}\"")
+                {
+                    WorkingDirectory = Path.GetDirectoryName(args),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+            else if (state == 1)
+            {
+                aaxSession = new ProcessStartInfo(Properties.Settings.Default.aax2adxFile, $"\"{Path.Combine(Global.currentPath, selectedADX)}\"")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+
+            Begin(state);
+        }
+
+        static void Begin(int state)
+        {
+            if (Debugger.unsafeState == true) { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.aax2adxFile))
+                {
+                    var Convert = Process.Start(aaxSession);
+                    var convertDialog = new Status(state, "AAX");
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
+                    Convert.WaitForExit();
+                    Convert.Close();
+                    convertDialog.Close();
+                }
+                else { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+        }
+    }
+
     class ADX
     {
         static ProcessStartInfo adxSession;
@@ -109,13 +158,7 @@ namespace Sonic_06_Toolkit.Tools
             {
                 if (!Properties.Settings.Default.unpackAndLaunch)
                 {
-                    //Sets up the BASIC application and executes the unpacking process.
-                    var basicWrite = File.Create($"{Properties.Settings.Default.toolsPath}unpack.bat");
-                    var basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{args}\"");
-                    basicWrite.Write(basicSession, 0, basicSession.Length);
-                    basicWrite.Close();
-
-                    arcSession = new ProcessStartInfo($"{Properties.Settings.Default.toolsPath}unpack.bat")
+                    arcSession = new ProcessStartInfo(Properties.Settings.Default.unpackFile, $"\"{args}\"")
                     {
                         WorkingDirectory = Properties.Settings.Default.toolsPath,
                         WindowStyle = ProcessWindowStyle.Hidden
@@ -144,7 +187,6 @@ namespace Sonic_06_Toolkit.Tools
             else
             {
                 string unpackBuildSession;
-                byte[] basicSession;
                 byte[] metadataSession;
                 failsafeCheck = Path.GetRandomFileName();
 
@@ -163,36 +205,31 @@ namespace Sonic_06_Toolkit.Tools
 
                 if (!Directory.Exists(arcBuildSession)) Directory.CreateDirectory(arcBuildSession);
 
-                if (state == 1)
-                {
-                    if (File.Exists(filename)) File.Copy(filename, $"{arcBuildSession}{Path.GetFileName(filename)}", true);
-                }
-                else
+                if (state == 0)
                 {
                     if (File.Exists(args)) File.Copy(args, $"{arcBuildSession}{Path.GetFileName(args)}", true);
+
+                    arcSession = new ProcessStartInfo(Properties.Settings.Default.unpackFile, $"\"{arcBuildSession}{Path.GetFileName(args)}\"")
+                    {
+                        WorkingDirectory = Properties.Settings.Default.toolsPath,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
                 }
-
-                //Sets up the BASIC application and executes the unpacking process.
-                var basicWrite = File.Create($"{Properties.Settings.Default.toolsPath}unpack.bat");
-
-                if (state == 1) basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{arcBuildSession}{Path.GetFileName(filename)}\"");
-                else basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{arcBuildSession}{Path.GetFileName(args)}\"");
-
-                basicWrite.Write(basicSession, 0, basicSession.Length);
-                basicWrite.Close();
-
-                arcSession = new ProcessStartInfo($"{Properties.Settings.Default.toolsPath}unpack.bat")
+                else if (state == 1)
                 {
-                    WorkingDirectory = Properties.Settings.Default.toolsPath,
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
+                    if (File.Exists(filename)) File.Copy(filename, $"{arcBuildSession}{Path.GetFileName(filename)}", true);
+
+                    arcSession = new ProcessStartInfo(Properties.Settings.Default.unpackFile, $"\"{arcBuildSession}{Path.GetFileName(filename)}\"")
+                    {
+                        WorkingDirectory = Properties.Settings.Default.toolsPath,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
+                }
 
                 //Writes metadata to the unpacked directory to ensure the original path is remembered.
                 var metadataWrite = File.Create($"{arcBuildSession}metadata.ini");
-
                 if (state == 1) metadataSession = new UTF8Encoding(true).GetBytes(filename);
                 else metadataSession = new UTF8Encoding(true).GetBytes(args);
-
                 metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                 metadataWrite.Close();
 
@@ -206,19 +243,15 @@ namespace Sonic_06_Toolkit.Tools
             var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
             if (tabText.Contains(".arc"))
             {
-                var basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.repackFile}\" \"{repackBuildSession}{Path.GetFileNameWithoutExtension(metadata)}\"");
-                basicWrite.Write(basicSession, 0, basicSession.Length);
-                basicWrite.Close();
+                arcSession = new ProcessStartInfo(Properties.Settings.Default.repackFile, $"\"{repackBuildSession}{Path.GetFileNameWithoutExtension(metadata)}\"")
+                {
+                    WorkingDirectory = Properties.Settings.Default.toolsPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                Begin(1);
             }
             else { MessageBox.Show("Please use the Repack ARC As option.", "Free Mode", MessageBoxButtons.OK, MessageBoxIcon.Information); }
-
-            arcSession = new ProcessStartInfo($"{Properties.Settings.Default.toolsPath}repack.bat")
-            {
-                WorkingDirectory = Properties.Settings.Default.toolsPath,
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
-
-            Begin(1);
         }
 
         public static void RepackAs(string tabText, string repackBuildSession, string metadata, string destination)
@@ -423,6 +456,8 @@ namespace Sonic_06_Toolkit.Tools
                     WorkingDirectory = Path.GetDirectoryName(args),
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
+
+                Begin(state);
             }
             else if (new[] { 1, 2 }.Contains(state))
             {
@@ -431,17 +466,78 @@ namespace Sonic_06_Toolkit.Tools
                     WorkingDirectory = Global.currentPath,
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
+
+                Begin(state);
             }
             else if (state == 3)
             {
-                csbSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, $"\"{Path.Combine(Global.currentPath, selectedCSB)}\"")
+                Directory.CreateDirectory(Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB)));
+                csbSession = new ProcessStartInfo(Properties.Settings.Default.csbextractFile, $"\"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB), selectedCSB)}\"")
                 {
-                    WorkingDirectory = Global.currentPath,
+                    WorkingDirectory = Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB)),
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
-            }
 
-            Begin(state);
+                UnpackToWAV(state, selectedCSB);
+            }
+        }
+
+        static void UnpackToWAV(int state, string selectedCSB)
+        {
+            if (Debugger.unsafeState == true) { MessageBox.Show("csb_extract is missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.csbextractFile))
+                {
+                    if (state == 3)
+                    {
+                        if (File.Exists(Path.Combine(Global.currentPath, selectedCSB)))
+                        {
+                            File.Copy(Path.Combine(Global.currentPath, selectedCSB), Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB), selectedCSB));
+
+                            var Unpack = Process.Start(csbSession);
+                            var unpackDialog = new Status(state, "CSB");
+                            var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
+                            var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
+                            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                            unpackDialog.Show();
+                            Unpack.WaitForExit();
+                            Unpack.Close();
+
+                            File.Delete(Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB), selectedCSB));
+
+                            try
+                            {
+                                foreach (string AAX in Directory.GetFiles(Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB)), "*.aax", SearchOption.TopDirectoryOnly))
+                                {
+                                    if (File.Exists(AAX))
+                                    {
+                                        Tools.AAX.ConvertToADX(1, null, AAX);
+                                        File.Delete(AAX);
+                                    }
+                                }
+
+                                foreach (string ADX in Directory.GetFiles(Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedCSB)), "*.adx", SearchOption.TopDirectoryOnly))
+                                {
+                                    if (File.Exists(ADX))
+                                    {
+                                        Tools.ADX.ConvertToWAV(1, null, ADX);
+                                        File.Delete(ADX);
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                MessageBox.Show("An error occurred when converting the AAX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Tools.Notification.Dispose();
+                            }
+
+                            unpackDialog.Close();
+                        }
+                    }
+                }
+                else { MessageBox.Show("csb_extract is missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
         }
 
         static void Begin(int state)
@@ -555,26 +651,7 @@ namespace Sonic_06_Toolkit.Tools
                     MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-            }
-            else if (state == 1)
-            {
-                if (Path.GetFileName(LUB) == "standard.lub")
-                {
-                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-            else if (state == 2)
-            {
-                if (File.Exists($"{Global.currentPath}standard.lub"))
-                {
-                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
 
-            if (state == 0)
-            {
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (Path.GetFileName(args) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (Path.GetFileName(args) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -592,6 +669,12 @@ namespace Sonic_06_Toolkit.Tools
             }
             else if (state == 1)
             {
+                if (Path.GetFileName(LUB) == "standard.lub")
+                {
+                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (Path.GetFileName(LUB) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (Path.GetFileName(LUB) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -601,6 +684,12 @@ namespace Sonic_06_Toolkit.Tools
             }
             else if (state == 2)
             {
+                if (File.Exists($"{Global.currentPath}standard.lub"))
+                {
+                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (File.Exists($"{Global.currentPath}render_shadowmap.lub")) MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (File.Exists($"{Global.currentPath}game.lub")) MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -636,7 +725,7 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar"))
                 {
                     var Decompile = Process.Start(lubSession);
-                    var decompileDialog = new Status(state, "LUB");
+                    var decompileDialog = new Status(0, "LUB");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - decompileDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - decompileDialog.Height) / 2);
                     if (state == 0) decompileDialog.StartPosition = FormStartPosition.CenterScreen;

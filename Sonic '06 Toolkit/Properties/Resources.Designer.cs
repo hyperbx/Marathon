@@ -61,6 +61,16 @@ namespace Sonic_06_Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] AAX2ADX {
+            get {
+                object obj = ResourceManager.GetObject("AAX2ADX", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap about_logo {
@@ -176,6 +186,16 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] CriSamplingRateConverter {
             get {
                 object obj = ResourceManager.GetObject("CriSamplingRateConverter", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] csb_extract {
+            get {
+                object obj = ResourceManager.GetObject("csb_extract", resourceCulture);
                 return ((byte[])(obj));
             }
         }

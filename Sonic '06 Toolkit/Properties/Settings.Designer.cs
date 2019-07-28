@@ -538,5 +538,29 @@ namespace Sonic_06_Toolkit.Properties {
                 this["csbUnpackMode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string aax2adxFile {
+            get {
+                return ((string)(this["aax2adxFile"]));
+            }
+            set {
+                this["aax2adxFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string csbextractFile {
+            get {
+                return ((string)(this["csbextractFile"]));
+            }
+            set {
+                this["csbextractFile"] = value;
+            }
+        }
     }
 }

@@ -85,6 +85,22 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
+            else if (modes_UnpackToWAV.Checked)
+            {
+                try
+                {
+                    //Gets all checked boxes from the CheckedListBox and builds a string for each CSB.
+                    foreach (string selectedCSB in clb_CSBs.CheckedItems)
+                    {
+                        Tools.CSB.Packer(3, null, selectedCSB);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("An error occurred when unpacking the selected CSBs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Tools.Notification.Dispose();
+                }
+            }
             else if (modes_RepackToCSB.Checked)
             {
                 try
@@ -215,8 +231,8 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 modes_UnpackToAIF.Checked = false;
-                modes_UnpackToWAV.Checked = true;
-                modes_RepackToCSB.Checked = false;
+                modes_UnpackToWAV.Checked = false;
+                modes_RepackToCSB.Checked = true;
                 btn_Extract.Enabled = false;
 
                 if (clb_CSBs.Items.Count == 0)

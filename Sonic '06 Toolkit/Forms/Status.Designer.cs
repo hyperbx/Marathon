@@ -80,9 +80,9 @@
             this.lbl_unpackState.AutoSize = true;
             this.lbl_unpackState.Location = new System.Drawing.Point(105, 46);
             this.lbl_unpackState.Name = "lbl_unpackState";
-            this.lbl_unpackState.Size = new System.Drawing.Size(35, 13);
+            this.lbl_unpackState.Size = new System.Drawing.Size(33, 13);
             this.lbl_unpackState.TabIndex = 6;
-            this.lbl_unpackState.Text = "status";
+            this.lbl_unpackState.Text = "None";
             // 
             // Status
             // 

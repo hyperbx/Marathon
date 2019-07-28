@@ -195,7 +195,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(398, 578);
+            this.tabPage1.Size = new System.Drawing.Size(398, 574);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -236,7 +236,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(392, 572);
+            this.splitContainer1.Size = new System.Drawing.Size(392, 568);
             this.splitContainer1.SplitterDistance = 125;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -1372,7 +1372,7 @@
             this.tabPage3.Controls.Add(this.check_skipWorkaround);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(398, 578);
+            this.tabPage3.Size = new System.Drawing.Size(398, 574);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1486,7 +1486,7 @@
             this.btn_EraseSettings.BackColor = System.Drawing.Color.Tomato;
             this.btn_EraseSettings.FlatAppearance.BorderSize = 0;
             this.btn_EraseSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 533);
+            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 547);
             this.btn_EraseSettings.Name = "btn_EraseSettings";
             this.btn_EraseSettings.Size = new System.Drawing.Size(390, 23);
             this.btn_EraseSettings.TabIndex = 3;

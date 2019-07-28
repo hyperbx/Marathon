@@ -102,7 +102,7 @@ namespace Sonic_06_Toolkit
                     //Gets all checked boxes from the CheckedListBox and builds a string for each ADX.
                     foreach (string selectedADX in clb_ADX.CheckedItems)
                     {
-                        Tools.ADX.ConvertToWAV(2, string.Empty, selectedADX);
+                        Tools.ADX.ConvertToWAV(1, string.Empty, selectedADX);
                     }
                 }
                 catch
@@ -118,7 +118,7 @@ namespace Sonic_06_Toolkit
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_ADX.CheckedItems)
                     {
-                        Tools.ADX.ConvertToADX(1, selectedWAV);
+                        Tools.ADX.ConvertToADX(2, selectedWAV);
                     }
                 }
                 catch
