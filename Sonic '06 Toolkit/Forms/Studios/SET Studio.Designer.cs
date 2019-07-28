@@ -54,6 +54,7 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.label1);
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
@@ -66,6 +67,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.label1.Location = new System.Drawing.Point(19, 44);
@@ -89,6 +91,7 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 3);
@@ -193,7 +196,7 @@
             this.modes_Export.CheckOnClick = true;
             this.modes_Export.Name = "modes_Export";
             this.modes_Export.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.modes_Export.Size = new System.Drawing.Size(143, 22);
+            this.modes_Export.Size = new System.Drawing.Size(144, 22);
             this.modes_Export.Text = "Export";
             this.modes_Export.CheckedChanged += new System.EventHandler(this.Modes_Export_CheckedChanged);
             // 
@@ -202,7 +205,7 @@
             this.modes_Import.CheckOnClick = true;
             this.modes_Import.Name = "modes_Import";
             this.modes_Import.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.modes_Import.Size = new System.Drawing.Size(143, 22);
+            this.modes_Import.Size = new System.Drawing.Size(144, 22);
             this.modes_Import.Text = "Import";
             this.modes_Import.CheckedChanged += new System.EventHandler(this.Modes_Import_CheckedChanged);
             // 
@@ -240,7 +243,6 @@
             this.Name = "SET_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SET Studio (experimental)";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SET_Studio_FormClosing);
             this.Load += new System.EventHandler(this.SET_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

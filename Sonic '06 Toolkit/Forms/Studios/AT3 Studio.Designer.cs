@@ -88,7 +88,7 @@
             this.modes_AT3toWAV.CheckOnClick = true;
             this.modes_AT3toWAV.Name = "modes_AT3toWAV";
             this.modes_AT3toWAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.modes_AT3toWAV.Size = new System.Drawing.Size(180, 22);
+            this.modes_AT3toWAV.Size = new System.Drawing.Size(176, 22);
             this.modes_AT3toWAV.Text = "AT3 to WAV";
             this.modes_AT3toWAV.CheckedChanged += new System.EventHandler(this.Modes_AT3toWAV_CheckedChanged);
             // 
@@ -98,7 +98,7 @@
             this.modes_AT3toWAV,
             this.modes_WAVtoAT3});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(180, 22);
+            this.options_Modes.Size = new System.Drawing.Size(118, 22);
             this.options_Modes.Text = "Modes";
             // 
             // main_Options
@@ -176,15 +176,16 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(158, 386);
+            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
             this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 50;
             this.mstrip_Options.Text = "menuStrip1";
             // 
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 10);
@@ -198,6 +199,7 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -235,7 +237,6 @@
             this.Name = "AT3_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AT3 Studio";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AT3_Studio_FormClosing);
             this.Load += new System.EventHandler(this.AT3_Studio_Load);
             this.mstrip_Options.ResumeLayout(false);
             this.mstrip_Options.PerformLayout();

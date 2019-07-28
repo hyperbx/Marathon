@@ -526,5 +526,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["towavFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int csbUnpackMode {
+            get {
+                return ((int)(this["csbUnpackMode"]));
+            }
+            set {
+                this["csbUnpackMode"] = value;
+            }
+        }
     }
 }

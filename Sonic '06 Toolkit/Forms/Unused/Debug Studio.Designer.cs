@@ -40,7 +40,6 @@
             this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_SBKStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mstrip_Options = new System.Windows.Forms.MenuStrip();
-            this.modes_ColliGen = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Options.SuspendLayout();
@@ -154,8 +153,7 @@
             // options_Modes
             // 
             this.options_Modes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.modes_SBKStudio,
-            this.modes_ColliGen});
+            this.modes_SBKStudio});
             this.options_Modes.Name = "options_Modes";
             this.options_Modes.Size = new System.Drawing.Size(180, 22);
             this.options_Modes.Text = "Modes";
@@ -175,19 +173,11 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(158, 386);
+            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
             this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 55;
             this.mstrip_Options.Text = "menuStrip1";
-            // 
-            // modes_ColliGen
-            // 
-            this.modes_ColliGen.CheckOnClick = true;
-            this.modes_ColliGen.Name = "modes_ColliGen";
-            this.modes_ColliGen.Size = new System.Drawing.Size(180, 22);
-            this.modes_ColliGen.Text = "ColliGen";
-            this.modes_ColliGen.CheckedChanged += new System.EventHandler(this.Modes_ColliGen_CheckedChanged);
             // 
             // Debug_Studio
             // 
@@ -230,6 +220,5 @@
         private System.Windows.Forms.ToolStripMenuItem options_Modes;
         private System.Windows.Forms.ToolStripMenuItem modes_SBKStudio;
         private System.Windows.Forms.MenuStrip mstrip_Options;
-        private System.Windows.Forms.ToolStripMenuItem modes_ColliGen;
     }
 }

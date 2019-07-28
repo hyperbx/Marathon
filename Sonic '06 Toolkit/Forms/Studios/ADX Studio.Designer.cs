@@ -62,6 +62,7 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(127)))), ((int)(((byte)(196)))));
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -85,6 +86,7 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 10);
@@ -182,7 +184,7 @@
             this.modes_ADXtoWAV,
             this.modes_WAVtoADX});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(173, 22);
+            this.options_Modes.Size = new System.Drawing.Size(174, 22);
             this.options_Modes.Text = "Modes";
             // 
             // modes_ADXtoWAV
@@ -213,7 +215,7 @@
             this.volume_1,
             this.volume_0});
             this.options_Volume.Name = "options_Volume";
-            this.options_Volume.Size = new System.Drawing.Size(173, 22);
+            this.options_Volume.Size = new System.Drawing.Size(174, 22);
             this.options_Volume.Text = "Volume";
             this.options_Volume.Visible = false;
             // 
@@ -271,7 +273,7 @@
             this.looping_Ignore,
             this.looping_Remove});
             this.options_Looping.Name = "options_Looping";
-            this.options_Looping.Size = new System.Drawing.Size(173, 22);
+            this.options_Looping.Size = new System.Drawing.Size(174, 22);
             this.options_Looping.Text = "Looping";
             this.options_Looping.Visible = false;
             // 
@@ -295,7 +297,7 @@
             // 
             this.options_DownmixToMono.CheckOnClick = true;
             this.options_DownmixToMono.Name = "options_DownmixToMono";
-            this.options_DownmixToMono.Size = new System.Drawing.Size(173, 22);
+            this.options_DownmixToMono.Size = new System.Drawing.Size(174, 22);
             this.options_DownmixToMono.Text = "Downmix to Mono";
             this.options_DownmixToMono.Visible = false;
             this.options_DownmixToMono.CheckedChanged += new System.EventHandler(this.Options_DownmixToStereo_CheckedChanged);
@@ -318,7 +320,6 @@
             this.Name = "ADX_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "ADX Studio";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ADX_Studio_FormClosing);
             this.Load += new System.EventHandler(this.ADX_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

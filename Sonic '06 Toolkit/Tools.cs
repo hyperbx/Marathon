@@ -38,9 +38,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo adxSession;
 
-        public static void ConvertToWAV(string args, string selectedADX)
+        public static void ConvertToWAV(int state, string args, string selectedADX)
         {
-            if (Global.adxState == "launch-adx")
+            if (state == 0)
             {
                 adxSession = new ProcessStartInfo(Properties.Settings.Default.adx2wavFile, $"\"{args}\" \"{Path.GetDirectoryName(args)}\\{Path.GetFileNameWithoutExtension(args)}.wav\"")
                 {
@@ -48,7 +48,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.adxState == "adx")
+            else if (state == 1)
             {
                 adxSession = new ProcessStartInfo(Properties.Settings.Default.adx2wavFile, $"\"{Path.Combine(Global.currentPath, selectedADX)}\" \"{Path.GetDirectoryName(Path.Combine(Global.currentPath, selectedADX))}\\{Path.GetFileNameWithoutExtension(Path.Combine(Global.currentPath, selectedADX))}.wav\"")
                 {
@@ -57,12 +57,12 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        public static void ConvertToADX(string selectedWAV)
+        public static void ConvertToADX(int state, string selectedWAV)
         {
-            if (Global.adxState == "wav")
+            if (state == 2)
             {
                 adxSession = new ProcessStartInfo(Properties.Settings.Default.criconverterFile, $"\"{Path.Combine(Global.currentPath, selectedWAV)}\" \"{Path.GetDirectoryName(Path.Combine(Global.currentPath, selectedWAV))}\\{Path.GetFileNameWithoutExtension(Path.Combine(Global.currentPath, selectedWAV))}.adx\" -codec=adx -volume=" + ADX_Studio.vol + " -downmix=" + ADX_Studio.downmix + ADX_Studio.ignoreLoop + ADX_Studio.removeLoop)
                 {
@@ -71,10 +71,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -82,17 +82,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.adx2wavFile) || File.Exists(Properties.Settings.Default.criconverterFile))
                 {
                     var Convert = Process.Start(adxSession);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "ADX");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.adxState == "launch-adx") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
                     convertDialog.Close();
-
-                    //Global.adxState = null;
                 }
                 else { MessageBox.Show("CriWare tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -105,9 +103,9 @@ namespace Sonic_06_Toolkit.Tools
         public static string getLocation;
         public static string failsafeCheck; //Unpacked ARCs will have a unique directory to prevent overwriting.
 
-        public static void Unpack(string args, string filename)
+        public static void Unpack(int state, string args, string filename)
         {
-            if (Global.arcState == "launch-typical")
+            if (state == 0)
             {
                 if (!Properties.Settings.Default.unpackAndLaunch)
                 {
@@ -123,21 +121,21 @@ namespace Sonic_06_Toolkit.Tools
                         WindowStyle = ProcessWindowStyle.Hidden
                     };
 
-                    Begin();
+                    Begin(state);
                 }
-                else { Extract(args, filename); }
+                else { Extract(state, args, filename); }
             }
-            else if (Global.arcState == "typical")
+            else if (state == 1)
             {
-                Extract(args, filename);
+                Extract(state, args, filename);
             }
         }
 
-        static void Extract(string args, string filename)
+        static void Extract(int state, string args, string filename)
         {
             byte[] bytes;
 
-            if (Global.arcState == "typical") bytes = File.ReadAllBytes(filename).Take(4).ToArray();
+            if (state == 1) bytes = File.ReadAllBytes(filename).Take(4).ToArray();
             else bytes = File.ReadAllBytes(args).Take(4).ToArray();
 
             var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
@@ -151,7 +149,7 @@ namespace Sonic_06_Toolkit.Tools
                 failsafeCheck = Path.GetRandomFileName();
 
                 //Builds the main string which locates the ARC's final unpack directory.
-                if (Global.arcState == "typical") { unpackBuildSession = $"{Properties.Settings.Default.archivesPath}{Global.sessionID}\\{failsafeCheck}\\{Path.GetFileNameWithoutExtension(filename)}\\"; }
+                if (state == 1) { unpackBuildSession = $"{Properties.Settings.Default.archivesPath}{Global.sessionID}\\{failsafeCheck}\\{Path.GetFileNameWithoutExtension(filename)}\\"; }
                 else { unpackBuildSession = $"{Properties.Settings.Default.archivesPath}{Global.sessionID}\\{failsafeCheck}\\{Path.GetFileNameWithoutExtension(args)}\\"; }
 
                 if (!Directory.Exists(unpackBuildSession))
@@ -165,9 +163,9 @@ namespace Sonic_06_Toolkit.Tools
 
                 if (!Directory.Exists(arcBuildSession)) Directory.CreateDirectory(arcBuildSession);
 
-                if (Global.arcState == "typical")
+                if (state == 1)
                 {
-                    if (File.Exists(filename)) if (Global.arcState == "typical") File.Copy(filename, $"{arcBuildSession}{Path.GetFileName(filename)}", true);
+                    if (File.Exists(filename)) File.Copy(filename, $"{arcBuildSession}{Path.GetFileName(filename)}", true);
                 }
                 else
                 {
@@ -177,7 +175,7 @@ namespace Sonic_06_Toolkit.Tools
                 //Sets up the BASIC application and executes the unpacking process.
                 var basicWrite = File.Create($"{Properties.Settings.Default.toolsPath}unpack.bat");
 
-                if (Global.arcState == "typical") basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{arcBuildSession}{Path.GetFileName(filename)}\"");
+                if (state == 1) basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{arcBuildSession}{Path.GetFileName(filename)}\"");
                 else basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.unpackFile}\" \"{arcBuildSession}{Path.GetFileName(args)}\"");
 
                 basicWrite.Write(basicSession, 0, basicSession.Length);
@@ -192,13 +190,13 @@ namespace Sonic_06_Toolkit.Tools
                 //Writes metadata to the unpacked directory to ensure the original path is remembered.
                 var metadataWrite = File.Create($"{arcBuildSession}metadata.ini");
 
-                if (Global.arcState == "typical") metadataSession = new UTF8Encoding(true).GetBytes(filename);
+                if (state == 1) metadataSession = new UTF8Encoding(true).GetBytes(filename);
                 else metadataSession = new UTF8Encoding(true).GetBytes(args);
 
                 metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                 metadataWrite.Close();
 
-                Begin();
+                Begin(state);
             }
         }
 
@@ -220,7 +218,7 @@ namespace Sonic_06_Toolkit.Tools
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Begin();
+            Begin(1);
         }
 
         public static void RepackAs(string tabText, string repackBuildSession, string metadata, string destination)
@@ -255,7 +253,7 @@ namespace Sonic_06_Toolkit.Tools
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Begin();
+            Begin(1);
 
             if (tabText.Contains(".arc"))
             {
@@ -264,20 +262,88 @@ namespace Sonic_06_Toolkit.Tools
             }
         }
 
-        static void Begin()
+        public static void Merge(int state, string arc1, string arc2, string output)
         {
-                var ARC = Process.Start(arcSession);
-                var unpackDialog = new Status();
-                var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
-                var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
-                if (Global.arcState == "launch-typical") unpackDialog.StartPosition = FormStartPosition.CenterScreen;
-                else unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                unpackDialog.Show();
-                ARC.WaitForExit();
-                ARC.Close();
-                unpackDialog.Close();
+            var unpackDialog = new Status(state, "ARC");
+            var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
+            var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
+            unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+            unpackDialog.Show();
 
-                //Global.arcState = null;
+            string tempPath = $"{Global.applicationData}\\Temp\\{Path.GetRandomFileName()}";
+            var tempData = new DirectoryInfo(tempPath);
+            Directory.CreateDirectory(tempPath);
+            File.Copy(arc1, Path.Combine(tempPath, Path.GetFileName(arc1)));
+
+            arcSession = new ProcessStartInfo(Properties.Settings.Default.arctoolFile, $"-d \"{Path.Combine(tempPath, Path.GetFileName(arc1))}\"")
+            {
+                WorkingDirectory = Properties.Settings.Default.toolsPath,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            var Unpack1 = Process.Start(arcSession);
+            Unpack1.WaitForExit();
+            Unpack1.Close();
+
+            File.Delete(Path.Combine(tempPath, Path.GetFileName(arc1)));
+
+            if (Path.GetFileNameWithoutExtension(arc1) != Path.GetFileNameWithoutExtension(arc2)) { Directory.Move(Path.Combine(tempPath, Path.GetFileNameWithoutExtension(arc1)), Path.Combine(tempPath, Path.GetFileNameWithoutExtension(arc2))); }
+
+            File.Copy(arc2, Path.Combine(tempPath, Path.GetFileName(arc2)));
+
+            arcSession = new ProcessStartInfo(Properties.Settings.Default.arctoolFile, $"-d \"{Path.Combine(tempPath, Path.GetFileName(arc2))}\"")
+            {
+                WorkingDirectory = Properties.Settings.Default.toolsPath,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            var Unpack2 = Process.Start(arcSession);
+            Unpack2.WaitForExit();
+            Unpack2.Close();
+
+            File.Delete(Path.Combine(tempPath, Path.GetFileName(arc2)));
+
+            arcSession = new ProcessStartInfo(Properties.Settings.Default.arctoolFile, $"-f -i \"{Path.Combine(tempPath, Path.GetFileNameWithoutExtension(arc2))}\" -c \"{output}\"")
+            {
+                WorkingDirectory = Properties.Settings.Default.toolsPath,
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            var Repack1 = Process.Start(arcSession);
+            Repack1.WaitForExit();
+            Repack1.Close();
+
+            try
+            {
+                if (Directory.Exists(tempPath))
+                {
+                    foreach (FileInfo file in tempData.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                    foreach (DirectoryInfo directory in tempData.GetDirectories())
+                    {
+                        directory.Delete(true);
+                    }
+                }
+            }
+            catch { Notification.Dispose(); return; }
+
+            unpackDialog.Close();
+        }
+
+        static void Begin(int state)
+        {
+            var ARC = Process.Start(arcSession);
+            var unpackDialog = new Status(state, "ARC");
+            var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
+            var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
+            if (state == 0) unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+            else unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+            unpackDialog.Show();
+            ARC.WaitForExit();
+            ARC.Close();
+            unpackDialog.Close();
         }
     }
 
@@ -285,9 +351,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo at3Session;
 
-        public static void ConvertToWAV(string args, string selectedAT3)
+        public static void ConvertToWAV(int state, string args, string selectedAT3)
         {
-            if (Global.at3State == "launch-at3")
+            if (state == 0)
             {
                 at3Session = new ProcessStartInfo(Properties.Settings.Default.at3File, $"-d \"{args}\" \"{Path.GetDirectoryName(args)}\\{Path.GetFileNameWithoutExtension(args)}.wav\"")
                 {
@@ -295,7 +361,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.at3State == "at3")
+            else if (state == 1)
             {
                 at3Session = new ProcessStartInfo(Properties.Settings.Default.at3File, $"-d \"{Path.Combine(Global.currentPath, selectedAT3)}\" \"{Path.GetDirectoryName(Path.Combine(Global.currentPath, selectedAT3))}\\{Path.GetFileNameWithoutExtension(Path.Combine(Global.currentPath, selectedAT3))}.wav\"")
                 {
@@ -304,12 +370,12 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        public static void ConvertToAT3(string selectedWAV)
+        public static void ConvertToAT3(int state, string selectedWAV)
         {
-            if (Global.at3State == "wav")
+            if (state == 2)
             {
                 at3Session = new ProcessStartInfo(Properties.Settings.Default.at3File, $"-e {AT3_Studio.wholeLoop}{AT3_Studio.beginLoop}{AT3_Studio.startLoop}{AT3_Studio.endLoop}\"{Path.Combine(Global.currentPath, selectedWAV)}\" \"{Path.GetDirectoryName(Path.Combine(Global.currentPath, selectedWAV))}\\{Path.GetFileNameWithoutExtension(Path.Combine(Global.currentPath, selectedWAV))}.at3\"")
                 {
@@ -318,10 +384,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("SONY tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -329,17 +395,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.at3File))
                 {
                     var Convert = Process.Start(at3Session);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "AT3");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.at3State == "launch-at3") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
                     convertDialog.Close();
-
-                    //Global.at3State = null;
                 }
                 else { MessageBox.Show("SONY tools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -350,9 +414,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo csbSession;
 
-        public static void Packer(string args, string selectedCSB)
+        public static void Packer(int state, string args, string selectedCSB)
         {
-            if (Global.csbState == "launch-unpack")
+            if (state == 0)
             {
                 csbSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, $"\"{args}\"")
                 {
@@ -360,7 +424,15 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.csbState == "unpack" || Global.csbState == "repack")
+            else if (new[] { 1, 2 }.Contains(state))
+            {
+                csbSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, $"\"{Path.Combine(Global.currentPath, selectedCSB)}\"")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+            else if (state == 3)
             {
                 csbSession = new ProcessStartInfo(Properties.Settings.Default.csbFile, $"\"{Path.Combine(Global.currentPath, selectedCSB)}\"")
                 {
@@ -369,10 +441,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("SonicAudioTools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -380,17 +452,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.csbFile))
                 {
                     var Unpack = Process.Start(csbSession);
-                    var unpackDialog = new Status();
+                    var unpackDialog = new Status(state, "CSB");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - unpackDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - unpackDialog.Height) / 2);
-                    if (Global.csbState == "launch-unpack") unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) unpackDialog.StartPosition = FormStartPosition.CenterScreen;
                     else unpackDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     unpackDialog.Show();
                     Unpack.WaitForExit();
                     Unpack.Close();
                     unpackDialog.Close();
-
-                    //Global.csbState = null;
                 }
                 else { MessageBox.Show("SonicAudioTools are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -401,9 +471,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo ddsSession;
 
-        public static void Convert(string args, string selectedDDS)
+        public static void Convert(int state, string args, string selectedDDS)
         {
-            if (Global.ddsState == "launch-dds")
+            if (state == 0)
             {
                 //Sets up the BASIC application and executes the converting process.
                 ddsSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, $"\"{args}\" -ft PNG{DDS_Studio.useGPU} -singleproc{DDS_Studio.forceDirectX10} -f R8G8B8A8_UNORM")
@@ -412,7 +482,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.ddsState == "dds")
+            else if (state == 1)
             {
                 //Sets up the BASIC application and executes the converting process.
                 ddsSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, $"\"{Path.Combine(Global.currentPath, selectedDDS)}\" -ft PNG{DDS_Studio.useGPU} -singleproc{DDS_Studio.forceDirectX10} -f R8G8B8A8_UNORM")
@@ -422,10 +492,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -433,17 +503,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.directXFile))
                 {
                     var Convert = Process.Start(ddsSession);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "DDS");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.ddsState == "launch-dds") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
                     convertDialog.Close();
-
-                    //Global.ddsState = null;
                 }
                 else { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -455,11 +523,11 @@ namespace Sonic_06_Toolkit.Tools
         static ProcessStartInfo lubSession;
         static string failsafeCheck;
 
-        public static void WriteDecompiler()
+        public static void WriteDecompiler(int state)
         {
             //Gets the failsafe directory.
             if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}");
-            if (Global.lubState == "decompile" || Global.lubState == "decompile-all") failsafeCheck = Global.getStorage;
+            if (state == 1 || state == 2) failsafeCheck = Global.getStorage;
             else failsafeCheck = Path.GetRandomFileName();
 
             //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
@@ -475,12 +543,12 @@ namespace Sonic_06_Toolkit.Tools
             }
         }
 
-        public static void Decompile(string args, string LUB)
+        public static void Decompile(int state, string args, string LUB)
         {
-            WriteDecompiler();
+            WriteDecompiler(state);
 
             //Checks if the first file to be processed is blacklisted. If so, abort the operation to ensure the file doesn't get corrupted.
-            if (Global.lubState == "launch-decompile")
+            if (state == 0)
             {
                 if (Path.GetFileName(args) == "standard.lub")
                 {
@@ -488,7 +556,7 @@ namespace Sonic_06_Toolkit.Tools
                     return;
                 }
             }
-            else if (Global.lubState == "decompile")
+            else if (state == 1)
             {
                 if (Path.GetFileName(LUB) == "standard.lub")
                 {
@@ -496,7 +564,7 @@ namespace Sonic_06_Toolkit.Tools
                     return;
                 }
             }
-            else if (Global.lubState == "decompile-all")
+            else if (state == 2)
             {
                 if (File.Exists($"{Global.currentPath}standard.lub"))
                 {
@@ -505,7 +573,7 @@ namespace Sonic_06_Toolkit.Tools
                 }
             }
 
-            if (Global.lubState == "launch-decompile")
+            if (state == 0)
             {
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (Path.GetFileName(args) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -522,7 +590,7 @@ namespace Sonic_06_Toolkit.Tools
                     else { return; }
                 }
             }
-            else if (Global.lubState == "decompile")
+            else if (state == 1)
             {
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (Path.GetFileName(LUB) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -531,7 +599,7 @@ namespace Sonic_06_Toolkit.Tools
 
                 File.Copy(Path.Combine(Global.currentPath, Path.GetFileName(LUB)), Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs\\", Path.GetFileName(LUB)), true);
             }
-            else if (Global.lubState == "decompile-all")
+            else if (state == 2)
             {
                 //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
                 if (File.Exists($"{Global.currentPath}render_shadowmap.lub")) MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -557,10 +625,10 @@ namespace Sonic_06_Toolkit.Tools
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Begin(args);
+            Begin(state, args);
         }
 
-        static void Begin(string args)
+        static void Begin(int state, string args)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -568,16 +636,16 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar"))
                 {
                     var Decompile = Process.Start(lubSession);
-                    var decompileDialog = new Status();
+                    var decompileDialog = new Status(state, "LUB");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - decompileDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - decompileDialog.Height) / 2);
-                    if (Global.lubState == "launch-decompile") decompileDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) decompileDialog.StartPosition = FormStartPosition.CenterScreen;
                     else decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     decompileDialog.Show();
                     Decompile.WaitForExit();
                     Decompile.Close();
 
-                    if (Global.lubState == "launch-decompile")
+                    if (state == 0)
                     {
                         //Copies all LUBs to the final directory, then erases leftovers.
                         foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
@@ -589,7 +657,7 @@ namespace Sonic_06_Toolkit.Tools
                             }
                         }
                     }
-                    else if (Global.lubState == "decompile")
+                    else if (state == 1)
                     {
                         //Copies all LUBs to the final directory, then erases leftovers.
                         foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
@@ -601,7 +669,7 @@ namespace Sonic_06_Toolkit.Tools
                             }
                         }
                     }
-                    else if (Global.lubState == "decompile-all")
+                    else if (state == 2)
                     {
                         //Copies all LUBs to the final directory, then erases leftovers.
                         foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
@@ -615,8 +683,6 @@ namespace Sonic_06_Toolkit.Tools
                     }
 
                     decompileDialog.Close();
-
-                    //Global.lubState = null;
                 }
                 else { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -627,9 +693,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo mstSession;
 
-        public static void Export(string args, string selectedMST)
+        public static void Export(int state, string args, string selectedMST)
         {
-            if (Global.mstState == "launch-mst")
+            if (state == 0)
             {
                 //Sets up the BASIC application and executes the converting process.
                 mstSession = new ProcessStartInfo(Properties.Settings.Default.mstFile, $"\"{args}\"")
@@ -638,7 +704,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.mstState == "mst")
+            else if (state == 1)
             {
                 //Sets up the BASIC application and executes the converting process.
                 mstSession = new ProcessStartInfo(Properties.Settings.Default.mstFile, $"\"{Path.Combine(Global.currentPath, selectedMST)}\"")
@@ -651,9 +717,9 @@ namespace Sonic_06_Toolkit.Tools
             Begin();
         }
 
-        public static void Import(string args, string selectedXML)
+        public static void Import(int state, string selectedXML)
         {
-            if (Global.mstState == "xml")
+            if (state == 1)
             {
                 //Sets up the BASIC application and executes the converting process.
                 mstSession = new ProcessStartInfo(Properties.Settings.Default.mstFile, $"\"{Path.Combine(Global.currentPath, selectedXML)}\"")
@@ -676,8 +742,6 @@ namespace Sonic_06_Toolkit.Tools
                     var Decode = Process.Start(mstSession);
                     Decode.WaitForExit();
                     Decode.Close();
-
-                    //Global.mstState = null;
                 }
                 else { MessageBox.Show("mst06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -688,9 +752,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo pngSession;
 
-        public static void Convert(string args, string selectedPNG)
+        public static void Convert(int state, string args, string selectedPNG)
         {
-            if (Global.ddsState == "launch-png")
+            if (state == 0)
             {
                 //Sets up the BASIC application and executes the converting process.
                 pngSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, $"\"{args}\" -ft DDS{DDS_Studio.useGPU} -singleproc{DDS_Studio.forceDirectX10} -f R8G8B8A8_UNORM")
@@ -699,7 +763,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (Global.ddsState == "png")
+            else if (state == 1)
             {
                 //Sets up the BASIC application and executes the converting process.
                 pngSession = new ProcessStartInfo(Properties.Settings.Default.directXFile, $"\"{Path.Combine(Global.currentPath, selectedPNG)}\" -ft DDS{DDS_Studio.useGPU} -singleproc{DDS_Studio.forceDirectX10} -f R8G8B8A8_UNORM")
@@ -709,10 +773,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("DirectX files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -720,10 +784,10 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.directXFile))
                 {
                     var Convert = Process.Start(pngSession);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "DDS");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.ddsState == "launch-png") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
@@ -739,9 +803,9 @@ namespace Sonic_06_Toolkit.Tools
 
     class SET
     {
-        public static void Export(string args, string SET)
+        public static void Export(int state, string args, string SET)
         {
-            if (Global.setState == "launch-export")
+            if (state == 0)
             {
                 if (File.Exists(args))
                 {
@@ -750,7 +814,7 @@ namespace Sonic_06_Toolkit.Tools
                     readSET.ExportXML($"{Path.GetFileNameWithoutExtension(args)}.xml");
                 }
             }
-            else if (Global.setState == "export")
+            else if (state == 1)
             {
                 if (File.Exists($"{Global.currentPath}{Path.GetFileName(SET)}"))
                 {
@@ -779,9 +843,9 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo xmaSession;
 
-        public static void ConvertToWAV(string args, string selectedXMA)
+        public static void ConvertToWAV(int state, string args, string selectedXMA)
         {
-            if (Global.xmaState == "launch-xma")
+            if (state == 0)
             {
                 //Sets up the BASIC application and executes the converting process.
                 xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{args}\"")
@@ -790,9 +854,9 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
 
-                Begin(args);
+                Begin(state, args);
             }
-            else if (Global.xmaState == "xma")
+            else if (state == 1)
             {
                 //Sets up the BASIC application and executes the converting process.
                 xmaSession = new ProcessStartInfo(Properties.Settings.Default.towavFile, $"\"{Path.Combine(Global.currentPath, Path.GetFileName(selectedXMA))}\"")
@@ -801,13 +865,13 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden,
                 };
 
-                Begin(selectedXMA);
+                Begin(state, selectedXMA);
             }
         }
 
-        public static void ConvertToXMA(string selectedWAV)
+        public static void ConvertToXMA(int state, string selectedWAV)
         {
-            if (Global.xmaState == "wav")
+            if (state == 2)
             {
                 //Sets up the BASIC application and executes the converting process.
                 xmaSession = new ProcessStartInfo(Properties.Settings.Default.xmaencodeFile, $"\"{Path.Combine(Global.currentPath, selectedWAV)}\" {XMA_Studio.wholeLoop}")
@@ -817,23 +881,22 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin(selectedWAV);
+            Begin(state, selectedWAV);
         }
 
-        public static void PatchXMA(string selectedXMA)
+        public static void PatchXMA(int state, string selectedXMA)
         {
-            Global.xmaState = "patch-only";
-            Begin(selectedXMA);
+            Begin(state, selectedXMA);
         }
 
-        static void Begin(string selectedFile)
+        static void Begin(int state, string selectedFile)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("XMA Encode 2008 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
             {
                 if (File.Exists(Properties.Settings.Default.xmaencodeFile))
                 {
-                    if (Global.xmaState == "wav")
+                    if (state == 2)
                     {
                         string originalXMA = $"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma";
                         if (File.Exists($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma"))
@@ -842,14 +905,13 @@ namespace Sonic_06_Toolkit.Tools
                             File.Delete(originalXMA);
                         }
                     }
-                    else if (Global.xmaState == "patch-only")
+                    else if (state == 3)
                     {
                         byte[] bytes = File.ReadAllBytes(selectedFile).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString.Contains("58 4D 41 32 24 00 00 00 03 01 00 00 00 00 00 00 00 00 00 00 00 00 BB 80 00 FF 00 00 00 00 4C 00 00 00 48 B6 00 00 00 01 01 00 00 01 73 65 65 6B 04 00 00 00 00 00 4C 00"))
                         {
                             MessageBox.Show("This XMA has already been patched.", "XMA Patched", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Global.xmaState = null;
                             return;
                         }
                         else
@@ -858,19 +920,17 @@ namespace Sonic_06_Toolkit.Tools
                             {
                                 ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
                                 MessageBox.Show("The selected XMA has been patched.", "XMA Patched", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                Global.xmaState = null;
                                 return;
                             }
                             catch
                             {
                                 MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Notification.Dispose();
-                                Global.xmaState = null;
                                 return;
                             }
                         }
                     }
-                    else if (Global.xmaState == "xma")
+                    else if (state == 1)
                     {
                         byte[] bytes = File.ReadAllBytes($"{Path.Combine(Global.currentPath, Path.GetFileName(selectedFile))}").ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
@@ -885,9 +945,9 @@ namespace Sonic_06_Toolkit.Tools
                             fs.Close();
                         }
 
-                        Global.xmaState = "xma-repatch";
+                        state = 3;
                     }
-                    else if (Global.xmaState == "launch-xma")
+                    else if (state == 0)
                     {
                         byte[] bytes = File.ReadAllBytes(selectedFile).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
@@ -902,64 +962,62 @@ namespace Sonic_06_Toolkit.Tools
                             fs.Close();
                         }
 
-                        Global.xmaState = "xma-launch-repatch";
+                        state = 4;
                     }
                     
                     var Convert = Process.Start(xmaSession);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "XMA");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.xmaState == "launch-xma" || Global.xmaState == "xma-launch-repatch") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0 || state == 4) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
 
-                    //Global.xmaState = null;
-
-                    if (Global.xmaState == "wav")
+                    if (state == 2)
                     {
                         if (Properties.Settings.Default.patchXMA == true)
                         {
                             try
                             {
                                 ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
-                                Global.xmaState = "wav";
+                                state = 2;
                             }
                             catch
                             {
                                 MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Notification.Dispose();
-                                Global.xmaState = "wav";
+                                state = 2;
                             }
                         }
                     }
-                    else if (Global.xmaState == "xma-repatch")
+                    else if (state == 3)
                     {
                         try
                         {
                             ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
-                            Global.xmaState = "xma";
+                            state = 1;
                         }
                         catch
                         {
                             MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
-                            Global.xmaState = "xma";
+                            state = 1;
                         }
                     }
-                    else if (Global.xmaState == "xma-launch-repatch")
+                    else if (state == 4)
                     {
                         try
                         {
                             ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
-                            Global.xmaState = "xma";
+                            state = 1;
                         }
                         catch
                         {
                             MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
-                            Global.xmaState = "xma";
+                            state = 1;
                         }
                     }
 
@@ -975,12 +1033,12 @@ namespace Sonic_06_Toolkit.Tools
         static ProcessStartInfo xnoSession;
         static string failsafeCheck;
 
-        static void WriteConverter()
+        static void WriteConverter(int state)
         {
             #region Getting current ARC failsafe...
             //Gets the failsafe directory.
             if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}");
-            if (Global.xnoState == "xno") failsafeCheck = Global.getStorage;
+            if (state == 1) failsafeCheck = Global.getStorage;
             else failsafeCheck = Path.GetRandomFileName();
             #endregion
 
@@ -991,22 +1049,22 @@ namespace Sonic_06_Toolkit.Tools
             #endregion
         }
 
-        public static void Convert(string args, string selectedXNO)
+        public static void Convert(int state, string args, string selectedXNO)
         {
-            WriteConverter();
+            WriteConverter(state);
 
             string checkedBuildSession = $"{Properties.Settings.Default.xnoPath}{Global.sessionID}\\{failsafeCheck}\\xno2dae.exe";
             var checkedWrite = File.Create($"{Properties.Settings.Default.xnoPath}{Global.sessionID}\\{failsafeCheck}\\xno2dae.bat");
 
-            if (Global.xnoState == "xno")
+            if (state == 0)
             {
-                var checkedText = new UTF8Encoding(true).GetBytes($"\"{checkedBuildSession}\" \"{selectedXNO}\"");
+                var checkedText = new UTF8Encoding(true).GetBytes($"\"{checkedBuildSession}\" \"{args}\"");
                 checkedWrite.Write(checkedText, 0, checkedText.Length);
                 checkedWrite.Close();
             }
-            else
+            else if (state == 1)
             {
-                var checkedText = new UTF8Encoding(true).GetBytes($"\"{checkedBuildSession}\" \"{args}\"");
+                var checkedText = new UTF8Encoding(true).GetBytes($"\"{checkedBuildSession}\" \"{selectedXNO}\"");
                 checkedWrite.Write(checkedText, 0, checkedText.Length);
                 checkedWrite.Close();
             }
@@ -1018,12 +1076,12 @@ namespace Sonic_06_Toolkit.Tools
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Begin();
+            Begin(state);
         }
 
-        public static void Animate(string selectedXNO, string selectedXNM)
+        public static void Animate(int state, string selectedXNO, string selectedXNM)
         {
-            WriteConverter();
+            WriteConverter(state);
 
             string checkedBuildSession = $"{Properties.Settings.Default.xnoPath}{Global.sessionID}\\{failsafeCheck}\\xno2dae.exe";
             var checkedWrite = File.Create($"{Properties.Settings.Default.xnoPath}{Global.sessionID}\\{failsafeCheck}\\xno2dae.bat");
@@ -1039,10 +1097,10 @@ namespace Sonic_06_Toolkit.Tools
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -1050,17 +1108,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.xnoFile) || Debugger.unsafeState == false)
                 {
                     var Convert = Process.Start(xnoSession);
-                    var convertDialog = new Status();
+                    var convertDialog = new Status(state, "XNO");
                     var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
                     var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
-                    if (Global.xnoState == "launch-xno") convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    if (state == 0) convertDialog.StartPosition = FormStartPosition.CenterScreen;
                     else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
                     convertDialog.Show();
                     Convert.WaitForExit();
                     Convert.Close();
                     convertDialog.Close();
-
-                    //Global.xnoState = null;
                 }
                 else { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -1125,22 +1181,11 @@ namespace Sonic_06_Toolkit.Tools
     public class Global
     {
         public static string versionNumber = "2.0";
-        public static string latestVersion = "Version " + versionNumber;
+        public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
         public static string updateState;
-        public static string exisoState;
         public static string getStorage;
-        public static string arcState;
-        public static string adxState;
-        public static string at3State;
-        public static string csbState;
-        public static string ddsState;
-        public static string lubState;
-        public static string setState;
-        public static string mstState;
-        public static string xmaState;
-        public static string xnoState;
 
         public static string applicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 

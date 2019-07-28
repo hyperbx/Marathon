@@ -56,7 +56,6 @@ namespace Sonic_06_Toolkit
             #endregion
 
             split_XNMStudio.Visible = false;
-            Tools.Global.xnoState = "xno";
             tm_ItemCheck.Start();
         }
 
@@ -69,32 +68,22 @@ namespace Sonic_06_Toolkit
 
         void Btn_DeselectAll_Click(object sender, EventArgs e)
         {
-            if (Tools.Global.xnoState == "xnm")
-            {
-                //Unchecks all available checkboxes.
-                for (int i = 0; i < clb_XNOs.Items.Count; i++) clb_XNOs.SetItemChecked(i, false);
-                btn_Convert.Enabled = false;
-            }
-            else if (Tools.Global.xnoState == "xnm")
-            {
-                //Unchecks all available checkboxes.
-                for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
-                for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
-                btn_Convert.Enabled = false;
-            }
+            //Unchecks all available checkboxes.
+            for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
+            for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
+            btn_Convert.Enabled = false;
         }
 
         void Btn_Decompile_Click(object sender, EventArgs e)
         {
-            if (Tools.Global.xnoState == "xno")
+            if (!check_XNM.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each XNO.
                     foreach (string selectedXNO in clb_XNOs.CheckedItems)
                     {
-                        Tools.Global.xnoState = "xno";
-                        Tools.XNO.Convert(string.Empty, selectedXNO);
+                        Tools.XNO.Convert(1, string.Empty, selectedXNO);
                     }
                 }
                 catch
@@ -103,7 +92,7 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.xnoState == "xnm")
+            else
             {
                 //In the odd chance that someone is ever able to click Convert without anything selected, this will prevent that.
                 if (clb_XNOs_XNM.CheckedItems.Count == 0) MessageBox.Show("Please select an XNO.", "No XNO specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -126,19 +115,14 @@ namespace Sonic_06_Toolkit
                             }
                         }
 
-                        Tools.Global.xnoState = "xnm";
-                        Tools.XNO.Animate(XNO, XNM);
-                }
+                        Tools.XNO.Animate(1, XNO, XNM);
+                    }
                     catch
-                {
-                    MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    Tools.Notification.Dispose();
+                    {
+                        MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                    }
                 }
-            }
-            }
-            else
-            {
-                MessageBox.Show("XNO State set to invalid value: " + Tools.Global.xnoState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,8 +167,6 @@ namespace Sonic_06_Toolkit
                 split_XNMStudio.Visible = true;
                 btn_SelectAll.Enabled = false;
                 clb_XNOs.Visible = false;
-
-                Tools.Global.xnoState = "xnm";
                 #endregion
 
                 #region Getting XNOs...
@@ -250,8 +232,6 @@ namespace Sonic_06_Toolkit
                 btn_SelectAll.Enabled = true;
                 clb_XNOs.Visible = true;
 
-                Tools.Global.xnoState = "xno";
-
                 clb_XNOs_XNM.Items.Clear();
                 clb_XNMs.Items.Clear();
                 #endregion
@@ -300,11 +280,6 @@ namespace Sonic_06_Toolkit
                     btn_Convert.Enabled = false;
                 }
             }
-        }
-
-        void XNO_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.xnoState = null;
         }
     }
 }

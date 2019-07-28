@@ -17,8 +17,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_XMAtoWAV.Checked == true)
             {
-                Tools.Global.xmaState = "xma";
-
                 clb_XMA.Items.Clear();
 
                 #region Getting XMAs to convert...
@@ -57,8 +55,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_WAVtoXMA.Checked == true)
             {
-                Tools.Global.xmaState = "wav";
-
                 clb_XMA.Items.Clear();
 
                 #region Getting WAV files to convert...
@@ -95,8 +91,6 @@ namespace Sonic_06_Toolkit
 
         void XMA_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.xmaState = "xma";
-
             clb_XMA.Items.Clear();
 
             if (Directory.GetFiles(Tools.Global.currentPath, "*.xma").Length > 0)
@@ -132,11 +126,6 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        void XMA_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.xmaState = null;
-        }
-
         void Btn_SelectAll_Click(object sender, EventArgs e)
         {
             //Checks all available checkboxes.
@@ -155,15 +144,14 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
             if (clb_XMA.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.xmaState == "xma")
+            if (modes_XMAtoWAV.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each AT3.
                     foreach (string selectedXMA in clb_XMA.CheckedItems)
                     {
-                        Tools.Global.xmaState = "xma";
-                        Tools.XMA.ConvertToWAV(string.Empty, selectedXMA);
+                        Tools.XMA.ConvertToWAV(1, string.Empty, selectedXMA);
                     }
                 }
                 catch
@@ -172,15 +160,14 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.xmaState == "wav")
+            else if (modes_WAVtoXMA.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_XMA.CheckedItems)
                     {
-                        Tools.Global.xmaState = "wav";
-                        Tools.XMA.ConvertToXMA(selectedWAV);
+                        Tools.XMA.ConvertToXMA(2, selectedWAV);
                     }
                 }
                 catch
@@ -188,10 +175,6 @@ namespace Sonic_06_Toolkit
                     MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
-            }
-            else
-            {
-                MessageBox.Show("XMA State set to invalid value: " + Tools.Global.xmaState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

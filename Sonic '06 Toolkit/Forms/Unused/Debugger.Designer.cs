@@ -33,44 +33,24 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.label60 = new System.Windows.Forms.Label();
             this.label57 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.xmaState = new System.Windows.Forms.Label();
             this.lbl_getStorage = new System.Windows.Forms.Label();
             this.gameChanged = new System.Windows.Forms.Label();
             this.javaCheck = new System.Windows.Forms.Label();
             this.getIndex = new System.Windows.Forms.Label();
             this.sessionID = new System.Windows.Forms.Label();
             this.applicationData = new System.Windows.Forms.Label();
-            this.xnoState = new System.Windows.Forms.Label();
-            this.mstState = new System.Windows.Forms.Label();
-            this.setState = new System.Windows.Forms.Label();
-            this.lubState = new System.Windows.Forms.Label();
-            this.ddsState = new System.Windows.Forms.Label();
-            this.csbState = new System.Windows.Forms.Label();
-            this.at3State = new System.Windows.Forms.Label();
-            this.adxState = new System.Windows.Forms.Label();
-            this.arcState = new System.Windows.Forms.Label();
             this.exisoState = new System.Windows.Forms.Label();
             this.updateState = new System.Windows.Forms.Label();
             this.currentPath = new System.Windows.Forms.Label();
@@ -79,6 +59,7 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label7 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
             this.label64 = new System.Windows.Forms.Label();
@@ -121,6 +102,7 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.csbUnpackMode = new System.Windows.Forms.Label();
             this.towavFile = new System.Windows.Forms.Label();
             this.xmaencodeFile = new System.Windows.Forms.Label();
             this.patchXMA = new System.Windows.Forms.Label();
@@ -204,7 +186,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(406, 586);
+            this.tabControl1.Size = new System.Drawing.Size(406, 600);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -213,7 +195,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(398, 560);
+            this.tabPage1.Size = new System.Drawing.Size(398, 578);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -227,22 +209,12 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.label60);
             this.splitContainer1.Panel1.Controls.Add(this.label57);
             this.splitContainer1.Panel1.Controls.Add(this.label20);
             this.splitContainer1.Panel1.Controls.Add(this.label19);
             this.splitContainer1.Panel1.Controls.Add(this.label18);
             this.splitContainer1.Panel1.Controls.Add(this.label17);
             this.splitContainer1.Panel1.Controls.Add(this.label16);
-            this.splitContainer1.Panel1.Controls.Add(this.label15);
-            this.splitContainer1.Panel1.Controls.Add(this.label11);
-            this.splitContainer1.Panel1.Controls.Add(this.label12);
-            this.splitContainer1.Panel1.Controls.Add(this.label13);
-            this.splitContainer1.Panel1.Controls.Add(this.label14);
-            this.splitContainer1.Panel1.Controls.Add(this.label9);
-            this.splitContainer1.Panel1.Controls.Add(this.label10);
-            this.splitContainer1.Panel1.Controls.Add(this.label8);
-            this.splitContainer1.Panel1.Controls.Add(this.label7);
             this.splitContainer1.Panel1.Controls.Add(this.label6);
             this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
@@ -252,40 +224,21 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.xmaState);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_getStorage);
             this.splitContainer1.Panel2.Controls.Add(this.gameChanged);
             this.splitContainer1.Panel2.Controls.Add(this.javaCheck);
             this.splitContainer1.Panel2.Controls.Add(this.getIndex);
             this.splitContainer1.Panel2.Controls.Add(this.sessionID);
             this.splitContainer1.Panel2.Controls.Add(this.applicationData);
-            this.splitContainer1.Panel2.Controls.Add(this.xnoState);
-            this.splitContainer1.Panel2.Controls.Add(this.mstState);
-            this.splitContainer1.Panel2.Controls.Add(this.setState);
-            this.splitContainer1.Panel2.Controls.Add(this.lubState);
-            this.splitContainer1.Panel2.Controls.Add(this.ddsState);
-            this.splitContainer1.Panel2.Controls.Add(this.csbState);
-            this.splitContainer1.Panel2.Controls.Add(this.at3State);
-            this.splitContainer1.Panel2.Controls.Add(this.adxState);
-            this.splitContainer1.Panel2.Controls.Add(this.arcState);
             this.splitContainer1.Panel2.Controls.Add(this.exisoState);
             this.splitContainer1.Panel2.Controls.Add(this.updateState);
             this.splitContainer1.Panel2.Controls.Add(this.currentPath);
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(392, 554);
+            this.splitContainer1.Size = new System.Drawing.Size(392, 572);
             this.splitContainer1.SplitterDistance = 125;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // label60
-            // 
-            this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(3, 197);
-            this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(51, 13);
-            this.label60.TabIndex = 21;
-            this.label60.Text = "xmaState";
             // 
             // label57
             // 
@@ -299,7 +252,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 275);
+            this.label20.Location = new System.Drawing.Point(3, 145);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(76, 13);
             this.label20.TabIndex = 19;
@@ -308,7 +261,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 262);
+            this.label19.Location = new System.Drawing.Point(3, 132);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(58, 13);
             this.label19.TabIndex = 18;
@@ -317,7 +270,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 249);
+            this.label18.Location = new System.Drawing.Point(3, 119);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(48, 13);
             this.label18.TabIndex = 17;
@@ -326,7 +279,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 236);
+            this.label17.Location = new System.Drawing.Point(3, 106);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(53, 13);
             this.label17.TabIndex = 16;
@@ -335,92 +288,11 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 223);
+            this.label16.Location = new System.Drawing.Point(3, 93);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(81, 13);
             this.label16.TabIndex = 15;
             this.label16.Text = "applicationData";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(3, 210);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(49, 13);
-            this.label15.TabIndex = 14;
-            this.label15.Text = "xnoState";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 184);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(48, 13);
-            this.label11.TabIndex = 13;
-            this.label11.Text = "mstState";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 171);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(46, 13);
-            this.label12.TabIndex = 12;
-            this.label12.Text = "setState";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 158);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(46, 13);
-            this.label13.TabIndex = 11;
-            this.label13.Text = "lubState";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 145);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(49, 13);
-            this.label14.TabIndex = 10;
-            this.label14.Text = "ddsState";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 132);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 13);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "csbState";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 119);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(47, 13);
-            this.label10.TabIndex = 8;
-            this.label10.Text = "at3State";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 106);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "adxState";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 93);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(47, 13);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "arcState";
             // 
             // label6
             // 
@@ -476,15 +348,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "versionNumber";
             // 
-            // xmaState
-            // 
-            this.xmaState.AutoSize = true;
-            this.xmaState.Location = new System.Drawing.Point(3, 197);
-            this.xmaState.Name = "xmaState";
-            this.xmaState.Size = new System.Drawing.Size(51, 13);
-            this.xmaState.TabIndex = 41;
-            this.xmaState.Text = "xmaState";
-            // 
             // lbl_getStorage
             // 
             this.lbl_getStorage.AutoSize = true;
@@ -497,7 +360,7 @@
             // gameChanged
             // 
             this.gameChanged.AutoSize = true;
-            this.gameChanged.Location = new System.Drawing.Point(3, 275);
+            this.gameChanged.Location = new System.Drawing.Point(3, 145);
             this.gameChanged.Name = "gameChanged";
             this.gameChanged.Size = new System.Drawing.Size(76, 13);
             this.gameChanged.TabIndex = 39;
@@ -507,7 +370,7 @@
             // javaCheck
             // 
             this.javaCheck.AutoSize = true;
-            this.javaCheck.Location = new System.Drawing.Point(3, 262);
+            this.javaCheck.Location = new System.Drawing.Point(3, 132);
             this.javaCheck.Name = "javaCheck";
             this.javaCheck.Size = new System.Drawing.Size(58, 13);
             this.javaCheck.TabIndex = 38;
@@ -517,7 +380,7 @@
             // getIndex
             // 
             this.getIndex.AutoSize = true;
-            this.getIndex.Location = new System.Drawing.Point(3, 249);
+            this.getIndex.Location = new System.Drawing.Point(3, 119);
             this.getIndex.Name = "getIndex";
             this.getIndex.Size = new System.Drawing.Size(48, 13);
             this.getIndex.TabIndex = 37;
@@ -526,7 +389,7 @@
             // sessionID
             // 
             this.sessionID.AutoSize = true;
-            this.sessionID.Location = new System.Drawing.Point(3, 236);
+            this.sessionID.Location = new System.Drawing.Point(3, 106);
             this.sessionID.Name = "sessionID";
             this.sessionID.Size = new System.Drawing.Size(53, 13);
             this.sessionID.TabIndex = 36;
@@ -535,101 +398,11 @@
             // applicationData
             // 
             this.applicationData.AutoSize = true;
-            this.applicationData.Location = new System.Drawing.Point(3, 223);
+            this.applicationData.Location = new System.Drawing.Point(3, 93);
             this.applicationData.Name = "applicationData";
             this.applicationData.Size = new System.Drawing.Size(81, 13);
             this.applicationData.TabIndex = 35;
             this.applicationData.Text = "applicationData";
-            // 
-            // xnoState
-            // 
-            this.xnoState.AutoSize = true;
-            this.xnoState.Location = new System.Drawing.Point(3, 210);
-            this.xnoState.Name = "xnoState";
-            this.xnoState.Size = new System.Drawing.Size(49, 13);
-            this.xnoState.TabIndex = 34;
-            this.xnoState.Text = "xnoState";
-            this.xnoState.Click += new System.EventHandler(this.XnoState_Click);
-            // 
-            // mstState
-            // 
-            this.mstState.AutoSize = true;
-            this.mstState.Location = new System.Drawing.Point(3, 184);
-            this.mstState.Name = "mstState";
-            this.mstState.Size = new System.Drawing.Size(48, 13);
-            this.mstState.TabIndex = 33;
-            this.mstState.Text = "mstState";
-            this.mstState.Click += new System.EventHandler(this.MstState_Click);
-            // 
-            // setState
-            // 
-            this.setState.AutoSize = true;
-            this.setState.Location = new System.Drawing.Point(3, 171);
-            this.setState.Name = "setState";
-            this.setState.Size = new System.Drawing.Size(46, 13);
-            this.setState.TabIndex = 32;
-            this.setState.Text = "setState";
-            this.setState.Click += new System.EventHandler(this.SetState_Click);
-            // 
-            // lubState
-            // 
-            this.lubState.AutoSize = true;
-            this.lubState.Location = new System.Drawing.Point(3, 158);
-            this.lubState.Name = "lubState";
-            this.lubState.Size = new System.Drawing.Size(46, 13);
-            this.lubState.TabIndex = 31;
-            this.lubState.Text = "lubState";
-            this.lubState.Click += new System.EventHandler(this.LubState_Click);
-            // 
-            // ddsState
-            // 
-            this.ddsState.AutoSize = true;
-            this.ddsState.Location = new System.Drawing.Point(3, 145);
-            this.ddsState.Name = "ddsState";
-            this.ddsState.Size = new System.Drawing.Size(49, 13);
-            this.ddsState.TabIndex = 30;
-            this.ddsState.Text = "ddsState";
-            this.ddsState.Click += new System.EventHandler(this.DdsState_Click);
-            // 
-            // csbState
-            // 
-            this.csbState.AutoSize = true;
-            this.csbState.Location = new System.Drawing.Point(3, 132);
-            this.csbState.Name = "csbState";
-            this.csbState.Size = new System.Drawing.Size(49, 13);
-            this.csbState.TabIndex = 29;
-            this.csbState.Text = "csbState";
-            this.csbState.Click += new System.EventHandler(this.CsbState_Click);
-            // 
-            // at3State
-            // 
-            this.at3State.AutoSize = true;
-            this.at3State.Location = new System.Drawing.Point(3, 119);
-            this.at3State.Name = "at3State";
-            this.at3State.Size = new System.Drawing.Size(47, 13);
-            this.at3State.TabIndex = 28;
-            this.at3State.Text = "at3State";
-            this.at3State.Click += new System.EventHandler(this.At3State_Click);
-            // 
-            // adxState
-            // 
-            this.adxState.AutoSize = true;
-            this.adxState.Location = new System.Drawing.Point(3, 106);
-            this.adxState.Name = "adxState";
-            this.adxState.Size = new System.Drawing.Size(49, 13);
-            this.adxState.TabIndex = 27;
-            this.adxState.Text = "adxState";
-            this.adxState.Click += new System.EventHandler(this.AdxState_Click);
-            // 
-            // arcState
-            // 
-            this.arcState.AutoSize = true;
-            this.arcState.Location = new System.Drawing.Point(3, 93);
-            this.arcState.Name = "arcState";
-            this.arcState.Size = new System.Drawing.Size(47, 13);
-            this.arcState.TabIndex = 26;
-            this.arcState.Text = "arcState";
-            this.arcState.Click += new System.EventHandler(this.ArcState_Click);
             // 
             // exisoState
             // 
@@ -691,7 +464,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(398, 560);
+            this.tabPage2.Size = new System.Drawing.Size(398, 574);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -705,6 +478,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label7);
             this.splitContainer2.Panel1.Controls.Add(this.label62);
             this.splitContainer2.Panel1.Controls.Add(this.label63);
             this.splitContainer2.Panel1.Controls.Add(this.label64);
@@ -750,6 +524,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.csbUnpackMode);
             this.splitContainer2.Panel2.Controls.Add(this.towavFile);
             this.splitContainer2.Panel2.Controls.Add(this.xmaencodeFile);
             this.splitContainer2.Panel2.Controls.Add(this.patchXMA);
@@ -792,9 +567,18 @@
             this.splitContainer2.Panel2.Controls.Add(this.rootPath);
             this.splitContainer2.Panel2.Controls.Add(this.theme);
             this.splitContainer2.Panel2.Controls.Add(this.showSessionID);
-            this.splitContainer2.Size = new System.Drawing.Size(392, 554);
+            this.splitContainer2.Size = new System.Drawing.Size(392, 568);
             this.splitContainer2.SplitterDistance = 159;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 548);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 13);
+            this.label7.TabIndex = 42;
+            this.label7.Text = "csbUnpackMode";
             // 
             // label62
             // 
@@ -1173,6 +957,15 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // csbUnpackMode
+            // 
+            this.csbUnpackMode.AutoSize = true;
+            this.csbUnpackMode.Location = new System.Drawing.Point(4, 548);
+            this.csbUnpackMode.Name = "csbUnpackMode";
+            this.csbUnpackMode.Size = new System.Drawing.Size(89, 13);
+            this.csbUnpackMode.TabIndex = 43;
+            this.csbUnpackMode.Text = "csbUnpackMode";
             // 
             // towavFile
             // 
@@ -1579,7 +1372,7 @@
             this.tabPage3.Controls.Add(this.check_skipWorkaround);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(398, 560);
+            this.tabPage3.Size = new System.Drawing.Size(398, 578);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1611,7 +1404,6 @@
             this.btn_ResetProgress.TabIndex = 10;
             this.btn_ResetProgress.Text = "Reset";
             this.btn_ResetProgress.UseVisualStyleBackColor = false;
-            this.btn_ResetProgress.Click += new System.EventHandler(this.Btn_ResetProgress_Click);
             // 
             // nud_Progress
             // 
@@ -1622,7 +1414,6 @@
             this.nud_Progress.Name = "nud_Progress";
             this.nud_Progress.Size = new System.Drawing.Size(185, 20);
             this.nud_Progress.TabIndex = 9;
-            this.nud_Progress.ValueChanged += new System.EventHandler(this.Nud_Progress_ValueChanged);
             // 
             // check_ShowUpdater
             // 
@@ -1759,7 +1550,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 586);
+            this.ClientSize = new System.Drawing.Size(406, 600);
             this.ControlBox = false;
             this.Controls.Add(this.getStorage);
             this.Controls.Add(this.label56);
@@ -1801,15 +1592,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -1826,15 +1608,6 @@
         private System.Windows.Forms.Label getIndex;
         private System.Windows.Forms.Label sessionID;
         private System.Windows.Forms.Label applicationData;
-        private System.Windows.Forms.Label xnoState;
-        private System.Windows.Forms.Label mstState;
-        private System.Windows.Forms.Label setState;
-        private System.Windows.Forms.Label lubState;
-        private System.Windows.Forms.Label ddsState;
-        private System.Windows.Forms.Label csbState;
-        private System.Windows.Forms.Label at3State;
-        private System.Windows.Forms.Label adxState;
-        private System.Windows.Forms.Label arcState;
         private System.Windows.Forms.Label exisoState;
         private System.Windows.Forms.Label updateState;
         private System.Windows.Forms.Label currentPath;
@@ -1937,8 +1710,6 @@
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.Label NOWLOADING;
         private System.Windows.Forms.Button btn_SimulateStupidError;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label xmaState;
         private System.Windows.Forms.Label label62;
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.Label label64;
@@ -1947,5 +1718,7 @@
         private System.Windows.Forms.Label xmaencodeFile;
         private System.Windows.Forms.Label patchXMA;
         private System.Windows.Forms.Label XMAwholeLoop;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label csbUnpackMode;
     }
 }

@@ -110,6 +110,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\Studios\BIN Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Studios\BIN Studio.Designer.cs">
+      <DependentUpon>BIN Studio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Unused\Debug Studio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,10 +221,10 @@
     <Compile Include="Forms\Studios\SET Studio.Designer.cs">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Notifications\Status.cs">
+    <Compile Include="Forms\Status.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Notifications\Status.Designer.cs">
+    <Compile Include="Forms\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Studios\XMA Studio.cs">
@@ -227,6 +233,9 @@
     <Compile Include="Forms\Studios\XMA Studio.Designer.cs">
       <DependentUpon>XMA Studio.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\Studios\BIN Studio.resx">
+      <DependentUpon>BIN Studio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Studios\DDS Studio.resx">
       <DependentUpon>DDS Studio.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,7 +300,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Forms\Notifications\Status.resx">
+    <EmbeddedResource Include="Forms\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />

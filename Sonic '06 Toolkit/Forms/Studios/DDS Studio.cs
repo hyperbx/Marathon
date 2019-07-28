@@ -41,8 +41,6 @@ namespace Sonic_06_Toolkit
 
         void DDS_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.ddsState = "dds";
-
             clb_DDS.Items.Clear();
 
             if (Directory.GetFiles(Tools.Global.currentPath, "*.dds").Length > 0)
@@ -80,8 +78,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_DDStoPNG.Checked == true)
             {
-                Tools.Global.ddsState = "dds";
-
                 clb_DDS.Items.Clear();
 
                 #region Getting DDS files to convert...
@@ -118,8 +114,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_PNGtoDDS.Checked == true)
             {
-                Tools.Global.ddsState = "png";
-
                 clb_DDS.Items.Clear();
 
                 #region Getting PNG files to convert...
@@ -200,15 +194,14 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
             if (clb_DDS.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.ddsState == "dds")
+            if (modes_DDStoPNG.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each ADX.
                     foreach (string selectedDDS in clb_DDS.CheckedItems)
                     {
-                        Tools.Global.ddsState = "dds";
-                        Tools.DDS.Convert(string.Empty, selectedDDS);
+                        Tools.DDS.Convert(1, string.Empty, selectedDDS);
                     }
                 }
                 catch
@@ -217,15 +210,14 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.ddsState == "png")
+            else if (modes_PNGtoDDS.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedPNG in clb_DDS.CheckedItems)
                     {
-                        Tools.Global.ddsState = "png";
-                        Tools.PNG.Convert(string.Empty, selectedPNG);
+                        Tools.PNG.Convert(1, string.Empty, selectedPNG);
                     }
                 }
                 catch
@@ -234,15 +226,6 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else
-            {
-                MessageBox.Show("DDS State set to invalid value: " + Tools.Global.ddsState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        void DDS_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.ddsState = null;
         }
     }
 }

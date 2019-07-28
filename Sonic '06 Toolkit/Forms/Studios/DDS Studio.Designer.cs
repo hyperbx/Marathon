@@ -122,6 +122,7 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 10);
@@ -135,6 +136,7 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.LimeGreen;
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -226,7 +228,6 @@
             this.Name = "DDS_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "DDS Studio";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DDS_Studio_FormClosing);
             this.Load += new System.EventHandler(this.DDS_Studio_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.pnl_Backdrop.ResumeLayout(false);
