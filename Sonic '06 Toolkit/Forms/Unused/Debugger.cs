@@ -71,7 +71,6 @@ namespace Sonic_06_Toolkit
             if (Tools.Global.applicationData != null) applicationData.Text = Tools.Global.applicationData; else applicationData.Text = "None";
             sessionID.Text = Tools.Global.sessionID.ToString();
             getIndex.Text = Tools.Global.getIndex.ToString();
-            javaCheck.Text = Tools.Global.javaCheck.ToString();
             gameChanged.Text = Tools.Global.gameChanged.ToString();
             #endregion
 
@@ -119,6 +118,7 @@ namespace Sonic_06_Toolkit
             if (Properties.Settings.Default.xmaencodeFile != "") xmaencodeFile.Text = Properties.Settings.Default.xmaencodeFile; else xmaencodeFile.Text = "None";
             if (Properties.Settings.Default.towavFile != "") towavFile.Text = Properties.Settings.Default.towavFile; else towavFile.Text = "None";
             csbUnpackMode.Text = Properties.Settings.Default.csbUnpackMode.ToString();
+            if (Properties.Settings.Default.collisionFile != "") collisionFile.Text = Properties.Settings.Default.collisionFile; else collisionFile.Text = "None";
             #endregion
 
             foreach (Control x in this.Controls)
@@ -214,12 +214,6 @@ namespace Sonic_06_Toolkit
             Properties.Settings.Default.Save();
         }
 
-        private void JavaCheck_Click(object sender, EventArgs e)
-        {
-            if (Tools.Global.javaCheck == true) Tools.Global.javaCheck = false;
-            else Tools.Global.javaCheck = true;
-        }
-
         private void GameChanged_Click(object sender, EventArgs e)
         {
             if (Tools.Global.gameChanged == true) Tools.Global.gameChanged = false;
@@ -305,46 +299,15 @@ namespace Sonic_06_Toolkit
             if (check_DebugAdvanced.Checked == true)
             {
                 this.mainForm.advanced_DebugMode.Visible = true;
-                //this.mainForm.advanced_Separator1.Visible = true;
                 Properties.Settings.Default.debugShow = true;
             }
             else
             {
                 this.mainForm.advanced_DebugMode.Visible = false;
-                //this.mainForm.advanced_Separator1.Visible = false;
                 Properties.Settings.Default.debugShow = false;
             }
             Properties.Settings.Default.Save();
         }
-
-        private void Check_ShowUpdater_CheckedChanged(object sender, EventArgs e)
-        {
-            if (check_ShowUpdater.Checked == true)
-            {
-                nud_Progress.Value = 0;
-                nud_Progress.Enabled = true;
-                btn_ResetProgress.Enabled = true;
-                this.mainForm.DisableUpdaterState = false;
-            }
-            else
-            {
-                nud_Progress.Value = 0;
-                nud_Progress.Enabled = false;
-                btn_ResetProgress.Enabled = false;
-                this.mainForm.DisableUpdaterState = true;
-            }
-        }
-
-        //void Nud_Progress_ValueChanged(object sender, EventArgs e)
-        //{
-        //    this.mainForm.UpdateProgressValue = Convert.ToInt32(nud_Progress.Value);
-        //}
-
-        //void Btn_ResetProgress_Click(object sender, EventArgs e)
-        //{
-        //    this.mainForm.UpdateProgressValue = 0;
-        //    nud_Progress.Value = 0;
-        //}
 
         void Tm_getStorage_Tick(object sender, EventArgs e)
         {

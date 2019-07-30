@@ -204,9 +204,9 @@ namespace Sonic_06_Toolkit
                         Tools.DDS.Convert(1, string.Empty, selectedDDS);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the selected DDS files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when converting the selected DDS files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -220,9 +220,9 @@ namespace Sonic_06_Toolkit
                         Tools.PNG.Convert(1, string.Empty, selectedPNG);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the selected PNG files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when converting the selected PNG files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

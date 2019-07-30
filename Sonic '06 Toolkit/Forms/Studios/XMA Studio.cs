@@ -154,9 +154,9 @@ namespace Sonic_06_Toolkit
                         Tools.XMA.ConvertToWAV(1, string.Empty, selectedXMA);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected XMAs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected XMAs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -170,9 +170,9 @@ namespace Sonic_06_Toolkit
                         Tools.XMA.ConvertToXMA(2, selectedWAV);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected WAV files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

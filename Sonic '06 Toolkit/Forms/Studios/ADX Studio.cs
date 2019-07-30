@@ -105,9 +105,9 @@ namespace Sonic_06_Toolkit
                         Tools.ADX.ConvertToWAV(1, string.Empty, selectedADX);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected ADX files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -121,9 +121,9 @@ namespace Sonic_06_Toolkit
                         Tools.ADX.ConvertToADX(2, selectedWAV);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected WAV files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

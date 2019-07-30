@@ -179,9 +179,9 @@ namespace Sonic_06_Toolkit
                         Tools.AT3.ConvertToWAV(1, string.Empty, selectedAT3);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected AT3 files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -195,9 +195,9 @@ namespace Sonic_06_Toolkit
                         Tools.AT3.ConvertToAT3(1, selectedWAV);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected WAV files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

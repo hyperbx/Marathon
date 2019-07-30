@@ -105,9 +105,9 @@ namespace Sonic_06_Toolkit
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected SETs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when converting the SETs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -121,9 +121,9 @@ namespace Sonic_06_Toolkit
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when importing the XMLs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

@@ -146,8 +146,8 @@
             this.Controls.Add(this.btn_Decompile);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
-            this.Controls.Add(this.clb_LUBs);
             this.Controls.Add(this.pnl_Backdrop);
+            this.Controls.Add(this.clb_LUBs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(429, 458);

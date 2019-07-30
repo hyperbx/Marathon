@@ -93,9 +93,9 @@ namespace Sonic_06_Toolkit
                 clb_LUBs.Items.Clear();
                 VerifyLUBs();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred when decompiling the selected Lua binaries.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tools.Notification.Dispose();
             }
         }

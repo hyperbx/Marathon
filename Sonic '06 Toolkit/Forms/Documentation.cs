@@ -40,11 +40,11 @@ namespace Sonic_06_Toolkit
         void Tree_InfoSelect_AfterSelect(object sender, TreeViewEventArgs e)
         {
             #region Core
-            if (tree_InfoSelect.SelectedNode.Text == "ARC") rtb_InfoDisplay.Text = "ARC files are archives compressed using ZLIB.";
+            if (tree_InfoSelect.SelectedNode.Text == "ARC") rtb_InfoDisplay.Text = "ARC files are Nintendo U8 archives compressed using ZLIB.";
             #endregion
 
             #region Graphics
-            else if (tree_InfoSelect.SelectedNode.Text == "DDS") rtb_InfoDisplay.Text = "DDS files are DirectDraw Surface textures.";
+            else if (tree_InfoSelect.SelectedNode.Text == "DDS") rtb_InfoDisplay.Text = "DDS files are DirectDraw Surface textures.\n\nThese can be converted using DDS Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "FXO") rtb_InfoDisplay.Text = "FXO files are DirectX shader files.";
             else if (tree_InfoSelect.SelectedNode.Text == "XNCP") rtb_InfoDisplay.Text = "XNCP files contain animations and layouts for the user interface.";
             else if (tree_InfoSelect.SelectedNode.Text == "FTM") rtb_InfoDisplay.Text = "FTM files are font maps; used to store fonts in bitmap images to be used in-game.";
@@ -56,17 +56,17 @@ namespace Sonic_06_Toolkit
             #endregion
 
             #region Animation
-            else if (tree_InfoSelect.SelectedNode.Text == "XNM") rtb_InfoDisplay.Text = "XNM files store animation data. They can be converted with XNO files using XNO Studio.";
-            else if (tree_InfoSelect.SelectedNode.Text == "XNO") rtb_InfoDisplay.Text = "XNO files store model data for various objects and characters. They can be converted using XNO Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "XNM") rtb_InfoDisplay.Text = "XNM files store animation data.\n\nThese can be converted with XNO files using XNO Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "XNO") rtb_InfoDisplay.Text = "XNO files store model data for various objects and characters.\n\nThese can be converted using XNO Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "XNG") rtb_InfoDisplay.Text = "XNG files are unique to cage models.";
             else if (tree_InfoSelect.SelectedNode.Text == "XND") rtb_InfoDisplay.Text = "XND files store values for scripted camera sections.";
             #endregion
 
             #region Audio/Video
-            else if (tree_InfoSelect.SelectedNode.Text == "AT3") rtb_InfoDisplay.Text = "AT3 files are PlayStation 3 audio files that use the ATRAC 3 format. These can be edited using AT3 Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "AT3") rtb_InfoDisplay.Text = "AT3 files are PlayStation 3 audio files that use the ATRAC 3 format.\n\nThese can be converted using AT3 Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "PAM") rtb_InfoDisplay.Text = "PAM files are PlayStation 3 video files that contain both an AVI for video and an AT3 for audio.";
-            else if (tree_InfoSelect.SelectedNode.Text == "CSB") rtb_InfoDisplay.Text = "CSB files are archives for sound formats; namely in the AIF and ADX format. CSBs can be unpacked using CSB Studio.";
-            else if (tree_InfoSelect.SelectedNode.Text == "ADX") rtb_InfoDisplay.Text = "ADX files are proprietary CriWare audio files. ADX files can be converted to WAV files using ADX Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "CSB") rtb_InfoDisplay.Text = "CSB files are archives for sound formats; namely in the AIF and ADX format.\n\nThese can be unpacked using CSB Studio.";
+            else if (tree_InfoSelect.SelectedNode.Text == "ADX") rtb_InfoDisplay.Text = "ADX files are proprietary CriWare audio files.\n\nThese can be converted using ADX Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "XMA") rtb_InfoDisplay.Text = "XMA files contain music and voice data";
             else if (tree_InfoSelect.SelectedNode.Text == "WMV") rtb_InfoDisplay.Text = "WMV files are Windows Media Video encoded files; typically used for cutscenes and the title screen for the Xbox 360 version of the game.";
             else if (tree_InfoSelect.SelectedNode.Text == "EPB") rtb_InfoDisplay.Text = "EPB files control cutscene playback in-game.";
@@ -76,7 +76,7 @@ namespace Sonic_06_Toolkit
             #endregion
 
             #region Engine
-            else if (tree_InfoSelect.SelectedNode.Text == "SET") rtb_InfoDisplay.Text = "SET files are object and effect placement files. They can be converted to the XML format using Skyth's 06set2xml tool.";
+            else if (tree_InfoSelect.SelectedNode.Text == "SET") rtb_InfoDisplay.Text = "SET files are object and effect placement files.\n\nThese can be converted with SET Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "HKX") rtb_InfoDisplay.Text = "HKX files are Havok physics files.\n\nAdditional information: SONIC THE HEDGEHOG (2006) uses an unlicensed version of Havok 3.3.0-b2.";
             else if (tree_InfoSelect.SelectedNode.Text == "XNA") rtb_InfoDisplay.Text = "XNA files contain information for switches, breakable objects and NPC interaction.";
             else if (tree_InfoSelect.SelectedNode.Text == "MBI") rtb_InfoDisplay.Text = "MBI files are Motion Base Information files containing morph data.";
@@ -87,10 +87,10 @@ namespace Sonic_06_Toolkit
             #endregion
 
             #region Scripts
-            else if (tree_InfoSelect.SelectedNode.Text == "LUB") rtb_InfoDisplay.Text = "LUB files are Lua binaries that have been compiled in Lua 5.1. They can be read by Sonic '06 without being compiled.";
+            else if (tree_InfoSelect.SelectedNode.Text == "LUB") rtb_InfoDisplay.Text = "LUB files are Lua binaries that have been compiled in Lua 5.1. They can be read by Sonic '06 without being compiled.\n\nThese can be decompiled with LUB Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "PATH") rtb_InfoDisplay.Text = "PATH files contain data for scripted path sequences used in-game.";
             else if (tree_InfoSelect.SelectedNode.Text == "KBF") rtb_InfoDisplay.Text = "KBF files are used to store mission data and information.";
-            else if (tree_InfoSelect.SelectedNode.Text == "MST") rtb_InfoDisplay.Text = "MST files store message and subtitle data in null terminated BINA string tables. These files can be edited using a hex editor.";
+            else if (tree_InfoSelect.SelectedNode.Text == "MST") rtb_InfoDisplay.Text = "MST files store message and subtitle data in null terminated BINA string tables. These can be converted with MST Studio.";
             else if (tree_InfoSelect.SelectedNode.Text == "PFI") rtb_InfoDisplay.Text = "PFI files store miscellaneous text information.";
             else if (tree_InfoSelect.SelectedNode.Text == "PROP") rtb_InfoDisplay.Text = "PROP files contain variable data for stages.";
             else if (tree_InfoSelect.SelectedNode.Text == "PKG") rtb_InfoDisplay.Text = "PKG files are BINA string tables that group together some common file formats (such as; FXO, LUA, DDS, PLC, XNF, XNO, XNI, XNM and XNV files).";

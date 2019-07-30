@@ -312,8 +312,8 @@
             this.Controls.Add(this.btn_Convert);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
-            this.Controls.Add(this.clb_ADX);
             this.Controls.Add(this.mstrip_Options);
+            this.Controls.Add(this.clb_ADX);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 458);

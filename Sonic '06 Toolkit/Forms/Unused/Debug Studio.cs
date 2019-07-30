@@ -106,9 +106,9 @@ namespace Sonic_06_Toolkit
                         var readSBK = new BINAv1Header();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when decoding the selected SBKs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when decoding the selected SBKs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

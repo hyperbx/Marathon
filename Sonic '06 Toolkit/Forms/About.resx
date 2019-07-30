@@ -117,30 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="richTextBox2.Text" xml:space="preserve">
-    <value>Sonic '06 Toolkit
-Developed by Hyper Development Team
-Hosted by SEGA Carnival
-
-Licensed under the MIT License
-
-Contributors:
-Hyper - Lead Developer
-Shadow LAG - Sonic '06 SDK
-xose - ARC Unpacker
-g0ldenlink - ARC Repacker
-Natsumi - MST Decoder (1.83) &amp; Design Guidance
-Skyth - XNO Converter &amp; Sonic Audio Tools
-DarioSamo - XNO Converter &amp; LibS06
-CRI Middleware Co. - CRI Atom Encoder
-Radfordhound - HedgeLib
-in - extract-xiso
-SONY Computer Entertainment Inc. - ATRAC3plus Codec TOOL
-GerbilSoft - mst06
-Microsoft Corporation - XMA Encode 2008
-Nonami - XMA Research
-Reimous - XMA Research</value>
-  </data>
   <data name="richTextBox1.Text" xml:space="preserve">
     <value>Sonic '06 Toolkit began development on 14th December 2018 as a small project to assist with unpacking several 'sprite.arc' files during my work on the HUDs for Sonic '06 mod; Legacy of Solaris. Unpacking and repacking so many of the same file over and over was the motive behind making a simple tool to make things less cluttered around my computer. Formerly known as 'Sonic '06 ARC Editor,' the project was closed-source and being written in Visual Basic .NET (VB.NET); a language I was most comfortable with at the time. The project was only intended to be used on my own computer and the plan was to just hard-code paths that I had set manually. Eventually, I realised how useful of a tool this could be to have a GUI for editing ARCs, similarly to opening a ZIP file in an application like 7-Zip and/or WinRAR.
 

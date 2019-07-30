@@ -86,9 +86,9 @@ namespace Sonic_06_Toolkit
                         Tools.XNO.Convert(1, string.Empty, selectedXNO);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when converting the selected XNOs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -117,9 +117,9 @@ namespace Sonic_06_Toolkit
 
                         Tools.XNO.Animate(1, XNO, XNM);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("An error occurred when converting the selected XNOs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"An error occurred when converting the selected XNOs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         Tools.Notification.Dispose();
                     }
                 }

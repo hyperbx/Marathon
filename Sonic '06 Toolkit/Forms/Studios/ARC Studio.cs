@@ -44,9 +44,9 @@ namespace Sonic_06_Toolkit
             {
                 Tools.ARC.Merge(4, text_ARC1.Text, text_ARC2.Text, text_Output.Text);
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("An error occurred when merging the archives.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred when merging the archives.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tools.Notification.Dispose();
             }
         }

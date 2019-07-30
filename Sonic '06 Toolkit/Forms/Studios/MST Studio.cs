@@ -96,9 +96,9 @@ namespace Sonic_06_Toolkit
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected MSTs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when exporting the MSTs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
@@ -112,9 +112,9 @@ namespace Sonic_06_Toolkit
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when importing the XMLs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }

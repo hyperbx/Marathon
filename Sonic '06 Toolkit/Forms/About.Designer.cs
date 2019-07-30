@@ -80,10 +80,10 @@
             this.richTextBox9 = new System.Windows.Forms.RichTextBox();
             this.tabPage22 = new System.Windows.Forms.TabPage();
             this.richTextBox16 = new System.Windows.Forms.RichTextBox();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.tabPage23 = new System.Windows.Forms.TabPage();
             this.richTextBox17 = new System.Windows.Forms.RichTextBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.web_Credits = new System.Windows.Forms.WebBrowser();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
@@ -115,8 +115,8 @@
             this.tabPage21.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.tabPage22.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.tabPage23.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -159,7 +159,7 @@
             this.lbl_Description.AutoSize = true;
             this.lbl_Description.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Description.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Description.Location = new System.Drawing.Point(90, 67);
+            this.lbl_Description.Location = new System.Drawing.Point(90, 80);
             this.lbl_Description.Name = "lbl_Description";
             this.lbl_Description.Size = new System.Drawing.Size(361, 105);
             this.lbl_Description.TabIndex = 3;
@@ -179,7 +179,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(562, 326);
+            this.tabControl1.Size = new System.Drawing.Size(562, 340);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -188,7 +188,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(554, 300);
+            this.tabPage1.Size = new System.Drawing.Size(554, 314);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Information";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@
             this.tab_Information.Location = new System.Drawing.Point(3, 3);
             this.tab_Information.Name = "tab_Information";
             this.tab_Information.SelectedIndex = 0;
-            this.tab_Information.Size = new System.Drawing.Size(548, 294);
+            this.tab_Information.Size = new System.Drawing.Size(548, 308);
             this.tab_Information.TabIndex = 4;
             // 
             // page_About
@@ -211,7 +211,7 @@
             this.page_About.Location = new System.Drawing.Point(4, 22);
             this.page_About.Name = "page_About";
             this.page_About.Padding = new System.Windows.Forms.Padding(3);
-            this.page_About.Size = new System.Drawing.Size(540, 268);
+            this.page_About.Size = new System.Drawing.Size(540, 282);
             this.page_About.TabIndex = 0;
             this.page_About.Text = "About";
             this.page_About.UseVisualStyleBackColor = true;
@@ -223,7 +223,7 @@
             this.btn_GitHub.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(218)))), ((int)(((byte)(240)))));
             this.btn_GitHub.FlatAppearance.BorderSize = 0;
             this.btn_GitHub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GitHub.Location = new System.Drawing.Point(6, 239);
+            this.btn_GitHub.Location = new System.Drawing.Point(6, 253);
             this.btn_GitHub.Name = "btn_GitHub";
             this.btn_GitHub.Size = new System.Drawing.Size(528, 23);
             this.btn_GitHub.TabIndex = 5;
@@ -706,29 +706,6 @@
             this.richTextBox16.Text = "XMA Encode 2008 is copyright of Microsoft Corporation.\n\nCopyright (c) 2008 Micros" +
     "oft Corporation.";
             // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.richTextBox2);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(554, 300);
-            this.tabPage6.TabIndex = 3;
-            this.tabPage6.Text = "Credits";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox2
-            // 
-            this.richTextBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox2.Size = new System.Drawing.Size(554, 300);
-            this.richTextBox2.TabIndex = 6;
-            this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
-            // 
             // tabPage23
             // 
             this.tabPage23.Controls.Add(this.richTextBox17);
@@ -751,13 +728,34 @@
             this.richTextBox17.TabIndex = 6;
             this.richTextBox17.Text = resources.GetString("richTextBox17.Text");
             // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.web_Credits);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(554, 314);
+            this.tabPage6.TabIndex = 3;
+            this.tabPage6.Text = "Credits";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // web_Credits
+            // 
+            this.web_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.web_Credits.IsWebBrowserContextMenuEnabled = false;
+            this.web_Credits.Location = new System.Drawing.Point(0, 0);
+            this.web_Credits.MinimumSize = new System.Drawing.Size(20, 20);
+            this.web_Credits.Name = "web_Credits";
+            this.web_Credits.Size = new System.Drawing.Size(554, 314);
+            this.web_Credits.TabIndex = 7;
+            this.web_Credits.WebBrowserShortcutsEnabled = false;
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(568, 393);
+            this.ClientSize = new System.Drawing.Size(568, 407);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lbl_versionNumber);
             this.Controls.Add(this.lbl_Subtitle);
@@ -802,8 +800,8 @@
             this.tabPage21.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
             this.tabPage22.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
             this.tabPage23.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -822,7 +820,6 @@
         private System.Windows.Forms.TabPage page_About;
         private System.Windows.Forms.Button btn_GitHub;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.TabPage page_History;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TabControl tabControl2;
@@ -866,5 +863,6 @@
         private System.Windows.Forms.RichTextBox richTextBox4;
         private System.Windows.Forms.TabPage tabPage23;
         private System.Windows.Forms.RichTextBox richTextBox17;
+        private System.Windows.Forms.WebBrowser web_Credits;
     }
 }

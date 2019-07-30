@@ -31,8 +31,7 @@ namespace Sonic_06_Toolkit
             }
             else
             {
-                MessageBox.Show("How did I get here?", "What?!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Close();
+                Text = "Sonic '06 Toolkit - Debug Mode";
             }
         }
 
@@ -47,6 +46,12 @@ namespace Sonic_06_Toolkit
                 MessageBox.Show("Update complete! Please restart Sonic '06 Toolkit.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Application.Exit();
             };
+        }
+
+        public int UpdateProgressValue
+        {
+            get { return pgb_Progress.Value; }
+            set { pgb_Progress.Value = value; }
         }
     }
 }

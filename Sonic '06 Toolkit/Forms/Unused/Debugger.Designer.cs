@@ -35,7 +35,6 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label57 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -47,7 +46,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_getStorage = new System.Windows.Forms.Label();
             this.gameChanged = new System.Windows.Forms.Label();
-            this.javaCheck = new System.Windows.Forms.Label();
             this.getIndex = new System.Windows.Forms.Label();
             this.sessionID = new System.Windows.Forms.Label();
             this.applicationData = new System.Windows.Forms.Label();
@@ -59,6 +57,7 @@
             this.versionNumber = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
             this.label63 = new System.Windows.Forms.Label();
@@ -102,6 +101,7 @@
             this.label38 = new System.Windows.Forms.Label();
             this.label39 = new System.Windows.Forms.Label();
             this.label40 = new System.Windows.Forms.Label();
+            this.collisionFile = new System.Windows.Forms.Label();
             this.csbUnpackMode = new System.Windows.Forms.Label();
             this.towavFile = new System.Windows.Forms.Label();
             this.xmaencodeFile = new System.Windows.Forms.Label();
@@ -147,9 +147,6 @@
             this.showSessionID = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btn_SimulateStupidError = new System.Windows.Forms.Button();
-            this.btn_ResetProgress = new System.Windows.Forms.Button();
-            this.nud_Progress = new System.Windows.Forms.NumericUpDown();
-            this.check_ShowUpdater = new System.Windows.Forms.CheckBox();
             this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
             this.btn_UnsafeState = new System.Windows.Forms.Button();
             this.btn_WindowsShutdown = new System.Windows.Forms.Button();
@@ -174,7 +171,6 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Progress)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -186,7 +182,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(406, 600);
+            this.tabControl1.Size = new System.Drawing.Size(406, 612);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -195,7 +191,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(398, 574);
+            this.tabPage1.Size = new System.Drawing.Size(398, 586);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Global";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -211,7 +207,6 @@
             // 
             this.splitContainer1.Panel1.Controls.Add(this.label57);
             this.splitContainer1.Panel1.Controls.Add(this.label20);
-            this.splitContainer1.Panel1.Controls.Add(this.label19);
             this.splitContainer1.Panel1.Controls.Add(this.label18);
             this.splitContainer1.Panel1.Controls.Add(this.label17);
             this.splitContainer1.Panel1.Controls.Add(this.label16);
@@ -226,7 +221,6 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.lbl_getStorage);
             this.splitContainer1.Panel2.Controls.Add(this.gameChanged);
-            this.splitContainer1.Panel2.Controls.Add(this.javaCheck);
             this.splitContainer1.Panel2.Controls.Add(this.getIndex);
             this.splitContainer1.Panel2.Controls.Add(this.sessionID);
             this.splitContainer1.Panel2.Controls.Add(this.applicationData);
@@ -236,7 +230,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
             this.splitContainer1.Panel2.Controls.Add(this.latestVersion);
             this.splitContainer1.Panel2.Controls.Add(this.versionNumber);
-            this.splitContainer1.Size = new System.Drawing.Size(392, 568);
+            this.splitContainer1.Size = new System.Drawing.Size(392, 580);
             this.splitContainer1.SplitterDistance = 125;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -252,20 +246,11 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 145);
+            this.label20.Location = new System.Drawing.Point(3, 132);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(76, 13);
             this.label20.TabIndex = 19;
             this.label20.Text = "gameChanged";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(3, 132);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(58, 13);
-            this.label19.TabIndex = 18;
-            this.label19.Text = "javaCheck";
             // 
             // label18
             // 
@@ -360,22 +345,12 @@
             // gameChanged
             // 
             this.gameChanged.AutoSize = true;
-            this.gameChanged.Location = new System.Drawing.Point(3, 145);
+            this.gameChanged.Location = new System.Drawing.Point(3, 132);
             this.gameChanged.Name = "gameChanged";
             this.gameChanged.Size = new System.Drawing.Size(76, 13);
             this.gameChanged.TabIndex = 39;
             this.gameChanged.Text = "gameChanged";
             this.gameChanged.Click += new System.EventHandler(this.GameChanged_Click);
-            // 
-            // javaCheck
-            // 
-            this.javaCheck.AutoSize = true;
-            this.javaCheck.Location = new System.Drawing.Point(3, 132);
-            this.javaCheck.Name = "javaCheck";
-            this.javaCheck.Size = new System.Drawing.Size(58, 13);
-            this.javaCheck.TabIndex = 38;
-            this.javaCheck.Text = "javaCheck";
-            this.javaCheck.Click += new System.EventHandler(this.JavaCheck_Click);
             // 
             // getIndex
             // 
@@ -464,7 +439,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(398, 574);
+            this.tabPage2.Size = new System.Drawing.Size(398, 586);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -478,6 +453,7 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.label8);
             this.splitContainer2.Panel1.Controls.Add(this.label7);
             this.splitContainer2.Panel1.Controls.Add(this.label62);
             this.splitContainer2.Panel1.Controls.Add(this.label63);
@@ -524,6 +500,7 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.collisionFile);
             this.splitContainer2.Panel2.Controls.Add(this.csbUnpackMode);
             this.splitContainer2.Panel2.Controls.Add(this.towavFile);
             this.splitContainer2.Panel2.Controls.Add(this.xmaencodeFile);
@@ -567,9 +544,18 @@
             this.splitContainer2.Panel2.Controls.Add(this.rootPath);
             this.splitContainer2.Panel2.Controls.Add(this.theme);
             this.splitContainer2.Panel2.Controls.Add(this.showSessionID);
-            this.splitContainer2.Size = new System.Drawing.Size(392, 568);
+            this.splitContainer2.Size = new System.Drawing.Size(392, 580);
             this.splitContainer2.SplitterDistance = 159;
             this.splitContainer2.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 561);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 13);
+            this.label8.TabIndex = 43;
+            this.label8.Text = "collisionFile";
             // 
             // label7
             // 
@@ -957,6 +943,15 @@
             this.label40.Size = new System.Drawing.Size(80, 13);
             this.label40.TabIndex = 0;
             this.label40.Text = "showSessionID";
+            // 
+            // collisionFile
+            // 
+            this.collisionFile.AutoSize = true;
+            this.collisionFile.Location = new System.Drawing.Point(4, 561);
+            this.collisionFile.Name = "collisionFile";
+            this.collisionFile.Size = new System.Drawing.Size(60, 13);
+            this.collisionFile.TabIndex = 44;
+            this.collisionFile.Text = "collisionFile";
             // 
             // csbUnpackMode
             // 
@@ -1360,9 +1355,6 @@
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.btn_SimulateStupidError);
-            this.tabPage3.Controls.Add(this.btn_ResetProgress);
-            this.tabPage3.Controls.Add(this.nud_Progress);
-            this.tabPage3.Controls.Add(this.check_ShowUpdater);
             this.tabPage3.Controls.Add(this.check_DebugAdvanced);
             this.tabPage3.Controls.Add(this.btn_UnsafeState);
             this.tabPage3.Controls.Add(this.btn_WindowsShutdown);
@@ -1372,7 +1364,7 @@
             this.tabPage3.Controls.Add(this.check_skipWorkaround);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(398, 574);
+            this.tabPage3.Size = new System.Drawing.Size(398, 586);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1391,45 +1383,10 @@
             this.btn_SimulateStupidError.UseVisualStyleBackColor = false;
             this.btn_SimulateStupidError.Click += new System.EventHandler(this.Btn_SimulateStupidError_Click);
             // 
-            // btn_ResetProgress
-            // 
-            this.btn_ResetProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ResetProgress.BackColor = System.Drawing.Color.Tomato;
-            this.btn_ResetProgress.Enabled = false;
-            this.btn_ResetProgress.FlatAppearance.BorderSize = 0;
-            this.btn_ResetProgress.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_ResetProgress.Location = new System.Drawing.Point(345, 153);
-            this.btn_ResetProgress.Name = "btn_ResetProgress";
-            this.btn_ResetProgress.Size = new System.Drawing.Size(50, 20);
-            this.btn_ResetProgress.TabIndex = 10;
-            this.btn_ResetProgress.Text = "Reset";
-            this.btn_ResetProgress.UseVisualStyleBackColor = false;
-            // 
-            // nud_Progress
-            // 
-            this.nud_Progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.nud_Progress.Enabled = false;
-            this.nud_Progress.Location = new System.Drawing.Point(157, 153);
-            this.nud_Progress.Name = "nud_Progress";
-            this.nud_Progress.Size = new System.Drawing.Size(185, 20);
-            this.nud_Progress.TabIndex = 9;
-            // 
-            // check_ShowUpdater
-            // 
-            this.check_ShowUpdater.AutoSize = true;
-            this.check_ShowUpdater.Location = new System.Drawing.Point(5, 155);
-            this.check_ShowUpdater.Name = "check_ShowUpdater";
-            this.check_ShowUpdater.Size = new System.Drawing.Size(150, 17);
-            this.check_ShowUpdater.TabIndex = 8;
-            this.check_ShowUpdater.Text = "Show update progress bar";
-            this.check_ShowUpdater.UseVisualStyleBackColor = true;
-            this.check_ShowUpdater.CheckedChanged += new System.EventHandler(this.Check_ShowUpdater_CheckedChanged);
-            // 
             // check_DebugAdvanced
             // 
             this.check_DebugAdvanced.AutoSize = true;
-            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 205);
+            this.check_DebugAdvanced.Location = new System.Drawing.Point(5, 174);
             this.check_DebugAdvanced.Name = "check_DebugAdvanced";
             this.check_DebugAdvanced.Size = new System.Drawing.Size(174, 17);
             this.check_DebugAdvanced.TabIndex = 7;
@@ -1486,7 +1443,7 @@
             this.btn_EraseSettings.BackColor = System.Drawing.Color.Tomato;
             this.btn_EraseSettings.FlatAppearance.BorderSize = 0;
             this.btn_EraseSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 547);
+            this.btn_EraseSettings.Location = new System.Drawing.Point(4, 559);
             this.btn_EraseSettings.Name = "btn_EraseSettings";
             this.btn_EraseSettings.Size = new System.Drawing.Size(390, 23);
             this.btn_EraseSettings.TabIndex = 3;
@@ -1511,7 +1468,7 @@
             // check_skipWorkaround
             // 
             this.check_skipWorkaround.AutoSize = true;
-            this.check_skipWorkaround.Location = new System.Drawing.Point(5, 180);
+            this.check_skipWorkaround.Location = new System.Drawing.Point(5, 153);
             this.check_skipWorkaround.Name = "check_skipWorkaround";
             this.check_skipWorkaround.Size = new System.Drawing.Size(386, 17);
             this.check_skipWorkaround.TabIndex = 11;
@@ -1550,7 +1507,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 600);
+            this.ClientSize = new System.Drawing.Size(406, 612);
             this.ControlBox = false;
             this.Controls.Add(this.getStorage);
             this.Controls.Add(this.label56);
@@ -1580,7 +1537,6 @@
             this.splitContainer2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nud_Progress)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1600,11 +1556,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label gameChanged;
-        private System.Windows.Forms.Label javaCheck;
         private System.Windows.Forms.Label getIndex;
         private System.Windows.Forms.Label sessionID;
         private System.Windows.Forms.Label applicationData;
@@ -1696,9 +1650,6 @@
         private System.Windows.Forms.Label debugMode;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.Label disableWarns;
-        private System.Windows.Forms.CheckBox check_ShowUpdater;
-        private System.Windows.Forms.NumericUpDown nud_Progress;
-        private System.Windows.Forms.Button btn_ResetProgress;
         private System.Windows.Forms.Label getStorage;
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Timer tm_getStorage;
@@ -1720,5 +1671,7 @@
         private System.Windows.Forms.Label XMAwholeLoop;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label csbUnpackMode;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label collisionFile;
     }
 }
