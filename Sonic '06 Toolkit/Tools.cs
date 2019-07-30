@@ -250,7 +250,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
 
-                Begin(1);
+                Begin(2);
             }
             else { MessageBox.Show("Please use the Repack ARC As option.", "Free Mode", MessageBoxButtons.OK, MessageBoxIcon.Information); }
         }
@@ -286,7 +286,7 @@ namespace Sonic_06_Toolkit.Tools
                 }
             }
 
-            Begin(1);
+            Begin(2);
 
             if (tabText.Contains(".arc"))
             {

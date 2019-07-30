@@ -49,6 +49,11 @@ namespace Sonic_06_Toolkit
 
         private void Btn_Search_Click(object sender, EventArgs e)
         {
+            ProcessStrings();
+        }
+
+        private void ProcessStrings()
+        {
             list_Search.Items.Clear();
 
             var files = Directory.GetFiles(s06PathBox.Text, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".arc"));

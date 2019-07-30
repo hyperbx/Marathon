@@ -54,7 +54,7 @@ namespace Sonic_06_Toolkit
                 Width = 275;
                 Height = 138;
             }
-            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "ARC")
+            else if (new[] { 0, 1 }.Contains(notifState) & notifModifier == "ARC")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Unpacking ARC...";
@@ -72,7 +72,7 @@ namespace Sonic_06_Toolkit
                 Width = 288;
                 Height = 138;
             }
-            else if (new[] {2, 3}.Contains(notifState) && notifModifier == "ARC")
+            else if (new[] { 2, 3 }.Contains(notifState) & notifModifier == "ARC")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Repacking ARC...";

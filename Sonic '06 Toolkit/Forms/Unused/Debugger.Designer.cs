@@ -1406,7 +1406,8 @@
             "LUB",
             "XMA",
             "XNO",
-            "exiso"});
+            "exiso",
+            "deep-search"});
             this.combo_Modifier.Location = new System.Drawing.Point(273, 532);
             this.combo_Modifier.Name = "combo_Modifier";
             this.combo_Modifier.Size = new System.Drawing.Size(121, 21);
