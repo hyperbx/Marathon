@@ -409,7 +409,7 @@ namespace Sonic_06_Toolkit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool gameDir {
             get {
                 return ((bool)(this["gameDir"]));

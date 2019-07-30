@@ -99,7 +99,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="gameDir" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="debugMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

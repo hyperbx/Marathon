@@ -4,8 +4,10 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using HedgeLib.Sets;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -466,12 +468,12 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
         public static void Import(int state, string args, string selectedCol)
         {
-            if (state == 0)
+            if (state == 2)
             {
                 //Sets up the BASIC application and executes the converting process.
                 binSession = new ProcessStartInfo(Properties.Settings.Default.collisionFile, $"\"{args}\"")
@@ -480,7 +482,7 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
             }
-            else if (state == 1)
+            else if (state == 3)
             {
                 //Sets up the BASIC application and executes the converting process.
                 binSession = new ProcessStartInfo(Properties.Settings.Default.collisionFile, $"\"{Path.Combine(Global.currentPath, selectedCol)}\"")
@@ -490,10 +492,10 @@ namespace Sonic_06_Toolkit.Tools
                 };
             }
 
-            Begin();
+            Begin(state);
         }
 
-        static void Begin()
+        static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("LibS06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -501,8 +503,15 @@ namespace Sonic_06_Toolkit.Tools
                 if (File.Exists(Properties.Settings.Default.collisionFile) && File.Exists(Properties.Settings.Default.colExportFile))
                 {
                     var Decode = Process.Start(binSession);
+                    var convertDialog = new Status(state, "BIN");
+                    var parentLeft = Main.FormLeft + ((Main.FormWidth - convertDialog.Width) / 2);
+                    var parentTop = Main.FormTop + ((Main.FormHeight - convertDialog.Height) / 2);
+                    if (state == 0 || state == 2) convertDialog.StartPosition = FormStartPosition.CenterScreen;
+                    else convertDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
+                    convertDialog.Show();
                     Decode.WaitForExit();
                     Decode.Close();
+                    convertDialog.Close();
                 }
                 else { MessageBox.Show("LibS06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
@@ -1403,6 +1412,21 @@ namespace Sonic_06_Toolkit.Tools
         public static int getIndex;
 
         public static bool gameChanged = false;
+
+        public static void SetAssociation(string extension)
+        {
+            // The stuff that was above here is basically the same
+
+            // Delete the key instead of trying to change it
+            var CurrentUser = Registry.CurrentUser.OpenSubKey($"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{extension}", true);
+            CurrentUser.DeleteSubKey("UserChoice", false);
+            CurrentUser.Close();
+
+            // Tell explorer the file association has been changed
+            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
+        }
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
     }
 
     public class Prerequisites

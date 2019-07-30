@@ -534,7 +534,7 @@ namespace Sonic_06_Toolkit
             else
             {
                 mainPreferences_DisableSoftwareUpdater.Checked = false;
-                CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+                if (!Tools.Global.versionNumber.Contains("-test") && !Tools.Global.versionNumber.Contains("-indev")) CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
             }
             if (Properties.Settings.Default.csbUnpackMode == 0)
             {
@@ -1179,6 +1179,8 @@ namespace Sonic_06_Toolkit
                             key = prevkey.CreateSubKey("command");
                         key.SetValue("", $"\"{Application.ExecutablePath}\" \"%1\"");
                         key.Close();
+
+                        Tools.Global.SetAssociation(".arc");
                     }
                     catch (Exception ex) { MessageBox.Show($"An error occurred whilst editing the registry.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
@@ -1225,6 +1227,8 @@ namespace Sonic_06_Toolkit
                             key = prevkey.CreateSubKey("command");
                         key.SetValue("", "");
                         key.Close();
+
+                        Tools.Global.SetAssociation(".arc");
                     }
                     catch (Exception ex) { MessageBox.Show($"An error occurred whilst editing the registry.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
@@ -1710,7 +1714,7 @@ namespace Sonic_06_Toolkit
             }
         }
 
-        private void MainSDK_BINStudio_Click(object sender, EventArgs e)
+        void MainSDK_BINStudio_Click(object sender, EventArgs e)
         {
             if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             else
@@ -2207,13 +2211,6 @@ namespace Sonic_06_Toolkit
             else Tools.Global.updateState = "user"; CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
         }
 
-        void Lbl_UpdateNotif_Click(object sender, EventArgs e)
-        {
-            if (Tools.Global.serverStatus == "offline") MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else if (Tools.Global.serverStatus == "down") MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            else Tools.Global.updateState = "user"; CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
-        }
-
         void MainHelp_ReportBug_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/issues");
@@ -2336,8 +2333,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = true;
                     shortcuts_ExtractCSBs.Enabled = true;
                     shortcuts_ConvertSETs.Enabled = true;
-                    mainSDK_SETStudio.Enabled = true;
                     mainSDK_MSTStudio.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
                     shortcuts_DecodeMSTs.Enabled = true;
                     mainSDK_AT3Studio.Enabled = true;
                     mainSDK_DDSStudio.Enabled = true;
@@ -2384,8 +2381,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = true;
                     shortcuts_ExtractCSBs.Enabled = true;
                     shortcuts_ConvertSETs.Enabled = true;
-                    mainSDK_SETStudio.Enabled = true;
                     mainSDK_MSTStudio.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
                     shortcuts_DecodeMSTs.Enabled = true;
                     mainSDK_AT3Studio.Enabled = true;
                     mainSDK_DDSStudio.Enabled = true;
@@ -2435,8 +2432,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = false;
                     shortcuts_ExtractCSBs.Enabled = false;
                     shortcuts_ConvertSETs.Enabled = false;
-                    mainSDK_SETStudio.Enabled = false;
                     mainSDK_MSTStudio.Enabled = false;
+                    mainSDK_SETStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = false;
                     btn_RepackOptions.Enabled = false;
@@ -2475,8 +2472,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = false;
                     shortcuts_ExtractCSBs.Enabled = false;
                     shortcuts_ConvertSETs.Enabled = false;
-                    mainSDK_SETStudio.Enabled = false;
                     mainSDK_MSTStudio.Enabled = false;
+                    mainSDK_SETStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = true;
                     btn_RepackOptions.Enabled = false;
@@ -2523,8 +2520,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = true;
                     shortcuts_ExtractCSBs.Enabled = true;
                     shortcuts_ConvertSETs.Enabled = true;
-                    mainSDK_SETStudio.Enabled = true;
                     mainSDK_MSTStudio.Enabled = true;
+                    mainSDK_SETStudio.Enabled = true;
                     shortcuts_DecodeMSTs.Enabled = true;
                     mainSDK_AT3Studio.Enabled = false;
                     btn_RepackOptions.Enabled = true;
@@ -2571,8 +2568,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = false;
                     shortcuts_ExtractCSBs.Enabled = false;
                     shortcuts_ConvertSETs.Enabled = false;
-                    mainSDK_SETStudio.Enabled = false;
                     mainSDK_MSTStudio.Enabled = false;
+                    mainSDK_SETStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = true;
                     btn_RepackOptions.Enabled = false;
@@ -2619,8 +2616,8 @@ namespace Sonic_06_Toolkit
                     mainSDK_ADXStudio.Enabled = false;
                     shortcuts_ExtractCSBs.Enabled = false;
                     shortcuts_ConvertSETs.Enabled = false;
-                    mainSDK_SETStudio.Enabled = false;
                     mainSDK_MSTStudio.Enabled = false;
+                    mainSDK_SETStudio.Enabled = false;
                     shortcuts_DecodeMSTs.Enabled = false;
                     mainSDK_AT3Studio.Enabled = false;
                     btn_RepackOptions.Enabled = false;
