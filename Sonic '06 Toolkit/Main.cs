@@ -396,17 +396,17 @@ namespace Sonic_06_Toolkit
                                         {
                                             new Updater(latestVersion, newVersionDownloadLink, true).ShowDialog();
                                         }
-                                        else { MessageBox.Show("Sonic '06 Mod Manager doesn't exist... What?!", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                                        else { MessageBox.Show("Sonic '06 Toolkit doesn't exist... What?!", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                                     }
                                     catch
                                     {
-                                        MessageBox.Show("An error occurred when updating Sonic '06 Mod Manager.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        MessageBox.Show("An error occurred when updating Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
                                 }
                                 break;
                         }
                     }
-                    else if (Tools.Global.updateState == "user") MessageBox.Show("There are currently no updates available.", "Sonic '06 Mod Manager", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else if (Tools.Global.updateState == "user") MessageBox.Show("There are currently no updates available.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -2360,7 +2360,7 @@ namespace Sonic_06_Toolkit
                         {
                             //Updates the currentPath global variable.
                             var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath).Replace("file:", "");
                         }
                     }
                     catch { }
@@ -2408,7 +2408,7 @@ namespace Sonic_06_Toolkit
                         {
                             //Updates the currentPath global variable.
                             var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath).Replace("file:", "");
                         }
                     }
                     catch { }
@@ -2496,7 +2496,7 @@ namespace Sonic_06_Toolkit
                         {
                             //Updates the currentPath global variable.
                             var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath).Replace("file:", "");
                         }
                     }
                     catch { }
@@ -2544,7 +2544,7 @@ namespace Sonic_06_Toolkit
                         {
                             //Updates the currentPath global variable.
                             var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath).Replace("file:", "");
                         }
                     }
                     catch { }
@@ -2592,7 +2592,7 @@ namespace Sonic_06_Toolkit
                         {
                             //Updates the currentPath global variable.
                             var currentPath = currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\";
-                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath);
+                            Tools.Global.currentPath = HttpUtility.UrlDecode(currentPath).Replace("file:", "");
                         }
                     }
                     catch { }
