@@ -66,6 +66,9 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 ### AT3 Encoder
 - Currently requires the [x86 variant of Microsoft Visual C++ 2010](https://www.microsoft.com/en-us/download/details.aspx?id=5555) to work.
 
+### BIN Converter
+- Currently requires the [Python](https://www.python.org/downloads/windows/) to work.
+
 ### LUB Decompiler
 - Currently requires the [latest version of Java](https://www.java.com/en/download/) to work.
 
