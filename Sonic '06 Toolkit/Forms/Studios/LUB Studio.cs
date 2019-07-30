@@ -87,16 +87,15 @@ namespace Sonic_06_Toolkit
                 //Gets all checked boxes from the CheckedListBox and builds a string for each LUB.
                 foreach (string selectedLUB in clb_LUBs.CheckedItems)
                 {
-                    Tools.Global.lubState = "decompile";
-                    Tools.LUB.Decompile(string.Empty, selectedLUB);
+                    Tools.LUB.Decompile(1, string.Empty, selectedLUB);
                 }
 
                 clb_LUBs.Items.Clear();
                 VerifyLUBs();
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("An error occurred when decompiling the selected Lua binaries.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred when decompiling the selected Lua binaries.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Tools.Notification.Dispose();
             }
         }
@@ -114,11 +113,6 @@ namespace Sonic_06_Toolkit
             {
                 btn_Decompile.Enabled = false;
             }
-        }
-
-        void LUB_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.lubState = null;
         }
     }
 }

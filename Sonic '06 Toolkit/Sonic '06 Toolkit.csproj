@@ -110,6 +110,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\DeepSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeepSearch.Designer.cs">
+      <DependentUpon>DeepSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Studios\BIN Studio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Studios\BIN Studio.Designer.cs">
+      <DependentUpon>BIN Studio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Unused\Debug Studio.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,10 +227,10 @@
     <Compile Include="Forms\Studios\SET Studio.Designer.cs">
       <DependentUpon>SET Studio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Notifications\Status.cs">
+    <Compile Include="Forms\Status.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Notifications\Status.Designer.cs">
+    <Compile Include="Forms\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Studios\XMA Studio.cs">
@@ -227,6 +239,18 @@
     <Compile Include="Forms\Studios\XMA Studio.Designer.cs">
       <DependentUpon>XMA Studio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Updater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Updater.Designer.cs">
+      <DependentUpon>Updater.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\DeepSearch.resx">
+      <DependentUpon>DeepSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Studios\BIN Studio.resx">
+      <DependentUpon>BIN Studio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Studios\DDS Studio.resx">
       <DependentUpon>DDS Studio.cs</DependentUpon>
     </EmbeddedResource>
@@ -291,8 +315,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Forms\Notifications\Status.resx">
+    <EmbeddedResource Include="Forms\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Updater.resx">
+      <DependentUpon>Updater.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
@@ -311,6 +338,8 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\s06collision.py" />
+    <None Include="Resources\s06col.exe" />
     <None Include="Resources\sonori.png" />
     <None Include="Resources\towav.exe" />
     <None Include="Resources\xmaencode2008.exe" />
@@ -337,6 +366,9 @@
     <None Include="Resources\arctool.exe" />
     <None Include="Resources\arcc.php" />
     <None Include="Resources\arctool.php" />
+    <None Include="Resources\AAX2ADX.exe" />
+    <None Include="Resources\csb_extract.exe" />
+    <None Include="Resources\GBStyleSheet.css" />
     <Content Include="Resources\logo_main_icon.ico" />
   </ItemGroup>
   <ItemGroup>

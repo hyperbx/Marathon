@@ -108,7 +108,7 @@ namespace Sonic_06_Toolkit
                     Properties.Settings.Default.Save();
                     changes = true;
                 }
-                catch { MessageBox.Show("An error occurred when creating the Root directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch (Exception ex) { MessageBox.Show($"An error occurred when creating the Root directory.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
 
             if (Directory.Exists(text_ToolsPath.Text))
@@ -127,7 +127,7 @@ namespace Sonic_06_Toolkit
                     Properties.Settings.Default.Save();
                     changes = true;
                 }
-                catch { MessageBox.Show("An error occurred when creating the Tools directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch (Exception ex) { MessageBox.Show($"An error occurred when creating the Tools directory.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
 
             if (Directory.Exists(text_ArchivesPath.Text))
@@ -146,7 +146,7 @@ namespace Sonic_06_Toolkit
                     Properties.Settings.Default.Save();
                     changes = true;
                 }
-                catch { MessageBox.Show("An error occurred when creating the Archives directory.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                catch (Exception ex) { MessageBox.Show($"An error occurred when creating the Archives directory.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
 
             if (Directory.Exists(text_GamePath.Text))

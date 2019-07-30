@@ -36,24 +36,18 @@
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_MSTs = new System.Windows.Forms.CheckedListBox();
-            this.split_MSTStudio = new System.Windows.Forms.SplitContainer();
-            this.clb_XNOs_XNM = new System.Windows.Forms.CheckedListBox();
-            this.clb_XNMs = new System.Windows.Forms.CheckedListBox();
             this.lbl_Mode = new System.Windows.Forms.Label();
             this.combo_Mode = new System.Windows.Forms.ComboBox();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.split_MSTStudio)).BeginInit();
-            this.split_MSTStudio.Panel1.SuspendLayout();
-            this.split_MSTStudio.Panel2.SuspendLayout();
-            this.split_MSTStudio.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_Backdrop
             // 
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnl_Backdrop.BackColor = System.Drawing.Color.DarkOrchid;
+            this.pnl_Backdrop.BackColor = System.Drawing.Color.CadetBlue;
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -77,6 +71,7 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 10);
@@ -88,7 +83,7 @@
             // btn_Convert
             // 
             this.btn_Convert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Convert.BackColor = System.Drawing.Color.DarkOrchid;
+            this.btn_Convert.BackColor = System.Drawing.Color.CadetBlue;
             this.btn_Convert.Enabled = false;
             this.btn_Convert.FlatAppearance.BorderSize = 0;
             this.btn_Convert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -143,49 +138,6 @@
             this.clb_MSTs.TabIndex = 31;
             this.clb_MSTs.SelectedIndexChanged += new System.EventHandler(this.Clb_MSTs_SelectedIndexChanged);
             // 
-            // split_MSTStudio
-            // 
-            this.split_MSTStudio.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.split_MSTStudio.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.split_MSTStudio.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.split_MSTStudio.Location = new System.Drawing.Point(8, 76);
-            this.split_MSTStudio.Name = "split_MSTStudio";
-            // 
-            // split_MSTStudio.Panel1
-            // 
-            this.split_MSTStudio.Panel1.Controls.Add(this.clb_XNOs_XNM);
-            // 
-            // split_MSTStudio.Panel2
-            // 
-            this.split_MSTStudio.Panel2.Controls.Add(this.clb_XNMs);
-            this.split_MSTStudio.Size = new System.Drawing.Size(417, 304);
-            this.split_MSTStudio.SplitterDistance = 207;
-            this.split_MSTStudio.TabIndex = 36;
-            // 
-            // clb_XNOs_XNM
-            // 
-            this.clb_XNOs_XNM.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clb_XNOs_XNM.CheckOnClick = true;
-            this.clb_XNOs_XNM.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.clb_XNOs_XNM.FormattingEnabled = true;
-            this.clb_XNOs_XNM.Location = new System.Drawing.Point(0, 0);
-            this.clb_XNOs_XNM.Name = "clb_XNOs_XNM";
-            this.clb_XNOs_XNM.Size = new System.Drawing.Size(205, 302);
-            this.clb_XNOs_XNM.TabIndex = 0;
-            // 
-            // clb_XNMs
-            // 
-            this.clb_XNMs.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.clb_XNMs.CheckOnClick = true;
-            this.clb_XNMs.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.clb_XNMs.FormattingEnabled = true;
-            this.clb_XNMs.Location = new System.Drawing.Point(0, 0);
-            this.clb_XNMs.Name = "clb_XNMs";
-            this.clb_XNMs.Size = new System.Drawing.Size(204, 302);
-            this.clb_XNMs.TabIndex = 0;
-            // 
             // lbl_Mode
             // 
             this.lbl_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -223,22 +175,16 @@
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
             this.Controls.Add(this.clb_MSTs);
-            this.Controls.Add(this.split_MSTStudio);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(429, 458);
+            this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "MST_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "MST Studio";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MST_Studio_FormClosing);
             this.Load += new System.EventHandler(this.MST_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
-            this.split_MSTStudio.Panel1.ResumeLayout(false);
-            this.split_MSTStudio.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.split_MSTStudio)).EndInit();
-            this.split_MSTStudio.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,9 +197,6 @@
         private System.Windows.Forms.Button btn_DeselectAll;
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.CheckedListBox clb_MSTs;
-        private System.Windows.Forms.SplitContainer split_MSTStudio;
-        private System.Windows.Forms.CheckedListBox clb_XNOs_XNM;
-        private System.Windows.Forms.CheckedListBox clb_XNMs;
         private System.Windows.Forms.Label lbl_Title;
         private System.Windows.Forms.Label lbl_Mode;
         private System.Windows.Forms.ComboBox combo_Mode;

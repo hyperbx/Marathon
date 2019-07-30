@@ -38,7 +38,6 @@ namespace Sonic_06_Toolkit
 
         void MST_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.mstState = "export";
             btn_Convert.Text = "Export";
 
             clb_MSTs.Items.Clear();
@@ -87,52 +86,44 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Export without anything selected, this will prevent that.
             if (clb_MSTs.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.mstState == "mst")
+            if (combo_Mode.SelectedIndex == 0)
             {
                 try
                 {
                     foreach (string selectedMST in clb_MSTs.CheckedItems)
                     {
-                        Tools.Global.mstState = "mst";
-                        Tools.MST.Export(string.Empty, selectedMST);
+                        Tools.MST.Export(1, string.Empty, selectedMST);
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected MSTs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the MSTs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when exporting the MSTs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.mstState == "xml")
+            else if (combo_Mode.SelectedIndex == 1)
             {
                 try
                 {
                     foreach (string selectedXML in clb_MSTs.CheckedItems)
                     {
-                        Tools.Global.mstState = "xml";
-                        Tools.MST.Import(string.Empty, selectedXML);
+                        Tools.MST.Import(1, selectedXML);
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when importing the XMLs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
-        }
-
-        void MST_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.mstState = null;
         }
 
         void Combo_Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (combo_Mode.SelectedIndex == 0)
             {
-                Tools.Global.mstState = "mst";
                 btn_Convert.Text = "Export";
 
                 clb_MSTs.Items.Clear();
@@ -154,7 +145,6 @@ namespace Sonic_06_Toolkit
             }
             else if (combo_Mode.SelectedIndex == 1)
             {
-                Tools.Global.mstState = "xml";
                 btn_Convert.Text = "Import";
 
                 clb_MSTs.Items.Clear();

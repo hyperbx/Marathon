@@ -38,7 +38,6 @@ namespace Sonic_06_Toolkit
 
         void SET_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.setState = "export";
             btn_Convert.Text = "Export";
 
             clb_SETs.Items.Clear();
@@ -96,43 +95,37 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Export without anything selected, this will prevent that.
             if (clb_SETs.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.setState == "export")
+            if (modes_Export.Checked)
             {
                 try
                 {
                     foreach (string selectedSET in clb_SETs.CheckedItems)
                     {
-                        Tools.Global.setState = "export";
-                        Tools.SET.Export(string.Empty, selectedSET);
+                        Tools.SET.Export(1, string.Empty, selectedSET);
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected SETs have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when converting the SETs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when converting the SETs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.setState == "import")
+            else if (modes_Import.Checked)
             {
                 try
                 {
                     foreach (string selectedXML in clb_SETs.CheckedItems)
                     {
-                        Tools.Global.setState = "import";
                         Tools.SET.Import(selectedXML);
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected XMLs have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when importing the XMLs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when importing the XMLs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
-            }
-            else
-            {
-                MessageBox.Show("SET State set to invalid value: " + Tools.Global.setState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -145,7 +138,6 @@ namespace Sonic_06_Toolkit
                 options_CreateBackupSET.Visible = false;
                 btn_Convert.Enabled = false;
 
-                Tools.Global.setState = "export";
                 btn_Convert.Text = "Export";
 
                 clb_SETs.Items.Clear();
@@ -186,7 +178,6 @@ namespace Sonic_06_Toolkit
                 options_CreateBackupSET.Visible = true;
                 btn_Convert.Enabled = false;
 
-                Tools.Global.setState = "import";
                 btn_Convert.Text = "Import";
 
                 clb_SETs.Items.Clear();
@@ -230,11 +221,6 @@ namespace Sonic_06_Toolkit
             if (options_DeleteXML.Checked == true) Properties.Settings.Default.deleteXML = true;
             else Properties.Settings.Default.deleteXML = false;
             Properties.Settings.Default.Save();
-        }
-
-        void SET_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.setState = null;
         }
     }
 }

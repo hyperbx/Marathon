@@ -409,7 +409,7 @@ namespace Sonic_06_Toolkit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool gameDir {
             get {
                 return ((bool)(this["gameDir"]));
@@ -524,6 +524,78 @@ namespace Sonic_06_Toolkit.Properties {
             }
             set {
                 this["towavFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int csbUnpackMode {
+            get {
+                return ((int)(this["csbUnpackMode"]));
+            }
+            set {
+                this["csbUnpackMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string aax2adxFile {
+            get {
+                return ((string)(this["aax2adxFile"]));
+            }
+            set {
+                this["aax2adxFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string csbextractFile {
+            get {
+                return ((string)(this["csbextractFile"]));
+            }
+            set {
+                this["csbextractFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string collisionFile {
+            get {
+                return ((string)(this["collisionFile"]));
+            }
+            set {
+                this["collisionFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sonic06mmFile {
+            get {
+                return ((string)(this["sonic06mmFile"]));
+            }
+            set {
+                this["sonic06mmFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string colExportFile {
+            get {
+                return ((string)(this["colExportFile"]));
+            }
+            set {
+                this["colExportFile"] = value;
             }
         }
     }

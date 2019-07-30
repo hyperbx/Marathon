@@ -36,10 +36,15 @@
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_CSBs = new System.Windows.Forms.CheckedListBox();
             this.btn_Extract = new System.Windows.Forms.Button();
-            this.combo_Mode = new System.Windows.Forms.ComboBox();
-            this.lbl_Mode = new System.Windows.Forms.Label();
+            this.mstrip_Options = new System.Windows.Forms.MenuStrip();
+            this.main_Options = new System.Windows.Forms.ToolStripMenuItem();
+            this.options_Modes = new System.Windows.Forms.ToolStripMenuItem();
+            this.modes_UnpackToAIF = new System.Windows.Forms.ToolStripMenuItem();
+            this.modes_UnpackToWAV = new System.Windows.Forms.ToolStripMenuItem();
+            this.modes_RepackToCSB = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
+            this.mstrip_Options.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_Backdrop
@@ -47,6 +52,7 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(127)))), ((int)(((byte)(196)))));
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
@@ -70,6 +76,7 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(14, 10);
@@ -137,29 +144,63 @@
             this.btn_Extract.UseVisualStyleBackColor = false;
             this.btn_Extract.Click += new System.EventHandler(this.Btn_Extract_Click);
             // 
-            // combo_Mode
+            // mstrip_Options
             // 
-            this.combo_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.combo_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.combo_Mode.FormattingEnabled = true;
-            this.combo_Mode.Items.AddRange(new object[] {
-            "Unpack",
-            "Repack"});
-            this.combo_Mode.Location = new System.Drawing.Point(223, 388);
-            this.combo_Mode.Name = "combo_Mode";
-            this.combo_Mode.Size = new System.Drawing.Size(121, 21);
-            this.combo_Mode.TabIndex = 34;
-            this.combo_Mode.SelectedIndexChanged += new System.EventHandler(this.Combo_Mode_SelectedIndexChanged);
+            this.mstrip_Options.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.mstrip_Options.BackColor = System.Drawing.SystemColors.Control;
+            this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
+            this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.main_Options});
+            this.mstrip_Options.Location = new System.Drawing.Point(278, 386);
+            this.mstrip_Options.Name = "mstrip_Options";
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
+            this.mstrip_Options.TabIndex = 50;
+            this.mstrip_Options.Text = "menuStrip1";
             // 
-            // lbl_Mode
+            // main_Options
             // 
-            this.lbl_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Mode.AutoSize = true;
-            this.lbl_Mode.Location = new System.Drawing.Point(184, 392);
-            this.lbl_Mode.Name = "lbl_Mode";
-            this.lbl_Mode.Size = new System.Drawing.Size(37, 13);
-            this.lbl_Mode.TabIndex = 35;
-            this.lbl_Mode.Text = "Mode:";
+            this.main_Options.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.options_Modes});
+            this.main_Options.Name = "main_Options";
+            this.main_Options.Size = new System.Drawing.Size(61, 20);
+            this.main_Options.Text = "Options";
+            // 
+            // options_Modes
+            // 
+            this.options_Modes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.modes_UnpackToAIF,
+            this.modes_UnpackToWAV,
+            this.modes_RepackToCSB});
+            this.options_Modes.Name = "options_Modes";
+            this.options_Modes.Size = new System.Drawing.Size(110, 22);
+            this.options_Modes.Text = "Modes";
+            // 
+            // modes_UnpackToAIF
+            // 
+            this.modes_UnpackToAIF.CheckOnClick = true;
+            this.modes_UnpackToAIF.Name = "modes_UnpackToAIF";
+            this.modes_UnpackToAIF.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
+            this.modes_UnpackToAIF.Size = new System.Drawing.Size(197, 22);
+            this.modes_UnpackToAIF.Text = "Unpack to AIF";
+            this.modes_UnpackToAIF.CheckedChanged += new System.EventHandler(this.Modes_UnpackToAIF_CheckedChanged);
+            // 
+            // modes_UnpackToWAV
+            // 
+            this.modes_UnpackToWAV.CheckOnClick = true;
+            this.modes_UnpackToWAV.Name = "modes_UnpackToWAV";
+            this.modes_UnpackToWAV.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
+            this.modes_UnpackToWAV.Size = new System.Drawing.Size(197, 22);
+            this.modes_UnpackToWAV.Text = "Unpack to WAV";
+            this.modes_UnpackToWAV.CheckedChanged += new System.EventHandler(this.Modes_UnpackToWAV_CheckedChanged);
+            // 
+            // modes_RepackToCSB
+            // 
+            this.modes_RepackToCSB.CheckOnClick = true;
+            this.modes_RepackToCSB.Name = "modes_RepackToCSB";
+            this.modes_RepackToCSB.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.modes_RepackToCSB.Size = new System.Drawing.Size(197, 22);
+            this.modes_RepackToCSB.Text = "Repack to CSB";
+            this.modes_RepackToCSB.CheckedChanged += new System.EventHandler(this.Modes_RepackToCSB_CheckedChanged);
             // 
             // CSB_Studio
             // 
@@ -167,24 +208,24 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(434, 419);
-            this.Controls.Add(this.lbl_Mode);
-            this.Controls.Add(this.combo_Mode);
             this.Controls.Add(this.btn_Extract);
+            this.Controls.Add(this.mstrip_Options);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
-            this.Controls.Add(this.clb_CSBs);
             this.Controls.Add(this.pnl_Backdrop);
+            this.Controls.Add(this.clb_CSBs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "CSB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CSB Studio";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CSB_Studio_FormClosing);
-            this.Load += new System.EventHandler(this.ADX_Studio_Load);
+            this.Load += new System.EventHandler(this.CSB_Studio_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
+            this.mstrip_Options.ResumeLayout(false);
+            this.mstrip_Options.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,7 +240,11 @@
         private System.Windows.Forms.Button btn_SelectAll;
         private System.Windows.Forms.CheckedListBox clb_CSBs;
         private System.Windows.Forms.Button btn_Extract;
-        private System.Windows.Forms.ComboBox combo_Mode;
-        private System.Windows.Forms.Label lbl_Mode;
+        private System.Windows.Forms.MenuStrip mstrip_Options;
+        private System.Windows.Forms.ToolStripMenuItem main_Options;
+        private System.Windows.Forms.ToolStripMenuItem options_Modes;
+        private System.Windows.Forms.ToolStripMenuItem modes_UnpackToAIF;
+        private System.Windows.Forms.ToolStripMenuItem modes_UnpackToWAV;
+        private System.Windows.Forms.ToolStripMenuItem modes_RepackToCSB;
     }
 }

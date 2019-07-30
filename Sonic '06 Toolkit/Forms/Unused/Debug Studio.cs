@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using HedgeLib.Headers;
-using System.Diagnostics;
 using System.Windows.Forms;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -107,19 +106,10 @@ namespace Sonic_06_Toolkit
                         var readSBK = new BINAv1Header();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when decoding the selected SBKs.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when decoding the selected SBKs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            }
-        }
-
-        void Modes_ColliGen_CheckedChanged(object sender, EventArgs e)
-        {
-            if (modes_ColliGen.Checked == true)
-            {
-                Process.Start("https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp");
-                Close();
             }
         }
     }

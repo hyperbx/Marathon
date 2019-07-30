@@ -43,8 +43,6 @@ namespace Sonic_06_Toolkit
 
         void AT3_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.at3State = "at3";
-
             clb_AT3.Items.Clear();
 
             if (Directory.GetFiles(Tools.Global.currentPath, "*.at3").Length > 0)
@@ -82,8 +80,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_AT3toWAV.Checked == true)
             {
-                Tools.Global.at3State = "at3";
-
                 clb_AT3.Items.Clear();
 
                 #region Getting AT3 files to convert...
@@ -121,8 +117,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_WAVtoAT3.Checked == true)
             {
-                Tools.Global.at3State = "wav";
-
                 clb_AT3.Items.Clear();
 
                 #region Getting WAV files to convert...
@@ -175,43 +169,37 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
             if (clb_AT3.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.at3State == "at3")
+            if (modes_AT3toWAV.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each AT3.
                     foreach (string selectedAT3 in clb_AT3.CheckedItems)
                     {
-                        Tools.Global.at3State = "at3";
-                        Tools.AT3.ConvertToWAV(string.Empty, selectedAT3);
+                        Tools.AT3.ConvertToWAV(1, string.Empty, selectedAT3);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected AT3 files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected AT3 files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.at3State == "wav")
+            else if (modes_WAVtoAT3.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_AT3.CheckedItems)
                     {
-                        Tools.Global.at3State = "wav";
-                        Tools.AT3.ConvertToAT3(selectedWAV);
+                        Tools.AT3.ConvertToAT3(1, selectedWAV);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected WAV files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
-            }
-            else
-            {
-                MessageBox.Show("AT3 State set to invalid value: " + Tools.Global.at3State + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -228,17 +216,6 @@ namespace Sonic_06_Toolkit
                 Properties.Settings.Default.AT3wholeLoop = false;
             }
             Properties.Settings.Default.Save();
-        }
-
-        //Opens the unused looping form. This feature was removed because it doesn't work correctly.
-        //void Looping_SetLoop_Click(object sender, EventArgs e)
-        //{
-        //    new Loop().ShowDialog();
-        //}
-
-        void AT3_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.at3State = null;
         }
     }
 }

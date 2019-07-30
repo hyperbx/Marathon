@@ -80,8 +80,10 @@
             this.richTextBox9 = new System.Windows.Forms.RichTextBox();
             this.tabPage22 = new System.Windows.Forms.TabPage();
             this.richTextBox16 = new System.Windows.Forms.RichTextBox();
+            this.tabPage23 = new System.Windows.Forms.TabPage();
+            this.richTextBox17 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.web_Credits = new System.Windows.Forms.WebBrowser();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
@@ -113,6 +115,7 @@
             this.tabPage21.SuspendLayout();
             this.tabPage10.SuspendLayout();
             this.tabPage22.SuspendLayout();
+            this.tabPage23.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,7 +146,7 @@
             this.lbl_versionNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lbl_versionNumber.AutoSize = true;
             this.lbl_versionNumber.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_versionNumber.Location = new System.Drawing.Point(526, 37);
+            this.lbl_versionNumber.Location = new System.Drawing.Point(525, 37);
             this.lbl_versionNumber.Name = "lbl_versionNumber";
             this.lbl_versionNumber.Size = new System.Drawing.Size(31, 21);
             this.lbl_versionNumber.TabIndex = 2;
@@ -156,7 +159,7 @@
             this.lbl_Description.AutoSize = true;
             this.lbl_Description.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Description.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Description.Location = new System.Drawing.Point(90, 67);
+            this.lbl_Description.Location = new System.Drawing.Point(90, 80);
             this.lbl_Description.Name = "lbl_Description";
             this.lbl_Description.Size = new System.Drawing.Size(361, 105);
             this.lbl_Description.TabIndex = 3;
@@ -176,7 +179,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(562, 326);
+            this.tabControl1.Size = new System.Drawing.Size(562, 340);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -185,7 +188,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(554, 300);
+            this.tabPage1.Size = new System.Drawing.Size(554, 314);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Information";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -198,7 +201,7 @@
             this.tab_Information.Location = new System.Drawing.Point(3, 3);
             this.tab_Information.Name = "tab_Information";
             this.tab_Information.SelectedIndex = 0;
-            this.tab_Information.Size = new System.Drawing.Size(548, 294);
+            this.tab_Information.Size = new System.Drawing.Size(548, 308);
             this.tab_Information.TabIndex = 4;
             // 
             // page_About
@@ -208,7 +211,7 @@
             this.page_About.Location = new System.Drawing.Point(4, 22);
             this.page_About.Name = "page_About";
             this.page_About.Padding = new System.Windows.Forms.Padding(3);
-            this.page_About.Size = new System.Drawing.Size(540, 268);
+            this.page_About.Size = new System.Drawing.Size(540, 282);
             this.page_About.TabIndex = 0;
             this.page_About.Text = "About";
             this.page_About.UseVisualStyleBackColor = true;
@@ -220,7 +223,7 @@
             this.btn_GitHub.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(218)))), ((int)(((byte)(240)))));
             this.btn_GitHub.FlatAppearance.BorderSize = 0;
             this.btn_GitHub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GitHub.Location = new System.Drawing.Point(6, 239);
+            this.btn_GitHub.Location = new System.Drawing.Point(6, 253);
             this.btn_GitHub.Name = "btn_GitHub";
             this.btn_GitHub.Size = new System.Drawing.Size(528, 23);
             this.btn_GitHub.TabIndex = 5;
@@ -233,7 +236,7 @@
             this.page_History.Controls.Add(this.richTextBox1);
             this.page_History.Location = new System.Drawing.Point(4, 22);
             this.page_History.Name = "page_History";
-            this.page_History.Size = new System.Drawing.Size(540, 268);
+            this.page_History.Size = new System.Drawing.Size(540, 282);
             this.page_History.TabIndex = 3;
             this.page_History.Text = "History";
             this.page_History.UseVisualStyleBackColor = true;
@@ -246,7 +249,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(540, 268);
+            this.richTextBox1.Size = new System.Drawing.Size(540, 282);
             this.richTextBox1.TabIndex = 1;
             this.richTextBox1.Text = resources.GetString("richTextBox1.Text");
             // 
@@ -255,7 +258,7 @@
             this.tabPage3.Controls.Add(this.tabControl2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(554, 300);
+            this.tabPage3.Size = new System.Drawing.Size(554, 314);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Legal";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -272,11 +275,12 @@
             this.tabControl2.Controls.Add(this.tabPage21);
             this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Controls.Add(this.tabPage22);
+            this.tabControl2.Controls.Add(this.tabPage23);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(554, 300);
+            this.tabControl2.Size = new System.Drawing.Size(554, 314);
             this.tabControl2.TabIndex = 5;
             // 
             // tabPage7
@@ -284,7 +288,7 @@
             this.tabPage7.Controls.Add(this.richTextBox4);
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(546, 274);
+            this.tabPage7.Size = new System.Drawing.Size(546, 288);
             this.tabPage7.TabIndex = 5;
             this.tabPage7.Text = "Sonic \'06 Toolkit";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -297,7 +301,7 @@
             this.richTextBox4.Location = new System.Drawing.Point(0, 0);
             this.richTextBox4.Name = "richTextBox4";
             this.richTextBox4.ReadOnly = true;
-            this.richTextBox4.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox4.Size = new System.Drawing.Size(546, 288);
             this.richTextBox4.TabIndex = 5;
             this.richTextBox4.Text = resources.GetString("richTextBox4.Text");
             // 
@@ -306,7 +310,7 @@
             this.tabPage4.Controls.Add(this.tabControl5);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(546, 274);
+            this.tabPage4.Size = new System.Drawing.Size(546, 288);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Sonic \'06 SDK";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -319,7 +323,7 @@
             this.tabControl5.Location = new System.Drawing.Point(0, 0);
             this.tabControl5.Name = "tabControl5";
             this.tabControl5.SelectedIndex = 0;
-            this.tabControl5.Size = new System.Drawing.Size(546, 274);
+            this.tabControl5.Size = new System.Drawing.Size(546, 288);
             this.tabControl5.TabIndex = 0;
             // 
             // tabPage15
@@ -328,7 +332,7 @@
             this.tabPage15.Location = new System.Drawing.Point(4, 22);
             this.tabPage15.Name = "tabPage15";
             this.tabPage15.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage15.Size = new System.Drawing.Size(538, 248);
+            this.tabPage15.Size = new System.Drawing.Size(538, 262);
             this.tabPage15.TabIndex = 0;
             this.tabPage15.Text = "License";
             this.tabPage15.UseVisualStyleBackColor = true;
@@ -341,7 +345,7 @@
             this.tabControl6.Location = new System.Drawing.Point(3, 3);
             this.tabControl6.Name = "tabControl6";
             this.tabControl6.SelectedIndex = 0;
-            this.tabControl6.Size = new System.Drawing.Size(532, 242);
+            this.tabControl6.Size = new System.Drawing.Size(532, 256);
             this.tabControl6.TabIndex = 0;
             // 
             // tabPage17
@@ -350,7 +354,7 @@
             this.tabPage17.Location = new System.Drawing.Point(4, 22);
             this.tabPage17.Name = "tabPage17";
             this.tabPage17.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage17.Size = new System.Drawing.Size(524, 216);
+            this.tabPage17.Size = new System.Drawing.Size(524, 230);
             this.tabPage17.TabIndex = 0;
             this.tabPage17.Text = "Lua";
             this.tabPage17.UseVisualStyleBackColor = true;
@@ -363,7 +367,7 @@
             this.richTextBox3.Location = new System.Drawing.Point(3, 3);
             this.richTextBox3.Name = "richTextBox3";
             this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(518, 210);
+            this.richTextBox3.Size = new System.Drawing.Size(518, 224);
             this.richTextBox3.TabIndex = 1;
             this.richTextBox3.Text = resources.GetString("richTextBox3.Text");
             // 
@@ -373,7 +377,7 @@
             this.tabPage18.Location = new System.Drawing.Point(4, 22);
             this.tabPage18.Name = "tabPage18";
             this.tabPage18.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage18.Size = new System.Drawing.Size(524, 216);
+            this.tabPage18.Size = new System.Drawing.Size(524, 230);
             this.tabPage18.TabIndex = 1;
             this.tabPage18.Text = "Java";
             this.tabPage18.UseVisualStyleBackColor = true;
@@ -386,7 +390,7 @@
             this.richTextBox13.Location = new System.Drawing.Point(3, 3);
             this.richTextBox13.Name = "richTextBox13";
             this.richTextBox13.ReadOnly = true;
-            this.richTextBox13.Size = new System.Drawing.Size(518, 210);
+            this.richTextBox13.Size = new System.Drawing.Size(518, 224);
             this.richTextBox13.TabIndex = 2;
             this.richTextBox13.Text = resources.GetString("richTextBox13.Text");
             // 
@@ -396,7 +400,7 @@
             this.tabPage16.Location = new System.Drawing.Point(4, 22);
             this.tabPage16.Name = "tabPage16";
             this.tabPage16.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage16.Size = new System.Drawing.Size(538, 248);
+            this.tabPage16.Size = new System.Drawing.Size(538, 262);
             this.tabPage16.TabIndex = 1;
             this.tabPage16.Text = "Copyright";
             this.tabPage16.UseVisualStyleBackColor = true;
@@ -408,7 +412,7 @@
             this.tabControl7.Location = new System.Drawing.Point(3, 3);
             this.tabControl7.Name = "tabControl7";
             this.tabControl7.SelectedIndex = 0;
-            this.tabControl7.Size = new System.Drawing.Size(532, 242);
+            this.tabControl7.Size = new System.Drawing.Size(532, 256);
             this.tabControl7.TabIndex = 1;
             // 
             // tabPage19
@@ -417,7 +421,7 @@
             this.tabPage19.Location = new System.Drawing.Point(4, 22);
             this.tabPage19.Name = "tabPage19";
             this.tabPage19.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage19.Size = new System.Drawing.Size(524, 216);
+            this.tabPage19.Size = new System.Drawing.Size(524, 230);
             this.tabPage19.TabIndex = 0;
             this.tabPage19.Text = "Lua";
             this.tabPage19.UseVisualStyleBackColor = true;
@@ -430,7 +434,7 @@
             this.richTextBox12.Location = new System.Drawing.Point(3, 3);
             this.richTextBox12.Name = "richTextBox12";
             this.richTextBox12.ReadOnly = true;
-            this.richTextBox12.Size = new System.Drawing.Size(518, 210);
+            this.richTextBox12.Size = new System.Drawing.Size(518, 224);
             this.richTextBox12.TabIndex = 2;
             this.richTextBox12.Text = resources.GetString("richTextBox12.Text");
             // 
@@ -439,7 +443,7 @@
             this.tabPage2.Controls.Add(this.richTextBox5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(546, 274);
+            this.tabPage2.Size = new System.Drawing.Size(546, 288);
             this.tabPage2.TabIndex = 6;
             this.tabPage2.Text = "xno2dae";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -452,7 +456,7 @@
             this.richTextBox5.Location = new System.Drawing.Point(0, 0);
             this.richTextBox5.Name = "richTextBox5";
             this.richTextBox5.ReadOnly = true;
-            this.richTextBox5.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox5.Size = new System.Drawing.Size(546, 288);
             this.richTextBox5.TabIndex = 2;
             this.richTextBox5.Text = resources.GetString("richTextBox5.Text");
             // 
@@ -461,7 +465,7 @@
             this.tabPage5.Controls.Add(this.tabControl3);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(546, 274);
+            this.tabPage5.Size = new System.Drawing.Size(546, 288);
             this.tabPage5.TabIndex = 7;
             this.tabPage5.Text = "SonicAudioTools";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -474,7 +478,7 @@
             this.tabControl3.Location = new System.Drawing.Point(0, 0);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(546, 274);
+            this.tabControl3.Size = new System.Drawing.Size(546, 288);
             this.tabControl3.TabIndex = 4;
             // 
             // tabPage11
@@ -483,7 +487,7 @@
             this.tabPage11.Location = new System.Drawing.Point(4, 22);
             this.tabPage11.Name = "tabPage11";
             this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage11.Size = new System.Drawing.Size(538, 248);
+            this.tabPage11.Size = new System.Drawing.Size(538, 262);
             this.tabPage11.TabIndex = 0;
             this.tabPage11.Text = "License";
             this.tabPage11.UseVisualStyleBackColor = true;
@@ -496,7 +500,7 @@
             this.richTextBox10.Location = new System.Drawing.Point(3, 3);
             this.richTextBox10.Name = "richTextBox10";
             this.richTextBox10.ReadOnly = true;
-            this.richTextBox10.Size = new System.Drawing.Size(532, 242);
+            this.richTextBox10.Size = new System.Drawing.Size(532, 256);
             this.richTextBox10.TabIndex = 6;
             this.richTextBox10.Text = resources.GetString("richTextBox10.Text");
             // 
@@ -506,7 +510,7 @@
             this.tabPage12.Location = new System.Drawing.Point(4, 22);
             this.tabPage12.Name = "tabPage12";
             this.tabPage12.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage12.Size = new System.Drawing.Size(538, 248);
+            this.tabPage12.Size = new System.Drawing.Size(538, 262);
             this.tabPage12.TabIndex = 1;
             this.tabPage12.Text = "Copyright";
             this.tabPage12.UseVisualStyleBackColor = true;
@@ -519,7 +523,7 @@
             this.tabControl4.Location = new System.Drawing.Point(3, 3);
             this.tabControl4.Name = "tabControl4";
             this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(532, 242);
+            this.tabControl4.Size = new System.Drawing.Size(532, 256);
             this.tabControl4.TabIndex = 0;
             // 
             // tabPage13
@@ -528,7 +532,7 @@
             this.tabPage13.Location = new System.Drawing.Point(4, 22);
             this.tabPage13.Name = "tabPage13";
             this.tabPage13.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage13.Size = new System.Drawing.Size(524, 216);
+            this.tabPage13.Size = new System.Drawing.Size(524, 230);
             this.tabPage13.TabIndex = 0;
             this.tabPage13.Text = "NAudio";
             this.tabPage13.UseVisualStyleBackColor = true;
@@ -541,7 +545,7 @@
             this.richTextBox6.Location = new System.Drawing.Point(3, 3);
             this.richTextBox6.Name = "richTextBox6";
             this.richTextBox6.ReadOnly = true;
-            this.richTextBox6.Size = new System.Drawing.Size(518, 210);
+            this.richTextBox6.Size = new System.Drawing.Size(518, 224);
             this.richTextBox6.TabIndex = 6;
             this.richTextBox6.Text = resources.GetString("richTextBox6.Text");
             // 
@@ -551,7 +555,7 @@
             this.tabPage14.Location = new System.Drawing.Point(4, 22);
             this.tabPage14.Name = "tabPage14";
             this.tabPage14.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage14.Size = new System.Drawing.Size(524, 216);
+            this.tabPage14.Size = new System.Drawing.Size(524, 230);
             this.tabPage14.TabIndex = 1;
             this.tabPage14.Text = "vgmstream";
             this.tabPage14.UseVisualStyleBackColor = true;
@@ -564,7 +568,7 @@
             this.richTextBox11.Location = new System.Drawing.Point(3, 3);
             this.richTextBox11.Name = "richTextBox11";
             this.richTextBox11.ReadOnly = true;
-            this.richTextBox11.Size = new System.Drawing.Size(518, 210);
+            this.richTextBox11.Size = new System.Drawing.Size(518, 224);
             this.richTextBox11.TabIndex = 7;
             this.richTextBox11.Text = resources.GetString("richTextBox11.Text");
             // 
@@ -573,7 +577,7 @@
             this.tabPage20.Controls.Add(this.richTextBox14);
             this.tabPage20.Location = new System.Drawing.Point(4, 22);
             this.tabPage20.Name = "tabPage20";
-            this.tabPage20.Size = new System.Drawing.Size(546, 274);
+            this.tabPage20.Size = new System.Drawing.Size(546, 288);
             this.tabPage20.TabIndex = 11;
             this.tabPage20.Text = "CRI Atom Encoder";
             this.tabPage20.UseVisualStyleBackColor = true;
@@ -586,7 +590,7 @@
             this.richTextBox14.Location = new System.Drawing.Point(0, 0);
             this.richTextBox14.Name = "richTextBox14";
             this.richTextBox14.ReadOnly = true;
-            this.richTextBox14.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox14.Size = new System.Drawing.Size(546, 288);
             this.richTextBox14.TabIndex = 4;
             this.richTextBox14.Text = "CRI Atom Encoder (version 2.07.03) is copyright of CRI Middleware Co.\n\nCopyright " +
     "(c) 2009-2016 CRI Middleware Co., Ltd.";
@@ -596,7 +600,7 @@
             this.tabPage9.Controls.Add(this.richTextBox8);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(546, 274);
+            this.tabPage9.Size = new System.Drawing.Size(546, 288);
             this.tabPage9.TabIndex = 9;
             this.tabPage9.Text = "HedgeLib";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -609,7 +613,7 @@
             this.richTextBox8.Location = new System.Drawing.Point(0, 0);
             this.richTextBox8.Name = "richTextBox8";
             this.richTextBox8.ReadOnly = true;
-            this.richTextBox8.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox8.Size = new System.Drawing.Size(546, 288);
             this.richTextBox8.TabIndex = 4;
             this.richTextBox8.Text = resources.GetString("richTextBox8.Text");
             // 
@@ -618,7 +622,7 @@
             this.tabPage8.Controls.Add(this.richTextBox7);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(546, 274);
+            this.tabPage8.Size = new System.Drawing.Size(546, 288);
             this.tabPage8.TabIndex = 8;
             this.tabPage8.Text = "extract-xiso";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -631,7 +635,7 @@
             this.richTextBox7.Location = new System.Drawing.Point(0, 0);
             this.richTextBox7.Name = "richTextBox7";
             this.richTextBox7.ReadOnly = true;
-            this.richTextBox7.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox7.Size = new System.Drawing.Size(546, 288);
             this.richTextBox7.TabIndex = 4;
             this.richTextBox7.Text = resources.GetString("richTextBox7.Text");
             // 
@@ -640,7 +644,7 @@
             this.tabPage21.Controls.Add(this.richTextBox15);
             this.tabPage21.Location = new System.Drawing.Point(4, 22);
             this.tabPage21.Name = "tabPage21";
-            this.tabPage21.Size = new System.Drawing.Size(546, 274);
+            this.tabPage21.Size = new System.Drawing.Size(546, 288);
             this.tabPage21.TabIndex = 12;
             this.tabPage21.Text = "ATRAC3plus Codec TOOL";
             this.tabPage21.UseVisualStyleBackColor = true;
@@ -653,7 +657,7 @@
             this.richTextBox15.Location = new System.Drawing.Point(0, 0);
             this.richTextBox15.Name = "richTextBox15";
             this.richTextBox15.ReadOnly = true;
-            this.richTextBox15.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox15.Size = new System.Drawing.Size(546, 288);
             this.richTextBox15.TabIndex = 4;
             this.richTextBox15.Text = resources.GetString("richTextBox15.Text");
             // 
@@ -662,7 +666,7 @@
             this.tabPage10.Controls.Add(this.richTextBox9);
             this.tabPage10.Location = new System.Drawing.Point(4, 22);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(546, 274);
+            this.tabPage10.Size = new System.Drawing.Size(546, 288);
             this.tabPage10.TabIndex = 10;
             this.tabPage10.Text = "mst06";
             this.tabPage10.UseVisualStyleBackColor = true;
@@ -675,7 +679,7 @@
             this.richTextBox9.Location = new System.Drawing.Point(0, 0);
             this.richTextBox9.Name = "richTextBox9";
             this.richTextBox9.ReadOnly = true;
-            this.richTextBox9.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox9.Size = new System.Drawing.Size(546, 288);
             this.richTextBox9.TabIndex = 3;
             this.richTextBox9.Text = resources.GetString("richTextBox9.Text");
             // 
@@ -684,7 +688,7 @@
             this.tabPage22.Controls.Add(this.richTextBox16);
             this.tabPage22.Location = new System.Drawing.Point(4, 22);
             this.tabPage22.Name = "tabPage22";
-            this.tabPage22.Size = new System.Drawing.Size(546, 274);
+            this.tabPage22.Size = new System.Drawing.Size(546, 288);
             this.tabPage22.TabIndex = 13;
             this.tabPage22.Text = "XMA Encode 2008";
             this.tabPage22.UseVisualStyleBackColor = true;
@@ -697,33 +701,53 @@
             this.richTextBox16.Location = new System.Drawing.Point(0, 0);
             this.richTextBox16.Name = "richTextBox16";
             this.richTextBox16.ReadOnly = true;
-            this.richTextBox16.Size = new System.Drawing.Size(546, 274);
+            this.richTextBox16.Size = new System.Drawing.Size(546, 288);
             this.richTextBox16.TabIndex = 5;
             this.richTextBox16.Text = "XMA Encode 2008 is copyright of Microsoft Corporation.\n\nCopyright (c) 2008 Micros" +
     "oft Corporation.";
             // 
+            // tabPage23
+            // 
+            this.tabPage23.Controls.Add(this.richTextBox17);
+            this.tabPage23.Location = new System.Drawing.Point(4, 22);
+            this.tabPage23.Name = "tabPage23";
+            this.tabPage23.Size = new System.Drawing.Size(546, 288);
+            this.tabPage23.TabIndex = 14;
+            this.tabPage23.Text = "libgens-sonicglvl";
+            this.tabPage23.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox17
+            // 
+            this.richTextBox17.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox17.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox17.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox17.Name = "richTextBox17";
+            this.richTextBox17.ReadOnly = true;
+            this.richTextBox17.Size = new System.Drawing.Size(546, 288);
+            this.richTextBox17.TabIndex = 6;
+            this.richTextBox17.Text = resources.GetString("richTextBox17.Text");
+            // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.richTextBox2);
+            this.tabPage6.Controls.Add(this.web_Credits);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(554, 300);
+            this.tabPage6.Size = new System.Drawing.Size(554, 314);
             this.tabPage6.TabIndex = 3;
             this.tabPage6.Text = "Credits";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
-            // richTextBox2
+            // web_Credits
             // 
-            this.richTextBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox2.Size = new System.Drawing.Size(554, 300);
-            this.richTextBox2.TabIndex = 6;
-            this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
+            this.web_Credits.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.web_Credits.IsWebBrowserContextMenuEnabled = false;
+            this.web_Credits.Location = new System.Drawing.Point(0, 0);
+            this.web_Credits.MinimumSize = new System.Drawing.Size(20, 20);
+            this.web_Credits.Name = "web_Credits";
+            this.web_Credits.Size = new System.Drawing.Size(554, 314);
+            this.web_Credits.TabIndex = 7;
+            this.web_Credits.WebBrowserShortcutsEnabled = false;
             // 
             // About
             // 
@@ -731,7 +755,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(568, 393);
+            this.ClientSize = new System.Drawing.Size(568, 407);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lbl_versionNumber);
             this.Controls.Add(this.lbl_Subtitle);
@@ -776,6 +800,7 @@
             this.tabPage21.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
             this.tabPage22.ResumeLayout(false);
+            this.tabPage23.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -795,7 +820,6 @@
         private System.Windows.Forms.TabPage page_About;
         private System.Windows.Forms.Button btn_GitHub;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.RichTextBox richTextBox2;
         private System.Windows.Forms.TabPage page_History;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TabControl tabControl2;
@@ -837,5 +861,8 @@
         private System.Windows.Forms.TabPage tabPage22;
         private System.Windows.Forms.RichTextBox richTextBox16;
         private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.TabPage tabPage23;
+        private System.Windows.Forms.RichTextBox richTextBox17;
+        private System.Windows.Forms.WebBrowser web_Credits;
     }
 }

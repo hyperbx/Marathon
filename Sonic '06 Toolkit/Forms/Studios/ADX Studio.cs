@@ -43,8 +43,6 @@ namespace Sonic_06_Toolkit
 
         void ADX_Studio_Load(object sender, EventArgs e)
         {
-            Tools.Global.adxState = "adx";
-
             clb_ADX.Items.Clear();
 
             if (Directory.GetFiles(Tools.Global.currentPath, "*.adx").Length > 0)
@@ -97,43 +95,37 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Extract without anything selected, this will prevent that.
             if (clb_ADX.CheckedItems.Count == 0) MessageBox.Show("Please select a file.", "No files specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (Tools.Global.adxState == "adx")
+            if (modes_ADXtoWAV.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each ADX.
                     foreach (string selectedADX in clb_ADX.CheckedItems)
                     {
-                        Tools.Global.adxState = "adx";
-                        Tools.ADX.ConvertToWAV(string.Empty, selectedADX);
+                        Tools.ADX.ConvertToWAV(1, string.Empty, selectedADX);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected ADX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected ADX files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
             }
-            else if (Tools.Global.adxState == "wav")
+            else if (modes_WAVtoADX.Checked)
             {
                 try
                 {
                     //Gets all checked boxes from the CheckedListBox and builds a string for each WAV.
                     foreach (string selectedWAV in clb_ADX.CheckedItems)
                     {
-                        Tools.Global.adxState = "wav";
-                        Tools.ADX.ConvertToADX(selectedWAV);
+                        Tools.ADX.ConvertToADX(2, selectedWAV);
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    MessageBox.Show("An error occurred when encoding the selected WAV files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"An error occurred when encoding the selected WAV files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Tools.Notification.Dispose();
                 }
-            }
-            else
-            {
-                MessageBox.Show("ADX State set to invalid value: " + Tools.Global.adxState + "\nLine information: " + new System.Diagnostics.StackTrace(true).GetFrame(1).GetFileLineNumber(), "Developer Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -156,8 +148,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_ADXtoWAV.Checked == true)
             {
-                Tools.Global.adxState = "adx";
-
                 clb_ADX.Items.Clear();
 
                 #region Getting ADX files to convert...
@@ -197,8 +187,6 @@ namespace Sonic_06_Toolkit
         {
             if (modes_WAVtoADX.Checked == true)
             {
-                Tools.Global.adxState = "wav";
-
                 clb_ADX.Items.Clear();
 
                 #region Getting WAV files to convert...
@@ -371,11 +359,6 @@ namespace Sonic_06_Toolkit
                 Properties.Settings.Default.downmix = false;
             }
             Properties.Settings.Default.Save();
-        }
-
-        private void ADX_Studio_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Tools.Global.adxState = null;
         }
     }
 }

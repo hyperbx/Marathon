@@ -44,7 +44,6 @@
             this.mstrip_Options = new System.Windows.Forms.MenuStrip();
             this.lbl_Title = new System.Windows.Forms.Label();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.mstrip_Options.SuspendLayout();
             this.pnl_Backdrop.SuspendLayout();
@@ -197,9 +196,10 @@
             // lbl_Title
             // 
             this.lbl_Title.AutoSize = true;
+            this.lbl_Title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Title.Font = new System.Drawing.Font("Segoe UI", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lbl_Title.Location = new System.Drawing.Point(14, 3);
+            this.lbl_Title.Location = new System.Drawing.Point(14, 10);
             this.lbl_Title.Name = "lbl_Title";
             this.lbl_Title.Size = new System.Drawing.Size(219, 47);
             this.lbl_Title.TabIndex = 1;
@@ -210,25 +210,14 @@
             this.pnl_Backdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(121)))), ((int)(((byte)(59)))));
+            this.pnl_Backdrop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pnl_Backdrop.BackgroundImage")));
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnl_Backdrop.Controls.Add(this.label1);
             this.pnl_Backdrop.Controls.Add(this.pic_Logo);
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-3, -2);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(440, 69);
             this.pnl_Backdrop.TabIndex = 51;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label1.Location = new System.Drawing.Point(19, 44);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 13);
-            this.label1.TabIndex = 57;
-            this.label1.Text = "experimental";
             // 
             // pic_Logo
             // 
@@ -258,8 +247,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "XMA_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "XMA Studio (experimental)";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.XMA_Studio_FormClosing);
+            this.Text = "XMA Studio";
             this.Load += new System.EventHandler(this.XMA_Studio_Load);
             this.mstrip_Options.ResumeLayout(false);
             this.mstrip_Options.PerformLayout();
@@ -289,6 +277,5 @@
         private System.Windows.Forms.Panel pnl_Backdrop;
         internal System.Windows.Forms.PictureBox pic_Logo;
         private System.Windows.Forms.ToolStripMenuItem options_PatchXMA;
-        private System.Windows.Forms.Label label1;
     }
 }
