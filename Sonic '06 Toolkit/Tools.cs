@@ -240,7 +240,6 @@ namespace Sonic_06_Toolkit.Tools
         public static void Repack(string tabText, string repackBuildSession, string metadata)
         {
             //Sets up the BASIC application and executes the repacking process.
-            var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
             if (tabText.Contains(".arc"))
             {
                 arcSession = new ProcessStartInfo(Properties.Settings.Default.repackFile, $"\"{repackBuildSession}{Path.GetFileNameWithoutExtension(metadata)}\"")
@@ -257,34 +256,33 @@ namespace Sonic_06_Toolkit.Tools
         public static void RepackAs(string tabText, string repackBuildSession, string metadata, string destination)
         {
             //Sets up the BASIC application and executes the repacking process.
-            var basicWrite = File.Create(Properties.Settings.Default.toolsPath + "repack.bat");
             if (tabText.Contains(".arc"))
             {
-                var basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.repackFile}\" \"{repackBuildSession}{Path.GetFileNameWithoutExtension(metadata)}\"");
-                basicWrite.Write(basicSession, 0, basicSession.Length);
-                basicWrite.Close();
+                arcSession = new ProcessStartInfo(Properties.Settings.Default.repackFile, $"\"{repackBuildSession}{Path.GetFileNameWithoutExtension(metadata)}\"")
+                {
+                    WorkingDirectory = Properties.Settings.Default.toolsPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
             }
             else
             {
                 if (metadata.EndsWith(@"\"))
                 {
-                    var basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.arctoolFile}\" -i \"{metadata.Remove(metadata.Length - 1)}\" -c \"{destination}\"");
-                    basicWrite.Write(basicSession, 0, basicSession.Length);
-                    basicWrite.Close();
+                    arcSession = new ProcessStartInfo(Properties.Settings.Default.arctoolFile, $"-i \"{metadata.Remove(metadata.Length - 1)}\" -c \"{destination}\"")
+                    {
+                        WorkingDirectory = Properties.Settings.Default.toolsPath,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
                 }
                 else
                 {
-                    var basicSession = new UTF8Encoding(true).GetBytes($"\"{Properties.Settings.Default.arctoolFile}\" -i \"{metadata}\" -c \"{destination}\"");
-                    basicWrite.Write(basicSession, 0, basicSession.Length);
-                    basicWrite.Close();
+                    arcSession = new ProcessStartInfo(Properties.Settings.Default.arctoolFile, $"-i \"{metadata}\" -c \"{destination}\"")
+                    {
+                        WorkingDirectory = Properties.Settings.Default.toolsPath,
+                        WindowStyle = ProcessWindowStyle.Hidden
+                    };
                 }
             }
-
-            arcSession = new ProcessStartInfo($"{Properties.Settings.Default.toolsPath}repack.bat")
-            {
-                WorkingDirectory = Properties.Settings.Default.toolsPath,
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
 
             Begin(1);
 
@@ -443,6 +441,74 @@ namespace Sonic_06_Toolkit.Tools
         }
     }
 
+    class BIN
+    {
+        static ProcessStartInfo binSession;
+
+        public static void Export(int state, string args, string selectedBIN)
+        {
+            if (state == 0)
+            {
+                //Sets up the BASIC application and executes the converting process.
+                binSession = new ProcessStartInfo(Properties.Settings.Default.colExportFile, $"\"{args}\"")
+                {
+                    WorkingDirectory = Path.GetDirectoryName(args),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+            else if (state == 1)
+            {
+                //Sets up the BASIC application and executes the converting process.
+                binSession = new ProcessStartInfo(Properties.Settings.Default.colExportFile, $"\"{Path.Combine(Global.currentPath, selectedBIN)}\"")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+
+            Begin();
+        }
+
+        public static void Import(int state, string args, string selectedCol)
+        {
+            if (state == 0)
+            {
+                //Sets up the BASIC application and executes the converting process.
+                binSession = new ProcessStartInfo(Properties.Settings.Default.collisionFile, $"\"{args}\"")
+                {
+                    WorkingDirectory = Path.GetDirectoryName(args),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+            else if (state == 1)
+            {
+                //Sets up the BASIC application and executes the converting process.
+                binSession = new ProcessStartInfo(Properties.Settings.Default.collisionFile, $"\"{Path.Combine(Global.currentPath, selectedCol)}\"")
+                {
+                    WorkingDirectory = Global.currentPath,
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+            }
+
+            Begin();
+        }
+
+        static void Begin()
+        {
+            if (Debugger.unsafeState == true) { MessageBox.Show("LibS06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists(Properties.Settings.Default.collisionFile) && File.Exists(Properties.Settings.Default.colExportFile))
+                {
+                    var Decode = Process.Start(binSession);
+                    Decode.WaitForExit();
+                    Decode.Close();
+                }
+                else { MessageBox.Show("LibS06 files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+        }
+    }
+
     class CSB
     {
         static ProcessStartInfo csbSession;
@@ -478,11 +544,22 @@ namespace Sonic_06_Toolkit.Tools
                     WindowStyle = ProcessWindowStyle.Hidden
                 };
 
-                UnpackToWAV(state, selectedCSB);
+                UnpackToWAV(state, selectedCSB, string.Empty);
+            }
+            else if (state == 4)
+            {
+                Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args)));
+                csbSession = new ProcessStartInfo(Properties.Settings.Default.csbextractFile, $"\"{Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args), Path.GetFileName(args))}\"")
+                {
+                    WorkingDirectory = Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args)),
+                    WindowStyle = ProcessWindowStyle.Hidden
+                };
+
+                UnpackToWAV(state, string.Empty, args);
             }
         }
 
-        static void UnpackToWAV(int state, string selectedCSB)
+        static void UnpackToWAV(int state, string selectedCSB, string args)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("csb_extract is missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
@@ -526,9 +603,53 @@ namespace Sonic_06_Toolkit.Tools
                                     }
                                 }
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("An error occurred when converting the AAX files.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show($"An error occurred when converting the sound files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Tools.Notification.Dispose();
+                            }
+
+                            unpackDialog.Close();
+                        }
+                    }
+                    else if (state == 4)
+                    {
+                        if (File.Exists(args))
+                        {
+                            File.Copy(Path.Combine(Path.GetDirectoryName(args), Path.GetFileName(args)), Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args), Path.GetFileName(args)));
+
+                            var Unpack = Process.Start(csbSession);
+                            var unpackDialog = new Status(state, "CSB");
+                            unpackDialog.StartPosition = FormStartPosition.CenterScreen;
+                            unpackDialog.Show();
+                            Unpack.WaitForExit();
+                            Unpack.Close();
+
+                            File.Delete(Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args), Path.GetFileName(args)));
+
+                            try
+                            {
+                                foreach (string AAX in Directory.GetFiles(Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args)), "*.aax", SearchOption.TopDirectoryOnly))
+                                {
+                                    if (File.Exists(AAX))
+                                    {
+                                        Tools.AAX.ConvertToADX(0, AAX, string.Empty);
+                                        File.Delete(AAX);
+                                    }
+                                }
+
+                                foreach (string ADX in Directory.GetFiles(Path.Combine(Path.GetDirectoryName(args), Path.GetFileNameWithoutExtension(args)), "*.adx", SearchOption.TopDirectoryOnly))
+                                {
+                                    if (File.Exists(ADX))
+                                    {
+                                        Tools.ADX.ConvertToWAV(0, ADX, string.Empty);
+                                        File.Delete(ADX);
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"An error occurred when converting the AAX files.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Tools.Notification.Dispose();
                             }
 
@@ -1011,9 +1132,9 @@ namespace Sonic_06_Toolkit.Tools
                                 MessageBox.Show("The selected XMA has been patched.", "XMA Patched", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 return;
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show($"An error occurred when patching the XMA.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Notification.Dispose();
                                 return;
                             }
@@ -1073,9 +1194,9 @@ namespace Sonic_06_Toolkit.Tools
                                 ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
                                 state = 2;
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show($"An error occurred when patching the XMA.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 Notification.Dispose();
                                 state = 2;
                             }
@@ -1088,9 +1209,9 @@ namespace Sonic_06_Toolkit.Tools
                             ByteArray.ByteArrayToFile($"{Path.Combine(Global.currentPath, Path.GetFileNameWithoutExtension(selectedFile))}.xma", ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
                             state = 1;
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"An error occurred when patching the XMA.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
                             state = 1;
                         }
@@ -1102,9 +1223,9 @@ namespace Sonic_06_Toolkit.Tools
                             ByteArray.ByteArrayToFile(selectedFile, ByteArray.StringToByteArray("584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00"));
                             state = 1;
                         }
-                        catch
+                        catch (Exception ex)
                         {
-                            MessageBox.Show("An error occurred when patching the XMA.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"An error occurred when patching the XMA.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             Notification.Dispose();
                             state = 1;
                         }
@@ -1281,7 +1402,46 @@ namespace Sonic_06_Toolkit.Tools
         public static int sessionID;
         public static int getIndex;
 
-        public static bool javaCheck = true;
         public static bool gameChanged = false;
+    }
+
+    public class Prerequisites
+    {
+        public static bool JavaCheck()
+        {
+            try
+            {
+                var javaArg = new ProcessStartInfo("java", "-version");
+                javaArg.WindowStyle = ProcessWindowStyle.Hidden;
+                javaArg.RedirectStandardOutput = true;
+                javaArg.RedirectStandardError = true;
+                javaArg.UseShellExecute = false;
+                javaArg.CreateNoWindow = true;
+                var javaProcess = new Process();
+                javaProcess.StartInfo = javaArg;
+                javaProcess.Start();
+
+                return true;
+            }
+            catch { return false; }
+        }
+
+        public static bool PythonCheck()
+        {
+            try
+            {
+                Process pythonArg = new Process();
+                pythonArg.StartInfo.UseShellExecute = false;
+                pythonArg.StartInfo.RedirectStandardOutput = true;
+                pythonArg.StartInfo.CreateNoWindow = true;
+                pythonArg.StartInfo.FileName = "python";
+                pythonArg.StartInfo.Arguments = "--version";
+                pythonArg.Start();
+
+                if (pythonArg.StandardOutput.ReadToEnd() == string.Empty) { return true; }
+                else { return false; }
+            }
+            catch { return false; }
+        }
     }
 }

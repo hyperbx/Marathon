@@ -562,5 +562,41 @@ namespace Sonic_06_Toolkit.Properties {
                 this["csbextractFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string collisionFile {
+            get {
+                return ((string)(this["collisionFile"]));
+            }
+            set {
+                this["collisionFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string sonic06mmFile {
+            get {
+                return ((string)(this["sonic06mmFile"]));
+            }
+            set {
+                this["sonic06mmFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string colExportFile {
+            get {
+                return ((string)(this["colExportFile"]));
+            }
+            set {
+                this["colExportFile"] = value;
+            }
+        }
     }
 }

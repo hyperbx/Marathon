@@ -64,8 +64,6 @@
             this.ofd_OpenFiles = new System.Windows.Forms.OpenFileDialog();
             this.btn_SessionID = new System.Windows.Forms.Button();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
-            this.lbl_Search = new System.Windows.Forms.Label();
-            this.text_SearchBar = new System.Windows.Forms.TextBox();
             this.mstrip_Main = new System.Windows.Forms.MenuStrip();
             this.main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.mainFile_NewARC = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,11 +87,16 @@
             this.launch_ARC = new System.Windows.Forms.ToolStripMenuItem();
             this.ARC_UnpackAndLaunch = new System.Windows.Forms.ToolStripMenuItem();
             this.ARC_UnpackRoot = new System.Windows.Forms.ToolStripMenuItem();
+            this.launch_CSB = new System.Windows.Forms.ToolStripMenuItem();
+            this.CSB_UnpackToAIF = new System.Windows.Forms.ToolStripMenuItem();
+            this.CSB_UnpackToWAV = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.mainPreferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
             this.paths_ClearGame = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearXeniaDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.paths_ClearXenia = new System.Windows.Forms.ToolStripMenuItem();
+            this.paths_ClearSonic06ModManager = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.preferences_AssociateARCs = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPreferences_DisableSoftwareUpdater = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPreferences_DisableGameDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_FreeMode = new System.Windows.Forms.ToolStripMenuItem();
@@ -131,8 +134,8 @@
             this.shortcuts_ConvertAT3s = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertBINs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ExtractCSBs = new System.Windows.Forms.ToolStripMenuItem();
-            this.unpackToAIFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unpackToWAVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ExtractCSBsToAIF = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ExtractCSBsToWAV = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUBs = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeMSTs = new System.Windows.Forms.ToolStripMenuItem();
@@ -141,7 +144,7 @@
             this.shortcuts_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
             this.mainShortcuts_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mainShortcuts_Xenia = new System.Windows.Forms.ToolStripMenuItem();
-            this.launchSonic06ModManagerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mainShortcuts_Sonic06ModManager = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Window = new System.Windows.Forms.ToolStripMenuItem();
             this.mainWindow_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.mainWindow_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,6 +158,7 @@
             this.mainHelp_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_DeepSearch = new System.Windows.Forms.Button();
             this.btn_RepackOptions = new System.Windows.Forms.Button();
             this.btn_NewTab = new System.Windows.Forms.Button();
             this.btn_Forward = new System.Windows.Forms.Button();
@@ -445,34 +449,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_Backdrop.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.pnl_Backdrop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnl_Backdrop.Controls.Add(this.lbl_Search);
-            this.pnl_Backdrop.Controls.Add(this.text_SearchBar);
             this.pnl_Backdrop.Controls.Add(this.mstrip_Main);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-2, -2);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
             this.pnl_Backdrop.Size = new System.Drawing.Size(805, 28);
             this.pnl_Backdrop.TabIndex = 3;
-            // 
-            // lbl_Search
-            // 
-            this.lbl_Search.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbl_Search.AutoSize = true;
-            this.lbl_Search.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.lbl_Search.Location = new System.Drawing.Point(394, 4);
-            this.lbl_Search.Name = "lbl_Search";
-            this.lbl_Search.Size = new System.Drawing.Size(45, 15);
-            this.lbl_Search.TabIndex = 12;
-            this.lbl_Search.Text = "Search:";
-            // 
-            // text_SearchBar
-            // 
-            this.text_SearchBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.text_SearchBar.Location = new System.Drawing.Point(443, 2);
-            this.text_SearchBar.Name = "text_SearchBar";
-            this.text_SearchBar.Size = new System.Drawing.Size(149, 20);
-            this.text_SearchBar.TabIndex = 11;
             // 
             // mstrip_Main
             // 
@@ -514,28 +495,29 @@
             this.mainFile_NewARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_NewARC.Image")));
             this.mainFile_NewARC.Name = "mainFile_NewARC";
             this.mainFile_NewARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.mainFile_NewARC.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_NewARC.Size = new System.Drawing.Size(306, 22);
             this.mainFile_NewARC.Text = "New ARC...";
+            this.mainFile_NewARC.Click += new System.EventHandler(this.MainFile_NewARC_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(294, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(303, 6);
             // 
             // mainFile_OpenARC
             // 
             this.mainFile_OpenARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_OpenARC.Image")));
             this.mainFile_OpenARC.Name = "mainFile_OpenARC";
             this.mainFile_OpenARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.mainFile_OpenARC.Size = new System.Drawing.Size(297, 22);
-            this.mainFile_OpenARC.Text = "Open ARC";
+            this.mainFile_OpenARC.Size = new System.Drawing.Size(306, 22);
+            this.mainFile_OpenARC.Text = "Open ARC...";
             this.mainFile_OpenARC.Click += new System.EventHandler(this.mainFile_OpenARC_Click);
             // 
             // mainFile_ExtractISO
             // 
             this.mainFile_ExtractISO.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_ExtractISO.Image")));
             this.mainFile_ExtractISO.Name = "mainFile_ExtractISO";
-            this.mainFile_ExtractISO.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_ExtractISO.Size = new System.Drawing.Size(306, 22);
             this.mainFile_ExtractISO.Text = "Extract Xbox 360 ISO...";
             this.mainFile_ExtractISO.Click += new System.EventHandler(this.MainFile_ExtractISO_Click);
             // 
@@ -545,14 +527,14 @@
             this.mainFile_OpenSonic.Name = "mainFile_OpenSonic";
             this.mainFile_OpenSonic.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
-            this.mainFile_OpenSonic.Size = new System.Drawing.Size(297, 22);
-            this.mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG";
+            this.mainFile_OpenSonic.Size = new System.Drawing.Size(306, 22);
+            this.mainFile_OpenSonic.Text = "Open SONIC THE HEDGEHOG...";
             this.mainFile_OpenSonic.Click += new System.EventHandler(this.MainFile_OpenSonic_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(294, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(303, 6);
             // 
             // mainFile_RepackARC
             // 
@@ -560,7 +542,7 @@
             this.mainFile_RepackARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_RepackARC.Image")));
             this.mainFile_RepackARC.Name = "mainFile_RepackARC";
             this.mainFile_RepackARC.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARC.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_RepackARC.Size = new System.Drawing.Size(306, 22);
             this.mainFile_RepackARC.Text = "Repack ARC";
             this.mainFile_RepackARC.Click += new System.EventHandler(this.Btn_Repack_Click);
             // 
@@ -571,14 +553,14 @@
             this.mainFile_RepackARCAs.Name = "mainFile_RepackARCAs";
             this.mainFile_RepackARCAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.S)));
-            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_RepackARCAs.Size = new System.Drawing.Size(306, 22);
             this.mainFile_RepackARCAs.Text = "Repack ARC As...";
             this.mainFile_RepackARCAs.Click += new System.EventHandler(this.MainFile_RepackARCAs_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(294, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(303, 6);
             // 
             // mainFile_Preferences
             // 
@@ -588,6 +570,7 @@
             this.toolStripSeparator4,
             this.mainPreferences_Paths,
             this.toolStripSeparator5,
+            this.preferences_AssociateARCs,
             this.mainPreferences_DisableSoftwareUpdater,
             this.mainPreferences_DisableGameDirectory,
             this.preferences_FreeMode,
@@ -595,7 +578,7 @@
             this.preferences_Advanced});
             this.mainFile_Preferences.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Preferences.Image")));
             this.mainFile_Preferences.Name = "mainFile_Preferences";
-            this.mainFile_Preferences.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_Preferences.Size = new System.Drawing.Size(306, 22);
             this.mainFile_Preferences.Text = "Preferences";
             // 
             // mainPreferences_Themes
@@ -609,7 +592,7 @@
             this.mainPreferences_ShowLogo});
             this.mainPreferences_Themes.Image = ((System.Drawing.Image)(resources.GetObject("mainPreferences_Themes.Image")));
             this.mainPreferences_Themes.Name = "mainPreferences_Themes";
-            this.mainPreferences_Themes.Size = new System.Drawing.Size(204, 22);
+            this.mainPreferences_Themes.Size = new System.Drawing.Size(269, 22);
             this.mainPreferences_Themes.Text = "Themes";
             // 
             // mainThemes_Compact
@@ -652,7 +635,7 @@
             this.mainPreferences_ShowSessionID.Name = "mainPreferences_ShowSessionID";
             this.mainPreferences_ShowSessionID.Size = new System.Drawing.Size(207, 22);
             this.mainPreferences_ShowSessionID.Text = "Show Session ID";
-            this.mainPreferences_ShowSessionID.CheckedChanged += new System.EventHandler(this.MainPreferences_ShowSessionID_CheckedChanged);
+            this.mainPreferences_ShowSessionID.Visible = false;
             // 
             // mainPreferences_ShowLogo
             // 
@@ -667,10 +650,11 @@
             // preferences_LaunchProcedures
             // 
             this.preferences_LaunchProcedures.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.launch_ARC});
+            this.launch_ARC,
+            this.launch_CSB});
             this.preferences_LaunchProcedures.Image = ((System.Drawing.Image)(resources.GetObject("preferences_LaunchProcedures.Image")));
             this.preferences_LaunchProcedures.Name = "preferences_LaunchProcedures";
-            this.preferences_LaunchProcedures.Size = new System.Drawing.Size(204, 22);
+            this.preferences_LaunchProcedures.Size = new System.Drawing.Size(269, 22);
             this.preferences_LaunchProcedures.Text = "Launch Procedures";
             // 
             // launch_ARC
@@ -678,6 +662,7 @@
             this.launch_ARC.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ARC_UnpackAndLaunch,
             this.ARC_UnpackRoot});
+            this.launch_ARC.Image = ((System.Drawing.Image)(resources.GetObject("launch_ARC.Image")));
             this.launch_ARC.Name = "launch_ARC";
             this.launch_ARC.Size = new System.Drawing.Size(97, 22);
             this.launch_ARC.Text = "ARC";
@@ -700,19 +685,48 @@
             this.ARC_UnpackRoot.Text = "Unpack in archive directory";
             this.ARC_UnpackRoot.CheckedChanged += new System.EventHandler(this.ARC_UnpackRoot_CheckedChanged);
             // 
+            // launch_CSB
+            // 
+            this.launch_CSB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CSB_UnpackToAIF,
+            this.CSB_UnpackToWAV});
+            this.launch_CSB.Image = ((System.Drawing.Image)(resources.GetObject("launch_CSB.Image")));
+            this.launch_CSB.Name = "launch_CSB";
+            this.launch_CSB.Size = new System.Drawing.Size(97, 22);
+            this.launch_CSB.Text = "CSB";
+            // 
+            // CSB_UnpackToAIF
+            // 
+            this.CSB_UnpackToAIF.Checked = true;
+            this.CSB_UnpackToAIF.CheckOnClick = true;
+            this.CSB_UnpackToAIF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CSB_UnpackToAIF.Name = "CSB_UnpackToAIF";
+            this.CSB_UnpackToAIF.Size = new System.Drawing.Size(156, 22);
+            this.CSB_UnpackToAIF.Text = "Unpack to AIF";
+            this.CSB_UnpackToAIF.CheckedChanged += new System.EventHandler(this.CSB_UnpackToAIF_CheckedChanged);
+            // 
+            // CSB_UnpackToWAV
+            // 
+            this.CSB_UnpackToWAV.CheckOnClick = true;
+            this.CSB_UnpackToWAV.Name = "CSB_UnpackToWAV";
+            this.CSB_UnpackToWAV.Size = new System.Drawing.Size(156, 22);
+            this.CSB_UnpackToWAV.Text = "Unpack to WAV";
+            this.CSB_UnpackToWAV.CheckedChanged += new System.EventHandler(this.CSB_UnpackToWAV_CheckedChanged);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(266, 6);
             // 
             // mainPreferences_Paths
             // 
             this.mainPreferences_Paths.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.paths_ClearGame,
-            this.clearXeniaDirectoryToolStripMenuItem});
+            this.paths_ClearXenia,
+            this.paths_ClearSonic06ModManager});
             this.mainPreferences_Paths.Image = ((System.Drawing.Image)(resources.GetObject("mainPreferences_Paths.Image")));
             this.mainPreferences_Paths.Name = "mainPreferences_Paths";
-            this.mainPreferences_Paths.Size = new System.Drawing.Size(204, 22);
+            this.mainPreferences_Paths.Size = new System.Drawing.Size(269, 22);
             this.mainPreferences_Paths.Text = "Paths...";
             this.mainPreferences_Paths.Click += new System.EventHandler(this.MainPreferences_Paths_Click);
             // 
@@ -720,28 +734,44 @@
             // 
             this.paths_ClearGame.Image = ((System.Drawing.Image)(resources.GetObject("paths_ClearGame.Image")));
             this.paths_ClearGame.Name = "paths_ClearGame";
-            this.paths_ClearGame.Size = new System.Drawing.Size(184, 22);
+            this.paths_ClearGame.Size = new System.Drawing.Size(279, 22);
             this.paths_ClearGame.Text = "Clear game directory";
             this.paths_ClearGame.Click += new System.EventHandler(this.Paths_ClearGame_Click);
             // 
-            // clearXeniaDirectoryToolStripMenuItem
+            // paths_ClearXenia
             // 
-            this.clearXeniaDirectoryToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("clearXeniaDirectoryToolStripMenuItem.Image")));
-            this.clearXeniaDirectoryToolStripMenuItem.Name = "clearXeniaDirectoryToolStripMenuItem";
-            this.clearXeniaDirectoryToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.clearXeniaDirectoryToolStripMenuItem.Text = "Clear Xenia directory";
-            this.clearXeniaDirectoryToolStripMenuItem.Click += new System.EventHandler(this.ClearXeniaDirectoryToolStripMenuItem_Click);
+            this.paths_ClearXenia.Image = ((System.Drawing.Image)(resources.GetObject("paths_ClearXenia.Image")));
+            this.paths_ClearXenia.Name = "paths_ClearXenia";
+            this.paths_ClearXenia.Size = new System.Drawing.Size(279, 22);
+            this.paths_ClearXenia.Text = "Clear Xenia directory";
+            this.paths_ClearXenia.Click += new System.EventHandler(this.ClearXeniaDirectoryToolStripMenuItem_Click);
+            // 
+            // paths_ClearSonic06ModManager
+            // 
+            this.paths_ClearSonic06ModManager.Image = ((System.Drawing.Image)(resources.GetObject("paths_ClearSonic06ModManager.Image")));
+            this.paths_ClearSonic06ModManager.Name = "paths_ClearSonic06ModManager";
+            this.paths_ClearSonic06ModManager.Size = new System.Drawing.Size(279, 22);
+            this.paths_ClearSonic06ModManager.Text = "Clear Sonic \'06 Mod Manager directory";
+            this.paths_ClearSonic06ModManager.Click += new System.EventHandler(this.Paths_ClearSonic06ModManager_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(266, 6);
+            // 
+            // preferences_AssociateARCs
+            // 
+            this.preferences_AssociateARCs.CheckOnClick = true;
+            this.preferences_AssociateARCs.Name = "preferences_AssociateARCs";
+            this.preferences_AssociateARCs.Size = new System.Drawing.Size(269, 22);
+            this.preferences_AssociateARCs.Text = "Associate ARCs with Sonic \'06 Toolkit";
+            this.preferences_AssociateARCs.CheckedChanged += new System.EventHandler(this.Preferences_AssociateARCs_CheckedChanged);
             // 
             // mainPreferences_DisableSoftwareUpdater
             // 
             this.mainPreferences_DisableSoftwareUpdater.CheckOnClick = true;
             this.mainPreferences_DisableSoftwareUpdater.Name = "mainPreferences_DisableSoftwareUpdater";
-            this.mainPreferences_DisableSoftwareUpdater.Size = new System.Drawing.Size(204, 22);
+            this.mainPreferences_DisableSoftwareUpdater.Size = new System.Drawing.Size(269, 22);
             this.mainPreferences_DisableSoftwareUpdater.Text = "Disable software updater";
             this.mainPreferences_DisableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.MainPreferences_DisableSoftwareUpdater_CheckedChanged);
             // 
@@ -749,7 +779,7 @@
             // 
             this.mainPreferences_DisableGameDirectory.CheckOnClick = true;
             this.mainPreferences_DisableGameDirectory.Name = "mainPreferences_DisableGameDirectory";
-            this.mainPreferences_DisableGameDirectory.Size = new System.Drawing.Size(204, 22);
+            this.mainPreferences_DisableGameDirectory.Size = new System.Drawing.Size(269, 22);
             this.mainPreferences_DisableGameDirectory.Text = "Disable game directory";
             this.mainPreferences_DisableGameDirectory.CheckedChanged += new System.EventHandler(this.MainPreferences_DisableGameDirectory_CheckedChanged);
             // 
@@ -759,14 +789,14 @@
             this.preferences_FreeMode.Name = "preferences_FreeMode";
             this.preferences_FreeMode.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.F)));
-            this.preferences_FreeMode.Size = new System.Drawing.Size(204, 22);
+            this.preferences_FreeMode.Size = new System.Drawing.Size(269, 22);
             this.preferences_FreeMode.Text = "Free Mode";
             this.preferences_FreeMode.CheckedChanged += new System.EventHandler(this.Preferences_FreeMode_CheckedChanged);
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(266, 6);
             // 
             // preferences_Advanced
             // 
@@ -778,7 +808,7 @@
             this.advanced_Reset});
             this.preferences_Advanced.Image = ((System.Drawing.Image)(resources.GetObject("preferences_Advanced.Image")));
             this.preferences_Advanced.Name = "preferences_Advanced";
-            this.preferences_Advanced.Size = new System.Drawing.Size(204, 22);
+            this.preferences_Advanced.Size = new System.Drawing.Size(269, 22);
             this.preferences_Advanced.Text = "Advanced";
             // 
             // advanced_DisableWarnings
@@ -823,7 +853,7 @@
             this.mainFile_CloseARC.Enabled = false;
             this.mainFile_CloseARC.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_CloseARC.Image")));
             this.mainFile_CloseARC.Name = "mainFile_CloseARC";
-            this.mainFile_CloseARC.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_CloseARC.Size = new System.Drawing.Size(306, 22);
             this.mainFile_CloseARC.Text = "Close ARC";
             this.mainFile_CloseARC.Click += new System.EventHandler(this.MainFile_CloseARC_Click);
             // 
@@ -831,7 +861,8 @@
             // 
             this.mainFile_Exit.Image = ((System.Drawing.Image)(resources.GetObject("mainFile_Exit.Image")));
             this.mainFile_Exit.Name = "mainFile_Exit";
-            this.mainFile_Exit.Size = new System.Drawing.Size(297, 22);
+            this.mainFile_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.mainFile_Exit.Size = new System.Drawing.Size(306, 22);
             this.mainFile_Exit.Text = "Exit";
             this.mainFile_Exit.Click += new System.EventHandler(this.MainFile_Exit_Click);
             // 
@@ -855,7 +886,7 @@
             this.sdk_Core.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_ARCStudio});
             this.sdk_Core.Name = "sdk_Core";
-            this.sdk_Core.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Core.Size = new System.Drawing.Size(155, 22);
             this.sdk_Core.Text = "Core";
             // 
             // mainSDK_ARCStudio
@@ -871,7 +902,7 @@
             this.sdk_Graphics.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_DDSStudio});
             this.sdk_Graphics.Name = "sdk_Graphics";
-            this.sdk_Graphics.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Graphics.Size = new System.Drawing.Size(155, 22);
             this.sdk_Graphics.Text = "Graphics";
             // 
             // mainSDK_DDSStudio
@@ -888,7 +919,7 @@
             this.sdk_Animation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_XNOStudio});
             this.sdk_Animation.Name = "sdk_Animation";
-            this.sdk_Animation.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Animation.Size = new System.Drawing.Size(155, 22);
             this.sdk_Animation.Text = "Animation";
             // 
             // mainSDK_XNOStudio
@@ -908,7 +939,7 @@
             this.mainSDK_CSBStudio,
             this.mainSDK_XMAStudio});
             this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
-            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.audioVideoToolStripMenuItem.Text = "Audio/Video";
             // 
             // mainSDK_ADXStudio
@@ -916,7 +947,7 @@
             this.mainSDK_ADXStudio.Enabled = false;
             this.mainSDK_ADXStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ADXStudio.Image")));
             this.mainSDK_ADXStudio.Name = "mainSDK_ADXStudio";
-            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ADXStudio.Size = new System.Drawing.Size(146, 22);
             this.mainSDK_ADXStudio.Text = "ADX Studio...";
             this.mainSDK_ADXStudio.Click += new System.EventHandler(this.MainSDK_ADXStudio_Click);
             // 
@@ -925,7 +956,7 @@
             this.mainSDK_AT3Studio.Enabled = false;
             this.mainSDK_AT3Studio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_AT3Studio.Image")));
             this.mainSDK_AT3Studio.Name = "mainSDK_AT3Studio";
-            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_AT3Studio.Size = new System.Drawing.Size(146, 22);
             this.mainSDK_AT3Studio.Text = "AT3 Studio...";
             this.mainSDK_AT3Studio.Click += new System.EventHandler(this.MainSDK_AT3Studio_Click);
             // 
@@ -934,7 +965,7 @@
             this.mainSDK_CSBStudio.Enabled = false;
             this.mainSDK_CSBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_CSBStudio.Image")));
             this.mainSDK_CSBStudio.Name = "mainSDK_CSBStudio";
-            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_CSBStudio.Size = new System.Drawing.Size(146, 22);
             this.mainSDK_CSBStudio.Text = "CSB Studio...";
             this.mainSDK_CSBStudio.Click += new System.EventHandler(this.MainSDK_CSBStudio_Click);
             // 
@@ -945,7 +976,7 @@
             this.mainSDK_XMAStudio.Enabled = false;
             this.mainSDK_XMAStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_XMAStudio.Image")));
             this.mainSDK_XMAStudio.Name = "mainSDK_XMAStudio";
-            this.mainSDK_XMAStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_XMAStudio.Size = new System.Drawing.Size(146, 22);
             this.mainSDK_XMAStudio.Text = "XMA Studio...";
             this.mainSDK_XMAStudio.Click += new System.EventHandler(this.MainSDK_XMAStudio_Click);
             // 
@@ -963,14 +994,15 @@
             this.mainSDK_BINStudio,
             this.mainSDK_SETStudio});
             this.engineToolStripMenuItem.Name = "engineToolStripMenuItem";
-            this.engineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.engineToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.engineToolStripMenuItem.Text = "Engine";
             // 
             // mainSDK_BINStudio
             // 
             this.mainSDK_BINStudio.Enabled = false;
+            this.mainSDK_BINStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_BINStudio.Image")));
             this.mainSDK_BINStudio.Name = "mainSDK_BINStudio";
-            this.mainSDK_BINStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_BINStudio.Size = new System.Drawing.Size(139, 22);
             this.mainSDK_BINStudio.Text = "BIN Studio...";
             this.mainSDK_BINStudio.Click += new System.EventHandler(this.MainSDK_BINStudio_Click);
             // 
@@ -979,7 +1011,7 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(139, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
             // 
@@ -989,7 +1021,7 @@
             this.mainSDK_LUBStudio,
             this.mainSDK_MSTStudio});
             this.scriptsToolStripMenuItem.Name = "scriptsToolStripMenuItem";
-            this.scriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scriptsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.scriptsToolStripMenuItem.Text = "Scripts";
             // 
             // mainSDK_LUBStudio
@@ -1013,7 +1045,7 @@
             // dbs_Separator
             // 
             this.dbs_Separator.Name = "dbs_Separator";
-            this.dbs_Separator.Size = new System.Drawing.Size(177, 6);
+            this.dbs_Separator.Size = new System.Drawing.Size(152, 6);
             this.dbs_Separator.Visible = false;
             // 
             // mainSDK_DebugStudio
@@ -1021,7 +1053,7 @@
             this.mainSDK_DebugStudio.Enabled = false;
             this.mainSDK_DebugStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DebugStudio.Image")));
             this.mainSDK_DebugStudio.Name = "mainSDK_DebugStudio";
-            this.mainSDK_DebugStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_DebugStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_DebugStudio.Text = "Debug Studio...";
             this.mainSDK_DebugStudio.Visible = false;
             this.mainSDK_DebugStudio.Click += new System.EventHandler(this.MainSDK_DebugStudio_Click);
@@ -1040,7 +1072,7 @@
             this.shortcuts_ConvertXNOs,
             this.mainShortcuts_Separator1,
             this.mainShortcuts_Xenia,
-            this.launchSonic06ModManagerToolStripMenuItem});
+            this.mainShortcuts_Sonic06ModManager});
             this.main_Shortcuts.Name = "main_Shortcuts";
             this.main_Shortcuts.Size = new System.Drawing.Size(69, 20);
             this.main_Shortcuts.Text = "Shortcuts";
@@ -1059,37 +1091,45 @@
             // shortcuts_ConvertBINs
             // 
             this.shortcuts_ConvertBINs.Enabled = false;
+            this.shortcuts_ConvertBINs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertBINs.Image")));
             this.shortcuts_ConvertBINs.Name = "shortcuts_ConvertBINs";
             this.shortcuts_ConvertBINs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.B)));
             this.shortcuts_ConvertBINs.Size = new System.Drawing.Size(305, 22);
             this.shortcuts_ConvertBINs.Text = "Convert all BIN files here...";
+            this.shortcuts_ConvertBINs.Click += new System.EventHandler(this.Shortcuts_ConvertBINs_Click);
             // 
             // shortcuts_ExtractCSBs
             // 
             this.shortcuts_ExtractCSBs.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.unpackToAIFToolStripMenuItem,
-            this.unpackToWAVToolStripMenuItem});
+            this.shortcuts_ExtractCSBsToAIF,
+            this.shortcuts_ExtractCSBsToWAV});
             this.shortcuts_ExtractCSBs.Enabled = false;
             this.shortcuts_ExtractCSBs.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ExtractCSBs.Image")));
             this.shortcuts_ExtractCSBs.Name = "shortcuts_ExtractCSBs";
-            this.shortcuts_ExtractCSBs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.C)));
             this.shortcuts_ExtractCSBs.Size = new System.Drawing.Size(305, 22);
             this.shortcuts_ExtractCSBs.Text = "Unpack all CSB files here...";
             this.shortcuts_ExtractCSBs.Click += new System.EventHandler(this.Shortcuts_ExtractCSBs_Click);
             // 
-            // unpackToAIFToolStripMenuItem
+            // shortcuts_ExtractCSBsToAIF
             // 
-            this.unpackToAIFToolStripMenuItem.Name = "unpackToAIFToolStripMenuItem";
-            this.unpackToAIFToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.unpackToAIFToolStripMenuItem.Text = "Unpack to AIF";
+            this.shortcuts_ExtractCSBsToAIF.Checked = true;
+            this.shortcuts_ExtractCSBsToAIF.CheckOnClick = true;
+            this.shortcuts_ExtractCSBsToAIF.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.shortcuts_ExtractCSBsToAIF.Name = "shortcuts_ExtractCSBsToAIF";
+            this.shortcuts_ExtractCSBsToAIF.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.C)));
+            this.shortcuts_ExtractCSBsToAIF.Size = new System.Drawing.Size(222, 22);
+            this.shortcuts_ExtractCSBsToAIF.Text = "Unpack to AIF";
+            this.shortcuts_ExtractCSBsToAIF.CheckedChanged += new System.EventHandler(this.Shortcuts_ExtractCSBsToAIF_CheckedChanged);
             // 
-            // unpackToWAVToolStripMenuItem
+            // shortcuts_ExtractCSBsToWAV
             // 
-            this.unpackToWAVToolStripMenuItem.Name = "unpackToWAVToolStripMenuItem";
-            this.unpackToWAVToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-            this.unpackToWAVToolStripMenuItem.Text = "Unpack to WAV";
+            this.shortcuts_ExtractCSBsToWAV.CheckOnClick = true;
+            this.shortcuts_ExtractCSBsToWAV.Name = "shortcuts_ExtractCSBsToWAV";
+            this.shortcuts_ExtractCSBsToWAV.Size = new System.Drawing.Size(222, 22);
+            this.shortcuts_ExtractCSBsToWAV.Text = "Unpack to WAV";
+            this.shortcuts_ExtractCSBsToWAV.CheckedChanged += new System.EventHandler(this.Shortcuts_ExtractCSBsToWAV_CheckedChanged);
             // 
             // shortcuts_ConvertDDS
             // 
@@ -1171,14 +1211,15 @@
             this.mainShortcuts_Xenia.Text = "Launch Xenia";
             this.mainShortcuts_Xenia.Click += new System.EventHandler(this.MainShortcuts_Xenia_Click);
             // 
-            // launchSonic06ModManagerToolStripMenuItem
+            // mainShortcuts_Sonic06ModManager
             // 
-            this.launchSonic06ModManagerToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("launchSonic06ModManagerToolStripMenuItem.Image")));
-            this.launchSonic06ModManagerToolStripMenuItem.Name = "launchSonic06ModManagerToolStripMenuItem";
-            this.launchSonic06ModManagerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.mainShortcuts_Sonic06ModManager.Image = ((System.Drawing.Image)(resources.GetObject("mainShortcuts_Sonic06ModManager.Image")));
+            this.mainShortcuts_Sonic06ModManager.Name = "mainShortcuts_Sonic06ModManager";
+            this.mainShortcuts_Sonic06ModManager.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.X)));
-            this.launchSonic06ModManagerToolStripMenuItem.Size = new System.Drawing.Size(305, 22);
-            this.launchSonic06ModManagerToolStripMenuItem.Text = "Launch Sonic \'06 Mod Manager";
+            this.mainShortcuts_Sonic06ModManager.Size = new System.Drawing.Size(305, 22);
+            this.mainShortcuts_Sonic06ModManager.Text = "Launch Sonic \'06 Mod Manager";
+            this.mainShortcuts_Sonic06ModManager.Click += new System.EventHandler(this.MainShortcuts_Sonic06ModManager_Click);
             // 
             // main_Window
             // 
@@ -1259,22 +1300,22 @@
             // 
             this.mainHelp_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_Documentation.Image")));
             this.mainHelp_Documentation.Name = "mainHelp_Documentation";
-            this.mainHelp_Documentation.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.mainHelp_Documentation.Size = new System.Drawing.Size(179, 22);
+            this.mainHelp_Documentation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
+            this.mainHelp_Documentation.Size = new System.Drawing.Size(203, 22);
             this.mainHelp_Documentation.Text = "Documentation";
             this.mainHelp_Documentation.Click += new System.EventHandler(this.MainHelp_Documentation_Click);
             // 
             // toolStripSeparator11
             // 
             this.toolStripSeparator11.Name = "toolStripSeparator11";
-            this.toolStripSeparator11.Size = new System.Drawing.Size(176, 6);
+            this.toolStripSeparator11.Size = new System.Drawing.Size(200, 6);
             this.toolStripSeparator11.MouseUp += new System.Windows.Forms.MouseEventHandler(this.None);
             // 
             // mainHelp_CheckForUpdates
             // 
             this.mainHelp_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_CheckForUpdates.Image")));
             this.mainHelp_CheckForUpdates.Name = "mainHelp_CheckForUpdates";
-            this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(179, 22);
+            this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(203, 22);
             this.mainHelp_CheckForUpdates.Text = "Check for updates...";
             this.mainHelp_CheckForUpdates.Click += new System.EventHandler(this.MainHelp_CheckForUpdates_Click);
             // 
@@ -1282,7 +1323,7 @@
             // 
             this.mainHelp_ReportBug.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_ReportBug.Image")));
             this.mainHelp_ReportBug.Name = "mainHelp_ReportBug";
-            this.mainHelp_ReportBug.Size = new System.Drawing.Size(179, 22);
+            this.mainHelp_ReportBug.Size = new System.Drawing.Size(203, 22);
             this.mainHelp_ReportBug.Text = "Report a bug...";
             this.mainHelp_ReportBug.Click += new System.EventHandler(this.MainHelp_ReportBug_Click);
             // 
@@ -1290,9 +1331,25 @@
             // 
             this.mainHelp_About.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_About.Image")));
             this.mainHelp_About.Name = "mainHelp_About";
-            this.mainHelp_About.Size = new System.Drawing.Size(179, 22);
+            this.mainHelp_About.Size = new System.Drawing.Size(203, 22);
             this.mainHelp_About.Text = "About";
             this.mainHelp_About.Click += new System.EventHandler(this.MainHelp_About_Click);
+            // 
+            // btn_DeepSearch
+            // 
+            this.btn_DeepSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_DeepSearch.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_DeepSearch.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_DeepSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DeepSearch.Image = ((System.Drawing.Image)(resources.GetObject("btn_DeepSearch.Image")));
+            this.btn_DeepSearch.Location = new System.Drawing.Point(572, 0);
+            this.btn_DeepSearch.Name = "btn_DeepSearch";
+            this.btn_DeepSearch.Size = new System.Drawing.Size(23, 25);
+            this.btn_DeepSearch.TabIndex = 14;
+            this.btn_DeepSearch.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btn_DeepSearch.UseVisualStyleBackColor = false;
+            this.btn_DeepSearch.Visible = false;
+            this.btn_DeepSearch.Click += new System.EventHandler(this.Btn_DeepSearch_Click);
             // 
             // btn_RepackOptions
             // 
@@ -1461,6 +1518,7 @@
             this.repackOptions_RepackAndLaunchModManager.Name = "repackOptions_RepackAndLaunchModManager";
             this.repackOptions_RepackAndLaunchModManager.Size = new System.Drawing.Size(331, 22);
             this.repackOptions_RepackAndLaunchModManager.Text = "Repack ARC and Launch Sonic \'06 Mod Manager";
+            this.repackOptions_RepackAndLaunchModManager.Click += new System.EventHandler(this.RepackOptions_RepackAndLaunchModManager_Click);
             // 
             // pic_Logo
             // 
@@ -1566,6 +1624,7 @@
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Forward);
             this.Controls.Add(this.btn_SessionID);
+            this.Controls.Add(this.btn_DeepSearch);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(743, 489);
@@ -1574,6 +1633,7 @@
             this.Text = "Sonic \'06 Toolkit";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
+            this.Shown += new System.EventHandler(this.TwoThousandAndSix);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             this.mstrip_Main.ResumeLayout(false);
@@ -1691,7 +1751,7 @@
         private System.Windows.Forms.ToolStripMenuItem repackOptions_Repack;
         private System.Windows.Forms.ToolStripMenuItem repackOptions_RepackAndLaunchXenia;
         private System.Windows.Forms.Button btn_RepackOptions;
-        private System.Windows.Forms.ToolStripMenuItem clearXeniaDirectoryToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem paths_ClearXenia;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDS;
         private System.Windows.Forms.ToolStripMenuItem preferences_FreeMode;
         private System.Windows.Forms.ToolStripMenuItem repackOptions_RepackAs;
@@ -1711,7 +1771,7 @@
         private System.Windows.Forms.ToolStripMenuItem mainSDK_DebugStudio;
         private System.Windows.Forms.ToolStripMenuItem advanced_ExportBinaries;
         private System.Windows.Forms.ToolStripMenuItem repackOptions_RepackAndLaunchModManager;
-        private System.Windows.Forms.ToolStripMenuItem launchSonic06ModManagerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mainShortcuts_Sonic06ModManager;
         private System.Windows.Forms.ToolStripMenuItem mainFile_NewARC;
         private System.Windows.Forms.ToolStripMenuItem sdk_Core;
         private System.Windows.Forms.ToolStripMenuItem mainSDK_ARCStudio;
@@ -1732,10 +1792,14 @@
         private System.Windows.Forms.ToolStripMenuItem mainSDK_MSTStudio;
         private System.Windows.Forms.ToolStripMenuItem xmaStudio_PatchXMAManually;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertBINs;
-        private System.Windows.Forms.ToolStripMenuItem unpackToAIFToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem unpackToWAVToolStripMenuItem;
-        private System.Windows.Forms.Label lbl_Search;
-        private System.Windows.Forms.TextBox text_SearchBar;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ExtractCSBsToAIF;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ExtractCSBsToWAV;
+        private System.Windows.Forms.ToolStripMenuItem launch_CSB;
+        private System.Windows.Forms.ToolStripMenuItem CSB_UnpackToAIF;
+        private System.Windows.Forms.ToolStripMenuItem CSB_UnpackToWAV;
+        private System.Windows.Forms.Button btn_DeepSearch;
+        private System.Windows.Forms.ToolStripMenuItem paths_ClearSonic06ModManager;
+        private System.Windows.Forms.ToolStripMenuItem preferences_AssociateARCs;
     }
 }
 

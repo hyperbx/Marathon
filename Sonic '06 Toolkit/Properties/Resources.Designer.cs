@@ -151,6 +151,45 @@ namespace Sonic_06_Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to body 
+        ///{
+        ///    background-color: #FFFFFF;
+        ///    color: #000000;
+        ///    font-size: 12px;
+        ///    font-family: &apos;Microsoft Sans Serif&apos;, sans-serif;
+        ///}
+        ///
+        ///a 
+        ///{
+        ///    color: #FF0000;
+        ///    text-decoration: none;
+        ///    vertical-align: baseline;
+        ///}
+        ///
+        ///h1
+        ///{
+        ///    font-size: 12px;
+        ///    margin: 0 0 0.75em;
+        ///    padding: 0 0 0.25em 0;
+        ///}
+        ///
+        ///li
+        ///{
+        ///    list-style-type: square;
+        ///}
+        ///
+        ///span.RedColor
+        ///{
+        ///    color: #FF4E4E;
+        ///}.
+        /// </summary>
+        internal static string CreditsStyleSheet {
+            get {
+                return ResourceManager.GetString("CreditsStyleSheet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] criatomencd {
@@ -266,6 +305,26 @@ namespace Sonic_06_Toolkit.Properties {
         internal static byte[] repack {
             get {
                 object obj = ResourceManager.GetObject("repack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] s06col {
+            get {
+                object obj = ResourceManager.GetObject("s06col", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] s06collision {
+            get {
+                object obj = ResourceManager.GetObject("s06collision", resourceCulture);
                 return ((byte[])(obj));
             }
         }
