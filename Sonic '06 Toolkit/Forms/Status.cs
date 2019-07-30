@@ -216,6 +216,15 @@ namespace Sonic_06_Toolkit
                 Width = 278;
                 Height = 138;
             }
+            else if (notifState == 0 && notifModifier == "deep-search")
+            {
+                NOW_LOADING.Visible = false;
+                Text = "Searching ARCs...";
+                lbl_unpackState.Text = "Searching ARCs. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 278;
+                Height = 138;
+            }
 
             pnl_windowCheck.Width = Width;
         }

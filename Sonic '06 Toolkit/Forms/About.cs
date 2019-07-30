@@ -52,7 +52,7 @@ namespace Sonic_06_Toolkit
                 $"Shadow LAG - <a href=\"https://drive.google.com/file/d/1auuHtR91zWwNDih4l6ddlwcCbczW_b0L/view\" target=\"_blank\">Sonic '06 SDK</a><br>" +
                 $"xose - ARC Unpacker<br>" +
                 $"g0ldenlink - ARC Repacker<br>" +
-                $"<a href=\"https://github.com/NatsumiFox\" target=\"_blank\">Natsumi</a> - <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/4e1e7e7b8e50eab1a0dbbe3f3c2b969b7a51c3c3\" target=\"_blank\">MST Decoder (1.83)</a> & Design Guidance<br>" +
+                $"<a href=\"https://github.com/NatsumiFox\" target=\"_blank\">Natsumi</a> - Deep Search, <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/4e1e7e7b8e50eab1a0dbbe3f3c2b969b7a51c3c3\" target=\"_blank\">MST Decoder (1.83)</a> & Design Guidance<br>" +
                 $"<a href=\"https://github.com/blueskythlikesclouds\" target=\"_blank\">Skyth</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a>, <a href=\"https://github.com/blueskythlikesclouds/SonicAudioTools\" target=\"_blank\">Sonic Audio Tools</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
                 $"DarioSamo - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
                 $"<a href=\"https://www.criware.com/en/\" target=\"_blank\">CRI Middleware Co.</a> - CRI Atom Encoder<br>" +

@@ -52,8 +52,6 @@ namespace Sonic_06_Toolkit
             list_Search.Items.Clear();
 
             var files = Directory.GetFiles(s06PathBox.Text, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".arc"));
-            UnicodeEncoding unicode = new UnicodeEncoding(true, false, false);
-            byte[] buffer = new byte[1024];
 
             foreach (string selectedARC in clb_ARCs.CheckedItems)
             {
@@ -61,75 +59,49 @@ namespace Sonic_06_Toolkit
                 {
                     if (ARC.Contains(selectedARC))
                     {
-                        List<string> results = new List<string>();
-
-                        using (FileStream fs = new FileStream(ARC, FileMode.Open))
+                        using (FileStream stream = new FileStream(ARC, FileMode.Open))
                         {
-                            byte[] strbuf = new byte[1024];
-                            int len = 0, pos = 0;
+                            // here is some stream 'stream' which contains any number of bytes, where we search for various strings inside of it
+                            FindStrings(stream, new string[] { searchBox.Text }, Path.GetFileName(ARC));
+                        }
+                    }
+                }
+            }
+        }
 
-                            while ((len = fs.Read(buffer, 0, buffer.Length)) > 0)
+        private void FindStrings(Stream stream, string[] str, string arc)
+        {
+            int[] pos = new int[str.Length];
+            byte[] buf = new byte[1024];
+            int len = 0;
+
+            while (true)
+            {
+                // read data from stream into buffer, and exit if length is 0
+                if ((len = stream.Read(buf, 0, buf.Length)) == 0)
+                    break;
+
+                // check str array for every character, making sure they are up-to-date
+                for (int x = 0; x < str.Length; x++)
+                {
+                    for (int i = 0; i < len; i++)
+                    {
+                        if (str[x][pos[x]] == buf[i])
+                        {
+
+                            // there is a match, increment position and check if we finished the string
+                            if (++pos[x] == str[x].Length)
                             {
-                                for (int i = 0; i < len; i += 2)
-                                {
+                                // why yes, this string is now finished, print out the information
+                                list_Search.Items.Add($"Found instances of {str[x]} in {arc}");
 
-                                    // check if the next 2 bytes are an end token. Check second byte last because its most likely 0 anyway but we gotta be sure...
-                                    if ((buffer[i + 1] == 0 || buffer[i + 1] == 0xA) && buffer[i] == 0)
-                                    {
-                                        // this is a null terminator or a newline
-                                        results.Add(unicode.GetString(strbuf, 0, pos));
-                                        pos = 0;
-
-                                    }
-                                    else
-                                    {
-                                        // if the buffer we allocated is too small, reallocate a larger array...
-                                        if (pos >= strbuf.Length)
-                                        {
-                                            byte[] _sbuf = strbuf;
-                                            strbuf = new byte[_sbuf.Length << 1];
-                                            Array.Copy(_sbuf, strbuf, _sbuf.Length);
-                                        }
-
-                                        // copy next 2 bytes into strbuffer... If file size is not divisible by 2, this is gonna be a real problem here
-                                        strbuf[pos++] = buffer[i];
-                                        strbuf[pos++] = buffer[i + 1];
-                                    }
-                                }
+                                // reset position
+                                pos[x] = 0;
                             }
 
-                            // if the last string is not terminated, print it anyway
-                            if (pos > 0) results.Add(unicode.GetString(strbuf, 0, pos));
+                            // no match, reset position to 0
                         }
-
-                        foreach (var item in results)
-                        {
-                            list_Search.Items.Add($"Found instances of {item} in {Path.GetFileName(ARC)}");
-                        }
-
-                        //byte[] bytes;
-                        //string hexString;
-
-                        //bytes = File.ReadAllBytes(ARC).Take(4).ToArray();
-                        //hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-
-                        //if (hexString != "55 AA 38 2D") MessageBox.Show("Invalid ARC file detected.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //else
-                        //{
-                        //    bytes = File.ReadAllBytes(ARC).ToArray();
-                        //    hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
-
-                        //    byte[] query = Encoding.ASCII.GetBytes(searchBox.Text);
-                        //    var queryBytes = BitConverter.ToString(query); queryBytes = queryBytes.Replace("-", " ");
-
-                        //    if (hexString.Contains(queryBytes))
-                        //    {
-                        //        list_Search.Items.Add($"Found instances of {searchBox.Text} in {Path.GetFileName(ARC)}");
-                        //    }
-
-                        //    Array.Clear(bytes, 0, bytes.Length);
-                        //    Array.Clear(query, 0, query.Length);
-                        //}
+                        else pos[x] = 0;
                     }
                 }
             }

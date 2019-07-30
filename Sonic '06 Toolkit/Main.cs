@@ -1342,7 +1342,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
                 btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
                 btn_RepackOptions.Height += 3; btn_RepackOptions.Top -= 29; btn_RepackOptions.FlatAppearance.BorderSize = 1;
-                btn_SessionID.Height += 3; btn_SessionID.Left += 193; /*btn_SessionID.Left += 218;*/ btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
+                btn_SessionID.Height += 3; btn_SessionID.Left += 218; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
                 lbl_SetDefault.Top = 53;
                 btn_DeepSearch.Top -= 28; btn_DeepSearch.Width += 2; btn_DeepSearch.Height += 2; btn_DeepSearch.FlatAppearance.BorderSize = 1;
 
@@ -1372,7 +1372,7 @@ namespace Sonic_06_Toolkit
                 btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
                 btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
                 btn_RepackOptions.Height -= 3; btn_RepackOptions.Top += 29; btn_RepackOptions.FlatAppearance.BorderSize = 0;
-                btn_SessionID.Height -= 3; btn_SessionID.Left -= 193; /*btn_SessionID.Left -= 218;*/ btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
+                btn_SessionID.Height -= 3; btn_SessionID.Left -= 218; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
                 lbl_SetDefault.Top = 81;
                 btn_DeepSearch.Top += 28; btn_DeepSearch.Width -= 2; btn_DeepSearch.Height -= 2; btn_DeepSearch.FlatAppearance.BorderSize = 0;
 

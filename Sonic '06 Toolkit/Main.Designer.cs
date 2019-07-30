@@ -886,7 +886,7 @@
             this.sdk_Core.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_ARCStudio});
             this.sdk_Core.Name = "sdk_Core";
-            this.sdk_Core.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Core.Size = new System.Drawing.Size(155, 22);
             this.sdk_Core.Text = "Core";
             // 
             // mainSDK_ARCStudio
@@ -902,7 +902,7 @@
             this.sdk_Graphics.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_DDSStudio});
             this.sdk_Graphics.Name = "sdk_Graphics";
-            this.sdk_Graphics.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Graphics.Size = new System.Drawing.Size(155, 22);
             this.sdk_Graphics.Text = "Graphics";
             // 
             // mainSDK_DDSStudio
@@ -919,7 +919,7 @@
             this.sdk_Animation.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainSDK_XNOStudio});
             this.sdk_Animation.Name = "sdk_Animation";
-            this.sdk_Animation.Size = new System.Drawing.Size(180, 22);
+            this.sdk_Animation.Size = new System.Drawing.Size(155, 22);
             this.sdk_Animation.Text = "Animation";
             // 
             // mainSDK_XNOStudio
@@ -939,7 +939,7 @@
             this.mainSDK_CSBStudio,
             this.mainSDK_XMAStudio});
             this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
-            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.audioVideoToolStripMenuItem.Text = "Audio/Video";
             // 
             // mainSDK_ADXStudio
@@ -994,7 +994,7 @@
             this.mainSDK_BINStudio,
             this.mainSDK_MSTStudio});
             this.engineToolStripMenuItem.Name = "engineToolStripMenuItem";
-            this.engineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.engineToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.engineToolStripMenuItem.Text = "Engine";
             // 
             // mainSDK_BINStudio
@@ -1002,7 +1002,7 @@
             this.mainSDK_BINStudio.Enabled = false;
             this.mainSDK_BINStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_BINStudio.Image")));
             this.mainSDK_BINStudio.Name = "mainSDK_BINStudio";
-            this.mainSDK_BINStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_BINStudio.Size = new System.Drawing.Size(143, 22);
             this.mainSDK_BINStudio.Text = "BIN Studio...";
             this.mainSDK_BINStudio.Click += new System.EventHandler(this.MainSDK_BINStudio_Click);
             // 
@@ -1011,7 +1011,7 @@
             this.mainSDK_MSTStudio.Enabled = false;
             this.mainSDK_MSTStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_MSTStudio.Image")));
             this.mainSDK_MSTStudio.Name = "mainSDK_MSTStudio";
-            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_MSTStudio.Size = new System.Drawing.Size(143, 22);
             this.mainSDK_MSTStudio.Text = "MST Studio...";
             this.mainSDK_MSTStudio.Click += new System.EventHandler(this.MainSDK_MSTStudio_Click);
             // 
@@ -1021,7 +1021,7 @@
             this.mainSDK_LUBStudio,
             this.mainSDK_SETStudio});
             this.scriptsToolStripMenuItem.Name = "scriptsToolStripMenuItem";
-            this.scriptsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.scriptsToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
             this.scriptsToolStripMenuItem.Text = "Scripts";
             // 
             // mainSDK_LUBStudio
@@ -1029,7 +1029,7 @@
             this.mainSDK_LUBStudio.Enabled = false;
             this.mainSDK_LUBStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_LUBStudio.Image")));
             this.mainSDK_LUBStudio.Name = "mainSDK_LUBStudio";
-            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_LUBStudio.Size = new System.Drawing.Size(141, 22);
             this.mainSDK_LUBStudio.Text = "LUB Studio...";
             this.mainSDK_LUBStudio.Click += new System.EventHandler(this.MainSDK_LUBStudio_Click);
             // 
@@ -1038,14 +1038,14 @@
             this.mainSDK_SETStudio.Enabled = false;
             this.mainSDK_SETStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_SETStudio.Image")));
             this.mainSDK_SETStudio.Name = "mainSDK_SETStudio";
-            this.mainSDK_SETStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_SETStudio.Size = new System.Drawing.Size(141, 22);
             this.mainSDK_SETStudio.Text = "SET Studio...";
             this.mainSDK_SETStudio.Click += new System.EventHandler(this.MainSDK_SETStudio_Click);
             // 
             // dbs_Separator
             // 
             this.dbs_Separator.Name = "dbs_Separator";
-            this.dbs_Separator.Size = new System.Drawing.Size(177, 6);
+            this.dbs_Separator.Size = new System.Drawing.Size(152, 6);
             this.dbs_Separator.Visible = false;
             // 
             // mainSDK_DebugStudio
@@ -1053,7 +1053,7 @@
             this.mainSDK_DebugStudio.Enabled = false;
             this.mainSDK_DebugStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_DebugStudio.Image")));
             this.mainSDK_DebugStudio.Name = "mainSDK_DebugStudio";
-            this.mainSDK_DebugStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_DebugStudio.Size = new System.Drawing.Size(155, 22);
             this.mainSDK_DebugStudio.Text = "Debug Studio...";
             this.mainSDK_DebugStudio.Visible = false;
             this.mainSDK_DebugStudio.Click += new System.EventHandler(this.MainSDK_DebugStudio_Click);
@@ -1348,7 +1348,6 @@
             this.btn_DeepSearch.TabIndex = 14;
             this.btn_DeepSearch.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.btn_DeepSearch.UseVisualStyleBackColor = false;
-            this.btn_DeepSearch.Visible = false;
             this.btn_DeepSearch.Click += new System.EventHandler(this.Btn_DeepSearch_Click);
             // 
             // btn_RepackOptions
