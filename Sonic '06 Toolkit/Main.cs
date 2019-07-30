@@ -214,7 +214,7 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
-                        Tools.BIN.Import(0, args[0], string.Empty);
+                        Tools.BIN.Import(2, args[0], string.Empty);
                         Close();
                     }
                     catch
@@ -265,7 +265,7 @@ namespace Sonic_06_Toolkit
                 {
                     try
                     {
-                        Tools.BIN.Import(0, args[0], string.Empty);
+                        Tools.BIN.Import(2, args[0], string.Empty);
                         Close();
                     }
                     catch

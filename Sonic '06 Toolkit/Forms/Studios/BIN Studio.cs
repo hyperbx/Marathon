@@ -156,7 +156,7 @@ namespace Sonic_06_Toolkit
                 {
                     foreach (string selectedCol in clb_BIN.CheckedItems)
                     {
-                        Tools.BIN.Import(1, string.Empty, selectedCol);
+                        Tools.BIN.Import(3, string.Empty, selectedCol);
                     }
                     if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected collision files have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
