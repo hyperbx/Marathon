@@ -38,7 +38,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@
             this.getIndex = new System.Windows.Forms.Label();
             this.sessionID = new System.Windows.Forms.Label();
             this.applicationData = new System.Windows.Forms.Label();
-            this.exisoState = new System.Windows.Forms.Label();
             this.updateState = new System.Windows.Forms.Label();
             this.currentPath = new System.Windows.Forms.Label();
             this.serverStatus = new System.Windows.Forms.Label();
@@ -146,6 +144,10 @@
             this.theme = new System.Windows.Forms.Label();
             this.showSessionID = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.btn_CloseStatus = new System.Windows.Forms.Button();
+            this.btn_OpenStatus = new System.Windows.Forms.Button();
+            this.nud_State = new System.Windows.Forms.NumericUpDown();
+            this.combo_Modifier = new System.Windows.Forms.ComboBox();
             this.btn_SimulateStupidError = new System.Windows.Forms.Button();
             this.check_DebugAdvanced = new System.Windows.Forms.CheckBox();
             this.btn_UnsafeState = new System.Windows.Forms.Button();
@@ -171,6 +173,7 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_State)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -210,7 +213,6 @@
             this.splitContainer1.Panel1.Controls.Add(this.label18);
             this.splitContainer1.Panel1.Controls.Add(this.label17);
             this.splitContainer1.Panel1.Controls.Add(this.label16);
-            this.splitContainer1.Panel1.Controls.Add(this.label6);
             this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
@@ -224,7 +226,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.getIndex);
             this.splitContainer1.Panel2.Controls.Add(this.sessionID);
             this.splitContainer1.Panel2.Controls.Add(this.applicationData);
-            this.splitContainer1.Panel2.Controls.Add(this.exisoState);
             this.splitContainer1.Panel2.Controls.Add(this.updateState);
             this.splitContainer1.Panel2.Controls.Add(this.currentPath);
             this.splitContainer1.Panel2.Controls.Add(this.serverStatus);
@@ -237,7 +238,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(3, 80);
+            this.label57.Location = new System.Drawing.Point(3, 67);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(59, 13);
             this.label57.TabIndex = 20;
@@ -246,7 +247,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 132);
+            this.label20.Location = new System.Drawing.Point(3, 119);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(76, 13);
             this.label20.TabIndex = 19;
@@ -255,7 +256,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 119);
+            this.label18.Location = new System.Drawing.Point(3, 106);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(48, 13);
             this.label18.TabIndex = 17;
@@ -264,7 +265,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 106);
+            this.label17.Location = new System.Drawing.Point(3, 93);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(53, 13);
             this.label17.TabIndex = 16;
@@ -273,20 +274,11 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 93);
+            this.label16.Location = new System.Drawing.Point(3, 80);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(81, 13);
             this.label16.TabIndex = 15;
             this.label16.Text = "applicationData";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 67);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "exisoState";
             // 
             // label5
             // 
@@ -336,7 +328,7 @@
             // lbl_getStorage
             // 
             this.lbl_getStorage.AutoSize = true;
-            this.lbl_getStorage.Location = new System.Drawing.Point(3, 80);
+            this.lbl_getStorage.Location = new System.Drawing.Point(3, 67);
             this.lbl_getStorage.Name = "lbl_getStorage";
             this.lbl_getStorage.Size = new System.Drawing.Size(59, 13);
             this.lbl_getStorage.TabIndex = 40;
@@ -345,7 +337,7 @@
             // gameChanged
             // 
             this.gameChanged.AutoSize = true;
-            this.gameChanged.Location = new System.Drawing.Point(3, 132);
+            this.gameChanged.Location = new System.Drawing.Point(3, 119);
             this.gameChanged.Name = "gameChanged";
             this.gameChanged.Size = new System.Drawing.Size(76, 13);
             this.gameChanged.TabIndex = 39;
@@ -355,7 +347,7 @@
             // getIndex
             // 
             this.getIndex.AutoSize = true;
-            this.getIndex.Location = new System.Drawing.Point(3, 119);
+            this.getIndex.Location = new System.Drawing.Point(3, 106);
             this.getIndex.Name = "getIndex";
             this.getIndex.Size = new System.Drawing.Size(48, 13);
             this.getIndex.TabIndex = 37;
@@ -364,7 +356,7 @@
             // sessionID
             // 
             this.sessionID.AutoSize = true;
-            this.sessionID.Location = new System.Drawing.Point(3, 106);
+            this.sessionID.Location = new System.Drawing.Point(3, 93);
             this.sessionID.Name = "sessionID";
             this.sessionID.Size = new System.Drawing.Size(53, 13);
             this.sessionID.TabIndex = 36;
@@ -373,20 +365,11 @@
             // applicationData
             // 
             this.applicationData.AutoSize = true;
-            this.applicationData.Location = new System.Drawing.Point(3, 93);
+            this.applicationData.Location = new System.Drawing.Point(3, 80);
             this.applicationData.Name = "applicationData";
             this.applicationData.Size = new System.Drawing.Size(81, 13);
             this.applicationData.TabIndex = 35;
             this.applicationData.Text = "applicationData";
-            // 
-            // exisoState
-            // 
-            this.exisoState.AutoSize = true;
-            this.exisoState.Location = new System.Drawing.Point(3, 67);
-            this.exisoState.Name = "exisoState";
-            this.exisoState.Size = new System.Drawing.Size(56, 13);
-            this.exisoState.TabIndex = 25;
-            this.exisoState.Text = "exisoState";
             // 
             // updateState
             // 
@@ -1354,6 +1337,10 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.btn_CloseStatus);
+            this.tabPage3.Controls.Add(this.btn_OpenStatus);
+            this.tabPage3.Controls.Add(this.nud_State);
+            this.tabPage3.Controls.Add(this.combo_Modifier);
             this.tabPage3.Controls.Add(this.btn_SimulateStupidError);
             this.tabPage3.Controls.Add(this.check_DebugAdvanced);
             this.tabPage3.Controls.Add(this.btn_UnsafeState);
@@ -1368,6 +1355,62 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Debug";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // btn_CloseStatus
+            // 
+            this.btn_CloseStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_CloseStatus.BackColor = System.Drawing.Color.Tomato;
+            this.btn_CloseStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_CloseStatus.Location = new System.Drawing.Point(138, 509);
+            this.btn_CloseStatus.Name = "btn_CloseStatus";
+            this.btn_CloseStatus.Size = new System.Drawing.Size(132, 44);
+            this.btn_CloseStatus.TabIndex = 16;
+            this.btn_CloseStatus.Text = "Close Status Window";
+            this.btn_CloseStatus.UseVisualStyleBackColor = false;
+            this.btn_CloseStatus.Click += new System.EventHandler(this.Btn_CloseStatus_Click);
+            // 
+            // btn_OpenStatus
+            // 
+            this.btn_OpenStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btn_OpenStatus.BackColor = System.Drawing.Color.LightGreen;
+            this.btn_OpenStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_OpenStatus.Location = new System.Drawing.Point(4, 509);
+            this.btn_OpenStatus.Name = "btn_OpenStatus";
+            this.btn_OpenStatus.Size = new System.Drawing.Size(131, 44);
+            this.btn_OpenStatus.TabIndex = 15;
+            this.btn_OpenStatus.Text = "Open Status Window";
+            this.btn_OpenStatus.UseVisualStyleBackColor = false;
+            this.btn_OpenStatus.Click += new System.EventHandler(this.Btn_OpenStatus_Click);
+            // 
+            // nud_State
+            // 
+            this.nud_State.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.nud_State.Location = new System.Drawing.Point(273, 509);
+            this.nud_State.Name = "nud_State";
+            this.nud_State.Size = new System.Drawing.Size(121, 20);
+            this.nud_State.TabIndex = 14;
+            // 
+            // combo_Modifier
+            // 
+            this.combo_Modifier.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.combo_Modifier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_Modifier.FormattingEnabled = true;
+            this.combo_Modifier.Items.AddRange(new object[] {
+            "ADX",
+            "ARC",
+            "AT3",
+            "BIN",
+            "CSB",
+            "DDS",
+            "LUB",
+            "XMA",
+            "XNO",
+            "exiso"});
+            this.combo_Modifier.Location = new System.Drawing.Point(273, 532);
+            this.combo_Modifier.Name = "combo_Modifier";
+            this.combo_Modifier.Size = new System.Drawing.Size(121, 21);
+            this.combo_Modifier.TabIndex = 13;
             // 
             // btn_SimulateStupidError
             // 
@@ -1516,7 +1559,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(422, 543);
+            this.MinimumSize = new System.Drawing.Size(422, 337);
             this.Name = "Debugger";
             this.Text = "Debugger";
             this.Load += new System.EventHandler(this.Debugger_Load);
@@ -1537,6 +1580,7 @@
             this.splitContainer2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_State)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1548,7 +1592,6 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -1562,7 +1605,6 @@
         private System.Windows.Forms.Label getIndex;
         private System.Windows.Forms.Label sessionID;
         private System.Windows.Forms.Label applicationData;
-        private System.Windows.Forms.Label exisoState;
         private System.Windows.Forms.Label updateState;
         private System.Windows.Forms.Label currentPath;
         private System.Windows.Forms.Label serverStatus;
@@ -1673,5 +1715,9 @@
         private System.Windows.Forms.Label csbUnpackMode;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label collisionFile;
+        private System.Windows.Forms.ComboBox combo_Modifier;
+        private System.Windows.Forms.Button btn_OpenStatus;
+        private System.Windows.Forms.NumericUpDown nud_State;
+        private System.Windows.Forms.Button btn_CloseStatus;
     }
 }

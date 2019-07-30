@@ -124,6 +124,8 @@ namespace Sonic_06_Toolkit
             if (modes_UnpackToAIF.Checked)
             {
                 Properties.Settings.Default.csbUnpackMode = 0;
+                if (Properties.Settings.Default.csbUnpackMode == 0) { modes_UnpackToAIF.Checked = true; modes_UnpackToWAV.Checked = false; }
+                else { modes_UnpackToAIF.Checked = false; modes_UnpackToWAV.Checked = true; }
 
                 clb_CSBs.Items.Clear();
                 btn_Extract.Text = "Unpack";
@@ -138,7 +140,6 @@ namespace Sonic_06_Toolkit
                 }
                 #endregion
 
-                modes_UnpackToAIF.Checked = true;
                 modes_UnpackToWAV.Checked = false;
                 modes_RepackToCSB.Checked = false;
                 btn_Extract.Enabled = false;
@@ -147,13 +148,9 @@ namespace Sonic_06_Toolkit
                 {
                     MessageBox.Show("There are no CSB files to unpack in this directory.", "No CSB files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    foreach (string CSB in Directory.GetDirectories(Tools.Global.currentPath))
-                    {
-                        if (Directory.Exists(CSB))
-                        {
-                            clb_CSBs.Items.Add(Path.GetFileName(CSB));
-                        }
-                    }
+                    modes_UnpackToAIF.Checked = false;
+                    modes_UnpackToWAV.Checked = false;
+                    modes_RepackToCSB.Checked = true;
 
                     //Checks if there are any CSBs in the directory.
                     if (clb_CSBs.Items.Count == 0)
@@ -186,7 +183,6 @@ namespace Sonic_06_Toolkit
                 #endregion
 
                 modes_UnpackToAIF.Checked = false;
-                modes_UnpackToWAV.Checked = true;
                 modes_RepackToCSB.Checked = false;
                 btn_Extract.Enabled = false;
 
@@ -194,13 +190,9 @@ namespace Sonic_06_Toolkit
                 {
                     MessageBox.Show("There are no CSB files to unpack in this directory.", "No CSB files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    foreach (string CSB in Directory.GetDirectories(Tools.Global.currentPath))
-                    {
-                        if (Directory.Exists(CSB))
-                        {
-                            clb_CSBs.Items.Add(Path.GetFileName(CSB));
-                        }
-                    }
+                    modes_UnpackToAIF.Checked = false;
+                    modes_UnpackToWAV.Checked = false;
+                    modes_RepackToCSB.Checked = true;
 
                     //Checks if there are any CSBs in the directory.
                     if (clb_CSBs.Items.Count == 0)
@@ -232,12 +224,14 @@ namespace Sonic_06_Toolkit
 
                 modes_UnpackToAIF.Checked = false;
                 modes_UnpackToWAV.Checked = false;
-                modes_RepackToCSB.Checked = true;
                 btn_Extract.Enabled = false;
 
                 if (clb_CSBs.Items.Count == 0)
                 {
                     MessageBox.Show("There are no CSB directories to repack in this directory.", "No CSB directories available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (Properties.Settings.Default.csbUnpackMode == 0) { modes_UnpackToAIF.Checked = true; modes_UnpackToWAV.Checked = false; }
+                    else { modes_UnpackToAIF.Checked = false; modes_UnpackToWAV.Checked = true; }
 
                     foreach (string CSB in Directory.GetFiles(Tools.Global.currentPath, "*.csb", SearchOption.TopDirectoryOnly))
                     {
@@ -259,8 +253,20 @@ namespace Sonic_06_Toolkit
 
         private void CSB_Studio_Load(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.csbUnpackMode == 0) { modes_UnpackToAIF.Checked = true; modes_UnpackToWAV.Checked = false; }
-            else { modes_UnpackToAIF.Checked = false; modes_UnpackToWAV.Checked = true; }
+            clb_CSBs.Items.Clear();
+
+            if (Directory.GetFiles(Tools.Global.currentPath, "*.csb").Length > 0)
+            {
+                if (Properties.Settings.Default.csbUnpackMode == 0) { modes_UnpackToAIF.Checked = true; modes_UnpackToWAV.Checked = false; }
+                else { modes_UnpackToAIF.Checked = false; modes_UnpackToWAV.Checked = true; }
+            }
+            else if (Directory.GetDirectories(Tools.Global.currentPath).Length > 0)
+            {
+                modes_UnpackToAIF.Checked = false;
+                modes_UnpackToWAV.Checked = false;
+                modes_RepackToCSB.Checked = true;
+            }
+            else { MessageBox.Show("There are no convertable files in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
         }
     }
 }

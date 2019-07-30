@@ -69,7 +69,7 @@ namespace Sonic_06_Toolkit
                 Text = "Processing ARCs...";
                 lbl_unpackState.Text = "Processing ARCs. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
-                Width = 236;
+                Width = 288;
                 Height = 138;
             }
             else if (new[] {2, 3}.Contains(notifState) && notifModifier == "ARC")
@@ -81,7 +81,25 @@ namespace Sonic_06_Toolkit
                 Width = 284;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "ADX")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "BIN")
+            {
+                NOW_LOADING.Visible = false;
+                Text = "Exporting BIN files...";
+                lbl_unpackState.Text = "Exporting BIN files. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 295;
+                Height = 138;
+            }
+            else if (new[] { 2, 3 }.Contains(notifState) && notifModifier == "BIN")
+            {
+                NOW_LOADING.Visible = false;
+                Text = "Importing collision...";
+                lbl_unpackState.Text = "Importing collision. Please wait...";
+                pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
+                Width = 290;
+                Height = 138;
+            }
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "ADX")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Encoding ADX files...";
@@ -99,13 +117,13 @@ namespace Sonic_06_Toolkit
                 Width = 300;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "AT3")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "AT3")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Encoding AT3 files...";
                 lbl_unpackState.Text = "Encoding AT3 files. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
-                Width = 300;
+                Width = 295;
                 Height = 138;
             }
             else if (notifState == 2 && notifModifier == "AT3")
@@ -117,16 +135,16 @@ namespace Sonic_06_Toolkit
                 Width = 300;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "DDS")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "DDS")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Converting DDS files...";
                 lbl_unpackState.Text = "Converting DDS files. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
-                Width = 302;
+                Width = 304;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "PNG")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "PNG")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Converting PNG files...";
@@ -135,22 +153,22 @@ namespace Sonic_06_Toolkit
                 Width = 302;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "CSB")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "CSB")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Unpacking CSBs...";
                 lbl_unpackState.Text = "Unpacking CSBs. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
-                Width = 209;
+                Width = 290;
                 Height = 138;
             }
-            else if (notifState <= 1 && notifModifier == "CSB")
+            else if (new[] { 2, 3 }.Contains(notifState) && notifModifier == "CSB")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Repacking CSBs...";
                 lbl_unpackState.Text = "Repacking CSBs. Please wait...";
                 pnl_windowCheck.BackColor = Color.AliceBlue; BackColor = Color.AliceBlue;
-                Width = 212;
+                Width = 288;
                 Height = 138;
             }
             else if (notifModifier == "LUB")
@@ -162,13 +180,13 @@ namespace Sonic_06_Toolkit
                 Width = 295;
                 Height = 138;
             }
-            else if (notifState >= 1 && notifModifier == "XNO")
+            else if (new[] { 0, 1 }.Contains(notifState) && notifModifier == "XNO")
             {
                 NOW_LOADING.Visible = false;
                 Text = "Converting XNOs...";
                 lbl_unpackState.Text = "Converting XNOs. Please wait...";
                 pnl_windowCheck.BackColor = Color.FromArgb(239, 224, 201); BackColor = Color.FromArgb(239, 224, 201);
-                Width = 219;
+                Width = 290;
                 Height = 138;
             }
             else if (new[] { 0, 1, 3, 4 }.Contains(notifState) && notifModifier == "XMA")
@@ -195,9 +213,11 @@ namespace Sonic_06_Toolkit
                 Text = "Extracting ISO...";
                 lbl_unpackState.Text = "Extracting ISO. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
-                Width = 219;
+                Width = 278;
                 Height = 138;
             }
+
+            pnl_windowCheck.Width = Width;
         }
     }
 }

@@ -34,14 +34,16 @@
             treeNode1});
             System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("DDS");
             System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("FXO");
-            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("XNCP");
-            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("FTM");
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("FTM");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("MAB");
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("PEB");
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("PLC");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("XNI");
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("XNV");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("MAB");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Graphics", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("PTB");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("XNI");
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("XNV");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("XNCP");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("XNE");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Graphics", new System.Windows.Forms.TreeNode[] {
             treeNode3,
             treeNode4,
             treeNode5,
@@ -50,29 +52,27 @@
             treeNode8,
             treeNode9,
             treeNode10,
-            treeNode11});
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("XNM");
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("XNO");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("XNG");
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("XND");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Animation", new System.Windows.Forms.TreeNode[] {
-            treeNode13,
-            treeNode14,
+            treeNode11,
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("XND");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("XNG");
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("XNM");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("XNO");
+            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Animation", new System.Windows.Forms.TreeNode[] {
             treeNode15,
-            treeNode16});
-            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("AT3");
-            System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("PAM");
-            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("CSB");
-            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("ADX");
-            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("XMA");
-            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("WMV");
-            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("EPB");
+            treeNode16,
+            treeNode17,
+            treeNode18});
+            System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("ADX");
+            System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("AT3");
+            System.Windows.Forms.TreeNode treeNode22 = new System.Windows.Forms.TreeNode("CSB");
+            System.Windows.Forms.TreeNode treeNode23 = new System.Windows.Forms.TreeNode("EPB");
+            System.Windows.Forms.TreeNode treeNode24 = new System.Windows.Forms.TreeNode("PAM");
             System.Windows.Forms.TreeNode treeNode25 = new System.Windows.Forms.TreeNode("SBK");
-            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("XNE");
-            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("PTB");
+            System.Windows.Forms.TreeNode treeNode26 = new System.Windows.Forms.TreeNode("WMV");
+            System.Windows.Forms.TreeNode treeNode27 = new System.Windows.Forms.TreeNode("XMA");
             System.Windows.Forms.TreeNode treeNode28 = new System.Windows.Forms.TreeNode("Audio/Video", new System.Windows.Forms.TreeNode[] {
-            treeNode18,
-            treeNode19,
             treeNode20,
             treeNode21,
             treeNode22,
@@ -81,14 +81,14 @@
             treeNode25,
             treeNode26,
             treeNode27});
-            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("SET");
-            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("HKX");
-            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("XNA");
+            System.Windows.Forms.TreeNode treeNode29 = new System.Windows.Forms.TreeNode("BIN");
+            System.Windows.Forms.TreeNode treeNode30 = new System.Windows.Forms.TreeNode("ELF");
+            System.Windows.Forms.TreeNode treeNode31 = new System.Windows.Forms.TreeNode("HKX");
             System.Windows.Forms.TreeNode treeNode32 = new System.Windows.Forms.TreeNode("MBI");
-            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("BIN");
+            System.Windows.Forms.TreeNode treeNode33 = new System.Windows.Forms.TreeNode("MST");
             System.Windows.Forms.TreeNode treeNode34 = new System.Windows.Forms.TreeNode("RAB");
             System.Windows.Forms.TreeNode treeNode35 = new System.Windows.Forms.TreeNode("TEV");
-            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("ELF");
+            System.Windows.Forms.TreeNode treeNode36 = new System.Windows.Forms.TreeNode("XNA");
             System.Windows.Forms.TreeNode treeNode37 = new System.Windows.Forms.TreeNode("Engine", new System.Windows.Forms.TreeNode[] {
             treeNode29,
             treeNode30,
@@ -98,13 +98,13 @@
             treeNode34,
             treeNode35,
             treeNode36});
-            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("LUB");
-            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("PATH");
-            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("KBF");
-            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("MST");
-            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("PFI");
+            System.Windows.Forms.TreeNode treeNode38 = new System.Windows.Forms.TreeNode("KBF");
+            System.Windows.Forms.TreeNode treeNode39 = new System.Windows.Forms.TreeNode("LUB");
+            System.Windows.Forms.TreeNode treeNode40 = new System.Windows.Forms.TreeNode("PATH");
+            System.Windows.Forms.TreeNode treeNode41 = new System.Windows.Forms.TreeNode("PFI");
+            System.Windows.Forms.TreeNode treeNode42 = new System.Windows.Forms.TreeNode("PKG");
             System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("PROP");
-            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("PKG");
+            System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("SET");
             System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Scripts", new System.Windows.Forms.TreeNode[] {
             treeNode38,
             treeNode39,
@@ -225,86 +225,86 @@
             treeNode3.Text = "DDS";
             treeNode4.Name = "node_FXO";
             treeNode4.Text = "FXO";
-            treeNode5.Name = "node_XNCP";
-            treeNode5.Text = "XNCP";
-            treeNode6.Name = "node_FTM";
-            treeNode6.Text = "FTM";
+            treeNode5.Name = "node_FTM";
+            treeNode5.Text = "FTM";
+            treeNode6.Name = "node_MAB";
+            treeNode6.Text = "MAB";
             treeNode7.Name = "node_PEB";
             treeNode7.Text = "PEB";
             treeNode8.Name = "node_PLC";
             treeNode8.Text = "PLC";
-            treeNode9.Name = "node_XNI";
-            treeNode9.Text = "XNI";
-            treeNode10.Name = "node_XNV";
-            treeNode10.Text = "XNV";
-            treeNode11.Name = "node_MAB";
-            treeNode11.Text = "MAB";
-            treeNode12.Name = "node_Graphics";
-            treeNode12.Text = "Graphics";
-            treeNode13.Name = "node_XNM";
-            treeNode13.Text = "XNM";
-            treeNode14.Name = "node_XNO";
-            treeNode14.Text = "XNO";
-            treeNode15.Name = "node_XNG";
-            treeNode15.Text = "XNG";
-            treeNode16.Name = "node_XND";
-            treeNode16.Text = "XND";
-            treeNode17.Name = "node_Animation";
-            treeNode17.Text = "Animation";
-            treeNode18.Name = "node_AT3";
-            treeNode18.Text = "AT3";
-            treeNode19.Name = "node_PAM";
-            treeNode19.Text = "PAM";
-            treeNode20.Name = "node_CSB";
-            treeNode20.Text = "CSB";
-            treeNode21.Name = "node_ADX";
-            treeNode21.Text = "ADX";
-            treeNode22.Name = "node_XMA";
-            treeNode22.Text = "XMA";
-            treeNode23.Name = "node_WMV";
-            treeNode23.Text = "WMV";
-            treeNode24.Name = "node_EPB";
-            treeNode24.Text = "EPB";
+            treeNode9.Name = "node_PTB";
+            treeNode9.Text = "PTB";
+            treeNode10.Name = "node_XNI";
+            treeNode10.Text = "XNI";
+            treeNode11.Name = "node_XNV";
+            treeNode11.Text = "XNV";
+            treeNode12.Name = "node_XNCP";
+            treeNode12.Text = "XNCP";
+            treeNode13.Name = "node_XNE";
+            treeNode13.Text = "XNE";
+            treeNode14.Name = "node_Graphics";
+            treeNode14.Text = "Graphics";
+            treeNode15.Name = "node_XND";
+            treeNode15.Text = "XND";
+            treeNode16.Name = "node_XNG";
+            treeNode16.Text = "XNG";
+            treeNode17.Name = "node_XNM";
+            treeNode17.Text = "XNM";
+            treeNode18.Name = "node_XNO";
+            treeNode18.Text = "XNO";
+            treeNode19.Name = "node_Animation";
+            treeNode19.Text = "Animation";
+            treeNode20.Name = "node_ADX";
+            treeNode20.Text = "ADX";
+            treeNode21.Name = "node_AT3";
+            treeNode21.Text = "AT3";
+            treeNode22.Name = "node_CSB";
+            treeNode22.Text = "CSB";
+            treeNode23.Name = "node_EPB";
+            treeNode23.Text = "EPB";
+            treeNode24.Name = "node_PAM";
+            treeNode24.Text = "PAM";
             treeNode25.Name = "node_SBK";
             treeNode25.Text = "SBK";
-            treeNode26.Name = "node_XNE";
-            treeNode26.Text = "XNE";
-            treeNode27.Name = "node_PTB";
-            treeNode27.Text = "PTB";
+            treeNode26.Name = "node_WMV";
+            treeNode26.Text = "WMV";
+            treeNode27.Name = "node_XMA";
+            treeNode27.Text = "XMA";
             treeNode28.Name = "node_AudioVideo";
             treeNode28.Text = "Audio/Video";
-            treeNode29.Name = "node_SET";
-            treeNode29.Text = "SET";
-            treeNode30.Name = "node_HKX";
-            treeNode30.Text = "HKX";
-            treeNode31.Name = "node_XNA";
-            treeNode31.Text = "XNA";
+            treeNode29.Name = "node_BIN";
+            treeNode29.Text = "BIN";
+            treeNode30.Name = "node_ELF";
+            treeNode30.Text = "ELF";
+            treeNode31.Name = "node_HKX";
+            treeNode31.Text = "HKX";
             treeNode32.Name = "node_MBI";
             treeNode32.Text = "MBI";
-            treeNode33.Name = "node_BIN";
-            treeNode33.Text = "BIN";
+            treeNode33.Name = "node_MST";
+            treeNode33.Text = "MST";
             treeNode34.Name = "node_RAB";
             treeNode34.Text = "RAB";
             treeNode35.Name = "node_TEV";
             treeNode35.Text = "TEV";
-            treeNode36.Name = "node_ELF";
-            treeNode36.Text = "ELF";
+            treeNode36.Name = "node_XNA";
+            treeNode36.Text = "XNA";
             treeNode37.Name = "node_Engine";
             treeNode37.Text = "Engine";
-            treeNode38.Name = "node_LUB";
-            treeNode38.Text = "LUB";
-            treeNode39.Name = "node_PATH";
-            treeNode39.Text = "PATH";
-            treeNode40.Name = "node_KBF";
-            treeNode40.Text = "KBF";
-            treeNode41.Name = "node_MST";
-            treeNode41.Text = "MST";
-            treeNode42.Name = "node_PFI";
-            treeNode42.Text = "PFI";
+            treeNode38.Name = "node_KBF";
+            treeNode38.Text = "KBF";
+            treeNode39.Name = "node_LUB";
+            treeNode39.Text = "LUB";
+            treeNode40.Name = "node_PATH";
+            treeNode40.Text = "PATH";
+            treeNode41.Name = "node_PFI";
+            treeNode41.Text = "PFI";
+            treeNode42.Name = "node_PKG";
+            treeNode42.Text = "PKG";
             treeNode43.Name = "node_PROP";
             treeNode43.Text = "PROP";
-            treeNode44.Name = "node_PKG";
-            treeNode44.Text = "PKG";
+            treeNode44.Name = "node_SET";
+            treeNode44.Text = "SET";
             treeNode45.Name = "node_Scripts";
             treeNode45.Text = "Scripts";
             treeNode46.Name = "Node0";
@@ -337,8 +337,8 @@
             treeNode59.Text = "Sonic \'06 Toolkit";
             this.tree_InfoSelect.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
             treeNode2,
-            treeNode12,
-            treeNode17,
+            treeNode14,
+            treeNode19,
             treeNode28,
             treeNode37,
             treeNode45,
