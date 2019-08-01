@@ -41,6 +41,8 @@ namespace Sonic_06_Toolkit
         void About_Load(object sender, EventArgs e)
         {
             lbl_versionNumber.Text = Tools.Global.versionNumber;
+            if (Tools.Global.versionNumber.Contains("-indev")) lbl_versionNumber.Left -= 44;
+            else if (Tools.Global.versionNumber.Contains("-test")) lbl_versionNumber.Left -= 32;
 
             web_Credits.DocumentText = $"<html><body><style>{Properties.Resources.CreditsStyleSheet}</style><center>" +
                 $"<h1>Sonic '06 Toolkit</h1>" +
