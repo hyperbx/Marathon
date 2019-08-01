@@ -220,4 +220,7 @@
   <data name="s06collision" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\s06collision.py;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Ookii_Dialogs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Ookii.Dialogs.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

@@ -169,7 +169,6 @@
             this.btn_OpenFolder = new System.Windows.Forms.Button();
             this.sfd_SaveFiles = new System.Windows.Forms.SaveFileDialog();
             this.lbl_SetDefault = new System.Windows.Forms.Label();
-            this.fbd_BrowseFolders = new System.Windows.Forms.FolderBrowserDialog();
             this.cms_Repack = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.repackOptions_Repack = new System.Windows.Forms.ToolStripMenuItem();
             this.repackOptions_RepackAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -1739,7 +1738,6 @@
         private System.Windows.Forms.ToolStripMenuItem mainWindow_CloseWindow;
         public System.Windows.Forms.Button btn_SessionID;
         private System.Windows.Forms.Label lbl_SetDefault;
-        private System.Windows.Forms.FolderBrowserDialog fbd_BrowseFolders;
         private System.Windows.Forms.ToolStripMenuItem mainFile_OpenSonic;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem mainFile_ExtractISO;

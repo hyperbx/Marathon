@@ -3,6 +3,7 @@ using System.IO;
 using System.Web;
 using System.Text;
 using System.Linq;
+using Ookii.Dialogs;
 using System.Drawing;
 using Microsoft.Win32;
 using System.Diagnostics;
@@ -737,12 +738,14 @@ namespace Sonic_06_Toolkit
 
                         if (ofd_OpenFiles.ShowDialog() == DialogResult.OK)
                         {
-                            fbd_BrowseFolders.Description = "Please select the path to extract your ISO. Click Cancel to extract the ISO in it's directory.";
+                            var vfbd_BrowseFolders = new VistaFolderBrowserDialog();
+                            vfbd_BrowseFolders.UseDescriptionForTitle = true;
+                            vfbd_BrowseFolders.Description = "Please select the path to extract your ISO. Click Cancel to extract the ISO in it's directory.";
 
-                            switch (fbd_BrowseFolders.ShowDialog())
+                            switch (vfbd_BrowseFolders.ShowDialog())
                             {
                                 case DialogResult.OK:
-                                    var extractSession = new ProcessStartInfo(Properties.Settings.Default.exisoFile, "-d \"" + fbd_BrowseFolders.SelectedPath + "\" -x \"" + ofd_OpenFiles.FileName + "\"");
+                                    var extractSession = new ProcessStartInfo(Properties.Settings.Default.exisoFile, "-d \"" + vfbd_BrowseFolders.SelectedPath + "\" -x \"" + ofd_OpenFiles.FileName + "\"");
                                     extractSession.WorkingDirectory = Tools.Global.currentPath;
                                     extractSession.WindowStyle = ProcessWindowStyle.Hidden;
                                     var Extract = Process.Start(extractSession);
@@ -791,17 +794,19 @@ namespace Sonic_06_Toolkit
             {
                 if (!freeMode)
                 {
-                    fbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
+                    var vfbd_BrowseFolders = new VistaFolderBrowserDialog();
+                    vfbd_BrowseFolders.UseDescriptionForTitle = true;
+                    vfbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
 
-                    if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
+                    if (vfbd_BrowseFolders.ShowDialog() == DialogResult.OK)
                     {
-                        if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
+                        if (Directory.Exists(vfbd_BrowseFolders.SelectedPath))
                         {
 
                             #region Xbox 360
-                            if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\default.xex"))
+                            if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\default.xex"))
                             {
-                                byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
+                                byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
                                 var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                                 if (hexString == "58 45 58 32")
                                 {
@@ -823,7 +828,7 @@ namespace Sonic_06_Toolkit
                                     #region Writing metadata...
                                     //Writes metadata to the unpacked directory to ensure the original path is remembered.
                                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                                    var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                    var metadataSession = new UTF8Encoding(true).GetBytes(vfbd_BrowseFolders.SelectedPath + @"\");
                                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                                     metadataWrite.Close();
                                     #endregion
@@ -846,24 +851,24 @@ namespace Sonic_06_Toolkit
                                     Tools.Global.getStorage = failsafeCheck;
                                     Tools.Global.getIndex = tab_Main.SelectedIndex;
 
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                    currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
+                                    if (Path.GetFileName(vfbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(vfbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
                                     {
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
-                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
                                     navigateToGame = true;
 
-                                    Text = "Sonic '06 Toolkit - Exploring '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                                    Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
                                 else { MessageBox.Show("I see you're trying to cheat the system...", "XEX Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                             }
                             #endregion
 
                             #region PlayStation 3
-                            else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
+                            else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
                             {
-                                byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
+                                byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
                                 var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                                 if (hexString == "2E 53 46 42")
                                 {
@@ -885,7 +890,7 @@ namespace Sonic_06_Toolkit
                                     #region Writing metadata...
                                     //Writes metadata to the unpacked directory to ensure the original path is remembered.
                                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                                    var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                    var metadataSession = new UTF8Encoding(true).GetBytes(vfbd_BrowseFolders.SelectedPath + @"\");
                                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                                     metadataWrite.Close();
                                     #endregion
@@ -908,21 +913,21 @@ namespace Sonic_06_Toolkit
                                     Tools.Global.getStorage = failsafeCheck;
                                     Tools.Global.getIndex = tab_Main.SelectedIndex;
 
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                    currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
+                                    if (Path.GetFileName(vfbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(vfbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
                                     {
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
-                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
                                     navigateToGame = true;
 
-                                    Text = "Sonic '06 Toolkit - Exploring '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                                    Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
                                 else { MessageBox.Show("I see you're trying to cheat the system...", "SFB Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                             }
-                            else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
+                            else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
                             {
-                                byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
+                                byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
                                 var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                                 if (hexString == "00 50 53 46")
                                 {
@@ -944,7 +949,7 @@ namespace Sonic_06_Toolkit
                                     #region Writing metadata...
                                     //Writes metadata to the unpacked directory to ensure the original path is remembered.
                                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                                    var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                    var metadataSession = new UTF8Encoding(true).GetBytes(vfbd_BrowseFolders.SelectedPath + @"\");
                                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                                     metadataWrite.Close();
                                     #endregion
@@ -967,21 +972,21 @@ namespace Sonic_06_Toolkit
                                     Tools.Global.getStorage = failsafeCheck;
                                     Tools.Global.getIndex = tab_Main.SelectedIndex;
 
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                    currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
+                                    if (Path.GetFileName(vfbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(vfbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
                                     {
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
-                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
                                     navigateToGame = true;
 
-                                    Text = "Sonic '06 Toolkit - Exploring '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                                    Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
                                 else { MessageBox.Show("I see you're trying to cheat the system...", "SFO Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                             }
-                            else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
+                            else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
                             {
-                                byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
+                                byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
                                 var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                                 if (hexString == "53 43 45")
                                 {
@@ -1003,7 +1008,7 @@ namespace Sonic_06_Toolkit
                                     #region Writing metadata...
                                     //Writes metadata to the unpacked directory to ensure the original path is remembered.
                                     var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                                    var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                                    var metadataSession = new UTF8Encoding(true).GetBytes(vfbd_BrowseFolders.SelectedPath + @"\");
                                     metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                                     metadataWrite.Close();
                                     #endregion
@@ -1026,15 +1031,15 @@ namespace Sonic_06_Toolkit
                                     Tools.Global.getStorage = failsafeCheck;
                                     Tools.Global.getIndex = tab_Main.SelectedIndex;
 
-                                    currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                                    if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                                    currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
+                                    if (Path.GetFileName(vfbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(vfbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
                                     {
-                                        tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                        tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
-                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                                    else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
                                     navigateToGame = true;
 
-                                    Text = "Sonic '06 Toolkit - Exploring '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                                    Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
                                 else { MessageBox.Show("I see you're trying to cheat the system...", "BIN Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                             }
@@ -1047,11 +1052,13 @@ namespace Sonic_06_Toolkit
                 }
                 else
                 {
-                    fbd_BrowseFolders.Description = "Please select a path.";
+                    var vfbd_BrowseFolders = new VistaFolderBrowserDialog();
+                    vfbd_BrowseFolders.UseDescriptionForTitle = true;
+                    vfbd_BrowseFolders.Description = "Please select a path.";
 
-                    if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
+                    if (vfbd_BrowseFolders.ShowDialog() == DialogResult.OK)
                     {
-                        if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
+                        if (Directory.Exists(vfbd_BrowseFolders.SelectedPath))
                         {
 
                             #region Building directory data...
@@ -1069,7 +1076,7 @@ namespace Sonic_06_Toolkit
                             #region Writing metadata...
                             //Writes metadata to the unpacked directory to ensure the original path is remembered.
                             var metadataWrite = File.Create(arcBuildSession.ToString() + "metadata.ini");
-                            var metadataSession = new UTF8Encoding(true).GetBytes(fbd_BrowseFolders.SelectedPath + @"\");
+                            var metadataSession = new UTF8Encoding(true).GetBytes(vfbd_BrowseFolders.SelectedPath + @"\");
                             metadataWrite.Write(metadataSession, 0, metadataSession.Length);
                             metadataWrite.Close();
                             #endregion
@@ -1092,15 +1099,15 @@ namespace Sonic_06_Toolkit
                             Tools.Global.getStorage = failsafeCheck;
                             Tools.Global.getIndex = tab_Main.SelectedIndex;
 
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
-                            if (Path.GetFileName(fbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(fbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
+                            currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
+                            if (Path.GetFileName(vfbd_BrowseFolders.SelectedPath) == "New Tab" || Path.GetFileName(vfbd_BrowseFolders.SelectedPath).EndsWith(".arc"))
                             {
-                                tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath) + " (Folder)";
+                                tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                             }
-                            else { tab_Main.SelectedTab.Text = Path.GetFileName(fbd_BrowseFolders.SelectedPath); }
+                            else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
                             navigateToGame = true;
 
-                            Text = "Sonic '06 Toolkit - Exploring '" + fbd_BrowseFolders.SelectedPath + @"\'";
+                            Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                         }
                     }
                 }
@@ -2706,23 +2713,25 @@ namespace Sonic_06_Toolkit
 
         void Lbl_SetDefault_Click(object sender, EventArgs e)
         {
-            fbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
+            var vfbd_BrowseFolders = new VistaFolderBrowserDialog();
+            vfbd_BrowseFolders.UseDescriptionForTitle = true;
+            vfbd_BrowseFolders.Description = "Please select the path to your extracted copy of SONIC THE HEDGEHOG.";
 
-            if (fbd_BrowseFolders.ShowDialog() == DialogResult.OK)
+            if (vfbd_BrowseFolders.ShowDialog() == DialogResult.OK)
             {
-                if (Directory.Exists(fbd_BrowseFolders.SelectedPath))
+                if (Directory.Exists(vfbd_BrowseFolders.SelectedPath))
                 {
                     #region Xbox 360
-                    if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\default.xex"))
+                    if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\default.xex"))
                     {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
+                        byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\default.xex").Take(4).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString == "58 45 58 32")
                         {
-                            Properties.Settings.Default.gamePath = fbd_BrowseFolders.SelectedPath;
+                            Properties.Settings.Default.gamePath = vfbd_BrowseFolders.SelectedPath;
                             lbl_SetDefault.Visible = false;
                             pic_Logo.Visible = false;
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
                             Properties.Settings.Default.Save();
 
                             foreach (TabPage tab in tab_Main.TabPages)
@@ -2739,16 +2748,16 @@ namespace Sonic_06_Toolkit
                     #endregion
 
                     #region PlayStation 3
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
+                    else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB"))
                     {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
+                        byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\PS3_DISC.SFB").Take(4).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString == "2E 53 46 42")
                         {
-                            Properties.Settings.Default.gamePath = fbd_BrowseFolders.SelectedPath;
+                            Properties.Settings.Default.gamePath = vfbd_BrowseFolders.SelectedPath;
                             lbl_SetDefault.Visible = false;
                             pic_Logo.Visible = false;
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
                             Properties.Settings.Default.Save();
 
                             foreach (TabPage tab in tab_Main.TabPages)
@@ -2762,16 +2771,16 @@ namespace Sonic_06_Toolkit
                         }
                         else { MessageBox.Show("I see you're trying to cheat the system...", "SFB Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
+                    else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\PARAM.SFO"))
                     {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
+                        byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\PARAM.SFO").Take(4).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString == "00 50 53 46")
                         {
-                            Properties.Settings.Default.gamePath = fbd_BrowseFolders.SelectedPath;
+                            Properties.Settings.Default.gamePath = vfbd_BrowseFolders.SelectedPath;
                             lbl_SetDefault.Visible = false;
                             pic_Logo.Visible = false;
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
                             Properties.Settings.Default.Save();
 
                             foreach (TabPage tab in tab_Main.TabPages)
@@ -2785,16 +2794,16 @@ namespace Sonic_06_Toolkit
                         }
                         else { MessageBox.Show("I see you're trying to cheat the system...", "SFO Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                     }
-                    else if (File.Exists(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
+                    else if (File.Exists(vfbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN"))
                     {
-                        byte[] bytes = File.ReadAllBytes(fbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
+                        byte[] bytes = File.ReadAllBytes(vfbd_BrowseFolders.SelectedPath + @"\EBOOT.BIN").Take(3).ToArray();
                         var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", " ");
                         if (hexString == "53 43 45")
                         {
-                            Properties.Settings.Default.gamePath = fbd_BrowseFolders.SelectedPath;
+                            Properties.Settings.Default.gamePath = vfbd_BrowseFolders.SelectedPath;
                             lbl_SetDefault.Visible = false;
                             pic_Logo.Visible = false;
-                            currentARC().Navigate(fbd_BrowseFolders.SelectedPath);
+                            currentARC().Navigate(vfbd_BrowseFolders.SelectedPath);
                             Properties.Settings.Default.Save();
 
                             foreach (TabPage tab in tab_Main.TabPages)
@@ -3067,58 +3076,60 @@ namespace Sonic_06_Toolkit
             switch (request)
             {
                 case DialogResult.Yes:
-                    fbd_BrowseFolders.Description = "Please select the path to extract all binaries to. Click Cancel to verify your installation of Sonic '06 Toolkit.";
+                    var vfbd_BrowseFolders = new VistaFolderBrowserDialog();
+                    vfbd_BrowseFolders.UseDescriptionForTitle = true;
+                    vfbd_BrowseFolders.Description = "Please select the path to extract all binaries to. Click Cancel to verify your installation of Sonic '06 Toolkit.";
 
-                    DialogResult getFolder = fbd_BrowseFolders.ShowDialog();
+                    DialogResult getFolder = vfbd_BrowseFolders.ShowDialog();
 
                     switch (getFolder)
                     {
                         case DialogResult.OK:
                             //The below code checks if the directories in the Global class exist; if not, they will be created.
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\arctool\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\arctool\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"GerbilSoft\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"GerbilSoft\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CsbEditor\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CsbEditor\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"LibS06\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"LibS06\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Microsoft\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Microsoft\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"exiso\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"exiso\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"SONY\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"SONY\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"unlub\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"unlub\"));
-                            if (!Directory.Exists(Path.Combine(fbd_BrowseFolders.SelectedPath, @"xno2dae\"))) Directory.CreateDirectory(Path.Combine(fbd_BrowseFolders.SelectedPath, @"xno2dae\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\arctool\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\arctool\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"GerbilSoft\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"GerbilSoft\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CsbEditor\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CsbEditor\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"LibS06\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"LibS06\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Microsoft\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Microsoft\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"exiso\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"exiso\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"SONY\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"SONY\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"unlub\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"unlub\"));
+                            if (!Directory.Exists(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"xno2dae\"))) Directory.CreateDirectory(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"xno2dae\"));
 
                             //The below code checks if the files in the Global class exist; if not, they will be created.
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"unpack.exe"), Properties.Resources.unpack);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"repack.exe"), Properties.Resources.repack);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\arctool.exe"), Properties.Resources.arctool);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CsbEditor\CsbEditor.exe"), Properties.Resources.CsbEditor);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\arctool\arcc.php"), Properties.Resources.arcphp);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Arctool\arctool\arctool.php"), Properties.Resources.arctoolphp);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CsbEditor\SonicAudioLib.dll"), Properties.Resources.SonicAudioLib);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CsbEditor\CsbEditor.exe.config"), Properties.Resources.CsbEditorConfig);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"GerbilSoft\mst06.exe"), Properties.Resources.mst06);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"GerbilSoft\tinyxml2.dll"), Properties.Resources.tinyxml2);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\AAX2ADX.exe"), Properties.Resources.AAX2ADX);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\ADX2WAV.exe"), Properties.Resources.ADX2WAV);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\criatomencd.exe"), Properties.Resources.criatomencd);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\csb_extract.exe"), Properties.Resources.csb_extract);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\AsyncAudioEncoder.dll"), Properties.Resources.AsyncAudioEncoder);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\AudioStream.dll"), Properties.Resources.AudioStream);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\criatomencd.exe.config"), Properties.Resources.criatomencdConfig);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\CriAtomEncoderComponent.dll"), Properties.Resources.CriAtomEncoderComponent);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\CriSamplingRateConverter.dll"), Properties.Resources.CriSamplingRateConverter);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"CriWare\vsthost.dll"), Properties.Resources.vsthost);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"exiso\exiso.exe"), Properties.Resources.exiso);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"SONY\at3tool.exe"), Properties.Resources.at3tool);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"LibS06\s06col.exe"), Properties.Resources.s06col);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"LibS06\s06collision.py"), Properties.Resources.s06collision);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Microsoft\texconv.exe"), Properties.Resources.texconv);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Microsoft\xmaencode2008.exe"), Properties.Resources.xmaencode2008);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"Microsoft\towav.exe"), Properties.Resources.towav);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"unlub\unlub.jar"), Properties.Resources.unlub);
-                            File.WriteAllBytes(Path.Combine(fbd_BrowseFolders.SelectedPath, @"xno2dae\xno2dae.exe"), Properties.Resources.xno2dae);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"unpack.exe"), Properties.Resources.unpack);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"repack.exe"), Properties.Resources.repack);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\arctool.exe"), Properties.Resources.arctool);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CsbEditor\CsbEditor.exe"), Properties.Resources.CsbEditor);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\arctool\arcc.php"), Properties.Resources.arcphp);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Arctool\arctool\arctool.php"), Properties.Resources.arctoolphp);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CsbEditor\SonicAudioLib.dll"), Properties.Resources.SonicAudioLib);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CsbEditor\CsbEditor.exe.config"), Properties.Resources.CsbEditorConfig);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"GerbilSoft\mst06.exe"), Properties.Resources.mst06);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"GerbilSoft\tinyxml2.dll"), Properties.Resources.tinyxml2);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\AAX2ADX.exe"), Properties.Resources.AAX2ADX);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\ADX2WAV.exe"), Properties.Resources.ADX2WAV);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\criatomencd.exe"), Properties.Resources.criatomencd);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\csb_extract.exe"), Properties.Resources.csb_extract);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\AsyncAudioEncoder.dll"), Properties.Resources.AsyncAudioEncoder);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\AudioStream.dll"), Properties.Resources.AudioStream);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\criatomencd.exe.config"), Properties.Resources.criatomencdConfig);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\CriAtomEncoderComponent.dll"), Properties.Resources.CriAtomEncoderComponent);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\CriSamplingRateConverter.dll"), Properties.Resources.CriSamplingRateConverter);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"CriWare\vsthost.dll"), Properties.Resources.vsthost);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"exiso\exiso.exe"), Properties.Resources.exiso);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"SONY\at3tool.exe"), Properties.Resources.at3tool);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"LibS06\s06col.exe"), Properties.Resources.s06col);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"LibS06\s06collision.py"), Properties.Resources.s06collision);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Microsoft\texconv.exe"), Properties.Resources.texconv);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Microsoft\xmaencode2008.exe"), Properties.Resources.xmaencode2008);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"Microsoft\towav.exe"), Properties.Resources.towav);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"unlub\unlub.jar"), Properties.Resources.unlub);
+                            File.WriteAllBytes(Path.Combine(vfbd_BrowseFolders.SelectedPath, @"xno2dae\xno2dae.exe"), Properties.Resources.xno2dae);
 
-                            MessageBox.Show($"All Sonic '06 Toolkit binaries have been written to: {fbd_BrowseFolders.SelectedPath}\\", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show($"All Sonic '06 Toolkit binaries have been written to: {vfbd_BrowseFolders.SelectedPath}\\", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             break;
 
                         case DialogResult.Cancel:
