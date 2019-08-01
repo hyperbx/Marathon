@@ -15,7 +15,7 @@ See the [releases page](https://github.com/HyperPolygon64/Sonic-06-Toolkit/relea
 ### "I want to build it myself."
 Sure! Use Git to clone the repository to your drive. The solution was created using Visual Studio 2019, but you can still build it using Visual Studio 2017 just fine.
 
-### "Are there any dependencies that are required?"
+### "Are there any pre-requisites that are required?"
 Yes, see the [Requirements](https://github.com/HyperPolygon64/Sonic-06-Toolkit#requirements) section at the bottom of this document.
 
 ### "How do I mod this game, then?"
