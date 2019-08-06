@@ -1617,8 +1617,21 @@ namespace Sonic_06_Toolkit
                 switch (disableConfirm)
                 {
                     case DialogResult.Yes:
-                        advanced_DisableWarnings.Checked = true;
-                        Properties.Settings.Default.disableWarns = true;
+                        DialogResult extraPissOffLol = MessageBox.Show("Are you really, really sure?", "Sonic '06 Toolkit", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                        switch (extraPissOffLol)
+                        {
+                            case DialogResult.Yes:
+                                advanced_DisableWarnings.Checked = true;
+                                Properties.Settings.Default.disableWarns = true;
+                                MessageBox.Show("Successfully disabled warnings and notifications.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
+
+                            case DialogResult.No:
+                                advanced_DisableWarnings.Checked = false;
+                                Properties.Settings.Default.disableWarns = false;
+                                break;
+                        }
                         break;
 
                     case DialogResult.No:

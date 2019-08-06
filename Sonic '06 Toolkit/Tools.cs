@@ -1251,6 +1251,7 @@ namespace Sonic_06_Toolkit.Tools
     {
         static ProcessStartInfo xnoSession;
         static string failsafeCheck;
+        public static StringBuilder getItems = new StringBuilder();
 
         static void WriteConverter(int state)
         {
@@ -1321,7 +1322,6 @@ namespace Sonic_06_Toolkit.Tools
 
         public static void Culling(int state, string selectedXNO)
         {
-            var getItems = new StringBuilder();
             string XNOpath = Path.Combine(Global.currentPath, Path.GetFileName(selectedXNO));
 
             if (state == 0)
@@ -1335,7 +1335,7 @@ namespace Sonic_06_Toolkit.Tools
 
                         if (!hexString.Contains("3600000100000000"))
                         {
-                            getItems.Append($"► {Path.GetFileName(XNOpath)} (could not locate any materials to enable culling)");
+                            getItems.Append($"\n► {Path.GetFileName(XNOpath)} (could not locate any materials to enable culling)");
                         }
                         else
                         {
@@ -1343,22 +1343,22 @@ namespace Sonic_06_Toolkit.Tools
                             {
                                 hexString = hexString.Replace("3600000100000000", "3000000100000000");
                                 File.WriteAllBytes(XNOpath, ByteArray.StringToByteArray_v2(hexString));
-                                getItems.Append($"► {Path.GetFileName(XNOpath)} (backface culling enabled successfully)");
+                                getItems.Append($"\n► {Path.GetFileName(XNOpath)} (backface culling enabled successfully)");
                             }
                             catch
                             {
-                                getItems.Append($"► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
+                                getItems.Append($"\n► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
                             }
                         }
                     }
                     else
                     {
-                        getItems.Append($"► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
+                        getItems.Append($"\n► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
                     }
                 }
                 else
                 {
-                    getItems.Append($"► {Path.GetFileName(XNOpath)} (unable to locate the file)");
+                    getItems.Append($"\n► {Path.GetFileName(XNOpath)} (unable to locate the file)");
                 }
             }
             else if (state == 1)
@@ -1372,7 +1372,7 @@ namespace Sonic_06_Toolkit.Tools
 
                         if (!hexString.Contains("3000000100000000"))
                         {
-                            getItems.Append($"► {Path.GetFileName(XNOpath)} (could not locate any materials to disable culling)");
+                            getItems.Append($"\n► {Path.GetFileName(XNOpath)} (could not locate any materials to disable culling)");
                         }
                         else
                         {
@@ -1380,26 +1380,24 @@ namespace Sonic_06_Toolkit.Tools
                             {
                                 hexString = hexString.Replace("3000000100000000", "3600000100000000");
                                 File.WriteAllBytes(XNOpath, ByteArray.StringToByteArray_v2(hexString));
-                                getItems.Append($"► {Path.GetFileName(XNOpath)} (backface culling disabled successfully)");
+                                getItems.Append($"\n► {Path.GetFileName(XNOpath)} (backface culling disabled successfully)");
                             }
                             catch
                             {
-                                getItems.Append($"► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
+                                getItems.Append($"\n► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
                             }
                         }
                     }
                     else
                     {
-                        getItems.Append($"► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
+                        getItems.Append($"\n► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
                     }
                 }
                 else
                 {
-                    getItems.Append($"► {Path.GetFileName(XNOpath)} (unable to locate the file)");
+                    getItems.Append($"\n► {Path.GetFileName(XNOpath)} (unable to locate the file)");
                 }
             }
-
-            if (getItems.Length > 0) MessageBox.Show($"Processing complete, see below for a list of items:\n{getItems.ToString()}", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         static void Begin(int state)
@@ -1491,7 +1489,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "2.06";
+        public static string versionNumber = "2.06_01";
         public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

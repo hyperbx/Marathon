@@ -119,6 +119,14 @@ namespace Sonic_06_Toolkit
                         {
                             Tools.XNO.Culling(0, selectedXNO);
                         }
+                        if (Properties.Settings.Default.disableWarns == false)
+                        {
+                            if (Tools.XNO.getItems.ToString() != string.Empty)
+                            {
+                                MessageBox.Show($"Processing complete, see below for a list of items:\n{Tools.XNO.getItems.ToString()}", "Processing complete!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                Tools.XNO.getItems.Clear();
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -134,6 +142,14 @@ namespace Sonic_06_Toolkit
                         foreach (string selectedXNO in clb_XNOs.CheckedItems)
                         {
                             Tools.XNO.Culling(1, selectedXNO);
+                        }
+                        if (Properties.Settings.Default.disableWarns == false)
+                        {
+                            if (Tools.XNO.getItems.ToString() != string.Empty)
+                            {
+                                MessageBox.Show($"Processing complete, see below for a list of items:\n{Tools.XNO.getItems.ToString()}", "Processing complete!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                Tools.XNO.getItems.Clear();
+                            }
                         }
                     }
                     catch (Exception ex)
