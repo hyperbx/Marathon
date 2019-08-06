@@ -48,6 +48,7 @@
             this.modes_ModelAndAnimation = new System.Windows.Forms.ToolStripMenuItem();
             this.modes_BackfaceCulling = new System.Windows.Forms.ToolStripMenuItem();
             this.option_Culling = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.split_XNMStudio)).BeginInit();
@@ -231,6 +232,7 @@
             this.options_Modes.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.modes_Model,
             this.modes_ModelAndAnimation,
+            this.toolStripSeparator1,
             this.modes_BackfaceCulling});
             this.options_Modes.Name = "options_Modes";
             this.options_Modes.Size = new System.Drawing.Size(180, 22);
@@ -241,7 +243,7 @@
             this.modes_Model.CheckOnClick = true;
             this.modes_Model.Name = "modes_Model";
             this.modes_Model.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.modes_Model.Size = new System.Drawing.Size(224, 22);
+            this.modes_Model.Size = new System.Drawing.Size(219, 22);
             this.modes_Model.Text = "Model";
             this.modes_Model.CheckedChanged += new System.EventHandler(this.Modes_Model_CheckedChanged);
             // 
@@ -250,7 +252,7 @@
             this.modes_ModelAndAnimation.CheckOnClick = true;
             this.modes_ModelAndAnimation.Name = "modes_ModelAndAnimation";
             this.modes_ModelAndAnimation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.M)));
-            this.modes_ModelAndAnimation.Size = new System.Drawing.Size(224, 22);
+            this.modes_ModelAndAnimation.Size = new System.Drawing.Size(219, 22);
             this.modes_ModelAndAnimation.Text = "Model + Animation";
             this.modes_ModelAndAnimation.CheckedChanged += new System.EventHandler(this.Modes_ModelAndAnimation_CheckedChanged);
             // 
@@ -259,8 +261,8 @@
             this.modes_BackfaceCulling.CheckOnClick = true;
             this.modes_BackfaceCulling.Name = "modes_BackfaceCulling";
             this.modes_BackfaceCulling.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.B)));
-            this.modes_BackfaceCulling.Size = new System.Drawing.Size(224, 22);
-            this.modes_BackfaceCulling.Text = "Backface Culling Tool";
+            this.modes_BackfaceCulling.Size = new System.Drawing.Size(219, 22);
+            this.modes_BackfaceCulling.Text = "Backface Tool";
             this.modes_BackfaceCulling.CheckedChanged += new System.EventHandler(this.Modes_BackfaceCulling_CheckedChanged);
             // 
             // option_Culling
@@ -271,6 +273,11 @@
             this.option_Culling.Text = "Enable Culling";
             this.option_Culling.Visible = false;
             this.option_Culling.CheckedChanged += new System.EventHandler(this.Option_Culling_CheckedChanged);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(216, 6);
             // 
             // XNO_Studio
             // 
@@ -325,5 +332,6 @@
         private System.Windows.Forms.ToolStripMenuItem modes_ModelAndAnimation;
         private System.Windows.Forms.ToolStripMenuItem modes_BackfaceCulling;
         private System.Windows.Forms.ToolStripMenuItem option_Culling;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     }
 }
