@@ -598,5 +598,17 @@ namespace Sonic_06_Toolkit.Properties {
                 this["colExportFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool culling {
+            get {
+                return ((bool)(this["culling"]));
+            }
+            set {
+                this["culling"] = value;
+            }
+        }
     }
 }

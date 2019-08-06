@@ -38,23 +38,7 @@ namespace Sonic_06_Toolkit
 
         void XNO_Studio_Load(object sender, EventArgs e)
         {
-            #region Getting XNOs...
-            //Adds all XNOs in the current path to the CheckedListBox.
-            foreach (string XNO in Directory.GetFiles(Tools.Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
-            {
-                if (File.Exists(XNO))
-                {
-                    clb_XNOs.Items.Add(Path.GetFileName(XNO));
-                }
-            }
-            //Checks if there are any XNOs in the directory.
-            if (clb_XNOs.Items.Count == 0)
-            {
-                MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
-            }
-            #endregion
-
+            modes_Model.Checked = true;
             split_XNMStudio.Visible = false;
             tm_ItemCheck.Start();
         }
@@ -76,7 +60,7 @@ namespace Sonic_06_Toolkit
 
         void Btn_Decompile_Click(object sender, EventArgs e)
         {
-            if (!check_XNM.Checked)
+            if (modes_Model.Checked)
             {
                 try
                 {
@@ -92,7 +76,7 @@ namespace Sonic_06_Toolkit
                     Tools.Notification.Dispose();
                 }
             }
-            else
+            else if (modes_ModelAndAnimation.Checked)
             {
                 //In the odd chance that someone is ever able to click Convert without anything selected, this will prevent that.
                 if (clb_XNOs_XNM.CheckedItems.Count == 0) MessageBox.Show("Please select an XNO.", "No XNO specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -124,6 +108,41 @@ namespace Sonic_06_Toolkit
                     }
                 }
             }
+            else if (modes_BackfaceCulling.Checked)
+            {
+                if (option_Culling.Checked)
+                {
+                    try
+                    {
+                        //Gets all checked boxes from the CheckedListBox and builds a string for each XNO.
+                        foreach (string selectedXNO in clb_XNOs.CheckedItems)
+                        {
+                            Tools.XNO.Culling(0, selectedXNO);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred when applying culling to the selected XNOs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        //Gets all checked boxes from the CheckedListBox and builds a string for each XNO.
+                        foreach (string selectedXNO in clb_XNOs.CheckedItems)
+                        {
+                            Tools.XNO.Culling(1, selectedXNO);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"An error occurred when applying culling to the selected XNOs.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Tools.Notification.Dispose();
+                    }
+                }
+            }
         }
 
         void Clb_XNOs_SelectedIndexChanged(object sender, EventArgs e)
@@ -143,7 +162,7 @@ namespace Sonic_06_Toolkit
 
         void Check_XNM_CheckedChanged(object sender, EventArgs e)
         {
-            if (check_XNM.Checked == true)
+            if (modes_ModelAndAnimation.Checked)
             {
                 //Sets form to XNM Studio.
 
@@ -199,7 +218,7 @@ namespace Sonic_06_Toolkit
                 if (clb_XNMs.Items.Count == 0)
                 {
                     MessageBox.Show("There are no XNMs to convert in this directory.", "No XNMs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    check_XNM.Checked = false;
+                    modes_ModelAndAnimation.Checked = false;
                 }
                 #endregion
             }
@@ -268,7 +287,7 @@ namespace Sonic_06_Toolkit
 
         void Tm_ItemCheck_Tick(object sender, EventArgs e)
         {
-            if (check_XNM.Checked == true)
+            if (modes_ModelAndAnimation.Checked)
             {
                 //Enables/disables the Convert button, depending on whether a box has been checked.
                 if (clb_XNOs_XNM.CheckedItems.Count > 0 && clb_XNMs.CheckedItems.Count > 0)
@@ -278,6 +297,186 @@ namespace Sonic_06_Toolkit
                 else
                 {
                     btn_Convert.Enabled = false;
+                }
+            }
+        }
+
+        private void Modes_Model_CheckedChanged(object sender, EventArgs e)
+        {
+            if (modes_Model.Checked)
+            {
+                modes_Model.Checked = true;
+                modes_ModelAndAnimation.Checked = false;
+                modes_BackfaceCulling.Checked = false;
+                option_Culling.Visible = false;
+
+                clb_XNOs.Items.Clear();
+                btn_Convert.Text = "Convert";
+
+                #region Getting XNO files to convert...
+                foreach (string XNO in Directory.GetFiles(Tools.Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
+                {
+                    if (File.Exists(XNO))
+                    {
+                        clb_XNOs.Items.Add(Path.GetFileName(XNO));
+                    }
+                }
+                #endregion
+
+                btn_Convert.Enabled = false;
+
+                if (Directory.GetFiles(Tools.Global.currentPath, "*.xno").Length == 0)
+                {
+                    MessageBox.Show("There are no XNO files to unpack in this directory.", "No XNO files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+            }
+        }
+
+        private void Modes_ModelAndAnimation_CheckedChanged(object sender, EventArgs e)
+        {
+            if (modes_ModelAndAnimation.Checked == true)
+            {
+                //Sets form to XNM Studio.
+
+                modes_Model.Checked = false;
+                modes_ModelAndAnimation.Checked = true;
+                modes_BackfaceCulling.Checked = false;
+                option_Culling.Visible = false;
+
+                clb_XNMs.Items.Clear();
+                btn_Convert.Text = "Convert";
+
+                #region Controls...
+                Text = "XNM Studio";
+                lbl_Title.Text = "XNM Studio";
+
+                MinimumSize = new System.Drawing.Size(714, 458);
+
+                Width = 714;
+                if (WindowState != System.Windows.Forms.FormWindowState.Maximized)
+                {
+                    var moveLeft = Location.X - 142;
+                    Location = new System.Drawing.Point(moveLeft, Location.Y);
+                }
+
+                //Unchecks all available checkboxes for the XNOs CheckedListBox.
+                for (int i = 0; i < clb_XNOs.Items.Count; i++) clb_XNOs.SetItemChecked(i, false);
+                btn_Convert.Enabled = false;
+
+                split_XNMStudio.Visible = true;
+                btn_SelectAll.Enabled = false;
+                clb_XNOs.Visible = false;
+                #endregion
+
+                #region Getting XNOs...
+                //Adds all XNOs in the current path to the CheckedListBox.
+                foreach (string XNO in Directory.GetFiles(Tools.Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
+                {
+                    if (File.Exists(XNO))
+                    {
+                        clb_XNOs_XNM.Items.Add(Path.GetFileName(XNO));
+                    }
+                }
+                //Checks if there are any XNOs in the directory.
+                if (clb_XNOs.Items.Count == 0)
+                {
+                    MessageBox.Show("There are no XNOs to convert in this directory.", "No XNOs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+                #endregion
+
+                #region Getting XNMs...
+                //Adds all XNMs in the current path to the CheckedListBox.
+                foreach (string XNM in Directory.GetFiles(Tools.Global.currentPath, "*.xnm", SearchOption.TopDirectoryOnly))
+                {
+                    if (File.Exists(XNM))
+                    {
+                        clb_XNMs.Items.Add(Path.GetFileName(XNM));
+                    }
+                }
+                //Checks if there are any XNOs in the directory.
+                if (clb_XNMs.Items.Count == 0)
+                {
+                    MessageBox.Show("There are no XNMs to convert in this directory.", "No XNMs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    modes_Model.Checked = true;
+                    modes_ModelAndAnimation.Checked = false;
+                    modes_BackfaceCulling.Checked = false;
+                    option_Culling.Visible = false;
+                }
+                #endregion
+            }
+            else
+            {
+                //Resets form back to XNO Studio.
+
+                #region Controls...
+                Text = "XNO Studio";
+                lbl_Title.Text = "XNO Studio";
+
+                MinimumSize = new System.Drawing.Size(429, 458);
+
+                Width = 429;
+                if (WindowState != System.Windows.Forms.FormWindowState.Maximized)
+                {
+                    var moveRight = Location.X + 142;
+                    Location = new System.Drawing.Point(moveRight, Location.Y);
+                }
+
+                //Unchecks all available checkboxes.
+                for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
+                btn_Convert.Enabled = false;
+
+                //Unchecks all available checkboxes.
+                for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
+                btn_Convert.Enabled = false;
+
+                split_XNMStudio.Visible = false;
+                btn_SelectAll.Enabled = true;
+                clb_XNOs.Visible = true;
+
+                clb_XNOs_XNM.Items.Clear();
+                clb_XNMs.Items.Clear();
+                #endregion
+            }
+        }
+
+        private void Option_Culling_CheckedChanged(object sender, EventArgs e)
+        {
+            if (option_Culling.Checked) { Properties.Settings.Default.culling = true; btn_Convert.Text = "Cull"; }
+            else { Properties.Settings.Default.culling = false; btn_Convert.Text = "Decull"; }
+            Properties.Settings.Default.Save();
+        }
+
+        private void Modes_BackfaceCulling_CheckedChanged(object sender, EventArgs e)
+        {
+            if (modes_BackfaceCulling.Checked)
+            {
+                modes_Model.Checked = false;
+                modes_ModelAndAnimation.Checked = false;
+                modes_BackfaceCulling.Checked = true;
+                option_Culling.Visible = true;
+
+                clb_XNOs.Items.Clear();
+                if (Properties.Settings.Default.culling) { option_Culling.Checked = true; btn_Convert.Text = "Cull"; }
+                else { option_Culling.Checked = false; btn_Convert.Text = "Decull"; }
+
+                #region Getting XNO files to convert...
+                foreach (string XNO in Directory.GetFiles(Tools.Global.currentPath, "*.xno", SearchOption.TopDirectoryOnly))
+                {
+                    if (File.Exists(XNO))
+                    {
+                        clb_XNOs.Items.Add(Path.GetFileName(XNO));
+                    }
+                }
+                #endregion
+
+                btn_Convert.Enabled = false;
+
+                if (Directory.GetFiles(Tools.Global.currentPath, "*.xno").Length == 0)
+                {
+                    MessageBox.Show("There are no XNO files to unpack in this directory.", "No XNO files available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
                 }
             }
         }

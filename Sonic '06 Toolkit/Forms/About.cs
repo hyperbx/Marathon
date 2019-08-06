@@ -56,14 +56,14 @@ namespace Sonic_06_Toolkit
                 $"g0ldenlink - ARC Repacker<br>" +
                 $"<a href=\"https://github.com/NatsumiFox\" target=\"_blank\">Natsumi</a> - <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/54f1ee53a1155b990058c9d8d15e91a8e09a5f23#diff-e664d6debe0eb815513a7b8c8bb39512R52\" target=\"_blank\">Deep Search</a>, <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/4e1e7e7b8e50eab1a0dbbe3f3c2b969b7a51c3c3\" target=\"_blank\">MST Decoder (1.83)</a> & Design Guidance<br>" +
                 $"<a href=\"https://github.com/blueskythlikesclouds\" target=\"_blank\">Skyth</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a>, <a href=\"https://github.com/blueskythlikesclouds/SonicAudioTools\" target=\"_blank\">Sonic Audio Tools</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
-                $"DarioSamo - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
+                $"<a href=\"https://github.com/DarioSamo\" target=\"_blank\">DarioSamo</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
                 $"<a href=\"https://www.criware.com/en/\" target=\"_blank\">CRI Middleware Co.</a> - CRI Atom Encoder<br>" +
                 $"<a href=\"https://github.com/Radfordhound\" target=\"_blank\">Radfordhound</a> - <a href=\"https://github.com/Radfordhound/HedgeLib\" target=\"_blank\">HedgeLib</a><br>" +
                 $"<a href=\"in@fishtank.com\" target=\"_blank\">in</a> - <a href=\"https://github.com/XboxDev/extract-xiso\" target=\"_blank\">extract-xiso</a><br>" +
-                $"SONY Computer Entertainment Inc. - ATRAC3plus Codec TOOL<br>" +
+                $"<a href=\"https://www.playstation.com/en-gb/\" target=\"_blank\">SONY Computer Entertainment Inc.</a> - ATRAC3plus Codec TOOL<br>" +
                 $"<a href=\"https://github.com/GerbilSoft\" target=\"_blank\">GerbilSoft</a> - <a href=\"https://github.com/GerbilSoft/mst06\" target=\"_blank\">mst06</a><br>" +
                 $"<a href=\"https://www.microsoft.com/\" target=\"_blank\">Microsoft Corporation</a> - XMA Encode 2008<br>" +
-                $"<a href=\"https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg\" target=\"_blank\">Nonami</a> - XMA Research<br>" +
+                $"<a href=\"https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg\" target=\"_blank\">Nonami</a> - XMA and XNO Backface Culling Research<br>" +
                 $"Reimous - XMA Research<br>" +
                 $"<a href=\"https://twitter.com/nectarhime\" target=\"_blank\">Sable</a> - BIN Studio Logo<br>" +
                 $"Sajid - <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +

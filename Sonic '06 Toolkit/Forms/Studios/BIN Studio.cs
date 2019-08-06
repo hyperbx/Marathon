@@ -142,7 +142,7 @@ namespace Sonic_06_Toolkit
                     {
                         Tools.BIN.Export(1, string.Empty, selectedBIN);
                     }
-                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected BIN files have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
+                    //if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected BIN files have been exported.", "Export Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +158,7 @@ namespace Sonic_06_Toolkit
                     {
                         Tools.BIN.Import(3, string.Empty, selectedCol);
                     }
-                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected collision files have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
+                    //if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected collision files have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
                 }
                 catch (Exception ex)
                 {

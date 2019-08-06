@@ -1319,6 +1319,89 @@ namespace Sonic_06_Toolkit.Tools
             Begin(state);
         }
 
+        public static void Culling(int state, string selectedXNO)
+        {
+            var getItems = new StringBuilder();
+            string XNOpath = Path.Combine(Global.currentPath, Path.GetFileName(selectedXNO));
+
+            if (state == 0)
+            {
+                if (File.Exists(XNOpath))
+                {
+                    if (Path.GetExtension(XNOpath) == ".xno")
+                    {
+                        byte[] bytes = File.ReadAllBytes(XNOpath).ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", "");
+
+                        if (!hexString.Contains("3600000100000000"))
+                        {
+                            getItems.Append($"► {Path.GetFileName(XNOpath)} (could not locate any materials to enable culling)");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                hexString = hexString.Replace("3600000100000000", "3000000100000000");
+                                File.WriteAllBytes(XNOpath, ByteArray.StringToByteArray_v2(hexString));
+                                getItems.Append($"► {Path.GetFileName(XNOpath)} (backface culling enabled successfully)");
+                            }
+                            catch
+                            {
+                                getItems.Append($"► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        getItems.Append($"► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
+                    }
+                }
+                else
+                {
+                    getItems.Append($"► {Path.GetFileName(XNOpath)} (unable to locate the file)");
+                }
+            }
+            else if (state == 1)
+            {
+                if (File.Exists(XNOpath))
+                {
+                    if (Path.GetExtension(XNOpath) == ".xno")
+                    {
+                        byte[] bytes = File.ReadAllBytes(XNOpath).ToArray();
+                        var hexString = BitConverter.ToString(bytes); hexString = hexString.Replace("-", "");
+
+                        if (!hexString.Contains("3000000100000000"))
+                        {
+                            getItems.Append($"► {Path.GetFileName(XNOpath)} (could not locate any materials to disable culling)");
+                        }
+                        else
+                        {
+                            try
+                            {
+                                hexString = hexString.Replace("3000000100000000", "3600000100000000");
+                                File.WriteAllBytes(XNOpath, ByteArray.StringToByteArray_v2(hexString));
+                                getItems.Append($"► {Path.GetFileName(XNOpath)} (backface culling disabled successfully)");
+                            }
+                            catch
+                            {
+                                getItems.Append($"► {Path.GetFileName(XNOpath)} (an unknown error occurred)");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        getItems.Append($"► {Path.GetFileName(XNOpath)} (the file provided was not a valid XNO)");
+                    }
+                }
+                else
+                {
+                    getItems.Append($"► {Path.GetFileName(XNOpath)} (unable to locate the file)");
+                }
+            }
+
+            if (getItems.Length > 0) MessageBox.Show($"Processing complete, see below for a list of items:\n{getItems.ToString()}", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         static void Begin(int state)
         {
             if (Debugger.unsafeState == true) { MessageBox.Show("xno2dae files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -1350,6 +1433,15 @@ namespace Sonic_06_Toolkit.Tools
                              .Where(x => x % 2 == 0)
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
+        }
+
+        public static byte[] StringToByteArray_v2(string hex)
+        {
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
         }
 
         public static bool ByteArrayToFile(string fileName, byte[] byteArray)
@@ -1399,7 +1491,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "2.05";
+        public static string versionNumber = "2.06";
         public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
@@ -1415,8 +1507,6 @@ namespace Sonic_06_Toolkit.Tools
 
         public static void SetAssociation(string extension)
         {
-            // The stuff that was above here is basically the same
-
             // Delete the key instead of trying to change it
             var CurrentUser = Registry.CurrentUser.OpenSubKey($"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{extension}", true);
             CurrentUser.DeleteSubKey("UserChoice", false);
