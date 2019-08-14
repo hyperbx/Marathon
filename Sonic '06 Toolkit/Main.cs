@@ -45,7 +45,7 @@ namespace Sonic_06_Toolkit
             InitializeComponent();
             btn_SessionID.Text = Tools.Global.sessionID.ToString();
 
-            newTab(); //Opens a new tab on launch.
+            newTab(true); //Opens a new tab on launch.
             tm_tabCheck.Start(); //Starts the timer that watches tab activity.
 
             //The below code checks the command line arguments and unpacks the file that was dragged into the application.
@@ -104,21 +104,17 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
-                                        navigateToGame = false;
-                                        resetTab();
+                                        resetTab(false);
 
                                         currentARC().Navigate(Tools.ARC.getLocation);
                                         tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
-                                        navigateToGame = true;
                                     }
                                     else
                                     {
-                                        navigateToGame = false;
-                                        newTab();
+                                        newTab(false);
 
                                         currentARC().Navigate(Tools.ARC.getLocation);
                                         tab_Main.SelectedTab.Text = Path.GetFileName(args[0]);
-                                        navigateToGame = true;
                                     }
 
                                     tab_Main.SelectedTab.ToolTipText = Tools.ARC.failsafeCheck;
@@ -565,9 +561,7 @@ namespace Sonic_06_Toolkit
             catch { }
         }
 
-        static bool navigateToGame = true;
-
-        void newTab()
+        void newTab(bool navigateToGame)
         {
             //Creates a new web browser instance (which hooks into File Explorer).
             var nextTab = new TabPage();
@@ -635,13 +629,11 @@ namespace Sonic_06_Toolkit
                 //Creates a new tab if the selected one is being used.
                 if (tab_Main.SelectedTab.Text == "New Tab")
                 {
-                    navigateToGame = false;
-                    resetTab();
+                    resetTab(false);
                 }
                 else
                 {
-                    navigateToGame = false;
-                    newTab();
+                    newTab(false);
                 }
                 #endregion
 
@@ -651,7 +643,6 @@ namespace Sonic_06_Toolkit
 
                 currentARC().Navigate(unpackBuildSession);
                 tab_Main.SelectedTab.Text = Path.GetFileName(createARC.FileName); 
-                navigateToGame = true;
 
                 Text = "Sonic '06 Toolkit - Exploring '" + createARC.FileName + @"\'";
             }
@@ -681,28 +672,18 @@ namespace Sonic_06_Toolkit
                                 //Creates a new tab if the selected one is being used.
                                 if (tab_Main.SelectedTab.Text == "New Tab")
                                 {
-                                    navigateToGame = false;
-                                    resetTab();
+                                    resetTab(false);
 
                                     currentARC().Navigate(Tools.ARC.getLocation);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
-                                    navigateToGame = true;
                                 }
                                 else
                                 {
-                                    navigateToGame = false;
-                                    newTab();
+                                    newTab(false);
 
                                     currentARC().Navigate(Tools.ARC.getLocation);
                                     tab_Main.SelectedTab.Text = Path.GetFileName(ofd_OpenFiles.FileName);
-                                    navigateToGame = true;
                                 }
-
-                                //Writes a file to store the failsafe directory to be referenced later.
-                                //var storageWrite = File.Create($"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{Tools.Global.getIndex}");
-                                //var storageSession = new UTF8Encoding(true).GetBytes(Tools.ARC.failsafeCheck);
-                                //storageWrite.Write(storageSession, 0, storageSession.Length);
-                                //storageWrite.Close();
 
                                 tab_Main.SelectedTab.ToolTipText = Tools.ARC.failsafeCheck;
                                 Tools.Global.getStorage = Tools.ARC.failsafeCheck;
@@ -837,13 +818,11 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
-                                        navigateToGame = false;
-                                        resetTab();
+                                        resetTab(false);
                                     }
                                     else
                                     {
-                                        navigateToGame = false;
-                                        newTab();
+                                        newTab(false);
                                     }
                                     #endregion
 
@@ -857,7 +836,6 @@ namespace Sonic_06_Toolkit
                                         tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
                                     else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
-                                    navigateToGame = true;
 
                                     Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
@@ -898,14 +876,12 @@ namespace Sonic_06_Toolkit
                                     #region Navigating...
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
-                                    {
-                                        navigateToGame = false;
-                                        resetTab();
+                                    { 
+                                        resetTab(false);
                                     }
                                     else
                                     {
-                                        navigateToGame = false;
-                                        newTab();
+                                        newTab(false);
                                     }
                                     #endregion
 
@@ -919,7 +895,6 @@ namespace Sonic_06_Toolkit
                                         tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
                                     else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
-                                    navigateToGame = true;
 
                                     Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
@@ -958,13 +933,11 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
-                                        navigateToGame = false;
-                                        resetTab();
+                                        resetTab(false);
                                     }
                                     else
                                     {
-                                        navigateToGame = false;
-                                        newTab();
+                                        newTab(false);
                                     }
                                     #endregion
 
@@ -978,7 +951,6 @@ namespace Sonic_06_Toolkit
                                         tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
                                     else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
-                                    navigateToGame = true;
 
                                     Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
@@ -1017,13 +989,11 @@ namespace Sonic_06_Toolkit
                                     //Creates a new tab if the selected one is being used.
                                     if (tab_Main.SelectedTab.Text == "New Tab")
                                     {
-                                        navigateToGame = false;
-                                        resetTab();
+                                        resetTab(false);
                                     }
                                     else
                                     {
-                                        navigateToGame = false;
-                                        newTab();
+                                        newTab(false);
                                     }
                                     #endregion
 
@@ -1037,7 +1007,6 @@ namespace Sonic_06_Toolkit
                                         tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                                     }
                                     else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
-                                    navigateToGame = true;
 
                                     Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                                 }
@@ -1085,13 +1054,11 @@ namespace Sonic_06_Toolkit
                             //Creates a new tab if the selected one is being used.
                             if (tab_Main.SelectedTab.Text == "New Tab")
                             {
-                                navigateToGame = false;
-                                resetTab();
+                                resetTab(false);
                             }
                             else
                             {
-                                navigateToGame = false;
-                                newTab();
+                                newTab(false);
                             }
                             #endregion
 
@@ -1105,7 +1072,6 @@ namespace Sonic_06_Toolkit
                                 tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath) + " (Folder)";
                             }
                             else { tab_Main.SelectedTab.Text = Path.GetFileName(vfbd_BrowseFolders.SelectedPath); }
-                            navigateToGame = true;
 
                             Text = "Sonic '06 Toolkit - Exploring '" + vfbd_BrowseFolders.SelectedPath + @"\'";
                         }
@@ -1301,7 +1267,7 @@ namespace Sonic_06_Toolkit
                 if (tab.Text == "New Tab")
                 {
                     tab_Main.TabPages.Remove(tab);
-                    newTab();
+                    newTab(true);
                 }
             }
         }
@@ -1657,12 +1623,12 @@ namespace Sonic_06_Toolkit
             switch (confirmClosure)
             {
                 case DialogResult.Yes:
-                    resetTab();
+                    resetTab(true);
                     break;
             }
         }
 
-        void resetTab()
+        void resetTab(bool navigateToGame)
         {
             //Creates a new web browser instance (which hooks into File Explorer).
             currentARC().Dispose();
@@ -2137,7 +2103,7 @@ namespace Sonic_06_Toolkit
         #region Window
         void MainWindow_NewTab_Click(object sender, EventArgs e)
         {
-            newTab();
+            newTab(true);
         }
 
         void MainWindow_NewWindow_Click(object sender, EventArgs e)
@@ -2158,7 +2124,7 @@ namespace Sonic_06_Toolkit
                 else
                 {
                     tab_Main.TabPages.Remove(tab_Main.SelectedTab);
-                    newTab();
+                    newTab(true);
                 }
             }
             else
@@ -2171,7 +2137,7 @@ namespace Sonic_06_Toolkit
                         else
                         {
                             tab_Main.TabPages.Remove(tab_Main.SelectedTab);
-                            newTab();
+                            newTab(true);
                         }
                         break;
                 }
@@ -2190,7 +2156,7 @@ namespace Sonic_06_Toolkit
                     return;
             }
 
-            newTab();
+            newTab(true);
         }
 
         void MainWindow_CloseWindow_Click(object sender, EventArgs e)
@@ -2255,7 +2221,7 @@ namespace Sonic_06_Toolkit
 
         void Btn_NewTab_Click(object sender, EventArgs e)
         {
-            newTab();
+            newTab(true);
         }
 
         void Btn_OpenFolder_Click(object sender, EventArgs e)
@@ -2320,12 +2286,12 @@ namespace Sonic_06_Toolkit
                     if (File.Exists(repackBuildSession + "metadata.ini"))
                     {
                         string metadata = File.ReadAllText(repackBuildSession + "metadata.ini");
-                        Text = "Sonic '06 Toolkit - '" + metadata + "'";
+                        Text = "Sonic '06 Toolkit - Exploring '" + metadata + "'";
                     }
                     else
                     {
-                        MessageBox.Show("This archive's metadata is missing or unreadable. It will be removed from the session.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        resetTab();
+                        MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        RepackARC(3, false, false);
                     }
                 }
                 else { Text = "Sonic '06 Toolkit"; }
@@ -2663,7 +2629,7 @@ namespace Sonic_06_Toolkit
                     if (tab.Text == "New Tab")
                     {
                         tab_Main.TabPages.Remove(tab);
-                        newTab();
+                        newTab(true);
                     }
                 }
 
@@ -2707,7 +2673,7 @@ namespace Sonic_06_Toolkit
                     if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().Text == "New Tab")
                     {
                         tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
-                        newTab();
+                        newTab(true);
                     }
                     else
                     {
@@ -2716,7 +2682,7 @@ namespace Sonic_06_Toolkit
                         {
                             case DialogResult.Yes:
                                 tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
-                                newTab();
+                                newTab(true);
                                 break;
                         }
                     }
@@ -2752,7 +2718,7 @@ namespace Sonic_06_Toolkit
                                 if (tab.Text == "New Tab")
                                 {
                                     tab_Main.TabPages.Remove(tab);
-                                    newTab();
+                                    newTab(true);
                                 }
                             }
                         }
@@ -2778,7 +2744,7 @@ namespace Sonic_06_Toolkit
                                 if (tab.Text == "New Tab")
                                 {
                                     tab_Main.TabPages.Remove(tab);
-                                    newTab();
+                                    newTab(true);
                                 }
                             }
                         }
@@ -2801,7 +2767,7 @@ namespace Sonic_06_Toolkit
                                 if (tab.Text == "New Tab")
                                 {
                                     tab_Main.TabPages.Remove(tab);
-                                    newTab();
+                                    newTab(true);
                                 }
                             }
                         }
@@ -2824,7 +2790,7 @@ namespace Sonic_06_Toolkit
                                 if (tab.Text == "New Tab")
                                 {
                                     tab_Main.TabPages.Remove(tab);
-                                    newTab();
+                                    newTab(true);
                                 }
                             }
                         }
@@ -2910,9 +2876,22 @@ namespace Sonic_06_Toolkit
                     try
                     {
                         string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
-                        string metadata = File.ReadAllText($"{repackBuildSession}metadata.ini");
 
-                        Tools.ARC.RepackAs(tab_Main.SelectedTab.Text, repackBuildSession, metadata, sfd_SaveFiles.FileName);
+                        Tools.ARC.RepackAs(tab_Main.SelectedTab.Text, repackBuildSession, File.ReadAllText($"{repackBuildSession}metadata.ini"), sfd_SaveFiles.FileName);
+
+                        resetTab(false);
+                        
+                        Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini"))), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+
+                        //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                        var metadataWrite = File.Create(Path.Combine(repackBuildSession.ToString(), "metadata.ini"));
+                        var metadataSession = new UTF8Encoding(true).GetBytes(sfd_SaveFiles.FileName);
+                        metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                        metadataWrite.Close();
+
+                        currentARC().Navigate(Path.Combine(Properties.Settings.Default.archivesPath, Tools.Global.sessionID.ToString(), GetStorage, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+                        tab_Main.SelectedTab.Text = Path.GetFileName(File.ReadAllText($"{repackBuildSession}metadata.ini"));
+                        Text = $"Sonic '06 Toolkit - Exploring '{File.ReadAllText($"{repackBuildSession}metadata.ini")}'";
                     }
                     catch (Exception ex)
                     {
