@@ -1083,28 +1083,76 @@ namespace Sonic_06_Toolkit
         #region Repack States
         void Btn_Repack_Click(object sender, EventArgs e)
         {
-            if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
-            else { RepackARC(3, false, false); }
+            string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
+
+            if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini")))
+            {
+                if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
+                else { RepackARC(3, false, false); }
+            }
+            else
+            {
+                MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                sfd_SaveFiles.Title = "Repack ARC As...";
+                sfd_SaveFiles.Filter = "ARC Files|*.arc";
+
+                if (sfd_SaveFiles.ShowDialog() == DialogResult.OK)
+                {
+                    WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
+                }
+            }
         }
 
         void RepackAndLaunchXeniaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
-            else { RepackARC(3, false, false); }
+            string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
 
-            if (Properties.Settings.Default.xeniaFile != "")
+            if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini")))
             {
-                RepackARC(2, true, false);
+                if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
+                else { RepackARC(3, false, false); }
+
+                if (Properties.Settings.Default.xeniaFile != "")
+                {
+                    RepackARC(2, true, false);
+                }
+                else
+                {
+                    SpecifyXenia();
+                }
             }
             else
             {
-                SpecifyXenia();
+                MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                sfd_SaveFiles.Title = "Repack ARC As...";
+                sfd_SaveFiles.Filter = "ARC Files|*.arc";
+
+                if (sfd_SaveFiles.ShowDialog() == DialogResult.OK)
+                {
+                    WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
+                }
             }
         }
 
         void MainFile_RepackARCAs_Click(object sender, EventArgs e)
         {
-            RepackARC(3, false, false);
+            string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
+
+            if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini")))
+            {
+                RepackARC(3, false, false);
+            }
+            else
+            {
+                MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                sfd_SaveFiles.Title = "Repack ARC As...";
+                sfd_SaveFiles.Filter = "ARC Files|*.arc";
+
+                if (sfd_SaveFiles.ShowDialog() == DialogResult.OK)
+                {
+                    WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
+                }
+            }
         }
         #endregion
 
@@ -2226,7 +2274,8 @@ namespace Sonic_06_Toolkit
 
         void Btn_OpenFolder_Click(object sender, EventArgs e)
         {
-            Process.Start(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
+            try { Process.Start(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\"); }
+            catch (Exception ex) { MessageBox.Show($"An error occurred whilst opening the current directory.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         static bool repackMenu = false;
@@ -2291,12 +2340,38 @@ namespace Sonic_06_Toolkit
                     else
                     {
                         MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        RepackARC(3, false, false);
+                        sfd_SaveFiles.Title = "Repack ARC As...";
+                        sfd_SaveFiles.Filter = "ARC Files|*.arc";
+
+                        if (sfd_SaveFiles.ShowDialog() == DialogResult.OK)
+                        {
+                            WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
+                        }
                     }
                 }
                 else { Text = "Sonic '06 Toolkit"; }
             }
             catch { Text = "Sonic '06 Toolkit"; }
+        }
+
+        void WriteMetadata(string repackBuildSession, string FileName)
+        {
+            //Writes metadata to the unpacked directory to ensure the original path is remembered.
+            var metadataWrite = File.Create(Path.Combine(repackBuildSession.ToString(), "metadata.ini"));
+            var metadataSession = new UTF8Encoding(true).GetBytes(sfd_SaveFiles.FileName);
+            metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+            metadataWrite.Close();
+
+            Tools.ARC.RepackAs(tab_Main.SelectedTab.Text, repackBuildSession, File.ReadAllText($"{repackBuildSession}metadata.ini"), sfd_SaveFiles.FileName);
+
+            if (Directory.Exists(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(tab_Main.SelectedTab.Text))))
+                Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(tab_Main.SelectedTab.Text)), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+
+            resetTab(false);
+
+            currentARC().Navigate(Path.Combine(Properties.Settings.Default.archivesPath, Tools.Global.sessionID.ToString(), GetStorage, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+            tab_Main.SelectedTab.Text = Path.GetFileName(File.ReadAllText($"{repackBuildSession}metadata.ini"));
+            Text = $"Sonic '06 Toolkit - Exploring '{File.ReadAllText($"{repackBuildSession}metadata.ini")}'";
         }
 
         void Tm_tabCheck_Tick(object sender, EventArgs e)
@@ -2880,8 +2955,9 @@ namespace Sonic_06_Toolkit
                         Tools.ARC.RepackAs(tab_Main.SelectedTab.Text, repackBuildSession, File.ReadAllText($"{repackBuildSession}metadata.ini"), sfd_SaveFiles.FileName);
 
                         resetTab(false);
-                        
-                        Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini"))), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+
+                        if (Directory.Exists(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini")))))
+                            Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini"))), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
 
                         //Writes metadata to the unpacked directory to ensure the original path is remembered.
                         var metadataWrite = File.Create(Path.Combine(repackBuildSession.ToString(), "metadata.ini"));
@@ -3259,16 +3335,32 @@ namespace Sonic_06_Toolkit
 
         private void RepackOptions_RepackAndLaunchModManager_Click(object sender, EventArgs e)
         {
-            if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
-            else { RepackARC(3, false, false); }
+            string repackBuildSession = $"{Properties.Settings.Default.archivesPath}{Tools.Global.sessionID}\\{GetStorage}\\";
 
-            if (Properties.Settings.Default.sonic06mmFile != "")
+            if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini")))
             {
-                RepackARC(2, false, true);
+                if (tab_Main.SelectedTab.Text.Contains(".arc")) { RepackARC(2, false, false); }
+                else { RepackARC(3, false, false); }
+
+                if (Properties.Settings.Default.sonic06mmFile != "")
+                {
+                    RepackARC(2, false, true);
+                }
+                else
+                {
+                    SpecifySonic06mm();
+                }
             }
             else
             {
-                SpecifySonic06mm();
+                MessageBox.Show("This archive's metadata is missing or unreadable. Please specify a new location for the selected ARC.", "Metadata Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                sfd_SaveFiles.Title = "Repack ARC As...";
+                sfd_SaveFiles.Filter = "ARC Files|*.arc";
+
+                if (sfd_SaveFiles.ShowDialog() == DialogResult.OK)
+                {
+                    WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
+                }
             }
         }
     }
