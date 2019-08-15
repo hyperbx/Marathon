@@ -2364,9 +2364,8 @@ namespace Sonic_06_Toolkit
 
             Tools.ARC.RepackAs(tab_Main.SelectedTab.Text, repackBuildSession, File.ReadAllText($"{repackBuildSession}metadata.ini"), sfd_SaveFiles.FileName);
 
-            if (Directory.Exists(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(tab_Main.SelectedTab.Text))))
-                Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(tab_Main.SelectedTab.Text)), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
-
+            try { Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(tab_Main.SelectedTab.Text)), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName))); } catch { }
+            
             resetTab(false);
 
             currentARC().Navigate(Path.Combine(Properties.Settings.Default.archivesPath, Tools.Global.sessionID.ToString(), GetStorage, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
@@ -2956,8 +2955,7 @@ namespace Sonic_06_Toolkit
 
                         resetTab(false);
 
-                        if (Directory.Exists(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini")))))
-                            Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini"))), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName)));
+                        try { Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(File.ReadAllText($"{repackBuildSession}metadata.ini"))), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(sfd_SaveFiles.FileName))); } catch { }
 
                         //Writes metadata to the unpacked directory to ensure the original path is remembered.
                         var metadataWrite = File.Create(Path.Combine(repackBuildSession.ToString(), "metadata.ini"));

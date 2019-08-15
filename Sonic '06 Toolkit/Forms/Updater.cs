@@ -10,6 +10,7 @@ namespace Sonic_06_Toolkit
         string versionString;
         string urlString;
         bool enabledBool;
+        WebClient clientApplication = new WebClient();
 
         public Updater(string versionNumber, string url, bool enabled)
         {
@@ -37,15 +38,17 @@ namespace Sonic_06_Toolkit
 
         private void UpdateVersion()
         {
-            var clientApplication = new WebClient();
-            clientApplication.DownloadProgressChanged += (s, e) => { pgb_Progress.Value = e.ProgressPercentage; };
-            clientApplication.DownloadFileAsync(new Uri(urlString), Application.ExecutablePath + ".pak");
-            clientApplication.DownloadFileCompleted += (s, e) =>
+            using (clientApplication = new WebClient())
             {
-                File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
-                MessageBox.Show("Update complete! Please restart Sonic '06 Toolkit.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Application.Exit();
-            };
+                clientApplication.DownloadProgressChanged += (s, e) => { pgb_Progress.Value = e.ProgressPercentage; };
+                clientApplication.DownloadFileAsync(new Uri(urlString), Application.ExecutablePath + ".pak");
+                clientApplication.DownloadFileCompleted += (s, e) =>
+                {
+                    File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
+                    MessageBox.Show("Update complete! Please restart Sonic '06 Toolkit.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Application.Exit();
+                };
+            }
         }
 
         public int UpdateProgressValue
