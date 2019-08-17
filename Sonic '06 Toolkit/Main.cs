@@ -1350,9 +1350,10 @@ namespace Sonic_06_Toolkit
             {
                 btn_SessionID.Visible = true;
                 btn_Repack.Left -= 19;
-                btn_OpenFolder.Left -= 17;
+                btn_OpenFolder.Left -= 15;
+                btn_FolderOptions.Left -= 15;
                 btn_RepackOptions.Left -= 45;
-                btn_DeepSearch.Left -= 14;
+                btn_DeepSearch.Left -= 12;
                 Properties.Settings.Default.theme = "Compact";
                 mainThemes_Original.Checked = false;
                 mstrip_Main.Left += 106;
@@ -1361,11 +1362,13 @@ namespace Sonic_06_Toolkit
                 btn_Forward.Width -= 10; btn_Forward.Height += 3; btn_Forward.Left -= 14; btn_Forward.Top -= 29; btn_Forward.FlatAppearance.BorderSize = 1;
                 btn_NewTab.Width += 2; btn_NewTab.Height += 2; btn_NewTab.Left += 229; btn_NewTab.Top -= 28; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 1;
                 btn_OpenFolder.Width += 3; btn_OpenFolder.Height += 3; btn_OpenFolder.Top -= 29; btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83); btn_OpenFolder.FlatAppearance.BorderSize = 1;
+                btn_FolderOptions.Height += 3; btn_FolderOptions.Top -= 29; btn_FolderOptions.BackColor = Color.FromArgb(232, 171, 83); btn_FolderOptions.FlatAppearance.BorderSize = 1;
                 btn_Repack.Text = "Repack"; btn_Repack.Width -= 24; btn_Repack.Height += 3; btn_Repack.Top -= 29; btn_Repack.FlatAppearance.BorderSize = 1;
                 btn_RepackOptions.Height += 3; btn_RepackOptions.Top -= 29; btn_RepackOptions.FlatAppearance.BorderSize = 1;
-                btn_SessionID.Height += 3; btn_SessionID.Left += 218; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
+                btn_SessionID.Height += 3; btn_SessionID.Left += 240; btn_SessionID.Top -= 29; btn_SessionID.BackColor = SystemColors.ControlLightLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.ControlLight;
                 lbl_SetDefault.Top = 53;
                 btn_DeepSearch.Top -= 28; btn_DeepSearch.Width += 2; btn_DeepSearch.Height += 2; btn_DeepSearch.FlatAppearance.BorderSize = 1;
+                lbl_ClipboardNotif.Left += 42; lbl_ClipboardNotif.Top -= 27; lbl_ClipboardNotif.BackColor = SystemColors.ControlLightLight;
 
                 Properties.Settings.Default.Save();
             }
@@ -1380,9 +1383,10 @@ namespace Sonic_06_Toolkit
             {
                 btn_SessionID.Visible = true;
                 btn_Repack.Left += 19;
-                btn_OpenFolder.Left += 17;
+                btn_OpenFolder.Left += 15;
+                btn_FolderOptions.Left += 15;
                 btn_RepackOptions.Left += 45;
-                btn_DeepSearch.Left += 14;
+                btn_DeepSearch.Left += 12;
                 Properties.Settings.Default.theme = "Original";
                 mainThemes_Compact.Checked = false;
                 mstrip_Main.Left -= 106;
@@ -1391,11 +1395,13 @@ namespace Sonic_06_Toolkit
                 btn_Forward.Width += 10; btn_Forward.Height -= 3; btn_Forward.Left += 14; btn_Forward.Top += 29; btn_Forward.FlatAppearance.BorderSize = 0;
                 btn_NewTab.Width -= 2; btn_NewTab.Height -= 2; btn_NewTab.Left -= 229; btn_NewTab.Top += 28; btn_NewTab.BackColor = SystemColors.ControlLightLight; btn_NewTab.FlatAppearance.BorderSize = 0;
                 btn_OpenFolder.Width -= 3; btn_OpenFolder.Height -= 3; btn_OpenFolder.Top += 29; btn_OpenFolder.BackColor = SystemColors.ControlLightLight; btn_OpenFolder.FlatAppearance.BorderSize = 0;
+                btn_FolderOptions.Height -= 3; btn_FolderOptions.Top += 29; btn_FolderOptions.BackColor = SystemColors.ControlLightLight; btn_FolderOptions.FlatAppearance.BorderSize = 0;
                 btn_Repack.Text = "Quick Repack"; btn_Repack.Width += 24; btn_Repack.Height -= 3; btn_Repack.Top += 29; btn_Repack.FlatAppearance.BorderSize = 0;
                 btn_RepackOptions.Height -= 3; btn_RepackOptions.Top += 29; btn_RepackOptions.FlatAppearance.BorderSize = 0;
-                btn_SessionID.Height -= 3; btn_SessionID.Left -= 218; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
+                btn_SessionID.Height -= 3; btn_SessionID.Left -= 240; btn_SessionID.Top += 29; btn_SessionID.BackColor = SystemColors.ControlLight; btn_SessionID.FlatAppearance.BorderColor = SystemColors.WindowFrame;
                 lbl_SetDefault.Top = 81;
                 btn_DeepSearch.Top += 28; btn_DeepSearch.Width -= 2; btn_DeepSearch.Height -= 2; btn_DeepSearch.FlatAppearance.BorderSize = 0;
+                lbl_ClipboardNotif.Left -= 42; lbl_ClipboardNotif.Top += 27; lbl_ClipboardNotif.BackColor = SystemColors.Control;
 
                 Properties.Settings.Default.Save();
             }
@@ -1907,6 +1913,11 @@ namespace Sonic_06_Toolkit
 
         void Shortcuts_ExtractCSBs_Click(object sender, EventArgs e)
         {
+            ExtractCSBs();
+        }
+
+        void ExtractCSBs()
+        {
             if (Paths.changes == true) { MessageBox.Show("A restart for Sonic '06 Toolkit is pending.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Warning); }
             else
             {
@@ -2409,6 +2420,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = true;
                     mainSDK_BINStudio.Enabled = true;
                     shortcuts_ConvertBINs.Enabled = true;
+                    btn_FolderOptions.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2457,6 +2469,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = true;
                     mainSDK_BINStudio.Enabled = false;
                     shortcuts_ConvertBINs.Enabled = false;
+                    btn_FolderOptions.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2505,6 +2518,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = false;
                     mainSDK_BINStudio.Enabled = false;
                     shortcuts_ConvertBINs.Enabled = false;
+                    btn_FolderOptions.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;
@@ -2545,6 +2559,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = true;
                     mainSDK_BINStudio.Enabled = false;
                     shortcuts_ConvertBINs.Enabled = false;
+                    btn_FolderOptions.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2593,6 +2608,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = true;
                     mainSDK_BINStudio.Enabled = true;
                     shortcuts_ConvertBINs.Enabled = true;
+                    btn_FolderOptions.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2641,6 +2657,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = true;
                     mainSDK_BINStudio.Enabled = false;
                     shortcuts_ConvertBINs.Enabled = false;
+                    btn_FolderOptions.Enabled = true;
                     #endregion
 
                     pic_Logo.Visible = false;
@@ -2689,6 +2706,7 @@ namespace Sonic_06_Toolkit
                     mainSDK_DebugStudio.Enabled = false;
                     mainSDK_BINStudio.Enabled = false;
                     shortcuts_ConvertBINs.Enabled = false;
+                    btn_FolderOptions.Enabled = false;
                     #endregion
 
                     pic_Logo.Visible = true;
@@ -3292,7 +3310,7 @@ namespace Sonic_06_Toolkit
             {
                 shortcuts_ExtractCSBsToAIF.Checked = true; shortcuts_ExtractCSBsToAIF.ShortcutKeys = Keys.Control | Keys.Shift | Keys.C;
                 shortcuts_ExtractCSBsToWAV.Checked = false; shortcuts_ExtractCSBsToWAV.ShortcutKeys = Keys.None;
-                 Properties.Settings.Default.csbUnpackMode = 0;
+                Properties.Settings.Default.csbUnpackMode = 0;
             }
             else
             {
@@ -3360,6 +3378,92 @@ namespace Sonic_06_Toolkit
                     WriteMetadata(repackBuildSession, sfd_SaveFiles.FileName);
                 }
             }
+        }
+
+        static bool folderMenu = false;
+
+        private void Btn_FolderOptions_Click(object sender, EventArgs e)
+        {
+            if (folderMenu == false)
+            {
+                cms_Folder.Show(btn_OpenFolder, new Point(0, btn_OpenFolder.Height));
+                if (Properties.Settings.Default.theme != "Original")
+                {
+                    btn_FolderOptions.FlatAppearance.BorderSize = 0;
+                    btn_FolderOptions.Height = 25;
+                    btn_FolderOptions.BackColor = Color.FromArgb(173, 127, 62);
+                    btn_OpenFolder.BackColor = Color.FromArgb(173, 127, 62);
+                }
+                else
+                {
+                    btn_FolderOptions.BackColor = SystemColors.ControlLight;
+                    btn_OpenFolder.BackColor = SystemColors.ControlLight;
+                }
+                folderMenu = true;
+            }
+            else
+            {
+                cms_Folder.Hide();
+                if (Properties.Settings.Default.theme != "Original")
+                {
+                    btn_FolderOptions.FlatAppearance.BorderSize = 1;
+                    btn_FolderOptions.Height = 26;
+                    btn_FolderOptions.BackColor = Color.FromArgb(232, 171, 83);
+                    btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83);
+                }
+                else
+                {
+                    btn_FolderOptions.BackColor = SystemColors.ControlLightLight;
+                    btn_OpenFolder.BackColor = SystemColors.ControlLightLight;
+                }
+                folderMenu = false;
+            }
+        }
+
+        private void Cms_Folder_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            if (Properties.Settings.Default.theme != "Original")
+            {
+                btn_FolderOptions.FlatAppearance.BorderSize = 1;
+                btn_FolderOptions.Height = 26;
+                btn_FolderOptions.BackColor = Color.FromArgb(232, 171, 83);
+                btn_OpenFolder.BackColor = Color.FromArgb(232, 171, 83);
+            }
+            else
+            {
+                btn_FolderOptions.BackColor = SystemColors.ControlLightLight;
+                btn_OpenFolder.BackColor = SystemColors.ControlLightLight;
+            }
+            folderMenu = false;
+        }
+
+        private void Btn_Folder_CopyToClipboard(object sender, EventArgs e)
+        {
+            try 
+            { 
+                Clipboard.SetText(currentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
+                if (Properties.Settings.Default.theme == "Compact" && Width > 762) lbl_ClipboardNotif.Visible = true;
+                else lbl_ClipboardNotif.Visible = true;
+                tm_Notification.Start();
+            }
+            catch (Exception ex) { MessageBox.Show($"An error occurred whilst copying the current directory to the clipboard.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void Tm_Notification_Tick(object sender, EventArgs e)
+        {
+            lbl_ClipboardNotif.Visible = false;
+            tm_Notification.Stop();
+        }
+
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            if (Properties.Settings.Default.theme == "Compact" && Width > 762) lbl_ClipboardNotif.Visible = false;
+            else lbl_ClipboardNotif.Visible = false;
+        }
+
+        private void Shortcuts_ExtractCSBsToAIF_Click(object sender, EventArgs e)
+        {
+            ExtractCSBs();
         }
     }
 }

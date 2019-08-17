@@ -59,15 +59,6 @@ namespace Sonic_06_Toolkit
                 catch
                 {
                     WritePrerequisites();
-
-                    DialogResult fatalCrash = MessageBox.Show("An unknown error occurred and Sonic '06 Toolkit was closed. Would you like to report this issue on GitHub?", "Fatal Crash", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-                
-                    switch (fatalCrash)
-                    {
-                        case DialogResult.Yes:
-                            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/issues");
-                            break;
-                    }
                 }
             }
         }

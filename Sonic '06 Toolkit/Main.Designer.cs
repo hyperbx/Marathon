@@ -158,6 +158,7 @@
             this.mainHelp_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
             this.mainHelp_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.lbl_ClipboardNotif = new System.Windows.Forms.Label();
             this.btn_DeepSearch = new System.Windows.Forms.Button();
             this.btn_RepackOptions = new System.Windows.Forms.Button();
             this.btn_NewTab = new System.Windows.Forms.Button();
@@ -183,10 +184,16 @@
             this.mSTStudioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_XNOStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ConvertXNOs = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_FolderOptions = new System.Windows.Forms.Button();
+            this.cms_Folder = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.folder_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.folder_CopyToClipboard = new System.Windows.Forms.ToolStripMenuItem();
+            this.tm_Notification = new System.Windows.Forms.Timer(this.components);
             this.pnl_Backdrop.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             this.cms_Repack.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
+            this.cms_Folder.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu_File
@@ -466,7 +473,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 10;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -1121,6 +1128,7 @@
             this.shortcuts_ExtractCSBsToAIF.Size = new System.Drawing.Size(222, 22);
             this.shortcuts_ExtractCSBsToAIF.Text = "Unpack to AIF";
             this.shortcuts_ExtractCSBsToAIF.CheckedChanged += new System.EventHandler(this.Shortcuts_ExtractCSBsToAIF_CheckedChanged);
+            this.shortcuts_ExtractCSBsToAIF.Click += new System.EventHandler(this.Shortcuts_ExtractCSBsToAIF_Click);
             // 
             // shortcuts_ExtractCSBsToWAV
             // 
@@ -1129,6 +1137,7 @@
             this.shortcuts_ExtractCSBsToWAV.Size = new System.Drawing.Size(222, 22);
             this.shortcuts_ExtractCSBsToWAV.Text = "Unpack to WAV";
             this.shortcuts_ExtractCSBsToWAV.CheckedChanged += new System.EventHandler(this.Shortcuts_ExtractCSBsToWAV_CheckedChanged);
+            this.shortcuts_ExtractCSBsToWAV.Click += new System.EventHandler(this.Shortcuts_ExtractCSBsToAIF_Click);
             // 
             // shortcuts_ConvertDDS
             // 
@@ -1334,6 +1343,18 @@
             this.mainHelp_About.Text = "About";
             this.mainHelp_About.Click += new System.EventHandler(this.MainHelp_About_Click);
             // 
+            // lbl_ClipboardNotif
+            // 
+            this.lbl_ClipboardNotif.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_ClipboardNotif.AutoSize = true;
+            this.lbl_ClipboardNotif.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lbl_ClipboardNotif.Location = new System.Drawing.Point(446, 6);
+            this.lbl_ClipboardNotif.Name = "lbl_ClipboardNotif";
+            this.lbl_ClipboardNotif.Size = new System.Drawing.Size(102, 13);
+            this.lbl_ClipboardNotif.TabIndex = 11;
+            this.lbl_ClipboardNotif.Text = "Copied to Clipboard!";
+            this.lbl_ClipboardNotif.Visible = false;
+            // 
             // btn_DeepSearch
             // 
             this.btn_DeepSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1341,7 +1362,7 @@
             this.btn_DeepSearch.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_DeepSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_DeepSearch.Image = ((System.Drawing.Image)(resources.GetObject("btn_DeepSearch.Image")));
-            this.btn_DeepSearch.Location = new System.Drawing.Point(572, 0);
+            this.btn_DeepSearch.Location = new System.Drawing.Point(552, 0);
             this.btn_DeepSearch.Name = "btn_DeepSearch";
             this.btn_DeepSearch.Size = new System.Drawing.Size(23, 25);
             this.btn_DeepSearch.TabIndex = 14;
@@ -1356,12 +1377,12 @@
             this.btn_RepackOptions.Enabled = false;
             this.btn_RepackOptions.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_RepackOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_RepackOptions.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.btn_RepackOptions.Location = new System.Drawing.Point(732, -1);
             this.btn_RepackOptions.Name = "btn_RepackOptions";
             this.btn_RepackOptions.Size = new System.Drawing.Size(20, 26);
             this.btn_RepackOptions.TabIndex = 13;
-            this.btn_RepackOptions.Text = "⮟";
-            this.btn_RepackOptions.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btn_RepackOptions.Text = "▼";
             this.btn_RepackOptions.UseVisualStyleBackColor = false;
             this.btn_RepackOptions.Click += new System.EventHandler(this.Btn_RepackOptions_Click);
             // 
@@ -1447,7 +1468,7 @@
             this.btn_OpenFolder.Enabled = false;
             this.btn_OpenFolder.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_OpenFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_OpenFolder.Location = new System.Drawing.Point(594, -1);
+            this.btn_OpenFolder.Location = new System.Drawing.Point(574, -1);
             this.btn_OpenFolder.Name = "btn_OpenFolder";
             this.btn_OpenFolder.Size = new System.Drawing.Size(78, 26);
             this.btn_OpenFolder.TabIndex = 9;
@@ -1607,37 +1628,88 @@
             this.sdk_ConvertXNOs.Size = new System.Drawing.Size(284, 22);
             this.sdk_ConvertXNOs.Text = "Convert all XNOs here...";
             // 
+            // btn_FolderOptions
+            // 
+            this.btn_FolderOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_FolderOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(171)))), ((int)(((byte)(83)))));
+            this.btn_FolderOptions.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_FolderOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_FolderOptions.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_FolderOptions.Location = new System.Drawing.Point(651, -1);
+            this.btn_FolderOptions.Name = "btn_FolderOptions";
+            this.btn_FolderOptions.Size = new System.Drawing.Size(20, 26);
+            this.btn_FolderOptions.TabIndex = 15;
+            this.btn_FolderOptions.Text = "▼";
+            this.btn_FolderOptions.UseVisualStyleBackColor = false;
+            this.btn_FolderOptions.Click += new System.EventHandler(this.Btn_FolderOptions_Click);
+            // 
+            // cms_Folder
+            // 
+            this.cms_Folder.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.folder_OpenFolder,
+            this.folder_CopyToClipboard});
+            this.cms_Folder.Name = "cms_Repack";
+            this.cms_Folder.ShowItemToolTips = false;
+            this.cms_Folder.Size = new System.Drawing.Size(172, 48);
+            this.cms_Folder.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.Cms_Folder_Closed);
+            // 
+            // folder_OpenFolder
+            // 
+            this.folder_OpenFolder.BackColor = System.Drawing.SystemColors.Control;
+            this.folder_OpenFolder.Image = ((System.Drawing.Image)(resources.GetObject("folder_OpenFolder.Image")));
+            this.folder_OpenFolder.Name = "folder_OpenFolder";
+            this.folder_OpenFolder.Size = new System.Drawing.Size(171, 22);
+            this.folder_OpenFolder.Text = "Open Folder";
+            this.folder_OpenFolder.Click += new System.EventHandler(this.Btn_OpenFolder_Click);
+            // 
+            // folder_CopyToClipboard
+            // 
+            this.folder_CopyToClipboard.Image = ((System.Drawing.Image)(resources.GetObject("folder_CopyToClipboard.Image")));
+            this.folder_CopyToClipboard.Name = "folder_CopyToClipboard";
+            this.folder_CopyToClipboard.Size = new System.Drawing.Size(171, 22);
+            this.folder_CopyToClipboard.Text = "Copy to Clipboard";
+            this.folder_CopyToClipboard.Click += new System.EventHandler(this.Btn_Folder_CopyToClipboard);
+            // 
+            // tm_Notification
+            // 
+            this.tm_Notification.Interval = 2500;
+            this.tm_Notification.Tick += new System.EventHandler(this.Tm_Notification_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lbl_SetDefault);
+            this.Controls.Add(this.lbl_ClipboardNotif);
             this.Controls.Add(this.pic_Logo);
             this.Controls.Add(this.btn_OpenFolder);
             this.Controls.Add(this.btn_RepackOptions);
             this.Controls.Add(this.tab_Main);
             this.Controls.Add(this.btn_Repack);
             this.Controls.Add(this.btn_NewTab);
+            this.Controls.Add(this.btn_FolderOptions);
             this.Controls.Add(this.btn_Back);
             this.Controls.Add(this.btn_Forward);
             this.Controls.Add(this.btn_SessionID);
             this.Controls.Add(this.btn_DeepSearch);
             this.Controls.Add(this.pnl_Backdrop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(743, 489);
+            this.MinimumSize = new System.Drawing.Size(651, 489);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
             this.Load += new System.EventHandler(this.Main_Load);
             this.Shown += new System.EventHandler(this.TwoThousandAndSix);
+            this.Resize += new System.EventHandler(this.Main_Resize);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();
             this.mstrip_Main.ResumeLayout(false);
             this.mstrip_Main.PerformLayout();
             this.cms_Repack.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
+            this.cms_Folder.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1797,6 +1869,12 @@
         private System.Windows.Forms.Button btn_DeepSearch;
         private System.Windows.Forms.ToolStripMenuItem paths_ClearSonic06ModManager;
         private System.Windows.Forms.ToolStripMenuItem preferences_AssociateARCs;
+        private System.Windows.Forms.Button btn_FolderOptions;
+        private System.Windows.Forms.ContextMenuStrip cms_Folder;
+        private System.Windows.Forms.ToolStripMenuItem folder_OpenFolder;
+        private System.Windows.Forms.ToolStripMenuItem folder_CopyToClipboard;
+        private System.Windows.Forms.Label lbl_ClipboardNotif;
+        private System.Windows.Forms.Timer tm_Notification;
     }
 }
 

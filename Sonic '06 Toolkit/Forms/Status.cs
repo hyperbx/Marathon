@@ -222,7 +222,7 @@ namespace Sonic_06_Toolkit
                 Text = "Searching ARCs...";
                 lbl_unpackState.Text = "Searching ARCs. Please wait...";
                 pnl_windowCheck.BackColor = Color.Honeydew; BackColor = Color.Honeydew;
-                Width = 278;
+                Width = 285;
                 Height = 138;
             }
 
