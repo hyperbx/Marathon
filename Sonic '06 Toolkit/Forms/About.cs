@@ -55,8 +55,8 @@ namespace Sonic_06_Toolkit
                 $"Shadow LAG - <a href=\"https://drive.google.com/file/d/1auuHtR91zWwNDih4l6ddlwcCbczW_b0L/view\" target=\"_blank\">Sonic '06 SDK</a><br>" +
                 $"xose - ARC Unpacker<br>" +
                 $"g0ldenlink - ARC Repacker<br>" +
-                $"<a href=\"https://github.com/NatsumiFox\" target=\"_blank\">Natsumi</a> - <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/54f1ee53a1155b990058c9d8d15e91a8e09a5f23#diff-e664d6debe0eb815513a7b8c8bb39512R52\" target=\"_blank\">Deep Search</a>, <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/4e1e7e7b8e50eab1a0dbbe3f3c2b969b7a51c3c3\" target=\"_blank\">MST Decoder (1.83)</a> & Design Guidance<br>" +
-                $"<a href=\"https://github.com/blueskythlikesclouds\" target=\"_blank\">Skyth</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a>, <a href=\"https://github.com/blueskythlikesclouds/SonicAudioTools\" target=\"_blank\">Sonic Audio Tools</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
+                $"<a href=\"https://github.com/NatsumiFox\" target=\"_blank\">Natsumi</a> - <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/54f1ee53a1155b990058c9d8d15e91a8e09a5f23#diff-e664d6debe0eb815513a7b8c8bb39512R52\" target=\"_blank\">Deep Search</a>, <a href=\"https://github.com/HyperPolygon64/Sonic-06-Toolkit/commit/4e1e7e7b8e50eab1a0dbbe3f3c2b969b7a51c3c3\" target=\"_blank\">MST Decoder (1.83)</a> and Design Guidance<br>" +
+                $"<a href=\"https://github.com/blueskythlikesclouds\" target=\"_blank\">Skyth</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a>, <a href=\"https://github.com/blueskythlikesclouds/SonicAudioTools\" target=\"_blank\">Sonic Audio Tools</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp\" target=\"_blank\">S06Collision</a><br>" +
                 $"<a href=\"https://github.com/DarioSamo\" target=\"_blank\">DarioSamo</a> - <a href=\"https://github.com/blueskythlikesclouds/SkythTools/blob/master/Sonic%20'06/xno2dae.exe\" target=\"_blank\">XNO Converter</a> and <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
                 $"<a href=\"https://www.criware.com/en/\" target=\"_blank\">CRI Middleware Co.</a> - CRI Atom Encoder<br>" +
                 $"<a href=\"https://github.com/Radfordhound\" target=\"_blank\">Radfordhound</a> - <a href=\"https://github.com/Radfordhound/HedgeLib\" target=\"_blank\">HedgeLib</a><br>" +
@@ -67,8 +67,7 @@ namespace Sonic_06_Toolkit
                 $"<a href=\"https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg\" target=\"_blank\">Nonami</a> - XMA and XNO Backface Culling Research<br>" +
                 $"Reimous - XMA Research<br>" +
                 $"<a href=\"https://twitter.com/nectarhime\" target=\"_blank\">Sable</a> - BIN Studio Logo<br>" +
-                $"Sajid - <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a><br>" +
-                $"<a href=\"https://github.com/Knuxfan24\" target=\"_blank\">Knuxfan24</a> - <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/tree/master/src/LibS06\" target=\"_blank\">LibS06</a>" +
+                $"<a href=\"https://gamebanana.com/members/1615034\" target=\"_blank\">Sajid</a> - <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp\" target=\"_blank\">S06Collision</a><br>" +
                 $"</p></body></html>";
         }
 
