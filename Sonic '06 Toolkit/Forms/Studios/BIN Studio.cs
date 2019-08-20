@@ -156,6 +156,39 @@ namespace Sonic_06_Toolkit
                 {
                     foreach (string selectedCol in clb_BIN.CheckedItems)
                     {
+                        if (Path.GetExtension(selectedCol) == ".obj")
+                        {
+                            string[] atProtocol = File.ReadAllLines(Path.Combine(Tools.Global.currentPath, selectedCol));
+
+                            int i = 0;
+                            foreach (string line in atProtocol)
+                            {
+                                if (line.Contains("_at_"))
+                                {
+                                    i++;
+                                }
+                            }
+
+                            DialogResult confirm = MessageBox.Show($"Found {i} instances of _at_ in file: {selectedCol}. Do you want to replace them with @ to correct the tags?", "OBJ Tags Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                            switch (confirm)
+                            {
+                                case DialogResult.Yes:
+                                    int lineNum = 0;
+                                    foreach (string line in atProtocol)
+                                    {
+                                        if (line.Contains("_at_"))
+                                        {
+                                            string temp = line.Replace("_at_", "@");
+                                            atProtocol[lineNum] = temp;
+                                        }
+                                        lineNum++;
+                                    }
+                                    File.WriteAllLines(Path.Combine(Tools.Global.currentPath, selectedCol), atProtocol);
+                                    break;
+                            }
+                        }
+
                         Tools.BIN.Import(3, string.Empty, selectedCol);
                     }
                     //if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected collision files have been imported.", "Import Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
