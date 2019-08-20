@@ -1489,7 +1489,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "2.09_01";
+        public static string versionNumber = "2.1";
         public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
