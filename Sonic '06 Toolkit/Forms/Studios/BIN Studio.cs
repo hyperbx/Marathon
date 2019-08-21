@@ -169,23 +169,26 @@ namespace Sonic_06_Toolkit
                                 }
                             }
 
-                            DialogResult confirm = MessageBox.Show($"Found {i} instances of _at_ in file: {selectedCol}. Do you want to replace them with @ to correct the tags?", "OBJ Tags Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                            switch (confirm)
+                            if (i != 0)
                             {
-                                case DialogResult.Yes:
-                                    int lineNum = 0;
-                                    foreach (string line in atProtocol)
-                                    {
-                                        if (line.Contains("_at_"))
+                                DialogResult confirm = MessageBox.Show($"Found {i} instances of _at_ in file: {selectedCol}. Do you want to replace them with @ to correct the tags?", "OBJ Tags Detected", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                                switch (confirm)
+                                {
+                                    case DialogResult.Yes:
+                                        int lineNum = 0;
+                                        foreach (string line in atProtocol)
                                         {
-                                            string temp = line.Replace("_at_", "@");
-                                            atProtocol[lineNum] = temp;
+                                            if (line.Contains("_at_"))
+                                            {
+                                                string temp = line.Replace("_at_", "@");
+                                                atProtocol[lineNum] = temp;
+                                            }
+                                            lineNum++;
                                         }
-                                        lineNum++;
-                                    }
-                                    File.WriteAllLines(Path.Combine(Tools.Global.currentPath, selectedCol), atProtocol);
-                                    break;
+                                        File.WriteAllLines(Path.Combine(Tools.Global.currentPath, selectedCol), atProtocol);
+                                        break;
+                                }
                             }
                         }
 
