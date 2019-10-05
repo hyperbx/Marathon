@@ -36,6 +36,8 @@
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_Decompile = new System.Windows.Forms.Button();
+            this.lbl_Mode = new System.Windows.Forms.Label();
+            this.combo_Mode = new System.Windows.Forms.ComboBox();
             this.pnl_Backdrop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +65,7 @@
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-3, -2);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
-            this.pnl_Backdrop.Size = new System.Drawing.Size(418, 69);
+            this.pnl_Backdrop.Size = new System.Drawing.Size(439, 69);
             this.pnl_Backdrop.TabIndex = 6;
             // 
             // pic_Logo
@@ -72,7 +74,7 @@
             this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
             this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
             this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(341, 1);
+            this.pic_Logo.Location = new System.Drawing.Point(362, 1);
             this.pic_Logo.Name = "pic_Logo";
             this.pic_Logo.Size = new System.Drawing.Size(67, 67);
             this.pic_Logo.TabIndex = 11;
@@ -88,7 +90,7 @@
             this.clb_LUBs.FormattingEnabled = true;
             this.clb_LUBs.Location = new System.Drawing.Point(8, 76);
             this.clb_LUBs.Name = "clb_LUBs";
-            this.clb_LUBs.Size = new System.Drawing.Size(396, 304);
+            this.clb_LUBs.Size = new System.Drawing.Size(417, 304);
             this.clb_LUBs.TabIndex = 7;
             this.clb_LUBs.SelectedIndexChanged += new System.EventHandler(this.Clb_LUBs_SelectedIndexChanged);
             // 
@@ -129,7 +131,7 @@
             this.btn_Decompile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Decompile.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Decompile.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_Decompile.Location = new System.Drawing.Point(329, 387);
+            this.btn_Decompile.Location = new System.Drawing.Point(350, 387);
             this.btn_Decompile.Name = "btn_Decompile";
             this.btn_Decompile.Size = new System.Drawing.Size(75, 23);
             this.btn_Decompile.TabIndex = 10;
@@ -137,12 +139,38 @@
             this.btn_Decompile.UseVisualStyleBackColor = false;
             this.btn_Decompile.Click += new System.EventHandler(this.Btn_Decompile_Click);
             // 
+            // lbl_Mode
+            // 
+            this.lbl_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbl_Mode.AutoSize = true;
+            this.lbl_Mode.Location = new System.Drawing.Point(184, 392);
+            this.lbl_Mode.Name = "lbl_Mode";
+            this.lbl_Mode.Size = new System.Drawing.Size(37, 13);
+            this.lbl_Mode.TabIndex = 40;
+            this.lbl_Mode.Text = "Mode:";
+            // 
+            // combo_Mode
+            // 
+            this.combo_Mode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.combo_Mode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.combo_Mode.FormattingEnabled = true;
+            this.combo_Mode.Items.AddRange(new object[] {
+            "Decompile",
+            "Compile"});
+            this.combo_Mode.Location = new System.Drawing.Point(223, 388);
+            this.combo_Mode.Name = "combo_Mode";
+            this.combo_Mode.Size = new System.Drawing.Size(121, 21);
+            this.combo_Mode.TabIndex = 39;
+            this.combo_Mode.SelectedIndexChanged += new System.EventHandler(this.Combo_Mode_SelectedIndexChanged);
+            // 
             // LUB_Studio
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(413, 419);
+            this.ClientSize = new System.Drawing.Size(434, 419);
+            this.Controls.Add(this.lbl_Mode);
+            this.Controls.Add(this.combo_Mode);
             this.Controls.Add(this.btn_Decompile);
             this.Controls.Add(this.btn_DeselectAll);
             this.Controls.Add(this.btn_SelectAll);
@@ -150,7 +178,7 @@
             this.Controls.Add(this.clb_LUBs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(429, 458);
+            this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "LUB_Studio";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "LUB Studio";
@@ -159,6 +187,7 @@
             this.pnl_Backdrop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -171,5 +200,7 @@
         private System.Windows.Forms.Button btn_DeselectAll;
         private System.Windows.Forms.Button btn_Decompile;
         internal System.Windows.Forms.PictureBox pic_Logo;
+        private System.Windows.Forms.Label lbl_Mode;
+        private System.Windows.Forms.ComboBox combo_Mode;
     }
 }

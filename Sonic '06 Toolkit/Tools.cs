@@ -746,164 +746,68 @@ namespace Sonic_06_Toolkit.Tools
 
     class LUB
     {
-        static ProcessStartInfo lubSession;
-        static string failsafeCheck;
-
-        public static void WriteDecompiler(int state)
+        public static void Compile(string filepath)
         {
-            //Gets the failsafe directory.
-            if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}");
-            if (state == 1 || state == 2) failsafeCheck = Global.getStorage;
-            else failsafeCheck = Path.GetRandomFileName();
-
-            //Writes the decompiler to the failsafe directory to ensure any LUBs left over from other open archives aren't copied over to the selected archive.
-            if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}");
-            if (!Directory.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs")) Directory.CreateDirectory($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs");
-            if (!File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar")) File.WriteAllBytes($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar", Properties.Resources.unlub);
-            if (!File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.bat"))
-            {
-                var decompilerWrite = File.Create($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.bat");
-                var decompilerText = new UTF8Encoding(true).GetBytes("cd \".\\lubs\"\nfor /r %%i in (*.lub) do java -jar ..\\unlub.jar \"%%~dpni.lub\" > \"%%~dpni.lua\"\nxcopy \".\\*.lua\" \"..\\luas\" /y /i\ndel \".\\*.lua\" /q\n@ECHO OFF\n:delete\ndel /q /f *.lub\n@ECHO OFF\n:rename\ncd \"..\\luas\"\nrename \"*.lua\" \"*.lub\"\nexit");
-                decompilerWrite.Write(decompilerText, 0, decompilerText.Length);
-                decompilerWrite.Close();
-            }
-        }
-
-        public static void Decompile(int state, string args, string LUB)
-        {
-            WriteDecompiler(state);
-
-            //Checks if the first file to be processed is blacklisted. If so, abort the operation to ensure the file doesn't get corrupted.
-            if (state == 0)
-            {
-                if (Path.GetFileName(args) == "standard.lub")
-                {
-                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
-                if (Path.GetFileName(args) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (Path.GetFileName(args) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (Path.GetFileName(args) == "object.lub") MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                //Checks the header for each file to ensure that it can be safely decompiled.
-                if (File.Exists(args))
-                {
-                    if (File.ReadAllLines(args)[0].Contains("LuaP"))
-                    {
-                        File.Copy(args, Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs\\", Path.GetFileName(args)), true);
-                    }
-                    else { return; }
-                }
-            }
-            else if (state == 1)
-            {
-                if (Path.GetFileName(LUB) == "standard.lub")
-                {
-                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
-                if (Path.GetFileName(LUB) == "render_shadowmap.lub") MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (Path.GetFileName(LUB) == "game.lub") MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (Path.GetFileName(LUB) == "object.lub") MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                File.Copy(Path.Combine(Global.currentPath, Path.GetFileName(LUB)), Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs\\", Path.GetFileName(LUB)), true);
-            }
-            else if (state == 2)
-            {
-                if (File.Exists($"{Global.currentPath}standard.lub"))
-                {
-                    MessageBox.Show("File: standard.lub\n\nThis file cannot be decompiled; attempts to do so will render the file unusable.", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                //Checks if any of the blacklisted files are present. If so, warn the user about modifying the files.
-                if (File.Exists($"{Global.currentPath}render_shadowmap.lub")) MessageBox.Show("File: render_shadowmap.lub\n\nEditing this file may render this archive unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (File.Exists($"{Global.currentPath}game.lub")) MessageBox.Show("File: game.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                if (File.Exists($"{Global.currentPath}object.lub")) MessageBox.Show("File: object.lub\n\nEditing this file may render it unusable. Please edit this at your own risk!", "Blacklisted file detected!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                //Checks the header for each file to ensure that it can be safely decompiled.
-                foreach (string listLUBs in Directory.GetFiles(Tools.Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
-                {
-                    if (File.Exists(listLUBs))
-                    {
-                        if (File.ReadAllLines(listLUBs)[0].Contains("LuaP"))
-                        {
-                            File.Copy(listLUBs, Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\lubs\\", Path.GetFileName(listLUBs)), true);
-                        }
-                    }
-                }
-            }
-
-            lubSession = new ProcessStartInfo($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.bat")
-            {
-                WorkingDirectory = $"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}",
-                WindowStyle = ProcessWindowStyle.Hidden
-            };
-
-            Begin(state, args);
-        }
-
-        static void Begin(int state, string args)
-        {
-            if (Debugger.unsafeState == true) { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            if (Debugger.unsafeState == true) { MessageBox.Show("unlub files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else
             {
-                if (File.Exists($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\unlub.jar"))
+                if (File.Exists($"{Global.applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unlub\\luac50.exe"))
                 {
-                    var Decompile = Process.Start(lubSession);
-                    var decompileDialog = new Status(0, "LUB");
-                    var parentLeft = Main.FormLeft + ((Main.FormWidth - decompileDialog.Width) / 2);
-                    var parentTop = Main.FormTop + ((Main.FormHeight - decompileDialog.Height) / 2);
-                    if (state == 0) decompileDialog.StartPosition = FormStartPosition.CenterScreen;
-                    else decompileDialog.Location = new System.Drawing.Point(parentLeft, parentTop);
-                    decompileDialog.Show();
-                    Decompile.WaitForExit();
-                    Decompile.Close();
+                    if (File.Exists($"{Global.applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unlub\\lua50.dll"))
+                    {
+                        string[] readText = File.ReadAllLines(filepath); //Read the Lub into an array
 
-                    if (state == 0)
-                    {
-                        //Copies all LUBs to the final directory, then erases leftovers.
-                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
+                        //Check if the array contains the LuaP string used to determine if the Lua is compiled. Decompile if true
+                        if (!readText[0].Contains("LuaP"))
                         {
-                            if (File.Exists(LUB))
+                            Process process = new Process();
+                            ProcessStartInfo startInfo = new ProcessStartInfo
                             {
-                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), args, true);
-                                File.Delete(LUB);
-                            }
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                FileName = $"{Global.applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unlub\\luac50.exe",
+                                Arguments = $"-o \"{filepath}\" \"{filepath}\""
+                            };
+                            process.StartInfo = startInfo;
+                            process.Start();
+                            process.WaitForExit();
                         }
                     }
-                    else if (state == 1)
-                    {
-                        //Copies all LUBs to the final directory, then erases leftovers.
-                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
-                        {
-                            if (File.Exists(LUB))
-                            {
-                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                                File.Delete(LUB);
-                            }
-                        }
-                    }
-                    else if (state == 2)
-                    {
-                        //Copies all LUBs to the final directory, then erases leftovers.
-                        foreach (string LUB in Directory.GetFiles($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", "*.lub", SearchOption.TopDirectoryOnly))
-                        {
-                            if (File.Exists(LUB))
-                            {
-                                File.Copy(Path.Combine($"{Properties.Settings.Default.unlubPath}{Global.sessionID}\\{failsafeCheck}\\luas\\", Path.GetFileName(LUB)), Path.Combine(Global.currentPath, Path.GetFileName(LUB)), true);
-                                File.Delete(LUB);
-                            }
-                        }
-                    }
-
-                    decompileDialog.Close();
+                    else { MessageBox.Show("unlub files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
                 }
-                else { MessageBox.Show("unlub files are missing. Please restart LUB Studio and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                else { MessageBox.Show("unlub files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            }
+        }
+
+        public static void Decompile(string filepath)
+        {
+            if (Debugger.unsafeState == true) { MessageBox.Show("unlub files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else
+            {
+                if (File.Exists($"{Global.applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unlub\\unlub.jar"))
+                {
+                    string luaName = Path.Combine(Path.GetDirectoryName(filepath), $"{Path.GetFileNameWithoutExtension(filepath)}.lua"); //Get the name of the Lub with the file extension changed to Lua
+                    string[] readText = File.ReadAllLines(filepath); //Read the Lub into an array
+
+                    //Check if the array contains the LuaP string used to determine if the Lua is compiled. Decompile if true
+                    if (readText[0].Contains("LuaP"))
+                    {
+                        Process process = new Process();
+                        ProcessStartInfo startInfo = new ProcessStartInfo
+                        {
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            FileName = "cmd.exe",
+                            Arguments = $"/C java.exe -jar \"{Global.applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unlub\\unlub.jar\" \"{filepath}\" > \"{luaName}\""
+                        };
+                        process.StartInfo = startInfo;
+                        process.Start();
+                        process.WaitForExit();
+
+                        //Rename from .Lua to .Lub
+                        File.Delete(filepath);
+                        File.Move(luaName, filepath);
+                    }
+                }
+                else { MessageBox.Show("unlub files are missing. Please restart Sonic '06 Toolkit and try again.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             }
         }
     }
@@ -1489,7 +1393,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "2.11";
+        public static string versionNumber = "2.12";
         public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;

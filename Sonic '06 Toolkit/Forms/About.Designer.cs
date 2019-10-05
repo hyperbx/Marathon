@@ -84,6 +84,8 @@
             this.richTextBox17 = new System.Windows.Forms.RichTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.web_Credits = new System.Windows.Forms.WebBrowser();
+            this.tabPage24 = new System.Windows.Forms.TabPage();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tab_Information.SuspendLayout();
@@ -117,6 +119,7 @@
             this.tabPage22.SuspendLayout();
             this.tabPage23.SuspendLayout();
             this.tabPage6.SuspendLayout();
+            this.tabPage24.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_Title
@@ -276,6 +279,7 @@
             this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Controls.Add(this.tabPage22);
             this.tabControl2.Controls.Add(this.tabPage23);
+            this.tabControl2.Controls.Add(this.tabPage24);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Location = new System.Drawing.Point(0, 0);
             this.tabControl2.Name = "tabControl2";
@@ -749,6 +753,28 @@
             this.web_Credits.TabIndex = 7;
             this.web_Credits.WebBrowserShortcutsEnabled = false;
             // 
+            // tabPage24
+            // 
+            this.tabPage24.Controls.Add(this.richTextBox2);
+            this.tabPage24.Location = new System.Drawing.Point(4, 22);
+            this.tabPage24.Name = "tabPage24";
+            this.tabPage24.Size = new System.Drawing.Size(546, 288);
+            this.tabPage24.TabIndex = 15;
+            this.tabPage24.Text = "luac50";
+            this.tabPage24.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox2
+            // 
+            this.richTextBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.richTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox2.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.ReadOnly = true;
+            this.richTextBox2.Size = new System.Drawing.Size(546, 288);
+            this.richTextBox2.TabIndex = 2;
+            this.richTextBox2.Text = resources.GetString("richTextBox2.Text");
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -802,6 +828,7 @@
             this.tabPage22.ResumeLayout(false);
             this.tabPage23.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
+            this.tabPage24.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -864,5 +891,7 @@
         private System.Windows.Forms.TabPage tabPage23;
         private System.Windows.Forms.RichTextBox richTextBox17;
         private System.Windows.Forms.WebBrowser web_Credits;
+        private System.Windows.Forms.TabPage tabPage24;
+        private System.Windows.Forms.RichTextBox richTextBox2;
     }
 }

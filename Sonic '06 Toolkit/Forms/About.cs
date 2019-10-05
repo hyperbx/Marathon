@@ -68,6 +68,7 @@ namespace Sonic_06_Toolkit
                 $"Reimous - XMA Research<br>" +
                 $"<a href=\"https://twitter.com/nectarhime\" target=\"_blank\">Sable</a> - BIN Studio Logo<br>" +
                 $"<a href=\"https://gamebanana.com/members/1615034\" target=\"_blank\">Sajid</a> - <a href=\"https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp\" target=\"_blank\">S06Collision</a><br>" +
+                $"<a href=\"http://www.puc-rio.br/index.html\" target=\"_blank\">PUC-Rio</a> - luac50<br>" +
                 $"</p></body></html>";
         }
 

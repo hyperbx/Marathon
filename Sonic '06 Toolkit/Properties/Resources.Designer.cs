@@ -292,6 +292,26 @@ namespace Sonic_06_Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] lua50 {
+            get {
+                object obj = ResourceManager.GetObject("lua50", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] luac50 {
+            get {
+                object obj = ResourceManager.GetObject("luac50", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] mst06 {
             get {
                 object obj = ResourceManager.GetObject("mst06", resourceCulture);

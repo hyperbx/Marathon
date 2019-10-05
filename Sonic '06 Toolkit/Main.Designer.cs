@@ -129,6 +129,7 @@
             this.mainSDK_LUBStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_SETStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.dbs_Separator = new System.Windows.Forms.ToolStripSeparator();
+            this.sdk_SaveEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.mainSDK_DebugStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertAT3s = new System.Windows.Forms.ToolStripMenuItem();
@@ -882,6 +883,7 @@
             this.engineToolStripMenuItem,
             this.scriptsToolStripMenuItem,
             this.dbs_Separator,
+            this.sdk_SaveEditor,
             this.mainSDK_DebugStudio});
             this.main_SDK.Name = "main_SDK";
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
@@ -899,7 +901,7 @@
             // 
             this.mainSDK_ARCStudio.Image = ((System.Drawing.Image)(resources.GetObject("mainSDK_ARCStudio.Image")));
             this.mainSDK_ARCStudio.Name = "mainSDK_ARCStudio";
-            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(180, 22);
+            this.mainSDK_ARCStudio.Size = new System.Drawing.Size(143, 22);
             this.mainSDK_ARCStudio.Text = "ARC Studio...";
             this.mainSDK_ARCStudio.Click += new System.EventHandler(this.MainSDK_ARCStudio_Click);
             // 
@@ -1053,6 +1055,14 @@
             this.dbs_Separator.Name = "dbs_Separator";
             this.dbs_Separator.Size = new System.Drawing.Size(177, 6);
             this.dbs_Separator.Visible = false;
+            // 
+            // sdk_SaveEditor
+            // 
+            this.sdk_SaveEditor.Name = "sdk_SaveEditor";
+            this.sdk_SaveEditor.Size = new System.Drawing.Size(180, 22);
+            this.sdk_SaveEditor.Text = "Save Editor...";
+            this.sdk_SaveEditor.Visible = false;
+            this.sdk_SaveEditor.Click += new System.EventHandler(this.Sdk_SaveEditor_Click);
             // 
             // mainSDK_DebugStudio
             // 
@@ -1875,6 +1885,7 @@
         private System.Windows.Forms.ToolStripMenuItem folder_CopyToClipboard;
         private System.Windows.Forms.Label lbl_ClipboardNotif;
         private System.Windows.Forms.Timer tm_Notification;
+        private System.Windows.Forms.ToolStripMenuItem sdk_SaveEditor;
     }
 }
 

@@ -139,6 +139,12 @@
     <Compile Include="Forms\Studios\DDS Studio.Designer.cs">
       <DependentUpon>DDS Studio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Save Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Save Editor.Designer.cs">
+      <DependentUpon>Save Editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Compile Include="Forms\Unused\Debugger.cs">
       <SubType>Form</SubType>
@@ -253,6 +259,9 @@
     <EmbeddedResource Include="Forms\DeepSearch.resx">
       <DependentUpon>DeepSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Save Editor.resx">
+      <DependentUpon>Save Editor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Studios\BIN Studio.resx">
       <DependentUpon>BIN Studio.cs</DependentUpon>
     </EmbeddedResource>
@@ -343,6 +352,8 @@
     <None Include="Resources\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\lua50.dll" />
+    <None Include="Resources\luac50.exe" />
     <None Include="Resources\Ookii.Dialogs.dll" />
     <None Include="Resources\s06collision.py" />
     <None Include="Resources\s06col.exe" />

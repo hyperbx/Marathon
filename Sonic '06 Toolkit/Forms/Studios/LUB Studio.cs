@@ -38,10 +38,22 @@ namespace Sonic_06_Toolkit
 
         void LUB_Studio_Load(object sender, EventArgs e)
         {
-            VerifyLUBs();
+            btn_Decompile.Text = "Decompile";
+
+            clb_LUBs.Items.Clear();
+
+            if (VerifyDecompilableLUBs())
+            {
+                combo_Mode.SelectedIndex = 0;
+            }
+            else if (VerifyCompilableLUBs())
+            {
+                combo_Mode.SelectedIndex = 1;
+            }
+            else { MessageBox.Show("There are no Lua binaries in this directory.", "No files available", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }
         }
 
-        void VerifyLUBs()
+        bool VerifyDecompilableLUBs()
         {
             #region Getting and verifying Lua binaries...
             //Checks the header for each file to ensure that it can be safely decompiled then adds all decompilable LUBs in the current path to the CheckedListBox.
@@ -55,12 +67,35 @@ namespace Sonic_06_Toolkit
                     }
                 }
             }
+
             //Checks if there are any LUBs in the directory.
             if (clb_LUBs.Items.Count == 0)
+                return false;
+
+            return true;
+            #endregion
+        }
+
+        bool VerifyCompilableLUBs()
+        {
+            #region Getting and verifying Lua binaries...
+            //Checks the header for each file to ensure that it can be safely decompiled then adds all decompilable LUBs in the current path to the CheckedListBox.
+            foreach (string LUB in Directory.GetFiles(Tools.Global.currentPath, "*.lub", SearchOption.TopDirectoryOnly))
             {
-                MessageBox.Show("There are no Lua binaries to decompile in this directory.", "No Lua binaries available", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
+                if (File.Exists(LUB))
+                {
+                    if (!File.ReadAllLines(LUB)[0].Contains("LuaP"))
+                    {
+                        clb_LUBs.Items.Add(Path.GetFileName(LUB));
+                    }
+                }
             }
+
+            //Checks if there are any LUBs in the directory.
+            if (clb_LUBs.Items.Count == 0)
+                return false;
+
+            return true;
             #endregion
         }
 
@@ -82,21 +117,55 @@ namespace Sonic_06_Toolkit
         {
             //In the odd chance that someone is ever able to click Decompile without anything selected, this will prevent that.
             if (clb_LUBs.CheckedItems.Count == 0) MessageBox.Show("Please select a Lua binary.", "No Lua binaries specified", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            try
+            if (combo_Mode.SelectedIndex == 0)
             {
-                //Gets all checked boxes from the CheckedListBox and builds a string for each LUB.
-                foreach (string selectedLUB in clb_LUBs.CheckedItems)
+                try
                 {
-                    Tools.LUB.Decompile(1, string.Empty, selectedLUB);
-                }
+                    //Gets all checked boxes from the CheckedListBox and builds a string for each LUB.
+                    foreach (string selectedLUB in clb_LUBs.CheckedItems)
+                    {
+                        Tools.LUB.Decompile(Path.Combine(Tools.Global.currentPath, selectedLUB));
+                    }
+                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected LUBs have been decompiled.", "Decompilation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
 
-                clb_LUBs.Items.Clear();
-                VerifyLUBs();
+                    clb_LUBs.Items.Clear();
+
+                    //Checks if there are any CSBs in the directory.
+                    if (!VerifyDecompilableLUBs())
+                    {
+                        btn_Decompile.Enabled = false;
+                        MessageBox.Show("There are no LUBs to decompile in this directory.", "No LUBs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                    }
+                }
+                catch (Exception ex) {
+                    MessageBox.Show($"An error occurred when decompiling the selected Lua binaries.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            if (combo_Mode.SelectedIndex == 1)
             {
-                MessageBox.Show($"An error occurred when decompiling the selected Lua binaries.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Tools.Notification.Dispose();
+                try
+                {
+                    //Gets all checked boxes from the CheckedListBox and builds a string for each LUB.
+                    foreach (string selectedLUB in clb_LUBs.CheckedItems)
+                    {
+                        Tools.LUB.Compile(Path.Combine(Tools.Global.currentPath, selectedLUB));
+                    }
+                    if (Properties.Settings.Default.disableWarns == false) { MessageBox.Show("All selected LUBs have been compiled.", "Compilation Complete", MessageBoxButtons.OK, MessageBoxIcon.Information); }
+
+                    clb_LUBs.Items.Clear();
+
+                    //Checks if there are any CSBs in the directory.
+                    if (!VerifyCompilableLUBs())
+                    {
+                        btn_Decompile.Enabled = false;
+                        MessageBox.Show("There are no LUBs to compile in this directory.", "No LUBs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        combo_Mode.SelectedIndex = 0;
+                    }
+                }
+                catch (Exception ex) {
+                    MessageBox.Show($"An error occurred when compiling the selected Lua binaries.\n\n{ex}", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -112,6 +181,38 @@ namespace Sonic_06_Toolkit
             else
             {
                 btn_Decompile.Enabled = false;
+            }
+        }
+
+        private void Combo_Mode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (combo_Mode.SelectedIndex == 0)
+            {
+                btn_Decompile.Text = "Decompile";
+
+                clb_LUBs.Items.Clear();
+
+                //Checks if there are any CSBs in the directory.
+                if (!VerifyDecompilableLUBs())
+                {
+                    btn_Decompile.Enabled = false;
+                    MessageBox.Show("There are no LUBs to decompile in this directory.", "No LUBs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+            }
+            else if (combo_Mode.SelectedIndex == 1)
+            {
+                btn_Decompile.Text = "Compile";
+
+                clb_LUBs.Items.Clear();
+
+                //Checks if there are any CSBs in the directory.
+                if (!VerifyCompilableLUBs())
+                {
+                    btn_Decompile.Enabled = false;
+                    MessageBox.Show("There are no LUBs to compile in this directory.", "No LUBs available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    combo_Mode.SelectedIndex = 0;
+                }
             }
         }
     }
