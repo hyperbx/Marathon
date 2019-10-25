@@ -93,26 +93,41 @@ namespace Toolkit.Tools
 
         private void Combo_Encoder_SelectedIndexChanged(object sender, EventArgs e) {
             clb_SNDs.Items.Clear();
-            if (combo_Encoder.SelectedIndex == 0) {
+            if (combo_Encoder.SelectedIndex == 0) { //ADX
+                pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
+                pic_Logo.BackgroundImage = Properties.Resources.adxLogo;
+                Icon = Properties.Resources.adxIcon;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.wav");
                 ListVerifiedSoundBytes("*.csb");
-            } else if (combo_Encoder.SelectedIndex == 1) {
+            } else if (combo_Encoder.SelectedIndex == 1) { //AT3
+                pnl_Backdrop.BackgroundImage = Properties.Resources.at3BG;
+                pic_Logo.BackgroundImage = Properties.Resources.at3Logo;
+                Icon = Properties.Resources.at3Icon;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.wav");
-            } else if (combo_Encoder.SelectedIndex == 2) {
+            } else if (combo_Encoder.SelectedIndex == 2) { //CSB
+                pnl_Backdrop.BackgroundImage = Properties.Resources.csbBG;
+                pic_Logo.BackgroundImage = Properties.Resources.csbLogo;
+                Icon = Properties.Resources.csbIcon;
                 check_PatchXMA.Enabled = false;
                 if (Directory.GetDirectories(location).Length > 0)
                     foreach (string CSB in Directory.GetDirectories(location))
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB)))
                             clb_SNDs.Items.Add(Path.GetFileName(CSB));
-            } else if (combo_Encoder.SelectedIndex == 3) {
+            } else if (combo_Encoder.SelectedIndex == 3) { //WAV
+                pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
+                pic_Logo.BackgroundImage = Properties.Resources.wavLogo;
+                Icon = Properties.Resources.wavIcon;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.adx");
                 ListVerifiedSoundBytes("*.at3");
                 ListVerifiedSoundBytes("*.csb");
                 ListVerifiedSoundBytes("*.xma");
-            } else if (combo_Encoder.SelectedIndex == 4) {
+            } else if (combo_Encoder.SelectedIndex == 4) { //XMA
+                pnl_Backdrop.BackgroundImage = Properties.Resources.xmaBG;
+                pic_Logo.BackgroundImage = Properties.Resources.xmaLogo;
+                Icon = Properties.Resources.xmaIcon;
                 check_PatchXMA.Enabled = true;
                 ListVerifiedSoundBytes("*.wav");
             }

@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static string versionNumber = "Version 3.0-alpha-221019r1"; // Defines the version number to be used globally
+        public static string versionNumber = "Version 3.0-alpha-251019r1"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         string extractQueue = string.Empty;

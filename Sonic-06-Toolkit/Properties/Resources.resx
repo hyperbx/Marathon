@@ -118,6 +118,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="adxBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\adxBG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adxIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\adxIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="adxLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\adxLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="at3BG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\at3BG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="at3Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\at3Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="at3Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\at3Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="csbBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\csbBG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="csbIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\csbIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="csbLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\csbLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\HedgeLib\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -151,11 +178,26 @@
   <data name="unpack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Sonic-06-Toolkit\unpack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="wavIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\wavIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wavLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\wavLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="xextool" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\XexTool\xextool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="xmaBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\xmaBG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="xmaencode2008" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\xmaencode2008.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xmaIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\xmaIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="xmaLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\xmaLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="xma_Patch" xml:space="preserve">
     <value>584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00</value>

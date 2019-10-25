@@ -352,22 +352,12 @@
   <data name="sdk_SonicSoundStudio.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAA0VJREFUOE9tk0lM
-        E2EUx0cu3tCDB+NBL2piFLcDRo1ijNGIJi6JcY9C1KiItYgoSwCpgLjhAooCiiwKokVRikJoy9IytLRQ
-        aEsXCkVKO8VWBAqW9e83QxMS9X+aw/f7vffy3lB/R9hoX1EotaVnV1nVmaJu5x1hFxNfZKD5Obqkc8+b
-        F/ue/RuTaXruFxWT8VnJTH1WOiGkHSAiPKvsRtoHC2IKOnAhq8176pEqlgLm+LCZiAhco3GJZfqfKKm3
-        I6HICF6OloPuf7Qgu6oHWd96cP11B0Ift+BgWnMewWYlVa2uzBrNDxxMVWLZeTE2RclwgHyHPW9HSqkZ
-        +ZJeSLVumPo8ICPi8F0V9gqaIji4QsMEiJTO6ZXhUqzn1+JshgZxhQauesRLHZKJ4LX4OyTtLnQzI5iY
-        nILC/AvBSfRwUIJkAVWuYB7fIK2VNzEYGBoDm6mpaTgHvNB0D+KD3IECiQ3iNhcsjhGMEwGbbDLS1uhG
-        HvW2zqataHaizToEh/s3PKMT6HONEngIqs5f+KruR1GtDVUt/ehkBRMzgh+DY9h8XV5GFUp7PaygQe9G
-        LGl9S7QMEbl6NJkGUKdz42OTA7nVPcgX98Js92BsfEbAJjhJoaFefLMOFtf3YVusHPOPVWJnAg15x09u
-        5nIlgwKyyowvXUgTWmAiAu/4pA8HdsTTaup+mUWd+t4Ev/0VmHdUhCs5OnxSMCiV27mqT0VdSHnfiZvF
-        RhhtRDA2I7A6R7GGV1tK3So23eWTllmBPxGceKBGTrUVWeSAHpZ3kS10chu5V2aBwTaM3z5BXKERqy5L
-        zlMpn8xLb+TrJxadrob/ERGWX5AgusAAwTsz4t8YEJWn57oSNjrQ0evBqHcSJQ12BIRL3IHhtD93C/xc
-        bXLoEw2BxVhypgaBkQ04ma5GWFY7Il/pQf4JVKr6oST7F5SY2dbZ6iEczCYB8Dv3tLU0hD3TVAV2JdLY
-        l6zAqYct4OfqyHb0uJytxfY4msB1WM2TpPnQ2ZCx/I6nt8SSc/buJ5J9KQoEC2iyFTmCYuTYECnD2it1
-        A+t40lAf8v9czNAu3COgo3Yn0hXb4xqNW6Ll+o3XZMLAq/WXDt1unud75gtF/QEeRJHJREi+NAAAAABJ
-        RU5ErkJggg==
+        wwAADsMBx2+oZAAAASxJREFUOE9joAn4/v27w9fvX7uw4q+fm9vb2wWhSrGDH7++r/j3/+9/XHjS1ElB
+        UKXYwfcfX1fevnP7WW9vb+KkSZPiYPj69WuLQAZMnDgxBKoUOwAZgG4rMibKgLNnz1x2c3Mzdnd3N4Jh
+        oN+9iTbg4qWLJ4FMRogIBFy/f12BbANefnip8unLpzKyDPjy44vn339/fpAUBsgG/P796yxMMwjX1Nf4
+        gMQxwLdv32x//vq589fvn++QDfj+49sFmOYbN64/4eHhEQGJo4APQD8CnfkNpvDixfMngMJgA/Yd2md9
+        7drVfUCw3svf3wAkhgGAyTQHphmE9+7buxoqBQPwAMUKrl+/bgV0+m+Q5vsP7r0ODg42gUoRD4DJ1Wz2
+        7NmJSkpKclAhWgMGBgCenzw+JQYFPQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="sdk_CollisionGenerator.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

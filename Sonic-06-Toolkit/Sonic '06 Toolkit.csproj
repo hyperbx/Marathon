@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9D283F82-DD54-44B8-867A-5384CE6AEDC5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Sonic_06_Toolkit</RootNamespace>
-    <AssemblyName>Sonic-06-Toolkit</AssemblyName>
+    <RootNamespace>Toolkit</RootNamespace>
+    <AssemblyName>Sonic %2706 Toolkit</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -184,9 +184,23 @@
     <None Include="src\Tools\XexTool\xextool.exe" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="src\Tools\SonicAudioTools\xmaLogo.png" />
+    <None Include="src\Tools\SonicAudioTools\xmaIcon.ico" />
     <None Include="src\Tools\SonicAudioTools\towav.exe" />
+    <None Include="src\Tools\SonicAudioTools\adxBG.jpg" />
+    <None Include="src\Tools\SonicAudioTools\adxLogo.png" />
+    <None Include="src\Tools\SonicAudioTools\at3BG.jpg" />
+    <None Include="src\Tools\SonicAudioTools\at3Icon.ico" />
+    <None Include="src\Tools\SonicAudioTools\at3Logo.png" />
+    <None Include="src\Tools\SonicAudioTools\csbBG.jpg" />
+    <None Include="src\Tools\SonicAudioTools\csbIcon.ico" />
+    <None Include="src\Tools\SonicAudioTools\csbLogo.png" />
+    <None Include="src\Tools\SonicAudioTools\adxIcon.ico" />
     <Content Include="src\Tools\SonicAudioTools\PS3_at3tool.exe" />
     <Content Include="src\Tools\SonicAudioTools\SonicAudioLib.dll" />
+    <None Include="src\Tools\SonicAudioTools\wavLogo.png" />
+    <None Include="src\Tools\SonicAudioTools\xmaBG.jpg" />
+    <None Include="src\Tools\SonicAudioTools\wavIcon.ico" />
     <Content Include="src\Tools\SonicAudioTools\xmaencode2008.exe" />
   </ItemGroup>
   <ItemGroup>
