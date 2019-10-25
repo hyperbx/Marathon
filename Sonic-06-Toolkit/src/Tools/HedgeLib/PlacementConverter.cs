@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using Toolkit.Text;
-using Toolkit.Tools;
 using HedgeLib.Sets;
-using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using Toolkit.EnvironmentX;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -31,7 +30,7 @@ using System.Windows.Forms;
  * SOFTWARE.
  */
 
-namespace Toolkit.SET
+namespace Toolkit.Tools
 {
     public partial class PlacementConverter : Form
     {
@@ -47,15 +46,12 @@ namespace Toolkit.SET
             btn_Process.Text = "Export";
             clb_SETs.Items.Clear();
 
-            if (Directory.GetFiles(location, "*.set").Length > 0)
-            {
+            if (Directory.GetFiles(location, "*.set").Length > 0) {
                 modes_Export.Checked = true;
                 modes_Import.Checked = false;
                 options_DeleteXML.Visible = false;
                 options_CreateBackupSET.Visible = false;
-            }
-            else if (Directory.GetFiles(location, "*.xml").Length > 0)
-            {
+            } else if (Directory.GetFiles(location, "*.xml").Length > 0) {
                 modes_Export.Checked = false;
                 modes_Import.Checked = true;
                 options_DeleteXML.Visible = true;
@@ -72,36 +68,35 @@ namespace Toolkit.SET
         private void Btn_Convert_Click(object sender, EventArgs e) {
             if (modes_Export.Checked) {
                 try {
-                    foreach (string selectedSET in clb_SETs.CheckedItems)
-                        if (File.Exists(Path.Combine(location, selectedSET))) {
-                            if (Verification.VerifyMagicNumberBINA(Path.Combine(location, selectedSET))) {
-                                mainForm.Status = $"Exporting '{selectedSET}...'";
+                    foreach (string SET in clb_SETs.CheckedItems)
+                        if (File.Exists(Path.Combine(location, SET))) {
+                            if (Verification.VerifyMagicNumberExtended(Path.Combine(location, SET))) {
+                                mainForm.Status = StatusMessages.cmn_Exporting(SET, false);
                                 var readSET = new S06SetData();
-                                readSET.Load(Path.Combine(location, selectedSET));
-                                readSET.ExportXML(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(selectedSET)}.xml"));
-                            }
-                            else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(selectedSET), "SET"); }
+                                readSET.Load(Path.Combine(location, SET));
+                                readSET.ExportXML(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SET)}.xml"));
+                            } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(SET), false, "SET"); }
                         }
                 } catch (Exception ex) {
                     MessageBox.Show($"{SystemMessages.ex_SETExportError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } else if (modes_Import.Checked) {
                 try {
-                    foreach (string selectedXML in clb_SETs.CheckedItems) {
-                        if (File.Exists(Path.Combine(location, selectedXML))) {
-                            mainForm.Status = $"Importing '{selectedXML}...'";
+                    foreach (string XML in clb_SETs.CheckedItems) {
+                        if (File.Exists(Path.Combine(location, XML))) {
+                            mainForm.Status = StatusMessages.cmn_Importing(XML, false);
                             var readXML = new S06SetData();
-                            readXML.ImportXML(Path.Combine(location, selectedXML));
+                            readXML.ImportXML(Path.Combine(location, XML));
 
                             if (options_CreateBackupSET.Checked)
-                                if (File.Exists(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(selectedXML)}.set")))
-                                    File.Copy(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(selectedXML)}.set"), Path.Combine(location, $"{Path.GetFileNameWithoutExtension(selectedXML)}.set.bak"), true);
+                                if (File.Exists(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(XML)}.set")))
+                                    File.Copy(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(XML)}.set"), Path.Combine(location, $"{Path.GetFileNameWithoutExtension(XML)}.set.bak"), true);
                         
-                            readXML.Save(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(selectedXML)}.set"), true);
+                            readXML.Save(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(XML)}.set"), true);
 
                             if (options_DeleteXML.Checked)
-                                if (File.Exists(Path.Combine(location, selectedXML)))
-                                    try { File.Delete(Path.Combine(location, selectedXML)); }
+                                if (File.Exists(Path.Combine(location, XML)))
+                                    try { File.Delete(Path.Combine(location, XML)); }
                                     catch { MessageBox.Show(SystemMessages.ex_XMLDeleteError, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
                         }
                     }
@@ -121,10 +116,10 @@ namespace Toolkit.SET
                 clb_SETs.Items.Clear();
 
                 foreach (string SET in Directory.GetFiles(location, "*.set", SearchOption.TopDirectoryOnly))
-                    if (File.Exists(SET))
+                    if (File.Exists(SET) && Verification.VerifyMagicNumberExtended(SET))
                         clb_SETs.Items.Add(Path.GetFileName(SET));
 
-                if (Directory.GetFiles(location, "*.set").Length == 0) {
+                if (clb_SETs.Items.Count == 0) {
                     MessageBox.Show(SystemMessages.msg_NoSETsInDir, SystemMessages.tl_NoFilesAvailable("SET"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (Directory.GetFiles(location, "*.xml").Length == 0) Close();
@@ -133,7 +128,7 @@ namespace Toolkit.SET
                         modes_Import.Checked = true;
                     }
                 }
-            }
+            } else if (modes_Export.Checked == false) modes_Import.Checked = true;
         }
 
         private void Modes_Import_CheckedChanged(object sender, EventArgs e) {
@@ -146,10 +141,10 @@ namespace Toolkit.SET
                 clb_SETs.Items.Clear();
 
                 foreach (string XML in Directory.GetFiles(location, "*.xml", SearchOption.TopDirectoryOnly))
-                    if (File.Exists(XML))
+                    if (File.Exists(XML) && Verification.VerifyXML(XML, "SET"))
                         clb_SETs.Items.Add(Path.GetFileName(XML));
 
-                if (Directory.GetFiles(location, "*.xml").Length == 0) {
+                if (clb_SETs.Items.Count == 0) {
                     MessageBox.Show(SystemMessages.msg_NoXMLsInDir, SystemMessages.tl_NoFilesAvailable("XML"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (Directory.GetFiles(location, "*.set").Length == 0) Close();
@@ -158,7 +153,7 @@ namespace Toolkit.SET
                         modes_Import.Checked = false;
                     }
                 }
-            }
+            } else if (modes_Import.Checked == false) modes_Export.Checked = true;
         }
 
         private void clb_SETs_SelectedIndexChanged(object sender, EventArgs e) {

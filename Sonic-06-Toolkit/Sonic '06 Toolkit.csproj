@@ -12,6 +12,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>res\logo_main_icon.ico</ApplicationIcon>
+    <ApplicationIcon>src\Sonic-06-Toolkit\logo_main_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HedgeLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -44,8 +46,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>res\Ookii.Dialogs.dll</HintPath>
     </Reference>
-    <Reference Include="Ookii.Dialogs.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ookii.Dialogs.1.0\lib\net35\Ookii.Dialogs.Wpf.dll</HintPath>
+    <Reference Include="SonicAudioLib, Version=1.0.29.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>src\Tools\SonicAudioTools\SonicAudioLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,8 +62,35 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="VGAudio, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VGAudio.2.2.1\lib\net45\VGAudio.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tools\SonicAudioTools\CSBTools.cs" />
+    <Compile Include="src\Tools\SonicAudioTools\SonicSoundStudio.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\SonicAudioTools\SonicSoundStudio.Designer.cs">
+      <DependentUpon>SonicSoundStudio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tools\XexTool\ExecutableModification.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\XexTool\ExecutableModification.Designer.cs">
+      <DependentUpon>ExecutableModification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tools\Lua\LuaCompilation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\Lua\LuaCompilation.Designer.cs">
+      <DependentUpon>LuaCompilation.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Tools\HedgeLib\PlacementConverter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,29 +116,31 @@
     <Compile Include="src\Sonic-06-Toolkit\ToolkitSessionLog.Designer.cs">
       <DependentUpon>ToolkitSessionLog.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Tools\XISOExtractor\EndianConverter.cs" />
-    <Compile Include="src\Tools\XISOExtractor\EventArg.cs" />
-    <Compile Include="src\Tools\XISOExtractor\SfvGenerator.cs" />
-    <Compile Include="src\Tools\XISOExtractor\Utils.cs" />
+    <Compile Include="src\Tools\EndianConverter.cs" />
+    <Compile Include="src\Tools\XISOExtractor\XISOUtilities.cs" />
     <Compile Include="src\Tools\XISOExtractor\XISOExtractor.cs" />
+    <EmbeddedResource Include="src\Tools\SonicAudioTools\SonicSoundStudio.resx">
+      <DependentUpon>SonicSoundStudio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\HedgeLib\PlacementConverter.resx">
       <DependentUpon>PlacementConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitEnvironment.resx">
       <DependentUpon>ToolkitEnvironment.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitSessionLog.resx">
       <DependentUpon>ToolkitSessionLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tools\Lua\LuaCompilation.resx">
+      <DependentUpon>LuaCompilation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tools\XexTool\ExecutableModification.resx">
+      <DependentUpon>ExecutableModification.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -125,19 +157,56 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\logo_main.png" />
+    <None Include="src\Sonic-06-Toolkit\logo_main.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\logo_main_icon.ico" />
+    <None Include="src\Sonic-06-Toolkit\logo_main_icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\repack.exe" />
+    <None Include="src\Sonic-06-Toolkit\repack.exe" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\unpack.exe" />
+    <None Include="src\Sonic-06-Toolkit\unpack.exe" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\HedgeLib.dll" />
+    <None Include="src\Tools\HedgeLib\HedgeLib.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tools\Lua\luac50.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tools\Lua\lua50.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tools\Lua\unlub.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tools\XexTool\xextool.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Tools\SonicAudioTools\towav.exe" />
+    <Content Include="src\Tools\SonicAudioTools\PS3_at3tool.exe" />
+    <Content Include="src\Tools\SonicAudioTools\SonicAudioLib.dll" />
+    <Content Include="src\Tools\SonicAudioTools\xmaencode2008.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

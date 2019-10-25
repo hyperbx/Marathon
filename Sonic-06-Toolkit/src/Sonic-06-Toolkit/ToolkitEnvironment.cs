@@ -9,6 +9,7 @@ using HedgeLib.Sets;
 using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -40,9 +41,10 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static string versionNumber = "Version 3.0-alpha-191019r1"; // Defines the version number to be used globally
+        public static string versionNumber = "Version 3.0-alpha-221019r1"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
+        string extractQueue = string.Empty;
         bool folderMenu = false;
 
         public Main(int sessionID) {
@@ -202,16 +204,19 @@ namespace Toolkit.EnvironmentX
         private void File_OpenFolder_Click(object sender, EventArgs e) {
             string getPath = Browsers.CommonBrowser(true, "Please select a folder...", string.Empty);
 
-            if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) ResetTab(false);
-            else NewTab(false);
+            if (getPath != string.Empty)
+            {
+                if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) ResetTab(false);
+                else NewTab(false);
 
-            CurrentARC().Navigate(getPath);
-            unifytb_Main.SelectedTab.Text = Path.GetFileName(getPath);
+                CurrentARC().Navigate(getPath);
+                unifytb_Main.SelectedTab.Text = Path.GetFileName(getPath);
 
-            if (Path.GetFileName(getPath).ToLower() == "new tab" || Path.GetFileName(getPath).EndsWith(".arc"))
-                unifytb_Main.SelectedTab.Text += " (Folder)";
+                if (Path.GetFileName(getPath).ToLower() == "new tab" || Path.GetFileName(getPath).EndsWith(".arc"))
+                    unifytb_Main.SelectedTab.Text += " (Folder)";
 
-            Text = SystemMessages.tl_Exploring(getPath);
+                Text = SystemMessages.tl_Exploring(getPath);
+            }
         }
 
         private async void File_OpenARC_Click(object sender, EventArgs e) {
@@ -228,11 +233,11 @@ namespace Toolkit.EnvironmentX
                             File.Copy(getPath, Path.Combine(arcBuildSession, Path.GetFileName(getPath)), true); 
                         }
 
-                        Status = StatusMessages.arc_Unpacking(Path.GetFileName(getPath));
-                        await ProcessAsyncHelper.ExecuteShellCommand(Path.Combine(Program.applicationData, Paths.Unpack),
-                                                                     $"\"{Path.Combine(arcBuildSession, Path.GetFileName(getPath))}\"",
-                                                                     Application.StartupPath,
-                                                                     100000);
+                        Status = StatusMessages.cmn_Unpacking(getPath, false);
+                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
+                              $"\"{Path.Combine(arcBuildSession, Path.GetFileName(getPath))}\"",
+                              Application.StartupPath,
+                              100000);
 
                         //Writes metadata to the unpacked directory to ensure the original path is remembered.
                         var metadataWrite = File.Create(Path.Combine(arcBuildSession, "metadata.ini"));
@@ -250,9 +255,8 @@ namespace Toolkit.EnvironmentX
 
                         string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
                         Text = SystemMessages.tl_Exploring(metadata);
-                        Status = StatusMessages.arc_Unpacked(Path.GetFileName(getPath));
-                    }
-                    catch { Status = StatusMessages.arc_UnpackFailed(Path.GetFileName(getPath)); }
+                        Status = StatusMessages.cmn_Unpacked(getPath, false);
+                    } catch { Status = StatusMessages.cmn_UnpackFailed(getPath, false); }
                 }
                 else MessageBox.Show(SystemMessages.ex_InvalidARC, SystemMessages.tl_DefaultTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -267,7 +271,6 @@ namespace Toolkit.EnvironmentX
                         Text = SystemMessages.tl_DefaultTitleVersion;
                     else
                         Text = SystemMessages.tl_Exploring(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
-                    
                 } else {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
@@ -307,13 +310,16 @@ namespace Toolkit.EnvironmentX
         private async void Btn_Repack_Click(object sender, EventArgs e) {
             string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
 
-            Status = StatusMessages.arc_Repacking(Path.GetFileName(metadata));
-            await ProcessAsyncHelper.ExecuteShellCommand(Path.Combine(Program.applicationData, Paths.Repack),
-                                                         $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
-                                                         Application.StartupPath,
-                                                         100000);
-            if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata)))) 
-                File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
+            try {
+                Status = StatusMessages.cmn_Repacking(metadata, false);
+                await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
+                      $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
+                      Application.StartupPath,
+                      100000);
+                if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata)))) 
+                    File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
+                Status = StatusMessages.cmn_Repacked(metadata, false);
+            } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
         }
 
         private void Btn_OpenFolder_Click(object sender, EventArgs e) {
@@ -365,16 +371,20 @@ namespace Toolkit.EnvironmentX
         }
 
         private async void RepackAs(string filename) {
-            if (filename != string.Empty) {
-                string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+            string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
 
-                Status = StatusMessages.arc_Repacking(Path.GetFileName(metadata));
-                await ProcessAsyncHelper.ExecuteShellCommand(Path.Combine(Program.applicationData, Paths.Repack),
-                                                             $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
-                                                             Application.StartupPath,
-                                                             100000);
-                if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
-                    File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), filename, true); //Copies the repacked ARC back to the original location.
+            if (filename != string.Empty)
+            {
+                try {
+                    Status = StatusMessages.cmn_Repacking(metadata, false);
+                    await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
+                          $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
+                          Application.StartupPath,
+                          100000);
+                    if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
+                        File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), filename, true); //Copies the repacked ARC back to the original location.
+                    Status = StatusMessages.cmn_Repacked(metadata, false);
+                } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
             }
         }
 
@@ -387,8 +397,8 @@ namespace Toolkit.EnvironmentX
                 btn_Repack.Enabled = true;
                 btn_Back.Enabled = true;
                 btn_Forward.Enabled = true;
-                file_RepackARC.Enabled = true;
-                file_RepackARCAs.Enabled = true;
+                file_Repack.Enabled = true;
+                file_RepackAs.Enabled = true;
                 foreach (ToolStripDropDownItem item in main_SDK.DropDownItems) item.Enabled = true;
                 foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = true;
             } else {
@@ -404,8 +414,8 @@ namespace Toolkit.EnvironmentX
                 btn_Repack.Enabled = false;
                 btn_Back.Enabled = false;
                 btn_Forward.Enabled = false;
-                file_RepackARC.Enabled = false;
-                file_RepackARCAs.Enabled = false;
+                file_Repack.Enabled = false;
+                file_RepackAs.Enabled = false;
                 foreach (ToolStripDropDownItem item in main_SDK.DropDownItems) item.Enabled = false;
                 foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = false;
             }
@@ -519,7 +529,7 @@ namespace Toolkit.EnvironmentX
         }
 
         private void Sdk_PlacementConverter_Click(object sender, EventArgs e) {
-            new SET.PlacementConverter(this).ShowDialog();
+            new PlacementConverter(this).ShowDialog();
         }
 
         private void File_Exit_Click(object sender, EventArgs e) { Application.Exit(); }
@@ -529,13 +539,13 @@ namespace Toolkit.EnvironmentX
             try {
                 foreach (string SET in Directory.GetFiles(location, "*.set"))
                     if (File.Exists(Path.Combine(location, Path.GetFileName(SET)))) {
-                        if (Verification.VerifyMagicNumberBINA(SET)) {
-                            Status = $"Exporting '{Path.GetFileName(SET)}...'";
+                        if (Verification.VerifyMagicNumberExtended(SET)) {
+                            Status = StatusMessages.cmn_Exporting(SET, false);
                             var readSET = new S06SetData();
                             readSET.Load(Path.Combine(location, Path.GetFileName(SET)));
                             readSET.ExportXML(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SET)}.xml"));
-                        } else {
-                            Status = StatusMessages.ex_InvalidFile(Path.GetFileName(SET), "SET"); }
+                        } else
+                            Status = StatusMessages.ex_InvalidFile(SET, false, "SET");
                     }
             } catch (Exception ex) {
                 MessageBox.Show($"{SystemMessages.ex_SETExportError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -561,32 +571,183 @@ namespace Toolkit.EnvironmentX
         }
 
         private void File_ExtractISO_Click(object sender, EventArgs e) {
-            string getPath = Browsers.CommonBrowser(false, "test", "*.*");
+            string getPath = Browsers.CommonBrowser(false, SystemMessages.tl_XISO, Filters.All);
 
             if (getPath != string.Empty) {
+                file_ExtractISO.Enabled = false;
+                bw_Worker.RunWorkerCompleted += SingleExtractCompleted;
+                bw_Worker.DoWork += SingleExtractDoWork;
                 var bwargs = new BwArgs {
                     Source = getPath,
                     Target = Path.Combine(Path.GetDirectoryName(getPath), Path.GetFileNameWithoutExtension(getPath)),
                     SkipSystemUpdate = true,
                     GenerateFileList = false,
-                    DeleteIsoOnCompletion = false,
-                    GenerateSfv = false
+                    DeleteIsoOnCompletion = false
                 };
+                extractQueue = getPath;
+                Status = StatusMessages.iso_Extracting(extractQueue, false);
                 bw_Worker.RunWorkerAsync(bwargs);
             }
+        }
+
+        private void SingleExtractDoWork(object sender, DoWorkEventArgs e) {
+            if (!(e.Argument is BwArgs)) {
+                e.Cancel = true;
+                return;
+            }
+            var args = e.Argument as BwArgs;
+            e.Result = XisoExtractor.ExtractXiso(new XisoOptions {
+                Source = args.Source,
+                Target = args.Target,
+                ExcludeSysUpdate = args.SkipSystemUpdate,
+                GenerateFileList = args.GenerateFileList,
+                DeleteIsoOnCompletion = args.DeleteIsoOnCompletion
+            });
+        }
+
+        private void SingleExtractCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            bw_Worker.RunWorkerCompleted -= SingleExtractCompleted;
+            bw_Worker.DoWork -= SingleExtractDoWork;
+            file_ExtractISO.Enabled = true;
+            if (XisoExtractor._errorlevel == 0) Status = XisoExtractor.GetLastError(extractQueue);
+            else MessageBox.Show(XisoExtractor.GetLastError(extractQueue), SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            extractQueue = string.Empty;
         }
 
         public sealed class BwArgs
         {
             internal bool DeleteIsoOnCompletion;
-            internal string ErrorMsg;
             internal bool GenerateFileList;
-            internal bool GenerateSfv;
-            internal bool Result;
             internal bool SkipSystemUpdate;
             internal string Source;
             internal string Target;
-            internal bool UseFtp;
+        }
+
+        private async void Shortcuts_DecompileLUB_Click(object sender, EventArgs e) {
+            string location = Paths.currentPath;
+            try {
+                if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler))
+                    foreach (string LUB in Directory.GetFiles(location, "*.lub"))
+                        if (Verification.VerifyMagicNumberExtended(LUB)) {
+                            if (Path.GetFileName(LUB) == "standard.lub") break;
+
+                            Status = StatusMessages.lua_Decompiling(LUB, false);
+                            var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
+                                                  $"-jar \"{Paths.LuaDecompiler}\" \"{LUB}\"",
+                                                  location,
+                                                  100000);
+                            if (decompile.Completed)
+                                if (decompile.ExitCode == 0)
+                                    File.WriteAllText(LUB, decompile.Output);
+                                else if (decompile.ExitCode == -1)
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileExceptionUnknown}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+            } catch (Exception ex) {
+                MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void Shortcuts_DecompileLUBinArchive_Click(object sender, EventArgs e) {
+            string location = Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(unifytb_Main.SelectedTab.Text));
+            try {
+                if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler))
+                    foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.AllDirectories))
+                        if (Verification.VerifyMagicNumberExtended(LUB)) {
+                            if (Path.GetFileName(LUB) == "standard.lub") break;
+
+                            Status = StatusMessages.lua_Decompiling(LUB, true);
+                            var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
+                                                  $"-jar \"{Paths.LuaDecompiler}\" \"{LUB}\"",
+                                                  location,
+                                                  100000);
+                            if (decompile.Completed)
+                                if (decompile.ExitCode == 0)
+                                    File.WriteAllText(LUB, decompile.Output);
+                                else if (decompile.ExitCode == -1)
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileExceptionUnknown}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+            } catch (Exception ex) {
+                MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void Shortcuts_DecompileMissionLUBinDirectory_Click(object sender, EventArgs e) {
+            string location = Paths.currentPath;
+            try {
+                if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler))
+                    foreach (string LUB in Directory.GetFiles(location, "mission*.lub"))
+                        if (Verification.VerifyMagicNumberExtended(LUB)) {
+                            Status = StatusMessages.lua_Decompiling(LUB, false);
+                            var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
+                                                  $"-jar \"{Paths.LuaDecompiler}\" \"{LUB}\"",
+                                                  location,
+                                                  100000);
+                            if (decompile.Completed)
+                                if (decompile.ExitCode == 0)
+                                    File.WriteAllText(LUB, decompile.Output);
+                                else if (decompile.ExitCode == -1)
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileExceptionUnknown}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+            } catch (Exception ex) {
+                MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void Shortcuts_DecompileMissionLUBinArchive_Click(object sender, EventArgs e) {
+            string location = Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(unifytb_Main.SelectedTab.Text));
+            try {
+                if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler))
+                    foreach (string LUB in Directory.GetFiles(location, "mission*.lub", SearchOption.AllDirectories))
+                        if (Verification.VerifyMagicNumberExtended(LUB)) {
+                            Status = StatusMessages.lua_Decompiling(LUB, true);
+                            var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
+                                                  $"-jar \"{Paths.LuaDecompiler}\" \"{LUB}\"",
+                                                  location,
+                                                  100000);
+                            if (decompile.Completed)
+                                if (decompile.ExitCode == 0)
+                                    File.WriteAllText(LUB, decompile.Output);
+                                else if (decompile.ExitCode == -1)
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                else
+                                    MessageBox.Show($"{SystemMessages.ex_LUBDecompileExceptionUnknown}\n\n{decompile.Error}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+            } catch (Exception ex) {
+                MessageBox.Show($"{SystemMessages.ex_LUBDecompileError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Sdk_LuaCompilation_Click(object sender, EventArgs e) {
+            new LuaCompilation(this).ShowDialog();
+        }
+
+        private void Sdk_ExecutableDecryptor_Click(object sender, EventArgs e) {
+            new ExecutableModification(this).ShowDialog();
+        }
+
+        private async void Shortcuts_DecryptXEX_Click(object sender, EventArgs e) {
+            string location = Paths.currentPath;
+            foreach (string XEX in Directory.GetFiles(location, "*.xex"))
+                if (Verification.VerifyMagicNumberCommon(Path.Combine(location, XEX))) {
+                    Status = StatusMessages.cmn_Decrypting(Path.Combine(location, XEX), false);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XexTool,
+                                        $"-e u \"{Path.Combine(location, XEX)}\"",
+                                        location,
+                                        100000);
+                    if (process.Completed)
+                        if (process.ExitCode != 0)
+                            MessageBox.Show($"{SystemMessages.ex_XEXModificationError}\n\n{process.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+        }
+
+        private void Sdk_SonicSoundStudio_Click(object sender, EventArgs e) {
+            new SonicSoundStudio(this).ShowDialog();
         }
     }
 }

@@ -36,19 +36,44 @@ namespace Toolkit.EnvironmentX
 
         [STAThread]
 
-        static void Main()
-        {
-            if (!Directory.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\"))
-                Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\");
+        static void Main() {
+            Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\");
+            Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\");
+            Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\");
+            Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\");
 
             if (!File.Exists(Path.Combine(Application.StartupPath, "HedgeLib.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "HedgeLib.dll"), Properties.Resources.HedgeLib);
+
+            if (!File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll")))
+                File.WriteAllBytes(Path.Combine(Application.StartupPath, "Lua50.dll"), Properties.Resources.lua50);
+
+            if (!File.Exists(Path.Combine(Application.StartupPath, "SonicAudioLib.dll")))
+                File.WriteAllBytes(Path.Combine(Application.StartupPath, "SonicAudioLib.dll"), Properties.Resources.SonicAudioLib);
 
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe", Properties.Resources.unpack);
 
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\repack.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\repack.exe", Properties.Resources.repack);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\luac50.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\luac50.exe", Properties.Resources.luac50);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\unlub.jar"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\unlub.jar", Properties.Resources.unlub);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\xextool.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\xextool.exe", Properties.Resources.xextool);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\PS3_at3tool.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\PS3_at3tool.exe", Properties.Resources.PS3_at3tool);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\xmaencode2008.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\xmaencode2008.exe", Properties.Resources.xmaencode2008);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\towav.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\towav.exe", Properties.Resources.towav);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

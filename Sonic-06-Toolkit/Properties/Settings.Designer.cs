@@ -70,5 +70,65 @@ namespace Toolkit.Properties {
                 this["log_refreshTimer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int xex_Encryption {
+            get {
+                return ((int)(this["xex_Encryption"]));
+            }
+            set {
+                this["xex_Encryption"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int xex_Compression {
+            get {
+                return ((int)(this["xex_Compression"]));
+            }
+            set {
+                this["xex_Compression"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
+        public int xex_System {
+            get {
+                return ((int)(this["xex_System"]));
+            }
+            set {
+                this["xex_System"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int sss_Encoder {
+            get {
+                return ((int)(this["sss_Encoder"]));
+            }
+            set {
+                this["sss_Encoder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool sss_PatchXMA {
+            get {
+                return ((bool)(this["sss_PatchXMA"]));
+            }
+            set {
+                this["sss_PatchXMA"] = value;
+            }
+        }
     }
 }

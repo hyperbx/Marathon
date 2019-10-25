@@ -119,18 +119,45 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\Tools\HedgeLib\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="logo_main" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\logo_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\Sonic-06-Toolkit\logo_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="logo_main_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\logo_main_icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\src\Sonic-06-Toolkit\logo_main_icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="lua50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\Lua\lua50.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="luac50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\Lua\luac50.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="PS3_at3tool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\ps3_at3tool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="repack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\repack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\Sonic-06-Toolkit\repack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SonicAudioLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\sonicaudiolib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="towav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\towav.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="unlub" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\Lua\unlub.jar;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="unpack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\unpack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\Sonic-06-Toolkit\unpack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xextool" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\XexTool\xextool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xmaencode2008" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SonicAudioTools\xmaencode2008.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xma_Patch" xml:space="preserve">
+    <value>584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00</value>
   </data>
 </root>

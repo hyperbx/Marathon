@@ -93,6 +93,36 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] lua50 {
+            get {
+                object obj = ResourceManager.GetObject("lua50", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] luac50 {
+            get {
+                object obj = ResourceManager.GetObject("luac50", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] PS3_at3tool {
+            get {
+                object obj = ResourceManager.GetObject("PS3_at3tool", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] repack {
             get {
                 object obj = ResourceManager.GetObject("repack", resourceCulture);
@@ -103,9 +133,68 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] SonicAudioLib {
+            get {
+                object obj = ResourceManager.GetObject("SonicAudioLib", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] towav {
+            get {
+                object obj = ResourceManager.GetObject("towav", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] unlub {
+            get {
+                object obj = ResourceManager.GetObject("unlub", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] unpack {
             get {
                 object obj = ResourceManager.GetObject("unpack", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] xextool {
+            get {
+                object obj = ResourceManager.GetObject("xextool", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00.
+        /// </summary>
+        internal static string xma_Patch {
+            get {
+                return ResourceManager.GetString("xma_Patch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] xmaencode2008 {
+            get {
+                object obj = ResourceManager.GetObject("xmaencode2008", resourceCulture);
                 return ((byte[])(obj));
             }
         }

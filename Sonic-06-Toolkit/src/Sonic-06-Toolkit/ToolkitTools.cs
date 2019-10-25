@@ -6,6 +6,7 @@ using Ookii.Dialogs;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -66,6 +67,23 @@ namespace Toolkit.Tools
         }
     }
 
+    class ByteArray
+    {
+        public static byte[] StringToByteArray(string hex) {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+
+        public static bool ByteArrayToFile(string fileName, byte[] byteArray) {
+            using (var fs = new FileStream(fileName, FileMode.Append, FileAccess.Write)) {
+                fs.Write(byteArray, 0, byteArray.Length);
+                return true;
+            }
+        }
+    }
+
     class Verification
     {
         public static bool VerifyMagicNumberCommon(string path) {
@@ -83,15 +101,15 @@ namespace Toolkit.Tools
                 if (hexString == "4E 58 49 46") return true;
                 else return false;
             }
-            else if (Path.GetExtension(path).ToLower() == ".csb") {
-                if (hexString == "40 55 54 46") return true;
-                else return false;
-            }
             else if (Path.GetExtension(path).ToLower() == ".adx") {
                 if (hexString == "80 00 00 24") return true;
                 else return false;
             }
-            else if (Path.GetExtension(path).ToLower() == ".xma" || Path.GetExtension(path).ToLower() == ".at3") {
+            else if (Path.GetExtension(path).ToLower() == ".csb") {
+                if (hexString == "40 55 54 46") return true;
+                else return false;
+            }
+            else if (Path.GetExtension(path).ToLower() == ".at3" || Path.GetExtension(path).ToLower() == ".wav" || Path.GetExtension(path).ToLower() == ".xma") {
                 if (hexString == "52 49 46 46") return true;
                 else return false;
             }
@@ -102,14 +120,77 @@ namespace Toolkit.Tools
             return false;
         }
 
-        public static bool VerifyMagicNumberBINA(string path) {
+        public static bool VerifyMagicNumberExtended(string path) {
             string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(50).ToArray()).Replace("-", " ");
 
             if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set") {
                 if (hexString.Contains("31 42 42 49 4E 41")) return true;
                 else return false;
             }
+            else if (Path.GetExtension(path).ToLower() == ".lub") {
+                if (hexString.Contains("1B 4C 75 61 50")) return true;
+                else return false;
+            }
             return false;
+        }
+
+        public static bool VerifyCriWareSoundBank(string path) {
+            List<string> sounds = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories).Where(s => s.EndsWith(".adx") || s.EndsWith(".wav")).ToList();
+            if (sounds.Count > 0) return true;
+            else return false;
+        }
+
+        public static bool VerifyApplicationIntegrity(string path) {
+            if (Path.GetFileName(path) == "luac50.exe")
+                if (File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll"))) return true;
+                else return false;
+            else if (Path.GetFileName(path) == "unlub.jar")
+                if (JavaCheck()) return true;
+                else return false;
+            return false;
+        }
+
+        public static bool VerifyXML(string path, string type) {
+            string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(100).ToArray()).Replace("-", " ");
+
+            if (Path.GetExtension(path).ToLower() == ".xml") {
+                if (type == "SET")
+                    if (hexString.Contains("3C 53 65 74 44 61 74 61 3E")) return true;
+                    else return false;
+                else if (type == "MST")
+                    if (hexString.Contains("3C 6D 73 74 30 36")) return true;
+                    else return false;
+                else return false;
+            }
+            return false;
+        }
+
+        public static bool JavaCheck() {
+            try {
+                var javaArg = new ProcessStartInfo("java", "-version");
+                javaArg.WindowStyle = ProcessWindowStyle.Hidden;
+                javaArg.RedirectStandardOutput = true;
+                javaArg.RedirectStandardError = true;
+                javaArg.UseShellExecute = false;
+                javaArg.CreateNoWindow = true;
+                var javaProcess = new Process();
+                javaProcess.StartInfo = javaArg;
+                javaProcess.Start();
+                return true;
+            } catch { return false; }
+        }
+
+        public static bool PythonCheck() {
+            try {
+                Process pythonArg = new Process();
+                pythonArg.StartInfo.UseShellExecute = false;
+                pythonArg.StartInfo.RedirectStandardOutput = true;
+                pythonArg.StartInfo.CreateNoWindow = true;
+                pythonArg.StartInfo.FileName = "python";
+                pythonArg.StartInfo.Arguments = "--version";
+                pythonArg.Start();
+                return true;
+            } catch { return false; }
         }
     }
 
@@ -163,7 +244,7 @@ namespace Toolkit.Tools
 
                     result.Completed = true;
                     result.ExitCode = -1;
-                    result.Output = error.Message;
+                    result.Error = error.Message;
 
                     isStarted = false;
                 }
@@ -185,8 +266,8 @@ namespace Toolkit.Tools
                         result.ExitCode = process.ExitCode;
 
                         // Adds process output if it was completed with error
-                        if (process.ExitCode != 0)
-                            result.Output = $"{outputBuilder}{errorBuilder}";
+                        result.Output = outputBuilder.ToString();
+                        result.Error = errorBuilder.ToString();
                     } else {
                         try {
                             // Kill hung process
@@ -206,6 +287,7 @@ namespace Toolkit.Tools
             public bool Completed;
             public int? ExitCode;
             public string Output;
+            public string Error;
         }
     }
 }
