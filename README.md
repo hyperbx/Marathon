@@ -37,7 +37,7 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 ### DDS Converting
 - Currently based off Microsoft DirectX 12 and some internal work for previewing textures.
 
-### LUB Decompiling
+### LUB Decompiling (experimental)
 - Currently based off [Shadow LAG](https://github.com/lllsondowlll)'s Java-based Lua decompiler.
 
 ### MST Encoding
