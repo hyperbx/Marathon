@@ -146,7 +146,7 @@
     <value>..\src\Tools\SonicAudioTools\csbLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\Tools\HedgeLib\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\Tools\BINA\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="logo_exception" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\sonic-06-toolkit\logo_exception.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -163,6 +163,9 @@
   <data name="luac50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\Lua\luac50.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mst06" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\BINA\mst06.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Ookii_Dialogs" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Sonic-06-Toolkit\Ookii.Dialogs.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -172,11 +175,20 @@
   <data name="repack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Sonic-06-Toolkit\repack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="s06col" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\BINA\s06col.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="s06collision" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\BINA\s06collision.py;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="SonicAudioLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\sonicaudiolib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="texconv" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\tools\directdraw\texconv.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\Tools\DirectDraw\texconv.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="tinyxml2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\BINA\tinyxml2.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="towav" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\towav.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -210,5 +222,14 @@
   </data>
   <data name="xma_Patch" xml:space="preserve">
     <value>584D4132240000000301000000000000000000000000BB8000FF000000004C00000048B600000001010000017365656B0400000000004C00</value>
+  </data>
+  <data name="xno2dae" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Tools\SegaNN\xno2dae.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="xno_Cull" xml:space="preserve">
+    <value>3000000100000000</value>
+  </data>
+  <data name="xno_Decull" xml:space="preserve">
+    <value>3600000100000000</value>
   </data>
 </root>

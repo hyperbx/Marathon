@@ -68,7 +68,7 @@ namespace Toolkit.Tools
                             byte[] xmaBytes = File.ReadAllBytes(Path.Combine(location, sound)).ToArray();
                             string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
                             if (hexString.Contains(Properties.Resources.xma_Patch)) {
-                                FileInfo fi = new FileInfo($"{Path.Combine(location, sound)}");
+                                FileInfo fi = new FileInfo(Path.Combine(location, sound));
                                 FileStream fs = fi.Open(FileMode.Open);
                                 long bytesToDelete = 56;
                                 fs.SetLength(Math.Max(0, fi.Length - bytesToDelete));
@@ -210,7 +210,7 @@ namespace Toolkit.Tools
                         if (File.Exists(Path.Combine(location, WAV)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, WAV))) {
                             string xmaOutput = Path.Combine(location, $"{Path.GetFileNameWithoutExtension(WAV)}.xma");
                             try { if (File.Exists(xmaOutput)) File.Delete(xmaOutput); } catch { }
-                            var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMAEncoder,
+                            var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
                                                 $"\"{Path.Combine(location, WAV)}\" /L",
                                                 location,
                                                 100000);
@@ -280,13 +280,17 @@ namespace Toolkit.Tools
                         byte[] xmaBytes = File.ReadAllBytes(Path.Combine(location, sound)).ToArray();
                         string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
                         if (hexString.Contains(Properties.Resources.xma_Patch)) {
-                            FileInfo fi = new FileInfo($"{Path.Combine(location, sound)}");
+                            FileInfo fi = new FileInfo(Path.Combine(location, sound));
                             FileStream fs = fi.Open(FileMode.Open);
                             long bytesToDelete = 56;
                             fs.SetLength(Math.Max(0, fi.Length - bytesToDelete));
                             fs.Close();
                         }
                     } catch { mainForm.Status = StatusMessages.xma_DecodeFooterError(sound, false); return; }
+                    try {
+                        if (File.Exists($"{Path.Combine(location, Path.GetFileNameWithoutExtension(sound))}.wav"))
+                            File.Delete($"{Path.Combine(location, Path.GetFileNameWithoutExtension(sound))}.wav");
+                    } catch { }
                     var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMADecoder,
                                         $"\"{Path.Combine(location, sound)}\"",
                                         location,

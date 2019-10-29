@@ -5,6 +5,7 @@ using System.Linq;
 using Toolkit.Text;
 using Ookii.Dialogs;
 using VGAudio.Formats;
+using SonicAudioLib.IO;
 using System.Diagnostics;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
@@ -12,8 +13,7 @@ using System.Threading.Tasks;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 using System.Collections.Generic;
-using SonicAudioLib.IO;
-
+using HedgeLib.Sets;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -54,7 +54,7 @@ namespace Toolkit.Tools
                     AudioData audio = new AdxReader().Read(adxFile);
                     byte[] wavFile = new WaveWriter().GetFile(audio);
                     File.WriteAllBytes(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(ADX)}.wav"), wavFile);
-                }
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(ADX), "ADX", showFullPath); }
         }
 
         public static async void DecodeAT3(string location, SearchOption searchMethod, bool showFullPath) {
@@ -67,7 +67,7 @@ namespace Toolkit.Tools
                                         100000);
                     if (process.ExitCode != 0)
                         mainForm.Status = StatusMessages.cmn_ConvertFailed(AT3, "WAV", showFullPath);
-                }
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(AT3), "AT3", showFullPath); }
         }
 
         public static void UnpackCSB(bool WAV, string location, SearchOption searchMethod, bool showFullPath) {
@@ -98,13 +98,27 @@ namespace Toolkit.Tools
                                     File.Delete(ADX);
                                 } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(ADX, "WAV", showFullPath); }
                     }
-                }
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(CSB), "CSB", showFullPath); }
+        }
+
+        public static async void DecodeDDS(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string DDS in Directory.GetFiles(location, "*.dds", searchMethod))
+                if (File.Exists(DDS) && Verification.VerifyMagicNumberCommon(DDS)) {
+                    mainForm.Status = StatusMessages.cmn_Converting(DDS, "PNG", showFullPath);
+                    var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
+                                        $"-ft png -srgb \"{DDS}\" \"{Path.GetFileNameWithoutExtension(DDS)}.png\"",
+                                        Path.GetDirectoryName(DDS),
+                                        100000);
+                    if (convert.Completed)
+                        if (convert.ExitCode != 0)
+                            mainForm.Status = StatusMessages.cmn_ConvertFailed(DDS, "PNG", showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(DDS), "DDS", showFullPath); }
         }
 
         public static async void DecompileLUB(string location, SearchOption searchMethod, string filter, bool showFullPath) {
             if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler)) {
                 foreach (string LUB in Directory.GetFiles(location, filter, searchMethod))
-                    if (Verification.VerifyMagicNumberExtended(LUB)) {
+                    if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB)) {
                         if (Path.GetFileName(LUB) == "standard.lub") break;
 
                         mainForm.Status = StatusMessages.lua_Decompiling(LUB, showFullPath);
@@ -117,8 +131,88 @@ namespace Toolkit.Tools
                                 File.WriteAllText(LUB, decompile.Output);
                             else if (decompile.ExitCode == -1)
                                 mainForm.Status = StatusMessages.lua_DecompileFailed(LUB, showFullPath);
-                    }
+                    } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(LUB), "LUB", showFullPath); }
             }
+        }
+
+        public static void DecodeSET(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string SET in Directory.GetFiles(location, "*.set", searchMethod))
+                if (File.Exists(SET) && Verification.VerifyMagicNumberExtended(SET)) {
+                    mainForm.Status = StatusMessages.cmn_Exporting(SET, showFullPath);
+                    var readSET = new S06SetData();
+                    readSET.Load(SET);
+                    readSET.ExportXML(Path.Combine(Path.GetDirectoryName(SET), $"{Path.GetFileNameWithoutExtension(SET)}.xml"));
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(SET), "SET", showFullPath); }
+        }
+
+        public static async void DecodeMST(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string MST in Directory.GetFiles(location, "*.mst", searchMethod))
+                if (File.Exists(MST) && Verification.VerifyMagicNumberExtended(MST)) {
+                    mainForm.Status = StatusMessages.cmn_Exporting(MST, showFullPath);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.MSTTool,
+                                        $"\"{MST}\"",
+                                        Application.StartupPath,
+                                        100000);
+                    if (process.Completed)
+                        if (process.ExitCode != 0)
+                            mainForm.Status = StatusMessages.cmn_ExportFailed(MST, showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(MST), "MST", showFullPath); }
+        }
+
+        public static async void DecryptXEX(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string XEX in Directory.GetFiles(location, "*.xex", searchMethod))
+                if (File.Exists(XEX) && Verification.VerifyMagicNumberCommon(XEX)) {
+                    mainForm.Status = StatusMessages.xex_Decrypting(XEX, showFullPath);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XexTool,
+                                        $"-e u \"{XEX}\"",
+                                        location,
+                                        100000);
+                    if (process.Completed)
+                        if (process.ExitCode != 0)
+                            mainForm.Status = StatusMessages.xex_DecryptFailed(XEX, showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(XEX), "XEX", showFullPath); }
+        }
+
+        public static async void DecodeXMA(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string XMA in Directory.GetFiles(location, "*.xma", searchMethod))
+                if (File.Exists(XMA) && Verification.VerifyMagicNumberCommon(XMA)) {
+                    mainForm.Status = StatusMessages.cmn_Converting(XMA, "WAV", showFullPath);
+                    try {
+                        byte[] xmaBytes = File.ReadAllBytes(XMA).ToArray();
+                        string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
+                        if (hexString.Contains(Properties.Resources.xma_Patch)) {
+                            FileInfo fi = new FileInfo(XMA);
+                            FileStream fs = fi.Open(FileMode.Open);
+                            long bytesToDelete = 56;
+                            fs.SetLength(Math.Max(0, fi.Length - bytesToDelete));
+                            fs.Close();
+                        }
+                    } catch { mainForm.Status = StatusMessages.xma_DecodeFooterError(XMA, showFullPath); return; }
+                    try {
+                        if (File.Exists($"{Path.Combine(Path.GetDirectoryName(XMA), Path.GetFileNameWithoutExtension(XMA))}.wav"))
+                            File.Delete($"{Path.Combine(Path.GetDirectoryName(XMA), Path.GetFileNameWithoutExtension(XMA))}.wav");
+                    } catch { }
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMADecoder,
+                                        $"\"{XMA}\"",
+                                        location,
+                                        100000);
+                    if (process.ExitCode != 0)
+                        mainForm.Status = StatusMessages.cmn_ConvertFailed(XMA, "WAV", showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(XMA), "XMA", showFullPath); }
+        }
+
+        public static async void DecodeXNO(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string XNO in Directory.GetFiles(location, "*.xno", searchMethod))
+                if (File.Exists(XNO) && Verification.VerifyMagicNumberCommon(XNO)) {
+                    mainForm.Status = StatusMessages.cmn_Converting(XNO, "DAE", showFullPath);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XNODecoder,
+                                        $"\"{XNO}\"",
+                                        location,
+                                        100000);
+                    if (process.Completed)
+                        if (process.ExitCode != 0)
+                            mainForm.Status = StatusMessages.cmn_ConvertFailed(XNO, "DAE", showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(XNO), "XNO", showFullPath); }
         }
     }
 
@@ -161,6 +255,14 @@ namespace Toolkit.Tools
                              .Where(x => x % 2 == 0)
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
+        }
+
+        public static byte[] StringToByteArrayExtended(string hex) {
+            int NumberChars = hex.Length;
+            byte[] bytes = new byte[NumberChars / 2];
+            for (int i = 0; i < NumberChars; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+            return bytes;
         }
 
         public static bool ByteArrayToFile(string fileName, byte[] byteArray) {
@@ -214,7 +316,7 @@ namespace Toolkit.Tools
         public static bool VerifyMagicNumberExtended(string path) {
             string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(50).ToArray()).Replace("-", " ");
 
-            if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set") {
+            if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set" || Path.GetExtension(path).ToLower() == ".mst") {
                 if (hexString.Contains("31 42 42 49 4E 41")) return true;
                 else return false;
             }

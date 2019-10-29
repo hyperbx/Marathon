@@ -55,13 +55,18 @@ namespace Toolkit.Text
         public static string ex_ARCUnpackExceptionUnknown = "An unknown exception when unpacking the archive.";
         public static string ex_ARCRepackExceptionUnknown = "An unknown exception when repacking the archive.";
         public static string ex_SETExportError = "An error occurred when exporting the SET files.";
+        public static string ex_MSTExportError = "An error occurred when exporting the MST files.";
         public static string ex_XMLImportError = "An error occurred when importing the XML files.";
+        public static string ex_XNOConvertError = "An error occurred when converting the XNO files.";
+        public static string ex_XNMConvertError = "An error occurred when converting the animation.";
         public static string ex_LUBCompileError = "An error occurred when decompiling the LUB files.";
         public static string ex_LUBDecompileError = "An error occurred when decompiling the LUB files.";
         public static string ex_LUBDecompileExceptionUnknown = "An unknown exception occurred when decompiling the LUB files.";
         public static string ex_XMLDeleteError = "Failed to delete the original XML file.";
         public static string ex_XEXModificationError = "An error occurred when modifying the XEX files.";
         public static string msg_NoSETsInDir = "There are no SET files to export in this directory.";
+        public static string msg_NoXNOsInDir = "There are no XNO files to convert in this directory.";
+        public static string msg_NoXNMsInDir = "There are no XNM files to convert in this directory.";
         public static string msg_NoXMLsInDir = "There are no XML files to import in this directory.";
         public static string msg_NoLUBsInDir = "There are no LUB files to decompile in this directory.";
         public static string msg_NoLUAsInDir = "There are no LUB files to compile in this directory.";
@@ -75,6 +80,7 @@ namespace Toolkit.Text
         public static string ex_PreviewFailure = "Failed to preview the selected sound byte...";
         public static string ex_DDSConvertError = "An error occurred when converting the DDS files.";
         public static string ex_MergeError = "An error occurred when merging the archives.";
+        public static string ex_InvalidFiles = "The selected files were invalid...";
 
         public static string tl_Exploring(string path) { return $"{tl_DefaultTitleVersion} - Exploring '{path}'"; }
         public static string tl_NoFilesAvailable(string fileType) {
@@ -175,7 +181,7 @@ namespace Toolkit.Text
             else return $"Failed to fetch root sector offset in '{Path.GetFileName(file)}' - the ISO is too small...";
         }
 
-        public static string ex_InvalidFile(string file, bool fullPath, string fileType) {
+        public static string ex_InvalidFile(string file, string fileType, bool fullPath) {
             if (fullPath) return $"'{file}' is not a valid {fileType} file...";
             else return $"'{Path.GetFileName(file)}' is not a valid {fileType} file...";
         }
@@ -195,14 +201,59 @@ namespace Toolkit.Text
             else return $"Failed to decompile '{Path.GetFileName(file)}...'";
         }
 
+        public static string xex_Decrypting(string file, bool fullPath) {
+            if (fullPath) return $"Decrypting '{file}...'";
+            else return $"Decrypting '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xex_DecryptFailed(string file, bool fullPath) {
+            if (fullPath) return $"Failed to decrypt '{file}...'";
+            else return $"Failed to decrypt '{Path.GetFileName(file)}...'";
+        }
+
         public static string cmn_Exporting(string file, bool fullPath) {
             if (fullPath) return $"Exporting '{file}...'";
             else return $"Exporting '{Path.GetFileName(file)}...'";
         }
 
+        public static string cmn_ExportFailed(string file, bool fullPath) {
+            if (fullPath) return $"Failed to export '{file}...'";
+            else return $"Failed to export '{Path.GetFileName(file)}...'";
+        }
+
         public static string cmn_Importing(string file, bool fullPath) {
             if (fullPath) return $"Importing '{file}...'";
             else return $"Importing '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_Culling(string file, bool fullPath) {
+            if (fullPath) return $"Culling '{file}...'";
+            else return $"Culling '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_NothingToCull(string file, bool fullPath) {
+            if (fullPath) return $"No materials to cull in '{file}...'";
+            else return $"No materials to cull in '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_CullFailed(string file, bool fullPath) {
+            if (fullPath) return $"Failed to cull '{file}...'";
+            else return $"Failed to cull '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_Deculling(string file, bool fullPath) {
+            if (fullPath) return $"Deculling '{file}...'";
+            else return $"Deculling '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_NothingToDecull(string file, bool fullPath) {
+            if (fullPath) return $"No materials to decull in '{file}...'";
+            else return $"No materials to decull in '{Path.GetFileName(file)}...'";
+        }
+
+        public static string xno_DecullFailed(string file, bool fullPath) {
+            if (fullPath) return $"Failed to decull '{file}...'";
+            else return $"Failed to decull '{Path.GetFileName(file)}...'";
         }
 
         public static string xma_EncodeFooterError(string file, bool fullPath) {
@@ -229,13 +280,15 @@ namespace Toolkit.Text
 
         public static string Unpack = Path.Combine(Program.applicationData, Tools, "unpack.exe");
         public static string Repack = Path.Combine(Program.applicationData, Tools, "repack.exe");
-        public static string LuaCompiler = Path.Combine(Program.applicationData, Tools, "Lua", "luac50.exe");
-        public static string LuaDecompiler = Path.Combine(Program.applicationData, Tools, "Lua", "unlub.jar");
-        public static string XexTool = Path.Combine(Program.applicationData, Tools, "XexTool", "xextool.exe");
-        public static string AT3Tool = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "PS3_at3tool.exe");
-        public static string XMAEncoder = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "xmaencode2008.exe");
-        public static string XMADecoder = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "towav.exe");
-        public static string DDSDecoder = Path.Combine(Program.applicationData, Tools, "DirectX", "texconv.exe");
+        public static string LuaCompiler = Path.Combine(Program.applicationData, Tools, "luac50.exe");
+        public static string LuaDecompiler = Path.Combine(Program.applicationData, Tools, "unlub.jar");
+        public static string XexTool = Path.Combine(Program.applicationData, Tools, "xextool.exe");
+        public static string AT3Tool = Path.Combine(Program.applicationData, Tools, "PS3_at3tool.exe");
+        public static string XMATool = Path.Combine(Program.applicationData, Tools, "xmaencode2008.exe");
+        public static string XMADecoder = Path.Combine(Program.applicationData, Tools, "towav.exe");
+        public static string DDSTool = Path.Combine(Program.applicationData, Tools, "texconv.exe");
+        public static string MSTTool = Path.Combine(Program.applicationData, Tools, "mst06.exe");
+        public static string XNODecoder = Path.Combine(Program.applicationData, Tools, "xno2dae.exe");
 
         public static string currentPath = string.Empty;
     }

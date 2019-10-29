@@ -20,26 +20,31 @@ namespace Toolkit
             tm_NoCheckOnClickTimer.Start();
             compression = Properties.Settings.Default.tex_Compression;
 
-            if (compression == "-f BC1_UNORM") { 
-                compression_DXT1.Checked = true;
-                compression_DXT3.Checked = false;
-                compression_DXT5.Checked = false;
-                compression_A8R8G8B8.Checked = false;
-            } else if (compression == "-f BC2_UNORM") { 
-                compression_DXT1.Checked = false;
-                compression_DXT3.Checked = true;
-                compression_DXT5.Checked = false;
-                compression_A8R8G8B8.Checked = false;
-            } else if (compression == "-f BC3_UNORM") { 
-                compression_DXT1.Checked = false;
-                compression_DXT3.Checked = false;
-                compression_DXT5.Checked = true;
-                compression_A8R8G8B8.Checked = false;
-            } else if (compression == "-f R8G8B8A8_UNORM") { 
-                compression_DXT1.Checked = false;
-                compression_DXT3.Checked = false;
-                compression_DXT5.Checked = false;
-                compression_A8R8G8B8.Checked = true;
+            switch (compression) {
+                case "-f BC1_UNORM":
+                    compression_DXT1.Checked = true;
+                    compression_DXT3.Checked = false;
+                    compression_DXT5.Checked = false;
+                    compression_A8R8G8B8.Checked = false;
+                    break;
+                case "-f BC2_UNORM":
+                    compression_DXT1.Checked = false;
+                    compression_DXT3.Checked = true;
+                    compression_DXT5.Checked = false;
+                    compression_A8R8G8B8.Checked = false;
+                    break;
+                case "-f BC3_UNORM":
+                    compression_DXT1.Checked = false;
+                    compression_DXT3.Checked = false;
+                    compression_DXT5.Checked = true;
+                    compression_A8R8G8B8.Checked = false;
+                    break;
+                case "-f R8G8B8A8_UNORM":
+                    compression_DXT1.Checked = false;
+                    compression_DXT3.Checked = false;
+                    compression_DXT5.Checked = false;
+                    compression_A8R8G8B8.Checked = true;
+                    break;
             }
         }
 
@@ -74,7 +79,7 @@ namespace Toolkit
         private async void Btn_Process_Click(object sender, EventArgs e) {
             if (modes_DDStoPNG.Checked) {
                 mainForm.Status = StatusMessages.cmn_Converting(clb_IMGs.SelectedItem.ToString(), "PNG", false);
-                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSDecoder,
+                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
                                     $"-ft png -srgb \"{Path.Combine(location, clb_IMGs.SelectedItem.ToString())}\" " +
                                     $"\"{Path.GetFileNameWithoutExtension(clb_IMGs.SelectedItem.ToString())}.png\"",
                                     location,
@@ -84,7 +89,7 @@ namespace Toolkit
                         MessageBox.Show($"{SystemMessages.ex_DDSConvertError}\n\n{convert.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             } else {
                 mainForm.Status = StatusMessages.cmn_Converting(clb_IMGs.SelectedItem.ToString(), "DDS", false);
-                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSDecoder,
+                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
                                     $"-ft dds -srgb {compression} \"{Path.Combine(location, clb_IMGs.SelectedItem.ToString())}\" " +
                                     $"\"{Path.GetFileNameWithoutExtension(clb_IMGs.SelectedItem.ToString())}.dds\"",
                                     location,

@@ -13,6 +13,7 @@ namespace Toolkit.Logs
 
             list_Logs.Items.Clear();
             list_Logs.Items.Add($"{SystemMessages.tl_DefaultTitleVersion} - Session ID: {Program.sessionID}");
+            list_Logs.Items.Add("");
             foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
 
             nud_RefreshTimer.Value = Convert.ToDecimal(Properties.Settings.Default.log_refreshTimer) / 1000;

@@ -71,16 +71,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Tools\BINA\CollisionGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\BINA\CollisionGenerator.Designer.cs">
+      <DependentUpon>CollisionGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tools\SegaNN\XNOTool.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\SegaNN\XNOTool.Designer.cs">
+      <DependentUpon>XNOTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Tools\Arctool\ArchiveMerger.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Tools\Arctool\ArchiveMerger.Designer.cs">
       <DependentUpon>ArchiveMerger.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Tools\DirectDraw\DDSImage.cs" />
     <Compile Include="src\Tools\SonicAudioTools\CSBTools.cs" />
@@ -102,17 +109,17 @@
     <Compile Include="src\Tools\Lua\LuaCompiler.Designer.cs">
       <DependentUpon>LuaCompiler.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Tools\HedgeLib\PlacementConverter.cs">
+    <Compile Include="src\Tools\BINA\PlacementConverter.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Tools\HedgeLib\PlacementConverter.Designer.cs">
+    <Compile Include="src\Tools\BINA\PlacementConverter.Designer.cs">
       <DependentUpon>PlacementConverter.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Sonic-06-Toolkit\ToolkitEnvironment.cs">
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitEnvironmentX.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Sonic-06-Toolkit\ToolkitEnvironment.Designer.cs">
-      <DependentUpon>ToolkitEnvironment.cs</DependentUpon>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitEnvironmentX.Designer.cs">
+      <DependentUpon>ToolkitEnvironmentX.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Sonic-06-Toolkit\ToolkitProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,22 +143,36 @@
     <Compile Include="src\Tools\DirectDraw\TextureConverter.Designer.cs">
       <DependentUpon>TextureConverter.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Tools\BINA\TextEncoding.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\BINA\TextEncoding.Designer.cs">
+      <DependentUpon>TextEncoding.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="src\Tools\BINA\CollisionGenerator.resx">
+      <DependentUpon>CollisionGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tools\SegaNN\XNOTool.resx">
+      <DependentUpon>XNOTool.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\Arctool\ArchiveMerger.resx">
       <DependentUpon>ArchiveMerger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tools\BINA\TextEncoding.resx">
+      <DependentUpon>TextEncoding.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\SonicAudioTools\SonicSoundStudio.resx">
       <DependentUpon>SonicSoundStudio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Tools\HedgeLib\PlacementConverter.resx">
+    <EmbeddedResource Include="src\Tools\BINA\PlacementConverter.resx">
       <DependentUpon>PlacementConverter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitEnvironment.resx">
-      <DependentUpon>ToolkitEnvironment.cs</DependentUpon>
+    <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitEnvironmentX.resx">
+      <DependentUpon>ToolkitEnvironmentX.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitSessionLog.resx">
       <DependentUpon>ToolkitSessionLog.cs</DependentUpon>
@@ -192,7 +213,7 @@
     <None Include="src\Sonic-06-Toolkit\unpack.exe" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\Tools\HedgeLib\HedgeLib.dll" />
+    <None Include="src\Tools\BINA\HedgeLib.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Tools\Lua\luac50.exe" />
@@ -221,7 +242,12 @@
     <None Include="src\Tools\SonicAudioTools\adxIcon.ico" />
     <Content Include="src\Sonic-06-Toolkit\logo_exception.png" />
     <Content Include="src\Sonic-06-Toolkit\Ookii.Dialogs.dll" />
+    <Content Include="src\Tools\BINA\s06col.exe" />
+    <Content Include="src\Tools\BINA\s06collision.py" />
     <Content Include="src\Tools\DirectDraw\texconv.exe" />
+    <Content Include="src\Tools\BINA\mst06.exe" />
+    <Content Include="src\Tools\BINA\tinyxml2.dll" />
+    <Content Include="src\Tools\SegaNN\xno2dae.exe" />
     <Content Include="src\Tools\SonicAudioTools\PS3_at3tool.exe" />
     <Content Include="src\Tools\SonicAudioTools\SonicAudioLib.dll" />
     <None Include="src\Tools\SonicAudioTools\wavLogo.png" />

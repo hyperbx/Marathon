@@ -30,7 +30,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="tex_Compression" Type="System.String" Scope="User">
-      <Value Profile="(Default)">A8R8G8B8</Value>
+      <Value Profile="(Default)">-f R8G8B8A8_UNORM</Value>
     </Setting>
     <Setting Name="tex_Mode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

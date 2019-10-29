@@ -133,7 +133,7 @@ namespace Toolkit.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("A8R8G8B8")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-f R8G8B8A8_UNORM")]
         public string tex_Compression {
             get {
                 return ((string)(this["tex_Compression"]));
