@@ -148,6 +148,9 @@
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\HedgeLib\HedgeLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="logo_exception" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\sonic-06-toolkit\logo_exception.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="logo_main" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Sonic-06-Toolkit\logo_main.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -160,6 +163,9 @@
   <data name="luac50" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\Lua\luac50.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Ookii_Dialogs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\Sonic-06-Toolkit\Ookii.Dialogs.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="PS3_at3tool" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\ps3_at3tool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -168,6 +174,9 @@
   </data>
   <data name="SonicAudioLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\sonicaudiolib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="texconv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\directdraw\texconv.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="towav" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\towav.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

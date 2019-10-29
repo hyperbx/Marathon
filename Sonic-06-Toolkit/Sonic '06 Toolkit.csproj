@@ -44,7 +44,7 @@
     </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>res\Ookii.Dialogs.dll</HintPath>
+      <HintPath>src\Sonic-06-Toolkit\Ookii.Dialogs.dll</HintPath>
     </Reference>
     <Reference Include="SonicAudioLib, Version=1.0.29.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -52,6 +52,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.InteropServices" />
+    <Reference Include="System.Threading.Thread" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -67,11 +71,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Tools\Arctool\ArchiveMerger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\Arctool\ArchiveMerger.Designer.cs">
+      <DependentUpon>ArchiveMerger.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Tools\DirectDraw\DDSImage.cs" />
     <Compile Include="src\Tools\SonicAudioTools\CSBTools.cs" />
     <Compile Include="src\Tools\SonicAudioTools\SonicSoundStudio.cs">
       <SubType>Form</SubType>
@@ -85,11 +96,11 @@
     <Compile Include="src\Tools\XexTool\ExecutableModification.Designer.cs">
       <DependentUpon>ExecutableModification.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Tools\Lua\LuaCompilation.cs">
+    <Compile Include="src\Tools\Lua\LuaCompiler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Tools\Lua\LuaCompilation.Designer.cs">
-      <DependentUpon>LuaCompilation.cs</DependentUpon>
+    <Compile Include="src\Tools\Lua\LuaCompiler.Designer.cs">
+      <DependentUpon>LuaCompiler.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Tools\HedgeLib\PlacementConverter.cs">
       <SubType>Form</SubType>
@@ -119,6 +130,15 @@
     <Compile Include="src\Tools\EndianConverter.cs" />
     <Compile Include="src\Tools\XISOExtractor\XISOUtilities.cs" />
     <Compile Include="src\Tools\XISOExtractor\XISOExtractor.cs" />
+    <Compile Include="src\Tools\DirectDraw\TextureConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tools\DirectDraw\TextureConverter.Designer.cs">
+      <DependentUpon>TextureConverter.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="src\Tools\Arctool\ArchiveMerger.resx">
+      <DependentUpon>ArchiveMerger.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\SonicAudioTools\SonicSoundStudio.resx">
       <DependentUpon>SonicSoundStudio.cs</DependentUpon>
     </EmbeddedResource>
@@ -136,11 +156,14 @@
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitSessionLog.resx">
       <DependentUpon>ToolkitSessionLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Tools\Lua\LuaCompilation.resx">
-      <DependentUpon>LuaCompilation.cs</DependentUpon>
+    <EmbeddedResource Include="src\Tools\Lua\LuaCompiler.resx">
+      <DependentUpon>LuaCompiler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\XexTool\ExecutableModification.resx">
       <DependentUpon>ExecutableModification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tools\DirectDraw\TextureConverter.resx">
+      <DependentUpon>TextureConverter.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -196,6 +219,9 @@
     <None Include="src\Tools\SonicAudioTools\csbIcon.ico" />
     <None Include="src\Tools\SonicAudioTools\csbLogo.png" />
     <None Include="src\Tools\SonicAudioTools\adxIcon.ico" />
+    <Content Include="src\Sonic-06-Toolkit\logo_exception.png" />
+    <Content Include="src\Sonic-06-Toolkit\Ookii.Dialogs.dll" />
+    <Content Include="src\Tools\DirectDraw\texconv.exe" />
     <Content Include="src\Tools\SonicAudioTools\PS3_at3tool.exe" />
     <Content Include="src\Tools\SonicAudioTools\SonicAudioLib.dll" />
     <None Include="src\Tools\SonicAudioTools\wavLogo.png" />
@@ -222,5 +248,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

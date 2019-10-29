@@ -312,6 +312,7 @@
             // 
             // tm_NoCheckOnClickTimer
             // 
+            this.tm_NoCheckOnClickTimer.Interval = 10;
             this.tm_NoCheckOnClickTimer.Tick += new System.EventHandler(this.Tm_NoCheckOnClickTimer_Tick);
             // 
             // tm_MediaPlayer

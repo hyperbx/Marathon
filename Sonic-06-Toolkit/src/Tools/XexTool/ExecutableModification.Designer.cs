@@ -251,6 +251,7 @@
             // 
             // tm_ProcessCheck
             // 
+            this.tm_ProcessCheck.Interval = 10;
             this.tm_ProcessCheck.Tick += new System.EventHandler(this.Tm_ProcessCheck_Tick);
             // 
             // ExecutableModification

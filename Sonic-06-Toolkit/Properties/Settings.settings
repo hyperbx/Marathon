@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Sonic_06_Toolkit.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Toolkit.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="env_gameDirectory" Type="System.String" Scope="User">
@@ -28,6 +28,15 @@
     </Setting>
     <Setting Name="sss_PatchXMA" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="tex_Compression" Type="System.String" Scope="User">
+      <Value Profile="(Default)">A8R8G8B8</Value>
+    </Setting>
+    <Setting Name="tex_Mode" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="log_Startup" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

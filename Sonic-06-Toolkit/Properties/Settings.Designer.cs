@@ -130,5 +130,41 @@ namespace Toolkit.Properties {
                 this["sss_PatchXMA"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("A8R8G8B8")]
+        public string tex_Compression {
+            get {
+                return ((string)(this["tex_Compression"]));
+            }
+            set {
+                this["tex_Compression"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int tex_Mode {
+            get {
+                return ((int)(this["tex_Mode"]));
+            }
+            set {
+                this["tex_Mode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool log_Startup {
+            get {
+                return ((bool)(this["log_Startup"]));
+            }
+            set {
+                this["log_Startup"] = value;
+            }
+        }
     }
 }

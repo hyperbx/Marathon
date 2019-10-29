@@ -90,9 +90,9 @@
             this.lbl_Title.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lbl_Title.Location = new System.Drawing.Point(12, 3);
             this.lbl_Title.Name = "lbl_Title";
-            this.lbl_Title.Size = new System.Drawing.Size(290, 47);
+            this.lbl_Title.Size = new System.Drawing.Size(238, 47);
             this.lbl_Title.TabIndex = 48;
-            this.lbl_Title.Text = "Lua Compilation";
+            this.lbl_Title.Text = "Lua Compiler";
             // 
             // lbl_Mode
             // 
@@ -193,7 +193,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 458);
             this.Name = "LuaCompilation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Lua Compilation (experimental)";
+            this.Text = "Lua Compiler (experimental)";
             this.Load += new System.EventHandler(this.LuaCompilation_Load);
             this.pnl_Backdrop.ResumeLayout(false);
             this.pnl_Backdrop.PerformLayout();

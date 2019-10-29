@@ -40,13 +40,17 @@ namespace Toolkit.EnvironmentX
             Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\");
             Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\Lua\\");
             Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\");
+            Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\DirectX\\");
             Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\");
+
+            if (!File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll")))
+                File.WriteAllBytes(Path.Combine(Application.StartupPath, "Lua50.dll"), Properties.Resources.lua50);
 
             if (!File.Exists(Path.Combine(Application.StartupPath, "HedgeLib.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "HedgeLib.dll"), Properties.Resources.HedgeLib);
 
-            if (!File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll")))
-                File.WriteAllBytes(Path.Combine(Application.StartupPath, "Lua50.dll"), Properties.Resources.lua50);
+            if (!File.Exists(Path.Combine(Application.StartupPath, "Ookii.Dialogs.dll")))
+                File.WriteAllBytes(Path.Combine(Application.StartupPath, "Ookii.Dialogs.dll"), Properties.Resources.Ookii_Dialogs);
 
             if (!File.Exists(Path.Combine(Application.StartupPath, "SonicAudioLib.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "SonicAudioLib.dll"), Properties.Resources.SonicAudioLib);
@@ -65,6 +69,9 @@ namespace Toolkit.EnvironmentX
 
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\xextool.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\XexTool\\xextool.exe", Properties.Resources.xextool);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\DirectX\\texconv.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\DirectX\\texconv.exe", Properties.Resources.texconv);
 
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\PS3_at3tool.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\SonicAudioTools\\PS3_at3tool.exe", Properties.Resources.PS3_at3tool);

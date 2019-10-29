@@ -155,8 +155,7 @@ namespace Toolkit.Tools
 
         private void Clb_LUBs_SelectedIndexChanged(object sender, EventArgs e) {
             clb_LUBs.ClearSelected();
-            if (clb_LUBs.CheckedItems.Count > 0) btn_Process.Enabled = true;
-            else btn_Process.Enabled = false;
+            btn_Process.Enabled = clb_LUBs.CheckedItems.Count > 0;
         }
 
         private void Btn_SelectAll_Click(object sender, EventArgs e) {

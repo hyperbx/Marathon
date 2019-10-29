@@ -2,11 +2,18 @@
 using System.IO;
 using System.Text;
 using System.Linq;
+using Toolkit.Text;
 using Ookii.Dialogs;
+using VGAudio.Formats;
 using System.Diagnostics;
+using Toolkit.EnvironmentX;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using VGAudio.Containers.Adx;
+using VGAudio.Containers.Wave;
 using System.Collections.Generic;
+using SonicAudioLib.IO;
+
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -35,6 +42,86 @@ using System.Collections.Generic;
 
 namespace Toolkit.Tools
 {
+    class Batch
+    {
+        private static Main mainForm = new Main(Program.sessionID);
+
+        public static void DecodeADX(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string ADX in Directory.GetFiles(location, "*.adx", searchMethod))
+                if (File.Exists(ADX) && Verification.VerifyMagicNumberCommon(ADX)) {
+                    mainForm.Status = StatusMessages.cmn_Converting(ADX, "WAV", showFullPath);
+                    byte[] adxFile = File.ReadAllBytes(ADX);
+                    AudioData audio = new AdxReader().Read(adxFile);
+                    byte[] wavFile = new WaveWriter().GetFile(audio);
+                    File.WriteAllBytes(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(ADX)}.wav"), wavFile);
+                }
+        }
+
+        public static async void DecodeAT3(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string AT3 in Directory.GetFiles(location, "*.at3", searchMethod))
+                if (File.Exists(AT3) && Verification.VerifyMagicNumberCommon(AT3)) {
+                    mainForm.Status = StatusMessages.cmn_Converting(AT3, "WAV", showFullPath);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                        $"-d \"{AT3}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(AT3))}.wav\"",
+                                        Application.StartupPath,
+                                        100000);
+                    if (process.ExitCode != 0)
+                        mainForm.Status = StatusMessages.cmn_ConvertFailed(AT3, "WAV", showFullPath);
+                }
+        }
+
+        public static void UnpackCSB(bool WAV, string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string CSB in Directory.GetFiles(location, "*.csb", searchMethod))
+                if (File.Exists(CSB) && Verification.VerifyMagicNumberCommon(CSB)) {
+                    try {
+                        mainForm.Status = StatusMessages.cmn_Unpacking(CSB, showFullPath);
+                        var extractor = new DataExtractor {
+                            MaxThreads = 1,
+                            BufferSize = 4096,
+                            EnableThreading = false
+                        };
+                        Directory.CreateDirectory(Path.Combine(Path.GetDirectoryName(CSB), Path.GetFileNameWithoutExtension(CSB)));
+                        CSBTools.ExtractCSBNodes(extractor, CSB, Path.Combine(Path.GetDirectoryName(CSB), Path.GetFileNameWithoutExtension(CSB)));
+                        extractor.Run();
+                        mainForm.Status = StatusMessages.cmn_Unpacked(CSB, showFullPath);
+                    } catch { mainForm.Status = StatusMessages.cmn_UnpackFailed(CSB, showFullPath); }
+
+                    if (WAV) {
+                         if (Directory.Exists(Path.Combine(Path.GetDirectoryName(CSB), Path.GetFileNameWithoutExtension(CSB))))
+                            foreach (string ADX in Directory.GetFiles(Path.Combine(Path.GetDirectoryName(CSB), Path.GetFileNameWithoutExtension(CSB)), "*.adx", SearchOption.AllDirectories))
+                                try {
+                                    mainForm.Status = StatusMessages.cmn_Converting(ADX, "WAV", showFullPath);
+                                    byte[] adxFile = File.ReadAllBytes(ADX);
+                                    AudioData audio = new AdxReader().Read(adxFile);
+                                    byte[] wavFile = new WaveWriter().GetFile(audio);
+                                    File.WriteAllBytes(Path.Combine(Path.GetDirectoryName(ADX), $"{Path.GetFileNameWithoutExtension(ADX)}.wav"), wavFile);
+                                    File.Delete(ADX);
+                                } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(ADX, "WAV", showFullPath); }
+                    }
+                }
+        }
+
+        public static async void DecompileLUB(string location, SearchOption searchMethod, string filter, bool showFullPath) {
+            if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler)) {
+                foreach (string LUB in Directory.GetFiles(location, filter, searchMethod))
+                    if (Verification.VerifyMagicNumberExtended(LUB)) {
+                        if (Path.GetFileName(LUB) == "standard.lub") break;
+
+                        mainForm.Status = StatusMessages.lua_Decompiling(LUB, showFullPath);
+                        var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
+                                                $"-jar \"{Paths.LuaDecompiler}\" \"{LUB}\"",
+                                                location,
+                                                100000);
+                        if (decompile.Completed)
+                            if (decompile.ExitCode == 0)
+                                File.WriteAllText(LUB, decompile.Output);
+                            else if (decompile.ExitCode == -1)
+                                mainForm.Status = StatusMessages.lua_DecompileFailed(LUB, showFullPath);
+                    }
+            }
+        }
+    }
+
     class Browsers
     {
         public static string CommonBrowser(bool folder, string title, string filter) {
@@ -115,6 +202,10 @@ namespace Toolkit.Tools
             }
             else if (Path.GetExtension(path).ToLower() == ".xex") {
                 if (hexString == "58 45 58 32") return true;
+                else return false;
+            }
+            else if (Path.GetExtension(path).ToLower() == ".png") {
+                if (hexString == "89 50 4E 47") return true;
                 else return false;
             }
             return false;

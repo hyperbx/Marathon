@@ -6,8 +6,8 @@ using Toolkit.Text;
 using System.Drawing;
 using VGAudio.Formats;
 using SonicAudioLib.IO;
-using System.Windows.Forms;
 using Toolkit.EnvironmentX;
+using System.Windows.Forms;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 
@@ -97,6 +97,7 @@ namespace Toolkit.Tools
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
                 pic_Logo.BackgroundImage = Properties.Resources.adxLogo;
                 Icon = Properties.Resources.adxIcon;
+                btn_Process.BackColor = SystemColors.ControlLightLight;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.wav");
                 ListVerifiedSoundBytes("*.csb");
@@ -104,21 +105,24 @@ namespace Toolkit.Tools
                 pnl_Backdrop.BackgroundImage = Properties.Resources.at3BG;
                 pic_Logo.BackgroundImage = Properties.Resources.at3Logo;
                 Icon = Properties.Resources.at3Icon;
+                btn_Process.BackColor = Color.DeepSkyBlue;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.wav");
             } else if (combo_Encoder.SelectedIndex == 2) { //CSB
                 pnl_Backdrop.BackgroundImage = Properties.Resources.csbBG;
                 pic_Logo.BackgroundImage = Properties.Resources.csbLogo;
                 Icon = Properties.Resources.csbIcon;
+                btn_Process.BackColor = Color.FromArgb(24, 127, 196);
                 check_PatchXMA.Enabled = false;
                 if (Directory.GetDirectories(location).Length > 0)
                     foreach (string CSB in Directory.GetDirectories(location))
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB)))
-                            clb_SNDs.Items.Add(Path.GetFileName(CSB));
+                            clb_SNDs.Items.Add($"{Path.GetFileName(CSB)}.cpk");
             } else if (combo_Encoder.SelectedIndex == 3) { //WAV
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
                 pic_Logo.BackgroundImage = Properties.Resources.wavLogo;
                 Icon = Properties.Resources.wavIcon;
+                btn_Process.BackColor = SystemColors.ControlLightLight;
                 check_PatchXMA.Enabled = false;
                 ListVerifiedSoundBytes("*.adx");
                 ListVerifiedSoundBytes("*.at3");
@@ -128,6 +132,7 @@ namespace Toolkit.Tools
                 pnl_Backdrop.BackgroundImage = Properties.Resources.xmaBG;
                 pic_Logo.BackgroundImage = Properties.Resources.xmaLogo;
                 Icon = Properties.Resources.xmaIcon;
+                btn_Process.BackColor = Color.FromArgb(244, 121, 59);
                 check_PatchXMA.Enabled = true;
                 ListVerifiedSoundBytes("*.wav");
             }
@@ -183,11 +188,19 @@ namespace Toolkit.Tools
                 } else if (combo_Encoder.SelectedIndex == 2) { //CSB
                     foreach (string CSB in clb_SNDs.CheckedItems)
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB))) {
+                            foreach (string WAV in Directory.GetFiles(Path.Combine(location, CSB), "*.wav", SearchOption.AllDirectories))
+                                try {
+                                    mainForm.Status = StatusMessages.cmn_Converting(WAV, "ADX", true);
+                                    byte[] wavFile = File.ReadAllBytes(WAV);
+                                    AudioData audio = new WaveReader().Read(wavFile);
+                                    byte[] adxFile = new AdxWriter().GetFile(audio);
+                                    File.WriteAllBytes(Path.Combine(Path.GetDirectoryName(WAV), $"{Path.GetFileNameWithoutExtension(WAV)}.adx"), adxFile);
+                                } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(WAV, "ADX", true); }
                             try {
-                                mainForm.Status = StatusMessages.cmn_Repacking(CSB, false);
+                                mainForm.Status = StatusMessages.cmn_Repacking($"{CSB}.cpk", false);
                                 CSBTools.WriteCSB(Path.Combine(location, CSB));
-                                mainForm.Status = StatusMessages.cmn_Repacked(CSB, false);
-                            } catch { mainForm.Status = StatusMessages.cmn_RepackFailed(CSB, false); }
+                                mainForm.Status = StatusMessages.cmn_Repacked($"{CSB}.cpk", false);
+                            } catch { mainForm.Status = StatusMessages.cmn_RepackFailed($"{CSB}.cpk", false); }
                         }
                 } else if (combo_Encoder.SelectedIndex == 3) { //WAV
                     foreach (string SND in clb_SNDs.CheckedItems)
@@ -290,7 +303,7 @@ namespace Toolkit.Tools
             btn_MediaControl.Text = "►";
             btn_MediaControl.BackColor = Color.LightGreen;
             if (File.Exists(nowPlaying)) File.Delete(nowPlaying);
-            if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb") {
+            if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb" && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".cpk") {
                 lbl_NowPlaying.Text = $"Now Playing: {clb_SNDs.SelectedItem}";
                 tracker_MediaBar.Enabled = true;
                 btn_MediaControl.Enabled = true;
@@ -321,8 +334,7 @@ namespace Toolkit.Tools
         }
 
         private void Tm_NoCheckOnClickTimer_Tick(object sender, EventArgs e) {
-            if (clb_SNDs.CheckedItems.Count > 0) btn_Process.Enabled = true;
-            else btn_Process.Enabled = false;
+            btn_Process.Enabled = clb_SNDs.CheckedItems.Count > 0;
         }
 
         private void AxWMP_Player_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e) {

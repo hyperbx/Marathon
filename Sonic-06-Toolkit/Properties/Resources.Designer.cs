@@ -163,6 +163,16 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap logo_exception {
+            get {
+                object obj = ResourceManager.GetObject("logo_exception", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap logo_main {
             get {
                 object obj = ResourceManager.GetObject("logo_main", resourceCulture);
@@ -203,6 +213,16 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] Ookii_Dialogs {
+            get {
+                object obj = ResourceManager.GetObject("Ookii_Dialogs", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] PS3_at3tool {
             get {
                 object obj = ResourceManager.GetObject("PS3_at3tool", resourceCulture);
@@ -226,6 +246,16 @@ namespace Toolkit.Properties {
         internal static byte[] SonicAudioLib {
             get {
                 object obj = ResourceManager.GetObject("SonicAudioLib", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] texconv {
+            get {
+                object obj = ResourceManager.GetObject("texconv", resourceCulture);
                 return ((byte[])(obj));
             }
         }

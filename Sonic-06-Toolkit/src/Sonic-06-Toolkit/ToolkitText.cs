@@ -73,6 +73,8 @@ namespace Toolkit.Text
         public static string msg_NoRepackableCSBs = "There are no repackable CSBs in this directory.";
         public static string ex_EncoderError = "An error occurred whilst encoding your audio file.";
         public static string ex_PreviewFailure = "Failed to preview the selected sound byte...";
+        public static string ex_DDSConvertError = "An error occurred when converting the DDS files.";
+        public static string ex_MergeError = "An error occurred when merging the archives.";
 
         public static string tl_Exploring(string path) { return $"{tl_DefaultTitleVersion} - Exploring '{path}'"; }
         public static string tl_NoFilesAvailable(string fileType) {
@@ -188,6 +190,11 @@ namespace Toolkit.Text
             else return $"Decompiling '{Path.GetFileName(file)}...'";
         }
 
+        public static string lua_DecompileFailed(string file, bool fullPath) {
+            if (fullPath) return $"Failed to decompile '{file}...'";
+            else return $"Failed to decompile '{Path.GetFileName(file)}...'";
+        }
+
         public static string cmn_Exporting(string file, bool fullPath) {
             if (fullPath) return $"Exporting '{file}...'";
             else return $"Exporting '{Path.GetFileName(file)}...'";
@@ -228,6 +235,7 @@ namespace Toolkit.Text
         public static string AT3Tool = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "PS3_at3tool.exe");
         public static string XMAEncoder = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "xmaencode2008.exe");
         public static string XMADecoder = Path.Combine(Program.applicationData, Tools, "SonicAudioTools", "towav.exe");
+        public static string DDSDecoder = Path.Combine(Program.applicationData, Tools, "DirectX", "texconv.exe");
 
         public static string currentPath = string.Empty;
     }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using SonicAudioLib.IO;
 using SonicAudioLib.CriMw;
-using SonicAudioLib.Archives;
 using System.Globalization;
+using SonicAudioLib.Archives;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Toolkit.Tools
 {
@@ -83,7 +83,6 @@ namespace Toolkit.Tools
         }
 
         public static void WriteCSB(string inputDirectory) {
-            Console.WriteLine(inputDirectory);
             string baseDirectory = Path.GetDirectoryName(inputDirectory);
             string csbPath = $"{inputDirectory}.csb";
 

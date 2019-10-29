@@ -158,8 +158,7 @@ namespace Toolkit.Tools
 
         private void clb_SETs_SelectedIndexChanged(object sender, EventArgs e) {
             clb_SETs.ClearSelected();
-            if (clb_SETs.CheckedItems.Count > 0) btn_Process.Enabled = true;
-            else btn_Process.Enabled = false;
+            btn_Process.Enabled = clb_SETs.CheckedItems.Count > 0;
         }
 
         private void btn_SelectAll_Click(object sender, EventArgs e) {

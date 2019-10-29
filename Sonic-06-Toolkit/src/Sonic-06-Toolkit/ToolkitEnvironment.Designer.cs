@@ -74,25 +74,47 @@
             this.sdk_ExecutableDecryptor = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeADX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeADXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeADXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARC = new System.Windows.Forms.ToolStripMenuItem();
-            this.shorcuts_UnpackARCtoToolkit = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARCtoDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackARCtoToolkit = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeAT3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeAT3inDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeAT3inSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBIN = new System.Windows.Forms.ToolStripMenuItem();
+            this.decodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSB = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_UnpackCSBtoAIF = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_ExtractCSBsToWAV = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinDirectoryToADX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinDirectoryToWAV = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDSinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDSinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUB = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecompileMissionLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileLUBinArchive = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileMissionLUBinArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileMissionLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeMST = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMSTinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMSTinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeSET = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeSETinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeSETinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecryptXEX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecryptXEXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecryptXEXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeXMA = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXMAinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXMAinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeXNO = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXNOinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXNOinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Window = new System.Windows.Forms.ToolStripMenuItem();
             this.window_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.window_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,8 +136,8 @@
             this.tm_CheapFix = new System.Windows.Forms.Timer(this.components);
             this.tm_ResetStatus = new System.Windows.Forms.Timer(this.components);
             this.bw_Worker = new System.ComponentModel.BackgroundWorker();
-            this.unifytb_Main = new UnifyTabControl.UnifyTabControl();
             this.lbl_Status = new System.Windows.Forms.Label();
+            this.unifytb_Main = new UnifyTabControl.UnifyTabControl();
             this.pnl_MenuStrip.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
@@ -471,6 +493,7 @@
             this.sdk_ArchiveMerger.Name = "sdk_ArchiveMerger";
             this.sdk_ArchiveMerger.Size = new System.Drawing.Size(301, 22);
             this.sdk_ArchiveMerger.Text = "Archive Merger (ARC)...";
+            this.sdk_ArchiveMerger.Click += new System.EventHandler(this.Sdk_ArchiveMerger_Click);
             // 
             // sdk_TextureRasteriser
             // 
@@ -478,7 +501,8 @@
             this.sdk_TextureRasteriser.Image = ((System.Drawing.Image)(resources.GetObject("sdk_TextureRasteriser.Image")));
             this.sdk_TextureRasteriser.Name = "sdk_TextureRasteriser";
             this.sdk_TextureRasteriser.Size = new System.Drawing.Size(301, 22);
-            this.sdk_TextureRasteriser.Text = "Texture Rasteriser (DDS)...";
+            this.sdk_TextureRasteriser.Text = "Texture Converter (DDS)...";
+            this.sdk_TextureRasteriser.Click += new System.EventHandler(this.Sdk_TextureRasteriser_Click);
             // 
             // sdk_ModelAnimationExporter
             // 
@@ -561,100 +585,201 @@
             // 
             // shortcuts_DecodeADX
             // 
+            this.shortcuts_DecodeADX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeADXinDirectory,
+            this.shortcuts_DecodeADXinSubdirectories});
             this.shortcuts_DecodeADX.Enabled = false;
             this.shortcuts_DecodeADX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeADX.Image")));
             this.shortcuts_DecodeADX.Name = "shortcuts_DecodeADX";
-            this.shortcuts_DecodeADX.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeADX.Text = "Decode all ADX files here...";
+            this.shortcuts_DecodeADX.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeADX.Text = "ADX";
+            // 
+            // shortcuts_DecodeADXinDirectory
+            // 
+            this.shortcuts_DecodeADXinDirectory.Name = "shortcuts_DecodeADXinDirectory";
+            this.shortcuts_DecodeADXinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeADXinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeADXinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeADXinDirectory_Click);
+            // 
+            // shortcuts_DecodeADXinSubdirectories
+            // 
+            this.shortcuts_DecodeADXinSubdirectories.Name = "shortcuts_DecodeADXinSubdirectories";
+            this.shortcuts_DecodeADXinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeADXinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeADXinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeADXinSubdirectories_Click);
             // 
             // shortcuts_UnpackARC
             // 
             this.shortcuts_UnpackARC.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shorcuts_UnpackARCtoToolkit,
-            this.shortcuts_UnpackARCtoDirectory});
+            this.shortcuts_UnpackARCtoDirectory,
+            this.shortcuts_UnpackARCtoToolkit});
             this.shortcuts_UnpackARC.Enabled = false;
             this.shortcuts_UnpackARC.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_UnpackARC.Image")));
             this.shortcuts_UnpackARC.Name = "shortcuts_UnpackARC";
-            this.shortcuts_UnpackARC.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_UnpackARC.Text = "Unpack all ARC files here...";
-            // 
-            // shorcuts_UnpackARCtoToolkit
-            // 
-            this.shorcuts_UnpackARCtoToolkit.Name = "shorcuts_UnpackARCtoToolkit";
-            this.shorcuts_UnpackARCtoToolkit.Size = new System.Drawing.Size(238, 22);
-            this.shorcuts_UnpackARCtoToolkit.Text = "Unpack to Sonic \'06 Toolkit";
+            this.shortcuts_UnpackARC.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_UnpackARC.Text = "ARC";
             // 
             // shortcuts_UnpackARCtoDirectory
             // 
             this.shortcuts_UnpackARCtoDirectory.Name = "shortcuts_UnpackARCtoDirectory";
-            this.shortcuts_UnpackARCtoDirectory.Size = new System.Drawing.Size(238, 22);
-            this.shortcuts_UnpackARCtoDirectory.Text = "Unpack in the current directory";
+            this.shortcuts_UnpackARCtoDirectory.Size = new System.Drawing.Size(253, 22);
+            this.shortcuts_UnpackARCtoDirectory.Text = "Unpack all in the current directory";
+            this.shortcuts_UnpackARCtoDirectory.Click += new System.EventHandler(this.Shortcuts_UnpackARCtoDirectory_Click);
+            // 
+            // shortcuts_UnpackARCtoToolkit
+            // 
+            this.shortcuts_UnpackARCtoToolkit.Name = "shortcuts_UnpackARCtoToolkit";
+            this.shortcuts_UnpackARCtoToolkit.Size = new System.Drawing.Size(253, 22);
+            this.shortcuts_UnpackARCtoToolkit.Text = "Unpack all to Sonic \'06 Toolkit";
+            this.shortcuts_UnpackARCtoToolkit.Click += new System.EventHandler(this.Shortcuts_UnpackARCtoToolkit_Click);
             // 
             // shortcuts_DecodeAT3
             // 
+            this.shortcuts_DecodeAT3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeAT3inDirectory,
+            this.shortcuts_DecodeAT3inSubdirectories});
             this.shortcuts_DecodeAT3.Enabled = false;
             this.shortcuts_DecodeAT3.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeAT3.Image")));
             this.shortcuts_DecodeAT3.Name = "shortcuts_DecodeAT3";
-            this.shortcuts_DecodeAT3.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeAT3.Text = "Decode all AT3 files here...";
+            this.shortcuts_DecodeAT3.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeAT3.Text = "AT3";
+            // 
+            // shortcuts_DecodeAT3inDirectory
+            // 
+            this.shortcuts_DecodeAT3inDirectory.Name = "shortcuts_DecodeAT3inDirectory";
+            this.shortcuts_DecodeAT3inDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeAT3inDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeAT3inDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inDirectory_Click);
+            // 
+            // shortcuts_DecodeAT3inSubdirectories
+            // 
+            this.shortcuts_DecodeAT3inSubdirectories.Name = "shortcuts_DecodeAT3inSubdirectories";
+            this.shortcuts_DecodeAT3inSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeAT3inSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeAT3inSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inSubdirectories_Click);
             // 
             // shortcuts_DecodeBIN
             // 
+            this.shortcuts_DecodeBIN.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.decodeToolStripMenuItem,
+            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2});
             this.shortcuts_DecodeBIN.Enabled = false;
             this.shortcuts_DecodeBIN.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeBIN.Image")));
             this.shortcuts_DecodeBIN.Name = "shortcuts_DecodeBIN";
-            this.shortcuts_DecodeBIN.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeBIN.Text = "Decode all BIN files here...";
+            this.shortcuts_DecodeBIN.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeBIN.Text = "BIN";
+            // 
+            // decodeToolStripMenuItem
+            // 
+            this.decodeToolStripMenuItem.Name = "decodeToolStripMenuItem";
+            this.decodeToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
+            this.decodeToolStripMenuItem.Text = "Decode all in the current directory";
+            // 
+            // decodeAllInTheLocalSubdirectoriesToolStripMenuItem2
+            // 
+            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Name = "decodeAllInTheLocalSubdirectoriesToolStripMenuItem2";
+            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Size = new System.Drawing.Size(267, 22);
+            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Text = "Decode all in the local subdirectories";
             // 
             // shortcuts_UnpackCSB
             // 
             this.shortcuts_UnpackCSB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_UnpackCSBtoAIF,
-            this.shortcuts_ExtractCSBsToWAV});
+            this.shortcuts_UnpackCSBinDirectory,
+            this.shortcuts_UnpackCSBinSubdirectories});
             this.shortcuts_UnpackCSB.Enabled = false;
             this.shortcuts_UnpackCSB.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_UnpackCSB.Image")));
             this.shortcuts_UnpackCSB.Name = "shortcuts_UnpackCSB";
-            this.shortcuts_UnpackCSB.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_UnpackCSB.Text = "Unpack all CSB files here...";
+            this.shortcuts_UnpackCSB.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_UnpackCSB.Text = "CSB";
             // 
-            // shortcuts_UnpackCSBtoAIF
+            // shortcuts_UnpackCSBinDirectory
             // 
-            this.shortcuts_UnpackCSBtoAIF.Name = "shortcuts_UnpackCSBtoAIF";
-            this.shortcuts_UnpackCSBtoAIF.Size = new System.Drawing.Size(256, 22);
-            this.shortcuts_UnpackCSBtoAIF.Text = "Unpack all to AIF (sound editing)";
+            this.shortcuts_UnpackCSBinDirectory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_UnpackCSBinDirectoryToADX,
+            this.shortcuts_UnpackCSBinDirectoryToWAV});
+            this.shortcuts_UnpackCSBinDirectory.Name = "shortcuts_UnpackCSBinDirectory";
+            this.shortcuts_UnpackCSBinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_UnpackCSBinDirectory.Text = "Unpack all in the current directory";
+            this.shortcuts_UnpackCSBinDirectory.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinDirectory_Click);
             // 
-            // shortcuts_ExtractCSBsToWAV
+            // shortcuts_UnpackCSBinDirectoryToADX
             // 
-            this.shortcuts_ExtractCSBsToWAV.Name = "shortcuts_ExtractCSBsToWAV";
-            this.shortcuts_ExtractCSBsToWAV.Size = new System.Drawing.Size(256, 22);
-            this.shortcuts_ExtractCSBsToWAV.Text = "Unpack all to WAV (sound ripping)";
+            this.shortcuts_UnpackCSBinDirectoryToADX.Name = "shortcuts_UnpackCSBinDirectoryToADX";
+            this.shortcuts_UnpackCSBinDirectoryToADX.Size = new System.Drawing.Size(156, 22);
+            this.shortcuts_UnpackCSBinDirectoryToADX.Text = "Unpack to ADX";
+            this.shortcuts_UnpackCSBinDirectoryToADX.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinDirectory_Click);
+            // 
+            // shortcuts_UnpackCSBinDirectoryToWAV
+            // 
+            this.shortcuts_UnpackCSBinDirectoryToWAV.Name = "shortcuts_UnpackCSBinDirectoryToWAV";
+            this.shortcuts_UnpackCSBinDirectoryToWAV.Size = new System.Drawing.Size(156, 22);
+            this.shortcuts_UnpackCSBinDirectoryToWAV.Text = "Unpack to WAV";
+            this.shortcuts_UnpackCSBinDirectoryToWAV.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinDirectoryToWAV_Click);
+            // 
+            // shortcuts_UnpackCSBinSubdirectories
+            // 
+            this.shortcuts_UnpackCSBinSubdirectories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX,
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV});
+            this.shortcuts_UnpackCSBinSubdirectories.Name = "shortcuts_UnpackCSBinSubdirectories";
+            this.shortcuts_UnpackCSBinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_UnpackCSBinSubdirectories.Text = "Unpack all in the local subdirectories";
+            this.shortcuts_UnpackCSBinSubdirectories.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinSubdirectories_Click);
+            // 
+            // shortcuts_UnpackCSBinSubdirectoriesToADX
+            // 
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX.Name = "shortcuts_UnpackCSBinSubdirectoriesToADX";
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX.Size = new System.Drawing.Size(156, 22);
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX.Text = "Unpack to ADX";
+            this.shortcuts_UnpackCSBinSubdirectoriesToADX.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinDirectory_Click);
+            // 
+            // shortcuts_UnpackCSBinSubdirectoriesToWAV
+            // 
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Name = "shortcuts_UnpackCSBinSubdirectoriesToWAV";
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Size = new System.Drawing.Size(156, 22);
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Text = "Unpack to WAV";
+            this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinSubdirectoriesToWAV_Click);
             // 
             // shortcuts_ConvertDDS
             // 
+            this.shortcuts_ConvertDDS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_ConvertDDSinDirectory,
+            this.shortcuts_ConvertDDSinSubdirectories});
             this.shortcuts_ConvertDDS.Enabled = false;
             this.shortcuts_ConvertDDS.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertDDS.Image")));
             this.shortcuts_ConvertDDS.Name = "shortcuts_ConvertDDS";
-            this.shortcuts_ConvertDDS.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_ConvertDDS.Text = "Rasterise all DDS files here...";
+            this.shortcuts_ConvertDDS.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_ConvertDDS.Text = "DDS";
+            // 
+            // shortcuts_ConvertDDSinDirectory
+            // 
+            this.shortcuts_ConvertDDSinDirectory.Name = "shortcuts_ConvertDDSinDirectory";
+            this.shortcuts_ConvertDDSinDirectory.Size = new System.Drawing.Size(269, 22);
+            this.shortcuts_ConvertDDSinDirectory.Text = "Convert all in the current directory";
+            // 
+            // shortcuts_ConvertDDSinSubdirectories
+            // 
+            this.shortcuts_ConvertDDSinSubdirectories.Name = "shortcuts_ConvertDDSinSubdirectories";
+            this.shortcuts_ConvertDDSinSubdirectories.Size = new System.Drawing.Size(269, 22);
+            this.shortcuts_ConvertDDSinSubdirectories.Text = "Convert all in the local subdirectories";
             // 
             // shortcuts_DecompileLUB
             // 
             this.shortcuts_DecompileLUB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.shortcuts_DecompileLUBinDirectory,
-            this.shortcuts_DecompileLUBinArchive});
+            this.shortcuts_DecompileLUBinSubdirectories});
             this.shortcuts_DecompileLUB.Enabled = false;
             this.shortcuts_DecompileLUB.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecompileLUB.Image")));
             this.shortcuts_DecompileLUB.Name = "shortcuts_DecompileLUB";
-            this.shortcuts_DecompileLUB.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecompileLUB.Text = "Decompile all LUB files here...";
-            this.shortcuts_DecompileLUB.Click += new System.EventHandler(this.Shortcuts_DecompileLUB_Click);
+            this.shortcuts_DecompileLUB.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecompileLUB.Text = "LUB (experimental)";
             // 
             // shortcuts_DecompileLUBinDirectory
             // 
             this.shortcuts_DecompileLUBinDirectory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.shortcuts_DecompileMissionLUBinDirectory});
             this.shortcuts_DecompileLUBinDirectory.Name = "shortcuts_DecompileLUBinDirectory";
-            this.shortcuts_DecompileLUBinDirectory.Size = new System.Drawing.Size(270, 22);
+            this.shortcuts_DecompileLUBinDirectory.Size = new System.Drawing.Size(284, 22);
             this.shortcuts_DecompileLUBinDirectory.Text = "Decompile all in the current directory";
             this.shortcuts_DecompileLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileLUB_Click);
             // 
@@ -665,63 +790,137 @@
             this.shortcuts_DecompileMissionLUBinDirectory.Text = "Mission Lua binaries only...";
             this.shortcuts_DecompileMissionLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileMissionLUBinDirectory_Click);
             // 
-            // shortcuts_DecompileLUBinArchive
+            // shortcuts_DecompileLUBinSubdirectories
             // 
-            this.shortcuts_DecompileLUBinArchive.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecompileMissionLUBinArchive});
-            this.shortcuts_DecompileLUBinArchive.Name = "shortcuts_DecompileLUBinArchive";
-            this.shortcuts_DecompileLUBinArchive.Size = new System.Drawing.Size(270, 22);
-            this.shortcuts_DecompileLUBinArchive.Text = "Decompile all in the entire archive";
-            this.shortcuts_DecompileLUBinArchive.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinArchive_Click);
+            this.shortcuts_DecompileLUBinSubdirectories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecompileMissionLUBinSubdirectories});
+            this.shortcuts_DecompileLUBinSubdirectories.Name = "shortcuts_DecompileLUBinSubdirectories";
+            this.shortcuts_DecompileLUBinSubdirectories.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_DecompileLUBinSubdirectories.Text = "Decompile all in the local subdirectories";
+            this.shortcuts_DecompileLUBinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinSubdirectories_Click);
             // 
-            // shortcuts_DecompileMissionLUBinArchive
+            // shortcuts_DecompileMissionLUBinSubdirectories
             // 
-            this.shortcuts_DecompileMissionLUBinArchive.Name = "shortcuts_DecompileMissionLUBinArchive";
-            this.shortcuts_DecompileMissionLUBinArchive.Size = new System.Drawing.Size(216, 22);
-            this.shortcuts_DecompileMissionLUBinArchive.Text = "Mission Lua binaries only...";
-            this.shortcuts_DecompileMissionLUBinArchive.Click += new System.EventHandler(this.Shortcuts_DecompileMissionLUBinArchive_Click);
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Name = "shortcuts_DecompileMissionLUBinSubdirectories";
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Size = new System.Drawing.Size(216, 22);
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Text = "Mission Lua binaries only...";
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Click += new System.EventHandler(this.shortcuts_DecompileMissionLUBinSubdirectories_Click);
             // 
             // shortcuts_DecodeMST
             // 
+            this.shortcuts_DecodeMST.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeMSTinDirectory,
+            this.shortcuts_DecodeMSTinSubdirectories});
             this.shortcuts_DecodeMST.Enabled = false;
             this.shortcuts_DecodeMST.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeMST.Image")));
             this.shortcuts_DecodeMST.Name = "shortcuts_DecodeMST";
-            this.shortcuts_DecodeMST.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeMST.Text = "Decode all MST files here...";
+            this.shortcuts_DecodeMST.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeMST.Text = "MST";
+            // 
+            // shortcuts_DecodeMSTinDirectory
+            // 
+            this.shortcuts_DecodeMSTinDirectory.Name = "shortcuts_DecodeMSTinDirectory";
+            this.shortcuts_DecodeMSTinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeMSTinDirectory.Text = "Decode all in the current directory";
+            // 
+            // shortcuts_DecodeMSTinSubdirectories
+            // 
+            this.shortcuts_DecodeMSTinSubdirectories.Name = "shortcuts_DecodeMSTinSubdirectories";
+            this.shortcuts_DecodeMSTinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeMSTinSubdirectories.Text = "Decode all in the local subdirectories";
             // 
             // shortcuts_DecodeSET
             // 
+            this.shortcuts_DecodeSET.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeSETinDirectory,
+            this.shortcuts_DecodeSETinSubdirectories});
             this.shortcuts_DecodeSET.Enabled = false;
             this.shortcuts_DecodeSET.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeSET.Image")));
             this.shortcuts_DecodeSET.Name = "shortcuts_DecodeSET";
-            this.shortcuts_DecodeSET.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeSET.Text = "Decode all SET files here...";
-            this.shortcuts_DecodeSET.Click += new System.EventHandler(this.Shortcuts_DecodeSET_Click);
+            this.shortcuts_DecodeSET.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeSET.Text = "SET (experimental)";
+            // 
+            // shortcuts_DecodeSETinDirectory
+            // 
+            this.shortcuts_DecodeSETinDirectory.Name = "shortcuts_DecodeSETinDirectory";
+            this.shortcuts_DecodeSETinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeSETinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeSETinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeSET_Click);
+            // 
+            // shortcuts_DecodeSETinSubdirectories
+            // 
+            this.shortcuts_DecodeSETinSubdirectories.Name = "shortcuts_DecodeSETinSubdirectories";
+            this.shortcuts_DecodeSETinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeSETinSubdirectories.Text = "Decode all in the local subdirectories";
             // 
             // shortcuts_DecryptXEX
             // 
+            this.shortcuts_DecryptXEX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecryptXEXinDirectory,
+            this.shortcuts_DecryptXEXinSubdirectories});
             this.shortcuts_DecryptXEX.Enabled = false;
             this.shortcuts_DecryptXEX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecryptXEX.Image")));
             this.shortcuts_DecryptXEX.Name = "shortcuts_DecryptXEX";
-            this.shortcuts_DecryptXEX.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecryptXEX.Text = "Decrypt all XEX files here...";
-            this.shortcuts_DecryptXEX.Click += new System.EventHandler(this.Shortcuts_DecryptXEX_Click);
+            this.shortcuts_DecryptXEX.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecryptXEX.Text = "XEX";
+            // 
+            // shortcuts_DecryptXEXinDirectory
+            // 
+            this.shortcuts_DecryptXEXinDirectory.Name = "shortcuts_DecryptXEXinDirectory";
+            this.shortcuts_DecryptXEXinDirectory.Size = new System.Drawing.Size(268, 22);
+            this.shortcuts_DecryptXEXinDirectory.Text = "Decrypt all in the current directory";
+            // 
+            // shortcuts_DecryptXEXinSubdirectories
+            // 
+            this.shortcuts_DecryptXEXinSubdirectories.Name = "shortcuts_DecryptXEXinSubdirectories";
+            this.shortcuts_DecryptXEXinSubdirectories.Size = new System.Drawing.Size(268, 22);
+            this.shortcuts_DecryptXEXinSubdirectories.Text = "Decrypt all in the local subdirectories";
             // 
             // shortcuts_DecodeXMA
             // 
+            this.shortcuts_DecodeXMA.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeXMAinDirectory,
+            this.shortcuts_DecodeXMAinSubdirectories});
             this.shortcuts_DecodeXMA.Enabled = false;
             this.shortcuts_DecodeXMA.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeXMA.Image")));
             this.shortcuts_DecodeXMA.Name = "shortcuts_DecodeXMA";
-            this.shortcuts_DecodeXMA.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeXMA.Text = "Decode all XMA files here...";
+            this.shortcuts_DecodeXMA.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeXMA.Text = "XMA";
+            // 
+            // shortcuts_DecodeXMAinDirectory
+            // 
+            this.shortcuts_DecodeXMAinDirectory.Name = "shortcuts_DecodeXMAinDirectory";
+            this.shortcuts_DecodeXMAinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXMAinDirectory.Text = "Decode all in the current directory";
+            // 
+            // shortcuts_DecodeXMAinSubdirectories
+            // 
+            this.shortcuts_DecodeXMAinSubdirectories.Name = "shortcuts_DecodeXMAinSubdirectories";
+            this.shortcuts_DecodeXMAinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXMAinSubdirectories.Text = "Decode all in the local subdirectories";
             // 
             // shortcuts_DecodeXNO
             // 
+            this.shortcuts_DecodeXNO.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeXNOinDirectory,
+            this.shortcuts_DecodeXNOinSubdirectories});
             this.shortcuts_DecodeXNO.Enabled = false;
             this.shortcuts_DecodeXNO.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeXNO.Image")));
             this.shortcuts_DecodeXNO.Name = "shortcuts_DecodeXNO";
-            this.shortcuts_DecodeXNO.Size = new System.Drawing.Size(229, 22);
-            this.shortcuts_DecodeXNO.Text = "Decode all XNO files here...";
+            this.shortcuts_DecodeXNO.Size = new System.Drawing.Size(180, 22);
+            this.shortcuts_DecodeXNO.Text = "XNO";
+            // 
+            // shortcuts_DecodeXNOinDirectory
+            // 
+            this.shortcuts_DecodeXNOinDirectory.Name = "shortcuts_DecodeXNOinDirectory";
+            this.shortcuts_DecodeXNOinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXNOinDirectory.Text = "Decode all in the current directory";
+            // 
+            // shortcuts_DecodeXNOinSubdirectories
+            // 
+            this.shortcuts_DecodeXNOinSubdirectories.Name = "shortcuts_DecodeXNOinSubdirectories";
+            this.shortcuts_DecodeXNOinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXNOinSubdirectories.Text = "Decode all in the local subdirectories";
             // 
             // main_Window
             // 
@@ -893,6 +1092,18 @@
             this.tm_ResetStatus.Interval = 5000;
             this.tm_ResetStatus.Tick += new System.EventHandler(this.Tm_ResetStatus_Tick);
             // 
+            // lbl_Status
+            // 
+            this.lbl_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_Status.AutoSize = true;
+            this.lbl_Status.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Status.Location = new System.Drawing.Point(2, 432);
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(42, 15);
+            this.lbl_Status.TabIndex = 30;
+            this.lbl_Status.Text = "Ready.";
+            this.lbl_Status.Click += new System.EventHandler(this.Lbl_Status_Click);
+            // 
             // unifytb_Main
             // 
             this.unifytb_Main.ActiveColor = System.Drawing.SystemColors.ControlLightLight;
@@ -919,18 +1130,6 @@
             this.unifytb_Main.TextColor = System.Drawing.SystemColors.ControlText;
             this.unifytb_Main.SelectedIndexChanged += new System.EventHandler(this.Unifytb_Main_SelectedIndexChanged);
             this.unifytb_Main.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Unifytb_Main_MouseClick);
-            // 
-            // lbl_Status
-            // 
-            this.lbl_Status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lbl_Status.AutoSize = true;
-            this.lbl_Status.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Status.Location = new System.Drawing.Point(2, 432);
-            this.lbl_Status.Name = "lbl_Status";
-            this.lbl_Status.Size = new System.Drawing.Size(42, 15);
-            this.lbl_Status.TabIndex = 30;
-            this.lbl_Status.Text = "Ready.";
-            this.lbl_Status.Click += new System.EventHandler(this.Lbl_Status_Click);
             // 
             // Main
             // 
@@ -1013,8 +1212,8 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeAT3;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeBIN;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSB;
-        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBtoAIF;
-        private System.Windows.Forms.ToolStripMenuItem shortcuts_ExtractCSBsToWAV;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectories;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDS;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileLUB;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMST;
@@ -1038,10 +1237,9 @@
         private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeADX;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackARC;
-        private System.Windows.Forms.ToolStripMenuItem shorcuts_UnpackARCtoToolkit;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackARCtoToolkit;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackARCtoDirectory;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileLUBinDirectory;
-        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileLUBinArchive;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecryptXEX;
         private System.Windows.Forms.ToolStripMenuItem sdk_ArchiveMerger;
         private System.Windows.Forms.ToolStripMenuItem sdk_TextureRasteriser;
@@ -1053,8 +1251,31 @@
         private System.Windows.Forms.ToolStripMenuItem sdk_PlacementConverter;
         private System.Windows.Forms.ToolStripMenuItem sdk_ExecutableDecryptor;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileMissionLUBinDirectory;
-        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileMissionLUBinArchive;
         private System.Windows.Forms.Label lbl_Status;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeADXinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeADXinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDSinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeSETinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeAT3inDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeAT3inSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem decodeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem decodeAllInTheLocalSubdirectoriesToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMSTinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecryptXEXinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeXMAinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeXMAinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeXNOinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_ConvertDDSinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileLUBinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecompileMissionLUBinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMSTinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeSETinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecryptXEXinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeXNOinSubdirectories;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinDirectoryToADX;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinDirectoryToWAV;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToADX;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToWAV;
     }
 }
 
