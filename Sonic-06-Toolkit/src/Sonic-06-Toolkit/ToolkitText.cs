@@ -39,6 +39,8 @@ namespace Toolkit.Text
         public static string tl_SelectArchive = "Please select an archive...";
         public static string tl_CreateARC = "Create an archive...";
         public static string tl_XISO = "Please select an Xbox 360 ISO...";
+        public static string tl_CollisionTagsDetected = "Collision Tags Detected";
+        public static string tl_Success = "Success";
         public static string ex_NewWindowError = "An error occurred whilst launching a new instance of Sonic '06 Toolkit.";
         public static string msg_CloseTab = "Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.";
         public static string msg_CloseAllTabs = "Are you sure you want to close all tabs? All unsaved changes will be lost if you haven't repacked.";
@@ -57,6 +59,8 @@ namespace Toolkit.Text
         public static string ex_SETExportError = "An error occurred when exporting the SET files.";
         public static string ex_MSTExportError = "An error occurred when exporting the MST files.";
         public static string ex_XMLImportError = "An error occurred when importing the XML files.";
+        public static string ex_BINExportError = "An error occurred when exporting the BIN files.";
+        public static string ex_OBJImportError = "An error occurred when importing the OBJ files.";
         public static string ex_XNOConvertError = "An error occurred when converting the XNO files.";
         public static string ex_XNMConvertError = "An error occurred when converting the animation.";
         public static string ex_LUBCompileError = "An error occurred when decompiling the LUB files.";
@@ -81,11 +85,21 @@ namespace Toolkit.Text
         public static string ex_DDSConvertError = "An error occurred when converting the DDS files.";
         public static string ex_MergeError = "An error occurred when merging the archives.";
         public static string ex_InvalidFiles = "The selected files were invalid...";
+        public static string ex_IntegrityCheckFailed = "Important files are missing to be able to run components for Sonic '06 Toolkit. Please restart the application and try again...";
+        public static string msg_RestartAsAdmin = "Sonic '06 Toolkit is not running in administrator mode. Do you want to restart Sonic '06 Toolkit as an administrator to make your changes?";
+        public static string ex_RegistryError = "An error occurred whilst editing the registry.";
+        public static string msg_UpdateComplete = $"Update complete! Restarting {tl_DefaultTitle}...";
 
         public static string tl_Exploring(string path) { return $"{tl_DefaultTitleVersion} - Exploring '{path}'"; }
+
         public static string tl_NoFilesAvailable(string fileType) {
             if (fileType != string.Empty) return $"No {fileType} files available";
-            else return $"No files available";
+            else return "No files available";
+        }
+
+        public static string msg_CollisionTagsDetected(int count, string fileName) {
+            if (count > 1) return $"Found {count} tags in '{fileName}...' Do you want to convert them to collision tags?";
+            else return $"Found 1 tag in '{fileName}...' Do you want to convert it to a collision tag?";
         }
     }
 
@@ -277,7 +291,9 @@ namespace Toolkit.Text
     {
         public static string Archives = @"Hyper_Development_Team\Sonic '06 Toolkit\Archives\";
         public static string Tools = @"Hyper_Development_Team\Sonic '06 Toolkit\Tools\";
+        public static string Root = @"Hyper_Development_Team\Sonic '06 Toolkit\";
 
+        public static string Shell = "cmd.exe";
         public static string Unpack = Path.Combine(Program.applicationData, Tools, "unpack.exe");
         public static string Repack = Path.Combine(Program.applicationData, Tools, "repack.exe");
         public static string LuaCompiler = Path.Combine(Program.applicationData, Tools, "luac50.exe");
@@ -289,6 +305,8 @@ namespace Toolkit.Text
         public static string DDSTool = Path.Combine(Program.applicationData, Tools, "texconv.exe");
         public static string MSTTool = Path.Combine(Program.applicationData, Tools, "mst06.exe");
         public static string XNODecoder = Path.Combine(Program.applicationData, Tools, "xno2dae.exe");
+        public static string BINEncoder = Path.Combine(Program.applicationData, Tools, "s06col.exe");
+        public static string BINDecoder = Path.Combine(Program.applicationData, Tools, "s06collision.exe");
 
         public static string currentPath = string.Empty;
     }

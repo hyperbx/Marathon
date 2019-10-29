@@ -252,22 +252,6 @@
         RK5CYII=
 </value>
   </data>
-  <data name="advanced_DebugMode.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wwAADsMBx2+oZAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAkdJREFUOE+Fk8+L
-        UlEUx50kC4JcxEDroiDoP5hNKYIbI3Bjyqhbf1CLGQLTFiG4DAnciCIYgltFZycaCoItQnDARTmi+fvX
-        S/LH0967na+M4nNRi6/ce87ne+5513NljDGJRFE8Go/HD+v1+qdisfgTwhox5A55yQYajUbHuVwu5XA4
-        BLVazSCsEaMix4c8fm4Nh8NTSp6t12tlrVZ74fP5ViqViu0LMeQEQVBOJpMzeKij27Jer3c/Ho9X3W73
-        vNvtfia9DYVCzOv1SoQYcmDAwgMvOrhbKpVidrt95fF4WLPZvOp0OgKBMOyEGHJgwMID7+Y7qJXHhULh
-        Qq/X/9FoNOxfApPP5y/g2d7BRvRtr81m8+zw2w9lsVgWxL7Z+nC6gvSA9J6S/y1gtVp5Yj9cexSyVquV
-        i0ajLBKJoD0JTB3xJpNJUhQMWHjglZXL5S8ul4ujm13odDpxH6YTaqvVqr4fAwMWHnhlPM8/bbfbL2kO
-        PtLtSk6jAj/m83lvP2az2eZg4YF3d4kEn/j9/v4+TJd1RR1IChAzALu7xOuFnOM4QzAY5PBXbeHlctmh
-        At3tHmOdTCaH0+n0GRW5sSmABQ3Jc5qsS4PBINIJS2qTabVaNpvNvi8Wi29YI0YTKRiNRjGRSHyl4TqB
-        FwXuZDKZAB5MLBbjqLq7Wq1W0un0b3ob76iAOZVK/aLYZb/fD4TD4ZnT6RSy2WwA3s0c0HM9r1QqdQJe
-        0V5OUlL7T6jFo8FgIKcijyh2j3STTj4F22g0zkVRVPwFGZKp2ldIOhMAAAAASUVORK5CYII=
-</value>
-  </data>
   <data name="advanced_Reset.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -660,7 +644,7 @@
         QAlGCVFiMEjTUxEGsGYQH6sifHhwGHDy5MkBdgEMg/hYFRGP/zMAAHnWAGE8NanQAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="mainHelp_Documentation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="help_Documentation.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wwAADsMBx2+oZAAAAOdJREFUOE+dk70NgzAQhT1KZmGSLBAGoCWipyTLpKZiiSStkwIoHX+OjWxzoIiT
@@ -670,7 +654,7 @@
         l/lS6guIQEEVG0JlEgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="mainHelp_CheckForUpdates.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="help_CheckForUpdates.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wQAADsEBuJFr7QAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAiJJREFUOE91Uzuv
@@ -686,7 +670,7 @@
         zO3+SAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="mainHelp_ReportBug.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="help_ReportBug.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         wwAADsMBx2+oZAAAABh0RVh0U29mdHdhcmUAcGFpbnQubmV0IDQuMS42/U4J6AAAAkdJREFUOE+Fk8+L
@@ -702,7 +686,7 @@
         0V5OUlL7T6jFo8FgIKcijyh2j3STTj4F22g0zkVRVPwFGZKp2ldIOhMAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="mainHelp_About.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="help_About.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
         xAAADsQBlSsOGwAAAEtJREFUOE/tzzEKADAIA8C+zf+/xzUlBUEkQ0sLLh1uSTDgAHBFhidkSO6OrPZB

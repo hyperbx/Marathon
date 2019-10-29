@@ -6,6 +6,7 @@ using System.Linq;
 using Toolkit.Text;
 using Toolkit.Tools;
 using System.Drawing;
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -40,14 +41,17 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.0-alpha-281019r1"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.0"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
+        public static string serverStatus = string.Empty;
+        bool registryWarnWorkaround = false;
         string extractQueue = string.Empty;
         bool folderMenu = false;
 
-        public Main(int sessionID) {
+        public Main(string[] args, int sessionID) {
             InitializeComponent();
+            if (Program.RunningAsAdmin()) SystemMessages.tl_DefaultTitleVersion += " <Administrator>";
             Text = SystemMessages.tl_DefaultTitleVersion;
             btn_SessionID.Text = sessionID.ToString();
             tm_CheapFix.Start();
@@ -56,8 +60,39 @@ namespace Toolkit.EnvironmentX
             Logs.ToolkitSessionLog openLogs = Application.OpenForms["ToolkitSessionLog"] != null ? (Logs.ToolkitSessionLog)Application.OpenForms["ToolkitSessionLog"] : null;
             if (openLogs == null)
                 if (!Properties.Settings.Default.log_Startup)
-                    lbl_Status.Text = "Welcome to Sonic '06 Toolkit! Click here to view the Session Log...";
+                    if (Properties.Settings.Default.env_firstLaunch) {
+                        lbl_Status.Text = "Welcome to Sonic '06 Toolkit! Click here to view the Session Log...";
+                        Properties.Settings.Default.env_firstLaunch = false;
+                    } else
+                        lbl_Status.Text = "Welcome back! Click here to view the Session Log...";
                 else new Logs.ToolkitSessionLog().Show();
+
+            if (args.Length > 0) {
+                if (Path.GetExtension(args[0]).ToLower() == ".arc") {
+                    if (args[1] == "-unpack") {
+                        ToolkitCommandLine.UnpackARC(args[0]);
+                        Close();
+                    } else if (args[1] == "-open") {
+                        UnpackARC(args[0]);
+                    }
+                }
+            }
+
+            try {
+                registryWarnWorkaround = true;
+                RegistryKey key = Registry.ClassesRoot.OpenSubKey(".arc_auto_file", false);
+                RegistryKey getLocation = Registry.ClassesRoot.OpenSubKey(".arc_auto_file\\shell\\open\\command");
+                if (key == null)
+                    preferences_AssociateARCs.Checked = false;
+                else
+                    if (getLocation.GetValue(null).ToString() != $"\"{Application.ExecutablePath}\" \"%1\" \"-open\"")
+                        preferences_AssociateARCs.Checked = false;
+                    else
+                        preferences_AssociateARCs.Checked = true;
+            } catch { }
+
+            if (Properties.Settings.Default.env_gameDirDisabled) preferences_DisableGameDirectory.Checked = true;
+            if (Properties.Settings.Default.env_updaterDisabled) preferences_DisableSoftwareUpdater.Checked = true;
         }
 
         public string Status {
@@ -88,11 +123,11 @@ namespace Toolkit.EnvironmentX
                         CurrentARC().Navigate(Properties.Settings.Default.env_gameDirectory);
                     } else {
                         pic_Logo.Visible = true;
-                        lbl_SetDefault.Visible = true;
+                        if (!Properties.Settings.Default.env_gameDirDisabled) lbl_SetDefault.Visible = true;
                     }
                 } else {
                     pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
+                    if (!Properties.Settings.Default.env_gameDirDisabled) lbl_SetDefault.Visible = true;
                 }
         }
 
@@ -114,11 +149,11 @@ namespace Toolkit.EnvironmentX
                         CurrentARC().Navigate(Properties.Settings.Default.env_gameDirectory);
                     } else {
                         pic_Logo.Visible = true;
-                        lbl_SetDefault.Visible = true;
+                        if (!Properties.Settings.Default.env_gameDirDisabled) lbl_SetDefault.Visible = true;
                     }
                 } else {
                     pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
+                    if (!Properties.Settings.Default.env_gameDirDisabled) lbl_SetDefault.Visible = true;
                 }
         }
 
@@ -226,46 +261,50 @@ namespace Toolkit.EnvironmentX
             }
         }
 
-        private async void File_OpenARC_Click(object sender, EventArgs e) {
+        private async void UnpackARC(string ARC) {
+            if (Verification.VerifyMagicNumberCommon(ARC)) {
+                try {
+                    string failsafeCheck = Path.GetRandomFileName();
+                    string arcBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), failsafeCheck);
+
+                    if (File.Exists(ARC)) {
+                        Directory.CreateDirectory(arcBuildSession);
+                        File.Copy(ARC, Path.Combine(arcBuildSession, Path.GetFileName(ARC)), true); 
+                    }
+
+                    Status = StatusMessages.cmn_Unpacking(ARC, false);
+                    await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
+                            $"\"{Path.Combine(arcBuildSession, Path.GetFileName(ARC))}\"",
+                            Application.StartupPath,
+                            100000);
+
+                    //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                    var metadataWrite = File.Create(Path.Combine(arcBuildSession, "metadata.ini"));
+                    byte[] metadataSession = new UTF8Encoding(true).GetBytes(ARC);
+                    metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                    metadataWrite.Close();
+
+                    if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) ResetTab(false);
+                    else NewTab(false);
+
+                    CurrentARC().Navigate(Path.Combine(arcBuildSession, Path.GetFileNameWithoutExtension(ARC)));
+                    unifytb_Main.SelectedTab.Text = Path.GetFileName(ARC);
+                    unifytb_Main.SelectedTab.ToolTipText = failsafeCheck;
+                    repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
+
+                    string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+                    Text = SystemMessages.tl_Exploring(metadata);
+                    Status = StatusMessages.cmn_Unpacked(ARC, false);
+                } catch { Status = StatusMessages.cmn_UnpackFailed(ARC, false); }
+            } else
+                MessageBox.Show(SystemMessages.ex_InvalidARC, SystemMessages.tl_DefaultTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void File_OpenARC_Click(object sender, EventArgs e) {
             string getPath = Browsers.CommonBrowser(false, SystemMessages.tl_SelectArchive, Filters.Archives);
 
             if (getPath != string.Empty) {
-                if (Verification.VerifyMagicNumberCommon(getPath)) {
-                    try {
-                        string failsafeCheck = Path.GetRandomFileName();
-                        string arcBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), failsafeCheck);
-
-                        if (File.Exists(getPath)) {
-                            Directory.CreateDirectory(arcBuildSession);
-                            File.Copy(getPath, Path.Combine(arcBuildSession, Path.GetFileName(getPath)), true); 
-                        }
-
-                        Status = StatusMessages.cmn_Unpacking(getPath, false);
-                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
-                              $"\"{Path.Combine(arcBuildSession, Path.GetFileName(getPath))}\"",
-                              Application.StartupPath,
-                              100000);
-
-                        //Writes metadata to the unpacked directory to ensure the original path is remembered.
-                        var metadataWrite = File.Create(Path.Combine(arcBuildSession, "metadata.ini"));
-                        byte[] metadataSession = new UTF8Encoding(true).GetBytes(getPath);
-                        metadataWrite.Write(metadataSession, 0, metadataSession.Length);
-                        metadataWrite.Close();
-
-                        if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) ResetTab(false);
-                        else NewTab(false);
-
-                        CurrentARC().Navigate(Path.Combine(arcBuildSession, Path.GetFileNameWithoutExtension(getPath)));
-                        unifytb_Main.SelectedTab.Text = Path.GetFileName(getPath);
-                        unifytb_Main.SelectedTab.ToolTipText = failsafeCheck;
-                        repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
-
-                        string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
-                        Text = SystemMessages.tl_Exploring(metadata);
-                        Status = StatusMessages.cmn_Unpacked(getPath, false);
-                    } catch { Status = StatusMessages.cmn_UnpackFailed(getPath, false); }
-                }
-                else MessageBox.Show(SystemMessages.ex_InvalidARC, SystemMessages.tl_DefaultTitle, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UnpackARC(getPath);
             }
         }
 
@@ -414,7 +453,7 @@ namespace Toolkit.EnvironmentX
                     lbl_SetDefault.Visible = false;
                 } else {
                     pic_Logo.Visible = true;
-                    lbl_SetDefault.Visible = true;
+                    if (!Properties.Settings.Default.env_gameDirDisabled) lbl_SetDefault.Visible = true;
                 }
                 btn_OpenFolder.Enabled = false;
                 btn_OpenFolderOptions.Enabled = false;
@@ -550,7 +589,11 @@ namespace Toolkit.EnvironmentX
                 }
                 catch { }
             }
-            sessionLog.Remove("Welcome to Sonic '06 Toolkit! Click here to view the Session Log...");
+            
+            if (Properties.Settings.Default.env_firstLaunch)
+                sessionLog.Remove("Welcome to Sonic '06 Toolkit! Click here to view the Session Log...");
+            else
+                sessionLog.Remove("Welcome back! Click here to view the Session Log...");
             new Logs.ToolkitSessionLog().Show();
         }
 
@@ -789,6 +832,168 @@ namespace Toolkit.EnvironmentX
 
         private void shortcuts_DecodeXNOinSubdirectories_Click(object sender, EventArgs e) {
             Batch.DecodeXNO(Paths.currentPath, SearchOption.AllDirectories, true);
+        }
+
+        private void Sdk_CollisionGenerator_Click(object sender, EventArgs e) {
+            new CollisionGenerator(this).ShowDialog();
+        }
+
+        private void Shortcuts_DecodeBINinDirectory_Click(object sender, EventArgs e) {
+            Batch.DecodeBIN(Paths.currentPath, SearchOption.TopDirectoryOnly, false);
+        }
+
+        private void Shortcuts_DecodeBINinSubdirectories_Click(object sender, EventArgs e) {
+            Batch.DecodeBIN(Paths.currentPath, SearchOption.AllDirectories, true);
+        }
+
+        private void Help_About_Click(object sender, EventArgs e) {
+            new ToolkitAbout().ShowDialog();
+        }
+
+        private void Advanced_Reset_Click(object sender, EventArgs e) {
+            DialogResult reset = MessageBox.Show("This will completely reset Sonic '06 Toolkit...\n\n" +
+                                                 "" +
+                                                 "The following data will be erased:\n" +
+                                                 "► Your selected settings.\n" +
+                                                 "► Archives in application data.\n" +
+                                                 "► Tools in application data.\n\n" +
+                                                 "" +
+                                                 "Are you sure you want to continue?",
+                                                 "Reset?",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Warning);
+
+            if (reset == DialogResult.Yes) {
+                var toolkitData = new DirectoryInfo(Path.Combine(Program.applicationData, Paths.Root));
+                try {
+                    if (Directory.Exists(Path.Combine(Program.applicationData, Paths.Root))) {
+                        foreach (FileInfo file in toolkitData.GetFiles())
+                            file.Delete();
+                        foreach (DirectoryInfo directory in toolkitData.GetDirectories())
+                            directory.Delete(true);
+                    }
+                } catch { }
+                Properties.Settings.Default.Reset();
+                Program.Restart();
+            }
+        }
+
+        private void Help_ReportBug_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/issues/new/choose");
+        }
+
+        private void Help_Documentation_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki");
+        }
+
+        private void Preferences_AssociateARCs_CheckedChanged(object sender, EventArgs e) {
+            if (preferences_AssociateARCs.Checked) {
+                if (Program.RunningAsAdmin()) {
+                    try {
+                        var key = Registry.ClassesRoot.OpenSubKey(".arc_auto_file\\shell\\open\\command");
+
+                        key = Registry.ClassesRoot.OpenSubKey(".arc_auto_file", true);
+                        if (key == null)
+                            key = Registry.ClassesRoot.CreateSubKey(".arc_auto_file");
+                        var prevkey = key;
+                        key = key.OpenSubKey("shell", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("shell");
+                        prevkey = key;
+                        key = key.OpenSubKey("open", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("open");
+                        prevkey = key;
+                        key = key.OpenSubKey("command", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("command");
+                        key.SetValue("", $"\"{Application.ExecutablePath}\" \"%1\" \"-open\"");
+                        key.Close();
+
+                        Windows.SetAssociation(".arc");
+                    } catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_RegistryError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                } else {
+                    if (!registryWarnWorkaround) {
+                        DialogResult admin = MessageBox.Show(SystemMessages.msg_RestartAsAdmin, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                        if (admin == DialogResult.Yes) {
+                            var runAsAdmin = new ProcessStartInfo(Application.ExecutablePath);
+                            runAsAdmin.Verb = "runas";
+                            if (Process.Start(runAsAdmin) != null) { Application.Exit(); }
+                        } else {
+                            registryWarnWorkaround = true;
+                            preferences_AssociateARCs.Checked = false;
+                        }
+                    } else registryWarnWorkaround = false;
+                }
+            } else {
+                if (Program.RunningAsAdmin()) {
+                    try {
+                        var key = Registry.ClassesRoot.OpenSubKey(".arc_auto_file\\shell\\open\\command");
+
+                        key = Registry.ClassesRoot.OpenSubKey(".arc_auto_file", true);
+                        if (key == null)
+                            key = Registry.ClassesRoot.CreateSubKey(".arc_auto_file");
+                        var prevkey = key;
+                        key = key.OpenSubKey("shell", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("shell");
+                        prevkey = key;
+                        key = key.OpenSubKey("open", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("open");
+                        prevkey = key;
+                        key = key.OpenSubKey("command", true);
+                        if (key == null)
+                            key = prevkey.CreateSubKey("command");
+                        key.SetValue("", "");
+                        key.Close();
+
+                        Windows.SetAssociation(".arc");
+                    } catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_RegistryError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                } else {
+                    if (!registryWarnWorkaround) {
+                        DialogResult admin = MessageBox.Show(SystemMessages.msg_RestartAsAdmin, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                        if (admin == DialogResult.Yes) {
+                            var runAsAdmin = new ProcessStartInfo(Application.ExecutablePath);
+                            runAsAdmin.Verb = "runas";
+                            if (Process.Start(runAsAdmin) != null) { Application.Exit(); }
+                        } else {
+                            registryWarnWorkaround = true;
+                            preferences_AssociateARCs.Checked = true;
+                        }
+                    } else registryWarnWorkaround = false;
+                }
+            }
+        }
+
+        private void Help_CheckForUpdates_Click(object sender, EventArgs e) {
+            if (serverStatus == "offline") { MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else if (serverStatus == "down") { MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            else Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", true);
+        }
+
+        private void Main_Shown(object sender, EventArgs e) {
+            if (!Properties.Settings.Default.env_updaterDisabled)
+                Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", false);
+        }
+
+        private void Preferences_DisableGameDirectory_CheckedChanged(object sender, EventArgs e) {
+            if (preferences_DisableGameDirectory.Checked) {
+                lbl_SetDefault.Visible = false;
+                Properties.Settings.Default.env_gameDirDisabled = true;
+            } else {
+                lbl_SetDefault.Visible = true;
+                Properties.Settings.Default.env_gameDirDisabled = false;
+            }
+        }
+
+        private void Preferences_DisableSoftwareUpdater_CheckedChanged(object sender, EventArgs e) {
+            if (preferences_DisableSoftwareUpdater.Checked)
+                Properties.Settings.Default.env_updaterDisabled = true;
+            else
+                Properties.Settings.Default.env_updaterDisabled = false;
         }
     }
 }

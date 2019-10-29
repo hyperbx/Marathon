@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Linq;
 using Toolkit.Text;
 using Ookii.Dialogs;
 using HedgeLib.Sets;
+using Microsoft.Win32;
 using VGAudio.Formats;
 using SonicAudioLib.IO;
 using System.Diagnostics;
@@ -14,6 +16,7 @@ using System.Threading.Tasks;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -42,9 +45,68 @@ using System.Collections.Generic;
 
 namespace Toolkit.Tools
 {
+    class Updater
+    {
+        public static void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string versionInfoLink, bool userAccess) {
+            try {
+                string latestVersion;
+                string changeLogs;
+
+                try {
+                    latestVersion = new TimedWebClient { Timeout = 100000 }.DownloadString(versionInfoLink);
+                } catch { return; }
+
+                try {
+                    changeLogs = new TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
+                } catch { changeLogs = "► Allan please add details"; }
+
+                if (latestVersion.Contains("Version")) {
+                    if (latestVersion != currentVersion) {
+                        DialogResult confirmUpdate = MessageBox.Show($"Sonic '06 Toolkit - {latestVersion} is now available!\n\nChangelogs:\n{changeLogs}\n\nDo you wish to download it?", "New update available!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        switch (confirmUpdate)
+                        {
+                            case DialogResult.Yes:
+                                var exists = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1;
+                                if (exists) { MessageBox.Show("Please close any other instances of Sonic '06 Toolkit and try again.", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                                else
+                                    try {
+                                        if (File.Exists(Application.ExecutablePath))
+                                            new ToolkitUpdater(latestVersion, newVersionDownloadLink).ShowDialog();
+                                        else MessageBox.Show("Sonic '06 Toolkit doesn't exist..?", "Stupid Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    } catch {
+                                        MessageBox.Show("An error occurred when updating Sonic '06 Toolkit.", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                break;
+                        }
+                    } else if (userAccess) MessageBox.Show("There are currently no updates available.", "Sonic '06 Toolkit", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } else {
+                    Main.serverStatus = "down";
+                    if (!Properties.Settings.Default.env_updaterDisabled) MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } catch {
+                Main.serverStatus = "offline";
+            }
+        }
+    }
+
+    public class TimedWebClient : WebClient
+    {
+        public int Timeout { get; set; }
+
+        public TimedWebClient() {
+            Timeout = 100000;
+        }
+
+        protected override WebRequest GetWebRequest(Uri address) {
+            var objWebRequest = base.GetWebRequest(address);
+            objWebRequest.Timeout = Timeout;
+            return objWebRequest;
+        }
+    }
+
     class Batch
     {
-        private static Main mainForm = new Main(Program.sessionID);
+        private static Main mainForm = new Main(Array.Empty<string>(), Program.sessionID);
 
         public static void DecodeADX(string location, SearchOption searchMethod, bool showFullPath) {
             foreach (string ADX in Directory.GetFiles(location, "*.adx", searchMethod))
@@ -68,6 +130,19 @@ namespace Toolkit.Tools
                     if (process.ExitCode != 0)
                         mainForm.Status = StatusMessages.cmn_ConvertFailed(AT3, "WAV", showFullPath);
                 } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(AT3), "AT3", showFullPath); }
+        }
+
+        public static async void DecodeBIN(string location, SearchOption searchMethod, bool showFullPath) {
+            foreach (string BIN in Directory.GetFiles(location, "*.bin", searchMethod))
+                if (File.Exists(BIN) && Verification.VerifyMagicNumberExtended(BIN)) {
+                    mainForm.Status = StatusMessages.cmn_Exporting(BIN, showFullPath);
+                    var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.BINDecoder,
+                                        $"\"{BIN}\"",
+                                        Path.GetDirectoryName(BIN),
+                                        100000);
+                    if (process.ExitCode != 0)
+                        mainForm.Status = StatusMessages.cmn_ExportFailed(BIN, showFullPath);
+                } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(BIN), "BIN", showFullPath); }
         }
 
         public static void UnpackCSB(bool WAV, string location, SearchOption searchMethod, bool showFullPath) {
@@ -281,33 +356,29 @@ namespace Toolkit.Tools
             if (Path.GetExtension(path).ToLower() == ".arc") {
                 if (hexString == "55 AA 38 2D") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".dds") {
+            } else if (Path.GetExtension(path).ToLower() == ".dds") {
                 if (hexString == "44 44 53 20") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".xno" || Path.GetExtension(path).ToLower() == ".xnm") {
+            } else if (Path.GetExtension(path).ToLower() == ".xno" || Path.GetExtension(path).ToLower() == ".xnm") {
                 if (hexString == "4E 58 49 46") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".adx") {
+            } else if (Path.GetExtension(path).ToLower() == ".adx") {
                 if (hexString == "80 00 00 24") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".csb") {
+            } else if (Path.GetExtension(path).ToLower() == ".csb") {
                 if (hexString == "40 55 54 46") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".at3" || Path.GetExtension(path).ToLower() == ".wav" || Path.GetExtension(path).ToLower() == ".xma") {
+            } else if (Path.GetExtension(path).ToLower() == ".at3" || Path.GetExtension(path).ToLower() == ".wav" || Path.GetExtension(path).ToLower() == ".xma") {
                 if (hexString == "52 49 46 46") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".xex") {
+            } else if (Path.GetExtension(path).ToLower() == ".xex") {
                 if (hexString == "58 45 58 32") return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".png") {
+            } else if (Path.GetExtension(path).ToLower() == ".png") {
                 if (hexString == "89 50 4E 47") return true;
+                else return false;
+            } else if (Path.GetExtension(path).ToLower() == ".obj") {
+                if (hexString == "6D 74 6C 6C") return true;
                 else return false;
             }
             return false;
@@ -319,8 +390,7 @@ namespace Toolkit.Tools
             if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set" || Path.GetExtension(path).ToLower() == ".mst") {
                 if (hexString.Contains("31 42 42 49 4E 41")) return true;
                 else return false;
-            }
-            else if (Path.GetExtension(path).ToLower() == ".lub") {
+            } else if (Path.GetExtension(path).ToLower() == ".lub") {
                 if (hexString.Contains("1B 4C 75 61 50")) return true;
                 else return false;
             }
@@ -339,6 +409,9 @@ namespace Toolkit.Tools
                 else return false;
             else if (Path.GetFileName(path) == "unlub.jar")
                 if (JavaCheck()) return true;
+                else return false;
+            else if (Path.GetFileName(path) == "s06collision.exe")
+                if (PythonCheck()) return true;
                 else return false;
             return false;
         }
@@ -385,6 +458,22 @@ namespace Toolkit.Tools
                 return true;
             } catch { return false; }
         }
+    }
+
+    class Windows
+    {
+        public static void SetAssociation(string extension) {
+            // Delete the key instead of trying to change it
+            var CurrentUser = Registry.CurrentUser.OpenSubKey($"Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\{extension}", true);
+            CurrentUser.DeleteSubKey("UserChoice", false);
+            CurrentUser.Close();
+
+            // Tell explorer the file association has been changed
+            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
+        }
+        [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+
+        public static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
     }
 
     public static class ProcessAsyncHelper

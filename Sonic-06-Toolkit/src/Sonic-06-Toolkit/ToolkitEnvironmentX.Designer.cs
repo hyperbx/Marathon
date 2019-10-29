@@ -58,8 +58,6 @@
             this.preferences_DisableGameDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_Advanced = new System.Windows.Forms.ToolStripMenuItem();
-            this.advanced_DebugMode = new System.Windows.Forms.ToolStripMenuItem();
-            this.advanced_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.advanced_Reset = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,8 +81,8 @@
             this.shortcuts_DecodeAT3inDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeAT3inSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBIN = new System.Windows.Forms.ToolStripMenuItem();
-            this.decodeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeBINinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeBINinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSB = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinDirectoryToADX = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,11 +120,11 @@
             this.window_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
             this.window_CloseAllTabs = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Help = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainHelp_Documentation = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
             this.help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.mainHelp_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainHelp_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainHelp_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.status_Main = new System.Windows.Forms.StatusStrip();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.cms_Folder = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -408,6 +406,7 @@
             this.preferences_AssociateARCs.Name = "preferences_AssociateARCs";
             this.preferences_AssociateARCs.Size = new System.Drawing.Size(269, 22);
             this.preferences_AssociateARCs.Text = "Associate ARCs with Sonic \'06 Toolkit";
+            this.preferences_AssociateARCs.CheckedChanged += new System.EventHandler(this.Preferences_AssociateARCs_CheckedChanged);
             // 
             // preferences_DisableSoftwareUpdater
             // 
@@ -416,6 +415,7 @@
             this.preferences_DisableSoftwareUpdater.Name = "preferences_DisableSoftwareUpdater";
             this.preferences_DisableSoftwareUpdater.Size = new System.Drawing.Size(269, 22);
             this.preferences_DisableSoftwareUpdater.Text = "Disable software updater";
+            this.preferences_DisableSoftwareUpdater.CheckedChanged += new System.EventHandler(this.Preferences_DisableSoftwareUpdater_CheckedChanged);
             // 
             // preferences_DisableGameDirectory
             // 
@@ -424,6 +424,7 @@
             this.preferences_DisableGameDirectory.Name = "preferences_DisableGameDirectory";
             this.preferences_DisableGameDirectory.Size = new System.Drawing.Size(269, 22);
             this.preferences_DisableGameDirectory.Text = "Disable game directory";
+            this.preferences_DisableGameDirectory.CheckedChanged += new System.EventHandler(this.Preferences_DisableGameDirectory_CheckedChanged);
             // 
             // preferences_Separator2
             // 
@@ -433,26 +434,11 @@
             // preferences_Advanced
             // 
             this.preferences_Advanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.advanced_DebugMode,
-            this.advanced_Separator1,
             this.advanced_Reset});
             this.preferences_Advanced.Image = ((System.Drawing.Image)(resources.GetObject("preferences_Advanced.Image")));
             this.preferences_Advanced.Name = "preferences_Advanced";
             this.preferences_Advanced.Size = new System.Drawing.Size(269, 22);
             this.preferences_Advanced.Text = "Advanced";
-            // 
-            // advanced_DebugMode
-            // 
-            this.advanced_DebugMode.CheckOnClick = true;
-            this.advanced_DebugMode.Image = ((System.Drawing.Image)(resources.GetObject("advanced_DebugMode.Image")));
-            this.advanced_DebugMode.Name = "advanced_DebugMode";
-            this.advanced_DebugMode.Size = new System.Drawing.Size(190, 22);
-            this.advanced_DebugMode.Text = "Debug Mode";
-            // 
-            // advanced_Separator1
-            // 
-            this.advanced_Separator1.Name = "advanced_Separator1";
-            this.advanced_Separator1.Size = new System.Drawing.Size(187, 6);
             // 
             // advanced_Reset
             // 
@@ -460,6 +446,7 @@
             this.advanced_Reset.Name = "advanced_Reset";
             this.advanced_Reset.Size = new System.Drawing.Size(190, 22);
             this.advanced_Reset.Text = "Reset Sonic \'06 Toolkit";
+            this.advanced_Reset.Click += new System.EventHandler(this.Advanced_Reset_Click);
             // 
             // file_Exit
             // 
@@ -529,6 +516,7 @@
             this.sdk_CollisionGenerator.Name = "sdk_CollisionGenerator";
             this.sdk_CollisionGenerator.Size = new System.Drawing.Size(301, 22);
             this.sdk_CollisionGenerator.Text = "Collision Generator (BIN)...";
+            this.sdk_CollisionGenerator.Click += new System.EventHandler(this.Sdk_CollisionGenerator_Click);
             // 
             // sdk_TextEditor
             // 
@@ -663,25 +651,27 @@
             // shortcuts_DecodeBIN
             // 
             this.shortcuts_DecodeBIN.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.decodeToolStripMenuItem,
-            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2});
+            this.shortcuts_DecodeBINinDirectory,
+            this.shortcuts_DecodeBINinSubdirectories});
             this.shortcuts_DecodeBIN.Enabled = false;
             this.shortcuts_DecodeBIN.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeBIN.Image")));
             this.shortcuts_DecodeBIN.Name = "shortcuts_DecodeBIN";
             this.shortcuts_DecodeBIN.Size = new System.Drawing.Size(227, 22);
             this.shortcuts_DecodeBIN.Text = "Collision (BIN)...";
             // 
-            // decodeToolStripMenuItem
+            // shortcuts_DecodeBINinDirectory
             // 
-            this.decodeToolStripMenuItem.Name = "decodeToolStripMenuItem";
-            this.decodeToolStripMenuItem.Size = new System.Drawing.Size(267, 22);
-            this.decodeToolStripMenuItem.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeBINinDirectory.Name = "shortcuts_DecodeBINinDirectory";
+            this.shortcuts_DecodeBINinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeBINinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeBINinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeBINinDirectory_Click);
             // 
-            // decodeAllInTheLocalSubdirectoriesToolStripMenuItem2
+            // shortcuts_DecodeBINinSubdirectories
             // 
-            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Name = "decodeAllInTheLocalSubdirectoriesToolStripMenuItem2";
-            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Size = new System.Drawing.Size(267, 22);
-            this.decodeAllInTheLocalSubdirectoriesToolStripMenuItem2.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeBINinSubdirectories.Name = "shortcuts_DecodeBINinSubdirectories";
+            this.shortcuts_DecodeBINinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeBINinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeBINinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeBINinSubdirectories_Click);
             // 
             // shortcuts_UnpackCSB
             // 
@@ -992,48 +982,52 @@
             // main_Help
             // 
             this.main_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mainHelp_Documentation,
+            this.help_Documentation,
             this.help_Separator1,
-            this.mainHelp_CheckForUpdates,
-            this.mainHelp_ReportBug,
-            this.mainHelp_About});
+            this.help_CheckForUpdates,
+            this.help_ReportBug,
+            this.help_About});
             this.main_Help.Name = "main_Help";
             this.main_Help.Size = new System.Drawing.Size(44, 20);
             this.main_Help.Text = "Help";
             // 
-            // mainHelp_Documentation
+            // help_Documentation
             // 
-            this.mainHelp_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_Documentation.Image")));
-            this.mainHelp_Documentation.Name = "mainHelp_Documentation";
-            this.mainHelp_Documentation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
-            this.mainHelp_Documentation.Size = new System.Drawing.Size(203, 22);
-            this.mainHelp_Documentation.Text = "Documentation";
+            this.help_Documentation.Image = ((System.Drawing.Image)(resources.GetObject("help_Documentation.Image")));
+            this.help_Documentation.Name = "help_Documentation";
+            this.help_Documentation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
+            this.help_Documentation.Size = new System.Drawing.Size(203, 22);
+            this.help_Documentation.Text = "Documentation";
+            this.help_Documentation.Click += new System.EventHandler(this.Help_Documentation_Click);
             // 
             // help_Separator1
             // 
             this.help_Separator1.Name = "help_Separator1";
             this.help_Separator1.Size = new System.Drawing.Size(200, 6);
             // 
-            // mainHelp_CheckForUpdates
+            // help_CheckForUpdates
             // 
-            this.mainHelp_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_CheckForUpdates.Image")));
-            this.mainHelp_CheckForUpdates.Name = "mainHelp_CheckForUpdates";
-            this.mainHelp_CheckForUpdates.Size = new System.Drawing.Size(203, 22);
-            this.mainHelp_CheckForUpdates.Text = "Check for updates...";
+            this.help_CheckForUpdates.Image = ((System.Drawing.Image)(resources.GetObject("help_CheckForUpdates.Image")));
+            this.help_CheckForUpdates.Name = "help_CheckForUpdates";
+            this.help_CheckForUpdates.Size = new System.Drawing.Size(203, 22);
+            this.help_CheckForUpdates.Text = "Check for updates...";
+            this.help_CheckForUpdates.Click += new System.EventHandler(this.Help_CheckForUpdates_Click);
             // 
-            // mainHelp_ReportBug
+            // help_ReportBug
             // 
-            this.mainHelp_ReportBug.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_ReportBug.Image")));
-            this.mainHelp_ReportBug.Name = "mainHelp_ReportBug";
-            this.mainHelp_ReportBug.Size = new System.Drawing.Size(203, 22);
-            this.mainHelp_ReportBug.Text = "Report a bug...";
+            this.help_ReportBug.Image = ((System.Drawing.Image)(resources.GetObject("help_ReportBug.Image")));
+            this.help_ReportBug.Name = "help_ReportBug";
+            this.help_ReportBug.Size = new System.Drawing.Size(203, 22);
+            this.help_ReportBug.Text = "Report a bug...";
+            this.help_ReportBug.Click += new System.EventHandler(this.Help_ReportBug_Click);
             // 
-            // mainHelp_About
+            // help_About
             // 
-            this.mainHelp_About.Image = ((System.Drawing.Image)(resources.GetObject("mainHelp_About.Image")));
-            this.mainHelp_About.Name = "mainHelp_About";
-            this.mainHelp_About.Size = new System.Drawing.Size(203, 22);
-            this.mainHelp_About.Text = "About";
+            this.help_About.Image = ((System.Drawing.Image)(resources.GetObject("help_About.Image")));
+            this.help_About.Name = "help_About";
+            this.help_About.Size = new System.Drawing.Size(203, 22);
+            this.help_About.Text = "About";
+            this.help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
             // status_Main
             // 
@@ -1168,6 +1162,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonic \'06 Toolkit";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
+            this.Shown += new System.EventHandler(this.Main_Shown);
             this.pnl_MenuStrip.ResumeLayout(false);
             this.pnl_MenuStrip.PerformLayout();
             this.mstrip_Main.ResumeLayout(false);
@@ -1216,8 +1211,6 @@
         private System.Windows.Forms.ToolStripMenuItem preferences_DisableGameDirectory;
         private System.Windows.Forms.ToolStripSeparator preferences_Separator2;
         private System.Windows.Forms.ToolStripMenuItem preferences_Advanced;
-        public System.Windows.Forms.ToolStripMenuItem advanced_DebugMode;
-        public System.Windows.Forms.ToolStripSeparator advanced_Separator1;
         private System.Windows.Forms.ToolStripMenuItem advanced_Reset;
         private System.Windows.Forms.ToolStripMenuItem file_Exit;
         private System.Windows.Forms.ToolStripMenuItem main_SDK;
@@ -1240,11 +1233,11 @@
         private System.Windows.Forms.ToolStripMenuItem window_CloseTab;
         private System.Windows.Forms.ToolStripMenuItem window_CloseAllTabs;
         private System.Windows.Forms.ToolStripMenuItem main_Help;
-        private System.Windows.Forms.ToolStripMenuItem mainHelp_Documentation;
+        private System.Windows.Forms.ToolStripMenuItem help_Documentation;
         private System.Windows.Forms.ToolStripSeparator help_Separator1;
-        private System.Windows.Forms.ToolStripMenuItem mainHelp_CheckForUpdates;
-        private System.Windows.Forms.ToolStripMenuItem mainHelp_ReportBug;
-        private System.Windows.Forms.ToolStripMenuItem mainHelp_About;
+        private System.Windows.Forms.ToolStripMenuItem help_CheckForUpdates;
+        private System.Windows.Forms.ToolStripMenuItem help_ReportBug;
+        private System.Windows.Forms.ToolStripMenuItem help_About;
         private System.Windows.Forms.ToolStripMenuItem preferences_Paths;
         private System.Windows.Forms.ToolStripMenuItem paths_ClearGameDirectory;
         private System.Windows.Forms.ToolStripSeparator preferences_Separator1;
@@ -1271,8 +1264,8 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeSETinDirectory;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeAT3inDirectory;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeAT3inSubdirectories;
-        private System.Windows.Forms.ToolStripMenuItem decodeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem decodeAllInTheLocalSubdirectoriesToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeBINinDirectory;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeBINinSubdirectories;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeMSTinDirectory;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecryptXEXinDirectory;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_DecodeXMAinDirectory;

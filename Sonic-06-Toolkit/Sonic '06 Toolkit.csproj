@@ -76,6 +76,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitCommandLine.cs" />
     <Compile Include="src\Tools\BINA\CollisionGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,6 +155,21 @@
     <Compile Include="src\Tools\BINA\TextEncoding.Designer.cs">
       <DependentUpon>TextEncoding.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitAbout.Designer.cs">
+      <DependentUpon>ToolkitAbout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitUpdater.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitUpdater.Designer.cs">
+      <DependentUpon>ToolkitUpdater.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitUpdater.resx">
+      <DependentUpon>ToolkitUpdater.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\BINA\CollisionGenerator.resx">
       <DependentUpon>CollisionGenerator.cs</DependentUpon>
     </EmbeddedResource>
@@ -191,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\DirectDraw\TextureConverter.resx">
       <DependentUpon>TextureConverter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitAbout.resx">
+      <DependentUpon>ToolkitAbout.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -249,7 +268,7 @@
     <Content Include="src\Sonic-06-Toolkit\logo_exception.png" />
     <Content Include="src\Sonic-06-Toolkit\Ookii.Dialogs.dll" />
     <Content Include="src\Tools\BINA\s06col.exe" />
-    <Content Include="src\Tools\BINA\s06collision.py" />
+    <Content Include="src\Tools\BINA\s06collision.exe" />
     <Content Include="src\Tools\DirectDraw\texconv.exe" />
     <Content Include="src\Tools\BINA\mst06.exe" />
     <Content Include="src\Tools\BINA\tinyxml2.dll" />

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Diagnostics;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -36,7 +38,7 @@ namespace Toolkit.EnvironmentX
 
         [STAThread]
 
-        static void Main() {
+        static void Main(string[] args) {
             Directory.CreateDirectory($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\");
 
             if (!File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll")))
@@ -87,9 +89,33 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\xno2dae.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\xno2dae.exe", Properties.Resources.xno2dae);
 
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe", Properties.Resources.s06col);
+
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe", Properties.Resources.s06collision);
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main(sessionID));
+            Application.Run(new Main(args, sessionID));
+        }
+
+        public static bool RunningAsAdmin() { return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator); }
+
+        public static void ExecuteAsAdmin(string fileName, string arguments) {
+            Process proc = new Process();
+            proc.StartInfo.FileName = fileName;
+            proc.StartInfo.Arguments = arguments;
+            proc.StartInfo.UseShellExecute = true;
+            proc.StartInfo.Verb = "runas";
+            proc.Start();
+        }
+
+        public static void Restart() {
+            Process proc = new Process();
+            proc.StartInfo.FileName = Application.ExecutablePath;
+            proc.Start();
+            Application.Exit();
         }
     }
 }

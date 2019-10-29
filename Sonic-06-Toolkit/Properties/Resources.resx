@@ -179,7 +179,7 @@
     <value>..\src\Tools\BINA\s06col.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="s06collision" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\Tools\BINA\s06collision.py;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\src\tools\bina\s06collision.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="SonicAudioLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\SonicAudioLib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

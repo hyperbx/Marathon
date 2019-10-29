@@ -166,5 +166,41 @@ namespace Toolkit.Properties {
                 this["log_Startup"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool env_firstLaunch {
+            get {
+                return ((bool)(this["env_firstLaunch"]));
+            }
+            set {
+                this["env_firstLaunch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool env_updaterDisabled {
+            get {
+                return ((bool)(this["env_updaterDisabled"]));
+            }
+            set {
+                this["env_updaterDisabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool env_gameDirDisabled {
+            get {
+                return ((bool)(this["env_gameDirDisabled"]));
+            }
+            set {
+                this["env_gameDirDisabled"] = value;
+            }
+        }
     }
 }
