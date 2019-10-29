@@ -142,7 +142,8 @@ namespace Toolkit.Tools
                 if (Directory.GetDirectories(location).Length > 0)
                     foreach (string CSB in Directory.GetDirectories(location))
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB)))
-                            clb_SNDs.Items.Add($"{Path.GetFileName(CSB)}.cpk");
+                            if (!CSB.Contains(".cpk")) clb_SNDs.Items.Add($"{Path.GetFileName(CSB)}.cpk");
+                            else clb_SNDs.Items.Add(Path.GetFileName(CSB));
             } else if (combo_Encoder.SelectedIndex == 3) { //WAV
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
                 pic_Logo.BackgroundImage = Properties.Resources.wavLogo;

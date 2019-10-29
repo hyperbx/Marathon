@@ -40,7 +40,6 @@ namespace Toolkit.Tools
         public XNOTool(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
-            tm_ModeCheck.Start();
         }
 
         private void ModelAnimationExporter_Load(object sender, EventArgs e) {
@@ -52,6 +51,7 @@ namespace Toolkit.Tools
                 modes_Model.Checked = true;
                 modes_ModelAndAnimation.Checked = false;
                 modes_BackfaceCulling.Checked = false;
+                tm_ModeCheck.Start();
             } else {
                 MessageBox.Show(SystemMessages.msg_NoConvertableFiles, SystemMessages.tl_NoFilesAvailable(string.Empty), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Close();
