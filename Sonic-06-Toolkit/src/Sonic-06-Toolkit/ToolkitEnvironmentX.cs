@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.0"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.0-test-291019r2"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -975,8 +975,12 @@ namespace Toolkit.EnvironmentX
         }
 
         private void Main_Shown(object sender, EventArgs e) {
-            if (!Properties.Settings.Default.env_updaterDisabled)
-                Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", false);
+            if (!Properties.Settings.Default.env_updaterDisabled &&
+                !versionNumber.Contains("beta")                  &&
+                !versionNumber.Contains("alpha")                 &&
+                !versionNumber.Contains("indev")                 &&
+                !versionNumber.Contains("test"))
+                    Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", false);
         }
 
         private void Preferences_DisableGameDirectory_CheckedChanged(object sender, EventArgs e) {
@@ -994,6 +998,10 @@ namespace Toolkit.EnvironmentX
                 Properties.Settings.Default.env_updaterDisabled = true;
             else
                 Properties.Settings.Default.env_updaterDisabled = false;
+        }
+
+        private void Help_GitHub_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/tree/3.0");
         }
     }
 }

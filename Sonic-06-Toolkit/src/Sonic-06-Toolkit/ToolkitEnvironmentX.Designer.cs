@@ -136,6 +136,7 @@
             this.bw_Worker = new System.ComponentModel.BackgroundWorker();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.unifytb_Main = new UnifyTabControl.UnifyTabControl();
+            this.help_GitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_MenuStrip.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
@@ -986,6 +987,7 @@
             this.help_Separator1,
             this.help_CheckForUpdates,
             this.help_ReportBug,
+            this.help_GitHub,
             this.help_About});
             this.main_Help.Name = "main_Help";
             this.main_Help.Size = new System.Drawing.Size(44, 20);
@@ -1138,6 +1140,14 @@
             this.unifytb_Main.SelectedIndexChanged += new System.EventHandler(this.Unifytb_Main_SelectedIndexChanged);
             this.unifytb_Main.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Unifytb_Main_MouseClick);
             // 
+            // help_GitHub
+            // 
+            this.help_GitHub.Image = ((System.Drawing.Image)(resources.GetObject("help_GitHub.Image")));
+            this.help_GitHub.Name = "help_GitHub";
+            this.help_GitHub.Size = new System.Drawing.Size(203, 22);
+            this.help_GitHub.Text = "GitHub...";
+            this.help_GitHub.Click += new System.EventHandler(this.Help_GitHub_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1282,6 +1292,7 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinDirectoryToWAV;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToADX;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToWAV;
+        private System.Windows.Forms.ToolStripMenuItem help_GitHub;
     }
 }
 

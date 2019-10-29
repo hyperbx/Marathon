@@ -117,18 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="lbl_Credits.Text" xml:space="preserve">
+  <data name="lbl_Contributors.Text" xml:space="preserve">
     <value>Contributors:
 Hyper - Core Contributor and Designer
-GerbilSoft - mst06 Developer; helped with DXT3 decompression
-Sable - Illustrated the Collision Generator logo
+GerbilSoft - mst06 and DXT3 decompression guidance
+Sable  - Collision Generator Logo Illustrator
+Shadow LAG - Sonic '06 SDK (Lua decompiler)
+xose - ARC Unpacker
+g0ldenlink - ARC Repacker
+SEGA Carnival - Software Update Hosting
+Nonami - XNO Backface Culling Research
+Reimous  - XMA Research
 Radfordhound - HedgeLib
-Shadow LAG - Lua Decompiler
-Skyth - SonicAudioLib and xno2dae
-DarioSamo - LibS06
+Skyth - SonicAudioLib, XNO Converter and S06Collision
+Sajid - S06Collision
+DaríoSamo - LibS06
 xorloser - XexTool
 
-Hosted by SEGA Carnival</value>
+Legacy Support:
+Natsumi - Deep Search (2.0) and MST Decoder (1.83)
+CRI Middleware Co. - CRI Atom Encoder
+XboxDev - extract-xiso</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

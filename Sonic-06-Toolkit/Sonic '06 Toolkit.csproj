@@ -109,11 +109,11 @@
     <Compile Include="src\Tools\XexTool\ExecutableModification.Designer.cs">
       <DependentUpon>ExecutableModification.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Tools\Lua\LuaCompiler.cs">
+    <Compile Include="src\Tools\Lua\LuaCompilation.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Tools\Lua\LuaCompiler.Designer.cs">
-      <DependentUpon>LuaCompiler.cs</DependentUpon>
+    <Compile Include="src\Tools\Lua\LuaCompilation.Designer.cs">
+      <DependentUpon>LuaCompilation.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Tools\BINA\PlacementConverter.cs">
       <SubType>Form</SubType>
@@ -199,8 +199,8 @@
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitSessionLog.resx">
       <DependentUpon>ToolkitSessionLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Tools\Lua\LuaCompiler.resx">
-      <DependentUpon>LuaCompiler.cs</DependentUpon>
+    <EmbeddedResource Include="src\Tools\Lua\LuaCompilation.resx">
+      <DependentUpon>LuaCompilation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\XexTool\ExecutableModification.resx">
       <DependentUpon>ExecutableModification.cs</DependentUpon>
