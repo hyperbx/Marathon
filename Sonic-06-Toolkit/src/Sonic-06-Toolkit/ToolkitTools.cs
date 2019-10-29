@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using Toolkit.Text;
 using Ookii.Dialogs;
+using HedgeLib.Sets;
 using VGAudio.Formats;
 using SonicAudioLib.IO;
 using System.Diagnostics;
@@ -13,7 +14,6 @@ using System.Threading.Tasks;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 using System.Collections.Generic;
-using HedgeLib.Sets;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
