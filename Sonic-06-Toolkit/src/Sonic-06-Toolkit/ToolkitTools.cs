@@ -351,50 +351,54 @@ namespace Toolkit.Tools
     class Verification
     {
         public static bool VerifyMagicNumberCommon(string path) {
-            string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(4).ToArray()).Replace("-", " ");
+            try {
+                string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(4).ToArray()).Replace("-", " ");
 
-            if (Path.GetExtension(path).ToLower() == ".arc") {
-                if (hexString == "55 AA 38 2D") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".dds") {
-                if (hexString == "44 44 53 20") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".xno" || Path.GetExtension(path).ToLower() == ".xnm") {
-                if (hexString == "4E 58 49 46") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".adx") {
-                if (hexString == "80 00 00 24") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".csb") {
-                if (hexString == "40 55 54 46") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".at3" || Path.GetExtension(path).ToLower() == ".wav" || Path.GetExtension(path).ToLower() == ".xma") {
-                if (hexString == "52 49 46 46") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".xex") {
-                if (hexString == "58 45 58 32") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".png") {
-                if (hexString == "89 50 4E 47") return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".obj") {
-                if (hexString == "6D 74 6C 6C") return true;
-                else return false;
-            }
-            return false;
+                if (Path.GetExtension(path).ToLower() == ".arc") {
+                    if (hexString == "55 AA 38 2D") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".dds") {
+                    if (hexString == "44 44 53 20") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".xno" || Path.GetExtension(path).ToLower() == ".xnm") {
+                    if (hexString == "4E 58 49 46") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".adx") {
+                    if (hexString == "80 00 00 24") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".csb") {
+                    if (hexString == "40 55 54 46") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".at3" || Path.GetExtension(path).ToLower() == ".wav" || Path.GetExtension(path).ToLower() == ".xma") {
+                    if (hexString == "52 49 46 46") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".xex") {
+                    if (hexString == "58 45 58 32") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".png") {
+                    if (hexString == "89 50 4E 47") return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".obj") {
+                    if (hexString == "6D 74 6C 6C") return true;
+                    else return false;
+                }
+                return false;
+            } catch { return false; }
         }
 
         public static bool VerifyMagicNumberExtended(string path) {
-            string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(50).ToArray()).Replace("-", " ");
+            try {
+                string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(50).ToArray()).Replace("-", " ");
 
-            if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set" || Path.GetExtension(path).ToLower() == ".mst") {
-                if (hexString.Contains("31 42 42 49 4E 41")) return true;
-                else return false;
-            } else if (Path.GetExtension(path).ToLower() == ".lub") {
-                if (hexString.Contains("1B 4C 75 61 50")) return true;
-                else return false;
-            }
-            return false;
+                if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set" || Path.GetExtension(path).ToLower() == ".mst") {
+                    if (hexString.Contains("31 42 42 49 4E 41")) return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".lub") {
+                    if (hexString.Contains("1B 4C 75 61 50")) return true;
+                    else return false;
+                }
+                return false;
+            } catch { return false; }
         }
 
         public static bool VerifyCriWareSoundBank(string path) {
@@ -417,18 +421,20 @@ namespace Toolkit.Tools
         }
 
         public static bool VerifyXML(string path, string type) {
-            string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(100).ToArray()).Replace("-", " ");
+            try {
+                string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(100).ToArray()).Replace("-", " ");
 
-            if (Path.GetExtension(path).ToLower() == ".xml") {
-                if (type == "SET")
-                    if (hexString.Contains("3C 53 65 74 44 61 74 61 3E")) return true;
+                if (Path.GetExtension(path).ToLower() == ".xml") {
+                    if (type == "SET")
+                        if (hexString.Contains("3C 53 65 74 44 61 74 61 3E")) return true;
+                        else return false;
+                    else if (type == "MST")
+                        if (hexString.Contains("3C 6D 73 74 30 36")) return true;
+                        else return false;
                     else return false;
-                else if (type == "MST")
-                    if (hexString.Contains("3C 6D 73 74 30 36")) return true;
-                    else return false;
-                else return false;
-            }
-            return false;
+                }
+                return false;
+            } catch { return false; }
         }
 
         public static bool JavaCheck() {

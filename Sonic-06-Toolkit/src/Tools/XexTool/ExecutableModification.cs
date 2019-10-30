@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Linq;
 using Toolkit.Text;
 using System.Windows.Forms;
 using Toolkit.EnvironmentX;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -90,6 +92,8 @@ namespace Toolkit.Tools
         }
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
+            List<object> filesToProcess = clb_XEXs.CheckedItems.OfType<object>().ToList();
+
             StringBuilder getCommands = new StringBuilder();
             if (encryption_Encrypt.Checked) {
                 if (getCommands.Length > 0) getCommands.Append(" ");
@@ -116,7 +120,7 @@ namespace Toolkit.Tools
                 getCommands.Append("-m d"); 
             }
 
-            foreach (string XEX in clb_XEXs.CheckedItems)
+            foreach (string XEX in filesToProcess)
                 if (Verification.VerifyMagicNumberCommon(Path.Combine(location, XEX))) {
                     mainForm.Status = StatusMessages.cmn_Processing(Path.Combine(location, XEX), false);
                     var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XexTool,

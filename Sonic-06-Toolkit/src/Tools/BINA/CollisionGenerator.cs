@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -92,9 +94,10 @@ namespace Toolkit.Tools
         }
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
+            List<object> filesToProcess = clb_MDLs.CheckedItems.OfType<object>().ToList();
             if (combo_Mode.SelectedIndex == 0) {
                 if (Verification.VerifyApplicationIntegrity(Paths.BINDecoder)) {
-                    foreach (string BIN in clb_MDLs.CheckedItems) {
+                    foreach (string BIN in filesToProcess) {
                         if (File.Exists(Path.Combine(location, BIN)) && Verification.VerifyMagicNumberExtended(Path.Combine(location, BIN))) {
                             mainForm.Status = StatusMessages.cmn_Exporting(Path.Combine(location, BIN), false);
                             var export = await ProcessAsyncHelper.ExecuteShellCommand(Paths.BINDecoder,
@@ -108,8 +111,8 @@ namespace Toolkit.Tools
                     }
                 } else
                     MessageBox.Show(SystemMessages.ex_IntegrityCheckFailed, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        } else if (combo_Mode.SelectedIndex == 1) {
-                foreach (string OBJ in clb_MDLs.CheckedItems) {
+            } else if (combo_Mode.SelectedIndex == 1) {
+                foreach (string OBJ in filesToProcess) {
                     if (File.Exists(Path.Combine(location, OBJ)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, OBJ))) {
                         string[] getTags = File.ReadAllLines(Path.Combine(location, OBJ));
                         int i = 0;

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using Toolkit.Tools;
 using System.Drawing;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -102,26 +104,31 @@ namespace Toolkit
         }
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
+            List<object> filesToProcess = clb_IMGs.CheckedItems.OfType<object>().ToList();
             if (modes_DDStoPNG.Checked) {
-                mainForm.Status = StatusMessages.cmn_Converting(clb_IMGs.SelectedItem.ToString(), "PNG", false);
-                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
-                                    $"-ft png -srgb \"{Path.Combine(location, clb_IMGs.SelectedItem.ToString())}\" " +
-                                    $"\"{Path.GetFileNameWithoutExtension(clb_IMGs.SelectedItem.ToString())}.png\"",
-                                    location,
-                                    100000);
-                if (convert.Completed)
-                    if (convert.ExitCode != 0)
-                        MessageBox.Show($"{SystemMessages.ex_DDSConvertError}\n\n{convert.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                foreach (string DDS in filesToProcess) {
+                    mainForm.Status = StatusMessages.cmn_Converting(DDS, "PNG", false);
+                    var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
+                                        $"-ft png -srgb \"{Path.Combine(location, DDS)}\" " +
+                                        $"\"{Path.GetFileNameWithoutExtension(DDS)}.png\"",
+                                        location,
+                                        100000);
+                    if (convert.Completed)
+                        if (convert.ExitCode != 0)
+                            MessageBox.Show($"{SystemMessages.ex_DDSConvertError}\n\n{convert.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             } else {
-                mainForm.Status = StatusMessages.cmn_Converting(clb_IMGs.SelectedItem.ToString(), "DDS", false);
-                var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
-                                    $"-ft dds -srgb {compression} \"{Path.Combine(location, clb_IMGs.SelectedItem.ToString())}\" " +
-                                    $"\"{Path.GetFileNameWithoutExtension(clb_IMGs.SelectedItem.ToString())}.dds\"",
-                                    location,
-                                    100000);
-                if (convert.Completed)
-                    if (convert.ExitCode != 0)
-                        MessageBox.Show($"{SystemMessages.ex_DDSConvertError}\n\n{convert.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                foreach (string PNG in filesToProcess) {
+                    mainForm.Status = StatusMessages.cmn_Converting(PNG, "DDS", false);
+                    var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.DDSTool,
+                                        $"-ft dds -srgb {compression} \"{Path.Combine(location, PNG)}\" " +
+                                        $"\"{Path.GetFileNameWithoutExtension(PNG)}.dds\"",
+                                        location,
+                                        100000);
+                    if (convert.Completed)
+                        if (convert.ExitCode != 0)
+                            MessageBox.Show($"{SystemMessages.ex_DDSConvertError}\n\n{convert.Output}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 

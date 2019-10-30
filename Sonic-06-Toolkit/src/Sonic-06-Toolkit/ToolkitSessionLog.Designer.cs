@@ -33,7 +33,7 @@
             this.list_Logs = new System.Windows.Forms.ListBox();
             this.lbl_RefreshText = new System.Windows.Forms.Label();
             this.nud_RefreshTimer = new System.Windows.Forms.NumericUpDown();
-            this.btn_Close = new System.Windows.Forms.Button();
+            this.btn_Clear = new System.Windows.Forms.Button();
             this.tm_RefreshLogs = new System.Windows.Forms.Timer(this.components);
             this.btn_TimerEnabled = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).BeginInit();
@@ -85,21 +85,21 @@
             0});
             this.nud_RefreshTimer.ValueChanged += new System.EventHandler(this.nud_RefreshTimer_ValueChanged);
             // 
-            // btn_Close
+            // btn_Clear
             // 
-            this.btn_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Close.BackColor = System.Drawing.Color.Tomato;
-            this.btn_Close.FlatAppearance.BorderSize = 0;
-            this.btn_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Close.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Close.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_Close.Location = new System.Drawing.Point(530, 331);
-            this.btn_Close.Name = "btn_Close";
-            this.btn_Close.Size = new System.Drawing.Size(75, 23);
-            this.btn_Close.TabIndex = 62;
-            this.btn_Close.Text = "Close";
-            this.btn_Close.UseVisualStyleBackColor = false;
-            this.btn_Close.Click += new System.EventHandler(this.Btn_Close_Click);
+            this.btn_Clear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Clear.BackColor = System.Drawing.Color.Tomato;
+            this.btn_Clear.FlatAppearance.BorderSize = 0;
+            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Clear.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_Clear.Location = new System.Drawing.Point(530, 331);
+            this.btn_Clear.Name = "btn_Clear";
+            this.btn_Clear.Size = new System.Drawing.Size(75, 23);
+            this.btn_Clear.TabIndex = 62;
+            this.btn_Clear.Text = "Clear";
+            this.btn_Clear.UseVisualStyleBackColor = false;
+            this.btn_Clear.Click += new System.EventHandler(this.Btn_Clear_Click);
             // 
             // tm_RefreshLogs
             // 
@@ -127,7 +127,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(607, 356);
             this.Controls.Add(this.btn_TimerEnabled);
-            this.Controls.Add(this.btn_Close);
+            this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.nud_RefreshTimer);
             this.Controls.Add(this.lbl_RefreshText);
             this.Controls.Add(this.list_Logs);
@@ -147,7 +147,7 @@
         private System.Windows.Forms.ListBox list_Logs;
         private System.Windows.Forms.Label lbl_RefreshText;
         private System.Windows.Forms.NumericUpDown nud_RefreshTimer;
-        private System.Windows.Forms.Button btn_Close;
+        private System.Windows.Forms.Button btn_Clear;
         private System.Windows.Forms.Timer tm_RefreshLogs;
         private System.Windows.Forms.Button btn_TimerEnabled;
     }

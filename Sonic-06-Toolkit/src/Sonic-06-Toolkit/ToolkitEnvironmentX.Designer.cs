@@ -62,27 +62,41 @@
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ArchiveMerger = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_TextureRasteriser = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_ModelAnimationExporter = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_SonicSoundStudio = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_CollisionGenerator = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_TextEditor = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_LuaCompilation = new System.Windows.Forms.ToolStripMenuItem();
-            this.sdk_PlacementConverter = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ExecutableDecryptor = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_LuaCompilation = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_ModelAnimationExporter = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_PlacementConverter = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_SonicSoundStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_TextureRasteriser = new System.Windows.Forms.ToolStripMenuItem();
+            this.sdk_TextEditor = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeADX = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeADXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeADXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARC = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARCtoDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARCtoToolkit = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeAT3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeAT3inDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeAT3inSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBIN = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBINinDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBINinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecryptXEX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecryptXEXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecryptXEXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileLUB = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileMissionLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecompileMissionLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXNO = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXNOinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeXNOinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeSET = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeSETinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeSETinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeADX = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeADXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeADXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeAT3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeAT3inDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeAT3inSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSB = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinDirectoryToADX = new System.Windows.Forms.ToolStripMenuItem();
@@ -90,29 +104,15 @@
             this.shortcuts_UnpackCSBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinSubdirectoriesToADX = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackCSBinSubdirectoriesToWAV = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_ConvertDDSinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_ConvertDDSinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileLUB = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileMissionLUBinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecompileMissionLUBinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeMST = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeMSTinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeMSTinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeSET = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeSETinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeSETinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecryptXEX = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecryptXEXinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecryptXEXinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeXMA = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeXMAinDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeXMAinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeXNO = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeXNOinDirectory = new System.Windows.Forms.ToolStripMenuItem();
-            this.shortcuts_DecodeXNOinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDS = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDSinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_ConvertDDSinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMST = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMSTinDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_DecodeMSTinSubdirectories = new System.Windows.Forms.ToolStripMenuItem();
             this.main_Window = new System.Windows.Forms.ToolStripMenuItem();
             this.window_NewTab = new System.Windows.Forms.ToolStripMenuItem();
             this.window_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,6 +124,7 @@
             this.help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
             this.help_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.help_ReportBug = new System.Windows.Forms.ToolStripMenuItem();
+            this.help_GitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.status_Main = new System.Windows.Forms.StatusStrip();
             this.pic_Logo = new System.Windows.Forms.PictureBox();
@@ -136,7 +137,6 @@
             this.bw_Worker = new System.ComponentModel.BackgroundWorker();
             this.lbl_Status = new System.Windows.Forms.Label();
             this.unifytb_Main = new UnifyTabControl.UnifyTabControl();
-            this.help_GitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.pnl_MenuStrip.SuspendLayout();
             this.mstrip_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pic_Logo)).BeginInit();
@@ -235,15 +235,18 @@
             // 
             this.btn_SessionID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_SessionID.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btn_SessionID.Enabled = false;
-            this.btn_SessionID.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_SessionID.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_SessionID.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.btn_SessionID.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_SessionID.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_SessionID.ForeColor = System.Drawing.SystemColors.GrayText;
             this.btn_SessionID.Location = new System.Drawing.Point(751, -1);
             this.btn_SessionID.Name = "btn_SessionID";
             this.btn_SessionID.Size = new System.Drawing.Size(49, 26);
             this.btn_SessionID.TabIndex = 17;
             this.btn_SessionID.Text = "2006";
             this.btn_SessionID.UseVisualStyleBackColor = false;
+            this.btn_SessionID.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Btn_SessionID_MouseUp);
             // 
             // pnl_MenuStrip
             // 
@@ -269,7 +272,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
             this.mstrip_Main.TabIndex = 30;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -462,14 +465,14 @@
             // 
             this.main_SDK.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sdk_ArchiveMerger,
-            this.sdk_TextureRasteriser,
-            this.sdk_ModelAnimationExporter,
-            this.sdk_SonicSoundStudio,
             this.sdk_CollisionGenerator,
-            this.sdk_TextEditor,
+            this.sdk_ExecutableDecryptor,
             this.sdk_LuaCompilation,
+            this.sdk_ModelAnimationExporter,
             this.sdk_PlacementConverter,
-            this.sdk_ExecutableDecryptor});
+            this.sdk_SonicSoundStudio,
+            this.sdk_TextureRasteriser,
+            this.sdk_TextEditor});
             this.main_SDK.Name = "main_SDK";
             this.main_SDK.Size = new System.Drawing.Size(40, 20);
             this.main_SDK.Text = "SDK";
@@ -483,33 +486,6 @@
             this.sdk_ArchiveMerger.Text = "Archive Merger (ARC)...";
             this.sdk_ArchiveMerger.Click += new System.EventHandler(this.Sdk_ArchiveMerger_Click);
             // 
-            // sdk_TextureRasteriser
-            // 
-            this.sdk_TextureRasteriser.Enabled = false;
-            this.sdk_TextureRasteriser.Image = ((System.Drawing.Image)(resources.GetObject("sdk_TextureRasteriser.Image")));
-            this.sdk_TextureRasteriser.Name = "sdk_TextureRasteriser";
-            this.sdk_TextureRasteriser.Size = new System.Drawing.Size(301, 22);
-            this.sdk_TextureRasteriser.Text = "Texture Converter (DDS)...";
-            this.sdk_TextureRasteriser.Click += new System.EventHandler(this.Sdk_TextureRasteriser_Click);
-            // 
-            // sdk_ModelAnimationExporter
-            // 
-            this.sdk_ModelAnimationExporter.Enabled = false;
-            this.sdk_ModelAnimationExporter.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ModelAnimationExporter.Image")));
-            this.sdk_ModelAnimationExporter.Name = "sdk_ModelAnimationExporter";
-            this.sdk_ModelAnimationExporter.Size = new System.Drawing.Size(301, 22);
-            this.sdk_ModelAnimationExporter.Text = "Model/Animation Exporter (XNO/XNM)...";
-            this.sdk_ModelAnimationExporter.Click += new System.EventHandler(this.Sdk_ModelAnimationExporter_Click);
-            // 
-            // sdk_SonicSoundStudio
-            // 
-            this.sdk_SonicSoundStudio.Enabled = false;
-            this.sdk_SonicSoundStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_SonicSoundStudio.Image")));
-            this.sdk_SonicSoundStudio.Name = "sdk_SonicSoundStudio";
-            this.sdk_SonicSoundStudio.Size = new System.Drawing.Size(301, 22);
-            this.sdk_SonicSoundStudio.Text = "Sonic Sound Studio (ADX/AT3/CSB/XMA)...";
-            this.sdk_SonicSoundStudio.Click += new System.EventHandler(this.Sdk_SonicSoundStudio_Click);
-            // 
             // sdk_CollisionGenerator
             // 
             this.sdk_CollisionGenerator.Enabled = false;
@@ -518,33 +494,6 @@
             this.sdk_CollisionGenerator.Size = new System.Drawing.Size(301, 22);
             this.sdk_CollisionGenerator.Text = "Collision Generator (BIN)...";
             this.sdk_CollisionGenerator.Click += new System.EventHandler(this.Sdk_CollisionGenerator_Click);
-            // 
-            // sdk_TextEditor
-            // 
-            this.sdk_TextEditor.Enabled = false;
-            this.sdk_TextEditor.Image = ((System.Drawing.Image)(resources.GetObject("sdk_TextEditor.Image")));
-            this.sdk_TextEditor.Name = "sdk_TextEditor";
-            this.sdk_TextEditor.Size = new System.Drawing.Size(301, 22);
-            this.sdk_TextEditor.Text = "Text Encoding (MST)...";
-            this.sdk_TextEditor.Click += new System.EventHandler(this.Sdk_TextEditor_Click);
-            // 
-            // sdk_LuaCompilation
-            // 
-            this.sdk_LuaCompilation.Enabled = false;
-            this.sdk_LuaCompilation.Image = ((System.Drawing.Image)(resources.GetObject("sdk_LuaCompilation.Image")));
-            this.sdk_LuaCompilation.Name = "sdk_LuaCompilation";
-            this.sdk_LuaCompilation.Size = new System.Drawing.Size(301, 22);
-            this.sdk_LuaCompilation.Text = "Lua Compilation (LUB)...";
-            this.sdk_LuaCompilation.Click += new System.EventHandler(this.Sdk_LuaCompilation_Click);
-            // 
-            // sdk_PlacementConverter
-            // 
-            this.sdk_PlacementConverter.Enabled = false;
-            this.sdk_PlacementConverter.Image = ((System.Drawing.Image)(resources.GetObject("sdk_PlacementConverter.Image")));
-            this.sdk_PlacementConverter.Name = "sdk_PlacementConverter";
-            this.sdk_PlacementConverter.Size = new System.Drawing.Size(301, 22);
-            this.sdk_PlacementConverter.Text = "Placement Converter (SET)...";
-            this.sdk_PlacementConverter.Click += new System.EventHandler(this.Sdk_PlacementConverter_Click);
             // 
             // sdk_ExecutableDecryptor
             // 
@@ -555,49 +504,78 @@
             this.sdk_ExecutableDecryptor.Text = "Executable Modification (XEX)...";
             this.sdk_ExecutableDecryptor.Click += new System.EventHandler(this.Sdk_ExecutableDecryptor_Click);
             // 
+            // sdk_LuaCompilation
+            // 
+            this.sdk_LuaCompilation.Enabled = false;
+            this.sdk_LuaCompilation.Image = ((System.Drawing.Image)(resources.GetObject("sdk_LuaCompilation.Image")));
+            this.sdk_LuaCompilation.Name = "sdk_LuaCompilation";
+            this.sdk_LuaCompilation.Size = new System.Drawing.Size(301, 22);
+            this.sdk_LuaCompilation.Text = "Lua Compilation (LUB)...";
+            this.sdk_LuaCompilation.Click += new System.EventHandler(this.Sdk_LuaCompilation_Click);
+            // 
+            // sdk_ModelAnimationExporter
+            // 
+            this.sdk_ModelAnimationExporter.Enabled = false;
+            this.sdk_ModelAnimationExporter.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ModelAnimationExporter.Image")));
+            this.sdk_ModelAnimationExporter.Name = "sdk_ModelAnimationExporter";
+            this.sdk_ModelAnimationExporter.Size = new System.Drawing.Size(301, 22);
+            this.sdk_ModelAnimationExporter.Text = "Model/Animation Exporter (XNO/XNM)...";
+            this.sdk_ModelAnimationExporter.Click += new System.EventHandler(this.Sdk_ModelAnimationExporter_Click);
+            // 
+            // sdk_PlacementConverter
+            // 
+            this.sdk_PlacementConverter.Enabled = false;
+            this.sdk_PlacementConverter.Image = ((System.Drawing.Image)(resources.GetObject("sdk_PlacementConverter.Image")));
+            this.sdk_PlacementConverter.Name = "sdk_PlacementConverter";
+            this.sdk_PlacementConverter.Size = new System.Drawing.Size(301, 22);
+            this.sdk_PlacementConverter.Text = "Placement Converter (SET)...";
+            this.sdk_PlacementConverter.Click += new System.EventHandler(this.Sdk_PlacementConverter_Click);
+            // 
+            // sdk_SonicSoundStudio
+            // 
+            this.sdk_SonicSoundStudio.Enabled = false;
+            this.sdk_SonicSoundStudio.Image = ((System.Drawing.Image)(resources.GetObject("sdk_SonicSoundStudio.Image")));
+            this.sdk_SonicSoundStudio.Name = "sdk_SonicSoundStudio";
+            this.sdk_SonicSoundStudio.Size = new System.Drawing.Size(301, 22);
+            this.sdk_SonicSoundStudio.Text = "Sonic Sound Studio (ADX/AT3/CSB/XMA)...";
+            this.sdk_SonicSoundStudio.Click += new System.EventHandler(this.Sdk_SonicSoundStudio_Click);
+            // 
+            // sdk_TextureRasteriser
+            // 
+            this.sdk_TextureRasteriser.Enabled = false;
+            this.sdk_TextureRasteriser.Image = ((System.Drawing.Image)(resources.GetObject("sdk_TextureRasteriser.Image")));
+            this.sdk_TextureRasteriser.Name = "sdk_TextureRasteriser";
+            this.sdk_TextureRasteriser.Size = new System.Drawing.Size(301, 22);
+            this.sdk_TextureRasteriser.Text = "Texture Converter (DDS)...";
+            this.sdk_TextureRasteriser.Click += new System.EventHandler(this.Sdk_TextureRasteriser_Click);
+            // 
+            // sdk_TextEditor
+            // 
+            this.sdk_TextEditor.Enabled = false;
+            this.sdk_TextEditor.Image = ((System.Drawing.Image)(resources.GetObject("sdk_TextEditor.Image")));
+            this.sdk_TextEditor.Name = "sdk_TextEditor";
+            this.sdk_TextEditor.Size = new System.Drawing.Size(301, 22);
+            this.sdk_TextEditor.Text = "Text Encoding (MST)...";
+            this.sdk_TextEditor.Click += new System.EventHandler(this.Sdk_TextEditor_Click);
+            // 
             // main_Shortcuts
             // 
             this.main_Shortcuts.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeADX,
             this.shortcuts_UnpackARC,
-            this.shortcuts_DecodeAT3,
             this.shortcuts_DecodeBIN,
-            this.shortcuts_UnpackCSB,
-            this.shortcuts_ConvertDDS,
-            this.shortcuts_DecompileLUB,
-            this.shortcuts_DecodeMST,
-            this.shortcuts_DecodeSET,
             this.shortcuts_DecryptXEX,
+            this.shortcuts_DecompileLUB,
+            this.shortcuts_DecodeXNO,
+            this.shortcuts_DecodeSET,
+            this.shortcuts_DecodeADX,
+            this.shortcuts_DecodeAT3,
+            this.shortcuts_UnpackCSB,
             this.shortcuts_DecodeXMA,
-            this.shortcuts_DecodeXNO});
+            this.shortcuts_ConvertDDS,
+            this.shortcuts_DecodeMST});
             this.main_Shortcuts.Name = "main_Shortcuts";
             this.main_Shortcuts.Size = new System.Drawing.Size(69, 20);
             this.main_Shortcuts.Text = "Shortcuts";
-            // 
-            // shortcuts_DecodeADX
-            // 
-            this.shortcuts_DecodeADX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeADXinDirectory,
-            this.shortcuts_DecodeADXinSubdirectories});
-            this.shortcuts_DecodeADX.Enabled = false;
-            this.shortcuts_DecodeADX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeADX.Image")));
-            this.shortcuts_DecodeADX.Name = "shortcuts_DecodeADX";
-            this.shortcuts_DecodeADX.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecodeADX.Text = "CriWare ADX (ADX)...";
-            // 
-            // shortcuts_DecodeADXinDirectory
-            // 
-            this.shortcuts_DecodeADXinDirectory.Name = "shortcuts_DecodeADXinDirectory";
-            this.shortcuts_DecodeADXinDirectory.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeADXinDirectory.Text = "Decode all in the current directory";
-            this.shortcuts_DecodeADXinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeADXinDirectory_Click);
-            // 
-            // shortcuts_DecodeADXinSubdirectories
-            // 
-            this.shortcuts_DecodeADXinSubdirectories.Name = "shortcuts_DecodeADXinSubdirectories";
-            this.shortcuts_DecodeADXinSubdirectories.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeADXinSubdirectories.Text = "Decode all in the local subdirectories";
-            this.shortcuts_DecodeADXinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeADXinSubdirectories_Click);
             // 
             // shortcuts_UnpackARC
             // 
@@ -624,31 +602,6 @@
             this.shortcuts_UnpackARCtoToolkit.Text = "Unpack all to Sonic \'06 Toolkit";
             this.shortcuts_UnpackARCtoToolkit.Click += new System.EventHandler(this.Shortcuts_UnpackARCtoToolkit_Click);
             // 
-            // shortcuts_DecodeAT3
-            // 
-            this.shortcuts_DecodeAT3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeAT3inDirectory,
-            this.shortcuts_DecodeAT3inSubdirectories});
-            this.shortcuts_DecodeAT3.Enabled = false;
-            this.shortcuts_DecodeAT3.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeAT3.Image")));
-            this.shortcuts_DecodeAT3.Name = "shortcuts_DecodeAT3";
-            this.shortcuts_DecodeAT3.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecodeAT3.Text = "ATRAC3plus (AT3)...";
-            // 
-            // shortcuts_DecodeAT3inDirectory
-            // 
-            this.shortcuts_DecodeAT3inDirectory.Name = "shortcuts_DecodeAT3inDirectory";
-            this.shortcuts_DecodeAT3inDirectory.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeAT3inDirectory.Text = "Decode all in the current directory";
-            this.shortcuts_DecodeAT3inDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inDirectory_Click);
-            // 
-            // shortcuts_DecodeAT3inSubdirectories
-            // 
-            this.shortcuts_DecodeAT3inSubdirectories.Name = "shortcuts_DecodeAT3inSubdirectories";
-            this.shortcuts_DecodeAT3inSubdirectories.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeAT3inSubdirectories.Text = "Decode all in the local subdirectories";
-            this.shortcuts_DecodeAT3inSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inSubdirectories_Click);
-            // 
             // shortcuts_DecodeBIN
             // 
             this.shortcuts_DecodeBIN.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -673,6 +626,174 @@
             this.shortcuts_DecodeBINinSubdirectories.Size = new System.Drawing.Size(267, 22);
             this.shortcuts_DecodeBINinSubdirectories.Text = "Decode all in the local subdirectories";
             this.shortcuts_DecodeBINinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeBINinSubdirectories_Click);
+            // 
+            // shortcuts_DecryptXEX
+            // 
+            this.shortcuts_DecryptXEX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecryptXEXinDirectory,
+            this.shortcuts_DecryptXEXinSubdirectories});
+            this.shortcuts_DecryptXEX.Enabled = false;
+            this.shortcuts_DecryptXEX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecryptXEX.Image")));
+            this.shortcuts_DecryptXEX.Name = "shortcuts_DecryptXEX";
+            this.shortcuts_DecryptXEX.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecryptXEX.Text = "Xbox Executable (XEX)...";
+            // 
+            // shortcuts_DecryptXEXinDirectory
+            // 
+            this.shortcuts_DecryptXEXinDirectory.Name = "shortcuts_DecryptXEXinDirectory";
+            this.shortcuts_DecryptXEXinDirectory.Size = new System.Drawing.Size(268, 22);
+            this.shortcuts_DecryptXEXinDirectory.Text = "Decrypt all in the current directory";
+            this.shortcuts_DecryptXEXinDirectory.Click += new System.EventHandler(this.Shortcuts_DecryptXEXinDirectory_Click);
+            // 
+            // shortcuts_DecryptXEXinSubdirectories
+            // 
+            this.shortcuts_DecryptXEXinSubdirectories.Name = "shortcuts_DecryptXEXinSubdirectories";
+            this.shortcuts_DecryptXEXinSubdirectories.Size = new System.Drawing.Size(268, 22);
+            this.shortcuts_DecryptXEXinSubdirectories.Text = "Decrypt all in the local subdirectories";
+            this.shortcuts_DecryptXEXinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecryptXEXinSubdirectories_Click);
+            // 
+            // shortcuts_DecompileLUB
+            // 
+            this.shortcuts_DecompileLUB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecompileLUBinDirectory,
+            this.shortcuts_DecompileLUBinSubdirectories});
+            this.shortcuts_DecompileLUB.Enabled = false;
+            this.shortcuts_DecompileLUB.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecompileLUB.Image")));
+            this.shortcuts_DecompileLUB.Name = "shortcuts_DecompileLUB";
+            this.shortcuts_DecompileLUB.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecompileLUB.Text = "Lua Binary (LUB)...";
+            // 
+            // shortcuts_DecompileLUBinDirectory
+            // 
+            this.shortcuts_DecompileLUBinDirectory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecompileMissionLUBinDirectory});
+            this.shortcuts_DecompileLUBinDirectory.Name = "shortcuts_DecompileLUBinDirectory";
+            this.shortcuts_DecompileLUBinDirectory.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_DecompileLUBinDirectory.Text = "Decompile all in the current directory";
+            this.shortcuts_DecompileLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinDirectory_Click);
+            // 
+            // shortcuts_DecompileMissionLUBinDirectory
+            // 
+            this.shortcuts_DecompileMissionLUBinDirectory.Name = "shortcuts_DecompileMissionLUBinDirectory";
+            this.shortcuts_DecompileMissionLUBinDirectory.Size = new System.Drawing.Size(216, 22);
+            this.shortcuts_DecompileMissionLUBinDirectory.Text = "Mission Lua binaries only...";
+            this.shortcuts_DecompileMissionLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileMissionLUBinDirectory_Click);
+            // 
+            // shortcuts_DecompileLUBinSubdirectories
+            // 
+            this.shortcuts_DecompileLUBinSubdirectories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecompileMissionLUBinSubdirectories});
+            this.shortcuts_DecompileLUBinSubdirectories.Name = "shortcuts_DecompileLUBinSubdirectories";
+            this.shortcuts_DecompileLUBinSubdirectories.Size = new System.Drawing.Size(284, 22);
+            this.shortcuts_DecompileLUBinSubdirectories.Text = "Decompile all in the local subdirectories";
+            this.shortcuts_DecompileLUBinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinSubdirectories_Click);
+            // 
+            // shortcuts_DecompileMissionLUBinSubdirectories
+            // 
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Name = "shortcuts_DecompileMissionLUBinSubdirectories";
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Size = new System.Drawing.Size(216, 22);
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Text = "Mission Lua binaries only...";
+            this.shortcuts_DecompileMissionLUBinSubdirectories.Click += new System.EventHandler(this.shortcuts_DecompileMissionLUBinSubdirectories_Click);
+            // 
+            // shortcuts_DecodeXNO
+            // 
+            this.shortcuts_DecodeXNO.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeXNOinDirectory,
+            this.shortcuts_DecodeXNOinSubdirectories});
+            this.shortcuts_DecodeXNO.Enabled = false;
+            this.shortcuts_DecodeXNO.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeXNO.Image")));
+            this.shortcuts_DecodeXNO.Name = "shortcuts_DecodeXNO";
+            this.shortcuts_DecodeXNO.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecodeXNO.Text = "SEGA NN Object (XNO)...";
+            // 
+            // shortcuts_DecodeXNOinDirectory
+            // 
+            this.shortcuts_DecodeXNOinDirectory.Name = "shortcuts_DecodeXNOinDirectory";
+            this.shortcuts_DecodeXNOinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXNOinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeXNOinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeXNOinDirectory_Click);
+            // 
+            // shortcuts_DecodeXNOinSubdirectories
+            // 
+            this.shortcuts_DecodeXNOinSubdirectories.Name = "shortcuts_DecodeXNOinSubdirectories";
+            this.shortcuts_DecodeXNOinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeXNOinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeXNOinSubdirectories.Click += new System.EventHandler(this.shortcuts_DecodeXNOinSubdirectories_Click);
+            // 
+            // shortcuts_DecodeSET
+            // 
+            this.shortcuts_DecodeSET.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeSETinDirectory,
+            this.shortcuts_DecodeSETinSubdirectories});
+            this.shortcuts_DecodeSET.Enabled = false;
+            this.shortcuts_DecodeSET.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeSET.Image")));
+            this.shortcuts_DecodeSET.Name = "shortcuts_DecodeSET";
+            this.shortcuts_DecodeSET.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecodeSET.Text = "Placement (SET)...";
+            // 
+            // shortcuts_DecodeSETinDirectory
+            // 
+            this.shortcuts_DecodeSETinDirectory.Name = "shortcuts_DecodeSETinDirectory";
+            this.shortcuts_DecodeSETinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeSETinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeSETinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeSETinDirectory_Click);
+            // 
+            // shortcuts_DecodeSETinSubdirectories
+            // 
+            this.shortcuts_DecodeSETinSubdirectories.Name = "shortcuts_DecodeSETinSubdirectories";
+            this.shortcuts_DecodeSETinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeSETinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeSETinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeSETinSubdirectories_Click);
+            // 
+            // shortcuts_DecodeADX
+            // 
+            this.shortcuts_DecodeADX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeADXinDirectory,
+            this.shortcuts_DecodeADXinSubdirectories});
+            this.shortcuts_DecodeADX.Enabled = false;
+            this.shortcuts_DecodeADX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeADX.Image")));
+            this.shortcuts_DecodeADX.Name = "shortcuts_DecodeADX";
+            this.shortcuts_DecodeADX.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecodeADX.Text = "CriWare ADX (ADX)...";
+            // 
+            // shortcuts_DecodeADXinDirectory
+            // 
+            this.shortcuts_DecodeADXinDirectory.Name = "shortcuts_DecodeADXinDirectory";
+            this.shortcuts_DecodeADXinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeADXinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeADXinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeADXinDirectory_Click);
+            // 
+            // shortcuts_DecodeADXinSubdirectories
+            // 
+            this.shortcuts_DecodeADXinSubdirectories.Name = "shortcuts_DecodeADXinSubdirectories";
+            this.shortcuts_DecodeADXinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeADXinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeADXinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeADXinSubdirectories_Click);
+            // 
+            // shortcuts_DecodeAT3
+            // 
+            this.shortcuts_DecodeAT3.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeAT3inDirectory,
+            this.shortcuts_DecodeAT3inSubdirectories});
+            this.shortcuts_DecodeAT3.Enabled = false;
+            this.shortcuts_DecodeAT3.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeAT3.Image")));
+            this.shortcuts_DecodeAT3.Name = "shortcuts_DecodeAT3";
+            this.shortcuts_DecodeAT3.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecodeAT3.Text = "ATRAC3plus (AT3)...";
+            // 
+            // shortcuts_DecodeAT3inDirectory
+            // 
+            this.shortcuts_DecodeAT3inDirectory.Name = "shortcuts_DecodeAT3inDirectory";
+            this.shortcuts_DecodeAT3inDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeAT3inDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeAT3inDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inDirectory_Click);
+            // 
+            // shortcuts_DecodeAT3inSubdirectories
+            // 
+            this.shortcuts_DecodeAT3inSubdirectories.Name = "shortcuts_DecodeAT3inSubdirectories";
+            this.shortcuts_DecodeAT3inSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeAT3inSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeAT3inSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeAT3inSubdirectories_Click);
             // 
             // shortcuts_UnpackCSB
             // 
@@ -733,149 +854,6 @@
             this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Text = "Unpack to WAV";
             this.shortcuts_UnpackCSBinSubdirectoriesToWAV.Click += new System.EventHandler(this.Shortcuts_UnpackCSBinSubdirectoriesToWAV_Click);
             // 
-            // shortcuts_ConvertDDS
-            // 
-            this.shortcuts_ConvertDDS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_ConvertDDSinDirectory,
-            this.shortcuts_ConvertDDSinSubdirectories});
-            this.shortcuts_ConvertDDS.Enabled = false;
-            this.shortcuts_ConvertDDS.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertDDS.Image")));
-            this.shortcuts_ConvertDDS.Name = "shortcuts_ConvertDDS";
-            this.shortcuts_ConvertDDS.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_ConvertDDS.Text = "DirectDraw Surface (DDS)...";
-            // 
-            // shortcuts_ConvertDDSinDirectory
-            // 
-            this.shortcuts_ConvertDDSinDirectory.Name = "shortcuts_ConvertDDSinDirectory";
-            this.shortcuts_ConvertDDSinDirectory.Size = new System.Drawing.Size(269, 22);
-            this.shortcuts_ConvertDDSinDirectory.Text = "Convert all in the current directory";
-            this.shortcuts_ConvertDDSinDirectory.Click += new System.EventHandler(this.Shortcuts_ConvertDDSinDirectory_Click);
-            // 
-            // shortcuts_ConvertDDSinSubdirectories
-            // 
-            this.shortcuts_ConvertDDSinSubdirectories.Name = "shortcuts_ConvertDDSinSubdirectories";
-            this.shortcuts_ConvertDDSinSubdirectories.Size = new System.Drawing.Size(269, 22);
-            this.shortcuts_ConvertDDSinSubdirectories.Text = "Convert all in the local subdirectories";
-            this.shortcuts_ConvertDDSinSubdirectories.Click += new System.EventHandler(this.Shortcuts_ConvertDDSinSubdirectories_Click);
-            // 
-            // shortcuts_DecompileLUB
-            // 
-            this.shortcuts_DecompileLUB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecompileLUBinDirectory,
-            this.shortcuts_DecompileLUBinSubdirectories});
-            this.shortcuts_DecompileLUB.Enabled = false;
-            this.shortcuts_DecompileLUB.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecompileLUB.Image")));
-            this.shortcuts_DecompileLUB.Name = "shortcuts_DecompileLUB";
-            this.shortcuts_DecompileLUB.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecompileLUB.Text = "Lua Binary (LUB)...";
-            // 
-            // shortcuts_DecompileLUBinDirectory
-            // 
-            this.shortcuts_DecompileLUBinDirectory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecompileMissionLUBinDirectory});
-            this.shortcuts_DecompileLUBinDirectory.Name = "shortcuts_DecompileLUBinDirectory";
-            this.shortcuts_DecompileLUBinDirectory.Size = new System.Drawing.Size(284, 22);
-            this.shortcuts_DecompileLUBinDirectory.Text = "Decompile all in the current directory";
-            this.shortcuts_DecompileLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinDirectory_Click);
-            // 
-            // shortcuts_DecompileMissionLUBinDirectory
-            // 
-            this.shortcuts_DecompileMissionLUBinDirectory.Name = "shortcuts_DecompileMissionLUBinDirectory";
-            this.shortcuts_DecompileMissionLUBinDirectory.Size = new System.Drawing.Size(216, 22);
-            this.shortcuts_DecompileMissionLUBinDirectory.Text = "Mission Lua binaries only...";
-            this.shortcuts_DecompileMissionLUBinDirectory.Click += new System.EventHandler(this.Shortcuts_DecompileMissionLUBinDirectory_Click);
-            // 
-            // shortcuts_DecompileLUBinSubdirectories
-            // 
-            this.shortcuts_DecompileLUBinSubdirectories.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecompileMissionLUBinSubdirectories});
-            this.shortcuts_DecompileLUBinSubdirectories.Name = "shortcuts_DecompileLUBinSubdirectories";
-            this.shortcuts_DecompileLUBinSubdirectories.Size = new System.Drawing.Size(284, 22);
-            this.shortcuts_DecompileLUBinSubdirectories.Text = "Decompile all in the local subdirectories";
-            this.shortcuts_DecompileLUBinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecompileLUBinSubdirectories_Click);
-            // 
-            // shortcuts_DecompileMissionLUBinSubdirectories
-            // 
-            this.shortcuts_DecompileMissionLUBinSubdirectories.Name = "shortcuts_DecompileMissionLUBinSubdirectories";
-            this.shortcuts_DecompileMissionLUBinSubdirectories.Size = new System.Drawing.Size(216, 22);
-            this.shortcuts_DecompileMissionLUBinSubdirectories.Text = "Mission Lua binaries only...";
-            this.shortcuts_DecompileMissionLUBinSubdirectories.Click += new System.EventHandler(this.shortcuts_DecompileMissionLUBinSubdirectories_Click);
-            // 
-            // shortcuts_DecodeMST
-            // 
-            this.shortcuts_DecodeMST.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeMSTinDirectory,
-            this.shortcuts_DecodeMSTinSubdirectories});
-            this.shortcuts_DecodeMST.Enabled = false;
-            this.shortcuts_DecodeMST.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeMST.Image")));
-            this.shortcuts_DecodeMST.Name = "shortcuts_DecodeMST";
-            this.shortcuts_DecodeMST.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecodeMST.Text = "UTF-16 Encoded Text (MST)...";
-            // 
-            // shortcuts_DecodeMSTinDirectory
-            // 
-            this.shortcuts_DecodeMSTinDirectory.Name = "shortcuts_DecodeMSTinDirectory";
-            this.shortcuts_DecodeMSTinDirectory.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeMSTinDirectory.Text = "Decode all in the current directory";
-            this.shortcuts_DecodeMSTinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeMSTinDirectory_Click);
-            // 
-            // shortcuts_DecodeMSTinSubdirectories
-            // 
-            this.shortcuts_DecodeMSTinSubdirectories.Name = "shortcuts_DecodeMSTinSubdirectories";
-            this.shortcuts_DecodeMSTinSubdirectories.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeMSTinSubdirectories.Text = "Decode all in the local subdirectories";
-            this.shortcuts_DecodeMSTinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeMSTinSubdirectories_Click);
-            // 
-            // shortcuts_DecodeSET
-            // 
-            this.shortcuts_DecodeSET.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeSETinDirectory,
-            this.shortcuts_DecodeSETinSubdirectories});
-            this.shortcuts_DecodeSET.Enabled = false;
-            this.shortcuts_DecodeSET.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeSET.Image")));
-            this.shortcuts_DecodeSET.Name = "shortcuts_DecodeSET";
-            this.shortcuts_DecodeSET.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecodeSET.Text = "Placement (SET)...";
-            // 
-            // shortcuts_DecodeSETinDirectory
-            // 
-            this.shortcuts_DecodeSETinDirectory.Name = "shortcuts_DecodeSETinDirectory";
-            this.shortcuts_DecodeSETinDirectory.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeSETinDirectory.Text = "Decode all in the current directory";
-            this.shortcuts_DecodeSETinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeSETinDirectory_Click);
-            // 
-            // shortcuts_DecodeSETinSubdirectories
-            // 
-            this.shortcuts_DecodeSETinSubdirectories.Name = "shortcuts_DecodeSETinSubdirectories";
-            this.shortcuts_DecodeSETinSubdirectories.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeSETinSubdirectories.Text = "Decode all in the local subdirectories";
-            this.shortcuts_DecodeSETinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeSETinSubdirectories_Click);
-            // 
-            // shortcuts_DecryptXEX
-            // 
-            this.shortcuts_DecryptXEX.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecryptXEXinDirectory,
-            this.shortcuts_DecryptXEXinSubdirectories});
-            this.shortcuts_DecryptXEX.Enabled = false;
-            this.shortcuts_DecryptXEX.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecryptXEX.Image")));
-            this.shortcuts_DecryptXEX.Name = "shortcuts_DecryptXEX";
-            this.shortcuts_DecryptXEX.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecryptXEX.Text = "Xbox Executable (XEX)...";
-            // 
-            // shortcuts_DecryptXEXinDirectory
-            // 
-            this.shortcuts_DecryptXEXinDirectory.Name = "shortcuts_DecryptXEXinDirectory";
-            this.shortcuts_DecryptXEXinDirectory.Size = new System.Drawing.Size(268, 22);
-            this.shortcuts_DecryptXEXinDirectory.Text = "Decrypt all in the current directory";
-            this.shortcuts_DecryptXEXinDirectory.Click += new System.EventHandler(this.Shortcuts_DecryptXEXinDirectory_Click);
-            // 
-            // shortcuts_DecryptXEXinSubdirectories
-            // 
-            this.shortcuts_DecryptXEXinSubdirectories.Name = "shortcuts_DecryptXEXinSubdirectories";
-            this.shortcuts_DecryptXEXinSubdirectories.Size = new System.Drawing.Size(268, 22);
-            this.shortcuts_DecryptXEXinSubdirectories.Text = "Decrypt all in the local subdirectories";
-            this.shortcuts_DecryptXEXinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecryptXEXinSubdirectories_Click);
-            // 
             // shortcuts_DecodeXMA
             // 
             this.shortcuts_DecodeXMA.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -901,30 +879,55 @@
             this.shortcuts_DecodeXMAinSubdirectories.Text = "Decode all in the local subdirectories";
             this.shortcuts_DecodeXMAinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeXMAinSubdirectories_Click);
             // 
-            // shortcuts_DecodeXNO
+            // shortcuts_ConvertDDS
             // 
-            this.shortcuts_DecodeXNO.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.shortcuts_DecodeXNOinDirectory,
-            this.shortcuts_DecodeXNOinSubdirectories});
-            this.shortcuts_DecodeXNO.Enabled = false;
-            this.shortcuts_DecodeXNO.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeXNO.Image")));
-            this.shortcuts_DecodeXNO.Name = "shortcuts_DecodeXNO";
-            this.shortcuts_DecodeXNO.Size = new System.Drawing.Size(227, 22);
-            this.shortcuts_DecodeXNO.Text = "SEGA NN Object (XNO)...";
+            this.shortcuts_ConvertDDS.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_ConvertDDSinDirectory,
+            this.shortcuts_ConvertDDSinSubdirectories});
+            this.shortcuts_ConvertDDS.Enabled = false;
+            this.shortcuts_ConvertDDS.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_ConvertDDS.Image")));
+            this.shortcuts_ConvertDDS.Name = "shortcuts_ConvertDDS";
+            this.shortcuts_ConvertDDS.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_ConvertDDS.Text = "DirectDraw Surface (DDS)...";
             // 
-            // shortcuts_DecodeXNOinDirectory
+            // shortcuts_ConvertDDSinDirectory
             // 
-            this.shortcuts_DecodeXNOinDirectory.Name = "shortcuts_DecodeXNOinDirectory";
-            this.shortcuts_DecodeXNOinDirectory.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeXNOinDirectory.Text = "Decode all in the current directory";
-            this.shortcuts_DecodeXNOinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeXNOinDirectory_Click);
+            this.shortcuts_ConvertDDSinDirectory.Name = "shortcuts_ConvertDDSinDirectory";
+            this.shortcuts_ConvertDDSinDirectory.Size = new System.Drawing.Size(269, 22);
+            this.shortcuts_ConvertDDSinDirectory.Text = "Convert all in the current directory";
+            this.shortcuts_ConvertDDSinDirectory.Click += new System.EventHandler(this.Shortcuts_ConvertDDSinDirectory_Click);
             // 
-            // shortcuts_DecodeXNOinSubdirectories
+            // shortcuts_ConvertDDSinSubdirectories
             // 
-            this.shortcuts_DecodeXNOinSubdirectories.Name = "shortcuts_DecodeXNOinSubdirectories";
-            this.shortcuts_DecodeXNOinSubdirectories.Size = new System.Drawing.Size(267, 22);
-            this.shortcuts_DecodeXNOinSubdirectories.Text = "Decode all in the local subdirectories";
-            this.shortcuts_DecodeXNOinSubdirectories.Click += new System.EventHandler(this.shortcuts_DecodeXNOinSubdirectories_Click);
+            this.shortcuts_ConvertDDSinSubdirectories.Name = "shortcuts_ConvertDDSinSubdirectories";
+            this.shortcuts_ConvertDDSinSubdirectories.Size = new System.Drawing.Size(269, 22);
+            this.shortcuts_ConvertDDSinSubdirectories.Text = "Convert all in the local subdirectories";
+            this.shortcuts_ConvertDDSinSubdirectories.Click += new System.EventHandler(this.Shortcuts_ConvertDDSinSubdirectories_Click);
+            // 
+            // shortcuts_DecodeMST
+            // 
+            this.shortcuts_DecodeMST.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_DecodeMSTinDirectory,
+            this.shortcuts_DecodeMSTinSubdirectories});
+            this.shortcuts_DecodeMST.Enabled = false;
+            this.shortcuts_DecodeMST.Image = ((System.Drawing.Image)(resources.GetObject("shortcuts_DecodeMST.Image")));
+            this.shortcuts_DecodeMST.Name = "shortcuts_DecodeMST";
+            this.shortcuts_DecodeMST.Size = new System.Drawing.Size(227, 22);
+            this.shortcuts_DecodeMST.Text = "UTF-16 Encoded Text (MST)...";
+            // 
+            // shortcuts_DecodeMSTinDirectory
+            // 
+            this.shortcuts_DecodeMSTinDirectory.Name = "shortcuts_DecodeMSTinDirectory";
+            this.shortcuts_DecodeMSTinDirectory.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeMSTinDirectory.Text = "Decode all in the current directory";
+            this.shortcuts_DecodeMSTinDirectory.Click += new System.EventHandler(this.Shortcuts_DecodeMSTinDirectory_Click);
+            // 
+            // shortcuts_DecodeMSTinSubdirectories
+            // 
+            this.shortcuts_DecodeMSTinSubdirectories.Name = "shortcuts_DecodeMSTinSubdirectories";
+            this.shortcuts_DecodeMSTinSubdirectories.Size = new System.Drawing.Size(267, 22);
+            this.shortcuts_DecodeMSTinSubdirectories.Text = "Decode all in the local subdirectories";
+            this.shortcuts_DecodeMSTinSubdirectories.Click += new System.EventHandler(this.Shortcuts_DecodeMSTinSubdirectories_Click);
             // 
             // main_Window
             // 
@@ -1022,6 +1025,14 @@
             this.help_ReportBug.Size = new System.Drawing.Size(203, 22);
             this.help_ReportBug.Text = "Report a bug...";
             this.help_ReportBug.Click += new System.EventHandler(this.Help_ReportBug_Click);
+            // 
+            // help_GitHub
+            // 
+            this.help_GitHub.Image = ((System.Drawing.Image)(resources.GetObject("help_GitHub.Image")));
+            this.help_GitHub.Name = "help_GitHub";
+            this.help_GitHub.Size = new System.Drawing.Size(203, 22);
+            this.help_GitHub.Text = "GitHub...";
+            this.help_GitHub.Click += new System.EventHandler(this.Help_GitHub_Click);
             // 
             // help_About
             // 
@@ -1139,14 +1150,6 @@
             this.unifytb_Main.TextColor = System.Drawing.SystemColors.ControlText;
             this.unifytb_Main.SelectedIndexChanged += new System.EventHandler(this.Unifytb_Main_SelectedIndexChanged);
             this.unifytb_Main.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Unifytb_Main_MouseClick);
-            // 
-            // help_GitHub
-            // 
-            this.help_GitHub.Image = ((System.Drawing.Image)(resources.GetObject("help_GitHub.Image")));
-            this.help_GitHub.Name = "help_GitHub";
-            this.help_GitHub.Size = new System.Drawing.Size(203, 22);
-            this.help_GitHub.Text = "GitHub...";
-            this.help_GitHub.Click += new System.EventHandler(this.Help_GitHub_Click);
             // 
             // Main
             // 

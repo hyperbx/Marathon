@@ -295,7 +295,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(542, 356);
+            this.ClientSize = new System.Drawing.Size(544, 356);
             this.Controls.Add(this.link_XboxDev);
             this.Controls.Add(this.link_CriWare);
             this.Controls.Add(this.link_Natsumi);

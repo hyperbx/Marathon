@@ -50,7 +50,7 @@ namespace Toolkit.Logs
 
         private void List_Logs_SelectedIndexChanged(object sender, EventArgs e) { list_Logs.ClearSelected(); }
 
-        private void Btn_Close_Click(object sender, EventArgs e) { Close(); }
+        private void Btn_Clear_Click(object sender, EventArgs e) { Main.sessionLog.Clear(); }
 
         private void Tm_RefreshLogs_Tick(object sender, EventArgs e) {
             list_Logs.Items.Clear();

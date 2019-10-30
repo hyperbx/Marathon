@@ -10,6 +10,7 @@ using Toolkit.EnvironmentX;
 using System.Windows.Forms;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -174,8 +175,9 @@ namespace Toolkit.Tools
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
             try {
+                List<object> filesToProcess = clb_SNDs.CheckedItems.OfType<object>().ToList();
                 if (combo_Encoder.SelectedIndex == 0) { //ADX
-                    foreach (string SND in clb_SNDs.CheckedItems)
+                    foreach (string SND in filesToProcess)
                         if (File.Exists(Path.Combine(location, SND)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, SND))) {
                             if (Path.GetExtension(SND).ToLower() == ".wav") {
                                 try {
@@ -201,18 +203,18 @@ namespace Toolkit.Tools
                             }
                         }
                 } else if (combo_Encoder.SelectedIndex == 1) { //AT3
-                    foreach (string WAV in clb_SNDs.CheckedItems)
+                    foreach (string WAV in filesToProcess)
                         if (File.Exists(Path.Combine(location, WAV)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, WAV))) {
                             mainForm.Status = StatusMessages.cmn_Converting(WAV, "AT3", false);
                             var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
                                                 $"-e \"{Path.Combine(location, WAV)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(WAV))}.at3\"",
-                                                Application.StartupPath,
+                                                location,
                                                 100000);
                             if (process.ExitCode != 0)
                                 mainForm.Status = StatusMessages.cmn_ConvertFailed(WAV, "AT3", false);
                         }
                 } else if (combo_Encoder.SelectedIndex == 2) { //CSB
-                    foreach (string CSB in clb_SNDs.CheckedItems)
+                    foreach (string CSB in filesToProcess)
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB))) {
                             foreach (string WAV in Directory.GetFiles(Path.Combine(location, CSB), "*.wav", SearchOption.AllDirectories))
                                 try {
@@ -229,13 +231,14 @@ namespace Toolkit.Tools
                             } catch { mainForm.Status = StatusMessages.cmn_RepackFailed($"{CSB}.cpk", false); }
                         }
                 } else if (combo_Encoder.SelectedIndex == 3) { //WAV
-                    foreach (string SND in clb_SNDs.CheckedItems)
+                    foreach (string SND in filesToProcess)
                         DecodeAudioData(SND);
                 } else if (combo_Encoder.SelectedIndex == 4) { //XMA
-                    foreach (string WAV in clb_SNDs.CheckedItems)
+                    foreach (string WAV in filesToProcess)
                         if (File.Exists(Path.Combine(location, WAV)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, WAV))) {
                             string xmaOutput = Path.Combine(location, $"{Path.GetFileNameWithoutExtension(WAV)}.xma");
                             try { if (File.Exists(xmaOutput)) File.Delete(xmaOutput); } catch { }
+                            mainForm.Status = StatusMessages.cmn_Converting(WAV, "XMA", false);
                             var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
                                                 $"\"{Path.Combine(location, WAV)}\" /L",
                                                 location,

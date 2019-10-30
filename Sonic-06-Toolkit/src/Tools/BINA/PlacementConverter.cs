@@ -1,9 +1,11 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using HedgeLib.Sets;
 using System.Windows.Forms;
 using Toolkit.EnvironmentX;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -66,9 +68,10 @@ namespace Toolkit.Tools
         }
 
         private void Btn_Convert_Click(object sender, EventArgs e) {
+            List<object> filesToProcess = clb_SETs.CheckedItems.OfType<object>().ToList();
             if (modes_Export.Checked) {
                 try {
-                    foreach (string SET in clb_SETs.CheckedItems)
+                    foreach (string SET in filesToProcess)
                         if (File.Exists(Path.Combine(location, SET)) && Verification.VerifyMagicNumberExtended(Path.Combine(location, SET))) {
                             mainForm.Status = StatusMessages.cmn_Exporting(SET, false);
                             var readSET = new S06SetData();
@@ -80,7 +83,7 @@ namespace Toolkit.Tools
                 }
             } else if (modes_Import.Checked) {
                 try {
-                    foreach (string XML in clb_SETs.CheckedItems) {
+                    foreach (string XML in filesToProcess) {
                         if (File.Exists(Path.Combine(location, XML))) {
                             mainForm.Status = StatusMessages.cmn_Importing(XML, false);
                             var readXML = new S06SetData();

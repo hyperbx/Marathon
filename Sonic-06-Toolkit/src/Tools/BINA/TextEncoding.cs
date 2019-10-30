@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -92,8 +94,9 @@ namespace Toolkit.Tools
         }
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
+            List<object> filesToProcess = clb_MSTs.CheckedItems.OfType<object>().ToList();
             if (combo_Mode.SelectedIndex == 0) {
-                foreach (string MST in clb_MSTs.CheckedItems) {
+                foreach (string MST in filesToProcess) {
                     if (File.Exists(Path.Combine(location, MST)) && Verification.VerifyMagicNumberExtended(Path.Combine(location, MST))) {
                         mainForm.Status = StatusMessages.cmn_Exporting(MST, false);
                         var export = await ProcessAsyncHelper.ExecuteShellCommand(Paths.MSTTool,
@@ -106,7 +109,7 @@ namespace Toolkit.Tools
                     }
                 }
             } else if (combo_Mode.SelectedIndex == 1) {
-                foreach (string XML in clb_MSTs.CheckedItems) {
+                foreach (string XML in filesToProcess) {
                     if (File.Exists(Path.Combine(location, XML)) && Verification.VerifyXML(Path.Combine(location, XML), "MST")) {
                         mainForm.Status = StatusMessages.cmn_Importing(XML, false);
                         var export = await ProcessAsyncHelper.ExecuteShellCommand(Paths.MSTTool,

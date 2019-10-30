@@ -173,6 +173,7 @@
             this.btn_DeselectAll.TabIndex = 54;
             this.btn_DeselectAll.Text = "Deselect All";
             this.btn_DeselectAll.UseVisualStyleBackColor = false;
+            this.btn_DeselectAll.Click += new System.EventHandler(this.Btn_DeselectAll_Click);
             // 
             // btn_SelectAll
             // 
@@ -186,6 +187,7 @@
             this.btn_SelectAll.TabIndex = 53;
             this.btn_SelectAll.Text = "Select All";
             this.btn_SelectAll.UseVisualStyleBackColor = false;
+            this.btn_SelectAll.Click += new System.EventHandler(this.Btn_SelectAll_Click);
             // 
             // clb_XNOs
             // 
@@ -273,7 +275,7 @@
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "Model/Animation Exporter";
             // 
-            // ModelAnimationExporter
+            // XNOTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -287,7 +289,7 @@
             this.Controls.Add(this.clb_XNOs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(587, 458);
-            this.Name = "ModelAnimationExporter";
+            this.Name = "XNOTool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Model/Animation Exporter";
             this.Load += new System.EventHandler(this.ModelAnimationExporter_Load);

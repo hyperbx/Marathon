@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.0-test-291019r2"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.0"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -1002,6 +1002,13 @@ namespace Toolkit.EnvironmentX
 
         private void Help_GitHub_Click(object sender, EventArgs e) {
             Process.Start("https://github.com/HyperPolygon64/Sonic-06-Toolkit/tree/3.0");
+        }
+
+        private void Btn_SessionID_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left)
+                Process.Start(Path.Combine(Program.applicationData, Paths.Root));
+            else if (e.Button == MouseButtons.Right)
+                Process.Start(Application.StartupPath);
         }
     }
 }

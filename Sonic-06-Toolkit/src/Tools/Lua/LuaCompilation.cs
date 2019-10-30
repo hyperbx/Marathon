@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using System.Windows.Forms;
 using Toolkit.EnvironmentX;
+using System.Collections.Generic;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -112,11 +114,11 @@ namespace Toolkit.Tools
         }
 
         private async void Btn_Decompile_Click(object sender, EventArgs e) {
-            string location = Paths.currentPath;
+            List<object> filesToProcess = clb_LUBs.CheckedItems.OfType<object>().ToList();
             if (combo_Mode.SelectedIndex == 0) {
                 try {
                     if (Verification.VerifyApplicationIntegrity(Paths.LuaDecompiler))
-                        foreach (string LUB in clb_LUBs.CheckedItems)
+                        foreach (string LUB in filesToProcess)
                             if (Verification.VerifyMagicNumberExtended(Path.Combine(location, LUB))) {
                                 mainForm.Status = StatusMessages.lua_Decompiling(LUB, false);
                                 var decompile = await ProcessAsyncHelper.ExecuteShellCommand("java.exe",
@@ -136,7 +138,7 @@ namespace Toolkit.Tools
             } else {
                 try {
                     if (Verification.VerifyApplicationIntegrity(Paths.LuaCompiler))
-                        foreach (string LUB in clb_LUBs.CheckedItems) {
+                        foreach (string LUB in filesToProcess) {
                             mainForm.Status = StatusMessages.lua_Compiling(LUB, false);
                             var compile = await ProcessAsyncHelper.ExecuteShellCommand(Paths.LuaCompiler,
                                                 $"-o \"{Path.Combine(location, LUB)}\" \"{Path.Combine(location, LUB)}\"",
