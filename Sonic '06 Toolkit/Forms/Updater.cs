@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
+using System.IO.Compression;
 
 namespace Sonic_06_Toolkit
 {
@@ -42,11 +43,14 @@ namespace Sonic_06_Toolkit
             {
                 clientApplication.DownloadProgressChanged += (s, e) => { pgb_Progress.Value = e.ProgressPercentage; };
                 clientApplication.DownloadFileAsync(new Uri(urlString), Application.ExecutablePath + ".pak");
-                clientApplication.DownloadFileCompleted += (s, e) =>
-                {
-                    File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
-                    MessageBox.Show("Update complete! Please restart Sonic '06 Toolkit.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Application.Exit();
+                clientApplication.DownloadFileCompleted += (s, e) => {
+                    using (ZipArchive archive = new ZipArchive(new MemoryStream(File.ReadAllBytes($"{Application.ExecutablePath}.pak")))) {
+                        Tools.ZipArchiveExtensions.ExtractToDirectory(archive, Application.StartupPath, true);
+                        File.Replace($"{Application.ExecutablePath}.new", Application.ExecutablePath, $"{Application.ExecutablePath}.bak");
+                        MessageBox.Show("Update complete! Please restart Sonic '06 Toolkit.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Application.Exit();
+                    }
+                    File.Delete($"{Application.ExecutablePath}.pak");
                 };
             }
         }

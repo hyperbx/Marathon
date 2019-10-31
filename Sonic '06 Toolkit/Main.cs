@@ -371,7 +371,7 @@ namespace Sonic_06_Toolkit
 
                 try
                 {
-                    changeLogs = new Tools.TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
+                    changeLogs = new Tools.TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/sonic-06-toolkit/changelogs.txt");
                 }
                 catch { changeLogs = "► Allan please add details"; }
 
@@ -443,7 +443,7 @@ namespace Sonic_06_Toolkit
             else
             {
                 mainPreferences_DisableSoftwareUpdater.Checked = false;
-                if (!Tools.Global.versionNumber.Contains("-test") && !Tools.Global.versionNumber.Contains("-indev")) CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+                if (!Tools.Global.versionNumber.Contains("-test") && !Tools.Global.versionNumber.Contains("-indev")) CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/sonic-06-toolkit/Sonic_06_Toolkit.zip", "https://segacarnival.com/hyper/updates/sonic-06-toolkit/latest_master.txt");
             }
             if (Properties.Settings.Default.csbUnpackMode == 0)
             {
@@ -2169,7 +2169,7 @@ namespace Sonic_06_Toolkit
         {
             if (Tools.Global.serverStatus == "offline") { MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else if (Tools.Global.serverStatus == "down") { MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            else Tools.Global.updateState = "user"; CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt");
+            else Tools.Global.updateState = "user"; CheckForUpdates(Tools.Global.versionNumberLong, "https://segacarnival.com/hyper/updates/sonic-06-toolkit/Sonic_06_Toolkit.zip", "https://segacarnival.com/hyper/updates/sonic-06-toolkit/latest_master.txt");
         }
 
         void MainHelp_ReportBug_Click(object sender, EventArgs e)

@@ -7,6 +7,7 @@ using HedgeLib.Sets;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -36,6 +37,32 @@ using System.Runtime.InteropServices;
 
 namespace Sonic_06_Toolkit.Tools
 {
+    public static class ZipArchiveExtensions
+    {
+        public static void ExtractToDirectory(this ZipArchive archive, string destinationDirectoryName, bool overwrite)
+        {
+            if (!overwrite)
+            {
+                archive.ExtractToDirectory(destinationDirectoryName);
+                return;
+            }
+            foreach (ZipArchiveEntry file in archive.Entries)
+            {
+                string completeFileName = Path.Combine(destinationDirectoryName, file.FullName);
+                string directory = Path.GetDirectoryName(completeFileName);
+
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                if (file.Name != "")
+                    if (Path.GetFileName(completeFileName) != "Sonic '06 Toolkit.exe")
+                        file.ExtractToFile(completeFileName, true);
+                    else
+                        file.ExtractToFile(Path.Combine(destinationDirectoryName, "Sonic '06 Toolkit.exe.new"), true);
+            }
+        }
+    }
+
     class AAX
     {
         static ProcessStartInfo aaxSession;
@@ -1393,7 +1420,7 @@ namespace Sonic_06_Toolkit.Tools
 
     public class Global
     {
-        public static string versionNumber = "2.12";
+        public static string versionNumber = "2.13";
         public static string versionNumberLong = "Version " + versionNumber;
         public static string serverStatus;
         public static string currentPath;
