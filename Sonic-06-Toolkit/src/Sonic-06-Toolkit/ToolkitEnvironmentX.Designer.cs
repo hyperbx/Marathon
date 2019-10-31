@@ -273,7 +273,7 @@
             this.main_Help});
             this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
             this.mstrip_Main.Name = "mstrip_Main";
-            this.mstrip_Main.Size = new System.Drawing.Size(261, 24);
+            this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 30;
             this.mstrip_Main.Text = "menuStrip1";
             // 
@@ -489,7 +489,6 @@
             // 
             // sdk_ArchiveMerger
             // 
-            this.sdk_ArchiveMerger.Enabled = false;
             this.sdk_ArchiveMerger.Image = ((System.Drawing.Image)(resources.GetObject("sdk_ArchiveMerger.Image")));
             this.sdk_ArchiveMerger.Name = "sdk_ArchiveMerger";
             this.sdk_ArchiveMerger.Size = new System.Drawing.Size(301, 22);

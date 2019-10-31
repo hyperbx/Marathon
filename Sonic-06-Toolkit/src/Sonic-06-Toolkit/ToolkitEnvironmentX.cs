@@ -462,7 +462,8 @@ namespace Toolkit.EnvironmentX
                 btn_Forward.Enabled = false;
                 file_Repack.Enabled = false;
                 file_RepackAs.Enabled = false;
-                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems) item.Enabled = false;
+                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems)
+                    if (item != sdk_ArchiveMerger) item.Enabled = false;
                 foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = false;
             }
         }
