@@ -142,9 +142,19 @@ namespace Toolkit.Text
             else return $"Repacking '{Path.GetFileName(file)}...'";
         }
 
+        public static string cmn_RepackingAs(string file1, string file2, bool fullPath) {
+            if (fullPath) return $"Repacking '{file1}' as '{file2}...'";
+            else return $"Repacking '{Path.GetFileName(file1)}' as '{Path.GetFileName(file2)}...'";
+        }
+
         public static string cmn_Repacked(string file, bool fullPath) {
             if (fullPath) return $"Repacked '{file}' successfully...";
             else return $"Repacked '{Path.GetFileName(file)}' successfully...";
+        }
+
+        public static string cmn_RepackedAs(string file1, string file2, bool fullPath) {
+            if (fullPath) return $"Repacked '{file1}' as '{file2}' successfully...";
+            else return $"Repacked '{Path.GetFileName(file1)}' as '{Path.GetFileName(file2)}' successfully...";
         }
 
         public static string cmn_RepackFailed(string file, bool fullPath) {
@@ -296,6 +306,7 @@ namespace Toolkit.Text
         public static string Root = @"Hyper_Development_Team\Sonic '06 Toolkit\";
 
         public static string Shell = "cmd.exe";
+        public static string Arctool = Path.Combine(Program.applicationData, Tools, "arctool.exe");
         public static string Unpack = Path.Combine(Program.applicationData, Tools, "unpack.exe");
         public static string Repack = Path.Combine(Program.applicationData, Tools, "repack.exe");
         public static string LuaCompiler = Path.Combine(Program.applicationData, Tools, "luac50.exe");

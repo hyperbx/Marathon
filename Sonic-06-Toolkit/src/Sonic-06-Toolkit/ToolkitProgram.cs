@@ -56,6 +56,9 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists(Path.Combine(Application.StartupPath, "TinyXML2.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "TinyXML2.dll"), Properties.Resources.tinyxml2);
 
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\arctool.exe"))
+                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\arctool.exe", Properties.Resources.arctool);
+
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe", Properties.Resources.unpack);
 

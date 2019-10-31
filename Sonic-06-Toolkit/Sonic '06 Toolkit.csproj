@@ -267,6 +267,7 @@
     <None Include="src\Tools\SonicAudioTools\csbIcon.ico" />
     <None Include="src\Tools\SonicAudioTools\csbLogo.png" />
     <None Include="src\Tools\SonicAudioTools\adxIcon.ico" />
+    <Content Include="src\Sonic-06-Toolkit\arctool.exe" />
     <Content Include="src\Sonic-06-Toolkit\logo_exception.png" />
     <Content Include="src\Sonic-06-Toolkit\Ookii.Dialogs.dll" />
     <Content Include="src\Tools\BINA\s06col.exe" />

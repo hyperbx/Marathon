@@ -171,7 +171,7 @@ namespace Toolkit.EnvironmentX
         }
 
         private void Window_CloseTab_Click(object sender, EventArgs e) {
-            if (unifytb_Main.SelectedTab.ToolTipText == string.Empty || unifytb_Main.SelectedTab.ToolTipText == "Zm9sZGVy") {
+            if (unifytb_Main.SelectedTab.ToolTipText == string.Empty || unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
                 if (unifytb_Main.TabPages.Count > 1) {
                     int leftMostTab = unifytb_Main.SelectedIndex - 1;
                     unifytb_Main.TabPages.Remove(unifytb_Main.SelectedTab);
@@ -202,7 +202,7 @@ namespace Toolkit.EnvironmentX
 
             if (e.Button == MouseButtons.Middle) {
                 if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText == string.Empty ||
-                    tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText == "Zm9sZGVy") {
+                    tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText.StartsWith("Zm9sZGVy")) {
                     if (unifytb_Main.TabPages.Count > 1)
                         tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
                     else
@@ -226,9 +226,9 @@ namespace Toolkit.EnvironmentX
 
         private void Window_CloseAllTabs_Click(object sender, EventArgs e) {
             bool warning = false;
-            if (unifytb_Main.TabPages.Count != 1 || unifytb_Main.SelectedTab.ToolTipText != string.Empty || unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") {
+            if (unifytb_Main.TabPages.Count != 1 || unifytb_Main.SelectedTab.ToolTipText != string.Empty || !unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
                 foreach (TabPage tabID in unifytb_Main.TabPages)
-                    if (tabID.ToolTipText != string.Empty && unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") warning = true;
+                    if (tabID.ToolTipText != string.Empty && !unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) warning = true;
 
                 if (warning) {
                     switch (MessageBox.Show(SystemMessages.msg_CloseAllTabs, SystemMessages.tl_AreYouSure, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)) {
@@ -257,7 +257,7 @@ namespace Toolkit.EnvironmentX
 
                 CurrentARC().Navigate(getPath);
                 unifytb_Main.SelectedTab.Text = Path.GetFileName(getPath);
-                unifytb_Main.SelectedTab.ToolTipText = "Zm9sZGVy";
+                unifytb_Main.SelectedTab.ToolTipText = $"Zm9sZGVy - {getPath}";
 
                 if (Path.GetFileName(getPath).ToLower() == "new tab" || Path.GetFileName(getPath).EndsWith(".arc"))
                     unifytb_Main.SelectedTab.Text += " (Folder)";
@@ -319,7 +319,7 @@ namespace Toolkit.EnvironmentX
 
                 if (unifytb_Main.SelectedTab.ToolTipText == string.Empty)
                     Text = SystemMessages.tl_DefaultTitleVersion;
-                else if (unifytb_Main.SelectedTab.ToolTipText == "Zm9sZGVy")
+                else if (unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy"))
                     Text = SystemMessages.tl_Exploring(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
                 else {
                     //Reads the metadata to get the original location of the ARC.
@@ -344,31 +344,28 @@ namespace Toolkit.EnvironmentX
             metadataWrite.Write(metadataSession, 0, metadataSession.Length);
             metadataWrite.Close();
 
-            RepackAs(filename);
-
-            try {
-                Directory.Move(Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(unifytb_Main.SelectedTab.Text)), Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(filename)));
-            }
-            catch { MessageBox.Show(SystemMessages.ex_MetadataWriteError, SystemMessages.tl_DefaultTitle, MessageBoxButtons.OK, MessageBoxIcon.Error); }
-
-            ResetTab(false);
-            CurrentARC().Navigate(Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText, Path.GetFileNameWithoutExtension(filename)));
-            unifytb_Main.SelectedTab.Text = Path.GetFileName(File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini")));
-            Text = SystemMessages.tl_Exploring(File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"))); ;
+            unifytb_Main.SelectedTab.Text = Path.GetFileName(filename);
+            Text = SystemMessages.tl_Exploring(filename);
         }
 
         private async void Btn_Repack_Click(object sender, EventArgs e) {
-            string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+            string metadata = string.Empty;
 
             try {
-                Status = StatusMessages.cmn_Repacking(metadata, false);
-                await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
-                      $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
-                      Application.StartupPath,
-                      100000);
-                if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata)))) 
-                    File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
-                Status = StatusMessages.cmn_Repacked(metadata, false);
+                if (!unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
+                    metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+                    Status = StatusMessages.cmn_Repacking(metadata, false);
+                    await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
+                          $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
+                          Application.StartupPath,
+                          100000);
+                    if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
+                        File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
+                    Status = StatusMessages.cmn_Repacked(metadata, false);
+                } else {
+                    string getPath = Browsers.SaveFile(SystemMessages.tl_RepackAs, Filters.Archives);
+                    if (getPath != string.Empty) RepackAs(getPath);
+                }
             } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
         }
 
@@ -421,19 +418,38 @@ namespace Toolkit.EnvironmentX
         }
 
         private async void RepackAs(string filename) {
-            string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+            string metadata = string.Empty;
 
-            if (filename != string.Empty)
-            {
+            if (filename != string.Empty) {
                 try {
-                    Status = StatusMessages.cmn_Repacking(metadata, false);
-                    await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
-                          $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
-                          Application.StartupPath,
-                          100000);
-                    if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
-                        File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), filename, true); //Copies the repacked ARC back to the original location.
-                    Status = StatusMessages.cmn_Repacked(metadata, false);
+                    if (!unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
+                        metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+
+                        Status = StatusMessages.cmn_RepackingAs(metadata, filename, false);
+                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
+                              $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
+                              Application.StartupPath,
+                              100000);
+                        if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
+                            File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), filename, true); //Copies the repacked ARC back to the original location.
+
+                        //Writes metadata to the unpacked directory to ensure the original path is remembered.
+                        var metadataWrite = File.Create(Path.Combine(repackBuildSession, "metadata.ini"));
+                        var metadataSession = new UTF8Encoding(true).GetBytes(filename);
+                        metadataWrite.Write(metadataSession, 0, metadataSession.Length);
+                        metadataWrite.Close();
+
+                        unifytb_Main.SelectedTab.Text = Path.GetFileName(filename);
+                        Status = StatusMessages.cmn_RepackedAs(metadata, filename, false);
+                    } else {
+                        string getPathFromTabMeta = unifytb_Main.SelectedTab.ToolTipText.Substring(11);
+                        Status = StatusMessages.cmn_RepackingAs(getPathFromTabMeta, filename, false);
+                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Arctool,
+                              $"-i \"{getPathFromTabMeta}\" -c \"{filename}\"",
+                              Application.StartupPath,
+                              100000);
+                        Status = StatusMessages.cmn_RepackedAs(getPathFromTabMeta, filename, false);
+                    }
                 } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
             }
         }
@@ -477,7 +493,7 @@ namespace Toolkit.EnvironmentX
 
             bool warning = false;
             foreach (TabPage tabID in unifytb_Main.TabPages)
-                if (tabID.ToolTipText != string.Empty) warning = true;
+                if (tabID.ToolTipText != string.Empty && !tabID.ToolTipText.StartsWith("Zm9sZGVy")) warning = true;
 
             if (warning) {
                 switch (e.CloseReason) {
@@ -559,7 +575,7 @@ namespace Toolkit.EnvironmentX
 
         private void Tm_CheapFix_Tick(object sender, EventArgs e) {
             try {
-                if (unifytb_Main.SelectedTab.ToolTipText != string.Empty && unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") {
+                if (unifytb_Main.SelectedTab.ToolTipText != string.Empty && !unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
                         string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
@@ -1033,6 +1049,7 @@ namespace Toolkit.EnvironmentX
             Properties.Settings.Default.log_X = Properties.Settings.Default.log_Y = 25;
             Properties.Settings.Default.log_windowState = FormWindowState.Normal;
             Properties.Settings.Default.log_refreshTimer = 1000;
+            sessionLog.Clear();
             new Logs.ToolkitSessionLog().Show();
         }
     }
