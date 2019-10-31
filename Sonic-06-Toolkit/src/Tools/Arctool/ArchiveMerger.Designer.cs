@@ -123,6 +123,7 @@
             this.text_ARC1.Name = "text_ARC1";
             this.text_ARC1.Size = new System.Drawing.Size(449, 20);
             this.text_ARC1.TabIndex = 0;
+            this.text_ARC1.TextChanged += new System.EventHandler(this.Text_ARC1_TextChanged);
             // 
             // group_ToolsPath
             // 
@@ -160,6 +161,7 @@
             this.text_ARC2.Name = "text_ARC2";
             this.text_ARC2.Size = new System.Drawing.Size(449, 20);
             this.text_ARC2.TabIndex = 0;
+            this.text_ARC2.TextChanged += new System.EventHandler(this.Text_ARC2_TextChanged);
             // 
             // group_ArchivesPath
             // 
@@ -197,11 +199,13 @@
             this.text_Output.Name = "text_Output";
             this.text_Output.Size = new System.Drawing.Size(449, 20);
             this.text_Output.TabIndex = 0;
+            this.text_Output.TextChanged += new System.EventHandler(this.Text_Output_TextChanged);
             // 
             // btn_Merge
             // 
             this.btn_Merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Merge.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(127)))), ((int)(((byte)(0)))));
+            this.btn_Merge.Enabled = false;
             this.btn_Merge.FlatAppearance.BorderSize = 0;
             this.btn_Merge.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Merge.ForeColor = System.Drawing.SystemColors.ControlText;

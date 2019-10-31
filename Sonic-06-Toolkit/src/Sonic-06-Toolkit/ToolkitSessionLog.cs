@@ -34,6 +34,9 @@ namespace Toolkit.Logs
     {
         public ToolkitSessionLog() {
             InitializeComponent();
+            Left = Properties.Settings.Default.log_X;
+            Top = Properties.Settings.Default.log_Y;
+            WindowState = Properties.Settings.Default.log_windowState;
             Properties.Settings.Default.log_Startup = true;
 
             list_Logs.Items.Clear();
@@ -66,8 +69,10 @@ namespace Toolkit.Logs
         }
 
         private void ToolkitSessionLog_FormClosing(object sender, FormClosingEventArgs e) {
+            Properties.Settings.Default.log_X = Left;
+            Properties.Settings.Default.log_Y = Top;
+            Properties.Settings.Default.log_windowState = WindowState;
             Properties.Settings.Default.log_Startup = false;
-            Properties.Settings.Default.Save();
         }
 
         private void btn_TimerEnabled_Click(object sender, EventArgs e) {

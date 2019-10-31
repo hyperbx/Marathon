@@ -47,6 +47,7 @@ namespace Toolkit.Tools
         private void PlacementConverter_Load(object sender, EventArgs e) {
             btn_Process.Text = "Export";
             clb_SETs.Items.Clear();
+            btn_Process.Enabled = false;
 
             if (Directory.GetFiles(location, "*.set").Length > 0) {
                 modes_Export.Checked = true;

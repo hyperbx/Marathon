@@ -134,6 +134,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(623, 395);
             this.Name = "ToolkitSessionLog";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Session Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolkitSessionLog_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).EndInit();

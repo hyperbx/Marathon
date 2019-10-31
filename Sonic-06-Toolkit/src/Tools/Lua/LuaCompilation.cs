@@ -44,72 +44,70 @@ namespace Toolkit.Tools
         }
 
         private void LuaCompilation_Load(object sender, EventArgs e) {
-            ListVerifiedLuaBinaries();
+            combo_Mode.SelectedIndex = 0;
         }
 
         private void ListVerifiedLuaBinaries() {
             clb_LUBs.Items.Clear();
-            if (Directory.GetFiles(location, "*.lub").Length > 0) {
-                foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
-                    if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB)) {
-                        clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                        btn_Process.Text = "Decompile";
-                        combo_Mode.SelectedIndex = 0;
-                    }
+            btn_Process.Enabled = false;
 
-                if (clb_LUBs.Items.Count == 0)
+            if (Directory.GetFiles(location, "*.lub").Length > 0)
+                if (combo_Mode.SelectedIndex == 0) {
                     foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
-                        if (File.Exists(LUB)) {
+                        if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB))
                             clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                            btn_Process.Text = "Compile";
-                            combo_Mode.SelectedIndex = 1;
-                        }
-            } else {
+
+                    if (clb_LUBs.Items.Count == 0)
+                        combo_Mode.SelectedIndex = 1;
+                } else {
+                    foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
+                        if (File.Exists(LUB) && !Verification.VerifyMagicNumberExtended(LUB))
+                            clb_LUBs.Items.Add(Path.GetFileName(LUB));
+
+                    if (clb_LUBs.Items.Count == 0)
+                        combo_Mode.SelectedIndex = 0;
+                }
+            else {
                 MessageBox.Show(SystemMessages.msg_NoCompilableFiles, SystemMessages.tl_NoFilesAvailable(string.Empty), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Close();
-            }
+            } 
         }
 
         private void Combo_Mode_SelectedIndexChanged(object sender, EventArgs e) {
             clb_LUBs.Items.Clear();
+            btn_Process.Enabled = false;
 
-            if (Directory.GetFiles(location, "*.lub").Length > 0) {
+            if (combo_Mode.SelectedIndex == 0) {
+                Text = "Lua Decompiler (experimental)";
+                lbl_Title.Text = "Lua Decompiler";
+                btn_Process.Text = "Decompile";
+                lbl_Experimental.Visible = true;
+                lbl_Title.Top -= 5;
+
                 foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
-                    if (combo_Mode.SelectedIndex == 0) {
-                        if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB)) {
-                            clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                            btn_Process.Text = "Decompile";
-                            combo_Mode.SelectedIndex = 0;
-                        }
-                    } else {
-                        if (File.Exists(LUB) && !Verification.VerifyMagicNumberExtended(LUB)) {
-                            clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                            btn_Process.Text = "Compile";
-                            combo_Mode.SelectedIndex = 1;
-                        }
-                    }
+                    if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB))
+                        clb_LUBs.Items.Add(Path.GetFileName(LUB));
 
-                if (clb_LUBs.Items.Count == 0)
-                    if (combo_Mode.SelectedIndex == 0) {
-                        MessageBox.Show(SystemMessages.msg_NoLUBsInDir, SystemMessages.tl_NoFilesAvailable("LUB"), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
-                            if (File.Exists(LUB) && !Verification.VerifyMagicNumberExtended(LUB)) {
-                                clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                                btn_Process.Text = "Compile";
-                                combo_Mode.SelectedIndex = 1;
-                            }
-                    } else {
-                        MessageBox.Show(SystemMessages.msg_NoLUAsInDir, SystemMessages.tl_NoFilesAvailable("LUA"), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
-                            if (File.Exists(LUB) && Verification.VerifyMagicNumberExtended(LUB)) {
-                                clb_LUBs.Items.Add(Path.GetFileName(LUB));
-                                btn_Process.Text = "Decompile";
-                                combo_Mode.SelectedIndex = 0;
-                            }
-                    }
-            } else {
-                MessageBox.Show(SystemMessages.msg_NoLUBsInDir, SystemMessages.tl_NoFilesAvailable("LUB"), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
+                if (Directory.GetFiles(location, "*.lub").Length == 0) {
+                    MessageBox.Show(SystemMessages.msg_NoDecompilableFiles, SystemMessages.tl_NoFilesAvailable("LUB"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                } else if (clb_LUBs.Items.Count == 0)
+                    combo_Mode.SelectedIndex = 1;
+            } else if (combo_Mode.SelectedIndex == 1) {
+                Text = "Lua Compiler";
+                lbl_Title.Text = "Lua Compiler";
+                btn_Process.Text = "Compile";
+                lbl_Experimental.Visible = false;
+                lbl_Title.Top += 5;
+
+                foreach (string LUB in Directory.GetFiles(location, "*.lub", SearchOption.TopDirectoryOnly))
+                    if (File.Exists(LUB) && !Verification.VerifyMagicNumberExtended(LUB))
+                        clb_LUBs.Items.Add(Path.GetFileName(LUB));
+
+                if (Directory.GetFiles(location, "*.lub").Length == 0 || clb_LUBs.Items.Count == 0) {
+                    MessageBox.Show(SystemMessages.msg_NoCompilableFiles, SystemMessages.tl_NoFilesAvailable("LUB"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    combo_Mode.SelectedIndex = 0;
+                }
             }
         }
 

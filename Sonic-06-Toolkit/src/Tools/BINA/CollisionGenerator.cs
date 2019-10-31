@@ -45,6 +45,7 @@ namespace Toolkit.Tools
 
         private void CollisionGenerator_Load(object sender, EventArgs e) {
             clb_MDLs.Items.Clear();
+            btn_Process.Enabled = false;
 
             if (Directory.GetFiles(location, "*.bin").Length > 0) {
                 combo_Mode.SelectedIndex = 0;
@@ -66,6 +67,7 @@ namespace Toolkit.Tools
                 btn_Process.Text = "Export";
 
                 clb_MDLs.Items.Clear();
+                btn_Process.Enabled = false;
                 foreach (string BIN in Directory.GetFiles(location, "*.bin", SearchOption.TopDirectoryOnly))
                     if (File.Exists(BIN) && Verification.VerifyMagicNumberExtended(BIN))
                         clb_MDLs.Items.Add(Path.GetFileName(BIN));
@@ -80,6 +82,7 @@ namespace Toolkit.Tools
                 btn_Process.Text = "Import";
 
                 clb_MDLs.Items.Clear();
+                btn_Process.Enabled = false;
                 foreach (string OBJ in Directory.GetFiles(location, "*.obj", SearchOption.TopDirectoryOnly))
                     if (File.Exists(OBJ) && Verification.VerifyMagicNumberCommon(OBJ))
                         clb_MDLs.Items.Add(Path.GetFileName(OBJ));

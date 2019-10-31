@@ -202,5 +202,41 @@ namespace Toolkit.Properties {
                 this["env_gameDirDisabled"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int log_X {
+            get {
+                return ((int)(this["log_X"]));
+            }
+            set {
+                this["log_X"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("25")]
+        public int log_Y {
+            get {
+                return ((int)(this["log_Y"]));
+            }
+            set {
+                this["log_Y"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Normal")]
+        public global::System.Windows.Forms.FormWindowState log_windowState {
+            get {
+                return ((global::System.Windows.Forms.FormWindowState)(this["log_windowState"]));
+            }
+            set {
+                this["log_windowState"] = value;
+            }
+        }
     }
 }

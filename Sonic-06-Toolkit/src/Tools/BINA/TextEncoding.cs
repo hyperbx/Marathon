@@ -45,6 +45,7 @@ namespace Toolkit.Tools
 
         private void TextEditor_Load(object sender, EventArgs e) {
             clb_MSTs.Items.Clear();
+            btn_Process.Enabled = false;
 
             if (Directory.GetFiles(location, "*.mst").Length > 0) {
                 combo_Mode.SelectedIndex = 0;
@@ -62,10 +63,11 @@ namespace Toolkit.Tools
         }
 
         private void Combo_Mode_SelectedIndexChanged(object sender, EventArgs e) {
+            clb_MSTs.Items.Clear();
+            btn_Process.Enabled = false;
+
             if (combo_Mode.SelectedIndex == 0) {
                 btn_Process.Text = "Export";
-
-                clb_MSTs.Items.Clear();
                 foreach (string MST in Directory.GetFiles(location, "*.mst", SearchOption.TopDirectoryOnly))
                     if (File.Exists(MST) && Verification.VerifyMagicNumberExtended(MST))
                         clb_MSTs.Items.Add(Path.GetFileName(MST));
@@ -78,8 +80,6 @@ namespace Toolkit.Tools
                 }
             } else if (combo_Mode.SelectedIndex == 1) {
                 btn_Process.Text = "Import";
-
-                clb_MSTs.Items.Clear();
                 foreach (string XML in Directory.GetFiles(location, "*.xml", SearchOption.TopDirectoryOnly))
                     if (File.Exists(XML) && Verification.VerifyXML(XML, "MST"))
                         clb_MSTs.Items.Add(Path.GetFileName(XML));

@@ -36,7 +36,7 @@ namespace Toolkit.Tools
     public partial class ArchiveMerger : Form
     {
         private Main mainForm = null;
-        private string location = Paths.currentPath;
+        private int pathsSpecified = 0;
 
         public ArchiveMerger(Form callingForm) {
             mainForm = callingForm as Main;
@@ -106,7 +106,7 @@ namespace Toolkit.Tools
                   100000);
 
             if (File.Exists(Path.Combine(tempPath, Path.GetFileName(arc1))))
-                File.Copy(Path.Combine(tempPath, Path.GetFileName(arc1)), text_Output.Text, true);
+                File.Copy(Path.Combine(tempPath, Path.GetFileName(arc1)), output, true);
 
             // Erase temporary files on completion.
             try {
@@ -116,6 +116,30 @@ namespace Toolkit.Tools
                     foreach (DirectoryInfo directory in tempData.GetDirectories())
                         directory.Delete(true);
             } catch { return; }
+        }
+
+        private void Text_ARC1_TextChanged(object sender, EventArgs e) { 
+            if (text_ARC1.Text != string.Empty && File.Exists(text_ARC1.Text)) pathsSpecified++;
+            else pathsSpecified--;
+
+            if (pathsSpecified == 3) btn_Merge.Enabled = true;
+            else btn_Merge.Enabled = false;
+        }
+
+        private void Text_ARC2_TextChanged(object sender, EventArgs e) {
+            if (text_ARC2.Text != string.Empty && File.Exists(text_ARC2.Text)) pathsSpecified++;
+            else pathsSpecified--;
+
+            if (pathsSpecified == 3) btn_Merge.Enabled = true;
+            else btn_Merge.Enabled = false;
+        }
+
+        private void Text_Output_TextChanged(object sender, EventArgs e) {
+            if (text_Output.Text != string.Empty) pathsSpecified++;
+            else pathsSpecified--;
+
+            if (pathsSpecified == 3) btn_Merge.Enabled = true;
+            else btn_Merge.Enabled = false;
         }
     }
 }

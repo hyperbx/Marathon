@@ -80,6 +80,7 @@ namespace Toolkit.Tools
 
         private void ExecutableModification_Load(object sender, EventArgs e) {
             clb_XEXs.Items.Clear();
+            btn_Process.Enabled = false;
 
             if (Directory.GetFiles(location, "*.xex").Length > 0) {
                 foreach (string XEX in Directory.GetFiles(location, "*.xex", SearchOption.TopDirectoryOnly))

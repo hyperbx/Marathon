@@ -78,6 +78,7 @@ namespace Toolkit.Text
         public static string msg_NoEncodableFiles = "There are no encodable files in this directory.";
         public static string msg_NoConvertableFiles = "There are no convertable files in this directory.";
         public static string msg_NoCompilableFiles = "There are no compilable files in this directory.";
+        public static string msg_NoDecompilableFiles = "There are no decompilable files in this directory.";
         public static string msg_NoEditableFiles = "There are no editable files in this directory.";
         public static string msg_NoRepackableCSBs = "There are no repackable CSBs in this directory.";
         public static string ex_EncoderError = "An error occurred whilst encoding your audio file.";

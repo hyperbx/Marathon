@@ -119,6 +119,8 @@ namespace Toolkit.Tools
 
         private void Combo_Encoder_SelectedIndexChanged(object sender, EventArgs e) {
             clb_SNDs.Items.Clear();
+            btn_Process.Enabled = false;
+
             if (combo_Encoder.SelectedIndex == 0) { //ADX
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
                 pic_Logo.BackgroundImage = Properties.Resources.adxLogo;

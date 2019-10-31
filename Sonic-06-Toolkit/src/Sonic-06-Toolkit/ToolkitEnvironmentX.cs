@@ -850,7 +850,7 @@ namespace Toolkit.EnvironmentX
             new ToolkitAbout().ShowDialog();
         }
 
-        private void Advanced_Reset_Click(object sender, EventArgs e) {
+        private void Advanced_ResetToolkit_Click(object sender, EventArgs e) {
             DialogResult reset = MessageBox.Show("This will completely reset Sonic '06 Toolkit...\n\n" +
                                                  "" +
                                                  "The following data will be erased:\n" +
@@ -1009,6 +1009,26 @@ namespace Toolkit.EnvironmentX
                 Process.Start(Path.Combine(Program.applicationData, Paths.Root));
             else if (e.Button == MouseButtons.Right)
                 Process.Start(Application.StartupPath);
+        }
+
+        private void Advanced_ResetLog_Click(object sender, EventArgs e) {
+            Logs.ToolkitSessionLog openLogs = Application.OpenForms["ToolkitSessionLog"] != null ? (Logs.ToolkitSessionLog)Application.OpenForms["ToolkitSessionLog"] : null;
+            if (openLogs != null) {
+                try {
+                    openLogs = (Logs.ToolkitSessionLog)Application.OpenForms["ToolkitSessionLog"];
+                    openLogs.Close();
+                }
+                catch { }
+            }
+            
+            if (Properties.Settings.Default.env_firstLaunch)
+                sessionLog.Remove("Welcome to Sonic '06 Toolkit! Click here to view the Session Log...");
+            else
+                sessionLog.Remove("Welcome back! Click here to view the Session Log...");
+            Properties.Settings.Default.log_X = Properties.Settings.Default.log_Y = 25;
+            Properties.Settings.Default.log_windowState = FormWindowState.Normal;
+            Properties.Settings.Default.log_refreshTimer = 1000;
+            new Logs.ToolkitSessionLog().Show();
         }
     }
 }

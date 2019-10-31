@@ -77,6 +77,8 @@ namespace Toolkit
 
         private void TextureConverter_Load(object sender, EventArgs e) {
             clb_IMGs.Items.Clear();
+            btn_Process.Enabled = false;
+
             if (Directory.GetFiles(location, "*.dds").Length > 0) {
                 modes_DDStoPNG.Checked = true;
                 modes_PNGtoDDS.Checked = false;
@@ -135,6 +137,7 @@ namespace Toolkit
         private void Modes_DDStoPNG_CheckedChanged(object sender, EventArgs e) {
             if (modes_DDStoPNG.Checked) {
                 clb_IMGs.Items.Clear();
+                btn_Process.Enabled = false;
 
                 foreach (string DDS in Directory.GetFiles(location, "*.dds", SearchOption.TopDirectoryOnly))
                     if (File.Exists(DDS) && Verification.VerifyMagicNumberCommon(DDS))
@@ -167,6 +170,7 @@ namespace Toolkit
         private void Modes_PNGtoDDS_CheckedChanged(object sender, EventArgs e) {
             if (modes_PNGtoDDS.Checked) {
                 clb_IMGs.Items.Clear();
+                btn_Process.Enabled = false;
 
                 foreach (string PNG in Directory.GetFiles(location, "*.png", SearchOption.TopDirectoryOnly))
                     if (File.Exists(PNG) && Verification.VerifyMagicNumberCommon(PNG))

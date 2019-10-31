@@ -381,8 +381,7 @@ namespace Toolkit.Tools
                 } else if (Path.GetExtension(path).ToLower() == ".obj") {
                     if (hexString == "6D 74 6C 6C") return true;
                     else return false;
-                }
-                return false;
+                } return false;
             } catch { return false; }
         }
 
@@ -396,8 +395,7 @@ namespace Toolkit.Tools
                 } else if (Path.GetExtension(path).ToLower() == ".lub") {
                     if (hexString.Contains("1B 4C 75 61 50")) return true;
                     else return false;
-                }
-                return false;
+                } return false;
             } catch { return false; }
         }
 
@@ -432,8 +430,7 @@ namespace Toolkit.Tools
                         if (hexString.Contains("3C 6D 73 74 30 36")) return true;
                         else return false;
                     else return false;
-                }
-                return false;
+                } return false;
             } catch { return false; }
         }
 

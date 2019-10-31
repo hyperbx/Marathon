@@ -47,6 +47,7 @@ namespace Toolkit.Tools
             clb_XNOs.Items.Clear();
             clb_XNOs_XNM.Items.Clear();
             clb_XNMs.Items.Clear();
+            btn_Process.Enabled = false;
 
             if (Directory.GetFiles(location, "*.xno").Length > 0) {
                 modes_Model.Checked = true;

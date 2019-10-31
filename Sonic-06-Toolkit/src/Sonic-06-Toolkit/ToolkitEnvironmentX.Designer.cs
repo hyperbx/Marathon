@@ -58,7 +58,8 @@
             this.preferences_DisableGameDirectory = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.preferences_Advanced = new System.Windows.Forms.ToolStripMenuItem();
-            this.advanced_Reset = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanced_ResetToolkit = new System.Windows.Forms.ToolStripMenuItem();
+            this.advanced_ResetLog = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.main_SDK = new System.Windows.Forms.ToolStripMenuItem();
             this.sdk_ArchiveMerger = new System.Windows.Forms.ToolStripMenuItem();
@@ -438,19 +439,28 @@
             // preferences_Advanced
             // 
             this.preferences_Advanced.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.advanced_Reset});
+            this.advanced_ResetToolkit,
+            this.advanced_ResetLog});
             this.preferences_Advanced.Image = ((System.Drawing.Image)(resources.GetObject("preferences_Advanced.Image")));
             this.preferences_Advanced.Name = "preferences_Advanced";
             this.preferences_Advanced.Size = new System.Drawing.Size(269, 22);
             this.preferences_Advanced.Text = "Advanced";
             // 
-            // advanced_Reset
+            // advanced_ResetToolkit
             // 
-            this.advanced_Reset.Image = ((System.Drawing.Image)(resources.GetObject("advanced_Reset.Image")));
-            this.advanced_Reset.Name = "advanced_Reset";
-            this.advanced_Reset.Size = new System.Drawing.Size(190, 22);
-            this.advanced_Reset.Text = "Reset Sonic \'06 Toolkit";
-            this.advanced_Reset.Click += new System.EventHandler(this.Advanced_Reset_Click);
+            this.advanced_ResetToolkit.Image = ((System.Drawing.Image)(resources.GetObject("advanced_ResetToolkit.Image")));
+            this.advanced_ResetToolkit.Name = "advanced_ResetToolkit";
+            this.advanced_ResetToolkit.Size = new System.Drawing.Size(190, 22);
+            this.advanced_ResetToolkit.Text = "Reset Sonic \'06 Toolkit";
+            this.advanced_ResetToolkit.Click += new System.EventHandler(this.Advanced_ResetToolkit_Click);
+            // 
+            // advanced_ResetLog
+            // 
+            this.advanced_ResetLog.Image = ((System.Drawing.Image)(resources.GetObject("advanced_ResetLog.Image")));
+            this.advanced_ResetLog.Name = "advanced_ResetLog";
+            this.advanced_ResetLog.Size = new System.Drawing.Size(190, 22);
+            this.advanced_ResetLog.Text = "Reset Session Log";
+            this.advanced_ResetLog.Click += new System.EventHandler(this.Advanced_ResetLog_Click);
             // 
             // file_Exit
             // 
@@ -1224,7 +1234,7 @@
         private System.Windows.Forms.ToolStripMenuItem preferences_DisableGameDirectory;
         private System.Windows.Forms.ToolStripSeparator preferences_Separator2;
         private System.Windows.Forms.ToolStripMenuItem preferences_Advanced;
-        private System.Windows.Forms.ToolStripMenuItem advanced_Reset;
+        private System.Windows.Forms.ToolStripMenuItem advanced_ResetToolkit;
         private System.Windows.Forms.ToolStripMenuItem file_Exit;
         private System.Windows.Forms.ToolStripMenuItem main_SDK;
         private System.Windows.Forms.ToolStripMenuItem main_Shortcuts;
@@ -1296,6 +1306,7 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToADX;
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToWAV;
         private System.Windows.Forms.ToolStripMenuItem help_GitHub;
+        private System.Windows.Forms.ToolStripMenuItem advanced_ResetLog;
     }
 }
 
