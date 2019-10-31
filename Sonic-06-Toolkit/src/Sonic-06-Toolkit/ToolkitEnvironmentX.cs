@@ -137,6 +137,7 @@ namespace Toolkit.EnvironmentX
             var nextBrowser = new WebBrowser();
             unifytb_Main.SelectedTab.Text = "New Tab";
             unifytb_Main.SelectedTab.Controls.Add(nextBrowser);
+            unifytb_Main.SelectedTab.ToolTipText = string.Empty;
             nextBrowser.Dock = DockStyle.Fill;
             CurrentARC().AllowWebBrowserDrop = false;
             Text = SystemMessages.tl_DefaultTitleVersion;
@@ -170,7 +171,7 @@ namespace Toolkit.EnvironmentX
         }
 
         private void Window_CloseTab_Click(object sender, EventArgs e) {
-            if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) {
+            if (unifytb_Main.SelectedTab.ToolTipText == string.Empty || unifytb_Main.SelectedTab.ToolTipText == "Zm9sZGVy") {
                 if (unifytb_Main.TabPages.Count > 1) {
                     int leftMostTab = unifytb_Main.SelectedIndex - 1;
                     unifytb_Main.TabPages.Remove(unifytb_Main.SelectedTab);
@@ -200,7 +201,8 @@ namespace Toolkit.EnvironmentX
             var tabs = mainTab.TabPages;
 
             if (e.Button == MouseButtons.Middle) {
-                if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText == string.Empty) {
+                if (tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText == string.Empty ||
+                    tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First().ToolTipText == "Zm9sZGVy") {
                     if (unifytb_Main.TabPages.Count > 1)
                         tabs.Remove(tabs.Cast<TabPage>().Where((t, i) => mainTab.GetTabRect(i).Contains(e.Location)).First());
                     else
@@ -224,22 +226,24 @@ namespace Toolkit.EnvironmentX
 
         private void Window_CloseAllTabs_Click(object sender, EventArgs e) {
             bool warning = false;
-            if (unifytb_Main.TabPages.Count != 1 || unifytb_Main.SelectedTab.ToolTipText != string.Empty) {
+            if (unifytb_Main.TabPages.Count != 1 || unifytb_Main.SelectedTab.ToolTipText != string.Empty || unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") {
                 foreach (TabPage tabID in unifytb_Main.TabPages)
-                    if (tabID.ToolTipText != string.Empty) warning = true;
+                    if (tabID.ToolTipText != string.Empty && unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") warning = true;
 
                 if (warning) {
                     switch (MessageBox.Show(SystemMessages.msg_CloseAllTabs, SystemMessages.tl_AreYouSure, MessageBoxButtons.YesNo, MessageBoxIcon.Warning)) {
                         case DialogResult.Yes:
                             foreach (TabPage tab in unifytb_Main.TabPages) unifytb_Main.TabPages.Remove(tab);
+                            Text = SystemMessages.tl_DefaultTitleVersion;
+                            NewTab(true);
                             break;
                     }
                 }
-                else
+                else {
                     foreach (TabPage tab in unifytb_Main.TabPages) unifytb_Main.TabPages.Remove(tab);
-
-                Text = SystemMessages.tl_DefaultTitleVersion;
-                NewTab(true);
+                    Text = SystemMessages.tl_DefaultTitleVersion;
+                    NewTab(true);
+                }
             } else
                 ResetTab(true);
     }
@@ -253,6 +257,7 @@ namespace Toolkit.EnvironmentX
 
                 CurrentARC().Navigate(getPath);
                 unifytb_Main.SelectedTab.Text = Path.GetFileName(getPath);
+                unifytb_Main.SelectedTab.ToolTipText = "Zm9sZGVy";
 
                 if (Path.GetFileName(getPath).ToLower() == "new tab" || Path.GetFileName(getPath).EndsWith(".arc"))
                     unifytb_Main.SelectedTab.Text += " (Folder)";
@@ -312,12 +317,11 @@ namespace Toolkit.EnvironmentX
             try {
                 repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
 
-                if (unifytb_Main.SelectedTab.ToolTipText == string.Empty) {
-                    if (unifytb_Main.SelectedTab.Text == "New Tab")
-                        Text = SystemMessages.tl_DefaultTitleVersion;
-                    else
-                        Text = SystemMessages.tl_Exploring(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
-                } else {
+                if (unifytb_Main.SelectedTab.ToolTipText == string.Empty)
+                    Text = SystemMessages.tl_DefaultTitleVersion;
+                else if (unifytb_Main.SelectedTab.ToolTipText == "Zm9sZGVy")
+                    Text = SystemMessages.tl_Exploring(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
+                else {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
                         string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
@@ -555,7 +559,7 @@ namespace Toolkit.EnvironmentX
 
         private void Tm_CheapFix_Tick(object sender, EventArgs e) {
             try {
-                if (unifytb_Main.SelectedTab.ToolTipText != string.Empty) {
+                if (unifytb_Main.SelectedTab.ToolTipText != string.Empty && unifytb_Main.SelectedTab.ToolTipText != "Zm9sZGVy") {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
                         string metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
