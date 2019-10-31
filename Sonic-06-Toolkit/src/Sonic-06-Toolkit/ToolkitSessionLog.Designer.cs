@@ -137,6 +137,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Session Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolkitSessionLog_FormClosing);
+            this.Move += new System.EventHandler(this.ToolkitSessionLog_Move);
+            this.Resize += new System.EventHandler(this.ToolkitSessionLog_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

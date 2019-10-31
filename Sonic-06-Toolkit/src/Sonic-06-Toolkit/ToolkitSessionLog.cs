@@ -1,5 +1,6 @@
 ﻿using System;
 using Toolkit.Text;
+using System.Drawing;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
 
@@ -34,8 +35,7 @@ namespace Toolkit.Logs
     {
         public ToolkitSessionLog() {
             InitializeComponent();
-            Left = Properties.Settings.Default.log_X;
-            Top = Properties.Settings.Default.log_Y;
+            Location = new Point(Properties.Settings.Default.log_X, Properties.Settings.Default.log_Y);
             WindowState = Properties.Settings.Default.log_windowState;
             Properties.Settings.Default.log_Startup = true;
 
@@ -78,6 +78,15 @@ namespace Toolkit.Logs
         private void btn_TimerEnabled_Click(object sender, EventArgs e) {
             if (tm_RefreshLogs.Enabled) { btn_TimerEnabled.Text = "Resume"; tm_RefreshLogs.Stop(); }
             else { btn_TimerEnabled.Text = "Pause"; tm_RefreshLogs.Start(); }
+        }
+
+        private void ToolkitSessionLog_Move(object sender, EventArgs e) {
+            Properties.Settings.Default.log_X = Left;
+            Properties.Settings.Default.log_Y = Top;
+        }
+
+        private void ToolkitSessionLog_Resize(object sender, EventArgs e) {
+            Properties.Settings.Default.log_windowState = WindowState;
         }
     }
 }
