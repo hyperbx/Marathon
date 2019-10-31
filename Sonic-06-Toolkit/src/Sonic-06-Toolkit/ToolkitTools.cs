@@ -12,6 +12,7 @@ using SonicAudioLib.IO;
 using System.Diagnostics;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
@@ -45,7 +46,7 @@ using System.Runtime.InteropServices;
 
 namespace Toolkit.Tools
 {
-    class Updater
+    public static class Updater
     {
         public static void CheckForUpdates(string currentVersion, string newVersionDownloadLink, string versionInfoLink, bool userAccess) {
             try {
@@ -57,7 +58,7 @@ namespace Toolkit.Tools
                 } catch { return; }
 
                 try {
-                    changeLogs = new TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/changelogs.txt");
+                    changeLogs = new TimedWebClient { Timeout = 100000 }.DownloadString("https://segacarnival.com/hyper/updates/sonic-06-toolkit/changelogs.txt");
                 } catch { changeLogs = "► Allan please add details"; }
 
                 if (latestVersion.Contains("Version")) {
@@ -85,6 +86,26 @@ namespace Toolkit.Tools
                 }
             } catch {
                 Main.serverStatus = "offline";
+            }
+        }
+
+        public static void ExtractToDirectory(this ZipArchive archive, string destinationDirectoryName, bool overwrite) {
+            if (!overwrite) {
+                archive.ExtractToDirectory(destinationDirectoryName);
+                return;
+            }
+            foreach (ZipArchiveEntry file in archive.Entries) {
+                string completeFileName = Path.Combine(destinationDirectoryName, file.FullName);
+                string directory = Path.GetDirectoryName(completeFileName);
+
+                if (!Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                if (file.Name != "")
+                    if (Path.GetFileName(completeFileName) != "Sonic '06 Toolkit.exe")
+                        file.ExtractToFile(completeFileName, true);
+                    else
+                        file.ExtractToFile(Path.Combine(destinationDirectoryName, "Sonic '06 Toolkit.exe.new"), true);
             }
         }
     }

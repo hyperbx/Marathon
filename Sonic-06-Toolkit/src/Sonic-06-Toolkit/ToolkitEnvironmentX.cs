@@ -971,7 +971,7 @@ namespace Toolkit.EnvironmentX
         private void Help_CheckForUpdates_Click(object sender, EventArgs e) {
             if (serverStatus == "offline") { MessageBox.Show("Unable to establish a connection to SEGA Carnival.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
             else if (serverStatus == "down") { MessageBox.Show("The update servers are currently undergoing maintenance. Apologies for the inconvenience.", "Server Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
-            else Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", true);
+            else Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/sonic-06-toolkit/Sonic_06_Toolkit.zip", "https://segacarnival.com/hyper/updates/sonic-06-toolkit/latest_master.txt", true);
         }
 
         private void Main_Shown(object sender, EventArgs e) {
@@ -980,7 +980,7 @@ namespace Toolkit.EnvironmentX
                 !versionNumber.Contains("alpha")                 &&
                 !versionNumber.Contains("indev")                 &&
                 !versionNumber.Contains("test"))
-                    Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/latest-master.exe", "https://segacarnival.com/hyper/updates/latest_master.txt", false);
+                    Updater.CheckForUpdates(versionNumber, "https://segacarnival.com/hyper/updates/sonic-06-toolkit/Sonic_06_Toolkit.zip", "https://segacarnival.com/hyper/updates/sonic-06-toolkit/latest_master.txt", false);
         }
 
         private void Preferences_DisableGameDirectory_CheckedChanged(object sender, EventArgs e) {

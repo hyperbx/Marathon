@@ -4,6 +4,7 @@ using System.Net;
 using Toolkit.Text;
 using Toolkit.EnvironmentX;
 using System.Windows.Forms;
+using System.IO.Compression;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -50,14 +51,23 @@ namespace Toolkit.Tools
         }
 
         private void UpdateVersion() {
-            using (clientApplication = new WebClient()) {
-                clientApplication.DownloadProgressChanged += (s, e) => { pgb_Progress.Value = e.ProgressPercentage; };
-                clientApplication.DownloadFileAsync(new Uri(urlString), Application.ExecutablePath + ".pak");
-                clientApplication.DownloadFileCompleted += (s, e) => {
-                    File.Replace(Application.ExecutablePath + ".pak", Application.ExecutablePath, Application.ExecutablePath + ".bak");
-                    MessageBox.Show(SystemMessages.msg_UpdateComplete, SystemMessages.tl_Success, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Program.Restart();
-                };
+            try {
+                using (clientApplication = new WebClient()) {
+                    clientApplication.DownloadProgressChanged += (s, e) => { pgb_Progress.Value = e.ProgressPercentage; };
+                    clientApplication.DownloadFileAsync(new Uri(urlString), $"{Application.ExecutablePath}.pak");
+                    clientApplication.DownloadFileCompleted += (s, e) => {
+                        using (ZipArchive archive = new ZipArchive(new MemoryStream(File.ReadAllBytes($"{Application.ExecutablePath}.pak")))) {
+                            Updater.ExtractToDirectory(archive, Application.StartupPath, true);
+                            File.Replace($"{Application.ExecutablePath}.new", Application.ExecutablePath, $"{Application.ExecutablePath}.bak");
+                            MessageBox.Show(SystemMessages.msg_UpdateComplete, SystemMessages.tl_Success, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Program.Restart();
+                        }
+                        File.Delete($"{Application.ExecutablePath}.pak");
+                    };
+                }
+            } catch (Exception ex) {
+                MessageBox.Show($"{SystemMessages.ex_UpdateError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Close();
             }
         }
     }

@@ -52,6 +52,7 @@ namespace Toolkit.Text
         public static string msg_UserClosing = "Are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.";
         public static string msg_WindowsShutDown = "Sonic '06 Toolkit is still running - are you sure you want to quit? All unsaved changes will be lost if you haven't repacked.";
         public static string msg_SelectGameDirectory = "Please select your game directory...";
+        public static string ex_UpdateError = "An error occurred when updating Sonic '06 Toolkit.";
         public static string ex_ARCUnpackError = "An error occurred when unpacking the archive.";
         public static string ex_ARCRepackError = "An error occurred when repacking the archive.";
         public static string ex_ARCUnpackExceptionUnknown = "An unknown exception when unpacking the archive.";
