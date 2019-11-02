@@ -145,8 +145,7 @@ namespace Toolkit.Tools
                 if (Directory.GetDirectories(location).Length > 0)
                     foreach (string CSB in Directory.GetDirectories(location))
                         if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB)))
-                            if (!CSB.Contains(".cpk")) clb_SNDs.Items.Add($"{Path.GetFileName(CSB)}.cpk");
-                            else clb_SNDs.Items.Add(Path.GetFileName(CSB));
+                            clb_SNDs.Items.Add(Path.GetFileName(CSB));
             } else if (combo_Encoder.SelectedIndex == 3) { //WAV
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
                 pic_Logo.BackgroundImage = Properties.Resources.wavLogo;
@@ -227,10 +226,10 @@ namespace Toolkit.Tools
                                     File.WriteAllBytes(Path.Combine(Path.GetDirectoryName(WAV), $"{Path.GetFileNameWithoutExtension(WAV)}.adx"), adxFile);
                                 } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(WAV, "ADX", true); }
                             try {
-                                mainForm.Status = StatusMessages.cmn_Repacking($"{CSB}.cpk", false);
+                                mainForm.Status = StatusMessages.cmn_Repacking(CSB, false);
                                 CSBTools.WriteCSB(Path.Combine(location, CSB));
-                                mainForm.Status = StatusMessages.cmn_Repacked($"{CSB}.cpk", false);
-                            } catch { mainForm.Status = StatusMessages.cmn_RepackFailed($"{CSB}.cpk", false); }
+                                mainForm.Status = StatusMessages.cmn_Repacked(CSB, false);
+                            } catch { mainForm.Status = StatusMessages.cmn_RepackFailed(CSB, false); }
                         }
                 } else if (combo_Encoder.SelectedIndex == 3) { //WAV
                     foreach (string SND in filesToProcess)
@@ -338,7 +337,7 @@ namespace Toolkit.Tools
             btn_MediaControl.Text = "►";
             btn_MediaControl.BackColor = Color.LightGreen;
             if (File.Exists(nowPlaying)) File.Delete(nowPlaying);
-            if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb" && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".cpk") {
+            if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb" && Path.HasExtension(clb_SNDs.SelectedItem.ToString())) {
                 lbl_NowPlaying.Text = $"Now Playing: {clb_SNDs.SelectedItem}";
                 tracker_MediaBar.Enabled = true;
                 btn_MediaControl.Enabled = true;
