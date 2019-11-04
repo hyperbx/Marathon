@@ -72,7 +72,7 @@ namespace Toolkit.Tools
                         if (File.Exists(Path.Combine(location, sound)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, sound)))
                             axWMP_Player.URL = Path.Combine(location, sound);
                     } else if (Path.GetExtension(sound) == ".adx") {
-                        if (File.Exists(Path.Combine(location, sound)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, sound))) {
+                        if (File.Exists(Path.Combine(location, sound)) && Verification.VerifyMagicNumberExtended(Path.Combine(location, sound))) {
                             byte[] adxFile = File.ReadAllBytes(Path.Combine(location, sound));
                             AudioData audio = new AdxReader().Read(adxFile);
                             byte[] wavFile = new WaveWriter().GetFile(audio);
@@ -172,6 +172,8 @@ namespace Toolkit.Tools
                 foreach (string SND in Directory.GetFiles(location, filter, SearchOption.TopDirectoryOnly))
                     if (File.Exists(SND) && Verification.VerifyMagicNumberCommon(SND))
                         clb_SNDs.Items.Add(Path.GetFileName(SND));
+                    else if (File.Exists(SND) && Verification.VerifyMagicNumberExtended(SND))
+                        clb_SNDs.Items.Add(Path.GetFileName(SND));
         }
 
         private async void Btn_Process_Click(object sender, EventArgs e) {
@@ -179,7 +181,7 @@ namespace Toolkit.Tools
                 List<object> filesToProcess = clb_SNDs.CheckedItems.OfType<object>().ToList();
                 if (combo_Encoder.SelectedIndex == 0) { //ADX
                     foreach (string SND in filesToProcess)
-                        if (File.Exists(Path.Combine(location, SND)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, SND))) {
+                        if (File.Exists(Path.Combine(location, SND))) {
                             if (Path.GetExtension(SND).ToLower() == ".wav") {
                                 try {
                                     mainForm.Status = StatusMessages.cmn_Converting(SND, "ADX", false);
@@ -261,7 +263,7 @@ namespace Toolkit.Tools
         }
 
         private async void DecodeAudioData(string sound) {
-            if (File.Exists(Path.Combine(location, sound)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, sound)))
+            if (File.Exists(Path.Combine(location, sound)))
                 if (Path.GetExtension(sound).ToLower() == ".adx") {
                     try {
                         mainForm.Status = StatusMessages.cmn_Converting(sound, "WAV", false);

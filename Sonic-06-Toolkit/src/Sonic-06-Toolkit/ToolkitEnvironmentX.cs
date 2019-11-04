@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.02"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.03"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -551,7 +551,7 @@ namespace Toolkit.EnvironmentX
 
             if (getPath != string.Empty) {
                 string failsafeCheck = Path.GetRandomFileName();
-                string arcBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText, Path.GetFileNameWithoutExtension(getPath));
+                string arcBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText, failsafeCheck, Path.GetFileNameWithoutExtension(getPath));
                 Directory.CreateDirectory(arcBuildSession);
 
                 //Writes metadata to the unpacked directory to ensure the original path is remembered.

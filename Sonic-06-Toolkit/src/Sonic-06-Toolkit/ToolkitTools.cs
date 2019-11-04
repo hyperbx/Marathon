@@ -384,9 +384,6 @@ namespace Toolkit.Tools
                 } else if (Path.GetExtension(path).ToLower() == ".xno" || Path.GetExtension(path).ToLower() == ".xnm") {
                     if (hexString == "4E 58 49 46") return true;
                     else return false;
-                } else if (Path.GetExtension(path).ToLower() == ".adx") {
-                    if (hexString == "80 00 00 24") return true;
-                    else return false;
                 } else if (Path.GetExtension(path).ToLower() == ".csb") {
                     if (hexString == "40 55 54 46") return true;
                     else return false;
@@ -415,6 +412,9 @@ namespace Toolkit.Tools
                     else return false;
                 } else if (Path.GetExtension(path).ToLower() == ".lub") {
                     if (hexString.Contains("1B 4C 75 61 50")) return true;
+                    else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".adx") {
+                    if (hexString.Contains("28 63 29 43 52 49")) return true;
                     else return false;
                 } return false;
             } catch { return false; }
