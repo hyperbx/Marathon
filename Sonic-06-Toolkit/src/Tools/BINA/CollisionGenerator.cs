@@ -84,7 +84,7 @@ namespace Toolkit.Tools
                 clb_MDLs.Items.Clear();
                 btn_Process.Enabled = false;
                 foreach (string OBJ in Directory.GetFiles(location, "*.obj", SearchOption.TopDirectoryOnly))
-                    if (File.Exists(OBJ) && Verification.VerifyMagicNumberCommon(OBJ))
+                    if (File.Exists(OBJ))
                         clb_MDLs.Items.Add(Path.GetFileName(OBJ));
 
                 if (Directory.GetFiles(location, "*.obj").Length == 0) {
@@ -116,7 +116,7 @@ namespace Toolkit.Tools
                     MessageBox.Show(SystemMessages.ex_IntegrityCheckFailed, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             } else if (combo_Mode.SelectedIndex == 1) {
                 foreach (string OBJ in filesToProcess) {
-                    if (File.Exists(Path.Combine(location, OBJ)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, OBJ))) {
+                    if (File.Exists(Path.Combine(location, OBJ))) {
                         string[] getTags = File.ReadAllLines(Path.Combine(location, OBJ));
                         int i = 0;
 
