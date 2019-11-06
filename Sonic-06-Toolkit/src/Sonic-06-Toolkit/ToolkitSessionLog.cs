@@ -36,13 +36,28 @@ namespace Toolkit.Logs
         public ToolkitSessionLog() {
             InitializeComponent();
             Location = new Point(Properties.Settings.Default.log_X, Properties.Settings.Default.log_Y);
-            WindowState = Properties.Settings.Default.log_windowState;
             Properties.Settings.Default.log_Startup = true;
+            options_Timestamps.Checked = Properties.Settings.Default.log_timestamps;
+
+            if (Properties.Settings.Default.log_windowState != FormWindowState.Minimized)
+                WindowState = Properties.Settings.Default.log_windowState;
+
+            if (Properties.Settings.Default.log_priority == 0) { 
+                priority_TopToBottom.Checked = true;
+                priority_BottomToTop.Checked = false;
+            } else if (Properties.Settings.Default.log_priority == 1) {
+                priority_TopToBottom.Checked = false;
+                priority_BottomToTop.Checked = true;
+            }
 
             list_Logs.Items.Clear();
             list_Logs.Items.Add($"{SystemMessages.tl_DefaultTitleVersion} - Session ID: {Program.sessionID}");
             list_Logs.Items.Add("");
-            foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
+
+            if (Properties.Settings.Default.log_priority == 0)
+                for (int i = Main.sessionLog.Count - 1; i >= 0; i--) list_Logs.Items.Add(Main.sessionLog[i]);
+            else
+                foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
 
             nud_RefreshTimer.Value = Convert.ToDecimal(Properties.Settings.Default.log_refreshTimer) / 1000;
             if (nud_RefreshTimer.Value == 1) lbl_RefreshText.Text = "Refresh every:                      second";
@@ -59,10 +74,14 @@ namespace Toolkit.Logs
             list_Logs.Items.Clear();
             list_Logs.Items.Add($"{SystemMessages.tl_DefaultTitleVersion} - Session ID: {Program.sessionID}");
             list_Logs.Items.Add("");
-            foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
+
+            if (Properties.Settings.Default.log_priority == 0)
+                for (int i = Main.sessionLog.Count - 1; i >= 0; i--) list_Logs.Items.Add(Main.sessionLog[i]);
+            else
+                foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
         }
 
-        private void nud_RefreshTimer_ValueChanged(object sender, EventArgs e) {
+        private void Nud_RefreshTimer_ValueChanged(object sender, EventArgs e) {
             if (nud_RefreshTimer.Value == 1) lbl_RefreshText.Text = "Refresh every:                      second";
             else lbl_RefreshText.Text = "Refresh every:                      seconds";
             Properties.Settings.Default.log_refreshTimer = tm_RefreshLogs.Interval = decimal.ToInt32(nud_RefreshTimer.Value) * 1000;
@@ -71,11 +90,17 @@ namespace Toolkit.Logs
         private void ToolkitSessionLog_FormClosing(object sender, FormClosingEventArgs e) {
             Properties.Settings.Default.log_X = Left;
             Properties.Settings.Default.log_Y = Top;
-            Properties.Settings.Default.log_windowState = WindowState;
+            Properties.Settings.Default.log_timestamps = options_Timestamps.Checked;
             Properties.Settings.Default.log_Startup = false;
+
+            if (WindowState != FormWindowState.Minimized)
+                Properties.Settings.Default.log_windowState = WindowState;
+
+            if (priority_TopToBottom.Checked) Properties.Settings.Default.log_priority = 0;
+            else if (priority_BottomToTop.Checked) Properties.Settings.Default.log_priority = 1;
         }
 
-        private void btn_TimerEnabled_Click(object sender, EventArgs e) {
+        private void Btn_TimerEnabled_Click(object sender, EventArgs e) {
             if (tm_RefreshLogs.Enabled) { btn_TimerEnabled.Text = "Resume"; tm_RefreshLogs.Stop(); }
             else { btn_TimerEnabled.Text = "Pause"; tm_RefreshLogs.Start(); }
         }
@@ -86,7 +111,32 @@ namespace Toolkit.Logs
         }
 
         private void ToolkitSessionLog_Resize(object sender, EventArgs e) {
-            Properties.Settings.Default.log_windowState = WindowState;
+            if (WindowState != FormWindowState.Minimized)
+                Properties.Settings.Default.log_windowState = WindowState;
+        }
+
+        private void Options_Timestamps_CheckedChanged(object sender, EventArgs e) {
+            Properties.Settings.Default.log_timestamps = options_Timestamps.Checked;
+        }
+
+        private void Priority_TopToBottom_CheckedChanged(object sender, EventArgs e) {
+            if (priority_TopToBottom.Checked) {
+                Properties.Settings.Default.log_priority = 0;
+                priority_BottomToTop.Checked = false;
+            } else {
+                Properties.Settings.Default.log_priority = 1;
+                priority_BottomToTop.Checked = true;
+            }
+        }
+
+        private void Priority_BottomToTop_CheckedChanged(object sender, EventArgs e) {
+            if (priority_BottomToTop.Checked) {
+                Properties.Settings.Default.log_priority = 1;
+                priority_TopToBottom.Checked = false;
+            } else {
+                Properties.Settings.Default.log_priority = 0;
+                priority_TopToBottom.Checked = true;
+            }
         }
     }
 }

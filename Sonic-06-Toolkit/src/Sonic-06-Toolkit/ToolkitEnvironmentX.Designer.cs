@@ -48,6 +48,7 @@
             this.file_Separator2 = new System.Windows.Forms.ToolStripSeparator();
             this.file_Repack = new System.Windows.Forms.ToolStripMenuItem();
             this.file_RepackAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.file_RepackAll = new System.Windows.Forms.ToolStripMenuItem();
             this.file_Separator3 = new System.Windows.Forms.ToolStripSeparator();
             this.file_Preferences = new System.Windows.Forms.ToolStripMenuItem();
             this.preferences_Paths = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,7 @@
             this.main_Shortcuts = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARC = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARCtoDirectory = new System.Windows.Forms.ToolStripMenuItem();
+            this.shortcuts_UnpackARCforModManager = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_UnpackARCtoToolkit = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBIN = new System.Windows.Forms.ToolStripMenuItem();
             this.shortcuts_DecodeBINinDirectory = new System.Windows.Forms.ToolStripMenuItem();
@@ -288,6 +290,7 @@
             this.file_Separator2,
             this.file_Repack,
             this.file_RepackAs,
+            this.file_RepackAll,
             this.file_Separator3,
             this.file_Preferences,
             this.file_Exit});
@@ -361,6 +364,17 @@
             this.file_RepackAs.Size = new System.Drawing.Size(214, 22);
             this.file_RepackAs.Text = "Repack As...";
             this.file_RepackAs.Click += new System.EventHandler(this.File_RepackAs_Click);
+            // 
+            // file_RepackAll
+            // 
+            this.file_RepackAll.Enabled = false;
+            this.file_RepackAll.Image = ((System.Drawing.Image)(resources.GetObject("file_RepackAll.Image")));
+            this.file_RepackAll.Name = "file_RepackAll";
+            this.file_RepackAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.file_RepackAll.Size = new System.Drawing.Size(214, 22);
+            this.file_RepackAll.Text = "Repack All";
+            this.file_RepackAll.Click += new System.EventHandler(this.File_RepackAll_Click);
             // 
             // file_Separator3
             // 
@@ -599,10 +613,19 @@
             // 
             // shortcuts_UnpackARCtoDirectory
             // 
+            this.shortcuts_UnpackARCtoDirectory.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.shortcuts_UnpackARCforModManager});
             this.shortcuts_UnpackARCtoDirectory.Name = "shortcuts_UnpackARCtoDirectory";
             this.shortcuts_UnpackARCtoDirectory.Size = new System.Drawing.Size(253, 22);
             this.shortcuts_UnpackARCtoDirectory.Text = "Unpack all in the current directory";
             this.shortcuts_UnpackARCtoDirectory.Click += new System.EventHandler(this.Shortcuts_UnpackARCtoDirectory_Click);
+            // 
+            // shortcuts_UnpackARCforModManager
+            // 
+            this.shortcuts_UnpackARCforModManager.Name = "shortcuts_UnpackARCforModManager";
+            this.shortcuts_UnpackARCforModManager.Size = new System.Drawing.Size(254, 22);
+            this.shortcuts_UnpackARCforModManager.Text = "Unpack for Mod Manager support";
+            this.shortcuts_UnpackARCforModManager.Click += new System.EventHandler(this.Shortcuts_UnpackARCforModManager_Click);
             // 
             // shortcuts_UnpackARCtoToolkit
             // 
@@ -1306,6 +1329,8 @@
         private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackCSBinSubdirectoriesToWAV;
         private System.Windows.Forms.ToolStripMenuItem help_GitHub;
         private System.Windows.Forms.ToolStripMenuItem advanced_ResetLog;
+        private System.Windows.Forms.ToolStripMenuItem shortcuts_UnpackARCforModManager;
+        private System.Windows.Forms.ToolStripMenuItem file_RepackAll;
     }
 }
 

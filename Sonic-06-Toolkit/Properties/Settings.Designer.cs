@@ -238,5 +238,29 @@ namespace Toolkit.Properties {
                 this["log_windowState"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool log_timestamps {
+            get {
+                return ((bool)(this["log_timestamps"]));
+            }
+            set {
+                this["log_timestamps"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int log_priority {
+            get {
+                return ((int)(this["log_priority"]));
+            }
+            set {
+                this["log_priority"] = value;
+            }
+        }
     }
 }

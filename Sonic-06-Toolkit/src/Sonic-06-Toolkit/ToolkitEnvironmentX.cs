@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.04"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.05"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -68,14 +68,8 @@ namespace Toolkit.EnvironmentX
                 else new Logs.ToolkitSessionLog().Show();
 
             if (args.Length > 0) {
-                if (Path.GetExtension(args[0]).ToLower() == ".arc") {
-                    if (args[1] == "-unpack") {
-                        ToolkitCommandLine.UnpackARC(args[0]);
-                        Close();
-                    } else if (args[1] == "-open") {
-                        UnpackARC(args[0]);
-                    }
-                }
+                if (Path.GetExtension(args[0]).ToLower() == ".arc")
+                    UnpackARC(args[0]);
             }
 
             try {
@@ -85,7 +79,7 @@ namespace Toolkit.EnvironmentX
                 if (key == null)
                     preferences_AssociateARCs.Checked = false;
                 else
-                    if (getLocation.GetValue(null).ToString() != $"\"{Application.ExecutablePath}\" \"%1\" \"-open\"")
+                    if (getLocation.GetValue(null).ToString() != $"\"{Application.ExecutablePath}\" \"%1\"")
                         preferences_AssociateARCs.Checked = false;
                     else
                         preferences_AssociateARCs.Checked = true;
@@ -99,7 +93,9 @@ namespace Toolkit.EnvironmentX
             get { return lbl_Status.Text; }
             set {
                 lbl_Status.Text = value;
-                sessionLog.Add(value);
+                if (Properties.Settings.Default.log_timestamps)
+                    sessionLog.Add($"[{DateTime.Now.ToString("HH:mm:ss tt")}] {value}");
+                else sessionLog.Add(value);
                 tm_ResetStatus.Start();
             }
         }
@@ -267,7 +263,7 @@ namespace Toolkit.EnvironmentX
         }
 
         private async void UnpackARC(string ARC) {
-            if (Verification.VerifyMagicNumberCommon(ARC)) {
+            if (File.Exists(ARC) && Verification.VerifyMagicNumberCommon(ARC)) {
                 try {
                     string failsafeCheck = Path.GetRandomFileName();
                     string arcBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), failsafeCheck);
@@ -308,9 +304,8 @@ namespace Toolkit.EnvironmentX
         private void File_OpenARC_Click(object sender, EventArgs e) {
             string getPath = Browsers.CommonBrowser(false, SystemMessages.tl_SelectArchive, Filters.Archives);
 
-            if (getPath != string.Empty) {
+            if (getPath != string.Empty)
                 UnpackARC(getPath);
-            }
         }
 
         private void Unifytb_Main_SelectedIndexChanged(object sender, EventArgs e) {
@@ -465,6 +460,7 @@ namespace Toolkit.EnvironmentX
                 btn_Forward.Enabled = true;
                 file_Repack.Enabled = true;
                 file_RepackAs.Enabled = true;
+                file_RepackAll.Enabled = true;
                 foreach (ToolStripDropDownItem item in main_SDK.DropDownItems) item.Enabled = true;
                 foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = true;
             } else {
@@ -482,6 +478,7 @@ namespace Toolkit.EnvironmentX
                 btn_Forward.Enabled = false;
                 file_Repack.Enabled = false;
                 file_RepackAs.Enabled = false;
+                file_RepackAll.Enabled = false;
                 foreach (ToolStripDropDownItem item in main_SDK.DropDownItems)
                     if (item != sdk_ArchiveMerger) item.Enabled = false;
                 foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = false;
@@ -758,6 +755,7 @@ namespace Toolkit.EnvironmentX
                 if (File.Exists(ARC) && Verification.VerifyMagicNumberCommon(ARC)) {
                     try {
                         Status = StatusMessages.cmn_Unpacking(ARC, false);
+                        string dirPath = Path.Combine(location, Path.GetFileNameWithoutExtension(ARC));
                         await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
                               $"\"{ARC}\"",
                               Application.StartupPath,
@@ -928,7 +926,7 @@ namespace Toolkit.EnvironmentX
                         key = key.OpenSubKey("command", true);
                         if (key == null)
                             key = prevkey.CreateSubKey("command");
-                        key.SetValue("", $"\"{Application.ExecutablePath}\" \"%1\" \"-open\"");
+                        key.SetValue("", $"\"{Application.ExecutablePath}\" \"%1\"");
                         key.Close();
 
                         Windows.SetAssociation(".arc");
@@ -1049,8 +1047,51 @@ namespace Toolkit.EnvironmentX
             Properties.Settings.Default.log_X = Properties.Settings.Default.log_Y = 25;
             Properties.Settings.Default.log_windowState = FormWindowState.Normal;
             Properties.Settings.Default.log_refreshTimer = 1000;
+            Properties.Settings.Default.log_timestamps = true;
             sessionLog.Clear();
             new Logs.ToolkitSessionLog().Show();
+        }
+
+        private async void Shortcuts_UnpackARCforModManager_Click(object sender, EventArgs e) {
+            if (MessageBox.Show(SystemMessages.msg_UnpackForModManager, SystemMessages.tl_AreYouSure, MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes) {
+                string location = Paths.currentPath;
+                foreach (string ARC in Directory.GetFiles(location, "*.arc", SearchOption.TopDirectoryOnly))
+                    if (File.Exists(ARC) && Verification.VerifyMagicNumberCommon(ARC)) {
+                        try {
+                            Status = StatusMessages.cmn_Unpacking(ARC, false);
+                            string dirPath = Path.Combine(location, Path.GetFileNameWithoutExtension(ARC));
+                            await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
+                                  $"\"{ARC}\"",
+                                  Application.StartupPath,
+                                  100000);
+                            File.Delete(ARC);
+                            Directory.Move(dirPath, $"{dirPath}.arc");
+                            Status = StatusMessages.cmn_Unpacked(ARC, false);
+                        } catch { Status = StatusMessages.cmn_UnpackFailed(ARC, false); }
+                    }
+            }
+        }
+
+        private async void File_RepackAll_Click(object sender, EventArgs e) {
+            string metadata = string.Empty;
+
+            try {
+                foreach (TabPage tab in unifytb_Main.TabPages) {
+                    if (!tab.ToolTipText.StartsWith("Zm9sZGVy")) {
+                        repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), tab.ToolTipText);
+
+                        metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
+                        Status = StatusMessages.cmn_Repacking(metadata, false);
+                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
+                              $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
+                              Application.StartupPath,
+                              100000);
+                        if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
+                            File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
+                        Status = StatusMessages.cmn_Repacked(metadata, false);
+                    }
+                }
+            } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
         }
     }
 }

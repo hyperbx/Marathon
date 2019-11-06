@@ -91,6 +91,7 @@ namespace Toolkit.Text
         public static string msg_RestartAsAdmin = "Sonic '06 Toolkit is not running in administrator mode. Do you want to restart Sonic '06 Toolkit as an administrator to make your changes?";
         public static string ex_RegistryError = "An error occurred whilst editing the registry.";
         public static string msg_UpdateComplete = $"Update complete! Restarting {tl_DefaultTitle}...";
+        public static string msg_UnpackForModManager = "This will unpack and erase all archives in this directory. Are you sure you want to continue?";
 
         public static string tl_Exploring(string path) { return $"{tl_DefaultTitleVersion} - Exploring '{path}'"; }
 
