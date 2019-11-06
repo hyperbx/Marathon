@@ -1045,7 +1045,6 @@ namespace Toolkit.EnvironmentX
             else
                 sessionLog.Remove("Welcome back! Click here to view the Session Log...");
             Properties.Settings.Default.log_X = Properties.Settings.Default.log_Y = 25;
-            Properties.Settings.Default.log_windowState = FormWindowState.Normal;
             Properties.Settings.Default.log_refreshTimer = 1000;
             Properties.Settings.Default.log_timestamps = true;
             sessionLog.Clear();

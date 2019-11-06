@@ -39,9 +39,6 @@ namespace Toolkit.Logs
             Properties.Settings.Default.log_Startup = true;
             options_Timestamps.Checked = Properties.Settings.Default.log_timestamps;
 
-            if (Properties.Settings.Default.log_windowState != FormWindowState.Minimized)
-                WindowState = Properties.Settings.Default.log_windowState;
-
             if (Properties.Settings.Default.log_priority == 0) { 
                 priority_TopToBottom.Checked = true;
                 priority_BottomToTop.Checked = false;
@@ -93,9 +90,6 @@ namespace Toolkit.Logs
             Properties.Settings.Default.log_timestamps = options_Timestamps.Checked;
             Properties.Settings.Default.log_Startup = false;
 
-            if (WindowState != FormWindowState.Minimized)
-                Properties.Settings.Default.log_windowState = WindowState;
-
             if (priority_TopToBottom.Checked) Properties.Settings.Default.log_priority = 0;
             else if (priority_BottomToTop.Checked) Properties.Settings.Default.log_priority = 1;
         }
@@ -108,11 +102,6 @@ namespace Toolkit.Logs
         private void ToolkitSessionLog_Move(object sender, EventArgs e) {
             Properties.Settings.Default.log_X = Left;
             Properties.Settings.Default.log_Y = Top;
-        }
-
-        private void ToolkitSessionLog_Resize(object sender, EventArgs e) {
-            if (WindowState != FormWindowState.Minimized)
-                Properties.Settings.Default.log_windowState = WindowState;
         }
 
         private void Options_Timestamps_CheckedChanged(object sender, EventArgs e) {

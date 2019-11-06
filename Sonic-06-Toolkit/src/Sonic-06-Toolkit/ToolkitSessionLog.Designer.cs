@@ -135,9 +135,9 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(261, 331);
+            this.mstrip_Options.Location = new System.Drawing.Point(381, 331);
             this.mstrip_Options.Name = "mstrip_Options";
-            this.mstrip_Options.Size = new System.Drawing.Size(189, 24);
+            this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 65;
             this.mstrip_Options.Text = "menuStrip1";
             // 
@@ -156,7 +156,7 @@
             this.priority_TopToBottom,
             this.priority_BottomToTop});
             this.options_ListPriority.Name = "options_ListPriority";
-            this.options_ListPriority.Size = new System.Drawing.Size(180, 22);
+            this.options_ListPriority.Size = new System.Drawing.Size(176, 22);
             this.options_ListPriority.Text = "List Priority";
             // 
             // priority_TopToBottom
@@ -179,7 +179,7 @@
             // 
             this.options_Timestamps.CheckOnClick = true;
             this.options_Timestamps.Name = "options_Timestamps";
-            this.options_Timestamps.Size = new System.Drawing.Size(180, 22);
+            this.options_Timestamps.Size = new System.Drawing.Size(176, 22);
             this.options_Timestamps.Text = "Enable Timestamps";
             this.options_Timestamps.CheckedChanged += new System.EventHandler(this.Options_Timestamps_CheckedChanged);
             // 
@@ -195,13 +195,13 @@
             this.Controls.Add(this.lbl_RefreshText);
             this.Controls.Add(this.list_Logs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(623, 395);
             this.Name = "ToolkitSessionLog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Session Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolkitSessionLog_FormClosing);
             this.Move += new System.EventHandler(this.ToolkitSessionLog_Move);
-            this.Resize += new System.EventHandler(this.ToolkitSessionLog_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).EndInit();
             this.mstrip_Options.ResumeLayout(false);
             this.mstrip_Options.PerformLayout();
