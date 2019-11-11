@@ -40,6 +40,7 @@
             this.compression_DXT1 = new System.Windows.Forms.ToolStripMenuItem();
             this.compression_DXT3 = new System.Windows.Forms.ToolStripMenuItem();
             this.compression_DXT5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.compression_A8R8G8B8 = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_DeselectAll = new System.Windows.Forms.Button();
             this.btn_SelectAll = new System.Windows.Forms.Button();
             this.clb_IMGs = new System.Windows.Forms.CheckedListBox();
@@ -50,7 +51,6 @@
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.lbl_Title = new System.Windows.Forms.Label();
-            this.compression_A8R8G8B8 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -114,7 +114,7 @@
             this.modes_DDStoPNG,
             this.modes_PNGtoDDS});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(180, 22);
+            this.options_Modes.Size = new System.Drawing.Size(144, 22);
             this.options_Modes.Text = "Modes";
             // 
             // modes_DDStoPNG
@@ -141,7 +141,7 @@
             this.compression_DXT5,
             this.compression_A8R8G8B8});
             this.options_Compression.Name = "options_Compression";
-            this.options_Compression.Size = new System.Drawing.Size(180, 22);
+            this.options_Compression.Size = new System.Drawing.Size(144, 22);
             this.options_Compression.Text = "Compression";
             this.options_Compression.Visible = false;
             // 
@@ -168,6 +168,14 @@
             this.compression_DXT5.Size = new System.Drawing.Size(240, 22);
             this.compression_DXT5.Text = "DXT5 (Interpolated/8-bit Alpha)";
             this.compression_DXT5.CheckedChanged += new System.EventHandler(this.Compression_DXT5_CheckedChanged);
+            // 
+            // compression_A8R8G8B8
+            // 
+            this.compression_A8R8G8B8.CheckOnClick = true;
+            this.compression_A8R8G8B8.Name = "compression_A8R8G8B8";
+            this.compression_A8R8G8B8.Size = new System.Drawing.Size(240, 22);
+            this.compression_A8R8G8B8.Text = "A8R8G8B8";
+            this.compression_A8R8G8B8.CheckedChanged += new System.EventHandler(this.Compression_A8R8G8B8_CheckedChanged);
             // 
             // btn_DeselectAll
             // 
@@ -295,14 +303,6 @@
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "Texture Converter";
             // 
-            // compression_A8R8G8B8
-            // 
-            this.compression_A8R8G8B8.CheckOnClick = true;
-            this.compression_A8R8G8B8.Name = "compression_A8R8G8B8";
-            this.compression_A8R8G8B8.Size = new System.Drawing.Size(240, 22);
-            this.compression_A8R8G8B8.Text = "A8R8G8B8";
-            this.compression_A8R8G8B8.CheckedChanged += new System.EventHandler(this.Compression_A8R8G8B8_CheckedChanged);
-            // 
             // TextureConverter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,6 +315,7 @@
             this.Name = "TextureConverter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Texture Converter";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TextureConverter_FormClosing);
             this.Load += new System.EventHandler(this.TextureConverter_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

@@ -42,6 +42,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>src\Tools\BNIA\HedgeLib.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>src\Sonic-06-Toolkit\Ookii.Dialogs.dll</HintPath>
@@ -98,7 +101,7 @@
       <DependentUpon>ArchiveMerger.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Tools\DirectDraw\DDSImage.cs" />
-    <Compile Include="src\Tools\SonicAudioTools\CSBTools.cs" />
+    <Compile Include="src\Tools\SonicAudioTools\AudioTools.cs" />
     <Compile Include="src\Tools\SonicAudioTools\SonicSoundStudio.cs">
       <SubType>Form</SubType>
     </Compile>

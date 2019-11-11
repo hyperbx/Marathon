@@ -2,6 +2,7 @@
 using WMPLib;
 using System.IO;
 using System.Linq;
+using NAudio.Wave;
 using Toolkit.Text;
 using System.Drawing;
 using VGAudio.Formats;
@@ -68,7 +69,7 @@ namespace Toolkit.Tools
                     string sound = clb_SNDs.SelectedItem.ToString();
                     string tempPath = Path.GetTempPath();
                     string tempFile = Path.GetRandomFileName();
-                    if (Path.GetExtension(sound) == ".wav") {
+                    if (Path.GetExtension(sound) == ".wav" || Path.GetExtension(sound) == ".mp3") {
                         if (File.Exists(Path.Combine(location, sound)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, sound)))
                             axWMP_Player.URL = Path.Combine(location, sound);
                     } else if (Path.GetExtension(sound) == ".adx") {
@@ -118,8 +119,12 @@ namespace Toolkit.Tools
         }
 
         private void Combo_Encoder_SelectedIndexChanged(object sender, EventArgs e) {
+            axWMP_Player.close();
             clb_SNDs.Items.Clear();
             btn_Process.Enabled = false;
+            btn_MediaControl.Enabled = false;
+            tracker_MediaBar.Enabled = false;
+            lbl_NowPlaying.Text = "Now Playing: None.";
 
             if (combo_Encoder.SelectedIndex == 0) { //ADX
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
@@ -127,6 +132,7 @@ namespace Toolkit.Tools
                 Icon = Properties.Resources.adxIcon;
                 btn_Process.BackColor = SystemColors.ControlLightLight;
                 check_PatchXMA.Enabled = false;
+                ListVerifiedSoundBytes("*.mp3");
                 ListVerifiedSoundBytes("*.wav");
                 ListVerifiedSoundBytes("*.csb");
             } else if (combo_Encoder.SelectedIndex == 1) { //AT3
@@ -135,6 +141,7 @@ namespace Toolkit.Tools
                 Icon = Properties.Resources.at3Icon;
                 btn_Process.BackColor = Color.DeepSkyBlue;
                 check_PatchXMA.Enabled = false;
+                ListVerifiedSoundBytes("*.mp3");
                 ListVerifiedSoundBytes("*.wav");
             } else if (combo_Encoder.SelectedIndex == 2) { //CSB
                 pnl_Backdrop.BackgroundImage = Properties.Resources.csbBG;
@@ -155,6 +162,7 @@ namespace Toolkit.Tools
                 ListVerifiedSoundBytes("*.adx");
                 ListVerifiedSoundBytes("*.at3");
                 ListVerifiedSoundBytes("*.csb");
+                ListVerifiedSoundBytes("*.mp3");
                 ListVerifiedSoundBytes("*.xma");
             } else if (combo_Encoder.SelectedIndex == 4) { //XMA
                 pnl_Backdrop.BackgroundImage = Properties.Resources.xmaBG;
@@ -162,6 +170,7 @@ namespace Toolkit.Tools
                 Icon = Properties.Resources.xmaIcon;
                 btn_Process.BackColor = Color.FromArgb(244, 121, 59);
                 check_PatchXMA.Enabled = true;
+                ListVerifiedSoundBytes("*.mp3");
                 ListVerifiedSoundBytes("*.wav");
             }
             Properties.Settings.Default.sss_Encoder = combo_Encoder.SelectedIndex;
@@ -203,22 +212,44 @@ namespace Toolkit.Tools
                                     extractor.Run();
                                     mainForm.Status = StatusMessages.cmn_Unpacked(SND, false);
                                 } catch { mainForm.Status = StatusMessages.cmn_UnpackFailed(SND, false); }
+                            } else if (Path.GetExtension(SND).ToLower() == ".mp3") {
+                                try {
+                                    mainForm.Status = StatusMessages.cmn_Converting(SND, "ADX", false);
+                                    string wav = MP3.CreateTemporaryWAV(Path.Combine(location, SND));
+                                    byte[] wavFile = File.ReadAllBytes(wav);
+                                    AudioData audio = new WaveReader().Read(wavFile);
+                                    byte[] adxFile = new AdxWriter().GetFile(audio);
+                                    File.WriteAllBytes(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SND)}.adx"), adxFile);
+                                    File.Delete(wav);
+                                } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "ADX", false); }
                             }
                         }
                 } else if (combo_Encoder.SelectedIndex == 1) { //AT3
-                    foreach (string WAV in filesToProcess)
-                        if (File.Exists(Path.Combine(location, WAV)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, WAV))) {
-                            mainForm.Status = StatusMessages.cmn_Converting(WAV, "AT3", false);
-                            var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
-                                                $"-e \"{Path.Combine(location, WAV)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(WAV))}.at3\"",
+                    foreach (string SND in filesToProcess)
+                        if (File.Exists(Path.Combine(location, SND))) {
+                            var process = new ProcessAsyncHelper.ProcessResult();
+                            mainForm.Status = StatusMessages.cmn_Converting(SND, "AT3", false);
+                            if (Path.GetExtension(SND).ToLower() == ".mp3") {
+                                string wav = MP3.CreateTemporaryWAV(Path.Combine(location, SND));
+                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                $"-e \"{wav}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
                                                 location,
                                                 100000);
-                            if (process.ExitCode != 0)
-                                mainForm.Status = StatusMessages.cmn_ConvertFailed(WAV, "AT3", false);
+                                if (process.ExitCode != 0)
+                                    mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "AT3", false);
+                                else File.Delete(wav);
+                            } else {
+                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                $"-e \"{Path.Combine(location, SND)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
+                                                location,
+                                                100000);
+                                if (process.ExitCode != 0)
+                                    mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "AT3", false);
+                            }
                         }
                 } else if (combo_Encoder.SelectedIndex == 2) { //CSB
                     foreach (string CSB in filesToProcess)
-                        if (Directory.Exists(Path.Combine(location, CSB)) && Verification.VerifyCriWareSoundBank(Path.Combine(location, CSB))) {
+                        if (Directory.Exists(Path.Combine(location, CSB))) {
                             foreach (string WAV in Directory.GetFiles(Path.Combine(location, CSB), "*.wav", SearchOption.AllDirectories))
                                 try {
                                     mainForm.Status = StatusMessages.cmn_Converting(WAV, "ADX", true);
@@ -237,43 +268,64 @@ namespace Toolkit.Tools
                     foreach (string SND in filesToProcess)
                         DecodeAudioData(SND);
                 } else if (combo_Encoder.SelectedIndex == 4) { //XMA
-                    foreach (string WAV in filesToProcess)
-                        if (File.Exists(Path.Combine(location, WAV)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, WAV))) {
-                            string xmaOutput = Path.Combine(location, $"{Path.GetFileNameWithoutExtension(WAV)}.xma");
+                    foreach (string SND in filesToProcess)
+                        if (File.Exists(Path.Combine(location, SND))) {
+                            string wav = string.Empty;
+                            var process = new ProcessAsyncHelper.ProcessResult();
+                            mainForm.Status = StatusMessages.cmn_Converting(SND, "XMA", false);
+                            string xmaOutput = Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SND)}.xma");
                             try { if (File.Exists(xmaOutput)) File.Delete(xmaOutput); } catch { }
-                            mainForm.Status = StatusMessages.cmn_Converting(WAV, "XMA", false);
-                            var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
-                                                $"\"{Path.Combine(location, WAV)}\" /L",
+
+                            if (Path.GetExtension(SND).ToLower() == ".mp3") {
+                                wav = MP3.CreateTemporaryWAV(Path.Combine(location, SND));
+                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
+                                                $"\"{wav}\" /L",
                                                 location,
                                                 100000);
+                            } else if (Path.GetExtension(SND).ToLower() == ".wav") {
+                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
+                                                $"\"{Path.Combine(location, SND)}\" /L",
+                                                location,
+                                                100000);
+                            }
+
                             if (process.ExitCode != 0)
-                                mainForm.Status = StatusMessages.cmn_ConvertFailed(WAV, "XMA", false);
-                            try {
-                                if (check_PatchXMA.Checked) {
-                                    byte[] xmaBytes = File.ReadAllBytes(xmaOutput).ToArray();
-                                    string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
-                                    if (!hexString.Contains(Properties.Resources.xma_Patch))
-                                        ByteArray.ByteArrayToFile(xmaOutput, ByteArray.StringToByteArray(Properties.Resources.xma_Patch));
-                                    else break;
-                                }
-                            } catch { mainForm.Status = StatusMessages.xma_EncodeFooterError(WAV, false); return; }
+                                mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "XMA", false);
+                            else {
+                                try {
+                                    if (wav != string.Empty) {
+                                        File.Copy(wav, Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SND)}.xma"), true);
+                                        File.Delete(Path.Combine(Path.GetDirectoryName(wav), $"{Path.GetFileNameWithoutExtension(wav)}.xma"));
+                                        File.Delete(wav);
+                                        wav = string.Empty;
+                                    }
+                                } catch { }
+                                try {
+                                    if (check_PatchXMA.Checked) {
+                                        byte[] xmaBytes = File.ReadAllBytes(xmaOutput).ToArray();
+                                        string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
+                                        if (!hexString.Contains(Properties.Resources.xma_Patch))
+                                            ByteArray.ByteArrayToFile(xmaOutput, ByteArray.StringToByteArray(Properties.Resources.xma_Patch));
+                                        else break;
+                                    }
+                                } catch { mainForm.Status = StatusMessages.xma_EncodeFooterError(SND, false); return; }
+                            }
                         }
                 }
             } catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_EncoderError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private async void DecodeAudioData(string sound) {
-            if (File.Exists(Path.Combine(location, sound)))
+            if (File.Exists(Path.Combine(location, sound))) {
+                mainForm.Status = StatusMessages.cmn_Converting(sound, "WAV", false);
                 if (Path.GetExtension(sound).ToLower() == ".adx") {
                     try {
-                        mainForm.Status = StatusMessages.cmn_Converting(sound, "WAV", false);
                         byte[] adxFile = File.ReadAllBytes(Path.Combine(location, sound));
                         AudioData audio = new AdxReader().Read(adxFile);
                         byte[] wavFile = new WaveWriter().GetFile(audio);
                         File.WriteAllBytes(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(sound)}.wav"), wavFile);
                     } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(sound, "WAV", false); }
                 } else if (Path.GetExtension(sound).ToLower() == ".at3") {
-                    mainForm.Status = StatusMessages.cmn_Converting(sound, "WAV", false);
                     var process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
                                         $"-d \"{Path.Combine(location, sound)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(sound))}.wav\"",
                                         Application.StartupPath,
@@ -306,8 +358,11 @@ namespace Toolkit.Tools
                                     File.Delete(ADX);
                                 } catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(ADX, "WAV", true); }
                             }
+                } else if (Path.GetExtension(sound).ToLower() == ".mp3") {
+                    using (Mp3FileReader mp3 = new Mp3FileReader(Path.Combine(location, sound)))
+                        using (WaveStream pcm = WaveFormatConversionStream.CreatePcmStream(mp3))
+                            WaveFileWriter.CreateWaveFile(Path.Combine(location, $"{sound}.wav"), pcm);
                 } else if (Path.GetExtension(sound).ToLower() == ".xma") {
-                    mainForm.Status = StatusMessages.cmn_Converting(sound, "WAV", false);
                     try {
                         byte[] xmaBytes = File.ReadAllBytes(Path.Combine(location, sound)).ToArray();
                         string hexString = BitConverter.ToString(xmaBytes).Replace("-", "");
@@ -330,6 +385,7 @@ namespace Toolkit.Tools
                     if (process.ExitCode != 0)
                         mainForm.Status = StatusMessages.cmn_ConvertFailed(sound, "WAV", false);
                 }
+            }
         }
 
         private void Clb_SNDs_SelectedIndexChanged(object sender, EventArgs e) {
@@ -338,7 +394,7 @@ namespace Toolkit.Tools
             tracker_MediaBar.Value = 0;
             btn_MediaControl.Text = "►";
             btn_MediaControl.BackColor = Color.LightGreen;
-            if (File.Exists(nowPlaying)) File.Delete(nowPlaying);
+            try { if (File.Exists(nowPlaying)) File.Delete(nowPlaying); } catch { }
             if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb" && Path.HasExtension(clb_SNDs.SelectedItem.ToString())) {
                 lbl_NowPlaying.Text = $"Now Playing: {clb_SNDs.SelectedItem}";
                 tracker_MediaBar.Enabled = true;
@@ -367,6 +423,7 @@ namespace Toolkit.Tools
         private void SonicSoundStudio_FormClosing(object sender, FormClosingEventArgs e) {
             axWMP_Player.close();
             Properties.Settings.Default.Save();
+            try { if (File.Exists(nowPlaying)) File.Delete(nowPlaying); } catch { }
         }
 
         private void Tm_NoCheckOnClickTimer_Tick(object sender, EventArgs e) {
@@ -394,7 +451,9 @@ namespace Toolkit.Tools
 
         private void Tracker_MediaBar_Scroll(object sender, EventArgs e) {
             axWMP_Player.Ctlcontrols.currentPosition = tracker_MediaBar.Value;
-            if (axWMP_Player.playState != WMPPlayState.wmppsPaused) {
+            if (axWMP_Player.playState == WMPPlayState.wmppsPaused) {
+                btn_MediaControl.Text = "❚❚";
+                btn_MediaControl.BackColor = Color.Tomato;
                 axWMP_Player.Ctlcontrols.play();
                 tm_MediaPlayer.Start();
             }

@@ -253,5 +253,9 @@ namespace Toolkit
                 compression_DXT5.Checked = false;
             }
         }
+
+        private void TextureConverter_FormClosing(object sender, FormClosingEventArgs e) {
+            pic_Preview.Dispose();
+        }
     }
 }

@@ -396,6 +396,9 @@ namespace Toolkit.Tools
                 } else if (Path.GetExtension(path).ToLower() == ".png") {
                     if (hexString == "89 50 4E 47") return true;
                     else return false;
+                } else if (Path.GetExtension(path).ToLower() == ".mp3") {
+                    if (hexString.Contains("49 44 33")) return true;
+                    else return false;
                 } return false;
             } catch { return false; }
         }
