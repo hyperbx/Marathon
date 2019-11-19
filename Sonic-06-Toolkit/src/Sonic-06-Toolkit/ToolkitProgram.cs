@@ -95,7 +95,7 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe", Properties.Resources.s06col);
 
-            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe"))
+            //if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe", Properties.Resources.s06collision);
             
             Application.EnableVisualStyles();

@@ -408,12 +408,13 @@ namespace Toolkit.Tools
                 string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(50).ToArray()).Replace("-", " ");
 
                 if (Path.GetExtension(path).ToLower() == ".bin" || Path.GetExtension(path).ToLower() == ".set" || Path.GetExtension(path).ToLower() == ".mst") {
-                    if (hexString.Contains("31 42 42 49 4E 41")) return true;
+                    if (hexString.Contains("31 42 42 49 4E 41") || hexString.Contains("31 4C 42 49 4E 41")) return true;
                     else return false;
                 } else if (Path.GetExtension(path).ToLower() == ".lub") {
                     if (hexString.Contains("1B 4C 75 61 50")) return true;
                     else return false;
                 } else if (Path.GetExtension(path).ToLower() == ".adx") {
+                    hexString = BitConverter.ToString(File.ReadAllBytes(path)).Replace("-", " ");
                     if (hexString.Contains("28 63 29 43 52 49")) return true;
                     else return false;
                 } return false;

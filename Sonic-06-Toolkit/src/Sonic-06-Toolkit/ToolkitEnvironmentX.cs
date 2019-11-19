@@ -41,7 +41,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.06"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.07"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -461,8 +461,8 @@ namespace Toolkit.EnvironmentX
                 file_Repack.Enabled = true;
                 file_RepackAs.Enabled = true;
                 file_RepackAll.Enabled = true;
-                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems) item.Enabled = true;
-                foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = true;
+                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems.OfType<ToolStripMenuItem>()) item.Enabled = true;
+                foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems.OfType<ToolStripMenuItem>()) item.Enabled = true;
             } else {
                 if (unifytb_Main.SelectedTab.Text == "New Tab" && Properties.Settings.Default.env_gameDirectory != string.Empty) {
                     pic_Logo.Visible = false;
@@ -479,9 +479,9 @@ namespace Toolkit.EnvironmentX
                 file_Repack.Enabled = false;
                 file_RepackAs.Enabled = false;
                 file_RepackAll.Enabled = false;
-                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems)
+                foreach (ToolStripDropDownItem item in main_SDK.DropDownItems.OfType<ToolStripMenuItem>())
                     if (item != sdk_ArchiveMerger) item.Enabled = false;
-                foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems) item.Enabled = false;
+                foreach (ToolStripDropDownItem item in main_Shortcuts.DropDownItems.OfType<ToolStripMenuItem>()) item.Enabled = false;
             }
         }
 

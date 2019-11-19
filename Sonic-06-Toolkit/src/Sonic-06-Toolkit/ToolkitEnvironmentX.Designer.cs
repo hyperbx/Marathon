@@ -181,7 +181,7 @@
             this.btn_NewTab.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.btn_NewTab.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlLight;
             this.btn_NewTab.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_NewTab.Location = new System.Drawing.Point(365, 0);
+            this.btn_NewTab.Location = new System.Drawing.Point(368, 0);
             this.btn_NewTab.Name = "btn_NewTab";
             this.btn_NewTab.Size = new System.Drawing.Size(23, 25);
             this.btn_NewTab.TabIndex = 16;
@@ -273,7 +273,7 @@
             this.main_Shortcuts,
             this.main_Window,
             this.main_Help});
-            this.mstrip_Main.Location = new System.Drawing.Point(104, 0);
+            this.mstrip_Main.Location = new System.Drawing.Point(105, 0);
             this.mstrip_Main.Name = "mstrip_Main";
             this.mstrip_Main.Size = new System.Drawing.Size(381, 24);
             this.mstrip_Main.TabIndex = 30;
