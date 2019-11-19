@@ -96,7 +96,7 @@
             this.lbl_Contributors.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Contributors.Location = new System.Drawing.Point(233, 48);
             this.lbl_Contributors.Name = "lbl_Contributors";
-            this.lbl_Contributors.Size = new System.Drawing.Size(307, 300);
+            this.lbl_Contributors.Size = new System.Drawing.Size(323, 300);
             this.lbl_Contributors.TabIndex = 35;
             this.lbl_Contributors.Text = resources.GetString("lbl_Contributors.Text");
             // 
@@ -295,7 +295,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(544, 356);
+            this.ClientSize = new System.Drawing.Size(560, 356);
             this.Controls.Add(this.link_XboxDev);
             this.Controls.Add(this.link_CriWare);
             this.Controls.Add(this.link_Natsumi);
