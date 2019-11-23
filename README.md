@@ -32,7 +32,7 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 - Currently based off ATRAC3plus TOOL, developed by SONY Computer Entertainment Inc.
 
 ### BIN Encoding
-- Currently based off DarioSamo's [S06Collision](https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp) class.
+- Currently based off DarioSamo's [S06Collision](https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp) class. Updated by [Radfordhound](https://github.com/Radfordhound) to support little-endian BINA.
 
 ### DDS Converting
 - Currently based off Microsoft DirectX 12 and some internal work for previewing textures.
