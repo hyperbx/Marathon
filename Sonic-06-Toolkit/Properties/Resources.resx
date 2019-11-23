@@ -148,6 +148,48 @@
   <data name="csbLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\csbLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="hash_arctool" xml:space="preserve">
+    <value>38A0008D503AD8B891253BCDFD9608B2</value>
+  </data>
+  <data name="hash_at3tool" xml:space="preserve">
+    <value>E3A802A193FDDEFA2556761A717E3BC3</value>
+  </data>
+  <data name="hash_luac50" xml:space="preserve">
+    <value>5E7127420FFE9FC418CE43F7280C918D</value>
+  </data>
+  <data name="hash_mst06" xml:space="preserve">
+    <value>7614FC8E0ED2DB168C93B69887513FCB</value>
+  </data>
+  <data name="hash_repack" xml:space="preserve">
+    <value>122E997019F43E1F54370313F358D50F</value>
+  </data>
+  <data name="hash_s06col" xml:space="preserve">
+    <value>062AC6249016BDD62126EF6ADF89754D</value>
+  </data>
+  <data name="hash_s06collision" xml:space="preserve">
+    <value>C6D5D656CB56E3FC1C7ACD47DC07280B</value>
+  </data>
+  <data name="hash_texconv" xml:space="preserve">
+    <value>169714A7FF4D68818EF1F8298737838C</value>
+  </data>
+  <data name="hash_towav" xml:space="preserve">
+    <value>0CBFE82554E6405F0B7C6D116126A100</value>
+  </data>
+  <data name="hash_unlub" xml:space="preserve">
+    <value>BEBB0AC6785DDC775C5CE99D4A614FC5</value>
+  </data>
+  <data name="hash_unpack" xml:space="preserve">
+    <value>DC37178A363E57BC46E81F7857541F9A</value>
+  </data>
+  <data name="hash_xextool" xml:space="preserve">
+    <value>A1924FA8082EFB8DF878BA9454698D85</value>
+  </data>
+  <data name="hash_xmaencode" xml:space="preserve">
+    <value>8DC5FB8541250E0D50FEED5EB36E4F23</value>
+  </data>
+  <data name="hash_xno2dae" xml:space="preserve">
+    <value>6771D7D3C44B79919C4D3F8731B758E5</value>
+  </data>
   <data name="HedgeLib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\tools\bina\hedgelib.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

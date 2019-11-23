@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using VGAudio.Containers.Adx;
 using VGAudio.Containers.Wave;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Runtime.InteropServices;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -371,6 +372,76 @@ namespace Toolkit.Tools
 
     class Verification
     {
+        public static void VerifyDependencies(string path) {
+            try {
+                List<string> dependencies = Directory.GetFiles(Paths.Tools, "*.*", SearchOption.TopDirectoryOnly).ToList();
+
+                foreach (string dependency in dependencies) {
+                    string getHash = CalculateMD5Hash(dependency);
+                    if (Path.GetFileName(dependency).ToLower() == "arctool.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_arctool))
+                            File.WriteAllBytes(Paths.Arctool, Properties.Resources.arctool);
+                    } else if (Path.GetFileName(dependency).ToLower() == "luac50.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_luac50))
+                            File.WriteAllBytes(Paths.LuaCompiler, Properties.Resources.luac50);
+                    } else if (Path.GetFileName(dependency).ToLower() == "mst06.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_mst06))
+                            File.WriteAllBytes(Paths.MSTTool, Properties.Resources.mst06);
+                    } else if (Path.GetFileName(dependency).ToLower() == "ps3_at3tool.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_at3tool))
+                            File.WriteAllBytes(Paths.AT3Tool, Properties.Resources.PS3_at3tool);
+                    } else if (Path.GetFileName(dependency).ToLower() == "repack.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_repack))
+                            File.WriteAllBytes(Paths.Repack, Properties.Resources.repack);
+                    } else if (Path.GetFileName(dependency).ToLower() == "s06col.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_s06col))
+                            File.WriteAllBytes(Paths.BINEncoder, Properties.Resources.s06col);
+                    } else if (Path.GetFileName(dependency).ToLower() == "s06collision.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_s06collision))
+                            File.WriteAllBytes(Paths.BINDecoder, Properties.Resources.s06collision);
+                    } else if (Path.GetFileName(dependency).ToLower() == "texconv.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_texconv))
+                            File.WriteAllBytes(Paths.DDSTool, Properties.Resources.texconv);
+                    } else if (Path.GetFileName(dependency).ToLower() == "towav.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_towav))
+                            File.WriteAllBytes(Paths.XMADecoder, Properties.Resources.towav);
+                    } else if (Path.GetFileName(dependency).ToLower() == "unlub.jar") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_unlub))
+                            File.WriteAllBytes(Paths.LuaDecompiler, Properties.Resources.unlub);
+                    } else if (Path.GetFileName(dependency).ToLower() == "unpack.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_unpack))
+                            File.WriteAllBytes(Paths.Unpack, Properties.Resources.unpack);
+                    } else if (Path.GetFileName(dependency).ToLower() == "xextool.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_xextool))
+                            File.WriteAllBytes(Paths.XexTool, Properties.Resources.xextool);
+                    } else if (Path.GetFileName(dependency).ToLower() == "xmaencode2008.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_xmaencode))
+                            File.WriteAllBytes(Paths.XMATool, Properties.Resources.xmaencode2008);
+                    } else if (Path.GetFileName(dependency).ToLower() == "xno2dae.exe") {
+                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_xno2dae))
+                            File.WriteAllBytes(Paths.XNODecoder, Properties.Resources.xno2dae);
+                    }
+                }
+            } catch { }
+        }
+
+        public static string CalculateMD5Hash(string path) {
+            using (var md5 = MD5.Create())
+                using (var stream = File.OpenRead(path))
+                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToUpperInvariant();
+        }
+
+        public static bool CompareMD5Hash(string one, string two) {
+            Console.WriteLine($"MD5 Comparison\nHash #1: {one}\nHash #2: {two}");
+            if (one == two) {
+                Console.WriteLine("The MD5 hashes are identical...");
+                return true;
+            } else {
+                Console.WriteLine("The MD5 hashes are not the same...");
+                return false;
+            }
+        }
+
         public static bool VerifyMagicNumberCommon(string path) {
             try {
                 string hexString = BitConverter.ToString(File.ReadAllBytes(path).Take(4).ToArray()).Replace("-", " ");
@@ -430,7 +501,7 @@ namespace Toolkit.Tools
         public static bool VerifyApplicationIntegrity(string path) {
             if (Path.GetFileName(path) == "luac50.exe")
                 if (File.Exists(Path.Combine(Application.StartupPath, "Lua50.dll"))) return true;
-                else return false;
+                else File.WriteAllBytes(Path.Combine(Application.StartupPath, "Lua50.dll"), Properties.Resources.lua50);
             else if (Path.GetFileName(path) == "unlub.jar")
                 if (JavaCheck()) return true;
                 else return false;

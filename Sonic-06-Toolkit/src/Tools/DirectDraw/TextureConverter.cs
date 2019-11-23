@@ -44,6 +44,7 @@ namespace Toolkit
         public TextureConverter(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
             tm_NoCheckOnClickTimer.Start();
             compression = Properties.Settings.Default.tex_Compression;
 

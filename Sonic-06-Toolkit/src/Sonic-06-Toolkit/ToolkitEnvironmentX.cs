@@ -3,6 +3,7 @@ using System.IO;
 using System.Web;
 using System.Text;
 using System.Linq;
+using System.Media;
 using Toolkit.Text;
 using Toolkit.Tools;
 using System.Drawing;
@@ -41,7 +42,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.07"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.08"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -242,7 +243,7 @@ namespace Toolkit.EnvironmentX
                 }
             } else
                 ResetTab(true);
-    }
+        }
 
         private void File_OpenFolder_Click(object sender, EventArgs e) {
             string getPath = Browsers.CommonBrowser(true, "Please select a folder...", string.Empty);
@@ -310,12 +311,11 @@ namespace Toolkit.EnvironmentX
 
         private void Unifytb_Main_SelectedIndexChanged(object sender, EventArgs e) {
             try {
-                repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
-
+                RefreshPath();
                 if (unifytb_Main.SelectedTab.ToolTipText == string.Empty)
                     Text = SystemMessages.tl_DefaultTitleVersion;
                 else if (unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy"))
-                    Text = SystemMessages.tl_Exploring(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
+                    Text = SystemMessages.tl_Exploring(HttpUtility.UrlDecode(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", ""));
                 else {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
@@ -365,16 +365,15 @@ namespace Toolkit.EnvironmentX
         }
 
         private void Btn_OpenFolder_Click(object sender, EventArgs e) {
-            try { Process.Start(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\"); }
+            try { Process.Start(HttpUtility.UrlDecode(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", "")); }
             catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_OpenFolderError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void Folder_CopyToClipboard_Click(object sender, EventArgs e) {
             try {
                 Status = StatusMessages.msg_Clipboard;
-                Clipboard.SetText(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\");
-            }
-            catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_ClipboardFolderError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+                Clipboard.SetText(HttpUtility.UrlDecode(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", ""));
+            } catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_ClipboardFolderError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
         private void Btn_OpenFolderOptions_Click(object sender, EventArgs e) {
@@ -523,6 +522,7 @@ namespace Toolkit.EnvironmentX
                         file.Delete();
                     foreach (DirectoryInfo directory in archiveData.GetDirectories())
                         directory.Delete(true);
+                    Directory.Delete(Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString()));
                 }
             }
             catch { }
@@ -582,14 +582,28 @@ namespace Toolkit.EnvironmentX
             } catch { Text = SystemMessages.tl_DefaultTitleVersion; }
 
             try {
-                if (CurrentARC().Url != null)
-                    Paths.currentPath = HttpUtility.UrlDecode(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", "");
+                RefreshPath();
                 if (unifytb_Main.SelectedTab.Text != "New Tab" || unifytb_Main.SelectedTab.ToolTipText != string.Empty || Properties.Settings.Default.env_gameDirectory != string.Empty)
                     InterfaceEnabled(true);
                 else if (unifytb_Main.SelectedTab.Text == "New Tab" && unifytb_Main.SelectedTab.ToolTipText == string.Empty)
                     InterfaceEnabled(false);
             }
             catch { }
+        }
+
+        private void RefreshPath() {
+            try {
+                repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
+                string getCurrentPath = string.Empty;
+
+                if (CurrentARC().Url != null) {
+                    getCurrentPath = HttpUtility.UrlDecode(CurrentARC().Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", "");
+                    Paths.currentPath = getCurrentPath;
+                }
+
+                //Console.WriteLine(repackBuildSession);
+                //Console.WriteLine(getCurrentPath);
+            } catch { }
         }
 
         private void Sdk_PlacementConverter_Click(object sender, EventArgs e) {
@@ -604,8 +618,7 @@ namespace Toolkit.EnvironmentX
                 try {
                     openLogs = (Logs.ToolkitSessionLog)Application.OpenForms["ToolkitSessionLog"];
                     openLogs.Close();
-                }
-                catch { }
+                } catch { }
             }
             
             if (Properties.Settings.Default.env_firstLaunch)
@@ -659,8 +672,10 @@ namespace Toolkit.EnvironmentX
             bw_Worker.RunWorkerCompleted -= SingleExtractCompleted;
             bw_Worker.DoWork -= SingleExtractDoWork;
             file_ExtractISO.Enabled = true;
-            if (XisoExtractor._errorlevel == 0) Status = XisoExtractor.GetLastError(extractQueue);
-            else MessageBox.Show(XisoExtractor.GetLastError(extractQueue), SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (XisoExtractor._errorlevel == 0) {
+                Status = XisoExtractor.GetLastError(extractQueue);
+                SystemSounds.Asterisk.Play();
+            } else MessageBox.Show(XisoExtractor.GetLastError(extractQueue), SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             extractQueue = string.Empty;
         }
 

@@ -56,11 +56,18 @@ namespace Toolkit.Logs
             else
                 foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
 
-            nud_RefreshTimer.Value = Convert.ToDecimal(Properties.Settings.Default.log_refreshTimer) / 1000;
-            if (nud_RefreshTimer.Value == 1) lbl_RefreshText.Text = "Refresh every:                      second";
-            else lbl_RefreshText.Text = "Refresh every:                      seconds";
-            tm_RefreshLogs.Interval = Properties.Settings.Default.log_refreshTimer;
-            tm_RefreshLogs.Start();
+            if (Properties.Settings.Default.log_refreshTimer != 0) {
+                nud_RefreshTimer.Value = Convert.ToDecimal(Properties.Settings.Default.log_refreshTimer) / 1000;
+                if (nud_RefreshTimer.Value == 1) lbl_RefreshText.Text = "Refresh every:                      second";
+                else lbl_RefreshText.Text = "Refresh every:                      seconds";
+                tm_RefreshLogs.Interval = Properties.Settings.Default.log_refreshTimer;
+                tm_RefreshLogs.Start();
+            } else {
+                nud_RefreshTimer.Value = 0;
+                lbl_RefreshText.Text = "Refresh every:                      seconds";
+                btn_TimerEnabled.Text = "Resume";
+                tm_RefreshLogs.Stop();
+            }
         }
 
         private void List_Logs_SelectedIndexChanged(object sender, EventArgs e) { list_Logs.ClearSelected(); }
@@ -79,9 +86,21 @@ namespace Toolkit.Logs
         }
 
         private void Nud_RefreshTimer_ValueChanged(object sender, EventArgs e) {
-            if (nud_RefreshTimer.Value == 1) lbl_RefreshText.Text = "Refresh every:                      second";
-            else lbl_RefreshText.Text = "Refresh every:                      seconds";
-            Properties.Settings.Default.log_refreshTimer = tm_RefreshLogs.Interval = decimal.ToInt32(nud_RefreshTimer.Value) * 1000;
+            if (nud_RefreshTimer.Value == 0) {
+                lbl_RefreshText.Text = "Refresh every:                      seconds";
+                btn_TimerEnabled.Text = "Resume";
+                tm_RefreshLogs.Stop();
+            } else if (nud_RefreshTimer.Value == 1) {
+                lbl_RefreshText.Text = "Refresh every:                      second";
+                btn_TimerEnabled.Text = "Pause";
+                tm_RefreshLogs.Start();
+            } else { 
+                lbl_RefreshText.Text = "Refresh every:                      seconds";
+                btn_TimerEnabled.Text = "Pause";
+                tm_RefreshLogs.Start();
+            }
+            if (nud_RefreshTimer.Value != 0) Properties.Settings.Default.log_refreshTimer = tm_RefreshLogs.Interval = decimal.ToInt32(nud_RefreshTimer.Value) * 1000;
+            else Properties.Settings.Default.log_refreshTimer = 0;
         }
 
         private void ToolkitSessionLog_FormClosing(object sender, FormClosingEventArgs e) {
@@ -126,6 +145,17 @@ namespace Toolkit.Logs
                 Properties.Settings.Default.log_priority = 0;
                 priority_TopToBottom.Checked = true;
             }
+        }
+
+        private void btn_Refresh_Click(object sender, EventArgs e) {
+            list_Logs.Items.Clear();
+            list_Logs.Items.Add($"{SystemMessages.tl_DefaultTitleVersion} - Session ID: {Program.sessionID}");
+            list_Logs.Items.Add("");
+
+            if (Properties.Settings.Default.log_priority == 0)
+                for (int i = Main.sessionLog.Count - 1; i >= 0; i--) list_Logs.Items.Add(Main.sessionLog[i]);
+            else
+                foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
         }
     }
 }

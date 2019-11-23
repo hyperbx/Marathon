@@ -41,6 +41,7 @@ namespace Toolkit.Tools
         public XNOTool(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
         }
 
         private void ModelAnimationExporter_Load(object sender, EventArgs e) {

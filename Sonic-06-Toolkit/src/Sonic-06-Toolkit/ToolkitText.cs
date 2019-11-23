@@ -303,24 +303,24 @@ namespace Toolkit.Text
     class Paths
     {
         public static string Archives = @"Hyper_Development_Team\Sonic '06 Toolkit\Archives\";
-        public static string Tools = @"Hyper_Development_Team\Sonic '06 Toolkit\Tools\";
+        public static string Tools = Path.Combine(Program.applicationData, @"Hyper_Development_Team\Sonic '06 Toolkit\Tools\");
         public static string Root = @"Hyper_Development_Team\Sonic '06 Toolkit\";
 
         public static string Shell = "cmd.exe";
-        public static string Arctool = Path.Combine(Program.applicationData, Tools, "arctool.exe");
-        public static string Unpack = Path.Combine(Program.applicationData, Tools, "unpack.exe");
-        public static string Repack = Path.Combine(Program.applicationData, Tools, "repack.exe");
-        public static string LuaCompiler = Path.Combine(Program.applicationData, Tools, "luac50.exe");
-        public static string LuaDecompiler = Path.Combine(Program.applicationData, Tools, "unlub.jar");
-        public static string XexTool = Path.Combine(Program.applicationData, Tools, "xextool.exe");
-        public static string AT3Tool = Path.Combine(Program.applicationData, Tools, "PS3_at3tool.exe");
-        public static string XMATool = Path.Combine(Program.applicationData, Tools, "xmaencode2008.exe");
-        public static string XMADecoder = Path.Combine(Program.applicationData, Tools, "towav.exe");
-        public static string DDSTool = Path.Combine(Program.applicationData, Tools, "texconv.exe");
-        public static string MSTTool = Path.Combine(Program.applicationData, Tools, "mst06.exe");
-        public static string XNODecoder = Path.Combine(Program.applicationData, Tools, "xno2dae.exe");
-        public static string BINEncoder = Path.Combine(Program.applicationData, Tools, "s06col.exe");
-        public static string BINDecoder = Path.Combine(Program.applicationData, Tools, "s06collision.exe");
+        public static string Arctool = Path.Combine(Tools, "arctool.exe");
+        public static string Unpack = Path.Combine(Tools, "unpack.exe");
+        public static string Repack = Path.Combine(Tools, "repack.exe");
+        public static string LuaCompiler = Path.Combine(Tools, "luac50.exe");
+        public static string LuaDecompiler = Path.Combine(Tools, "unlub.jar");
+        public static string XexTool = Path.Combine(Tools, "xextool.exe");
+        public static string AT3Tool = Path.Combine(Tools, "PS3_at3tool.exe");
+        public static string XMATool = Path.Combine(Tools, "xmaencode2008.exe");
+        public static string XMADecoder = Path.Combine(Tools, "towav.exe");
+        public static string DDSTool = Path.Combine(Tools, "texconv.exe");
+        public static string MSTTool = Path.Combine(Tools, "mst06.exe");
+        public static string XNODecoder = Path.Combine(Tools, "xno2dae.exe");
+        public static string BINEncoder = Path.Combine(Tools, "s06col.exe");
+        public static string BINDecoder = Path.Combine(Tools, "s06collision.exe");
 
         public static string currentPath = string.Empty;
     }

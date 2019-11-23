@@ -49,6 +49,7 @@ namespace Toolkit.Tools
         public SonicSoundStudio(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
             tm_NoCheckOnClickTimer.Start();
         }
 

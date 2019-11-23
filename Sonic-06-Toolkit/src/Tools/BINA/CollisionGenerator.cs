@@ -41,6 +41,7 @@ namespace Toolkit.Tools
         public CollisionGenerator(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
         }
 
         private void CollisionGenerator_Load(object sender, EventArgs e) {

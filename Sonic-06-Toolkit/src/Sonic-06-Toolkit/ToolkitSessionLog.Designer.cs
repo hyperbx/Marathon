@@ -42,6 +42,7 @@
             this.priority_TopToBottom = new System.Windows.Forms.ToolStripMenuItem();
             this.priority_BottomToTop = new System.Windows.Forms.ToolStripMenuItem();
             this.options_Timestamps = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_Refresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).BeginInit();
             this.mstrip_Options.SuspendLayout();
             this.SuspendLayout();
@@ -52,9 +53,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.list_Logs.FormattingEnabled = true;
-            this.list_Logs.Location = new System.Drawing.Point(0, 0);
+            this.list_Logs.Location = new System.Drawing.Point(-1, -1);
             this.list_Logs.Name = "list_Logs";
-            this.list_Logs.Size = new System.Drawing.Size(607, 329);
+            this.list_Logs.Size = new System.Drawing.Size(609, 329);
             this.list_Logs.TabIndex = 0;
             this.list_Logs.SelectedIndexChanged += new System.EventHandler(this.List_Logs_SelectedIndexChanged);
             // 
@@ -62,7 +63,7 @@
             // 
             this.lbl_RefreshText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbl_RefreshText.AutoSize = true;
-            this.lbl_RefreshText.Location = new System.Drawing.Point(4, 336);
+            this.lbl_RefreshText.Location = new System.Drawing.Point(81, 335);
             this.lbl_RefreshText.Name = "lbl_RefreshText";
             this.lbl_RefreshText.Size = new System.Drawing.Size(182, 13);
             this.lbl_RefreshText.TabIndex = 1;
@@ -71,14 +72,9 @@
             // nud_RefreshTimer
             // 
             this.nud_RefreshTimer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nud_RefreshTimer.Location = new System.Drawing.Point(81, 332);
+            this.nud_RefreshTimer.Location = new System.Drawing.Point(158, 331);
             this.nud_RefreshTimer.Maximum = new decimal(new int[] {
             60,
-            0,
-            0,
-            0});
-            this.nud_RefreshTimer.Minimum = new decimal(new int[] {
-            1,
             0,
             0,
             0});
@@ -100,7 +96,7 @@
             this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Clear.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_Clear.Location = new System.Drawing.Point(530, 331);
+            this.btn_Clear.Location = new System.Drawing.Point(530, 330);
             this.btn_Clear.Name = "btn_Clear";
             this.btn_Clear.Size = new System.Drawing.Size(75, 23);
             this.btn_Clear.TabIndex = 62;
@@ -120,7 +116,7 @@
             this.btn_TimerEnabled.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_TimerEnabled.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_TimerEnabled.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_TimerEnabled.Location = new System.Drawing.Point(453, 331);
+            this.btn_TimerEnabled.Location = new System.Drawing.Point(453, 330);
             this.btn_TimerEnabled.Name = "btn_TimerEnabled";
             this.btn_TimerEnabled.Size = new System.Drawing.Size(75, 23);
             this.btn_TimerEnabled.TabIndex = 63;
@@ -135,7 +131,7 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(381, 331);
+            this.mstrip_Options.Location = new System.Drawing.Point(381, 330);
             this.mstrip_Options.Name = "mstrip_Options";
             this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 65;
@@ -183,11 +179,28 @@
             this.options_Timestamps.Text = "Enable Timestamps";
             this.options_Timestamps.CheckedChanged += new System.EventHandler(this.Options_Timestamps_CheckedChanged);
             // 
+            // btn_Refresh
+            // 
+            this.btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Refresh.BackColor = System.Drawing.Color.LightGreen;
+            this.btn_Refresh.FlatAppearance.BorderSize = 0;
+            this.btn_Refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Refresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Refresh.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_Refresh.Location = new System.Drawing.Point(2, 330);
+            this.btn_Refresh.Name = "btn_Refresh";
+            this.btn_Refresh.Size = new System.Drawing.Size(75, 23);
+            this.btn_Refresh.TabIndex = 66;
+            this.btn_Refresh.Text = "Refresh";
+            this.btn_Refresh.UseVisualStyleBackColor = false;
+            this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
+            // 
             // ToolkitSessionLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(607, 356);
+            this.ClientSize = new System.Drawing.Size(607, 355);
+            this.Controls.Add(this.btn_Refresh);
             this.Controls.Add(this.mstrip_Options);
             this.Controls.Add(this.btn_TimerEnabled);
             this.Controls.Add(this.btn_Clear);
@@ -196,7 +209,7 @@
             this.Controls.Add(this.list_Logs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(623, 395);
+            this.MinimumSize = new System.Drawing.Size(623, 394);
             this.Name = "ToolkitSessionLog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Session Log";
@@ -224,5 +237,6 @@
         private System.Windows.Forms.ToolStripMenuItem priority_TopToBottom;
         private System.Windows.Forms.ToolStripMenuItem priority_BottomToTop;
         private System.Windows.Forms.ToolStripMenuItem options_Timestamps;
+        private System.Windows.Forms.Button btn_Refresh;
     }
 }

@@ -161,6 +161,132 @@ namespace Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 38A0008D503AD8B891253BCDFD9608B2.
+        /// </summary>
+        internal static string hash_arctool {
+            get {
+                return ResourceManager.GetString("hash_arctool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E3A802A193FDDEFA2556761A717E3BC3.
+        /// </summary>
+        internal static string hash_at3tool {
+            get {
+                return ResourceManager.GetString("hash_at3tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5E7127420FFE9FC418CE43F7280C918D.
+        /// </summary>
+        internal static string hash_luac50 {
+            get {
+                return ResourceManager.GetString("hash_luac50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 7614FC8E0ED2DB168C93B69887513FCB.
+        /// </summary>
+        internal static string hash_mst06 {
+            get {
+                return ResourceManager.GetString("hash_mst06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 122E997019F43E1F54370313F358D50F.
+        /// </summary>
+        internal static string hash_repack {
+            get {
+                return ResourceManager.GetString("hash_repack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 062AC6249016BDD62126EF6ADF89754D.
+        /// </summary>
+        internal static string hash_s06col {
+            get {
+                return ResourceManager.GetString("hash_s06col", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C6D5D656CB56E3FC1C7ACD47DC07280B.
+        /// </summary>
+        internal static string hash_s06collision {
+            get {
+                return ResourceManager.GetString("hash_s06collision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 169714A7FF4D68818EF1F8298737838C.
+        /// </summary>
+        internal static string hash_texconv {
+            get {
+                return ResourceManager.GetString("hash_texconv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0CBFE82554E6405F0B7C6D116126A100.
+        /// </summary>
+        internal static string hash_towav {
+            get {
+                return ResourceManager.GetString("hash_towav", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BEBB0AC6785DDC775C5CE99D4A614FC5.
+        /// </summary>
+        internal static string hash_unlub {
+            get {
+                return ResourceManager.GetString("hash_unlub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DC37178A363E57BC46E81F7857541F9A.
+        /// </summary>
+        internal static string hash_unpack {
+            get {
+                return ResourceManager.GetString("hash_unpack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A1924FA8082EFB8DF878BA9454698D85.
+        /// </summary>
+        internal static string hash_xextool {
+            get {
+                return ResourceManager.GetString("hash_xextool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 8DC5FB8541250E0D50FEED5EB36E4F23.
+        /// </summary>
+        internal static string hash_xmaencode {
+            get {
+                return ResourceManager.GetString("hash_xmaencode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 6771D7D3C44B79919C4D3F8731B758E5.
+        /// </summary>
+        internal static string hash_xno2dae {
+            get {
+                return ResourceManager.GetString("hash_xno2dae", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] HedgeLib {

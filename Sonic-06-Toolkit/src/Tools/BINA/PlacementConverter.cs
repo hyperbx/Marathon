@@ -42,6 +42,7 @@ namespace Toolkit.Tools
         public PlacementConverter(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
         }
 
         private void PlacementConverter_Load(object sender, EventArgs e) {

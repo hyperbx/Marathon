@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using Toolkit.Text;
+using Toolkit.Tools;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Security.Principal;
@@ -95,9 +97,11 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06col.exe", Properties.Resources.s06col);
 
-            //if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe"))
+            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\s06collision.exe", Properties.Resources.s06collision);
-            
+
+            Verification.VerifyDependencies(Paths.Tools);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main(args, sessionID));

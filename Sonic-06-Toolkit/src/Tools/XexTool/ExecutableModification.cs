@@ -42,6 +42,7 @@ namespace Toolkit.Tools
         public ExecutableModification(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
             tm_ProcessCheck.Start();
 
             switch (Properties.Settings.Default.xex_Encryption) {

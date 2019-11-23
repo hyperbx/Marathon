@@ -41,6 +41,7 @@ namespace Toolkit.Tools
         public TextEncoding(Form callingForm) {
             mainForm = callingForm as Main;
             InitializeComponent();
+            Console.WriteLine(location);
         }
 
         private void TextEditor_Load(object sender, EventArgs e) {
