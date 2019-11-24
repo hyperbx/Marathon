@@ -43,8 +43,10 @@
             this.priority_BottomToTop = new System.Windows.Forms.ToolStripMenuItem();
             this.options_Timestamps = new System.Windows.Forms.ToolStripMenuItem();
             this.btn_Refresh = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).BeginInit();
             this.mstrip_Options.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // list_Logs
@@ -52,10 +54,11 @@
             this.list_Logs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.list_Logs.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.list_Logs.FormattingEnabled = true;
-            this.list_Logs.Location = new System.Drawing.Point(-1, -1);
+            this.list_Logs.Location = new System.Drawing.Point(4, 4);
             this.list_Logs.Name = "list_Logs";
-            this.list_Logs.Size = new System.Drawing.Size(609, 329);
+            this.list_Logs.Size = new System.Drawing.Size(599, 312);
             this.list_Logs.TabIndex = 0;
             this.list_Logs.SelectedIndexChanged += new System.EventHandler(this.List_Logs_SelectedIndexChanged);
             // 
@@ -195,18 +198,31 @@
             this.btn_Refresh.UseVisualStyleBackColor = false;
             this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.list_Logs);
+            this.panel1.Location = new System.Drawing.Point(-1, -1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(610, 329);
+            this.panel1.TabIndex = 67;
+            // 
             // ToolkitSessionLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(607, 355);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_Refresh);
             this.Controls.Add(this.mstrip_Options);
             this.Controls.Add(this.btn_TimerEnabled);
             this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.nud_RefreshTimer);
             this.Controls.Add(this.lbl_RefreshText);
-            this.Controls.Add(this.list_Logs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(623, 394);
@@ -215,9 +231,11 @@
             this.Text = "Session Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ToolkitSessionLog_FormClosing);
             this.Move += new System.EventHandler(this.ToolkitSessionLog_Move);
+            this.Resize += new System.EventHandler(this.ToolkitSessionLog_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.nud_RefreshTimer)).EndInit();
             this.mstrip_Options.ResumeLayout(false);
             this.mstrip_Options.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,5 +256,6 @@
         private System.Windows.Forms.ToolStripMenuItem priority_BottomToTop;
         private System.Windows.Forms.ToolStripMenuItem options_Timestamps;
         private System.Windows.Forms.Button btn_Refresh;
+        private System.Windows.Forms.Panel panel1;
     }
 }

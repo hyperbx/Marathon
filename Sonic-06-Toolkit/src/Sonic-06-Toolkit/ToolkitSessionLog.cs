@@ -33,6 +33,9 @@ namespace Toolkit.Logs
 {
     public partial class ToolkitSessionLog : Form
     {
+        int locationX = 0;
+        int locationY = 0;
+
         public ToolkitSessionLog() {
             InitializeComponent();
             Location = new Point(Properties.Settings.Default.log_X, Properties.Settings.Default.log_Y);
@@ -104,8 +107,13 @@ namespace Toolkit.Logs
         }
 
         private void ToolkitSessionLog_FormClosing(object sender, FormClosingEventArgs e) {
-            Properties.Settings.Default.log_X = Left;
-            Properties.Settings.Default.log_Y = Top;
+            if (WindowState == FormWindowState.Maximized) {
+                Properties.Settings.Default.log_X = 25;
+                Properties.Settings.Default.log_Y = 25;
+            } else {
+                Properties.Settings.Default.log_X = Left;
+                Properties.Settings.Default.log_Y = Top;
+            }
             Properties.Settings.Default.log_timestamps = options_Timestamps.Checked;
             Properties.Settings.Default.log_Startup = false;
 
@@ -156,6 +164,18 @@ namespace Toolkit.Logs
                 for (int i = Main.sessionLog.Count - 1; i >= 0; i--) list_Logs.Items.Add(Main.sessionLog[i]);
             else
                 foreach (string log in Main.sessionLog) list_Logs.Items.Add(log);
+        }
+
+        private void ToolkitSessionLog_Resize(object sender, EventArgs e) {
+            locationX = Location.X;
+            locationY = Location.Y;
+            if (WindowState == FormWindowState.Maximized) {
+                Properties.Settings.Default.log_X = 25;
+                Properties.Settings.Default.log_Y = 25;
+            } else {
+                Properties.Settings.Default.log_X = locationX;
+                Properties.Settings.Default.log_Y = locationY;
+            }
         }
     }
 }
