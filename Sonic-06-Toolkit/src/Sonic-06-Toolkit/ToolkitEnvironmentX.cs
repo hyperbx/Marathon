@@ -42,7 +42,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.08"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.09-indev-241119"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -494,23 +494,31 @@ namespace Toolkit.EnvironmentX
             if (warning) {
                 switch (e.CloseReason) {
                     case CloseReason.UserClosing:
-                        if (MessageBox.Show(SystemMessages.msg_UserClosing, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            EraseData();
-                        else e.Cancel = true;
+                        WarnOnClose(SystemMessages.msg_UserClosing, e);
                         break;
                     case CloseReason.WindowsShutDown:
-                        if (MessageBox.Show(SystemMessages.msg_WindowsShutDown, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            EraseData();
-                        else e.Cancel = true;
+                        WarnOnClose(SystemMessages.msg_WindowsShutDown, e);
                         break;
                     case CloseReason.ApplicationExitCall:
-                        if (MessageBox.Show(SystemMessages.msg_UserClosing, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                            EraseData();
-                        else e.Cancel = true;
+                        WarnOnClose(SystemMessages.msg_UserClosing, e);
                         break;
                 }
             }
             else EraseData();
+        }
+
+        private void WarnOnClose(string message, FormClosingEventArgs e) {
+            if (Program.CheckProcessStateByName(Paths.Repack, true)) {
+                if (MessageBox.Show(SystemMessages.msg_StillRepacking, SystemMessages.tl_Repacking, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.Cancel)  {
+                    if (MessageBox.Show(message, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        EraseData();
+                    else e.Cancel = true;
+                } else e.Cancel = true;
+            } else {
+                if (MessageBox.Show(message, SystemMessages.tl_DefaultTitle, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    EraseData();
+                else e.Cancel = true;
+            }
         }
 
         private void EraseData() {

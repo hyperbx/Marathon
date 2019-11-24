@@ -41,6 +41,7 @@ namespace Toolkit.Text
         public static string tl_XISO = "Please select an Xbox 360 ISO...";
         public static string tl_CollisionTagsDetected = "Collision Tags Detected";
         public static string tl_Success = "Success";
+        public static string tl_Repacking = "Repacking...";
         public static string ex_NewWindowError = "An error occurred whilst launching a new instance of Sonic '06 Toolkit.";
         public static string msg_CloseTab = "Are you sure you want to close this tab? All unsaved changes will be lost if you haven't repacked.";
         public static string msg_CloseAllTabs = "Are you sure you want to close all tabs? All unsaved changes will be lost if you haven't repacked.";
@@ -92,6 +93,7 @@ namespace Toolkit.Text
         public static string ex_RegistryError = "An error occurred whilst editing the registry.";
         public static string msg_UpdateComplete = $"Update complete! Restarting {tl_DefaultTitle}...";
         public static string msg_UnpackForModManager = "This will unpack and erase all archives in this directory. Are you sure you want to continue?";
+        public static string msg_StillRepacking = "An archive is still repacking - please wait...";
 
         public static string tl_Exploring(string path) { return $"{tl_DefaultTitleVersion} - Exploring '{path}'"; }
 

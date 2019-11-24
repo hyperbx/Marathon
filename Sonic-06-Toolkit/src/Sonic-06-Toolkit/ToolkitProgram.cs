@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Toolkit.Text;
 using Toolkit.Tools;
 using System.Diagnostics;
@@ -108,6 +109,11 @@ namespace Toolkit.EnvironmentX
         }
 
         public static bool RunningAsAdmin() { return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator); }
+
+        public static bool CheckProcessStateByName(string name, bool withoutExtension) { 
+            if (withoutExtension) return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(name)).Count() > 0;
+            else return Process.GetProcessesByName(Path.GetFileName(name)).Count() > 0;
+        }
 
         public static void ExecuteAsAdmin(string fileName, string arguments) {
             Process proc = new Process();

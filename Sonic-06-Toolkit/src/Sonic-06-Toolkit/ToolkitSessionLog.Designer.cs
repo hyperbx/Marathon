@@ -181,7 +181,7 @@
             // 
             // btn_Refresh
             // 
-            this.btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Refresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btn_Refresh.BackColor = System.Drawing.Color.LightGreen;
             this.btn_Refresh.FlatAppearance.BorderSize = 0;
             this.btn_Refresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
