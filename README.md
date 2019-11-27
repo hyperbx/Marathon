@@ -16,7 +16,7 @@ See the [releases page](https://github.com/HyperPolygon64/Sonic-06-Toolkit/relea
 Sure! Use Git to clone the repository to your drive and use [Visual Studio](https://visualstudio.microsoft.com/) to compile it (this project was developed and built with Visual Studio 2019).
 
 ### "Are there any pre-requisites that are required?"
-Yes, see the [Requirements](https://github.com/HyperPolygon64/Sonic-06-Toolkit#requirements) section at the bottom of this document.
+Yes, see the [Prerequisites](https://github.com/HyperPolygon64/Sonic-06-Toolkit#prerequisites) section at the bottom of this document.
 
 ### "How do I mod this game, then?"
 Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for more in-depth information.
@@ -59,7 +59,7 @@ Refer to the [wiki](https://github.com/HyperPolygon64/Sonic-06-Toolkit/wiki) for
 ### XNCP Decoding
 - <b>Help wanted!</b> We currently don't have a way to decompile XNCP files. These files potentially contain information and/or values for menu placement, colour and whatnot.
 
-# Pre-requisites
+# Prerequisites
 ### ATRAC3plus TOOL
 - Currently requires the [x86 variant of Microsoft Visual C++ 2010](https://www.microsoft.com/en-us/download/details.aspx?id=5555) to work.
 
