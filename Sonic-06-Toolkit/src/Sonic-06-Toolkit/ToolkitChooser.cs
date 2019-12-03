@@ -92,8 +92,6 @@ namespace Toolkit.Text
 
         private void Btn_Yes_Click(object sender, EventArgs e) { Accept = btn_Choice1.Text; Close(); }
 
-        private void Btn_No_Click(object sender, EventArgs e) { Accept = btn_No.Text; Close(); }
-
         private void Btn_Abort_Click(object sender, EventArgs e) { Accept = btn_Abort.Text; Close(); }
 
         private void Rtb_Message_ContentsResized(object sender, ContentsResizedEventArgs e) {

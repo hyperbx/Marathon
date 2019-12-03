@@ -31,10 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Chooser));
             this.lbl_Description = new System.Windows.Forms.Label();
             this.pnl_ButtonBackdrop = new System.Windows.Forms.Panel();
-            this.btn_Abort = new System.Windows.Forms.Button();
             this.btn_Choice2 = new System.Windows.Forms.Button();
             this.btn_Choice1 = new System.Windows.Forms.Button();
-            this.btn_No = new System.Windows.Forms.Button();
+            this.btn_Abort = new System.Windows.Forms.Button();
             this.pic_Icon = new System.Windows.Forms.PictureBox();
             this.rtb_Message = new System.Windows.Forms.RichTextBox();
             this.pnl_ButtonBackdrop.SuspendLayout();
@@ -57,72 +56,49 @@
             this.pnl_ButtonBackdrop.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnl_ButtonBackdrop.BackColor = System.Drawing.SystemColors.Control;
-            this.pnl_ButtonBackdrop.Controls.Add(this.btn_Abort);
             this.pnl_ButtonBackdrop.Controls.Add(this.btn_Choice2);
             this.pnl_ButtonBackdrop.Controls.Add(this.btn_Choice1);
-            this.pnl_ButtonBackdrop.Controls.Add(this.btn_No);
+            this.pnl_ButtonBackdrop.Controls.Add(this.btn_Abort);
             this.pnl_ButtonBackdrop.Location = new System.Drawing.Point(-1, 77);
             this.pnl_ButtonBackdrop.Name = "pnl_ButtonBackdrop";
             this.pnl_ButtonBackdrop.Size = new System.Drawing.Size(268, 58);
             this.pnl_ButtonBackdrop.TabIndex = 1;
             // 
-            // btn_Abort
-            // 
-            this.btn_Abort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Abort.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btn_Abort.FlatAppearance.BorderSize = 0;
-            this.btn_Abort.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Abort.Location = new System.Drawing.Point(11, 10);
-            this.btn_Abort.Name = "btn_Abort";
-            this.btn_Abort.Size = new System.Drawing.Size(75, 23);
-            this.btn_Abort.TabIndex = 2;
-            this.btn_Abort.Text = "Abort";
-            this.btn_Abort.UseVisualStyleBackColor = false;
-            this.btn_Abort.Click += new System.EventHandler(this.Btn_Abort_Click);
-            // 
             // btn_Choice2
             // 
             this.btn_Choice2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Choice2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btn_Choice2.FlatAppearance.BorderSize = 0;
             this.btn_Choice2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Choice2.Location = new System.Drawing.Point(179, 10);
             this.btn_Choice2.Name = "btn_Choice2";
-            this.btn_Choice2.Size = new System.Drawing.Size(75, 23);
-            this.btn_Choice2.TabIndex = 0;
+            this.btn_Choice2.Size = new System.Drawing.Size(74, 23);
+            this.btn_Choice2.TabIndex = 4;
             this.btn_Choice2.Text = "Choice";
-            this.btn_Choice2.UseVisualStyleBackColor = false;
+            this.btn_Choice2.UseVisualStyleBackColor = true;
             this.btn_Choice2.Click += new System.EventHandler(this.Btn_OK_Click);
             // 
             // btn_Choice1
             // 
             this.btn_Choice1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Choice1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.btn_Choice1.FlatAppearance.BorderSize = 0;
             this.btn_Choice1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Choice1.Location = new System.Drawing.Point(95, 10);
             this.btn_Choice1.Name = "btn_Choice1";
             this.btn_Choice1.Size = new System.Drawing.Size(75, 23);
-            this.btn_Choice1.TabIndex = 1;
+            this.btn_Choice1.TabIndex = 5;
             this.btn_Choice1.Text = "Choice";
-            this.btn_Choice1.UseVisualStyleBackColor = false;
+            this.btn_Choice1.UseVisualStyleBackColor = true;
             this.btn_Choice1.Click += new System.EventHandler(this.Btn_Yes_Click);
             // 
-            // btn_No
+            // btn_Abort
             // 
-            this.btn_No.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_No.BackColor = System.Drawing.Color.Tomato;
-            this.btn_No.FlatAppearance.BorderSize = 0;
-            this.btn_No.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_No.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_No.Location = new System.Drawing.Point(95, 10);
-            this.btn_No.Name = "btn_No";
-            this.btn_No.Size = new System.Drawing.Size(75, 23);
-            this.btn_No.TabIndex = 3;
-            this.btn_No.Text = "No";
-            this.btn_No.UseVisualStyleBackColor = false;
-            this.btn_No.Visible = false;
-            this.btn_No.Click += new System.EventHandler(this.Btn_No_Click);
+            this.btn_Abort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Abort.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Abort.Location = new System.Drawing.Point(11, 10);
+            this.btn_Abort.Name = "btn_Abort";
+            this.btn_Abort.Size = new System.Drawing.Size(75, 23);
+            this.btn_Abort.TabIndex = 6;
+            this.btn_Abort.Text = "Abort";
+            this.btn_Abort.UseVisualStyleBackColor = true;
+            this.btn_Abort.Click += new System.EventHandler(this.Btn_Abort_Click);
             // 
             // pic_Icon
             // 
@@ -184,11 +160,10 @@
 
         private System.Windows.Forms.Label lbl_Description;
         private System.Windows.Forms.Panel pnl_ButtonBackdrop;
-        private System.Windows.Forms.Button btn_Choice2;
         private System.Windows.Forms.PictureBox pic_Icon;
+        private System.Windows.Forms.RichTextBox rtb_Message;
+        private System.Windows.Forms.Button btn_Choice2;
         private System.Windows.Forms.Button btn_Choice1;
         private System.Windows.Forms.Button btn_Abort;
-        private System.Windows.Forms.Button btn_No;
-        private System.Windows.Forms.RichTextBox rtb_Message;
     }
 }
