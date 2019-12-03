@@ -82,6 +82,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Sonic-06-Toolkit\ToolkitCommandLine.cs" />
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Sonic-06-Toolkit\ToolkitChooser.Designer.cs">
+      <DependentUpon>ToolkitChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Tools\BINA\CollisionGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -174,6 +180,9 @@
     </Compile>
     <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitUpdater.resx">
       <DependentUpon>ToolkitUpdater.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Sonic-06-Toolkit\ToolkitChooser.resx">
+      <DependentUpon>ToolkitChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tools\BINA\CollisionGenerator.resx">
       <DependentUpon>CollisionGenerator.cs</DependentUpon>

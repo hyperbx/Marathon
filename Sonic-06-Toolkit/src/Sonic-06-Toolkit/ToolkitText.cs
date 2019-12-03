@@ -37,6 +37,7 @@ namespace Toolkit.Text
         public static string tl_MetadataError = "Metadata Error";
         public static string tl_RepackAs = "Repack Archive As...";
         public static string tl_SelectArchive = "Please select an archive...";
+        public static string tl_SelectFile = "Please select a file...";
         public static string tl_CreateARC = "Create an archive...";
         public static string tl_XISO = "Please select an Xbox 360 ISO...";
         public static string tl_CollisionTagsDetected = "Collision Tags Detected";
@@ -294,11 +295,30 @@ namespace Toolkit.Text
             if (fullPath) return $"Failed to decode the footer in '{file}...'";
             else return $"Failed to decode the footer in '{Path.GetFileName(file)}...'";
         }
+
+        public static string xma_Patched(string file, bool fullPath) {
+            if (fullPath) return $"Patched '{file}' successfully...";
+            else return $"Patched '{Path.GetFileName(file)}' successfully...";
+        }
     }
 
     class Filters
     {
         public static string All = "All files (*.*)|*.*";
+        public static string BIN = "Collision (*.bin)|*.bin";
+        public static string OBJ = "Wavefront OBJ (*.obj)|*.obj";
+        public static string XEX = "Xbox Executable (*.xex)|*.xex";
+        public static string LUB = "Lua Binaries (*.lub)|*.lub";
+        public static string XNO = "XNO file (*.xno)|*.xno";
+        public static string XNM = "XNM file (*.xnm)|*.xnm";
+        public static string XML = "XML file (*.xml)|*.xml";
+        public static string SET = "SET file (*.set)|*.set";
+        public static string DDS = "DirectDraw Surface (*.dds)|*.dds";
+        public static string PNG = "PNG file (*.png)|*.png";
+        public static string MST = "UTF-16 Encoded Text (*.mst)|*.mst";
+        public static string AudioEncodeCompat = "WAV files (*.wav)|*.wav|MP3 files (*.mp3)|*.mp3";
+        public static string AudioEncode = "Xbox Media Audio (*.xma)|*.xma|ATRAC3plus (*.at3)|*.at3|CriWare ADX (*.adx)|*.adx";
+        public static string AudioDecode = "Xbox Media Audio (*.xma)|*.xma|ATRAC3plus (*.at3)|*.at3|CriWare ADX (*.adx)|*.adx|CriWare Sound Bank (*.csb)|*.csb";
         public static string Archives = "Sonic '06 Archives (*.arc)|*.arc";
     }
 

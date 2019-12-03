@@ -79,7 +79,7 @@ namespace Toolkit.Tools
                             var readSET = new S06SetData();
                             readSET.Load(Path.Combine(location, SET));
                             readSET.ExportXML(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(SET)}.xml"));
-                        } else { mainForm.Status = StatusMessages.ex_InvalidFile(Path.GetFileName(SET), "SET", true); }
+                        } else { mainForm.Status = StatusMessages.ex_InvalidFile(SET, "SET", false); }
                 } catch (Exception ex) {
                     MessageBox.Show($"{SystemMessages.ex_SETExportError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }

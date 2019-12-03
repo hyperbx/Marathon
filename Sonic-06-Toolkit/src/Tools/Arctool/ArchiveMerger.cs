@@ -70,19 +70,21 @@ namespace Toolkit.Tools
 
         private void Btn_Merge_Click(object sender, EventArgs e) {
             try {
-                if (text_ARC1.Text != string.Empty && text_ARC2.Text != string.Empty && text_Output.Text != string.Empty)
+                if (text_ARC1.Text != string.Empty && text_ARC2.Text != string.Empty && text_Output.Text != string.Empty) {
+                    mainForm.Status = StatusMessages.cmn_Processing(text_Output.Text, false);
                     MergeARCs(text_ARC1.Text, text_ARC2.Text, text_Output.Text);
+                    mainForm.Status = StatusMessages.cmn_Repacked(text_Output.Text, false);
+                }
             } catch (Exception ex) { MessageBox.Show($"{SystemMessages.ex_MergeError}\n\n{ex}", SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        private async void MergeARCs(string arc1, string arc2, string output) {
+        public static async void MergeARCs(string arc1, string arc2, string output) {
             string tempPath = $"{Program.applicationData}\\Temp\\{Path.GetRandomFileName()}"; // Defines the temporary path.
             var tempData = new DirectoryInfo(tempPath); // Gets directory information on the temporary path.
 
             Directory.CreateDirectory(tempPath);
             File.Copy(arc1, Path.Combine(tempPath, Path.GetFileName(arc1)), true); // Copies the input ARC to the temporary path.
 
-            mainForm.Status = StatusMessages.cmn_Unpacking(arc1, true);
             await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
                   $"\"{Path.Combine(tempPath, Path.GetFileName(arc1))}\"",
                   Application.StartupPath,
@@ -91,7 +93,6 @@ namespace Toolkit.Tools
             if (File.Exists(arc2))
                 File.Copy(arc2, Path.Combine(tempPath, Path.GetFileName(arc1)), true); // Copies the input ARC to the temporary path.
 
-            mainForm.Status = StatusMessages.cmn_Unpacking(arc2, true);
             await ProcessAsyncHelper.ExecuteShellCommand(Paths.Unpack,
                   $"\"{Path.Combine(tempPath, Path.GetFileName(arc1))}\"",
                   Application.StartupPath,
@@ -99,7 +100,6 @@ namespace Toolkit.Tools
 
             File.Delete(Path.Combine(tempPath, Path.GetFileName(arc1))); // Deletes the temporary merge ARC.
 
-            mainForm.Status = StatusMessages.cmn_Repacking(Path.Combine(tempPath, Path.GetFileName(arc1)), true);
             await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
                   $"\"{Path.Combine(tempPath, Path.GetFileNameWithoutExtension(arc1))}\"",
                   Application.StartupPath,
