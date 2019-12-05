@@ -48,7 +48,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.1"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.11"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -351,9 +351,11 @@ namespace Toolkit.EnvironmentX
 
         private async void Btn_Repack_Click(object sender, EventArgs e) {
             string metadata = string.Empty;
-
+            
             try {
                 if (!unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
+                    repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
+
                     metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
                     Status = StatusMessages.cmn_Repacking(metadata, false);
                     await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
@@ -423,8 +425,9 @@ namespace Toolkit.EnvironmentX
             if (filename != string.Empty) {
                 try {
                     if (!unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
+                        repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
+                        
                         metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
-
                         Status = StatusMessages.cmn_RepackingAs(metadata, filename, false);
                         await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
                               $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
@@ -590,6 +593,7 @@ namespace Toolkit.EnvironmentX
 
         private void Tm_CheapFix_Tick(object sender, EventArgs e) {
             try {
+                RefreshPath();
                 if (unifytb_Main.SelectedTab.ToolTipText != string.Empty && !unifytb_Main.SelectedTab.ToolTipText.StartsWith("Zm9sZGVy")) {
                     //Reads the metadata to get the original location of the ARC.
                     if (File.Exists(Path.Combine(repackBuildSession, "metadata.ini"))) {
@@ -611,7 +615,7 @@ namespace Toolkit.EnvironmentX
 
         private void RefreshPath() {
             try {
-                //repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
+                repackBuildSession = Path.Combine(Program.applicationData, Paths.Archives, Program.sessionID.ToString(), unifytb_Main.SelectedTab.ToolTipText);
                 string getCurrentPath = string.Empty;
 
                 if (CurrentARC().Url != null) {
