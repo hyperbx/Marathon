@@ -248,7 +248,6 @@ namespace Toolkit.Tools
                                                     location,
                                                     100000);
                                 }
-
                                 if (process.ExitCode != 0)
                                     mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "AT3", false);
                                 else File.Delete(wav);
