@@ -421,9 +421,10 @@ namespace Toolkit.Tools
                 btn_MediaControl.Enabled = true;
                 tracker_Volume.Enabled = true;
 
-                if (tracker_Volume.Value == 100) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_high;
+                if (tracker_Volume.Value >= 75) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_high;
                 else if (tracker_Volume.Value >= 50) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_medium;
                 else if (tracker_Volume.Value >= 25) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_low;
+                else if (tracker_Volume.Value >= 5) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_none;
                 else if (tracker_Volume.Value == 0) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_mute;
             } else {
                 tracker_MediaBar.Enabled = false;
