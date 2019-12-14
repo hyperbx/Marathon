@@ -48,7 +48,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.11"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.12"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -910,20 +910,18 @@ namespace Toolkit.EnvironmentX
                                         } else {
                                             string wav = string.Empty;
                                             Status = StatusMessages.cmn_Converting(getAudio, "XMA", false);
-                                            try {
-                                                string preXMA = Path.Combine(Path.GetDirectoryName(getAudio), $"{Path.GetFileNameWithoutExtension(getAudio)}.xma"); 
-                                                if (File.Exists(preXMA)) File.Delete(preXMA);
-                                            } catch { }
-
+                                            string xmaOutput = Path.Combine(Path.GetDirectoryName(getAudio), $"{Path.GetFileNameWithoutExtension(getAudio)}.xma");
+                                            try { if (File.Exists(xmaOutput)) File.Delete(xmaOutput); } catch { }
+                                            
                                             if (Path.GetExtension(getAudio).ToLower() == ".mp3") {
                                                 wav = MP3.CreateTemporaryWAV(getAudio);
                                                 process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
-                                                                $"\"{wav}\" /L",
+                                                                $"\"{wav}\" /L /T \"{getAudioencode}\"",
                                                                 Path.GetDirectoryName(getAudioencode),
                                                                 100000);
                                             } else if (Path.GetExtension(getAudio).ToLower() == ".wav")
                                                 process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XMATool,
-                                                                $"\"{getAudio}\" /L",
+                                                                $"\"{getAudio}\" /L /T \"{getAudioencode}\"",
                                                                 Path.GetDirectoryName(getAudioencode),
                                                                 100000);
 
@@ -932,12 +930,9 @@ namespace Toolkit.EnvironmentX
                                             else {
                                                 try {
                                                     if (wav != string.Empty) {
-                                                        File.Copy(wav, getAudioencode, true);
-                                                        File.Delete(Path.Combine(Path.GetDirectoryName(wav), $"{Path.GetFileNameWithoutExtension(wav)}.xma"));
                                                         File.Delete(wav);
                                                         wav = string.Empty;
-                                                    } else
-                                                        File.Move(Path.Combine(Path.GetDirectoryName(getAudio), $"{Path.GetFileNameWithoutExtension(getAudio)}.xma"), getAudioencode);
+                                                    }
                                                 } catch { }
                                                 try {
                                                     if (MessageBox.Show("Patch XMA to play in-game?", "Patch XMA", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {

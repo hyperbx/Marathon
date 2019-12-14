@@ -288,6 +288,11 @@
     <Content Include="src\Tools\BINA\mst06.exe" />
     <Content Include="src\Tools\BINA\tinyxml2.dll" />
     <Content Include="src\Tools\SegaNN\xno2dae.exe" />
+    <Content Include="src\Tools\SonicAudioTools\audio_volume_high.png" />
+    <Content Include="src\Tools\SonicAudioTools\audio_volume_low.png" />
+    <Content Include="src\Tools\SonicAudioTools\audio_volume_medium.png" />
+    <Content Include="src\Tools\SonicAudioTools\audio_volume_mute.png" />
+    <Content Include="src\Tools\SonicAudioTools\audio_volume_none.png" />
     <Content Include="src\Tools\SonicAudioTools\PS3_at3tool.exe" />
     <Content Include="src\Tools\SonicAudioTools\SonicAudioLib.dll" />
     <None Include="src\Tools\SonicAudioTools\wavLogo.png" />

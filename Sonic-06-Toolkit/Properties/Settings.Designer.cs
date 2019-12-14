@@ -250,5 +250,17 @@ namespace Toolkit.Properties {
                 this["log_priority"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int sss_Volume {
+            get {
+                return ((int)(this["sss_Volume"]));
+            }
+            set {
+                this["sss_Volume"] = value;
+            }
+        }
     }
 }

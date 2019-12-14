@@ -56,6 +56,7 @@ namespace Toolkit.Tools
         private void SonicSoundStudio_Load(object sender, EventArgs e) {
             combo_Encoder.SelectedIndex = Properties.Settings.Default.sss_Encoder;
             check_PatchXMA.Checked = Properties.Settings.Default.sss_PatchXMA;
+            axWMP_Player.settings.volume = tracker_Volume.Value = Properties.Settings.Default.sss_Volume;
         }
 
         private async void Btn_MediaControl_Click(object sender, EventArgs e) {
@@ -125,7 +126,9 @@ namespace Toolkit.Tools
             btn_Process.Enabled = false;
             btn_MediaControl.Enabled = false;
             tracker_MediaBar.Enabled = false;
-            lbl_NowPlaying.Text = "Now Playing: None.";
+            tracker_Volume.Enabled = false;
+            pnl_LoopOptions.Enabled = false;
+            check_Loop.Enabled = false;
 
             if (combo_Encoder.SelectedIndex == 0) { //ADX
                 pnl_Backdrop.BackgroundImage = Properties.Resources.adxBG;
@@ -142,6 +145,8 @@ namespace Toolkit.Tools
                 Icon = Properties.Resources.at3Icon;
                 btn_Process.BackColor = Color.DeepSkyBlue;
                 check_PatchXMA.Enabled = false;
+                check_Loop.Enabled = true;
+                if (check_Loop.Checked) pnl_LoopOptions.Enabled = true;
                 ListVerifiedSoundBytes("*.mp3");
                 ListVerifiedSoundBytes("*.wav");
             } else if (combo_Encoder.SelectedIndex == 2) { //CSB
@@ -232,18 +237,33 @@ namespace Toolkit.Tools
                             mainForm.Status = StatusMessages.cmn_Converting(SND, "AT3", false);
                             if (Path.GetExtension(SND).ToLower() == ".mp3") {
                                 string wav = MP3.CreateTemporaryWAV(Path.Combine(location, SND));
-                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
-                                                $"-e \"{wav}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
-                                                location,
-                                                100000);
+                                if (check_Loop.Checked) {
+                                    process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                    $"-loop {nud_Start.Value} {nud_End.Value} -e \"{wav}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
+                                                    location,
+                                                    100000);
+                                } else {
+                                    process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                    $"-e \"{wav}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
+                                                    location,
+                                                    100000);
+                                }
+
                                 if (process.ExitCode != 0)
                                     mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "AT3", false);
                                 else File.Delete(wav);
                             } else {
-                                process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
-                                                $"-e \"{Path.Combine(location, SND)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
-                                                location,
-                                                100000);
+                                if (check_Loop.Checked) {
+                                    process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                    $"-loop {nud_Start.Value} {nud_End.Value} -e \"{Path.Combine(location, SND)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
+                                                    location,
+                                                    100000);
+                                } else {
+                                    process = await ProcessAsyncHelper.ExecuteShellCommand(Paths.AT3Tool,
+                                                    $"-e \"{Path.Combine(location, SND)}\" \"{Path.Combine(location, Path.GetFileNameWithoutExtension(SND))}.at3\"",
+                                                    location,
+                                                    100000);
+                                }
                                 if (process.ExitCode != 0)
                                     mainForm.Status = StatusMessages.cmn_ConvertFailed(SND, "AT3", false);
                             }
@@ -397,13 +417,18 @@ namespace Toolkit.Tools
             btn_MediaControl.BackColor = Color.LightGreen;
             try { if (File.Exists(nowPlaying)) File.Delete(nowPlaying); } catch { }
             if (clb_SNDs.SelectedItems.Count > 0 && Path.GetExtension(clb_SNDs.SelectedItem.ToString()) != ".csb" && Path.HasExtension(clb_SNDs.SelectedItem.ToString())) {
-                lbl_NowPlaying.Text = $"Now Playing: {clb_SNDs.SelectedItem}";
                 tracker_MediaBar.Enabled = true;
                 btn_MediaControl.Enabled = true;
+                tracker_Volume.Enabled = true;
+
+                if (tracker_Volume.Value == 100) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_high;
+                else if (tracker_Volume.Value >= 50) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_medium;
+                else if (tracker_Volume.Value >= 25) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_low;
+                else if (tracker_Volume.Value == 0) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_mute;
             } else {
-                lbl_NowPlaying.Text = "Now Playing: None.";
                 tracker_MediaBar.Enabled = false;
                 btn_MediaControl.Enabled = false;
+                tracker_Volume.Enabled = false;
             }
         }
 
@@ -458,6 +483,20 @@ namespace Toolkit.Tools
                 axWMP_Player.Ctlcontrols.play();
                 tm_MediaPlayer.Start();
             }
+        }
+
+        private void Tracker_Volume_Scroll(object sender, EventArgs e) {
+            if (tracker_Volume.Value >= 75) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_high;
+            else if (tracker_Volume.Value >= 50) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_medium;
+            else if (tracker_Volume.Value >= 25) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_low;
+            else if (tracker_Volume.Value >= 5) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_none;
+            else if (tracker_Volume.Value == 0) pic_Volume.BackgroundImage = Properties.Resources.audio_volume_mute;
+            Properties.Settings.Default.sss_Volume = axWMP_Player.settings.volume = tracker_Volume.Value;
+        }
+
+        private void Check_Loop_CheckedChanged(object sender, EventArgs e) {
+            if (check_Loop.Checked) pnl_LoopOptions.Enabled = true;
+            else pnl_LoopOptions.Enabled = false;
         }
     }
 }

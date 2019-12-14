@@ -139,6 +139,21 @@
   <data name="at3Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\at3Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="audio_volume_high" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\sonicaudiotools\audio_volume_high.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="audio_volume_low" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\sonicaudiotools\audio_volume_low.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="audio_volume_medium" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\sonicaudiotools\audio_volume_medium.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="audio_volume_mute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\sonicaudiotools\audio_volume_mute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="audio_volume_none" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\src\tools\sonicaudiotools\audio_volume_none.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="csbBG" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\csbBG.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
