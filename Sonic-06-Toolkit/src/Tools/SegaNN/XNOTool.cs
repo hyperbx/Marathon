@@ -70,6 +70,8 @@ namespace Toolkit.Tools
                 clb_XNOs.Visible = true;
                 split_XNMStudio.Visible = false;
                 btn_SelectAll.Enabled = true;
+                btn_SelectAllXNMs.Visible = false;
+                btn_DeselectAllXNMs.Visible = false;
 
                 btn_Process.Enabled = false;
                 clb_XNOs.Items.Clear();
