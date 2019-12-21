@@ -48,7 +48,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.12"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.13"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;

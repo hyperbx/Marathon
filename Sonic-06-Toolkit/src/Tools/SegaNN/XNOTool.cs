@@ -96,6 +96,8 @@ namespace Toolkit.Tools
                 clb_XNOs.Visible = false;
                 split_XNMStudio.Visible = true;
                 btn_SelectAll.Enabled = false;
+                btn_SelectAllXNMs.Visible = true;
+                btn_DeselectAllXNMs.Visible = true;
 
                 btn_Process.Enabled = false;
                 clb_XNOs.Items.Clear();
@@ -126,6 +128,8 @@ namespace Toolkit.Tools
                 clb_XNOs.Visible = true;
                 split_XNMStudio.Visible = false;
                 btn_SelectAll.Enabled = true;
+                btn_SelectAllXNMs.Visible = false;
+                btn_DeselectAllXNMs.Visible = false;
 
                 btn_Process.Enabled = false;
                 clb_XNOs.Items.Clear();
@@ -167,7 +171,7 @@ namespace Toolkit.Tools
                 }
             } else if (modes_ModelAndAnimation.Checked) {
                 string getXNO = string.Empty;
-                string getXNM = string.Empty;
+                List<string> getXNM = new List<string>();
 
                 foreach (string XNO in xnoToProcess2)
                     if (File.Exists(Path.Combine(location, XNO)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, XNO)))
@@ -175,17 +179,21 @@ namespace Toolkit.Tools
 
                 foreach (string XNM in xnmToProcess)
                     if (File.Exists(Path.Combine(location, XNM)) && Verification.VerifyMagicNumberCommon(Path.Combine(location, XNM)))
-                        getXNM = Path.Combine(location, XNM);
+                        getXNM.Add(Path.Combine(location, XNM));
 
-                if (getXNO != string.Empty && getXNM != string.Empty) {
-                    mainForm.Status = StatusMessages.cmn_Converting(getXNM, "DAE", false);
-                    var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XNODecoder,
-                                       $"\"{Path.Combine(location, getXNO)}\" \"{Path.Combine(location, getXNM)}\"",
-                                       location,
-                                       100000);
-                    if (convert.Completed)
-                        if (convert.ExitCode != 0)
-                            MessageBox.Show(SystemMessages.ex_XNMConvertError, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (getXNO != string.Empty && getXNM.Count != 0) {
+                    foreach (string animation in getXNM) {
+                        mainForm.Status = StatusMessages.cmn_Converting(animation, "DAE", false);
+                        var convert = await ProcessAsyncHelper.ExecuteShellCommand(Paths.XNODecoder,
+                                           $"\"{Path.Combine(location, getXNO)}\" \"{animation}\"",
+                                           location,
+                                           100000);
+                        if (convert.Completed)
+                            if (convert.ExitCode != 0)
+                                MessageBox.Show(SystemMessages.ex_XNMConvertError, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            else try { File.Move(Path.Combine(location, $"{Path.GetFileNameWithoutExtension(getXNO)}.dae"), Path.Combine(location, $"{Path.GetFileNameWithoutExtension(animation)}.dae")); }
+                                 catch { mainForm.Status = StatusMessages.cmn_ConvertFailed(Path.GetFileName(animation), "DAE", false); }
+                    }
                 } else
                     MessageBox.Show(SystemMessages.ex_InvalidFiles, SystemMessages.tl_FatalError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             } else if (modes_BackfaceCulling.Checked) {
@@ -234,11 +242,6 @@ namespace Toolkit.Tools
                 e.NewValue = CheckState.Unchecked;
         }
 
-        private void Clb_XNMs_ItemCheck(object sender, ItemCheckEventArgs e) {
-            if (clb_XNMs.CheckedItems.Count == 1 && e.NewValue == CheckState.Checked)
-                e.NewValue = CheckState.Unchecked;
-        }
-
         private void Btn_SelectAll_Click(object sender, EventArgs e) {
             for (int i = 0; i < clb_XNOs.Items.Count; i++) clb_XNOs.SetItemChecked(i, true);
             btn_Process.Enabled = true;
@@ -247,6 +250,16 @@ namespace Toolkit.Tools
         private void Btn_DeselectAll_Click(object sender, EventArgs e) {
             for (int i = 0; i < clb_XNOs.Items.Count; i++) clb_XNOs.SetItemChecked(i, false);
             for (int i = 0; i < clb_XNOs_XNM.Items.Count; i++) clb_XNOs_XNM.SetItemChecked(i, false);
+            for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
+            btn_Process.Enabled = false;
+        }
+
+        private void btn_SelectAllXNMs_Click(object sender, EventArgs e) {
+            for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, true);
+            if (clb_XNOs_XNM.CheckedItems.Count != 0) btn_Process.Enabled = true;
+        }
+
+        private void btn_DeselectAllXNMs_Click(object sender, EventArgs e) {
             for (int i = 0; i < clb_XNMs.Items.Count; i++) clb_XNMs.SetItemChecked(i, false);
             btn_Process.Enabled = false;
         }

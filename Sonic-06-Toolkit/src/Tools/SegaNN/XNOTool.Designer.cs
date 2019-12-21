@@ -49,6 +49,8 @@
             this.pic_Logo = new System.Windows.Forms.PictureBox();
             this.pnl_Backdrop = new System.Windows.Forms.Panel();
             this.lbl_Title = new System.Windows.Forms.Label();
+            this.btn_DeselectAllXNMs = new System.Windows.Forms.Button();
+            this.btn_SelectAllXNMs = new System.Windows.Forms.Button();
             this.mstrip_Options.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.split_XNMStudio)).BeginInit();
             this.split_XNMStudio.Panel1.SuspendLayout();
@@ -62,7 +64,7 @@
             // 
             this.option_Culling.CheckOnClick = true;
             this.option_Culling.Name = "option_Culling";
-            this.option_Culling.Size = new System.Drawing.Size(150, 22);
+            this.option_Culling.Size = new System.Drawing.Size(180, 22);
             this.option_Culling.Text = "Enable Culling";
             this.option_Culling.Visible = false;
             // 
@@ -95,7 +97,7 @@
             this.modes_Separator1,
             this.modes_BackfaceCulling});
             this.options_Modes.Name = "options_Modes";
-            this.options_Modes.Size = new System.Drawing.Size(150, 22);
+            this.options_Modes.Size = new System.Drawing.Size(180, 22);
             this.options_Modes.Text = "Modes";
             // 
             // modes_BackfaceCulling
@@ -122,7 +124,7 @@
             this.mstrip_Options.Dock = System.Windows.Forms.DockStyle.None;
             this.mstrip_Options.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.main_Options});
-            this.mstrip_Options.Location = new System.Drawing.Point(416, 387);
+            this.mstrip_Options.Location = new System.Drawing.Point(473, 387);
             this.mstrip_Options.Name = "mstrip_Options";
             this.mstrip_Options.Size = new System.Drawing.Size(69, 24);
             this.mstrip_Options.TabIndex = 57;
@@ -140,9 +142,8 @@
             this.clb_XNMs.FormattingEnabled = true;
             this.clb_XNMs.Location = new System.Drawing.Point(0, 0);
             this.clb_XNMs.Name = "clb_XNMs";
-            this.clb_XNMs.Size = new System.Drawing.Size(273, 302);
+            this.clb_XNMs.Size = new System.Drawing.Size(302, 302);
             this.clb_XNMs.TabIndex = 0;
-            this.clb_XNMs.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.Clb_XNMs_ItemCheck);
             this.clb_XNMs.SelectedIndexChanged += new System.EventHandler(this.Clb_XNMs_SelectedIndexChanged);
             // 
             // btn_Process
@@ -153,7 +154,7 @@
             this.btn_Process.FlatAppearance.BorderSize = 0;
             this.btn_Process.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Process.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Process.Location = new System.Drawing.Point(488, 388);
+            this.btn_Process.Location = new System.Drawing.Point(545, 388);
             this.btn_Process.Name = "btn_Process";
             this.btn_Process.Size = new System.Drawing.Size(75, 23);
             this.btn_Process.TabIndex = 55;
@@ -199,7 +200,7 @@
             this.clb_XNOs.FormattingEnabled = true;
             this.clb_XNOs.Location = new System.Drawing.Point(9, 77);
             this.clb_XNOs.Name = "clb_XNOs";
-            this.clb_XNOs.Size = new System.Drawing.Size(554, 304);
+            this.clb_XNOs.Size = new System.Drawing.Size(611, 304);
             this.clb_XNOs.TabIndex = 52;
             this.clb_XNOs.SelectedIndexChanged += new System.EventHandler(this.Clb_XNOs_SelectedIndexChanged);
             // 
@@ -220,8 +221,8 @@
             // split_XNMStudio.Panel2
             // 
             this.split_XNMStudio.Panel2.Controls.Add(this.clb_XNMs);
-            this.split_XNMStudio.Size = new System.Drawing.Size(554, 304);
-            this.split_XNMStudio.SplitterDistance = 275;
+            this.split_XNMStudio.Size = new System.Drawing.Size(611, 304);
+            this.split_XNMStudio.SplitterDistance = 303;
             this.split_XNMStudio.TabIndex = 56;
             // 
             // clb_XNOs_XNM
@@ -232,7 +233,7 @@
             this.clb_XNOs_XNM.FormattingEnabled = true;
             this.clb_XNOs_XNM.Location = new System.Drawing.Point(0, 0);
             this.clb_XNOs_XNM.Name = "clb_XNOs_XNM";
-            this.clb_XNOs_XNM.Size = new System.Drawing.Size(273, 302);
+            this.clb_XNOs_XNM.Size = new System.Drawing.Size(301, 302);
             this.clb_XNOs_XNM.TabIndex = 0;
             this.clb_XNOs_XNM.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.Clb_XNOs_XNM_ItemCheck);
             this.clb_XNOs_XNM.SelectedIndexChanged += new System.EventHandler(this.Clb_XNOs_XNM_SelectedIndexChanged);
@@ -243,7 +244,7 @@
             this.pic_Logo.BackColor = System.Drawing.Color.Transparent;
             this.pic_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pic_Logo.BackgroundImage")));
             this.pic_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pic_Logo.Location = new System.Drawing.Point(499, 1);
+            this.pic_Logo.Location = new System.Drawing.Point(556, 1);
             this.pic_Logo.Name = "pic_Logo";
             this.pic_Logo.Size = new System.Drawing.Size(67, 67);
             this.pic_Logo.TabIndex = 11;
@@ -260,7 +261,7 @@
             this.pnl_Backdrop.Controls.Add(this.lbl_Title);
             this.pnl_Backdrop.Location = new System.Drawing.Point(-2, -1);
             this.pnl_Backdrop.Name = "pnl_Backdrop";
-            this.pnl_Backdrop.Size = new System.Drawing.Size(576, 69);
+            this.pnl_Backdrop.Size = new System.Drawing.Size(633, 69);
             this.pnl_Backdrop.TabIndex = 51;
             // 
             // lbl_Title
@@ -275,11 +276,43 @@
             this.lbl_Title.TabIndex = 1;
             this.lbl_Title.Text = "Model/Animation Exporter";
             // 
+            // btn_DeselectAllXNMs
+            // 
+            this.btn_DeselectAllXNMs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_DeselectAllXNMs.BackColor = System.Drawing.Color.Tomato;
+            this.btn_DeselectAllXNMs.FlatAppearance.BorderSize = 0;
+            this.btn_DeselectAllXNMs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_DeselectAllXNMs.Location = new System.Drawing.Point(398, 388);
+            this.btn_DeselectAllXNMs.Name = "btn_DeselectAllXNMs";
+            this.btn_DeselectAllXNMs.Size = new System.Drawing.Size(75, 23);
+            this.btn_DeselectAllXNMs.TabIndex = 59;
+            this.btn_DeselectAllXNMs.Text = "Deselect All";
+            this.btn_DeselectAllXNMs.UseVisualStyleBackColor = false;
+            this.btn_DeselectAllXNMs.Visible = false;
+            this.btn_DeselectAllXNMs.Click += new System.EventHandler(this.btn_DeselectAllXNMs_Click);
+            // 
+            // btn_SelectAllXNMs
+            // 
+            this.btn_SelectAllXNMs.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.btn_SelectAllXNMs.BackColor = System.Drawing.Color.SkyBlue;
+            this.btn_SelectAllXNMs.FlatAppearance.BorderSize = 0;
+            this.btn_SelectAllXNMs.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_SelectAllXNMs.Location = new System.Drawing.Point(316, 388);
+            this.btn_SelectAllXNMs.Name = "btn_SelectAllXNMs";
+            this.btn_SelectAllXNMs.Size = new System.Drawing.Size(75, 23);
+            this.btn_SelectAllXNMs.TabIndex = 58;
+            this.btn_SelectAllXNMs.Text = "Select All";
+            this.btn_SelectAllXNMs.UseVisualStyleBackColor = false;
+            this.btn_SelectAllXNMs.Visible = false;
+            this.btn_SelectAllXNMs.Click += new System.EventHandler(this.btn_SelectAllXNMs_Click);
+            // 
             // XNOTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 419);
+            this.ClientSize = new System.Drawing.Size(628, 419);
+            this.Controls.Add(this.btn_DeselectAllXNMs);
+            this.Controls.Add(this.btn_SelectAllXNMs);
             this.Controls.Add(this.split_XNMStudio);
             this.Controls.Add(this.mstrip_Options);
             this.Controls.Add(this.btn_Process);
@@ -288,7 +321,7 @@
             this.Controls.Add(this.pnl_Backdrop);
             this.Controls.Add(this.clb_XNOs);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(587, 458);
+            this.MinimumSize = new System.Drawing.Size(644, 458);
             this.Name = "XNOTool";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Model/Animation Exporter";
@@ -328,5 +361,7 @@
         internal System.Windows.Forms.PictureBox pic_Logo;
         private System.Windows.Forms.Panel pnl_Backdrop;
         private System.Windows.Forms.Label lbl_Title;
+        private System.Windows.Forms.Button btn_DeselectAllXNMs;
+        private System.Windows.Forms.Button btn_SelectAllXNMs;
     }
 }
