@@ -36,39 +36,39 @@
             this.Logo = new System.Windows.Forms.PictureBox();
             this.MenuStrip_Main = new Toolkit.Environment4.DarkMenuStrip();
             this.Main_File = new System.Windows.Forms.ToolStripMenuItem();
-            this.newArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.openArchiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.repackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.repackAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.repackAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_NewArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.File_OpenArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_Separator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.File_Repack = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_RepackAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_RepackAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.File_Separator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.File_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
-            this.archiveMergerARCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.collisionGeneratorBINToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.containerGeneratorPKGToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.executableModificationXEXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.luaCompilationLUBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.modelAnimationExporterXNOXNMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.placementConverterSETToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textureConverterDDSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.textEncodingMSTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_ArchiveMerger = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_CollisionGenerator = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_ContainerGenerator = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_ExecutableModification = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_LuaCompilation = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_ModelAnimationExporter = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_PlacementConverter = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_SonicSoundStudio = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_TextureConverter = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_TextEncoding = new System.Windows.Forms.ToolStripMenuItem();
+            this.Tools_Xbox360ISOExtractor = new System.Windows.Forms.ToolStripMenuItem();
             this.Main_Window = new System.Windows.Forms.ToolStripMenuItem();
-            this.newTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.newWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeAllTabsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Window_NewTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.Window_NewWindow = new System.Windows.Forms.ToolStripMenuItem();
+            this.Window_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.Window_CloseTab = new System.Windows.Forms.ToolStripMenuItem();
+            this.Window_CloseAllTabs = new System.Windows.Forms.ToolStripMenuItem();
             this.Main_Help = new System.Windows.Forms.ToolStripMenuItem();
-            this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Help_Documentation = new System.Windows.Forms.ToolStripMenuItem();
+            this.Help_Separator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.Help_CheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.Help_About = new System.Windows.Forms.ToolStripMenuItem();
             this.Toolkit_TabControl = new Toolkit.Environment4.UnifyTabControl();
             this.Tab_StartPage = new System.Windows.Forms.TabPage();
             this.Container_StartPage = new System.Windows.Forms.SplitContainer();
@@ -87,11 +87,24 @@
             this.Title_General = new System.Windows.Forms.Label();
             this.General_Logo = new System.Windows.Forms.PictureBox();
             this.Submenu_Appearance = new System.Windows.Forms.TabPage();
-            this.Submenu_About = new System.Windows.Forms.TabPage();
-            this.Title_About = new System.Windows.Forms.Label();
-            this.Appearance_Logo = new System.Windows.Forms.PictureBox();
-            this.About_Logo = new System.Windows.Forms.PictureBox();
             this.Title_Appearance = new System.Windows.Forms.Label();
+            this.Appearance_Logo = new System.Windows.Forms.PictureBox();
+            this.Submenu_About = new System.Windows.Forms.TabPage();
+            this.Link_Natsumi = new System.Windows.Forms.LinkLabel();
+            this.Link_xorloser = new System.Windows.Forms.LinkLabel();
+            this.Link_DarioSamo = new System.Windows.Forms.LinkLabel();
+            this.Link_Sajid = new System.Windows.Forms.LinkLabel();
+            this.Link_Skyth = new System.Windows.Forms.LinkLabel();
+            this.Link_Radfordhound = new System.Windows.Forms.LinkLabel();
+            this.Link_Reimous = new System.Windows.Forms.LinkLabel();
+            this.Link_ShadowLAG = new System.Windows.Forms.LinkLabel();
+            this.Link_Sable = new System.Windows.Forms.LinkLabel();
+            this.Link_GerbilSoft = new System.Windows.Forms.LinkLabel();
+            this.Link_SEGACarnival = new System.Windows.Forms.LinkLabel();
+            this.Link_Nonami = new System.Windows.Forms.LinkLabel();
+            this.Link_Hyper = new System.Windows.Forms.LinkLabel();
+            this.Title_About = new System.Windows.Forms.Label();
+            this.lbl_Contributors = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Logo)).BeginInit();
             this.MenuStrip_Main.SuspendLayout();
             this.Toolkit_TabControl.SuspendLayout();
@@ -111,9 +124,8 @@
             this.Submenu_General.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.General_Logo)).BeginInit();
             this.Submenu_Appearance.SuspendLayout();
-            this.Submenu_About.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Appearance_Logo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.About_Logo)).BeginInit();
+            this.Submenu_About.SuspendLayout();
             this.SuspendLayout();
             // 
             // Version
@@ -169,7 +181,7 @@
             // 
             // Logo
             // 
-            this.Logo.BackgroundImage = global::Toolkit.Properties.Resources.Corner_Logo;
+            this.Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Logo.BackgroundImage")));
             this.Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.Logo.Location = new System.Drawing.Point(6, 2);
             this.Logo.Name = "Logo";
@@ -190,308 +202,334 @@
             this.Main_Help});
             this.MenuStrip_Main.Location = new System.Drawing.Point(154, 16);
             this.MenuStrip_Main.Name = "MenuStrip_Main";
-            this.MenuStrip_Main.Size = new System.Drawing.Size(217, 25);
+            this.MenuStrip_Main.Size = new System.Drawing.Size(337, 25);
             this.MenuStrip_Main.TabIndex = 9;
             this.MenuStrip_Main.Text = "darkMenuStrip1";
             // 
             // Main_File
             // 
             this.Main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newArchiveToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.openArchiveToolStripMenuItem,
-            this.openFolderToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.repackToolStripMenuItem,
-            this.repackAsToolStripMenuItem,
-            this.repackAllToolStripMenuItem,
-            this.toolStripSeparator3,
-            this.exitToolStripMenuItem});
+            this.File_NewArchive,
+            this.File_Separator1,
+            this.File_OpenArchive,
+            this.File_OpenFolder,
+            this.File_Separator2,
+            this.File_Repack,
+            this.File_RepackAs,
+            this.File_RepackAll,
+            this.File_Separator3,
+            this.File_Exit});
             this.Main_File.Name = "Main_File";
             this.Main_File.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.Main_File.Size = new System.Drawing.Size(40, 21);
             this.Main_File.Text = "File";
             // 
-            // newArchiveToolStripMenuItem
+            // File_NewArchive
             // 
-            this.newArchiveToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newArchiveToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.newArchiveToolStripMenuItem.Name = "newArchiveToolStripMenuItem";
-            this.newArchiveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newArchiveToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.newArchiveToolStripMenuItem.Text = "New Archive...";
+            this.File_NewArchive.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_NewArchive.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_NewArchive.Image = global::Toolkit.Properties.Resources.NewFileCollection_16x;
+            this.File_NewArchive.Name = "File_NewArchive";
+            this.File_NewArchive.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.File_NewArchive.Size = new System.Drawing.Size(215, 22);
+            this.File_NewArchive.Text = "New Archive...";
             // 
-            // toolStripSeparator1
+            // File_Separator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(212, 6);
+            this.File_Separator1.Name = "File_Separator1";
+            this.File_Separator1.Size = new System.Drawing.Size(212, 6);
             // 
-            // openArchiveToolStripMenuItem
+            // File_OpenArchive
             // 
-            this.openArchiveToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.openArchiveToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.openArchiveToolStripMenuItem.Name = "openArchiveToolStripMenuItem";
-            this.openArchiveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openArchiveToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.openArchiveToolStripMenuItem.Text = "Open Archive...";
+            this.File_OpenArchive.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_OpenArchive.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_OpenArchive.Image = global::Toolkit.Properties.Resources.OpenFile_16x;
+            this.File_OpenArchive.Name = "File_OpenArchive";
+            this.File_OpenArchive.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.File_OpenArchive.Size = new System.Drawing.Size(215, 22);
+            this.File_OpenArchive.Text = "Open Archive...";
             // 
-            // openFolderToolStripMenuItem
+            // File_OpenFolder
             // 
-            this.openFolderToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.openFolderToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
-            this.openFolderToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.File_OpenFolder.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_OpenFolder.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_OpenFolder.Image = global::Toolkit.Properties.Resources.OpenFolder_16x;
+            this.File_OpenFolder.Name = "File_OpenFolder";
+            this.File_OpenFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
-            this.openFolderToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.openFolderToolStripMenuItem.Text = "Open Folder...";
+            this.File_OpenFolder.Size = new System.Drawing.Size(215, 22);
+            this.File_OpenFolder.Text = "Open Folder...";
             // 
-            // toolStripSeparator2
+            // File_Separator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(212, 6);
+            this.File_Separator2.Name = "File_Separator2";
+            this.File_Separator2.Size = new System.Drawing.Size(212, 6);
             // 
-            // repackToolStripMenuItem
+            // File_Repack
             // 
-            this.repackToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.repackToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.repackToolStripMenuItem.Name = "repackToolStripMenuItem";
-            this.repackToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.repackToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.repackToolStripMenuItem.Text = "Repack";
+            this.File_Repack.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_Repack.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_Repack.Image = global::Toolkit.Properties.Resources.Save_16x;
+            this.File_Repack.Name = "File_Repack";
+            this.File_Repack.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.File_Repack.Size = new System.Drawing.Size(215, 22);
+            this.File_Repack.Text = "Repack";
             // 
-            // repackAsToolStripMenuItem
+            // File_RepackAs
             // 
-            this.repackAsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.repackAsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.repackAsToolStripMenuItem.Name = "repackAsToolStripMenuItem";
-            this.repackAsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            this.File_RepackAs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_RepackAs.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_RepackAs.Image = global::Toolkit.Properties.Resources.SaveAs_16x;
+            this.File_RepackAs.Name = "File_RepackAs";
+            this.File_RepackAs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.S)));
-            this.repackAsToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.repackAsToolStripMenuItem.Text = "Repack As...";
+            this.File_RepackAs.Size = new System.Drawing.Size(215, 22);
+            this.File_RepackAs.Text = "Repack As...";
             // 
-            // repackAllToolStripMenuItem
+            // File_RepackAll
             // 
-            this.repackAllToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.repackAllToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.repackAllToolStripMenuItem.Name = "repackAllToolStripMenuItem";
-            this.repackAllToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.File_RepackAll.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_RepackAll.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_RepackAll.Image = global::Toolkit.Properties.Resources.SaveAll_16x;
+            this.File_RepackAll.Name = "File_RepackAll";
+            this.File_RepackAll.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-            this.repackAllToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.repackAllToolStripMenuItem.Text = "Repack All";
+            this.File_RepackAll.Size = new System.Drawing.Size(215, 22);
+            this.File_RepackAll.Text = "Repack All";
             // 
-            // toolStripSeparator3
+            // File_Separator3
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(212, 6);
+            this.File_Separator3.Name = "File_Separator3";
+            this.File_Separator3.Size = new System.Drawing.Size(212, 6);
             // 
-            // exitToolStripMenuItem
+            // File_Exit
             // 
-            this.exitToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.exitToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
+            this.File_Exit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.File_Exit.ForeColor = System.Drawing.SystemColors.Control;
+            this.File_Exit.Image = global::Toolkit.Properties.Resources.Exit_16x;
+            this.File_Exit.Name = "File_Exit";
+            this.File_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.File_Exit.Size = new System.Drawing.Size(215, 22);
+            this.File_Exit.Text = "Exit";
+            this.File_Exit.Click += new System.EventHandler(this.File_Exit_Click);
             // 
             // Main_Tools
             // 
             this.Main_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archiveMergerARCToolStripMenuItem,
-            this.collisionGeneratorBINToolStripMenuItem,
-            this.containerGeneratorPKGToolStripMenuItem,
-            this.executableModificationXEXToolStripMenuItem,
-            this.luaCompilationLUBToolStripMenuItem,
-            this.modelAnimationExporterXNOXNMToolStripMenuItem,
-            this.placementConverterSETToolStripMenuItem,
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem,
-            this.textureConverterDDSToolStripMenuItem,
-            this.textEncodingMSTToolStripMenuItem,
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem});
+            this.Tools_ArchiveMerger,
+            this.Tools_CollisionGenerator,
+            this.Tools_ContainerGenerator,
+            this.Tools_ExecutableModification,
+            this.Tools_LuaCompilation,
+            this.Tools_ModelAnimationExporter,
+            this.Tools_PlacementConverter,
+            this.Tools_SonicSoundStudio,
+            this.Tools_TextureConverter,
+            this.Tools_TextEncoding,
+            this.Tools_Xbox360ISOExtractor});
             this.Main_Tools.Name = "Main_Tools";
             this.Main_Tools.Size = new System.Drawing.Size(51, 21);
             this.Main_Tools.Text = "Tools";
             // 
-            // archiveMergerARCToolStripMenuItem
+            // Tools_ArchiveMerger
             // 
-            this.archiveMergerARCToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.archiveMergerARCToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.archiveMergerARCToolStripMenuItem.Name = "archiveMergerARCToolStripMenuItem";
-            this.archiveMergerARCToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.archiveMergerARCToolStripMenuItem.Text = "Archive Merger (ARC)...";
+            this.Tools_ArchiveMerger.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_ArchiveMerger.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_ArchiveMerger.Image = ((System.Drawing.Image)(resources.GetObject("Tools_ArchiveMerger.Image")));
+            this.Tools_ArchiveMerger.Name = "Tools_ArchiveMerger";
+            this.Tools_ArchiveMerger.Size = new System.Drawing.Size(302, 22);
+            this.Tools_ArchiveMerger.Text = "Archive Merger (ARC)...";
             // 
-            // collisionGeneratorBINToolStripMenuItem
+            // Tools_CollisionGenerator
             // 
-            this.collisionGeneratorBINToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.collisionGeneratorBINToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.collisionGeneratorBINToolStripMenuItem.Name = "collisionGeneratorBINToolStripMenuItem";
-            this.collisionGeneratorBINToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.collisionGeneratorBINToolStripMenuItem.Text = "Collision Generator (BIN)...";
+            this.Tools_CollisionGenerator.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_CollisionGenerator.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_CollisionGenerator.Image = ((System.Drawing.Image)(resources.GetObject("Tools_CollisionGenerator.Image")));
+            this.Tools_CollisionGenerator.Name = "Tools_CollisionGenerator";
+            this.Tools_CollisionGenerator.Size = new System.Drawing.Size(302, 22);
+            this.Tools_CollisionGenerator.Text = "Collision Generator (BIN)...";
             // 
-            // containerGeneratorPKGToolStripMenuItem
+            // Tools_ContainerGenerator
             // 
-            this.containerGeneratorPKGToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.containerGeneratorPKGToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.containerGeneratorPKGToolStripMenuItem.Name = "containerGeneratorPKGToolStripMenuItem";
-            this.containerGeneratorPKGToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.containerGeneratorPKGToolStripMenuItem.Text = "Container Generator (PKG)...";
+            this.Tools_ContainerGenerator.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_ContainerGenerator.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_ContainerGenerator.Name = "Tools_ContainerGenerator";
+            this.Tools_ContainerGenerator.Size = new System.Drawing.Size(302, 22);
+            this.Tools_ContainerGenerator.Text = "Container Generator (PKG)...";
             // 
-            // executableModificationXEXToolStripMenuItem
+            // Tools_ExecutableModification
             // 
-            this.executableModificationXEXToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.executableModificationXEXToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.executableModificationXEXToolStripMenuItem.Name = "executableModificationXEXToolStripMenuItem";
-            this.executableModificationXEXToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.executableModificationXEXToolStripMenuItem.Text = "Executable Modification (XEX)...";
+            this.Tools_ExecutableModification.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_ExecutableModification.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_ExecutableModification.Image = ((System.Drawing.Image)(resources.GetObject("Tools_ExecutableModification.Image")));
+            this.Tools_ExecutableModification.Name = "Tools_ExecutableModification";
+            this.Tools_ExecutableModification.Size = new System.Drawing.Size(302, 22);
+            this.Tools_ExecutableModification.Text = "Executable Modification (XEX)...";
             // 
-            // luaCompilationLUBToolStripMenuItem
+            // Tools_LuaCompilation
             // 
-            this.luaCompilationLUBToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.luaCompilationLUBToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.luaCompilationLUBToolStripMenuItem.Name = "luaCompilationLUBToolStripMenuItem";
-            this.luaCompilationLUBToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.luaCompilationLUBToolStripMenuItem.Text = "Lua Compilation (LUB)...";
+            this.Tools_LuaCompilation.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_LuaCompilation.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_LuaCompilation.Image = ((System.Drawing.Image)(resources.GetObject("Tools_LuaCompilation.Image")));
+            this.Tools_LuaCompilation.Name = "Tools_LuaCompilation";
+            this.Tools_LuaCompilation.Size = new System.Drawing.Size(302, 22);
+            this.Tools_LuaCompilation.Text = "Lua Compilation (LUB)...";
             // 
-            // modelAnimationExporterXNOXNMToolStripMenuItem
+            // Tools_ModelAnimationExporter
             // 
-            this.modelAnimationExporterXNOXNMToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.modelAnimationExporterXNOXNMToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.modelAnimationExporterXNOXNMToolStripMenuItem.Name = "modelAnimationExporterXNOXNMToolStripMenuItem";
-            this.modelAnimationExporterXNOXNMToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.modelAnimationExporterXNOXNMToolStripMenuItem.Text = "Model/Animation Exporter (XNO/XNM)...";
+            this.Tools_ModelAnimationExporter.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_ModelAnimationExporter.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_ModelAnimationExporter.Image = ((System.Drawing.Image)(resources.GetObject("Tools_ModelAnimationExporter.Image")));
+            this.Tools_ModelAnimationExporter.Name = "Tools_ModelAnimationExporter";
+            this.Tools_ModelAnimationExporter.Size = new System.Drawing.Size(302, 22);
+            this.Tools_ModelAnimationExporter.Text = "Model/Animation Exporter (XNO/XNM)...";
             // 
-            // placementConverterSETToolStripMenuItem
+            // Tools_PlacementConverter
             // 
-            this.placementConverterSETToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.placementConverterSETToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.placementConverterSETToolStripMenuItem.Name = "placementConverterSETToolStripMenuItem";
-            this.placementConverterSETToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.placementConverterSETToolStripMenuItem.Text = "Placement Converter (SET)...";
+            this.Tools_PlacementConverter.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_PlacementConverter.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_PlacementConverter.Image = ((System.Drawing.Image)(resources.GetObject("Tools_PlacementConverter.Image")));
+            this.Tools_PlacementConverter.Name = "Tools_PlacementConverter";
+            this.Tools_PlacementConverter.Size = new System.Drawing.Size(302, 22);
+            this.Tools_PlacementConverter.Text = "Placement Converter (SET)...";
             // 
-            // sonicSoundStudioADXAT3CSBXMAToolStripMenuItem
+            // Tools_SonicSoundStudio
             // 
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem.Name = "sonicSoundStudioADXAT3CSBXMAToolStripMenuItem";
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.sonicSoundStudioADXAT3CSBXMAToolStripMenuItem.Text = "Sonic Sound Studio (ADX/AT3/CSB/XMA)...";
+            this.Tools_SonicSoundStudio.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_SonicSoundStudio.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_SonicSoundStudio.Image = ((System.Drawing.Image)(resources.GetObject("Tools_SonicSoundStudio.Image")));
+            this.Tools_SonicSoundStudio.Name = "Tools_SonicSoundStudio";
+            this.Tools_SonicSoundStudio.Size = new System.Drawing.Size(302, 22);
+            this.Tools_SonicSoundStudio.Text = "Sonic Sound Studio (ADX/AT3/CSB/XMA)...";
             // 
-            // textureConverterDDSToolStripMenuItem
+            // Tools_TextureConverter
             // 
-            this.textureConverterDDSToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textureConverterDDSToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.textureConverterDDSToolStripMenuItem.Name = "textureConverterDDSToolStripMenuItem";
-            this.textureConverterDDSToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.textureConverterDDSToolStripMenuItem.Text = "Texture Converter (DDS)...";
+            this.Tools_TextureConverter.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_TextureConverter.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_TextureConverter.Image = ((System.Drawing.Image)(resources.GetObject("Tools_TextureConverter.Image")));
+            this.Tools_TextureConverter.Name = "Tools_TextureConverter";
+            this.Tools_TextureConverter.Size = new System.Drawing.Size(302, 22);
+            this.Tools_TextureConverter.Text = "Texture Converter (DDS)...";
             // 
-            // textEncodingMSTToolStripMenuItem
+            // Tools_TextEncoding
             // 
-            this.textEncodingMSTToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.textEncodingMSTToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.textEncodingMSTToolStripMenuItem.Name = "textEncodingMSTToolStripMenuItem";
-            this.textEncodingMSTToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.textEncodingMSTToolStripMenuItem.Text = "Text Encoding (MST)...";
+            this.Tools_TextEncoding.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_TextEncoding.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_TextEncoding.Image = ((System.Drawing.Image)(resources.GetObject("Tools_TextEncoding.Image")));
+            this.Tools_TextEncoding.Name = "Tools_TextEncoding";
+            this.Tools_TextEncoding.Size = new System.Drawing.Size(302, 22);
+            this.Tools_TextEncoding.Text = "Text Encoding (MST)...";
             // 
-            // xbox360ISOExtractorXGD1XGD2ToolStripMenuItem
+            // Tools_Xbox360ISOExtractor
             // 
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem.Name = "xbox360ISOExtractorXGD1XGD2ToolStripMenuItem";
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.xbox360ISOExtractorXGD1XGD2ToolStripMenuItem.Text = "Xbox 360 ISO Extractor (XGD2/XGD3)...";
+            this.Tools_Xbox360ISOExtractor.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Tools_Xbox360ISOExtractor.ForeColor = System.Drawing.SystemColors.Control;
+            this.Tools_Xbox360ISOExtractor.Image = ((System.Drawing.Image)(resources.GetObject("Tools_Xbox360ISOExtractor.Image")));
+            this.Tools_Xbox360ISOExtractor.Name = "Tools_Xbox360ISOExtractor";
+            this.Tools_Xbox360ISOExtractor.Size = new System.Drawing.Size(302, 22);
+            this.Tools_Xbox360ISOExtractor.Text = "Xbox 360 ISO Extractor (XGD2/XGD3)...";
             // 
             // Main_Window
             // 
             this.Main_Window.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.newTabToolStripMenuItem,
-            this.newWindowToolStripMenuItem,
-            this.toolStripSeparator4,
-            this.closeTabToolStripMenuItem,
-            this.closeAllTabsToolStripMenuItem});
+            this.Window_NewTab,
+            this.Window_NewWindow,
+            this.Window_Separator1,
+            this.Window_CloseTab,
+            this.Window_CloseAllTabs});
             this.Main_Window.Name = "Main_Window";
             this.Main_Window.Size = new System.Drawing.Size(70, 21);
             this.Main_Window.Text = "Window";
             // 
-            // newTabToolStripMenuItem
+            // Window_NewTab
             // 
-            this.newTabToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newTabToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.newTabToolStripMenuItem.Name = "newTabToolStripMenuItem";
-            this.newTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.newTabToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.newTabToolStripMenuItem.Text = "New Tab";
+            this.Window_NewTab.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Window_NewTab.ForeColor = System.Drawing.SystemColors.Control;
+            this.Window_NewTab.Image = global::Toolkit.Properties.Resources.NewTab;
+            this.Window_NewTab.Name = "Window_NewTab";
+            this.Window_NewTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.Window_NewTab.Size = new System.Drawing.Size(224, 22);
+            this.Window_NewTab.Text = "New Tab";
             // 
-            // newWindowToolStripMenuItem
+            // Window_NewWindow
             // 
-            this.newWindowToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newWindowToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.newWindowToolStripMenuItem.Name = "newWindowToolStripMenuItem";
-            this.newWindowToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.newWindowToolStripMenuItem.Text = "New Window";
+            this.Window_NewWindow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Window_NewWindow.ForeColor = System.Drawing.SystemColors.Control;
+            this.Window_NewWindow.Image = global::Toolkit.Properties.Resources.NewWindow;
+            this.Window_NewWindow.Name = "Window_NewWindow";
+            this.Window_NewWindow.Size = new System.Drawing.Size(224, 22);
+            this.Window_NewWindow.Text = "New Window";
             // 
-            // toolStripSeparator4
+            // Window_Separator1
             // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(221, 6);
+            this.Window_Separator1.Name = "Window_Separator1";
+            this.Window_Separator1.Size = new System.Drawing.Size(221, 6);
             // 
-            // closeTabToolStripMenuItem
+            // Window_CloseTab
             // 
-            this.closeTabToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.closeTabToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
-            this.closeTabToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
-            this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.closeTabToolStripMenuItem.Text = "Close Tab";
+            this.Window_CloseTab.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Window_CloseTab.ForeColor = System.Drawing.SystemColors.Control;
+            this.Window_CloseTab.Image = global::Toolkit.Properties.Resources.CloseTab;
+            this.Window_CloseTab.Name = "Window_CloseTab";
+            this.Window_CloseTab.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
+            this.Window_CloseTab.Size = new System.Drawing.Size(224, 22);
+            this.Window_CloseTab.Text = "Close Tab";
             // 
-            // closeAllTabsToolStripMenuItem
+            // Window_CloseAllTabs
             // 
-            this.closeAllTabsToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.closeAllTabsToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.closeAllTabsToolStripMenuItem.Name = "closeAllTabsToolStripMenuItem";
-            this.closeAllTabsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            this.Window_CloseAllTabs.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Window_CloseAllTabs.ForeColor = System.Drawing.SystemColors.Control;
+            this.Window_CloseAllTabs.Image = global::Toolkit.Properties.Resources.CloseAllTabs;
+            this.Window_CloseAllTabs.Name = "Window_CloseAllTabs";
+            this.Window_CloseAllTabs.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.W)));
-            this.closeAllTabsToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
-            this.closeAllTabsToolStripMenuItem.Text = "Close All Tabs";
+            this.Window_CloseAllTabs.Size = new System.Drawing.Size(224, 22);
+            this.Window_CloseAllTabs.Text = "Close All Tabs";
             // 
             // Main_Help
             // 
             this.Main_Help.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.documentationToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.checkForUpdatesToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.Help_Documentation,
+            this.Help_Separator1,
+            this.Help_CheckForUpdates,
+            this.Help_About});
             this.Main_Help.Name = "Main_Help";
             this.Main_Help.Size = new System.Drawing.Size(48, 21);
             this.Main_Help.Text = "Help";
             // 
-            // documentationToolStripMenuItem
+            // Help_Documentation
             // 
-            this.documentationToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.documentationToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.documentationToolStripMenuItem.Text = "Documentation";
+            this.Help_Documentation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Help_Documentation.ForeColor = System.Drawing.SystemColors.Control;
+            this.Help_Documentation.Image = global::Toolkit.Properties.Resources.Documentation;
+            this.Help_Documentation.Name = "Help_Documentation";
+            this.Help_Documentation.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F1)));
+            this.Help_Documentation.Size = new System.Drawing.Size(204, 22);
+            this.Help_Documentation.Text = "Documentation";
             // 
-            // toolStripSeparator5
+            // Help_Separator1
             // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(201, 6);
+            this.Help_Separator1.Name = "Help_Separator1";
+            this.Help_Separator1.Size = new System.Drawing.Size(201, 6);
             // 
-            // checkForUpdatesToolStripMenuItem
+            // Help_CheckForUpdates
             // 
-            this.checkForUpdatesToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkForUpdatesToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check for updates...";
+            this.Help_CheckForUpdates.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Help_CheckForUpdates.ForeColor = System.Drawing.SystemColors.Control;
+            this.Help_CheckForUpdates.Image = global::Toolkit.Properties.Resources.Update;
+            this.Help_CheckForUpdates.Name = "Help_CheckForUpdates";
+            this.Help_CheckForUpdates.Size = new System.Drawing.Size(204, 22);
+            this.Help_CheckForUpdates.Text = "Check for updates...";
             // 
-            // aboutToolStripMenuItem
+            // Help_About
             // 
-            this.aboutToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutToolStripMenuItem.ForeColor = System.Drawing.SystemColors.Control;
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.aboutToolStripMenuItem.Text = "About";
+            this.Help_About.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Help_About.ForeColor = System.Drawing.SystemColors.Control;
+            this.Help_About.Image = global::Toolkit.Properties.Resources.InformationSymbol_16x;
+            this.Help_About.Name = "Help_About";
+            this.Help_About.Size = new System.Drawing.Size(204, 22);
+            this.Help_About.Text = "About";
+            this.Help_About.Click += new System.EventHandler(this.Help_About_Click);
             // 
             // Toolkit_TabControl
             // 
@@ -619,7 +657,7 @@
             this.Section_About.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Section_About.Location = new System.Drawing.Point(0, 400);
             this.Section_About.Name = "Section_About";
-            this.Section_About.SectionImage = ((System.Drawing.Bitmap)(resources.GetObject("Section_About.SectionImage")));
+            this.Section_About.SectionImage = global::Toolkit.Properties.Resources.InformationSymbol_16x;
             this.Section_About.SectionText = "About";
             this.Section_About.Size = new System.Drawing.Size(281, 35);
             this.Section_About.TabIndex = 7;
@@ -633,7 +671,7 @@
             this.Section_Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Section_Appearance.Location = new System.Drawing.Point(0, 99);
             this.Section_Appearance.Name = "Section_Appearance";
-            this.Section_Appearance.SectionImage = ((System.Drawing.Bitmap)(resources.GetObject("Section_Appearance.SectionImage")));
+            this.Section_Appearance.SectionImage = global::Toolkit.Properties.Resources.AppearanceEditorPart_16x;
             this.Section_Appearance.SectionText = "Appearance";
             this.Section_Appearance.Size = new System.Drawing.Size(281, 35);
             this.Section_Appearance.TabIndex = 6;
@@ -657,7 +695,7 @@
             this.Section_General.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Section_General.Location = new System.Drawing.Point(0, 63);
             this.Section_General.Name = "Section_General";
-            this.Section_General.SectionImage = ((System.Drawing.Bitmap)(resources.GetObject("Section_General.SectionImage")));
+            this.Section_General.SectionImage = global::Toolkit.Properties.Resources.Monaco_Settings_16x;
             this.Section_General.SectionText = "General";
             this.Section_General.Size = new System.Drawing.Size(281, 35);
             this.Section_General.TabIndex = 5;
@@ -702,7 +740,7 @@
             // Default_Logo
             // 
             this.Default_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Default_Logo.BackgroundImage = global::Toolkit.Properties.Resources.Menu_Logo;
+            this.Default_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Default_Logo.BackgroundImage")));
             this.Default_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.Default_Logo.Location = new System.Drawing.Point(235, 171);
             this.Default_Logo.Name = "Default_Logo";
@@ -734,7 +772,7 @@
             // General_Logo
             // 
             this.General_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.General_Logo.BackgroundImage = global::Toolkit.Properties.Resources.Menu_Logo;
+            this.General_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("General_Logo.BackgroundImage")));
             this.General_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.General_Logo.Location = new System.Drawing.Point(235, 171);
             this.General_Logo.Name = "General_Logo";
@@ -753,15 +791,231 @@
             this.Submenu_Appearance.Size = new System.Drawing.Size(565, 436);
             this.Submenu_Appearance.TabIndex = 1;
             // 
+            // Title_Appearance
+            // 
+            this.Title_Appearance.AutoSize = true;
+            this.Title_Appearance.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Title_Appearance.Location = new System.Drawing.Point(7, 8);
+            this.Title_Appearance.Name = "Title_Appearance";
+            this.Title_Appearance.Size = new System.Drawing.Size(189, 45);
+            this.Title_Appearance.TabIndex = 10;
+            this.Title_Appearance.Text = "Appearance";
+            // 
+            // Appearance_Logo
+            // 
+            this.Appearance_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Appearance_Logo.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("Appearance_Logo.BackgroundImage")));
+            this.Appearance_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Appearance_Logo.Location = new System.Drawing.Point(235, 171);
+            this.Appearance_Logo.Name = "Appearance_Logo";
+            this.Appearance_Logo.Size = new System.Drawing.Size(328, 264);
+            this.Appearance_Logo.TabIndex = 9;
+            this.Appearance_Logo.TabStop = false;
+            // 
             // Submenu_About
             // 
             this.Submenu_About.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.Submenu_About.Controls.Add(this.About_Logo);
+            this.Submenu_About.Controls.Add(this.Link_Natsumi);
+            this.Submenu_About.Controls.Add(this.Link_xorloser);
+            this.Submenu_About.Controls.Add(this.Link_DarioSamo);
+            this.Submenu_About.Controls.Add(this.Link_Sajid);
+            this.Submenu_About.Controls.Add(this.Link_Skyth);
+            this.Submenu_About.Controls.Add(this.Link_Radfordhound);
+            this.Submenu_About.Controls.Add(this.Link_Reimous);
+            this.Submenu_About.Controls.Add(this.Link_ShadowLAG);
+            this.Submenu_About.Controls.Add(this.Link_Sable);
+            this.Submenu_About.Controls.Add(this.Link_GerbilSoft);
+            this.Submenu_About.Controls.Add(this.Link_SEGACarnival);
+            this.Submenu_About.Controls.Add(this.Link_Nonami);
+            this.Submenu_About.Controls.Add(this.Link_Hyper);
             this.Submenu_About.Controls.Add(this.Title_About);
+            this.Submenu_About.Controls.Add(this.lbl_Contributors);
             this.Submenu_About.Location = new System.Drawing.Point(4, 25);
             this.Submenu_About.Name = "Submenu_About";
             this.Submenu_About.Size = new System.Drawing.Size(565, 436);
             this.Submenu_About.TabIndex = 2;
+            // 
+            // Link_Natsumi
+            // 
+            this.Link_Natsumi.AutoSize = true;
+            this.Link_Natsumi.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Natsumi.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Natsumi.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Natsumi.Location = new System.Drawing.Point(30, 139);
+            this.Link_Natsumi.Name = "Link_Natsumi";
+            this.Link_Natsumi.Size = new System.Drawing.Size(56, 17);
+            this.Link_Natsumi.TabIndex = 68;
+            this.Link_Natsumi.TabStop = true;
+            this.Link_Natsumi.Text = "Natsumi";
+            this.Link_Natsumi.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_xorloser
+            // 
+            this.Link_xorloser.AutoSize = true;
+            this.Link_xorloser.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_xorloser.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_xorloser.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_xorloser.Location = new System.Drawing.Point(30, 326);
+            this.Link_xorloser.Name = "Link_xorloser";
+            this.Link_xorloser.Size = new System.Drawing.Size(56, 17);
+            this.Link_xorloser.TabIndex = 67;
+            this.Link_xorloser.TabStop = true;
+            this.Link_xorloser.Text = "xorloser";
+            this.Link_xorloser.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_DarioSamo
+            // 
+            this.Link_DarioSamo.AutoSize = true;
+            this.Link_DarioSamo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_DarioSamo.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_DarioSamo.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_DarioSamo.Location = new System.Drawing.Point(30, 309);
+            this.Link_DarioSamo.Name = "Link_DarioSamo";
+            this.Link_DarioSamo.Size = new System.Drawing.Size(73, 17);
+            this.Link_DarioSamo.TabIndex = 66;
+            this.Link_DarioSamo.TabStop = true;
+            this.Link_DarioSamo.Text = "DaríoSamo";
+            this.Link_DarioSamo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Sajid
+            // 
+            this.Link_Sajid.AutoSize = true;
+            this.Link_Sajid.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Sajid.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Sajid.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Sajid.Location = new System.Drawing.Point(30, 292);
+            this.Link_Sajid.Name = "Link_Sajid";
+            this.Link_Sajid.Size = new System.Drawing.Size(36, 17);
+            this.Link_Sajid.TabIndex = 65;
+            this.Link_Sajid.TabStop = true;
+            this.Link_Sajid.Text = "Sajid";
+            this.Link_Sajid.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Skyth
+            // 
+            this.Link_Skyth.AutoSize = true;
+            this.Link_Skyth.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Skyth.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Skyth.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Skyth.Location = new System.Drawing.Point(30, 275);
+            this.Link_Skyth.Name = "Link_Skyth";
+            this.Link_Skyth.Size = new System.Drawing.Size(38, 17);
+            this.Link_Skyth.TabIndex = 64;
+            this.Link_Skyth.TabStop = true;
+            this.Link_Skyth.Text = "Skyth";
+            this.Link_Skyth.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Radfordhound
+            // 
+            this.Link_Radfordhound.AutoSize = true;
+            this.Link_Radfordhound.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Radfordhound.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Radfordhound.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Radfordhound.Location = new System.Drawing.Point(30, 258);
+            this.Link_Radfordhound.Name = "Link_Radfordhound";
+            this.Link_Radfordhound.Size = new System.Drawing.Size(93, 17);
+            this.Link_Radfordhound.TabIndex = 63;
+            this.Link_Radfordhound.TabStop = true;
+            this.Link_Radfordhound.Text = "Radfordhound";
+            this.Link_Radfordhound.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Reimous
+            // 
+            this.Link_Reimous.AutoSize = true;
+            this.Link_Reimous.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Reimous.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Reimous.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Reimous.Location = new System.Drawing.Point(30, 240);
+            this.Link_Reimous.Name = "Link_Reimous";
+            this.Link_Reimous.Size = new System.Drawing.Size(58, 17);
+            this.Link_Reimous.TabIndex = 62;
+            this.Link_Reimous.TabStop = true;
+            this.Link_Reimous.Text = "Reimous";
+            this.Link_Reimous.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_ShadowLAG
+            // 
+            this.Link_ShadowLAG.AutoSize = true;
+            this.Link_ShadowLAG.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_ShadowLAG.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_ShadowLAG.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_ShadowLAG.Location = new System.Drawing.Point(30, 156);
+            this.Link_ShadowLAG.Name = "Link_ShadowLAG";
+            this.Link_ShadowLAG.Size = new System.Drawing.Size(81, 17);
+            this.Link_ShadowLAG.TabIndex = 61;
+            this.Link_ShadowLAG.TabStop = true;
+            this.Link_ShadowLAG.Text = "Shadow LAG";
+            this.Link_ShadowLAG.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Sable
+            // 
+            this.Link_Sable.AutoSize = true;
+            this.Link_Sable.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Sable.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Sable.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Sable.Location = new System.Drawing.Point(30, 122);
+            this.Link_Sable.Name = "Link_Sable";
+            this.Link_Sable.Size = new System.Drawing.Size(40, 17);
+            this.Link_Sable.TabIndex = 60;
+            this.Link_Sable.TabStop = true;
+            this.Link_Sable.Text = "Sable";
+            this.Link_Sable.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_GerbilSoft
+            // 
+            this.Link_GerbilSoft.AutoSize = true;
+            this.Link_GerbilSoft.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_GerbilSoft.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_GerbilSoft.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_GerbilSoft.Location = new System.Drawing.Point(30, 105);
+            this.Link_GerbilSoft.Name = "Link_GerbilSoft";
+            this.Link_GerbilSoft.Size = new System.Drawing.Size(66, 17);
+            this.Link_GerbilSoft.TabIndex = 59;
+            this.Link_GerbilSoft.TabStop = true;
+            this.Link_GerbilSoft.Text = "GerbilSoft";
+            this.Link_GerbilSoft.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_SEGACarnival
+            // 
+            this.Link_SEGACarnival.AutoSize = true;
+            this.Link_SEGACarnival.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_SEGACarnival.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_SEGACarnival.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_SEGACarnival.Location = new System.Drawing.Point(30, 207);
+            this.Link_SEGACarnival.Name = "Link_SEGACarnival";
+            this.Link_SEGACarnival.Size = new System.Drawing.Size(89, 17);
+            this.Link_SEGACarnival.TabIndex = 58;
+            this.Link_SEGACarnival.TabStop = true;
+            this.Link_SEGACarnival.Text = "SEGA Carnival";
+            this.Link_SEGACarnival.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Nonami
+            // 
+            this.Link_Nonami.AutoSize = true;
+            this.Link_Nonami.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Nonami.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Nonami.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Nonami.Location = new System.Drawing.Point(30, 224);
+            this.Link_Nonami.Name = "Link_Nonami";
+            this.Link_Nonami.Size = new System.Drawing.Size(54, 17);
+            this.Link_Nonami.TabIndex = 57;
+            this.Link_Nonami.TabStop = true;
+            this.Link_Nonami.Text = "Nonami";
+            this.Link_Nonami.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
+            // 
+            // Link_Hyper
+            // 
+            this.Link_Hyper.AutoSize = true;
+            this.Link_Hyper.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Link_Hyper.ForeColor = System.Drawing.SystemColors.Control;
+            this.Link_Hyper.LinkColor = System.Drawing.SystemColors.Control;
+            this.Link_Hyper.Location = new System.Drawing.Point(30, 88);
+            this.Link_Hyper.Name = "Link_Hyper";
+            this.Link_Hyper.Size = new System.Drawing.Size(43, 17);
+            this.Link_Hyper.TabIndex = 56;
+            this.Link_Hyper.TabStop = true;
+            this.Link_Hyper.Text = "Hyper";
+            this.Link_Hyper.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Link_User_LinkClicked);
             // 
             // Title_About
             // 
@@ -773,37 +1027,17 @@
             this.Title_About.TabIndex = 5;
             this.Title_About.Text = "About";
             // 
-            // Appearance_Logo
+            // lbl_Contributors
             // 
-            this.Appearance_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Appearance_Logo.BackgroundImage = global::Toolkit.Properties.Resources.Menu_Logo;
-            this.Appearance_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.Appearance_Logo.Location = new System.Drawing.Point(235, 171);
-            this.Appearance_Logo.Name = "Appearance_Logo";
-            this.Appearance_Logo.Size = new System.Drawing.Size(328, 264);
-            this.Appearance_Logo.TabIndex = 9;
-            this.Appearance_Logo.TabStop = false;
-            // 
-            // About_Logo
-            // 
-            this.About_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.About_Logo.BackgroundImage = global::Toolkit.Properties.Resources.Menu_Logo;
-            this.About_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.About_Logo.Location = new System.Drawing.Point(235, 171);
-            this.About_Logo.Name = "About_Logo";
-            this.About_Logo.Size = new System.Drawing.Size(328, 264);
-            this.About_Logo.TabIndex = 9;
-            this.About_Logo.TabStop = false;
-            // 
-            // Title_Appearance
-            // 
-            this.Title_Appearance.AutoSize = true;
-            this.Title_Appearance.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Title_Appearance.Location = new System.Drawing.Point(7, 8);
-            this.Title_Appearance.Name = "Title_Appearance";
-            this.Title_Appearance.Size = new System.Drawing.Size(189, 45);
-            this.Title_Appearance.TabIndex = 10;
-            this.Title_Appearance.Text = "Appearance";
+            this.lbl_Contributors.AutoSize = true;
+            this.lbl_Contributors.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Contributors.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Contributors.ForeColor = System.Drawing.SystemColors.Control;
+            this.lbl_Contributors.Location = new System.Drawing.Point(30, 71);
+            this.lbl_Contributors.Name = "lbl_Contributors";
+            this.lbl_Contributors.Size = new System.Drawing.Size(432, 272);
+            this.lbl_Contributors.TabIndex = 55;
+            this.lbl_Contributors.Text = resources.GetString("lbl_Contributors.Text");
             // 
             // ToolkitEnvironment4
             // 
@@ -850,10 +1084,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.General_Logo)).EndInit();
             this.Submenu_Appearance.ResumeLayout(false);
             this.Submenu_Appearance.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Appearance_Logo)).EndInit();
             this.Submenu_About.ResumeLayout(false);
             this.Submenu_About.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Appearance_Logo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.About_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -881,36 +1114,36 @@
         private System.Windows.Forms.ToolStripMenuItem Main_Tools;
         private System.Windows.Forms.ToolStripMenuItem Main_Window;
         private System.Windows.Forms.ToolStripMenuItem Main_Help;
-        private System.Windows.Forms.ToolStripMenuItem newArchiveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem openArchiveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openFolderToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem repackToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem repackAsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem repackAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem archiveMergerARCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem collisionGeneratorBINToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem containerGeneratorPKGToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem executableModificationXEXToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem luaCompilationLUBToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem modelAnimationExporterXNOXNMToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem placementConverterSETToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sonicSoundStudioADXAT3CSBXMAToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem textureConverterDDSToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem textEncodingMSTToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem xbox360ISOExtractorXGD1XGD2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newTabToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem newWindowToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
-        private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeAllTabsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem documentationToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem File_NewArchive;
+        private System.Windows.Forms.ToolStripSeparator File_Separator1;
+        private System.Windows.Forms.ToolStripMenuItem File_OpenArchive;
+        private System.Windows.Forms.ToolStripMenuItem File_OpenFolder;
+        private System.Windows.Forms.ToolStripSeparator File_Separator2;
+        private System.Windows.Forms.ToolStripMenuItem File_Repack;
+        private System.Windows.Forms.ToolStripMenuItem File_RepackAs;
+        private System.Windows.Forms.ToolStripMenuItem File_RepackAll;
+        private System.Windows.Forms.ToolStripSeparator File_Separator3;
+        private System.Windows.Forms.ToolStripMenuItem File_Exit;
+        private System.Windows.Forms.ToolStripMenuItem Tools_ArchiveMerger;
+        private System.Windows.Forms.ToolStripMenuItem Tools_CollisionGenerator;
+        private System.Windows.Forms.ToolStripMenuItem Tools_ContainerGenerator;
+        private System.Windows.Forms.ToolStripMenuItem Tools_ExecutableModification;
+        private System.Windows.Forms.ToolStripMenuItem Tools_LuaCompilation;
+        private System.Windows.Forms.ToolStripMenuItem Tools_ModelAnimationExporter;
+        private System.Windows.Forms.ToolStripMenuItem Tools_PlacementConverter;
+        private System.Windows.Forms.ToolStripMenuItem Tools_SonicSoundStudio;
+        private System.Windows.Forms.ToolStripMenuItem Tools_TextureConverter;
+        private System.Windows.Forms.ToolStripMenuItem Tools_TextEncoding;
+        private System.Windows.Forms.ToolStripMenuItem Tools_Xbox360ISOExtractor;
+        private System.Windows.Forms.ToolStripMenuItem Window_NewTab;
+        private System.Windows.Forms.ToolStripMenuItem Window_NewWindow;
+        private System.Windows.Forms.ToolStripSeparator Window_Separator1;
+        private System.Windows.Forms.ToolStripMenuItem Window_CloseTab;
+        private System.Windows.Forms.ToolStripMenuItem Window_CloseAllTabs;
+        private System.Windows.Forms.ToolStripMenuItem Help_Documentation;
+        private System.Windows.Forms.ToolStripSeparator Help_Separator1;
+        private System.Windows.Forms.ToolStripMenuItem Help_CheckForUpdates;
+        private System.Windows.Forms.ToolStripMenuItem Help_About;
         private SubmenuNavigator Navigator_Preferences;
         private System.Windows.Forms.TabPage Submenu_General;
         private System.Windows.Forms.TabPage Submenu_Appearance;
@@ -922,7 +1155,20 @@
         private SectionButton Section_Appearance;
         private SectionButton Section_About;
         private System.Windows.Forms.PictureBox Appearance_Logo;
-        private System.Windows.Forms.PictureBox About_Logo;
         private System.Windows.Forms.Label Title_Appearance;
+        private System.Windows.Forms.LinkLabel Link_Natsumi;
+        private System.Windows.Forms.LinkLabel Link_xorloser;
+        private System.Windows.Forms.LinkLabel Link_DarioSamo;
+        private System.Windows.Forms.LinkLabel Link_Sajid;
+        private System.Windows.Forms.LinkLabel Link_Skyth;
+        private System.Windows.Forms.LinkLabel Link_Radfordhound;
+        private System.Windows.Forms.LinkLabel Link_Reimous;
+        private System.Windows.Forms.LinkLabel Link_ShadowLAG;
+        private System.Windows.Forms.LinkLabel Link_Sable;
+        private System.Windows.Forms.LinkLabel Link_GerbilSoft;
+        private System.Windows.Forms.LinkLabel Link_SEGACarnival;
+        private System.Windows.Forms.LinkLabel Link_Nonami;
+        private System.Windows.Forms.LinkLabel Link_Hyper;
+        private System.Windows.Forms.Label lbl_Contributors;
     }
 }

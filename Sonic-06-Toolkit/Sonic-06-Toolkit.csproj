@@ -102,7 +102,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="res\Images\AppearanceEditorPart_16x.png" />
+    <Content Include="res\Images\ARC.png" />
+    <Content Include="res\Images\CloseAllTabs.png" />
+    <Content Include="res\Images\CloseTab.png" />
+    <Content Include="res\Images\Collada.png" />
+    <Content Include="res\Images\Collision.png" />
+    <Content Include="res\Images\DDS.png" />
+    <Content Include="res\Images\Disc.png" />
+    <Content Include="res\Images\Documentation.png" />
+    <Content Include="res\Images\Exit_16x.png" />
+    <Content Include="res\Images\InformationSymbol_16x.png" />
+    <Content Include="res\Images\Lua.png" />
     <Content Include="res\Images\Menu_Logo.png" />
+    <Content Include="res\Images\Monaco_Settings_16x.png" />
+    <Content Include="res\Images\MST.png" />
+    <Content Include="res\Images\NewFileCollection_16x.png" />
+    <Content Include="res\Images\NewTab.png" />
+    <Content Include="res\Images\NewWindow.png" />
+    <Content Include="res\Images\OpenFile_16x.png" />
+    <Content Include="res\Images\OpenFolder_16x.png" />
+    <Content Include="res\Images\SaveAll_16x.png" />
+    <Content Include="res\Images\SaveAs_16x.png" />
+    <Content Include="res\Images\Save_16x.png" />
+    <Content Include="res\Images\SET.png" />
+    <Content Include="res\Images\SonicSoundStudio.png" />
+    <Content Include="res\Images\Update.png" />
+    <Content Include="res\Images\XEX.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Images\Corner_Logo.png" />

@@ -118,16 +118,94 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AppearanceEditorPart_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\AppearanceEditorPart_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\ARC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseAllTabs" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\CloseAllTabs.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CloseTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\CloseTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Collada" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Collada.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Collision" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Collision.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Corner_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Corner_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="DDS" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\DDS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Disc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Disc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Documentation" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Documentation.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Exit_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Exit_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Forward" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Forward.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="InformationSymbol_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\InformationSymbol_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Lua" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Lua.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Menu_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\res\images\menu_logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\res\Images\Menu_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Monaco_Settings_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Monaco_Settings_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MST" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\MST.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewFileCollection_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\NewFileCollection_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewTab" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\NewTab.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NewWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\NewWindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpenFile_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\OpenFile_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="OpenFolder_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\OpenFolder_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SaveAll_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\SaveAll_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SaveAs_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\SaveAs_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Save_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Save_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SET" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\SET.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SonicSoundStudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\SonicSoundStudio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Update" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="XEX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\XEX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

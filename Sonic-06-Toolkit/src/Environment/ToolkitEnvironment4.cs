@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 namespace Toolkit.Environment4
 {
     public partial class ToolkitEnvironment4 : Form
     {
-        // Variables
-
         public static readonly string VersionNumber = "Prototype 4.0";
-
-        // General
 
         public ToolkitEnvironment4() {
             InitializeComponent();
@@ -35,8 +31,6 @@ namespace Toolkit.Environment4
             Toolkit_TabControl.SelectedTab = tab;
         }
 
-        // Preferences
-
         private void Button_Preferences_Click(object sender, EventArgs e) { LoadAndFocusTab(Tab_Preferences); }
 
         private void Toolkit_TabControl_SelectedIndexChanged(object sender, EventArgs e) {
@@ -52,5 +46,31 @@ namespace Toolkit.Environment4
             else if (sender == Section_Appearance) Navigator_Preferences.SelectedTab = Submenu_Appearance;
             else if (sender == Section_About) Navigator_Preferences.SelectedTab = Submenu_About;
         }
+
+        private void Help_About_Click(object sender, EventArgs e) {
+            LoadAndFocusTab(Tab_Preferences);
+            Navigator_Preferences.SelectedTab = Submenu_About;
+        }
+
+        /// <summary>
+        /// Checks what link is clicked and directs the user to their page.
+        /// </summary>
+        private void Link_User_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            if (sender == Link_Hyper) Process.Start("https://www.github.com/HyperPolygon64");
+            else if (sender == Link_GerbilSoft) Process.Start("https://www.github.com/GerbilSoft");
+            else if (sender == Link_Sable) Process.Start("https://www.twitter.com/nectarhime");
+            else if (sender == Link_Natsumi) Process.Start("https://www.github.com/NatsumiFox");
+            else if (sender == Link_ShadowLAG) Process.Start("https://www.github.com/lllsondowlll");
+            else if (sender == Link_SEGACarnival) Process.Start("https://www.segacarnival.com/");
+            else if (sender == Link_Nonami) Process.Start("https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg");
+            else if (sender == Link_Reimous) Process.Start("https://www.youtube.com/channel/UC3ACu6igwlAIckO9Gg2i4PA");
+            else if (sender == Link_Radfordhound) Process.Start("https://www.github.com/Radfordhound");
+            else if (sender == Link_Skyth) Process.Start("https://www.github.com/blueskythlikesclouds");
+            else if (sender == Link_Sajid) Process.Start("https://www.github.com/Sajidur78");
+            else if (sender == Link_DarioSamo) Process.Start("https://www.github.com/DarioSamo");
+            else if (sender == Link_xorloser) Process.Start("http://www.xorloser.com/");
+        }
+
+        private void File_Exit_Click(object sender, EventArgs e) { Application.Exit(); }
     }
 }
