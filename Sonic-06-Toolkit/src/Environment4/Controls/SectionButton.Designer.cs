@@ -1,4 +1,4 @@
-﻿namespace Toolkit
+﻿namespace Toolkit.Environment4
 {
     partial class SectionButton
     {

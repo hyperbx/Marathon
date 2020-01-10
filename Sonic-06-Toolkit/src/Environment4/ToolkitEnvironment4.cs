@@ -74,7 +74,7 @@ namespace Toolkit.Environment4
         /// <summary>
         /// Takes click control from all section buttons and switches the navigator control.
         /// </summary>
-        private void Section_Click(object sender, EventArgs e) {
+        private void Section_Preferences_Click(object sender, EventArgs e) {
             foreach (Control control in Container_Preferences.Panel1.Controls)
                 if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
 
@@ -84,33 +84,39 @@ namespace Toolkit.Environment4
             ((SectionButton)sender).SelectedSection = true;
         }
 
-        private void Help_About_Click(object sender, EventArgs e) {
-            foreach (Control control in Container_Preferences.Panel1.Controls)
-                if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
+        private void Help_Click(object sender, EventArgs e) {
+            if (sender == Help_Documentation) {
+                // Load Documentation tab when ready.
+            } else if (sender == Help_CheckForUpdates) {
+                // Load Updater tab when ready.
+            } else if (sender == Help_About) {
+                foreach (Control control in Container_Preferences.Panel1.Controls)
+                    if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
 
-            LoadAndFocusTab(Tab_Preferences);
-            Navigator_Preferences.SelectedTab = Submenu_About;
-            Preferences_Section_About.SelectedSection = true;
+                LoadAndFocusTab(Tab_Preferences);
+                Navigator_Preferences.SelectedTab = Submenu_About;
+                Preferences_Section_About.SelectedSection = true;
+            }
         }
 
         /// <summary>
         /// Checks what link is clicked and directs the user to their page.
         /// </summary>
-        private void Link_User_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            if (sender == LinkLabel_Hyper) Process.Start("https://www.github.com/HyperPolygon64");
-            else if (sender == LinkLabel_GerbilSoft) Process.Start("https://www.github.com/GerbilSoft");
-            else if (sender == LinkLabel_Sable) Process.Start("https://www.twitter.com/nectarhime");
-            else if (sender == LinkLabel_Natsumi) Process.Start("https://www.github.com/NatsumiFox");
-            else if (sender == LinkLabel_ShadowLAG) Process.Start("https://www.github.com/lllsondowlll");
-            else if (sender == LinkLabel_SEGACarnival) Process.Start("https://www.segacarnival.com/");
-            else if (sender == LinkLabel_Nonami) Process.Start("https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg");
-            else if (sender == LinkLabel_Reimous) Process.Start("https://www.youtube.com/channel/UC3ACu6igwlAIckO9Gg2i4PA");
-            else if (sender == LinkLabel_Radfordhound) Process.Start("https://www.github.com/Radfordhound");
-            else if (sender == LinkLabel_Skyth) Process.Start("https://www.github.com/blueskythlikesclouds");
-            else if (sender == LinkLabel_Sajid) Process.Start("https://www.github.com/Sajidur78");
-            else if (sender == LinkLabel_DarioSamo) Process.Start("https://www.github.com/DarioSamo");
-            else if (sender == LinkLabel_xorloser) Process.Start("http://www.xorloser.com/");
-        }
+        //private void Link_User_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+        //    if (sender == LinkLabel_Hyper) Process.Start("https://www.github.com/HyperPolygon64");
+        //    else if (sender == LinkLabel_GerbilSoft) Process.Start("https://www.github.com/GerbilSoft");
+        //    else if (sender == LinkLabel_Sable) Process.Start("https://www.twitter.com/nectarhime");
+        //    else if (sender == LinkLabel_Natsumi) Process.Start("https://www.github.com/NatsumiFox");
+        //    else if (sender == LinkLabel_ShadowLAG) Process.Start("https://www.github.com/lllsondowlll");
+        //    else if (sender == LinkLabel_SEGACarnival) Process.Start("https://www.segacarnival.com/");
+        //    else if (sender == LinkLabel_Nonami) Process.Start("https://www.youtube.com/channel/UC35wsF1NUwoUWmw2DLz6uJg");
+        //    else if (sender == LinkLabel_Reimous) Process.Start("https://www.youtube.com/channel/UC3ACu6igwlAIckO9Gg2i4PA");
+        //    else if (sender == LinkLabel_Radfordhound) Process.Start("https://www.github.com/Radfordhound");
+        //    else if (sender == LinkLabel_Skyth) Process.Start("https://www.github.com/blueskythlikesclouds");
+        //    else if (sender == LinkLabel_Sajid) Process.Start("https://www.github.com/Sajidur78");
+        //    else if (sender == LinkLabel_DarioSamo) Process.Start("https://www.github.com/DarioSamo");
+        //    else if (sender == LinkLabel_xorloser) Process.Start("http://www.xorloser.com/");
+        //}
 
         private void File_Exit_Click(object sender, EventArgs e) { Application.Exit(); }
 
@@ -123,17 +129,8 @@ namespace Toolkit.Environment4
             if (browseDefault.ShowDialog() == DialogResult.OK) {
                 Properties.Settings.Default.DefaultDirectory = TextBox_DefaultDirectory.Text = browseDefault.SelectedPath;
                 Properties.Settings.Default.Save();
+                LoadSettings();
             }
-        }
-
-        private void Button_Colour_MouseEnter(object sender, EventArgs e) { ((Button)sender).FlatAppearance.BorderSize = 1; }
-
-        private void Button_Colour_MouseLeave(object sender, EventArgs e) { ((Button)sender).FlatAppearance.BorderSize = 0; }
-
-        private void Button_Colour_Click(object sender, EventArgs e) {
-            Preferences_Section_Appearance.AccentColour = Properties.Settings.Default.AccentColour = ((Button)sender).BackColor;
-            Properties.Settings.Default.Save();
-            LoadSettings();
         }
 
         private void Section_Appearance_ColourPicker_Click(object sender, EventArgs e) {
@@ -144,7 +141,6 @@ namespace Toolkit.Environment4
 
             if (accentPicker.ShowDialog() == DialogResult.OK) {
                 Properties.Settings.Default.AccentColour = accentPicker.Color;
-                Section_Appearance_ColourPicker.Text = $"Custom colour (#{(accentPicker.Color.ToArgb() & 0x00FFFFFF).ToString("X6")})";
                 Properties.Settings.Default.Save();
                 LoadSettings();
             }
@@ -177,6 +173,41 @@ namespace Toolkit.Environment4
 
         private void CheckBox_HighContrastText_CheckedChanged(object sender, EventArgs e) {
             Properties.Settings.Default.HighContrastText = CheckBox_HighContrastText.Checked;
+            Properties.Settings.Default.Save();
+            LoadSettings();
+        }
+
+        private void Button_ColourPicker_Preview_MouseEnter(object sender, EventArgs e) { Section_Appearance_ColourPicker.BackColor = Color.FromArgb(48, 48, 51); }
+
+        private void Button_ColourPicker_Preview_MouseLeave(object sender, EventArgs e) { Section_Appearance_ColourPicker.BackColor = Color.FromArgb(42, 42, 45); }
+
+        private void Button_ColourPicker_Preview_MouseDown(object sender, MouseEventArgs e) { Section_Appearance_ColourPicker.BackColor = Color.FromArgb(58, 58, 61); }
+
+        private void Button_ColourPicker_Preview_MouseUp(object sender, MouseEventArgs e) {
+            Section_Appearance_ColourPicker.BackColor = Color.FromArgb(48, 48, 51);
+            Section_Appearance_ColourPicker_Click(sender, e);
+        }
+
+        private void Section_SonicSoundStudio_Click(object sender, EventArgs e) {
+            foreach (Control control in Container_SonicSoundStudio.Panel1.Controls)
+                if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
+
+            if (sender == SonicSoundStudio_Section_EncodeADX) {
+                Label_Title_SonicSoundStudio.Text = "Encode audio to ADX";
+            } else if (sender == SonicSoundStudio_Section_EncodeAT3) {
+                Label_Title_SonicSoundStudio.Text = "Encode audio to AT3";
+            } else if (sender == SonicSoundStudio_Section_EncodeXMA) {
+                Label_Title_SonicSoundStudio.Text = "Encode audio to XMA";
+            } else if (sender == SonicSoundStudio_Section_CompressCSB) {
+                Label_Title_SonicSoundStudio.Text = "Compress audio to CSB";
+            } else if (sender == SonicSoundStudio_Section_DecodeWAV) {
+                Label_Title_SonicSoundStudio.Text = "Decode audio to WAV";
+            }
+            ((SectionButton)sender).SelectedSection = true;
+        }
+
+        private void WindowsColourPicker_AccentColour_ButtonClick(object sender, EventArgs e) {
+            Properties.Settings.Default.AccentColour = ((Button)sender).BackColor;
             Properties.Settings.Default.Save();
             LoadSettings();
         }

@@ -63,6 +63,16 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ADX_3 {
+            get {
+                object obj = ResourceManager.GetObject("ADX_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AppearanceEditorPart_16x {
             get {
                 object obj = ResourceManager.GetObject("AppearanceEditorPart_16x", resourceCulture);
@@ -76,6 +86,16 @@ namespace Toolkit.Properties {
         internal static System.Drawing.Bitmap ARC {
             get {
                 object obj = ResourceManager.GetObject("ARC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AT3 {
+            get {
+                object obj = ResourceManager.GetObject("AT3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +156,16 @@ namespace Toolkit.Properties {
         internal static System.Drawing.Bitmap Corner_Logo {
             get {
                 object obj = ResourceManager.GetObject("Corner_Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CSB_5 {
+            get {
+                object obj = ResourceManager.GetObject("CSB_5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,6 +343,26 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Pause_16x {
+            get {
+                object obj = ResourceManager.GetObject("Pause_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Refresh_grey_16x {
+            get {
+                object obj = ResourceManager.GetObject("Refresh_grey_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Save_16x {
             get {
                 object obj = ResourceManager.GetObject("Save_16x", resourceCulture);
@@ -363,6 +413,16 @@ namespace Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap StartWithoutDebug_16x {
+            get {
+                object obj = ResourceManager.GetObject("StartWithoutDebug_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Update {
             get {
                 object obj = ResourceManager.GetObject("Update", resourceCulture);
@@ -376,6 +436,16 @@ namespace Toolkit.Properties {
         internal static System.Drawing.Bitmap XEX {
             get {
                 object obj = ResourceManager.GetObject("XEX", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap XMA_small2 {
+            get {
+                object obj = ResourceManager.GetObject("XMA_small2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

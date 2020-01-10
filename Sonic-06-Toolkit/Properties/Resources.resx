@@ -118,11 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ADX_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\ADX 3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="AppearanceEditorPart_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\AppearanceEditorPart_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ARC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\ARC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AT3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\AT3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Back.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -141,6 +147,9 @@
   </data>
   <data name="Corner_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Corner_Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CSB_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\CSB 5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="DDS" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\DDS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -193,6 +202,12 @@
   <data name="PaintBrush_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\images\paintbrush_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Pause_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Pause_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Refresh_grey_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\Refresh_grey_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SaveAll_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\SaveAll_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -208,10 +223,16 @@
   <data name="SonicSoundStudio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\SonicSoundStudio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="StartWithoutDebug_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\StartWithoutDebug_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Update" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\Update.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="XEX" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\Images\XEX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="XMA_small2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\Images\XMA-small2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

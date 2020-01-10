@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 
-namespace Toolkit
+namespace Toolkit.Environment4
 {
     public partial class SectionButton : UserControl
     {
