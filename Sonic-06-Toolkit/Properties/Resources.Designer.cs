@@ -201,6 +201,16 @@ namespace Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon logo_main_icon {
+            get {
+                object obj = ResourceManager.GetObject("logo_main_icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Lua {
@@ -286,6 +296,16 @@ namespace Toolkit.Properties {
         internal static System.Drawing.Bitmap OpenFolder_16x {
             get {
                 object obj = ResourceManager.GetObject("OpenFolder_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PaintBrush_16x {
+            get {
+                object obj = ResourceManager.GetObject("PaintBrush_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

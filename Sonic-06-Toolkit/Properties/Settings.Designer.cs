@@ -22,5 +22,53 @@ namespace Toolkit.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("186, 0, 0")]
+        public global::System.Drawing.Color AccentColour {
+            get {
+                return ((global::System.Drawing.Color)(this["AccentColour"]));
+            }
+            set {
+                this["AccentColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoColour {
+            get {
+                return ((bool)(this["AutoColour"]));
+            }
+            set {
+                this["AutoColour"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultDirectory {
+            get {
+                return ((string)(this["DefaultDirectory"]));
+            }
+            set {
+                this["DefaultDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HighContrastText {
+            get {
+                return ((bool)(this["HighContrastText"]));
+            }
+            set {
+                this["HighContrastText"] = value;
+            }
+        }
     }
 }

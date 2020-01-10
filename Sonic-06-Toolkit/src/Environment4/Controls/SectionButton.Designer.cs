@@ -28,13 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.Selected = new System.Windows.Forms.Panel();
             this.SuspendLayout();
+            // 
+            // Selected
+            // 
+            this.Selected.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Selected.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.Selected.Location = new System.Drawing.Point(277, 6);
+            this.Selected.Name = "Selected";
+            this.Selected.Size = new System.Drawing.Size(5, 23);
+            this.Selected.TabIndex = 0;
+            this.Selected.Visible = false;
             // 
             // SectionButton
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(45)))));
+            this.Controls.Add(this.Selected);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "SectionButton";
@@ -48,5 +61,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.Panel Selected;
     }
 }

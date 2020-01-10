@@ -9,8 +9,10 @@ namespace Toolkit
 {
     public partial class SectionButton : UserControl
     {
-        private Bitmap sectionImage;
+        private Bitmap sectionImage = Properties.Resources.Update;
         private string sectionText = "None";
+        private bool selectedSection = false;
+        private Color accentColour = Properties.Settings.Default.AccentColour;
 
         [Category("Images"), Browsable(true), Description("The image used for the section.")]
         public Bitmap SectionImage {
@@ -24,6 +26,18 @@ namespace Toolkit
             set { this.sectionText = value; }
         }
 
+        [Category("Options"), Browsable(true), Description("Displays the selected cursor when enabled.")]
+        public bool SelectedSection {
+            get { return this.selectedSection; }
+            set { Selected.Visible = this.selectedSection = value; }
+        }
+
+        [Category("Options"), Browsable(true), Description("Displays the selected cursor when enabled.")]
+        public Color AccentColour {
+            get { return this.accentColour; }
+            set { Selected.BackColor = this.accentColour = value; }
+        }
+
         public SectionButton() { InitializeComponent(); }
 
         private void SectionButton_MouseEnter(object sender, EventArgs e) { BackColor = Color.FromArgb(48, 48, 51); }
@@ -32,7 +46,11 @@ namespace Toolkit
 
         private void SectionButton_MouseDown(object sender, MouseEventArgs e) { BackColor = Color.FromArgb(58, 58, 61); }
 
-        private void SectionButton_MouseUp(object sender, MouseEventArgs e) { BackColor = Color.FromArgb(48, 48, 51); }
+        private void SectionButton_MouseUp(object sender, MouseEventArgs e) {
+            BackColor = Color.FromArgb(48, 48, 51);
+            Selected.BackColor = AccentColour = Properties.Settings.Default.AccentColour;
+            Selected.Visible = selectedSection;
+        }
 
         protected override void OnPaint(PaintEventArgs e) {
             Graphics Drawer = e.Graphics;

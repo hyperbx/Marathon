@@ -7,7 +7,7 @@
     <ProjectGuid>{277111E3-79D8-41B5-B0D7-7609DFF6E36F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Toolkit</RootNamespace>
-    <AssemblyName>Sonic-06-Toolkit</AssemblyName>
+    <AssemblyName>Sonic %2706 Toolkit</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,9 +32,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>res\Icons\logo_main_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,43 +55,147 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Environment\Controls\DarkMenuStrip.cs">
+    <Compile Include="src\Environment4\Controls\DarkMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Environment\Controls\DarkMenuStrip.designer.cs">
+    <Compile Include="src\Environment4\Controls\DarkMenuStrip.designer.cs">
       <DependentUpon>DarkMenuStrip.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Environment\ToolkitEnvironment4.cs">
+    <Compile Include="src\Environment4\Controls\ExplorerBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Environment4\Controls\ExplorerBrowser.Designer.cs">
+      <DependentUpon>ExplorerBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Environment4\ToolkitEnvironment4.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Environment\ToolkitEnvironment4.Designer.cs">
+    <Compile Include="src\Environment4\ToolkitEnvironment4.Designer.cs">
       <DependentUpon>ToolkitEnvironment4.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Environment\ToolkitProgram.cs" />
+    <Compile Include="src\Environment4\ToolkitProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Environment\Controls\SubmenuNavigator.cs">
+    <Compile Include="src\Environment4\Controls\SubmenuNavigator.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Environment\Controls\UnifyTabControl.cs">
+    <Compile Include="src\Environment4\Controls\UnifyTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Environment\Controls\SectionButton.cs">
+    <Compile Include="src\Environment4\Controls\SectionButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="src\Environment\Controls\SectionButton.Designer.cs">
+    <Compile Include="src\Environment4\Controls\SectionButton.Designer.cs">
       <DependentUpon>SectionButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\AdditionalVisualStyleElements.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\AnimationResource.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ButtonType.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ComCtlv6ActivationContext.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\DialogHelper.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\DownlevelTextMode.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ExpandButtonClickedEventArgs.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ExtendedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\Glass.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\GlobalSuppressions.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\HyperlinkClickedEventArgs.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\InputDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\InputDialog.designer.cs">
+      <DependentUpon>InputDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\InputDialogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\InputDialogForm.designer.cs">
+      <DependentUpon>InputDialogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\Interop\ComDlgResources.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\COMGuids.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\HRESULT.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\IProgressDialog.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\ShellComInterfaces.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\ShellWrapperDefinitions.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\Win32Resources.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\Interop\WindowHandleWrapper.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\NativeMethods.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\OkButtonClickedEventArgs.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ProgressBarState.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ProgressBarStyle.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ProgressDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\ProgressDialog.designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\Properties\Resources.Designer.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\SafeHandles.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\ShellAnimation.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialog.designer.cs">
+      <DependentUpon>TaskDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogButtonStyle.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogIcon.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogItem.designer.cs">
+      <DependentUpon>TaskDialogItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogItemClickedEventArgs.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogItemCollection.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\TaskDialogRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\TimerEventArgs.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\VistaFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\VistaFileDialogEvents.cs" />
+    <Compile Include="third_party\Ookii.Dialogs\VistaFolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\VistaOpenFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="third_party\Ookii.Dialogs\VistaSaveFileDialog.cs">
+      <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Environment\ToolkitEnvironment4.resx">
+    <EmbeddedResource Include="src\Environment4\Controls\ExplorerBrowser.resx">
+      <DependentUpon>ExplorerBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Environment4\ToolkitEnvironment4.resx">
       <DependentUpon>ToolkitEnvironment4.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Environment\Controls\SectionButton.resx">
+    <EmbeddedResource Include="src\Environment4\Controls\SectionButton.resx">
       <DependentUpon>SectionButton.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="third_party\Ookii.Dialogs\ExtendedForm.resx">
+      <DependentUpon>ExtendedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\Ookii.Dialogs\InputDialogForm.nl.resx">
+      <DependentUpon>InputDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\Ookii.Dialogs\InputDialogForm.resx">
+      <DependentUpon>InputDialogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\Ookii.Dialogs\ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="third_party\Ookii.Dialogs\Properties\Resources.resx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -97,11 +205,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="third_party\Ookii.Dialogs\ookii.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="res\Icons\logo_main_icon.ico" />
     <Content Include="res\Images\AppearanceEditorPart_16x.png" />
     <Content Include="res\Images\ARC.png" />
     <Content Include="res\Images\CloseAllTabs.png" />
@@ -122,6 +232,7 @@
     <Content Include="res\Images\NewWindow.png" />
     <Content Include="res\Images\OpenFile_16x.png" />
     <Content Include="res\Images\OpenFolder_16x.png" />
+    <Content Include="res\Images\PaintBrush_16x.png" />
     <Content Include="res\Images\SaveAll_16x.png" />
     <Content Include="res\Images\SaveAs_16x.png" />
     <Content Include="res\Images\Save_16x.png" />
@@ -129,11 +240,20 @@
     <Content Include="res\Images\SonicSoundStudio.png" />
     <Content Include="res\Images\Update.png" />
     <Content Include="res\Images\XEX.png" />
+    <Content Include="third_party\Ookii.Dialogs\CustomDictionary.xml" />
+    <Content Include="third_party\Ookii.Dialogs\InputDialog.bmp" />
+    <Content Include="third_party\Ookii.Dialogs\license.txt" />
+    <Content Include="third_party\Ookii.Dialogs\ProgressDialog.bmp" />
+    <Content Include="third_party\Ookii.Dialogs\TaskDialog.bmp" />
+    <Content Include="third_party\Ookii.Dialogs\VistaFolderBrowserDialog.bmp" />
+    <Content Include="third_party\Ookii.Dialogs\VistaOpenFileDialog.bmp" />
+    <Content Include="third_party\Ookii.Dialogs\VistaSaveFileDialog.bmp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Images\Corner_Logo.png" />
     <None Include="res\Images\Forward.png" />
     <None Include="res\Images\Back.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

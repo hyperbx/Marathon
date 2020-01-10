@@ -27,7 +27,7 @@ namespace Toolkit.Environment4 {
 		public override Color CheckBackground => Color.FromArgb(0x50, 0x50, 0x50);
 		public override Color CheckPressedBackground => Color.FromArgb(0x30, 0x30, 0x30);
 		public override Color CheckSelectedBackground => Color.FromArgb(0x68, 0x68, 0x68);
-		public override Color MenuItemSelectedGradientBegin => Color.FromArgb(0x60, 0x60, 0x60);
+		public override Color MenuItemSelectedGradientBegin => Color.FromArgb(0x3E, 0x3E, 0x40);
 		public override Color MenuItemSelectedGradientEnd => MenuItemSelectedGradientBegin;
 		public override Color ImageMarginGradientBegin => Color.FromArgb(0x1B, 0x1B, 0x1C);
 		public override Color ImageMarginGradientMiddle => ImageMarginGradientBegin;
