@@ -77,7 +77,7 @@
             // Image_Preferences_Logo
             // 
             this.Image_Preferences_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Image_Preferences_Logo.BackgroundImage = global::Toolkit.Properties.Resources.Menu_Logo;
+            this.Image_Preferences_Logo.BackgroundImage = global::Toolkit.Environment4.Properties.Resources.Menu_Logo;
             this.Image_Preferences_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.Image_Preferences_Logo.Location = new System.Drawing.Point(237, 173);
             this.Image_Preferences_Logo.Name = "Image_Preferences_Logo";

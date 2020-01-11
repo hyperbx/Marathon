@@ -5,6 +5,31 @@ using Microsoft.Win32;
 using System.Windows.Forms;
 using System.ComponentModel;
 
+// Sonic '06 Toolkit is licensed under the MIT License:
+/*
+ * MIT License
+
+ * Copyright (c) 2020 Gabriel (HyperPolygon64)
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 namespace Toolkit.Environment4
 {
     public partial class ToolkitPreferences : UserControl
@@ -37,7 +62,16 @@ namespace Toolkit.Environment4
 
         public int SelectedIndex {
             get { return Preferences_TabControl.SelectedIndex; }
-            set { Preferences_TabControl.SelectedIndex = value; }
+            set { 
+                Preferences_TabControl.SelectedIndex = value;
+
+                if (value == 2) {
+                    foreach (Control control in Controls)
+                        if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
+                    Preferences_TabControl.Visible = true;
+                    Preferences_Section_About.SelectedSection = true;
+                }
+            }
         }
 
         /// <summary>
@@ -50,7 +84,7 @@ namespace Toolkit.Environment4
             if (sender == Preferences_Section_General) Preferences_TabControl.SelectedTab = Tab_Preferences_General;
             else if (sender == Preferences_Section_Appearance) Preferences_TabControl.SelectedTab = Tab_Preferences_Appearance;
             else if (sender == Preferences_Section_About) Preferences_TabControl.SelectedTab = Tab_Preferences_About;
-            ((SectionButton)sender).SelectedSection = true;
+            Preferences_TabControl.Visible = ((SectionButton)sender).SelectedSection = true;
         }
 
         private void Button_DefaultDirectory_Click(object sender, EventArgs e) {

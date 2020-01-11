@@ -69,6 +69,7 @@
             // Preferences_TabControl
             // 
             this.Preferences_TabControl.ActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(122)))), ((int)(((byte)(204)))));
+            this.Preferences_TabControl.AllowDragging = false;
             this.Preferences_TabControl.AllowDrop = true;
             this.Preferences_TabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -90,9 +91,10 @@
             this.Preferences_TabControl.SelectedTextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.Preferences_TabControl.ShowClosingButton = false;
             this.Preferences_TabControl.ShowClosingMessage = false;
-            this.Preferences_TabControl.Size = new System.Drawing.Size(565, 814);
+            this.Preferences_TabControl.Size = new System.Drawing.Size(569, 814);
             this.Preferences_TabControl.TabIndex = 21;
             this.Preferences_TabControl.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.Preferences_TabControl.Visible = false;
             this.Preferences_TabControl.SelectedIndexChanged += new System.EventHandler(this.Preferences_TabControl_SelectedIndexChanged);
             // 
             // Tab_Preferences_General
@@ -114,7 +116,7 @@
             this.Tab_Preferences_General.Location = new System.Drawing.Point(4, 20);
             this.Tab_Preferences_General.Name = "Tab_Preferences_General";
             this.Tab_Preferences_General.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Preferences_General.Size = new System.Drawing.Size(557, 790);
+            this.Tab_Preferences_General.Size = new System.Drawing.Size(561, 790);
             this.Tab_Preferences_General.TabIndex = 0;
             this.Tab_Preferences_General.Text = "General";
             // 
@@ -148,7 +150,7 @@
             this.TextBox_DefaultDirectory.ForeColor = System.Drawing.SystemColors.Control;
             this.TextBox_DefaultDirectory.Location = new System.Drawing.Point(14, 118);
             this.TextBox_DefaultDirectory.Name = "TextBox_DefaultDirectory";
-            this.TextBox_DefaultDirectory.Size = new System.Drawing.Size(495, 23);
+            this.TextBox_DefaultDirectory.Size = new System.Drawing.Size(499, 23);
             this.TextBox_DefaultDirectory.TabIndex = 35;
             // 
             // Panel_Backdrop_FileAssociations
@@ -231,7 +233,7 @@
             this.Button_DefaultDirectory.FlatAppearance.BorderSize = 0;
             this.Button_DefaultDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_DefaultDirectory.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Button_DefaultDirectory.Location = new System.Drawing.Point(515, 118);
+            this.Button_DefaultDirectory.Location = new System.Drawing.Point(519, 118);
             this.Button_DefaultDirectory.Name = "Button_DefaultDirectory";
             this.Button_DefaultDirectory.Size = new System.Drawing.Size(25, 23);
             this.Button_DefaultDirectory.TabIndex = 36;
@@ -266,7 +268,7 @@
             this.Label_Description_DefaultDirectory.AutoSize = true;
             this.Label_Description_DefaultDirectory.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Label_Description_DefaultDirectory.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.Label_Description_DefaultDirectory.Location = new System.Drawing.Point(304, 98);
+            this.Label_Description_DefaultDirectory.Location = new System.Drawing.Point(308, 98);
             this.Label_Description_DefaultDirectory.Name = "Label_Description_DefaultDirectory";
             this.Label_Description_DefaultDirectory.Size = new System.Drawing.Size(205, 15);
             this.Label_Description_DefaultDirectory.TabIndex = 37;
@@ -290,7 +292,7 @@
             this.Tab_Preferences_Appearance.Location = new System.Drawing.Point(4, 20);
             this.Tab_Preferences_Appearance.Name = "Tab_Preferences_Appearance";
             this.Tab_Preferences_Appearance.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Preferences_Appearance.Size = new System.Drawing.Size(557, 790);
+            this.Tab_Preferences_Appearance.Size = new System.Drawing.Size(561, 790);
             this.Tab_Preferences_Appearance.TabIndex = 1;
             this.Tab_Preferences_Appearance.Text = "Appearance";
             // 
@@ -399,7 +401,7 @@
             this.Button_ColourPicker_Default.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.Button_ColourPicker_Default.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.Button_ColourPicker_Default.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Button_ColourPicker_Default.Image = global::Toolkit.Properties.Resources.Refresh_grey_16x;
+            this.Button_ColourPicker_Default.Image = global::Toolkit.Environment4.Properties.Resources.Refresh_grey_16x;
             this.Button_ColourPicker_Default.Location = new System.Drawing.Point(393, 460);
             this.Button_ColourPicker_Default.Name = "Button_ColourPicker_Default";
             this.Button_ColourPicker_Default.Size = new System.Drawing.Size(21, 20);
@@ -414,7 +416,7 @@
             this.Section_Appearance_ColourPicker.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Section_Appearance_ColourPicker.Location = new System.Drawing.Point(14, 453);
             this.Section_Appearance_ColourPicker.Name = "Section_Appearance_ColourPicker";
-            this.Section_Appearance_ColourPicker.SectionImage = global::Toolkit.Properties.Resources.PaintBrush_16x;
+            this.Section_Appearance_ColourPicker.SectionImage = global::Toolkit.Environment4.Properties.Resources.PaintBrush_16x;
             this.Section_Appearance_ColourPicker.SectionText = "Custom colour";
             this.Section_Appearance_ColourPicker.SelectedSection = false;
             this.Section_Appearance_ColourPicker.Size = new System.Drawing.Size(373, 35);
@@ -426,7 +428,7 @@
             this.Tab_Preferences_About.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.Tab_Preferences_About.Location = new System.Drawing.Point(4, 20);
             this.Tab_Preferences_About.Name = "Tab_Preferences_About";
-            this.Tab_Preferences_About.Size = new System.Drawing.Size(557, 790);
+            this.Tab_Preferences_About.Size = new System.Drawing.Size(561, 790);
             this.Tab_Preferences_About.TabIndex = 2;
             this.Tab_Preferences_About.Text = "About";
             // 
@@ -438,7 +440,7 @@
             this.Preferences_Section_About.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Preferences_Section_About.Location = new System.Drawing.Point(0, 778);
             this.Preferences_Section_About.Name = "Preferences_Section_About";
-            this.Preferences_Section_About.SectionImage = global::Toolkit.Properties.Resources.InformationSymbol_16x;
+            this.Preferences_Section_About.SectionImage = global::Toolkit.Environment4.Properties.Resources.InformationSymbol_16x;
             this.Preferences_Section_About.SectionText = "About";
             this.Preferences_Section_About.SelectedSection = false;
             this.Preferences_Section_About.Size = new System.Drawing.Size(281, 35);
@@ -452,7 +454,7 @@
             this.Preferences_Section_Appearance.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Preferences_Section_Appearance.Location = new System.Drawing.Point(0, 99);
             this.Preferences_Section_Appearance.Name = "Preferences_Section_Appearance";
-            this.Preferences_Section_Appearance.SectionImage = global::Toolkit.Properties.Resources.AppearanceEditorPart_16x;
+            this.Preferences_Section_Appearance.SectionImage = global::Toolkit.Environment4.Properties.Resources.AppearanceEditorPart_16x;
             this.Preferences_Section_Appearance.SectionText = "Appearance";
             this.Preferences_Section_Appearance.SelectedSection = false;
             this.Preferences_Section_Appearance.Size = new System.Drawing.Size(281, 35);
@@ -466,7 +468,7 @@
             this.Preferences_Section_General.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Preferences_Section_General.Location = new System.Drawing.Point(0, 63);
             this.Preferences_Section_General.Name = "Preferences_Section_General";
-            this.Preferences_Section_General.SectionImage = global::Toolkit.Properties.Resources.Monaco_Settings_16x;
+            this.Preferences_Section_General.SectionImage = global::Toolkit.Environment4.Properties.Resources.Monaco_Settings_16x;
             this.Preferences_Section_General.SectionText = "General";
             this.Preferences_Section_General.SelectedSection = false;
             this.Preferences_Section_General.Size = new System.Drawing.Size(281, 35);
@@ -479,6 +481,7 @@
             this.Container_Preferences.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Container_Preferences.Location = new System.Drawing.Point(0, 0);
             this.Container_Preferences.Name = "Container_Preferences";
+            this.Container_Preferences.SideColour = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.Container_Preferences.Size = new System.Drawing.Size(849, 813);
             this.Container_Preferences.SplitterDistance = 281;
             this.Container_Preferences.TabIndex = 17;

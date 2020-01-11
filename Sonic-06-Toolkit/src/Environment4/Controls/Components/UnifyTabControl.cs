@@ -250,92 +250,108 @@ namespace Toolkit.Environment4
             Alignment = TabAlignment.Top;
         }
 
-        ///// <summary>
-        /////     Drags the selected tab
-        ///// </summary>
-        ///// <param name="drgevent"></param>
-        //protected override void OnDragOver(DragEventArgs drgevent)
-        //{
-        //    var draggedTab = (TabPage)drgevent.Data.GetData(typeof(TabPage));
-        //    var pointedTab = getPointedTab();
+        private bool allowDragging = false;
 
-        //    if (ReferenceEquals(draggedTab, predraggedTab) && pointedTab != null)
-        //    {
-        //        drgevent.Effect = DragDropEffects.Move;
+        public bool AllowDragging {
+            get { return this.allowDragging; }
+            set { this.allowDragging = value; }
+        }
 
-        //        if (!ReferenceEquals(pointedTab, draggedTab))
-        //        {
-        //            this.ReplaceTabPages(draggedTab, pointedTab);
-        //        }
-        //    }
+        /// <summary>
+        ///     Drags the selected tab
+        /// </summary>
+        /// <param name="drgevent"></param>
+        protected override void OnDragOver(DragEventArgs drgevent)
+        {
+            if (AllowDragging)
+            {
+                var draggedTab = (TabPage)drgevent.Data.GetData(typeof(TabPage));
+                var pointedTab = getPointedTab();
 
-        //    base.OnDragOver(drgevent);
-        //}
+                if (ReferenceEquals(draggedTab, predraggedTab) && pointedTab != null)
+                {
+                    drgevent.Effect = DragDropEffects.Move;
 
-        ///// <summary>
-        /////     Handles the selected tab|closes the selected page if wanted.
-        ///// </summary>
-        ///// <param name="e"></param>
-        //protected override void OnMouseDown(MouseEventArgs e)
-        //{
-        //    predraggedTab = getPointedTab();
-        //    var p = e.Location;
-        //    if (!this.ShowClosingButton)
-        //    {
-        //    }
-        //    else
-        //    {
-        //        for (var i = 0; i < this.TabCount; i++)
-        //        {
-        //            var r = this.GetTabRect(i);
-        //            r.Offset(r.Width - 15, 2);
-        //            r.Width = 10;
-        //            r.Height = 10;
-        //            if (!r.Contains(p))
-        //            {
-        //                continue;
-        //            }
+                    if (!ReferenceEquals(pointedTab, draggedTab))
+                    {
+                        this.ReplaceTabPages(draggedTab, pointedTab);
+                    }
+                }
 
-        //            if (this.ShowClosingMessage)
-        //            {
-        //                if (DialogResult.Yes == MessageBox.Show(this.ClosingMessage, "Close", MessageBoxButtons.YesNo))
-        //                {
-        //                    this.TabPages.RemoveAt(i);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                this.TabPages.RemoveAt(i);
-        //            }
-        //        }
-        //    }
+                base.OnDragOver(drgevent);
+            }
+        }
 
-        //    base.OnMouseDown(e);
-        //}
+        /// <summary>
+        ///     Handles the selected tab|closes the selected page if wanted.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            if (AllowDragging)
+            {
+                predraggedTab = getPointedTab();
+                var p = e.Location;
 
-        ///// <summary>
-        /////     Holds the selected page until it sets down
-        ///// </summary>
-        ///// <param name="e"></param>
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    if (e.Button == MouseButtons.Left && predraggedTab != null)
-        //    {
-        //        this.DoDragDrop(predraggedTab, DragDropEffects.Move);
-        //    }
+                if (this.ShowClosingButton)
+                {
+                    for (var i = 0; i < this.TabCount; i++)
+                    {
+                        var r = this.GetTabRect(i);
+                        r.Offset(r.Width - 15, 2);
+                        r.Width = 10;
+                        r.Height = 10;
+                        if (!r.Contains(p))
+                        {
+                            continue;
+                        }
 
-        //    base.OnMouseMove(e);
-        //}
+                        if (this.ShowClosingMessage)
+                        {
+                            if (DialogResult.Yes == MessageBox.Show(this.ClosingMessage, "Close", MessageBoxButtons.YesNo))
+                            {
+                                this.TabPages.RemoveAt(i);
+                            }
+                        }
+                        else
+                        {
+                            this.TabPages.RemoveAt(i);
+                        }
+                    }
+                }
 
-        ///// <summary>
-        /////     Abandons the selected tab
-        ///// </summary>
-        ///// <param name="e"></param>
-        //protected override void OnMouseUp(MouseEventArgs e)
-        //{
-        //    predraggedTab = null;
-        //    base.OnMouseUp(e);
-        //}
+                base.OnMouseDown(e);
+            }
+        }
+
+        /// <summary>
+        ///     Holds the selected page until it sets down
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (AllowDragging)
+            {
+                if (e.Button == MouseButtons.Left && predraggedTab != null)
+                {
+                    this.DoDragDrop(predraggedTab, DragDropEffects.Move);
+                }
+
+                base.OnMouseMove(e);
+            }
+        }
+
+        /// <summary>
+        ///     Abandons the selected tab
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (AllowDragging) {
+                predraggedTab = null;
+                base.OnMouseUp(e);
+            }
+        }
 
         /// <summary>
         ///     Draws the control

@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System;
 using System.Windows.Forms;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -28,23 +28,10 @@ using System.Windows.Forms;
 
 namespace Toolkit.Environment4
 {
-    public partial class UserContainer : UserControl
+    public partial class ExecutableModification : UserControl
     {
-        public UserContainer() { InitializeComponent(); }
-
-        public string Title {
-            get { return Label_Title.Text; }
-            set { Label_Title.Text = value; }
-        }
-
-        public int SplitterDistance {
-            get { return Container_Control.SplitterDistance; }
-            set { Container_Control.SplitterDistance = value; }
-        }
-
-        public Color SideColour {
-            get { return Container_Control.Panel1.BackColor; }
-            set { Container_Control.Panel1.BackColor = value; }
+        public ExecutableModification() {
+            InitializeComponent();
         }
     }
 }

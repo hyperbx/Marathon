@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{277111E3-79D8-41B5-B0D7-7609DFF6E36F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Toolkit</RootNamespace>
+    <RootNamespace>Toolkit.Environment4</RootNamespace>
     <AssemblyName>Sonic %2706 Toolkit</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -50,6 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Environment4\Controls\Environment\ExecutableModification.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Environment4\Controls\Environment\ExecutableModification.Designer.cs">
+      <DependentUpon>ExecutableModification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Environment4\Controls\Environment\CollisionGenerator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Environment4\Controls\Environment\CollisionGenerator.Designer.cs">
+      <DependentUpon>CollisionGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -537,6 +549,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Environment4\Controls\Components\UnifyTabControl.resx">
       <DependentUpon>UnifyTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Environment4\Controls\Environment\CollisionGenerator.resx">
+      <DependentUpon>CollisionGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Environment4\Controls\Environment\ExecutableModification.resx">
+      <DependentUpon>ExecutableModification.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Environment4\Controls\Environment\SonicSoundStudio.resx">
       <DependentUpon>SonicSoundStudio.cs</DependentUpon>

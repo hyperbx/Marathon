@@ -1,5 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
 /*
@@ -28,23 +29,29 @@ using System.Windows.Forms;
 
 namespace Toolkit.Environment4
 {
-    public partial class UserContainer : UserControl
+    public partial class CollisionGenerator : UserControl
     {
-        public UserContainer() { InitializeComponent(); }
+        public CollisionGenerator() {
+            InitializeComponent();
+            LoadSettings();
 
-        public string Title {
-            get { return Label_Title.Text; }
-            set { Label_Title.Text = value; }
+            Properties.Settings.Default.SettingsSaving += Settings_SettingsSaving;
+            CollisionGenerator_TabControl.Height += 23;
         }
 
-        public int SplitterDistance {
-            get { return Container_Control.SplitterDistance; }
-            set { Container_Control.SplitterDistance = value; }
+        private void Settings_SettingsSaving(object sender, CancelEventArgs e) { LoadSettings(); }
+
+        private void LoadSettings() {
+
         }
 
-        public Color SideColour {
-            get { return Container_Control.Panel1.BackColor; }
-            set { Container_Control.Panel1.BackColor = value; }
+        private void CollisionGenerator_Section_Click(object sender, EventArgs e) {
+            foreach (Control control in Controls)
+                if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
+            if (sender == CollisionGenerator_Section_BIN2OBJ) CollisionGenerator_TabControl.SelectedIndex = 0;
+            else if (sender == CollisionGenerator_Section_OBJ2BIN) CollisionGenerator_TabControl.SelectedIndex = 1;
+            Label_Title.Text = ((SectionButton)sender).SectionText;
+            CollisionGenerator_TabControl.Visible = ((SectionButton)sender).SelectedSection = true;
         }
     }
 }

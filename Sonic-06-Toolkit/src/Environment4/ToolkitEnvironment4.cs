@@ -41,6 +41,7 @@ namespace Toolkit.Environment4
 
             Properties.Settings.Default.SettingsSaving += Settings_SettingsSaving;
             Button_Label_Version.Text = VersionNumber;
+            Toolkit_TabControl.AllowDragging = true;
             Size = MinimumSize;
         }
 
@@ -102,15 +103,24 @@ namespace Toolkit.Environment4
                     if (control is SectionButton) ((SectionButton)control).SelectedSection = false;
 
                 LoadAndFocusTab(Tab_Preferences);
-                toolkitPreferences1.SelectedIndex = 2;
-                //Preferences_Section_About.SelectedSection = true;
+                Toolkit_Preferences.SelectedIndex = 2;
             }
         }
 
         private void File_Exit_Click(object sender, EventArgs e) { Application.Exit(); }
 
         private void Tools_Click(object sender, EventArgs e) {
-            if (sender == Tools_SonicSoundStudio) LoadAndFocusTab(Tab_SonicSoundStudio);
+            if (sender == Tools_ArchiveMerger) LoadAndFocusTab(Tab_ArchiveMerger);
+            else if (sender == Tools_CollisionGenerator) LoadAndFocusTab(Tab_CollisionGenerator);
+            else if (sender == Tools_ContainerGenerator) LoadAndFocusTab(Tab_ContainerGenerator);
+            else if (sender == Tools_ExecutableTweaker) LoadAndFocusTab(Tab_ExecutableTweaker);
+            else if (sender == Tools_LuaCompilation) LoadAndFocusTab(Tab_LuaCompilation);
+            else if (sender == Tools_SEGANNConverter) LoadAndFocusTab(Tab_SEGANNConverter);
+            else if (sender == Tools_PlacementConverter) LoadAndFocusTab(Tab_PlacementConverter);
+            else if (sender == Tools_SonicSoundStudio) LoadAndFocusTab(Tab_SonicSoundStudio);
+            else if (sender == Tools_TextureConverter) LoadAndFocusTab(Tab_TextureConverter);
+            else if (sender == Tools_TextEncoding) LoadAndFocusTab(Tab_TextEncoding);
+            else if (sender == Tools_Xbox360ISOExtractor) LoadAndFocusTab(Tab_Xbox360ISOExtractor);
         }
     }
 }
