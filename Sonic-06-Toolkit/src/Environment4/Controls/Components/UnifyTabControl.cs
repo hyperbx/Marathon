@@ -45,7 +45,7 @@ namespace Toolkit.Environment4
         /// <summary>
         ///     The color of the active tab header
         /// </summary>
-        private Color activeColor = Color.FromArgb(0, 122, 204);
+        private Color activeColor = Properties.Settings.Default.AccentColour;
 
         /// <summary>
         ///     The color of the background of the Tab
@@ -70,7 +70,7 @@ namespace Toolkit.Environment4
         /// <summary>
         ///     The color of the horizontal line which is under the headers of the tab pages
         /// </summary>
-        private Color horizLineColor = Color.FromArgb(0, 122, 204);
+        private Color horizLineColor = Properties.Settings.Default.AccentColour;
 
         /// <summary>
         ///     A random page will be used to store a tab that will be deplaced in the run-time
@@ -234,6 +234,13 @@ namespace Toolkit.Environment4
             }
         }
 
+        private bool noTabDisplay = false;
+
+        public bool NoTabDisplay {
+            get { return this.noTabDisplay; }
+            set { if (this.noTabDisplay = value) if (!DesignMode) this.Top -= 20; }
+        }
+
         /// <summary>
         ///     Sets the Tabs on the top
         /// </summary>
@@ -336,84 +343,114 @@ namespace Toolkit.Environment4
         /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            var g = e.Graphics;
-            var Drawer = g;
+            if (!NoTabDisplay || DesignMode)
+            {
+                var g = e.Graphics;
+                var Drawer = g;
 
-            Drawer.SmoothingMode = SmoothingMode.HighQuality;
-            Drawer.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            Drawer.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            Drawer.Clear(this.headerColor);
-            try
-            {
-                SelectedTab.BackColor = this.backTabColor;
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                SelectedTab.BorderStyle = BorderStyle.None;
-            }
-            catch
-            {
-                // ignored
-            }
-
-            for (var i = 0; i <= TabCount - 1; i++)
-            {
-                var Header = new Rectangle(
-                    new Point(GetTabRect(i).Location.X + 2, GetTabRect(i).Location.Y),
-                    new Size(GetTabRect(i).Width, GetTabRect(i).Height));
-                var HeaderSize = new Rectangle(Header.Location, new Size(Header.Width, Header.Height));
-                Brush ClosingColorBrush = new SolidBrush(this.ClosingButtonColor);
-
-                if (i == SelectedIndex)
+                Drawer.SmoothingMode = SmoothingMode.HighQuality;
+                Drawer.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                Drawer.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                Drawer.Clear(this.headerColor);
+                try
                 {
-                    // Draws the back of the header 
-                    Drawer.FillRectangle(new SolidBrush(this.headerColor), HeaderSize);
+                    SelectedTab.BackColor = this.backTabColor;
+                }
+                catch
+                {
+                    // ignored
+                }
 
-                    // Draws the back of the color when it is selected
-                    Drawer.FillRectangle(
-                        new SolidBrush(this.activeColor),
-                        new Rectangle(Header.X - 5, Header.Y - 3, Header.Width, Header.Height + 5));
+                try
+                {
+                    SelectedTab.BorderStyle = BorderStyle.None;
+                }
+                catch
+                {
+                    // ignored
+                }
 
-                    // Draws the title of the page
-                    Drawer.DrawString(
-                        TabPages[i].Text,
-                        Font,
-                        new SolidBrush(this.selectedTextColor),
-                        HeaderSize,
-                        this.CenterSringFormat);
+                for (var i = 0; i <= TabCount - 1; i++)
+                {
+                    var Header = new Rectangle(
+                        new Point(GetTabRect(i).Location.X + 2, GetTabRect(i).Location.Y),
+                        new Size(GetTabRect(i).Width, GetTabRect(i).Height));
+                    var HeaderSize = new Rectangle(Header.Location, new Size(Header.Width, Header.Height));
+                    Brush ClosingColorBrush = new SolidBrush(this.ClosingButtonColor);
 
-                    // Draws the closing button
-                    if (this.ShowClosingButton)
+                    if (i == SelectedIndex)
                     {
-                        e.Graphics.DrawString("x", Font, ClosingColorBrush, HeaderSize.Right - 17, 0);
+                        // Draws the back of the header 
+                        Drawer.FillRectangle(new SolidBrush(this.headerColor), HeaderSize);
+
+                        // Draws the back of the color when it is selected
+                        Drawer.FillRectangle(
+                            new SolidBrush(this.activeColor),
+                            new Rectangle(Header.X - 5, Header.Y - 3, Header.Width, Header.Height + 5));
+
+                        // Draws the title of the page
+                        Drawer.DrawString(
+                            TabPages[i].Text,
+                            Font,
+                            new SolidBrush(this.selectedTextColor),
+                            HeaderSize,
+                            this.CenterSringFormat);
+
+                        // Draws the closing button
+                        if (this.ShowClosingButton)
+                        {
+                            e.Graphics.DrawString("x", Font, ClosingColorBrush, HeaderSize.Right - 17, 0);
+                        }
+                    }
+                    else
+                    {
+                        // Simply draws the header when it is not selected
+                        Drawer.DrawString(
+                            TabPages[i].Text,
+                            Font,
+                            new SolidBrush(this.textColor),
+                            HeaderSize,
+                            this.CenterSringFormat);
                     }
                 }
-                else
+
+                // Draws the horizontal line
+                Drawer.DrawLine(new Pen(this.horizLineColor, 5), new Point(0, 21), new Point(Width, 21));
+
+                // Draws the background of the tab control
+                Drawer.FillRectangle(new SolidBrush(this.backTabColor), new Rectangle(0, 20, Width, Height - 20));
+
+                // Draws the border of the TabControl
+                Drawer.DrawRectangle(new Pen(this.borderColor, 2), new Rectangle(0, 0, Width, Height));
+                Drawer.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            } else {
+                var g = e.Graphics;
+                var Drawer = g;
+
+                Drawer.SmoothingMode = SmoothingMode.HighQuality;
+                Drawer.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                Drawer.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                Drawer.Clear(this.backTabColor);
+
+                for (var i = 0; i <= TabCount - 1; i++)
                 {
-                    // Simply draws the header when it is not selected
-                    Drawer.DrawString(
-                        TabPages[i].Text,
-                        Font,
-                        new SolidBrush(this.textColor),
-                        HeaderSize,
-                        this.CenterSringFormat);
+                    var Header = new Rectangle(
+                                    new Point(GetTabRect(i).Location.X, GetTabRect(i).Location.Y),
+                                    new Size(0, 0));
+                var HeaderSize = new Rectangle(Header.Location, new Size(Header.Width, Header.Height));
+
+                    if (i == SelectedIndex)
+                    {
+                        // Draws the back of the header 
+                        Drawer.FillRectangle(new SolidBrush(this.headerColor), HeaderSize);
+
+                        // Draws the back of the color when it is selected
+                        Drawer.FillRectangle(
+                            new SolidBrush(this.activeColor),
+                            new Rectangle(Header.X, Header.Y, Header.Width, Header.Height));
+                    }
                 }
             }
-
-            // Draws the horizontal line
-            Drawer.DrawLine(new Pen(this.horizLineColor, 5), new Point(0, 21), new Point(Width, 21));
-
-            // Draws the background of the tab control
-            Drawer.FillRectangle(new SolidBrush(this.backTabColor), new Rectangle(0, 20, Width, Height - 20));
-
-            // Draws the border of the TabControl
-            Drawer.DrawRectangle(new Pen(this.borderColor, 2), new Rectangle(0, 0, Width, Height));
-            Drawer.InterpolationMode = InterpolationMode.HighQualityBicubic;
         }
 
         /// <summary>
@@ -456,6 +493,15 @@ namespace Toolkit.Environment4
             }
 
             this.Refresh();
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // UnifyTabControl
+            // 
+            this.ResumeLayout(false);
         }
     }
 }

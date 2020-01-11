@@ -90,8 +90,8 @@
             this.Button_Colour_LiddyGreen.TabIndex = 233;
             this.Button_Colour_LiddyGreen.UseVisualStyleBackColor = false;
             this.Button_Colour_LiddyGreen.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_LiddyGreen.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_LiddyGreen.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_LiddyGreen.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_LiddyGreen.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Camouflage
             // 
@@ -105,8 +105,8 @@
             this.Button_Colour_Camouflage.TabIndex = 232;
             this.Button_Colour_Camouflage.UseVisualStyleBackColor = false;
             this.Button_Colour_Camouflage.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Camouflage.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Camouflage.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Camouflage.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Camouflage.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_CamouflageDesert
             // 
@@ -120,8 +120,8 @@
             this.Button_Colour_CamouflageDesert.TabIndex = 231;
             this.Button_Colour_CamouflageDesert.UseVisualStyleBackColor = false;
             this.Button_Colour_CamouflageDesert.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_CamouflageDesert.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_CamouflageDesert.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_CamouflageDesert.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_CamouflageDesert.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Sage
             // 
@@ -135,8 +135,8 @@
             this.Button_Colour_Sage.TabIndex = 230;
             this.Button_Colour_Sage.UseVisualStyleBackColor = false;
             this.Button_Colour_Sage.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Sage.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Sage.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Sage.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Sage.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_GreyDark
             // 
@@ -150,8 +150,8 @@
             this.Button_Colour_GreyDark.TabIndex = 229;
             this.Button_Colour_GreyDark.UseVisualStyleBackColor = false;
             this.Button_Colour_GreyDark.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_GreyDark.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_GreyDark.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_GreyDark.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_GreyDark.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_BlueGrey
             // 
@@ -165,8 +165,8 @@
             this.Button_Colour_BlueGrey.TabIndex = 228;
             this.Button_Colour_BlueGrey.UseVisualStyleBackColor = false;
             this.Button_Colour_BlueGrey.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_BlueGrey.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_BlueGrey.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_BlueGrey.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_BlueGrey.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Storm
             // 
@@ -180,8 +180,8 @@
             this.Button_Colour_Storm.TabIndex = 227;
             this.Button_Colour_Storm.UseVisualStyleBackColor = false;
             this.Button_Colour_Storm.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Storm.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Storm.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Storm.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Storm.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Overcast
             // 
@@ -195,8 +195,8 @@
             this.Button_Colour_Overcast.TabIndex = 226;
             this.Button_Colour_Overcast.UseVisualStyleBackColor = false;
             this.Button_Colour_Overcast.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Overcast.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Overcast.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Overcast.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Overcast.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PaleMoss
             // 
@@ -210,8 +210,8 @@
             this.Button_Colour_PaleMoss.TabIndex = 225;
             this.Button_Colour_PaleMoss.UseVisualStyleBackColor = false;
             this.Button_Colour_PaleMoss.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PaleMoss.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PaleMoss.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PaleMoss.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PaleMoss.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Green
             // 
@@ -225,8 +225,8 @@
             this.Button_Colour_Green.TabIndex = 224;
             this.Button_Colour_Green.UseVisualStyleBackColor = false;
             this.Button_Colour_Green.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Green.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Green.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Green.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Green.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_MeadowGreen
             // 
@@ -240,8 +240,8 @@
             this.Button_Colour_MeadowGreen.TabIndex = 223;
             this.Button_Colour_MeadowGreen.UseVisualStyleBackColor = false;
             this.Button_Colour_MeadowGreen.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_MeadowGreen.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_MeadowGreen.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_MeadowGreen.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_MeadowGreen.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Moss
             // 
@@ -255,8 +255,8 @@
             this.Button_Colour_Moss.TabIndex = 222;
             this.Button_Colour_Moss.UseVisualStyleBackColor = false;
             this.Button_Colour_Moss.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Moss.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Moss.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Moss.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Moss.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_MetalBlue
             // 
@@ -270,8 +270,8 @@
             this.Button_Colour_MetalBlue.TabIndex = 221;
             this.Button_Colour_MetalBlue.UseVisualStyleBackColor = false;
             this.Button_Colour_MetalBlue.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_MetalBlue.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_MetalBlue.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_MetalBlue.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_MetalBlue.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_SteelBlue
             // 
@@ -285,8 +285,8 @@
             this.Button_Colour_SteelBlue.TabIndex = 220;
             this.Button_Colour_SteelBlue.UseVisualStyleBackColor = false;
             this.Button_Colour_SteelBlue.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_SteelBlue.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_SteelBlue.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_SteelBlue.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_SteelBlue.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_GreyBrown
             // 
@@ -300,8 +300,8 @@
             this.Button_Colour_GreyBrown.TabIndex = 219;
             this.Button_Colour_GreyBrown.UseVisualStyleBackColor = false;
             this.Button_Colour_GreyBrown.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_GreyBrown.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_GreyBrown.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_GreyBrown.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_GreyBrown.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Grey
             // 
@@ -315,8 +315,8 @@
             this.Button_Colour_Grey.TabIndex = 218;
             this.Button_Colour_Grey.UseVisualStyleBackColor = false;
             this.Button_Colour_Grey.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Grey.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Grey.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Grey.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Grey.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_MintLight
             // 
@@ -330,8 +330,8 @@
             this.Button_Colour_MintLight.TabIndex = 217;
             this.Button_Colour_MintLight.UseVisualStyleBackColor = false;
             this.Button_Colour_MintLight.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_MintLight.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_MintLight.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_MintLight.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_MintLight.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_SportGreen
             // 
@@ -345,8 +345,8 @@
             this.Button_Colour_SportGreen.TabIndex = 216;
             this.Button_Colour_SportGreen.UseVisualStyleBackColor = false;
             this.Button_Colour_SportGreen.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_SportGreen.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_SportGreen.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_SportGreen.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_SportGreen.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_TurfGreen
             // 
@@ -360,8 +360,8 @@
             this.Button_Colour_TurfGreen.TabIndex = 215;
             this.Button_Colour_TurfGreen.UseVisualStyleBackColor = false;
             this.Button_Colour_TurfGreen.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_TurfGreen.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_TurfGreen.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_TurfGreen.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_TurfGreen.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_MintDark
             // 
@@ -375,8 +375,8 @@
             this.Button_Colour_MintDark.TabIndex = 214;
             this.Button_Colour_MintDark.UseVisualStyleBackColor = false;
             this.Button_Colour_MintDark.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_MintDark.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_MintDark.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_MintDark.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_MintDark.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_SeafoamTeal
             // 
@@ -390,8 +390,8 @@
             this.Button_Colour_SeafoamTeal.TabIndex = 213;
             this.Button_Colour_SeafoamTeal.UseVisualStyleBackColor = false;
             this.Button_Colour_SeafoamTeal.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_SeafoamTeal.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_SeafoamTeal.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_SeafoamTeal.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_SeafoamTeal.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Seafoam
             // 
@@ -405,8 +405,8 @@
             this.Button_Colour_Seafoam.TabIndex = 212;
             this.Button_Colour_Seafoam.UseVisualStyleBackColor = false;
             this.Button_Colour_Seafoam.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Seafoam.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Seafoam.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Seafoam.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Seafoam.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_CoolBlue
             // 
@@ -420,8 +420,8 @@
             this.Button_Colour_CoolBlue.TabIndex = 211;
             this.Button_Colour_CoolBlue.UseVisualStyleBackColor = false;
             this.Button_Colour_CoolBlue.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_CoolBlue.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_CoolBlue.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_CoolBlue.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_CoolBlue.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_CoolBlueBright
             // 
@@ -435,8 +435,8 @@
             this.Button_Colour_CoolBlueBright.TabIndex = 210;
             this.Button_Colour_CoolBlueBright.UseVisualStyleBackColor = false;
             this.Button_Colour_CoolBlueBright.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_CoolBlueBright.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_CoolBlueBright.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_CoolBlueBright.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_CoolBlueBright.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_IrisPastel
             // 
@@ -450,8 +450,8 @@
             this.Button_Colour_IrisPastel.TabIndex = 209;
             this.Button_Colour_IrisPastel.UseVisualStyleBackColor = false;
             this.Button_Colour_IrisPastel.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_IrisPastel.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_IrisPastel.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_IrisPastel.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_IrisPastel.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_VioletRed
             // 
@@ -465,8 +465,8 @@
             this.Button_Colour_VioletRed.TabIndex = 208;
             this.Button_Colour_VioletRed.UseVisualStyleBackColor = false;
             this.Button_Colour_VioletRed.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_VioletRed.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_VioletRed.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_VioletRed.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_VioletRed.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_VioletRedLight
             // 
@@ -480,8 +480,8 @@
             this.Button_Colour_VioletRedLight.TabIndex = 207;
             this.Button_Colour_VioletRedLight.UseVisualStyleBackColor = false;
             this.Button_Colour_VioletRedLight.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_VioletRedLight.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_VioletRedLight.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_VioletRedLight.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_VioletRedLight.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_IrisSpring
             // 
@@ -495,8 +495,8 @@
             this.Button_Colour_IrisSpring.TabIndex = 206;
             this.Button_Colour_IrisSpring.UseVisualStyleBackColor = false;
             this.Button_Colour_IrisSpring.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_IrisSpring.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_IrisSpring.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_IrisSpring.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_IrisSpring.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PurpleShadowDark
             // 
@@ -510,8 +510,8 @@
             this.Button_Colour_PurpleShadowDark.TabIndex = 205;
             this.Button_Colour_PurpleShadowDark.UseVisualStyleBackColor = false;
             this.Button_Colour_PurpleShadowDark.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PurpleShadowDark.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PurpleShadowDark.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PurpleShadowDark.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PurpleShadowDark.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PurpleShadow
             // 
@@ -525,8 +525,8 @@
             this.Button_Colour_PurpleShadow.TabIndex = 204;
             this.Button_Colour_PurpleShadow.UseVisualStyleBackColor = false;
             this.Button_Colour_PurpleShadow.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PurpleShadow.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PurpleShadow.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PurpleShadow.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PurpleShadow.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_NavyBlue
             // 
@@ -540,8 +540,8 @@
             this.Button_Colour_NavyBlue.TabIndex = 203;
             this.Button_Colour_NavyBlue.UseVisualStyleBackColor = false;
             this.Button_Colour_NavyBlue.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_NavyBlue.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_NavyBlue.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_NavyBlue.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_NavyBlue.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_DefaultBlue
             // 
@@ -555,8 +555,8 @@
             this.Button_Colour_DefaultBlue.TabIndex = 202;
             this.Button_Colour_DefaultBlue.UseVisualStyleBackColor = false;
             this.Button_Colour_DefaultBlue.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_DefaultBlue.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_DefaultBlue.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_DefaultBlue.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_DefaultBlue.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PlumLight
             // 
@@ -570,8 +570,8 @@
             this.Button_Colour_PlumLight.TabIndex = 201;
             this.Button_Colour_PlumLight.UseVisualStyleBackColor = false;
             this.Button_Colour_PlumLight.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PlumLight.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PlumLight.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PlumLight.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PlumLight.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Orchid
             // 
@@ -585,8 +585,8 @@
             this.Button_Colour_Orchid.TabIndex = 200;
             this.Button_Colour_Orchid.UseVisualStyleBackColor = false;
             this.Button_Colour_Orchid.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Orchid.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Orchid.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Orchid.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Orchid.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_OrchidLight
             // 
@@ -600,8 +600,8 @@
             this.Button_Colour_OrchidLight.TabIndex = 199;
             this.Button_Colour_OrchidLight.UseVisualStyleBackColor = false;
             this.Button_Colour_OrchidLight.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_OrchidLight.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_OrchidLight.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_OrchidLight.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_OrchidLight.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Plum
             // 
@@ -615,8 +615,8 @@
             this.Button_Colour_Plum.TabIndex = 198;
             this.Button_Colour_Plum.UseVisualStyleBackColor = false;
             this.Button_Colour_Plum.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Plum.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Plum.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Plum.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Plum.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Rose
             // 
@@ -630,8 +630,8 @@
             this.Button_Colour_Rose.TabIndex = 197;
             this.Button_Colour_Rose.UseVisualStyleBackColor = false;
             this.Button_Colour_Rose.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Rose.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Rose.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Rose.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Rose.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_RoseBright
             // 
@@ -645,8 +645,8 @@
             this.Button_Colour_RoseBright.TabIndex = 196;
             this.Button_Colour_RoseBright.UseVisualStyleBackColor = false;
             this.Button_Colour_RoseBright.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_RoseBright.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_RoseBright.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_RoseBright.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_RoseBright.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Red
             // 
@@ -660,8 +660,8 @@
             this.Button_Colour_Red.TabIndex = 195;
             this.Button_Colour_Red.UseVisualStyleBackColor = false;
             this.Button_Colour_Red.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Red.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Red.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Red.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Red.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PaleRed
             // 
@@ -675,8 +675,8 @@
             this.Button_Colour_PaleRed.TabIndex = 194;
             this.Button_Colour_PaleRed.UseVisualStyleBackColor = false;
             this.Button_Colour_PaleRed.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PaleRed.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PaleRed.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PaleRed.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PaleRed.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Rust
             // 
@@ -690,8 +690,8 @@
             this.Button_Colour_Rust.TabIndex = 193;
             this.Button_Colour_Rust.UseVisualStyleBackColor = false;
             this.Button_Colour_Rust.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Rust.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Rust.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Rust.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Rust.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_ModRed
             // 
@@ -705,8 +705,8 @@
             this.Button_Colour_ModRed.TabIndex = 192;
             this.Button_Colour_ModRed.UseVisualStyleBackColor = false;
             this.Button_Colour_ModRed.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_ModRed.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_ModRed.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_ModRed.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_ModRed.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_BrickRed
             // 
@@ -720,8 +720,8 @@
             this.Button_Colour_BrickRed.TabIndex = 191;
             this.Button_Colour_BrickRed.UseVisualStyleBackColor = false;
             this.Button_Colour_BrickRed.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_BrickRed.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_BrickRed.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_BrickRed.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_BrickRed.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_PaleRust
             // 
@@ -735,8 +735,8 @@
             this.Button_Colour_PaleRust.TabIndex = 190;
             this.Button_Colour_PaleRust.UseVisualStyleBackColor = false;
             this.Button_Colour_PaleRust.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_PaleRust.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_PaleRust.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_PaleRust.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_PaleRust.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_OrangeDark
             // 
@@ -750,8 +750,8 @@
             this.Button_Colour_OrangeDark.TabIndex = 189;
             this.Button_Colour_OrangeDark.UseVisualStyleBackColor = false;
             this.Button_Colour_OrangeDark.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_OrangeDark.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_OrangeDark.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_OrangeDark.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_OrangeDark.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_OrangeBright
             // 
@@ -765,8 +765,8 @@
             this.Button_Colour_OrangeBright.TabIndex = 188;
             this.Button_Colour_OrangeBright.UseVisualStyleBackColor = false;
             this.Button_Colour_OrangeBright.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_OrangeBright.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_OrangeBright.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_OrangeBright.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_OrangeBright.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_Gold
             // 
@@ -780,8 +780,8 @@
             this.Button_Colour_Gold.TabIndex = 187;
             this.Button_Colour_Gold.UseVisualStyleBackColor = false;
             this.Button_Colour_Gold.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_Gold.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_Gold.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_Gold.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_Gold.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // Button_Colour_YellowGold
             // 
@@ -795,8 +795,8 @@
             this.Button_Colour_YellowGold.TabIndex = 186;
             this.Button_Colour_YellowGold.UseVisualStyleBackColor = false;
             this.Button_Colour_YellowGold.Click += new System.EventHandler(this.Button_Colour_Click);
-            this.Button_Colour_YellowGold.MouseEnter += new System.EventHandler(this.Button_Colour_YellowGold_MouseEnter);
-            this.Button_Colour_YellowGold.MouseLeave += new System.EventHandler(this.Button_Colour_YellowGold_MouseLeave);
+            this.Button_Colour_YellowGold.MouseEnter += new System.EventHandler(this.Button_Colour_MouseEnter);
+            this.Button_Colour_YellowGold.MouseLeave += new System.EventHandler(this.Button_Colour_MouseLeave);
             // 
             // WindowsColourPicker
             // 
@@ -851,6 +851,7 @@
             this.Controls.Add(this.Button_Colour_OrangeBright);
             this.Controls.Add(this.Button_Colour_Gold);
             this.Controls.Add(this.Button_Colour_YellowGold);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "WindowsColourPicker";
             this.Size = new System.Drawing.Size(379, 285);

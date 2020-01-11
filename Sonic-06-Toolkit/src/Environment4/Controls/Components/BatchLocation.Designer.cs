@@ -90,10 +90,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.Controls.Add(this.Label_Description_Location);
             this.Controls.Add(this.Button_Location);
             this.Controls.Add(this.Label_Location);
             this.Controls.Add(this.TextBox_Location);
+            this.Controls.Add(this.Label_Description_Location);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "BatchLocation";
             this.Size = new System.Drawing.Size(509, 48);

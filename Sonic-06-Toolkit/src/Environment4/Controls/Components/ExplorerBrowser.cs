@@ -1,5 +1,4 @@
-﻿using System;
-using Toolkit.Environment4;
+﻿using System.Web;
 using System.Windows.Forms;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -27,16 +26,20 @@ using System.Windows.Forms;
  * SOFTWARE.
  */
 
-namespace Toolkit
+namespace Toolkit.Environment4
 {
-    static class Program
+    public partial class ExplorerBrowser : WebBrowser
     {
-        [STAThread]
+        public ExplorerBrowser() { InitializeComponent(); }
 
-        static void Main() {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ToolkitEnvironment4());
+        public string CurrentLocation {
+            get {
+                if (Url != null) return HttpUtility.UrlDecode(Url.ToString().Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", "");
+                else return string.Empty;
+            }
+            set { HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\") + @"\").Replace("file:", ""); }
         }
+
+        private void ExplorerBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e) { CurrentLocation = Url.ToString(); }
     }
 }

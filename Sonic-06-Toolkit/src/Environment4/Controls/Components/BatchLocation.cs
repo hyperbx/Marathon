@@ -1,5 +1,5 @@
 ﻿using System;
-using Toolkit.Environment4;
+using Ookii.Dialogs;
 using System.Windows.Forms;
 
 // Sonic '06 Toolkit is licensed under the MIT License:
@@ -27,16 +27,25 @@ using System.Windows.Forms;
  * SOFTWARE.
  */
 
-namespace Toolkit
+namespace Toolkit.Environment4
 {
-    static class Program
+    public partial class BatchLocation : UserControl
     {
-        [STAThread]
+        public BatchLocation() { InitializeComponent(); }
 
-        static void Main() {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ToolkitEnvironment4());
+        public string Location {
+            get { return TextBox_Location.Text; }
+            set { TextBox_Location.Text = value; }
+        }
+
+        private void Button_Location_Click(object sender, EventArgs e) {
+            VistaFolderBrowserDialog browseLocation = new VistaFolderBrowserDialog() {
+                Description = "Please select a folder...",
+                UseDescriptionForTitle = true
+            };
+
+            if (browseLocation.ShowDialog() == DialogResult.OK)
+                Location = browseLocation.SelectedPath;
         }
     }
 }
