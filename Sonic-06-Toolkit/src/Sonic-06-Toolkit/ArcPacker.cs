@@ -82,11 +82,13 @@ namespace Toolkit.Tools
             if (_nodes.Count > 0)
             {
                 U8Node nextParent = _nodes[(int)parentNode];
+                U8Node curParent;
                 do
                 {
-                    nextParent.compressed_size++;
-                    nextParent = _nodes[(int)nextParent.data_offset];
-                } while (nextParent.type_name != 0x01000000);
+                    curParent = nextParent;
+                    curParent.compressed_size++;
+                    nextParent = _nodes[(int)curParent.data_offset];
+                } while (nextParent != curParent);
             }
 
             _nodes.Add(dirNode);
@@ -117,11 +119,13 @@ namespace Toolkit.Tools
 
             // Increment the child count of all parent nodes.
             U8Node nextParent = parentNode;
+            U8Node curParent;
             do
             {
-                nextParent.compressed_size++;
-                nextParent = _nodes[(int)nextParent.data_offset];
-            } while (nextParent.type_name != 0x01000000);
+                curParent = nextParent;
+                curParent.compressed_size++;
+                nextParent = _nodes[(int)curParent.data_offset];
+            } while (nextParent != curParent);
 
             _nodes.Add(fileNode);
             return fileNode;
