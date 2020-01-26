@@ -132,6 +132,20 @@ namespace Toolkit.Tools
         }
 
         /// <summary>
+        /// Align a FileStream to 16 bytes.
+        /// </summary>
+        /// <param name="fs">FileStream</param>
+        private void alignFileStreamTo16Bytes(FileStream fs)
+        {
+            byte[] zero = new byte[] { 0 };
+            //for (int pos = _stringTable.Count; pos % 16 != 0; pos++)
+            for (long pos = fs.Position; pos % 16 != 0; pos++)
+            {
+                fs.Write(zero, 0, zero.Length);
+            }
+        }
+
+        /// <summary>
         /// Write the ARC file using the specified file list.
         /// </summary>
         /// <param name="arcFile">ARC file.</param>
@@ -214,7 +228,33 @@ namespace Toolkit.Tools
             // Write stuff.
             using (FileStream fs = File.Create(arcFile))
             {
+                // Write files, uncompressed, starting at the data offset.
+                // NOTE: Files are aligned on 16-byte offsets.
+                fs.Seek(dataOffset, SeekOrigin.Begin);
+
+                foreach (U8Node node in _nodes) {
+                    if ((node.type_name & 0xFF000000) != 0)
+                    {
+                        // Directory node.
+                        continue;
+                    }
+
+                    // Open the file.
+                    using (FileStream fs_src = File.OpenRead(node.srcFilename))
+                    {
+                        node.data_offset = (uint)fs.Position;
+                        node.compressed_size = 0;   // TODO: Compress it.
+                        node.file_size = (uint)fs_src.Length;
+                        fs_src.CopyTo(fs);
+                        fs_src.Close();
+
+                        // Make sure we're aligned to 16 bytes.
+                        alignFileStreamTo16Bytes(fs);
+                    }
+                }
+
                 // Write the U8 header.
+                fs.Seek(0, SeekOrigin.Begin);
                 fs.Write(U8Header, 0, U8Header.Length);
 
                 // Write the nodes.
@@ -240,14 +280,6 @@ namespace Toolkit.Tools
 
                 // Write the string table.
                 fs.Write(_stringTable.ToArray(), 0, _stringTable.Count);
-
-                // If the string table isn't a multiple of 16,
-                // add more 0 bytes.
-                for (int pos = _stringTable.Count; pos % 16 != 0; pos++)
-                {
-                    byte[] zero = new byte[] { 0 };
-                    fs.Write(zero, 0, zero.Length);
-                }
 
                 fs.Flush();
                 fs.Close();
