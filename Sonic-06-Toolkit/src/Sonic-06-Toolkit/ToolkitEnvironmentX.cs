@@ -64,6 +64,10 @@ namespace Toolkit.EnvironmentX
             tm_CheapFix.Start();
             NewTab(true);
 
+            // hax
+            ArcPacker packer = new ArcPacker();
+            packer.WriteArc("Z:\\p\\NEW.arc", "Z:\\p\\game");
+
             if (args.Length > 0) {
                 if (Path.GetExtension(args[0]).ToLower() == ".arc")
                     UnpackARC(args[0]);
