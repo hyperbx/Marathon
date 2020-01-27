@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Web;
 using System.Text;
@@ -63,10 +63,6 @@ namespace Toolkit.EnvironmentX
             btn_SessionID.Text = sessionID.ToString();
             tm_CheapFix.Start();
             NewTab(true);
-
-            // hax
-            ArcPacker packer = new ArcPacker();
-            packer.WriteArc("Z:\\p\\scripts.NEW.arc", "Z:\\p\\scripts");
 
             if (args.Length > 0) {
                 if (Path.GetExtension(args[0]).ToLower() == ".arc")
