@@ -105,7 +105,21 @@ namespace Toolkit.EnvironmentX
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main(args, sessionID));
+
+            try { Application.Run(new Main(args, sessionID)); }
+            catch (System.Configuration.ConfigurationException) {
+                var settingsData = new DirectoryInfo(Path.Combine(applicationData, "Toolkit"));
+                try {
+                    if (Directory.Exists(Path.Combine(applicationData, "Toolkit"))) {
+                        foreach (FileInfo file in settingsData.GetFiles())
+                            file.Delete();
+                        foreach (DirectoryInfo directory in settingsData.GetDirectories())
+                            directory.Delete(true);
+                    }
+                } catch { }
+                MessageBox.Show("An error occurred whilst reading your user settings. Sonic '06 Toolkit will now reset...", "Fatal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Restart();
+            }
         }
 
         public static bool RunningAsAdmin() { return new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator); }
