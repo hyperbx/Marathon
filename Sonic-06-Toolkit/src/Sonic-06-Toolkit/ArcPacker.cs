@@ -45,7 +45,7 @@ namespace Toolkit.Tools
             public uint data_offset;        // File: Offset to data.
                                             // Dir: Parent node number.
             public uint compressed_size;    // File: Compressed file size. (0 if uncompressed)
-                                            // Dir: Number of child nodes.
+                                            // Dir: Last child node index, plus one.
             public uint file_size;          // File: Actual file size.
 
             // Temporary data for packing.
@@ -78,20 +78,22 @@ namespace Toolkit.Tools
             _stringTable.AddRange(utfBytes);
             _stringTable.Add(0);
 
-            // Increment the child count of all parent nodes.
-            if (_nodes.Count > 0)
+            _nodes.Add(dirNode);
+            uint nodeIdxPlusOne = (uint)_nodes.Count;
+
+            // Update the "last child index" value of all parent nodes.
+            if (_nodes.Count > 1)
             {
                 U8Node nextParent = _nodes[(int)parentNode];
                 U8Node curParent;
                 do
                 {
                     curParent = nextParent;
-                    curParent.compressed_size++;
+                    curParent.compressed_size = nodeIdxPlusOne;
                     nextParent = _nodes[(int)curParent.data_offset];
                 } while (nextParent != curParent);
             }
 
-            _nodes.Add(dirNode);
             return dirNode;
         }
 
@@ -117,17 +119,19 @@ namespace Toolkit.Tools
             _stringTable.AddRange(utfBytes);
             _stringTable.Add(0);
 
-            // Increment the child count of all parent nodes.
+            _nodes.Add(fileNode);
+            uint nodeIdxPlusOne = (uint)_nodes.Count;
+
+            // Update the "last child index" value of all parent nodes.
             U8Node nextParent = parentNode;
             U8Node curParent;
             do
             {
                 curParent = nextParent;
-                curParent.compressed_size++;
+                curParent.compressed_size = nodeIdxPlusOne;
                 nextParent = _nodes[(int)curParent.data_offset];
             } while (nextParent != curParent);
 
-            _nodes.Add(fileNode);
             return fileNode;
         }
 
