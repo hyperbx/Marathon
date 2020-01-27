@@ -293,10 +293,11 @@ namespace Toolkit.Tools
                             }
                             else
                             {
-                                // Special case: Zero-length file needs an extra '\x03' byte.
-                                byte[] b_extra03 = new byte[] { 0x03 };
+                                // Special case: Zero-length file needs "\x03\x00" in order to
+                                // not be misdetected as uncompressed.
+                                byte[] b_extra03 = new byte[] { 0x03, 0x00 };
                                 fs.Write(b_extra03, 0, b_extra03.Length);
-                                node.compressed_size++;
+                                node.compressed_size += b_extra03.Length;
                             }
 
                             // Write the Adler-32 checksum.
