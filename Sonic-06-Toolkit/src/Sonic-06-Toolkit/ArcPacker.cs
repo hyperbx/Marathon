@@ -27,9 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Toolkit.Tools
 {
@@ -253,6 +251,7 @@ namespace Toolkit.Tools
                         node.file_size = (uint)fs_src.Length;
 
                         // Compress the source data using Deflate.
+                        // TODO: Write a ZlibStream class that handles the zlib headers.
                         uint adler32 = 0;
                         using (MemoryStream memStream = new MemoryStream())
                         {
