@@ -120,11 +120,10 @@
   <data name="lbl_Contributors.Text" xml:space="preserve">
     <value>Contributors:
 Hyper - Core Contributor and Designer
-GerbilSoft - mst06 and DXT3 decompression guidance
+GerbilSoft - ArcPacker, mst06 and DXT3 decompression guidance
 Sable  - Collision Generator Logo Illustrator
 Shadow LAG - Sonic '06 SDK (Lua decompiler)
 xose - ARC Unpacker
-g0ldenlink - ARC Repacker
 SEGA Carnival - Software Update Hosting
 Nonami - XNO Backface Culling Research
 Reimous  - XMA Research

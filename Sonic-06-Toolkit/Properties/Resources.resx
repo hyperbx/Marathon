@@ -175,9 +175,6 @@
   <data name="hash_mst06" xml:space="preserve">
     <value>7614FC8E0ED2DB168C93B69887513FCB</value>
   </data>
-  <data name="hash_repack" xml:space="preserve">
-    <value>122E997019F43E1F54370313F358D50F</value>
-  </data>
   <data name="hash_s06col" xml:space="preserve">
     <value>062AC6249016BDD62126EF6ADF89754D</value>
   </data>
@@ -231,9 +228,6 @@
   </data>
   <data name="PS3_at3tool" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\SonicAudioTools\ps3_at3tool.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="repack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\src\Sonic-06-Toolkit\repack.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="s06col" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\src\Tools\BINA\s06col.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

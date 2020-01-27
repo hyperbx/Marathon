@@ -65,9 +65,6 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\unpack.exe", Properties.Resources.unpack);
 
-            if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\repack.exe"))
-                File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\repack.exe", Properties.Resources.repack);
-
             if (!File.Exists($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\luac50.exe"))
                 File.WriteAllBytes($"{applicationData}\\Hyper_Development_Team\\Sonic '06 Toolkit\\Tools\\luac50.exe", Properties.Resources.luac50);
 

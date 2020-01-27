@@ -247,15 +247,6 @@ namespace Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 122E997019F43E1F54370313F358D50F.
-        /// </summary>
-        internal static string hash_repack {
-            get {
-                return ResourceManager.GetString("hash_repack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 062AC6249016BDD62126EF6ADF89754D.
         /// </summary>
         internal static string hash_s06col {
@@ -422,16 +413,6 @@ namespace Toolkit.Properties {
         internal static byte[] PS3_at3tool {
             get {
                 object obj = ResourceManager.GetObject("PS3_at3tool", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] repack {
-            get {
-                object obj = ResourceManager.GetObject("repack", resourceCulture);
                 return ((byte[])(obj));
             }
         }

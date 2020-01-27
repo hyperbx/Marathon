@@ -390,9 +390,6 @@ namespace Toolkit.Tools
                     } else if (Path.GetFileName(dependency).ToLower() == "ps3_at3tool.exe") {
                         if (!CompareMD5Hash(getHash, Properties.Resources.hash_at3tool))
                             File.WriteAllBytes(Paths.AT3Tool, Properties.Resources.PS3_at3tool);
-                    } else if (Path.GetFileName(dependency).ToLower() == "repack.exe") {
-                        if (!CompareMD5Hash(getHash, Properties.Resources.hash_repack))
-                            File.WriteAllBytes(Paths.Repack, Properties.Resources.repack);
                     } else if (Path.GetFileName(dependency).ToLower() == "s06col.exe") {
                         if (!CompareMD5Hash(getHash, Properties.Resources.hash_s06col))
                             File.WriteAllBytes(Paths.BINEncoder, Properties.Resources.s06col);

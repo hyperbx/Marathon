@@ -56,7 +56,7 @@
             this.link_SEGACarnival.AutoSize = true;
             this.link_SEGACarnival.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_SEGACarnival.LinkColor = System.Drawing.Color.Black;
-            this.link_SEGACarnival.Location = new System.Drawing.Point(233, 154);
+            this.link_SEGACarnival.Location = new System.Drawing.Point(233, 139);
             this.link_SEGACarnival.Name = "link_SEGACarnival";
             this.link_SEGACarnival.Size = new System.Drawing.Size(81, 14);
             this.link_SEGACarnival.TabIndex = 42;
@@ -69,7 +69,7 @@
             this.link_Nonami.AutoSize = true;
             this.link_Nonami.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Nonami.LinkColor = System.Drawing.Color.Black;
-            this.link_Nonami.Location = new System.Drawing.Point(233, 169);
+            this.link_Nonami.Location = new System.Drawing.Point(233, 154);
             this.link_Nonami.Name = "link_Nonami";
             this.link_Nonami.Size = new System.Drawing.Size(50, 14);
             this.link_Nonami.TabIndex = 40;
@@ -96,7 +96,7 @@
             this.lbl_Contributors.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_Contributors.Location = new System.Drawing.Point(233, 48);
             this.lbl_Contributors.Name = "lbl_Contributors";
-            this.lbl_Contributors.Size = new System.Drawing.Size(323, 300);
+            this.lbl_Contributors.Size = new System.Drawing.Size(361, 285);
             this.lbl_Contributors.TabIndex = 35;
             this.lbl_Contributors.Text = resources.GetString("lbl_Contributors.Text");
             // 
@@ -130,7 +130,7 @@
             this.pic_Logo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pic_Logo.Location = new System.Drawing.Point(-1, -1);
             this.pic_Logo.Name = "pic_Logo";
-            this.pic_Logo.Size = new System.Drawing.Size(229, 360);
+            this.pic_Logo.Size = new System.Drawing.Size(229, 347);
             this.pic_Logo.TabIndex = 32;
             this.pic_Logo.TabStop = false;
             // 
@@ -178,7 +178,7 @@
             this.link_Reimous.AutoSize = true;
             this.link_Reimous.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Reimous.LinkColor = System.Drawing.Color.Black;
-            this.link_Reimous.Location = new System.Drawing.Point(233, 184);
+            this.link_Reimous.Location = new System.Drawing.Point(233, 169);
             this.link_Reimous.Name = "link_Reimous";
             this.link_Reimous.Size = new System.Drawing.Size(55, 14);
             this.link_Reimous.TabIndex = 46;
@@ -191,7 +191,7 @@
             this.link_Radfordhound.AutoSize = true;
             this.link_Radfordhound.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Radfordhound.LinkColor = System.Drawing.Color.Black;
-            this.link_Radfordhound.Location = new System.Drawing.Point(233, 199);
+            this.link_Radfordhound.Location = new System.Drawing.Point(233, 184);
             this.link_Radfordhound.Name = "link_Radfordhound";
             this.link_Radfordhound.Size = new System.Drawing.Size(85, 14);
             this.link_Radfordhound.TabIndex = 47;
@@ -204,7 +204,7 @@
             this.link_Skyth.AutoSize = true;
             this.link_Skyth.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Skyth.LinkColor = System.Drawing.Color.Black;
-            this.link_Skyth.Location = new System.Drawing.Point(233, 214);
+            this.link_Skyth.Location = new System.Drawing.Point(233, 199);
             this.link_Skyth.Name = "link_Skyth";
             this.link_Skyth.Size = new System.Drawing.Size(35, 14);
             this.link_Skyth.TabIndex = 48;
@@ -217,7 +217,7 @@
             this.link_Sajid.AutoSize = true;
             this.link_Sajid.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Sajid.LinkColor = System.Drawing.Color.Black;
-            this.link_Sajid.Location = new System.Drawing.Point(233, 229);
+            this.link_Sajid.Location = new System.Drawing.Point(233, 214);
             this.link_Sajid.Name = "link_Sajid";
             this.link_Sajid.Size = new System.Drawing.Size(34, 14);
             this.link_Sajid.TabIndex = 49;
@@ -230,7 +230,7 @@
             this.link_DarioSamo.AutoSize = true;
             this.link_DarioSamo.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_DarioSamo.LinkColor = System.Drawing.Color.Black;
-            this.link_DarioSamo.Location = new System.Drawing.Point(233, 244);
+            this.link_DarioSamo.Location = new System.Drawing.Point(233, 229);
             this.link_DarioSamo.Name = "link_DarioSamo";
             this.link_DarioSamo.Size = new System.Drawing.Size(66, 14);
             this.link_DarioSamo.TabIndex = 50;
@@ -243,7 +243,7 @@
             this.link_xorloser.AutoSize = true;
             this.link_xorloser.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_xorloser.LinkColor = System.Drawing.Color.Black;
-            this.link_xorloser.Location = new System.Drawing.Point(233, 259);
+            this.link_xorloser.Location = new System.Drawing.Point(233, 244);
             this.link_xorloser.Name = "link_xorloser";
             this.link_xorloser.Size = new System.Drawing.Size(51, 14);
             this.link_xorloser.TabIndex = 51;
@@ -256,7 +256,7 @@
             this.link_Natsumi.AutoSize = true;
             this.link_Natsumi.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_Natsumi.LinkColor = System.Drawing.Color.Black;
-            this.link_Natsumi.Location = new System.Drawing.Point(233, 304);
+            this.link_Natsumi.Location = new System.Drawing.Point(233, 289);
             this.link_Natsumi.Name = "link_Natsumi";
             this.link_Natsumi.Size = new System.Drawing.Size(53, 14);
             this.link_Natsumi.TabIndex = 52;
@@ -269,7 +269,7 @@
             this.link_CriWare.AutoSize = true;
             this.link_CriWare.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_CriWare.LinkColor = System.Drawing.Color.Black;
-            this.link_CriWare.Location = new System.Drawing.Point(233, 319);
+            this.link_CriWare.Location = new System.Drawing.Point(233, 304);
             this.link_CriWare.Name = "link_CriWare";
             this.link_CriWare.Size = new System.Drawing.Size(112, 14);
             this.link_CriWare.TabIndex = 53;
@@ -282,7 +282,7 @@
             this.link_XboxDev.AutoSize = true;
             this.link_XboxDev.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.link_XboxDev.LinkColor = System.Drawing.Color.Black;
-            this.link_XboxDev.Location = new System.Drawing.Point(233, 334);
+            this.link_XboxDev.Location = new System.Drawing.Point(233, 319);
             this.link_XboxDev.Name = "link_XboxDev";
             this.link_XboxDev.Size = new System.Drawing.Size(52, 14);
             this.link_XboxDev.TabIndex = 54;
@@ -295,7 +295,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(560, 356);
+            this.ClientSize = new System.Drawing.Size(599, 343);
             this.Controls.Add(this.link_XboxDev);
             this.Controls.Add(this.link_CriWare);
             this.Controls.Add(this.link_Natsumi);

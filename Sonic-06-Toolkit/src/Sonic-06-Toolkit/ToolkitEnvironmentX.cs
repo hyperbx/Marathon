@@ -48,7 +48,7 @@ namespace Toolkit.EnvironmentX
 {
     public partial class Main : Form
     {
-        public static readonly string versionNumber = "Version 3.13"; // Defines the version number to be used globally
+        public static readonly string versionNumber = "Version 3.14"; // Defines the version number to be used globally
         public static List<string> sessionLog = new List<string>();
         public static string repackBuildSession = string.Empty;
         public static string serverStatus = string.Empty;
@@ -358,12 +358,8 @@ namespace Toolkit.EnvironmentX
 
                     metadata = File.ReadAllText(Path.Combine(repackBuildSession, "metadata.ini"));
                     Status = StatusMessages.cmn_Repacking(metadata, false);
-                    await ProcessAsyncHelper.ExecuteShellCommand(Paths.Repack,
-                          $"\"{Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata))}\"",
-                          Application.StartupPath,
-                          100000);
-                    if (File.Exists(Path.Combine(repackBuildSession, Path.GetFileName(metadata))))
-                        File.Copy(Path.Combine(repackBuildSession, Path.GetFileName(metadata)), metadata, true); //Copies the repacked ARC back to the original location.
+                    ArcPacker repack = new ArcPacker();
+                    repack.WriteArc(metadata, Path.Combine(repackBuildSession, Path.GetFileNameWithoutExtension(metadata)));
                     Status = StatusMessages.cmn_Repacked(metadata, false);
                 } else {
                     string getPath = Browsers.SaveFile(SystemMessages.tl_RepackAs, Filters.Archives);
@@ -447,10 +443,8 @@ namespace Toolkit.EnvironmentX
                     } else {
                         string getPathFromTabMeta = unifytb_Main.SelectedTab.ToolTipText.Substring(11);
                         Status = StatusMessages.cmn_RepackingAs(getPathFromTabMeta, filename, false);
-                        await ProcessAsyncHelper.ExecuteShellCommand(Paths.Arctool,
-                              $"-i \"{getPathFromTabMeta}\" -c \"{filename}\"",
-                              Application.StartupPath,
-                              100000);
+                        ArcPacker repack = new ArcPacker();
+                        repack.WriteArc(filename, getPathFromTabMeta);
                         Status = StatusMessages.cmn_RepackedAs(getPathFromTabMeta, filename, false);
                     }
                 } catch { Status = StatusMessages.cmn_RepackFailed(metadata, false); }
