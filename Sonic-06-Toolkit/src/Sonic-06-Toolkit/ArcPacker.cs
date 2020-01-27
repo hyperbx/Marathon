@@ -285,7 +285,7 @@ namespace Toolkit.Tools
                             // Compressed size, plus 6 for zlib header and Adler-32 checksum.
                             node.compressed_size = (uint)memStream.Length + 6;
 
-                            if (memStream.Length != 0)
+                            if (memStream.Length > 0)
                             {
                                 // Write the compressed data.
                                 memStream.Seek(0, SeekOrigin.Begin);
