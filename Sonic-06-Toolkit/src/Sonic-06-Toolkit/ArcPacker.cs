@@ -141,14 +141,13 @@ namespace Toolkit.Tools
         }
 
         /// <summary>
-        /// Align a FileStream to 16 bytes.
+        /// Align a FileStream to 32 bytes.
         /// </summary>
         /// <param name="fs">FileStream</param>
-        private void alignFileStreamTo16Bytes(FileStream fs)
+        private void alignFileStreamTo32Bytes(FileStream fs)
         {
             byte[] zero = new byte[] { 0 };
-            //for (int pos = _stringTable.Count; pos % 16 != 0; pos++)
-            for (long pos = fs.Position; pos % 16 != 0; pos++)
+            for (long pos = fs.Position; pos % 32 != 0; pos++)
             {
                 fs.Write(zero, 0, zero.Length);
             }
@@ -210,7 +209,7 @@ namespace Toolkit.Tools
             // and data offset.
             int tableLength = (_nodes.Count * 16) + _stringTable.Count;
             int dataOffset = U8Header.Length + tableLength;
-            dataOffset = ((dataOffset + 0x0F) & ~0x0F);
+            dataOffset = ((dataOffset + 0x1F) & ~0x1F);
 
             byte[] b_tableLength = BitConverter.GetBytes((uint)tableLength);
             byte[] b_dataOffset = BitConverter.GetBytes((uint)dataOffset);
@@ -226,7 +225,7 @@ namespace Toolkit.Tools
             using (FileStream fs = File.Create(arcFile))
             {
                 // Write files, uncompressed, starting at the data offset.
-                // NOTE: Files are aligned on 16-byte offsets.
+                // NOTE: Files are aligned on 32-byte offsets.
                 fs.Seek(dataOffset, SeekOrigin.Begin);
 
                 foreach (U8Node node in _nodes) {
@@ -299,8 +298,8 @@ namespace Toolkit.Tools
                         }
                         fs_src.Close();
 
-                        // Make sure we're aligned to 16 bytes.
-                        alignFileStreamTo16Bytes(fs);
+                        // Make sure we're aligned to 32 bytes.
+                        alignFileStreamTo32Bytes(fs);
                     }
                 }
 
