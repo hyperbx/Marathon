@@ -61,8 +61,9 @@
       <HintPath>src\Tools\BNIA\HedgeLib.dll</HintPath>
     </Reference>
     <Reference Include="Interop.WMPLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WMPLib.1.0.0\lib\Interop.WMPLib.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>src\Sonic-06-Toolkit\Interop.WMPLib.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.9.0\lib\net35\NAudio.dll</HintPath>
@@ -300,6 +301,7 @@
     <None Include="src\Tools\SonicAudioTools\csbLogo.png" />
     <None Include="src\Tools\SonicAudioTools\adxIcon.ico" />
     <Content Include="src\Sonic-06-Toolkit\arctool.exe" />
+    <Content Include="src\Sonic-06-Toolkit\Interop.WMPLib.dll" />
     <Content Include="src\Sonic-06-Toolkit\logo_exception.png" />
     <Content Include="src\Sonic-06-Toolkit\Ookii.Dialogs.dll" />
     <Content Include="src\Tools\BINA\s06col.exe" />

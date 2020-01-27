@@ -50,6 +50,9 @@ namespace Toolkit.EnvironmentX
             if (!File.Exists(Path.Combine(Application.StartupPath, "HedgeLib.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "HedgeLib.dll"), Properties.Resources.HedgeLib);
 
+            if (!File.Exists(Path.Combine(Application.StartupPath, "Interop.WMPLib.dll")))
+                File.WriteAllBytes(Path.Combine(Application.StartupPath, "Interop.WMPLib.dll"), Properties.Resources.Interop_WMPLib);
+
             if (!File.Exists(Path.Combine(Application.StartupPath, "Ookii.Dialogs.dll")))
                 File.WriteAllBytes(Path.Combine(Application.StartupPath, "Ookii.Dialogs.dll"), Properties.Resources.Ookii_Dialogs);
 

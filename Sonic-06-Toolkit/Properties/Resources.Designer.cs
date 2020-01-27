@@ -338,6 +338,16 @@ namespace Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Interop_WMPLib {
+            get {
+                object obj = ResourceManager.GetObject("Interop_WMPLib", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo_exception {
