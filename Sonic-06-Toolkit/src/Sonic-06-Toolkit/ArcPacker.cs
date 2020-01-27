@@ -296,7 +296,7 @@ namespace Toolkit.Tools
                                 // not be misdetected as uncompressed.
                                 byte[] b_extra03 = new byte[] { 0x03, 0x00 };
                                 fs.Write(b_extra03, 0, b_extra03.Length);
-                                node.compressed_size += b_extra03.Length;
+                                node.compressed_size += (uint)b_extra03.Length;
                             }
 
                             // Write the Adler-32 checksum.
