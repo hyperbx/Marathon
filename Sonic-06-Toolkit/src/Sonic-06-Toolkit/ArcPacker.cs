@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace Toolkit.Tools
 {
     class ArcPacker
     {
+        protected byte[] zlibHeader = new byte[] { 0x78, 0x01 };
+
         // Nodes: Count is total number of files and subdirectories,
         // plus 1 for the root node.
         // NOTE: class, not struct, for pass-by-reference behavior.
@@ -247,9 +250,62 @@ namespace Toolkit.Tools
                     using (FileStream fs_src = File.OpenRead(node.srcFilename))
                     {
                         node.data_offset = (uint)fs.Position;
-                        node.compressed_size = 0;   // TODO: Compress it.
                         node.file_size = (uint)fs_src.Length;
-                        fs_src.CopyTo(fs);
+
+                        // Compress the source data using Deflate.
+                        uint adler32 = 0;
+                        using (MemoryStream memStream = new MemoryStream())
+                        {
+                            using (DeflateStream zStream = new DeflateStream(memStream, CompressionLevel.Fastest, true))
+                            {
+                                // DeflateStream doesn't provide an Adler-32 checksum,
+                                // which is required by zlib.
+                                // Reference: http://nickberardi.com/zlib-compression-in-net/
+                                // NOTE: The checksum is on the *uncompressed* data.
+                                const uint A32Mod = 65521;
+                                uint s1 = 1, s2 = 0;
+
+                                byte[] buf = new byte[16384];
+                                int bytesRead = 0;
+                                do
+                                {
+                                    bytesRead = fs_src.Read(buf, 0, buf.Length);
+                                    if (bytesRead <= 0)
+                                        break;
+                                    zStream.Write(buf, 0, bytesRead);
+
+                                    // Calculate the Adler-32 checksum on this chunk.
+                                    for (int i = 0; i < bytesRead; i++)
+                                    {
+                                        s1 = (s1 + buf[i]) % A32Mod;
+                                        s2 = (s2 + s1) % A32Mod;
+                                    }
+                                } while (bytesRead != 0);
+
+                                // Finalize the Adler-32 checksum.
+                                adler32 = unchecked((uint)((s2 << 16) | s1));
+
+                                zStream.Flush();
+                            }
+
+                            // Write the zlib header.
+                            fs.Write(zlibHeader, 0, zlibHeader.Length);
+
+                            // Write the compressed data.
+                            memStream.Seek(0, SeekOrigin.Begin);
+                            memStream.CopyTo(fs);
+
+                            // Write the Adler-32 checksum.
+                            byte[] b_adler32 = BitConverter.GetBytes(adler32);
+                            if (BitConverter.IsLittleEndian)
+                            {
+                                Array.Reverse(b_adler32);
+                            }
+                            fs.Write(b_adler32, 0, b_adler32.Length);
+
+                            // Compressed size, plus 6 for zlib header and Adler-32 checksum.
+                            node.compressed_size = (uint)memStream.Length + 6;
+                        }
                         fs_src.Close();
 
                         // Make sure we're aligned to 16 bytes.
