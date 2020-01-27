@@ -50,6 +50,7 @@ namespace Toolkit.Tools
             public uint file_size;          // File: Actual file size.
 
             // Temporary data for packing.
+            public uint node_idx;            // Node index for convenience.
             public string srcFilename;      // File: Source filename.
         };
 
@@ -66,7 +67,7 @@ namespace Toolkit.Tools
         /// <param name="name"></param>
         /// <param name="parentNode"></param>
         /// <param name="childCount"></param>        /// <returns></returns>
-        private U8Node createDirNode(string name, uint parentNode)
+        private U8Node createDirNode(string dirName, uint parentNode)
         {
             U8Node dirNode = new U8Node();
             dirNode.type_name = 0x01000000 | (uint)_stringTable.Count;
@@ -75,12 +76,14 @@ namespace Toolkit.Tools
             dirNode.file_size = 0;
 
             // Append the name to the string table.
+            string name = Path.GetFileName(dirName);
             byte[] utfBytes = Encoding.UTF8.GetBytes(name);
             _stringTable.AddRange(utfBytes);
             _stringTable.Add(0);
 
             _nodes.Add(dirNode);
-            uint nodeIdxPlusOne = (uint)_nodes.Count;
+            dirNode.node_idx = (uint)_nodes.Count - 1;
+            uint nodeIdxPlusOne = dirNode.node_idx + 1;
 
             // Update the "last child index" value of all parent nodes.
             if (_nodes.Count > 1)
@@ -121,7 +124,8 @@ namespace Toolkit.Tools
             _stringTable.Add(0);
 
             _nodes.Add(fileNode);
-            uint nodeIdxPlusOne = (uint)_nodes.Count;
+            fileNode.node_idx = (uint)_nodes.Count - 1;
+            uint nodeIdxPlusOne = fileNode.node_idx + 1;
 
             // Update the "last child index" value of all parent nodes.
             U8Node nextParent = parentNode;
@@ -151,19 +155,37 @@ namespace Toolkit.Tools
         }
 
         /// <summary>
+        /// Recursively add files and subdirectories from the specified source directory.
+        /// </summary>
+        /// <param name="parentNode">Parent node.</param>
+        /// <param name="srcDirectory">Source directory.</param>
+        protected void addSubdirNodes(U8Node parentNode, string srcDirectory)
+        {
+            // Get files in the specified directory, non-recursive.
+            string[] files = Directory.GetFiles(srcDirectory, "*", SearchOption.TopDirectoryOnly);
+            Array.Sort(files);
+            foreach (string file in files)
+            {
+                createFileNode(parentNode, file);
+            }
+
+            // Get subdirectories in this directory.
+            string[] subdirs = Directory.GetDirectories(srcDirectory, "*", SearchOption.TopDirectoryOnly);
+            Array.Sort(subdirs);
+            foreach (string subdir in subdirs)
+            {
+                U8Node dirNode = createDirNode(subdir, parentNode.node_idx);
+                addSubdirNodes(dirNode, subdir);
+            }
+        }
+
+        /// <summary>
         /// Write the ARC file using the specified file list.
         /// </summary>
         /// <param name="arcFile">ARC file.</param>
         /// <param name="srcDirectory">Source directory.</param>
         public void WriteArc(string arcFile, string srcDirectory)
         {
-            // TODO: Verify that subdirectories are after files in a directory.
-            string[] files = Directory.GetFiles(srcDirectory, "*", SearchOption.AllDirectories);
-            Array.Sort(files);
-
-            // Directory nodes.
-            Dictionary<string, U8Node> dirNodes = new Dictionary<string, U8Node>();
-
             // Standard U8 header
             // To be filled in:
             // - $0008 (BE32): Total size of node table and string table.
@@ -181,38 +203,8 @@ namespace Toolkit.Tools
             _stringTable.Clear();
             U8Node rootNode = createDirNode("", 0);
 
-            // Add child nodes.
-            // The actual file data will be written once we
-            // determine the total size of the node table and
-            // string table.
-            // TODO: Handle subdirectories properly.
-            // TODO: Remove directory prefix.
-            foreach (string file in files)
-            {
-                // Do we have a directory node here yet?
-                string dirPath = Path.GetDirectoryName(file).Substring(srcDirectory.Length + 1);
-                U8Node dirNode;
-                if (String.IsNullOrEmpty(dirPath))
-                {
-                    // Root node.
-                    dirNode = rootNode;
-                }
-                else if (dirNodes.ContainsKey(dirPath))
-                {
-                    // Directory already exists.
-                    // TODO: Make sure we have the correct nodes. (sorting?)
-                    dirNode = dirNodes[dirPath];
-                }
-                else
-                {
-                    // Directory does not exist yet.
-                    // TODO: Get the proper parent node for the directory.
-                    dirNode = createDirNode(dirPath, 0);
-                    dirNodes[dirPath] = dirNode;
-                }
-
-                createFileNode(dirNode, file);
-            }
+            // Add nodes recursively.
+            addSubdirNodes(rootNode, srcDirectory);
 
             // Update the U8 header for the string table length
             // and data offset.

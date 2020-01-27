@@ -66,7 +66,7 @@ namespace Toolkit.EnvironmentX
 
             // hax
             ArcPacker packer = new ArcPacker();
-            packer.WriteArc("Z:\\p\\NEW.arc", "Z:\\p\\game");
+            packer.WriteArc("Z:\\p\\scripts.NEW.arc", "Z:\\p\\scripts");
 
             if (args.Length > 0) {
                 if (Path.GetExtension(args[0]).ToLower() == ".arc")
