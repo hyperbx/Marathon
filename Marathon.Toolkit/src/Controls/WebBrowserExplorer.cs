@@ -12,7 +12,7 @@ namespace Marathon.Controls
     public partial class WebBrowserExplorer : UserControl
     {
         private string _CurrentAddress;
-        private bool _ShowDirectoryTree;
+        private bool _HideDirectoryTree;
 
         [Description("The current address navigated to by the TreeView and WebBrowser controls."), DefaultValue(@"C:\")]
         public string CurrentAddress
@@ -32,25 +32,25 @@ namespace Marathon.Controls
             }
         }
 
-        [Description("Displays a TreeView control for iterating through directories."), DefaultValue(true)]
-        public bool ShowDirectoryTree
+        [Description("Hides the TreeView control used for iterating through directories."), DefaultValue(false)]
+        public bool HideDirectoryTree
         {
-            get => _ShowDirectoryTree;
+            get => _HideDirectoryTree;
 
             set
             {
-                if (_ShowDirectoryTree = SplitContainer_TreeView.Panel1Collapsed = value)
-                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Show directory tree");
+                if (_HideDirectoryTree = SplitContainer_TreeView.Panel1Collapsed = value)
+                    ToolTip_Information.SetToolTip(ButtonFlat_DirectoryTree, "Show directory tree");
                 else
                 {
                     RefreshNodes();
-                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Hide directory tree");
+                    ToolTip_Information.SetToolTip(ButtonFlat_DirectoryTree, "Hide directory tree");
                 }
             }
         }
 
-        [Description("Hides all navigation options."), DefaultValue(false)]
-        public bool HideNavigationBar
+        [Description("Hides all navigation controls."), DefaultValue(false)]
+        public bool HideNavigationControls
         {
             set
             {
@@ -202,7 +202,7 @@ namespace Marathon.Controls
                     IncludeSubdirectories = false
                 };
 
-                // Subscribe to identical event, since they all use the event arguments.
+                // Subscribe to identical event, since they all use the same event arguments.
                 fileSystemWatcher.Changed += FileSystemWatcher_Changed;
                 fileSystemWatcher.Created += FileSystemWatcher_Changed;
                 fileSystemWatcher.Deleted += FileSystemWatcher_Changed;
@@ -320,8 +320,8 @@ namespace Marathon.Controls
                 WebBrowser_Explorer.GoForward();
 
             // Inverts the current mode for the ShowDirectoryTree property.
-            else if (sender.Equals(ButtonFlat_ShowDirectoryTree))
-                ShowDirectoryTree = !ShowDirectoryTree;
+            else if (sender.Equals(ButtonFlat_DirectoryTree))
+                HideDirectoryTree = !HideDirectoryTree;
 
             // Set the clipboard to the current address.
             else if (sender.Equals(ButtonFlat_Clipboard))

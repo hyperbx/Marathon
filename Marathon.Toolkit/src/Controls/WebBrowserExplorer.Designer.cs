@@ -35,13 +35,13 @@
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
-            this.TextBox_Address = new System.Windows.Forms.TextBox();
-            this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
-            this.ButtonFlat_ShowDirectoryTree = new Marathon.Components.ButtonFlat();
+            this.ButtonFlat_DirectoryTree = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Clipboard = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Up = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Forward = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Back = new Marathon.Components.ButtonFlat();
+            this.TextBox_Address = new System.Windows.Forms.TextBox();
+            this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -119,7 +119,7 @@
             // 
             // SplitContainer_WebBrowser.Panel1
             // 
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_ShowDirectoryTree);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_DirectoryTree);
             this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Clipboard);
             this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Up);
             this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Forward);
@@ -135,42 +135,23 @@
             this.SplitContainer_WebBrowser.SplitterWidth = 1;
             this.SplitContainer_WebBrowser.TabIndex = 0;
             // 
-            // TextBox_Address
+            // ButtonFlat_DirectoryTree
             // 
-            this.TextBox_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBox_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBox_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBox_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
-            this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBox_Address.Location = new System.Drawing.Point(109, 1);
-            this.TextBox_Address.Name = "TextBox_Address";
-            this.TextBox_Address.Size = new System.Drawing.Size(583, 24);
-            this.TextBox_Address.TabIndex = 12;
-            this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
-            // 
-            // ToolTip_Information
-            // 
-            this.ToolTip_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.ToolTip_Information.ForeColor = System.Drawing.SystemColors.Control;
-            // 
-            // ButtonFlat_ShowDirectoryTree
-            // 
-            this.ButtonFlat_ShowDirectoryTree.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_ShowDirectoryTree.BackgroundImage = global::Marathon.Properties.Resources.WebBrowserExplorer_DirectoryTree_Enabled;
-            this.ButtonFlat_ShowDirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ButtonFlat_ShowDirectoryTree.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_ShowDirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_ShowDirectoryTree.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_ShowDirectoryTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_ShowDirectoryTree.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_ShowDirectoryTree.Location = new System.Drawing.Point(55, 1);
-            this.ButtonFlat_ShowDirectoryTree.Name = "ButtonFlat_ShowDirectoryTree";
-            this.ButtonFlat_ShowDirectoryTree.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_ShowDirectoryTree.TabIndex = 13;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_ShowDirectoryTree, "Hide directory tree");
-            this.ButtonFlat_ShowDirectoryTree.UseVisualStyleBackColor = false;
-            this.ButtonFlat_ShowDirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_DirectoryTree.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonFlat_DirectoryTree.BackgroundImage = global::Marathon.Properties.Resources.WebBrowserExplorer_DirectoryTree_Enabled;
+            this.ButtonFlat_DirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ButtonFlat_DirectoryTree.FlatAppearance.BorderSize = 0;
+            this.ButtonFlat_DirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonFlat_DirectoryTree.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
+            this.ButtonFlat_DirectoryTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonFlat_DirectoryTree.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonFlat_DirectoryTree.Location = new System.Drawing.Point(55, 1);
+            this.ButtonFlat_DirectoryTree.Name = "ButtonFlat_DirectoryTree";
+            this.ButtonFlat_DirectoryTree.Size = new System.Drawing.Size(24, 24);
+            this.ButtonFlat_DirectoryTree.TabIndex = 13;
+            this.ToolTip_Information.SetToolTip(this.ButtonFlat_DirectoryTree, "Hide directory tree");
+            this.ButtonFlat_DirectoryTree.UseVisualStyleBackColor = false;
+            this.ButtonFlat_DirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
             // 
             // ButtonFlat_Clipboard
             // 
@@ -247,6 +228,25 @@
             this.ButtonFlat_Back.UseVisualStyleBackColor = false;
             this.ButtonFlat_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
             // 
+            // TextBox_Address
+            // 
+            this.TextBox_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBox_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBox_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBox_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
+            this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBox_Address.Location = new System.Drawing.Point(109, 1);
+            this.TextBox_Address.Name = "TextBox_Address";
+            this.TextBox_Address.Size = new System.Drawing.Size(583, 24);
+            this.TextBox_Address.TabIndex = 12;
+            this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
+            // 
+            // ToolTip_Information
+            // 
+            this.ToolTip_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.ToolTip_Information.ForeColor = System.Drawing.SystemColors.Control;
+            // 
             // WebBrowserExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -283,7 +283,7 @@
         private Marathon.Components.ButtonFlat ButtonFlat_Clipboard;
         private System.Windows.Forms.ToolTip ToolTip_Information;
         private System.Windows.Forms.TextBox TextBox_Address;
-        private Components.ButtonFlat ButtonFlat_ShowDirectoryTree;
+        private Components.ButtonFlat ButtonFlat_DirectoryTree;
         private System.Windows.Forms.ImageList ImageList_Keys;
     }
 }

@@ -2,7 +2,6 @@
 using Marathon.Dialogs;
 using Marathon.Controls;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon
 {
