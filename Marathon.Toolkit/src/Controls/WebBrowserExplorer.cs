@@ -13,7 +13,7 @@ namespace Marathon.Controls
         private string _CurrentAddress;
         private bool _ShowDirectoryTree = true;
 
-        [Description("The current address navigated to by the TreeView and WebBrowser controls.")]
+        [Description("The current address navigated to by the TreeView and WebBrowser controls."), DefaultValue(@"C:\")]
         public string CurrentAddress
         {
             get => _CurrentAddress;
@@ -76,14 +76,45 @@ namespace Marathon.Controls
 
                 if (directory.Exists)
                 {
-                    TreeNode root = new TreeNode {
-                        Text = directory.Name,
-                        Tag = directory
-                    };
+                    TreeView_Explorer.Nodes.Add(new TreeNode
+                    {
+                        Text = "..",
+                        Tag = "..",
+                        ImageKey = "Folder"
+                    });
 
-                    GetDirectories(directory.GetDirectories(), root);
+                    GetDirectories(directory.GetDirectories());
+                }
+            }
+        }
 
-                    TreeView_Explorer.Nodes.Add(root);
+        /// <summary>
+        /// Populate the TreeView control with all root directories.
+        /// </summary>
+        private void GetDirectories(DirectoryInfo[] subDirectories)
+        {
+            foreach (DirectoryInfo directory in subDirectories)
+            {
+                try
+                {
+                    if (!directory.Attributes.HasFlag(FileAttributes.System))
+                    {
+                        TreeNode dirNode = new TreeNode
+                        {
+                            Text = directory.Name,
+                            Tag = directory,
+                            ImageKey = "Folder"
+                        };
+
+                        TreeView_Explorer.Nodes.Add(dirNode);
+
+                        if (directory.GetDirectories().Length != 0)
+                            dirNode.Nodes.Add(new TreeNode("Loading..."));
+                    }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Ignored...
                 }
             }
         }
@@ -93,24 +124,26 @@ namespace Marathon.Controls
         /// </summary>
         private void GetDirectories(DirectoryInfo[] subDirectories, TreeNode node)
         {
+            node.Nodes.Clear();
+
             foreach (DirectoryInfo directory in subDirectories)
             {
                 try
                 {
-                    TreeNode dirNode = new TreeNode {
-                        Text = directory.Name,
-                        ImageIndex = 0,
-                        SelectedImageIndex = 0,
-                        Tag = directory,
-                        ImageKey = "Folder"
-                    };
+                    if (!directory.Attributes.HasFlag(FileAttributes.System))
+                    {
+                        TreeNode dirNode = new TreeNode
+                        {
+                            Text = directory.Name,
+                            Tag = directory,
+                            ImageKey = "Folder"
+                        };
 
-                    DirectoryInfo[] lowerSubDirectories = directory.GetDirectories();
+                        node.Nodes.Add(dirNode);
 
-                    if (lowerSubDirectories.Length != 0)
-                        GetDirectories(lowerSubDirectories, dirNode);
-
-                    node.Nodes.Add(dirNode);
+                        if (directory.GetDirectories().Length != 0)
+                            dirNode.Nodes.Add(new TreeNode("Loading..."));
+                    }
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -142,12 +175,14 @@ namespace Marathon.Controls
             // Sets the back buttons' Enabled state depending on history length.
             SetNavigationButtonState(ButtonFlat_TreeView_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Back_Disabled, WebBrowser_Explorer.CanGoBack);
+
             SetNavigationButtonState(ButtonFlat_WebBrowser_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Back_Disabled, WebBrowser_Explorer.CanGoBack);
 
             // Sets the forward buttons' Enabled state depending on history length.
             SetNavigationButtonState(ButtonFlat_TreeView_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Forward_Disabled, WebBrowser_Explorer.CanGoForward);
+
             SetNavigationButtonState(ButtonFlat_WebBrowser_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Forward_Disabled, WebBrowser_Explorer.CanGoForward);
 
@@ -205,8 +240,13 @@ namespace Marathon.Controls
         /// </summary>
         private void TreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
-                TreeView_Explorer.Nodes.Remove(e.Node);
+            if (e.Node.Tag.GetType().Equals(typeof(string)) && (string)e.Node.Tag == "..")
+                ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, (string)e.Node.Tag)));
+            else
+            {
+                if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
+                    TreeView_Explorer.Nodes.Remove(e.Node);
+            }
         }
 
         /// <summary>
@@ -280,5 +320,8 @@ namespace Marathon.Controls
         /// </summary>
         private void ButtonFlat_ShowDirectoryTree_Click(object sender, EventArgs e)
             => ShowDirectoryTree = !ShowDirectoryTree;
+
+        private void TreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
+            => GetDirectories(((DirectoryInfo)e.Node.Tag).GetDirectories(), e.Node);
     }
 }

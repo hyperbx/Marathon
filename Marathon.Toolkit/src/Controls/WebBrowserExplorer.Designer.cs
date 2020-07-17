@@ -32,22 +32,22 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebBrowserExplorer));
             this.WebBrowser_Explorer = new System.Windows.Forms.WebBrowser();
             this.SplitContainer_TreeView = new System.Windows.Forms.SplitContainer();
-            this.TextBox_TreeView_Address = new System.Windows.Forms.TextBox();
-            this.TreeView_Explorer = new System.Windows.Forms.TreeView();
-            this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
-            this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
-            this.TextBox_WebBrowser_Address = new System.Windows.Forms.TextBox();
-            this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
             this.ButtonFlat_TreeView_ShowDirectoryTree = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_TreeView_Clipboard = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_TreeView_Up = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_TreeView_Forward = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_TreeView_Back = new Marathon.Components.ButtonFlat();
+            this.TextBox_TreeView_Address = new System.Windows.Forms.TextBox();
+            this.TreeView_Explorer = new System.Windows.Forms.TreeView();
+            this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
+            this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
             this.ButtonFlat_WebBrowser_ShowDirectoryTree = new Marathon.Components.ButtonFlat();
+            this.TextBox_WebBrowser_Address = new System.Windows.Forms.TextBox();
             this.ButtonFlat_WebBrowser_Clipboard = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_WebBrowser_Up = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_WebBrowser_Forward = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_WebBrowser_Back = new Marathon.Components.ButtonFlat();
+            this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -96,91 +96,6 @@
             this.SplitContainer_TreeView.Size = new System.Drawing.Size(722, 407);
             this.SplitContainer_TreeView.SplitterDistance = 183;
             this.SplitContainer_TreeView.TabIndex = 1;
-            // 
-            // TextBox_TreeView_Address
-            // 
-            this.TextBox_TreeView_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBox_TreeView_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBox_TreeView_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBox_TreeView_Address.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBox_TreeView_Address.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBox_TreeView_Address.Location = new System.Drawing.Point(-1, 26);
-            this.TextBox_TreeView_Address.Name = "TextBox_TreeView_Address";
-            this.TextBox_TreeView_Address.Size = new System.Drawing.Size(183, 23);
-            this.TextBox_TreeView_Address.TabIndex = 3;
-            this.TextBox_TreeView_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
-            // 
-            // TreeView_Explorer
-            // 
-            this.TreeView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.TreeView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TreeView_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
-            this.TreeView_Explorer.ImageIndex = 0;
-            this.TreeView_Explorer.ImageList = this.ImageList_Keys;
-            this.TreeView_Explorer.Location = new System.Drawing.Point(-1, 53);
-            this.TreeView_Explorer.Name = "TreeView_Explorer";
-            this.TreeView_Explorer.SelectedImageIndex = 0;
-            this.TreeView_Explorer.Size = new System.Drawing.Size(183, 353);
-            this.TreeView_Explorer.TabIndex = 2;
-            this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
-            this.TreeView_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_Explorer_MouseDown);
-            // 
-            // ImageList_Keys
-            // 
-            this.ImageList_Keys.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Keys.ImageStream")));
-            this.ImageList_Keys.TransparentColor = System.Drawing.Color.Transparent;
-            this.ImageList_Keys.Images.SetKeyName(0, "Folder");
-            // 
-            // SplitContainer_WebBrowser
-            // 
-            this.SplitContainer_WebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer_WebBrowser.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.SplitContainer_WebBrowser.IsSplitterFixed = true;
-            this.SplitContainer_WebBrowser.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainer_WebBrowser.Name = "SplitContainer_WebBrowser";
-            this.SplitContainer_WebBrowser.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // SplitContainer_WebBrowser.Panel1
-            // 
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_ShowDirectoryTree);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.TextBox_WebBrowser_Address);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Clipboard);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Up);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Forward);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Back);
-            this.SplitContainer_WebBrowser.Panel1MinSize = 24;
-            // 
-            // SplitContainer_WebBrowser.Panel2
-            // 
-            this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.WebBrowser_Explorer);
-            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(533, 405);
-            this.SplitContainer_WebBrowser.SplitterDistance = 25;
-            this.SplitContainer_WebBrowser.SplitterWidth = 1;
-            this.SplitContainer_WebBrowser.TabIndex = 0;
-            // 
-            // TextBox_WebBrowser_Address
-            // 
-            this.TextBox_WebBrowser_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBox_WebBrowser_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBox_WebBrowser_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBox_WebBrowser_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
-            this.TextBox_WebBrowser_Address.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBox_WebBrowser_Address.Location = new System.Drawing.Point(82, 1);
-            this.TextBox_WebBrowser_Address.Name = "TextBox_WebBrowser_Address";
-            this.TextBox_WebBrowser_Address.Size = new System.Drawing.Size(396, 24);
-            this.TextBox_WebBrowser_Address.TabIndex = 12;
-            this.TextBox_WebBrowser_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
-            // 
-            // ToolTip_Information
-            // 
-            this.ToolTip_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.ToolTip_Information.ForeColor = System.Drawing.SystemColors.Control;
             // 
             // ButtonFlat_TreeView_ShowDirectoryTree
             // 
@@ -275,6 +190,73 @@
             this.ButtonFlat_TreeView_Back.UseVisualStyleBackColor = false;
             this.ButtonFlat_TreeView_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
             // 
+            // TextBox_TreeView_Address
+            // 
+            this.TextBox_TreeView_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBox_TreeView_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBox_TreeView_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBox_TreeView_Address.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBox_TreeView_Address.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBox_TreeView_Address.Location = new System.Drawing.Point(-1, 26);
+            this.TextBox_TreeView_Address.Name = "TextBox_TreeView_Address";
+            this.TextBox_TreeView_Address.Size = new System.Drawing.Size(183, 23);
+            this.TextBox_TreeView_Address.TabIndex = 3;
+            this.TextBox_TreeView_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
+            // 
+            // TreeView_Explorer
+            // 
+            this.TreeView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.TreeView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TreeView_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
+            this.TreeView_Explorer.ImageIndex = 0;
+            this.TreeView_Explorer.ImageList = this.ImageList_Keys;
+            this.TreeView_Explorer.Location = new System.Drawing.Point(-1, 53);
+            this.TreeView_Explorer.Name = "TreeView_Explorer";
+            this.TreeView_Explorer.SelectedImageIndex = 0;
+            this.TreeView_Explorer.Size = new System.Drawing.Size(183, 353);
+            this.TreeView_Explorer.TabIndex = 2;
+            this.TreeView_Explorer.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Explorer_AfterExpand);
+            this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
+            this.TreeView_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_Explorer_MouseDown);
+            // 
+            // ImageList_Keys
+            // 
+            this.ImageList_Keys.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Keys.ImageStream")));
+            this.ImageList_Keys.TransparentColor = System.Drawing.Color.Transparent;
+            this.ImageList_Keys.Images.SetKeyName(0, "Folder");
+            // 
+            // SplitContainer_WebBrowser
+            // 
+            this.SplitContainer_WebBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer_WebBrowser.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.SplitContainer_WebBrowser.IsSplitterFixed = true;
+            this.SplitContainer_WebBrowser.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer_WebBrowser.Name = "SplitContainer_WebBrowser";
+            this.SplitContainer_WebBrowser.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainer_WebBrowser.Panel1
+            // 
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_ShowDirectoryTree);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.TextBox_WebBrowser_Address);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Clipboard);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Up);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Forward);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_WebBrowser_Back);
+            this.SplitContainer_WebBrowser.Panel1MinSize = 24;
+            // 
+            // SplitContainer_WebBrowser.Panel2
+            // 
+            this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.WebBrowser_Explorer);
+            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(533, 405);
+            this.SplitContainer_WebBrowser.SplitterDistance = 25;
+            this.SplitContainer_WebBrowser.SplitterWidth = 1;
+            this.SplitContainer_WebBrowser.TabIndex = 0;
+            // 
             // ButtonFlat_WebBrowser_ShowDirectoryTree
             // 
             this.ButtonFlat_WebBrowser_ShowDirectoryTree.BackColor = System.Drawing.Color.Transparent;
@@ -291,6 +273,20 @@
             this.ButtonFlat_WebBrowser_ShowDirectoryTree.TabIndex = 13;
             this.ButtonFlat_WebBrowser_ShowDirectoryTree.UseVisualStyleBackColor = false;
             this.ButtonFlat_WebBrowser_ShowDirectoryTree.Click += new System.EventHandler(this.ButtonFlat_ShowDirectoryTree_Click);
+            // 
+            // TextBox_WebBrowser_Address
+            // 
+            this.TextBox_WebBrowser_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBox_WebBrowser_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBox_WebBrowser_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBox_WebBrowser_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
+            this.TextBox_WebBrowser_Address.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBox_WebBrowser_Address.Location = new System.Drawing.Point(82, 1);
+            this.TextBox_WebBrowser_Address.Name = "TextBox_WebBrowser_Address";
+            this.TextBox_WebBrowser_Address.Size = new System.Drawing.Size(396, 24);
+            this.TextBox_WebBrowser_Address.TabIndex = 12;
+            this.TextBox_WebBrowser_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
             // 
             // ButtonFlat_WebBrowser_Clipboard
             // 
@@ -367,6 +363,11 @@
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_WebBrowser_Back, "Back");
             this.ButtonFlat_WebBrowser_Back.UseVisualStyleBackColor = false;
             this.ButtonFlat_WebBrowser_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            // 
+            // ToolTip_Information
+            // 
+            this.ToolTip_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.ToolTip_Information.ForeColor = System.Drawing.SystemColors.Control;
             // 
             // WebBrowserExplorer
             // 
