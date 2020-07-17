@@ -40,12 +40,12 @@ namespace Marathon.Controls
             set
             {
                 if (_ShowDirectoryTree = SplitContainer_TreeView.Panel1Collapsed = value)
+                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Show directory tree");
+                else
                 {
                     RefreshNodes();
-                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Show directory tree");
-                }
-                else
                     ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Hide directory tree");
+                }
             }
         }
 

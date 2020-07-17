@@ -4,4 +4,4 @@
 
 <h1 align="center">Marathon</h1>
 
-<h1 align="center">Under Construction</h1>
+<h3 align="center">Under Construction</h3>
