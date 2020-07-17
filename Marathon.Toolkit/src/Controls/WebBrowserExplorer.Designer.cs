@@ -36,11 +36,11 @@
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
             this.ButtonFlat_ShowDirectoryTree = new Marathon.Components.ButtonFlat();
-            this.TextBox_Address = new System.Windows.Forms.TextBox();
             this.ButtonFlat_Clipboard = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Up = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Forward = new Marathon.Components.ButtonFlat();
             this.ButtonFlat_Back = new Marathon.Components.ButtonFlat();
+            this.TextBox_Address = new System.Windows.Forms.TextBox();
             this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
@@ -149,22 +149,9 @@
             this.ButtonFlat_ShowDirectoryTree.Name = "ButtonFlat_ShowDirectoryTree";
             this.ButtonFlat_ShowDirectoryTree.Size = new System.Drawing.Size(24, 24);
             this.ButtonFlat_ShowDirectoryTree.TabIndex = 13;
+            this.ToolTip_Information.SetToolTip(this.ButtonFlat_ShowDirectoryTree, "Hide directory tree");
             this.ButtonFlat_ShowDirectoryTree.UseVisualStyleBackColor = false;
             this.ButtonFlat_ShowDirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
-            // 
-            // TextBox_Address
-            // 
-            this.TextBox_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBox_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBox_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBox_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
-            this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBox_Address.Location = new System.Drawing.Point(109, 1);
-            this.TextBox_Address.Name = "TextBox_Address";
-            this.TextBox_Address.Size = new System.Drawing.Size(583, 24);
-            this.TextBox_Address.TabIndex = 12;
-            this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
             // 
             // ButtonFlat_Clipboard
             // 
@@ -240,6 +227,20 @@
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_Back, "Back");
             this.ButtonFlat_Back.UseVisualStyleBackColor = false;
             this.ButtonFlat_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            // 
+            // TextBox_Address
+            // 
+            this.TextBox_Address.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBox_Address.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBox_Address.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBox_Address.Font = new System.Drawing.Font("Segoe UI", 9.1F);
+            this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBox_Address.Location = new System.Drawing.Point(109, 1);
+            this.TextBox_Address.Name = "TextBox_Address";
+            this.TextBox_Address.Size = new System.Drawing.Size(583, 24);
+            this.TextBox_Address.TabIndex = 12;
+            this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
             // 
             // ToolTip_Information
             // 
