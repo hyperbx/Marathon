@@ -5,6 +5,7 @@ using System.Drawing;
 using Marathon.Components;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Marathon.Controls
 {
@@ -70,20 +71,34 @@ namespace Marathon.Controls
         {
             if (!string.IsNullOrEmpty(CurrentAddress))
             {
+                // Store the current expanded nodes before refreshing...
+                List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
+
                 TreeView_Explorer.Nodes.Clear();
 
                 DirectoryInfo directory = new DirectoryInfo(CurrentAddress);
 
-                if (directory.Exists)
+                try
                 {
-                    TreeView_Explorer.Nodes.Add(new TreeNode
+                    if (directory.Exists)
                     {
-                        Text = "..",
-                        Tag = "..",
-                        ImageKey = "Folder"
-                    });
+                        // Create parent directory node...
+                        TreeView_Explorer.Nodes.Add(new TreeNode
+                        {
+                            Text = "..",
+                            Tag = "..",
+                            ImageKey = "Folder"
+                        });
 
-                    GetDirectories(directory.GetDirectories());
+                        GetDirectories(directory.GetDirectories());
+
+                        // Restore expanded nodes.
+                        TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+                    }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    GoUp(); // Back out of restricted directory...
                 }
             }
         }
@@ -97,7 +112,7 @@ namespace Marathon.Controls
             {
                 try
                 {
-                    if (!directory.Attributes.HasFlag(FileAttributes.System))
+                    if (directory.Exists && !directory.Attributes.HasFlag(FileAttributes.System))
                     {
                         TreeNode dirNode = new TreeNode
                         {
@@ -130,7 +145,7 @@ namespace Marathon.Controls
             {
                 try
                 {
-                    if (!directory.Attributes.HasFlag(FileAttributes.System))
+                    if (directory.Exists && !directory.Attributes.HasFlag(FileAttributes.System))
                     {
                         TreeNode dirNode = new TreeNode
                         {
@@ -197,7 +212,7 @@ namespace Marathon.Controls
                     Path = CurrentAddress,
                     NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                     EnableRaisingEvents = true,
-                    IncludeSubdirectories = true
+                    IncludeSubdirectories = false
                 };
 
                 // Subscribe to identical event, since they all use the event arguments.
@@ -240,12 +255,14 @@ namespace Marathon.Controls
         /// </summary>
         private void TreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node.Tag.GetType().Equals(typeof(string)) && (string)e.Node.Tag == "..")
-                ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, (string)e.Node.Tag)));
-            else
+            if (e.Button == MouseButtons.Left)
             {
-                if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
-                    TreeView_Explorer.Nodes.Remove(e.Node);
+                if (e.Node.Tag.GetType().Equals(typeof(string)) && (string)e.Node.Tag == "..") GoUp();
+                else
+                {
+                    if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
+                        TreeView_Explorer.Nodes.Remove(e.Node);
+                }
             }
         }
 
@@ -256,22 +273,6 @@ namespace Marathon.Controls
         {
             if (e.KeyCode == Keys.Enter)
                 ChangeDirectoryOnValidation(((TextBox)sender).Text);
-        }
-
-        /// <summary>
-        /// Navigates back and forward using the dedicated mouse buttons.
-        /// </summary>
-        private void TreeView_Explorer_MouseDown(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.XButton1:
-                    WebBrowser_Explorer.GoBack();
-                    break;
-                case MouseButtons.XButton2:
-                    WebBrowser_Explorer.GoForward();
-                    break;
-            }
         }
 
         /// <summary>
@@ -294,6 +295,27 @@ namespace Marathon.Controls
         }
 
         /// <summary>
+        /// Navigates back and forward using the dedicated mouse buttons.
+        /// </summary>
+        private void TreeView_Explorer_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.XButton1:
+                    WebBrowser_Explorer.GoBack();
+                    break;
+                case MouseButtons.XButton2:
+                    WebBrowser_Explorer.GoForward();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the parent directory of the CurrentAddress property.
+        /// </summary>
+        private void GoUp() => ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, "..")));
+
+        /// <summary>
         /// Navigation buttons for the WebBrowser control.
         /// </summary>
         private void ButtonFlat_Navigation_Click(object sender, EventArgs e)
@@ -312,7 +334,7 @@ namespace Marathon.Controls
 
             // Navigate to the parent directory...
             else if (sender.Equals(ButtonFlat_TreeView_Up) || sender.Equals(ButtonFlat_WebBrowser_Up))
-                ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, "..")));
+                GoUp();
         }
 
         /// <summary>
@@ -321,6 +343,9 @@ namespace Marathon.Controls
         private void ButtonFlat_ShowDirectoryTree_Click(object sender, EventArgs e)
             => ShowDirectoryTree = !ShowDirectoryTree;
 
+        /// <summary>
+        /// Gets the subdirectories for the current node, rather than loading all at once.
+        /// </summary>
         private void TreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
             => GetDirectories(((DirectoryInfo)e.Node.Tag).GetDirectories(), e.Node);
     }

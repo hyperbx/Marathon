@@ -68,6 +68,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Controls\TreeViewExtensions.cs" />
     <Compile Include="src\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
