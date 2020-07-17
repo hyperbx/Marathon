@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Models
+﻿namespace Marathon.IO.Formats.Models
 {
     class BIN
     {

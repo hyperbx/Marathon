@@ -73,11 +73,11 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 140);
+            this.label1.Location = new System.Drawing.Point(16, 120);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 84);
+            this.label1.Size = new System.Drawing.Size(132, 105);
             this.label1.TabIndex = 0;
-            this.label1.Text = "HyperPolygon64\r\nRadfordhound\r\nGerbilSoft\r\nSkyth";
+            this.label1.Text = "HyperPolygon64\r\nRadfordhound\r\nKnuxfan24\r\nGerbilSoft\r\nSkyth";
             // 
             // About
             // 
@@ -94,6 +94,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";

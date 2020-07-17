@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Miscellaneous
+﻿namespace Marathon.IO.Formats.Miscellaneous
 {
     class RFZONE
     {

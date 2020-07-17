@@ -63,6 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\MarathonErrorHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\MarathonErrorHandler.Designer.cs">
+      <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,7 +93,7 @@
     <Compile Include="src\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Components\MarathonColourTable.cs" />
+    <Compile Include="src\MarathonColourTable.cs" />
     <Compile Include="src\Controls\ListViewExplorer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,6 +128,9 @@
     </Compile>
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="src\MarathonErrorHandler.resx">
+      <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>

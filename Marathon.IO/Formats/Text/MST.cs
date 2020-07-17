@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Text
+﻿namespace Marathon.IO.Formats.Text
 {
     class MST
     {

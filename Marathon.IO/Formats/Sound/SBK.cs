@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Sound
+﻿namespace Marathon.IO.Formats.Sound
 {
     class SBK
     {

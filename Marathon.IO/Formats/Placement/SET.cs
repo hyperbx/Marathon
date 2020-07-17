@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Placement
+﻿namespace Marathon.IO.Formats.Placement
 {
     class SET
     {

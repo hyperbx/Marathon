@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Textures
+﻿namespace Marathon.IO.Formats.Textures
 {
     class DDS
     {

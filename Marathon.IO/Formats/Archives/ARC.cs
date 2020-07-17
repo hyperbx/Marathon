@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Archives
+﻿namespace Marathon.IO.Formats.Archives
 {
     class ARC
     {

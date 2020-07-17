@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Security.Principal;
 
 namespace Marathon
 {
@@ -20,7 +21,23 @@ namespace Marathon
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+#if !DEBUG
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
+            Application.ThreadException += (sender, e) => new MarathonErrorHandler(e.Exception).ShowDialog();
+#endif
             Application.Run(new Toolkit());
         }
+
+        /// <summary>
+        /// Returns the process architecture.
+        /// </summary>
+        public static string Architecture()
+            => Environment.Is64BitProcess ? "x64" : "x86";
+
+        /// <summary>
+        /// Returns the process role state.
+        /// </summary>
+        public static bool RunningAsAdmin()
+            => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
     }
 }
