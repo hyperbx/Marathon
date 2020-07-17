@@ -32,13 +32,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListViewExplorer));
             this.SplitContainer_TreeView = new System.Windows.Forms.SplitContainer();
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
+            this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.ListView_Explorer = new System.Windows.Forms.ListView();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_DateModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_HeaderSpace = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -83,6 +83,13 @@
             this.TreeView_Explorer.Size = new System.Drawing.Size(181, 450);
             this.TreeView_Explorer.TabIndex = 2;
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
+            // 
+            // ImageList_Keys
+            // 
+            this.ImageList_Keys.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Keys.ImageStream")));
+            this.ImageList_Keys.TransparentColor = System.Drawing.Color.Transparent;
+            this.ImageList_Keys.Images.SetKeyName(0, "Folder");
+            this.ImageList_Keys.Images.SetKeyName(1, "File");
             // 
             // ListView_Explorer
             // 
@@ -135,13 +142,6 @@
             // 
             this.Column_HeaderSpace.Text = "";
             this.Column_HeaderSpace.Width = 1000;
-            // 
-            // ImageList_Keys
-            // 
-            this.ImageList_Keys.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ImageList_Keys.ImageStream")));
-            this.ImageList_Keys.TransparentColor = System.Drawing.Color.Transparent;
-            this.ImageList_Keys.Images.SetKeyName(0, "Folder");
-            this.ImageList_Keys.Images.SetKeyName(1, "File");
             // 
             // ListViewExplorer
             // 

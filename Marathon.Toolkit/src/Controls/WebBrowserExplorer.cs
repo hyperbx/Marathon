@@ -12,7 +12,7 @@ namespace Marathon.Controls
     public partial class WebBrowserExplorer : UserControl
     {
         private string _CurrentAddress;
-        private bool _ShowDirectoryTree = true;
+        private bool _ShowDirectoryTree;
 
         [Description("The current address navigated to by the TreeView and WebBrowser controls."), DefaultValue(@"C:\")]
         public string CurrentAddress
@@ -25,7 +25,7 @@ namespace Marathon.Controls
                 _CurrentAddress = HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\"));
 
                 // Set text boxes to use the current address.
-                TextBox_TreeView_Address.Text = TextBox_WebBrowser_Address.Text = CurrentAddress;
+                TextBox_Address.Text = CurrentAddress;
 
                 // Refresh the TreeView nodes only if the directory tree is available.
                 if (!SplitContainer_TreeView.Panel1Collapsed) RefreshNodes();
@@ -39,19 +39,13 @@ namespace Marathon.Controls
 
             set
             {
-                if (_ShowDirectoryTree = SplitContainer_WebBrowser.Panel1Collapsed = value)
+                if (_ShowDirectoryTree = SplitContainer_TreeView.Panel1Collapsed = value)
                 {
                     RefreshNodes();
-                    ToolTip_Information.SetToolTip(ButtonFlat_TreeView_ShowDirectoryTree, "Hide directory tree");
-                    ToolTip_Information.SetToolTip(ButtonFlat_WebBrowser_ShowDirectoryTree, "Hide directory tree");
+                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Hide directory tree");
                 }
                 else
-                {
-                    ToolTip_Information.SetToolTip(ButtonFlat_TreeView_ShowDirectoryTree, "Show directory tree");
-                    ToolTip_Information.SetToolTip(ButtonFlat_WebBrowser_ShowDirectoryTree, "Show directory tree");
-                }
-
-                SplitContainer_TreeView.Panel1Collapsed = !ShowDirectoryTree;
+                    ToolTip_Information.SetToolTip(ButtonFlat_ShowDirectoryTree, "Show directory tree");
             }
         }
 
@@ -173,7 +167,6 @@ namespace Marathon.Controls
 
             // Curse you, WinForms designer...
             SplitContainer_WebBrowser.SplitterWidth = 1;
-            SplitContainer_WebBrowser.Panel1Collapsed = true;
         }
 
         /// <summary>
@@ -187,18 +180,12 @@ namespace Marathon.Controls
         /// </summary>
         private void WebBrowser_Explorer_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
-            // Sets the back buttons' Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_TreeView_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
+            // Sets the back button's Enabled state depending on history length.
+            SetNavigationButtonState(ButtonFlat_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Back_Disabled, WebBrowser_Explorer.CanGoBack);
 
-            SetNavigationButtonState(ButtonFlat_WebBrowser_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
-                                     Properties.Resources.WebBrowserExplorer_Back_Disabled, WebBrowser_Explorer.CanGoBack);
-
-            // Sets the forward buttons' Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_TreeView_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
-                                     Properties.Resources.WebBrowserExplorer_Forward_Disabled, WebBrowser_Explorer.CanGoForward);
-
-            SetNavigationButtonState(ButtonFlat_WebBrowser_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
+            // Sets the forward button's Enabled state depending on history length.
+            SetNavigationButtonState(ButtonFlat_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
                                      Properties.Resources.WebBrowserExplorer_Forward_Disabled, WebBrowser_Explorer.CanGoForward);
 
             // Update current directory.
@@ -272,7 +259,11 @@ namespace Marathon.Controls
         private void TextBox_Address_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                ChangeDirectoryOnValidation(((TextBox)sender).Text);
+            {
+                if (!ChangeDirectoryOnValidation(((TextBox)sender).Text))
+                    MessageBox.Show($"{Name} can't find '{((TextBox)sender).Text}'. Check the spelling and try again.",
+                                    Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -321,27 +312,25 @@ namespace Marathon.Controls
         private void ButtonFlat_Navigation_Click(object sender, EventArgs e)
         {
             // Navigate back a directory...
-            if (sender.Equals(ButtonFlat_TreeView_Back) || sender.Equals(ButtonFlat_WebBrowser_Back))
+            if (sender.Equals(ButtonFlat_Back))
                 WebBrowser_Explorer.GoBack();
 
             // Navigate forward a directory...
-            else if (sender.Equals(ButtonFlat_TreeView_Forward) || sender.Equals(ButtonFlat_WebBrowser_Forward))
+            else if (sender.Equals(ButtonFlat_Forward))
                 WebBrowser_Explorer.GoForward();
 
+            // Inverts the current mode for the ShowDirectoryTree property.
+            else if (sender.Equals(ButtonFlat_ShowDirectoryTree))
+                ShowDirectoryTree = !ShowDirectoryTree;
+
             // Set the clipboard to the current address.
-            else if (sender.Equals(ButtonFlat_TreeView_Clipboard) || sender.Equals(ButtonFlat_WebBrowser_Clipboard))
+            else if (sender.Equals(ButtonFlat_Clipboard))
                 Clipboard.SetText(CurrentAddress);
 
             // Navigate to the parent directory...
-            else if (sender.Equals(ButtonFlat_TreeView_Up) || sender.Equals(ButtonFlat_WebBrowser_Up))
+            else if (sender.Equals(ButtonFlat_Up))
                 GoUp();
         }
-
-        /// <summary>
-        /// Inverts the current mode for the ShowDirectoryTree property.
-        /// </summary>
-        private void ButtonFlat_ShowDirectoryTree_Click(object sender, EventArgs e)
-            => ShowDirectoryTree = !ShowDirectoryTree;
 
         /// <summary>
         /// Gets the subdirectories for the current node, rather than loading all at once.
