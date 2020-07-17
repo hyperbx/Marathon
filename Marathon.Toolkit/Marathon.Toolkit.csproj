@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FA99087-DD6B-40AC-A2CB-66E6FA614057}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Marathon</RootNamespace>
+    <AssemblyName>Marathon</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>res\Icons\Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
+    <Reference Include="WeifenLuo.WinFormsUI.Docking.ThemeVS2015, Version=3.0.6.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>..\packages\DockPanelSuite.ThemeVS2015.3.0.6\lib\net40\WeifenLuo.WinFormsUI.Docking.ThemeVS2015.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Forms\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Forms\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Components\ButtonFlat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Components\ButtonFlat.designer.cs">
+      <DependentUpon>ButtonFlat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Components\ContextMenuStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Components\ContextMenuStripDark.designer.cs">
+      <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Components\MarathonColourTable.cs" />
+    <Compile Include="src\Controls\ListViewExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Controls\ListViewExplorer.designer.cs">
+      <DependentUpon>ListViewExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Controls\UserControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controls\UserControlForm.Designer.cs">
+      <DependentUpon>UserControlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Components\MenuStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Components\MenuStripDark.designer.cs">
+      <DependentUpon>MenuStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Controls\WebBrowserExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WebBrowserExplorer.Designer.cs">
+      <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Dialogs\OpenFolderDialog.cs" />
+    <Compile Include="src\Dialogs\ShellProvider.cs" />
+    <Compile Include="src\Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="src\Forms\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Controls\ListViewExplorer.resx">
+      <DependentUpon>ListViewExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Controls\UserControlForm.resx">
+      <DependentUpon>UserControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Controls\WebBrowserExplorer.resx">
+      <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\Icons\Icon.ico" />
+    <Content Include="res\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
+    <Content Include="res\Images\File.png" />
+    <Content Include="res\Images\Folder.png" />
+    <None Include="res\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Forward_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Up_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
+    <None Include="res\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
+    <None Include="res\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png" />
+    <None Include="res\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png" />
+    <None Include="res\Images\Logos\Main_LogoSmall.png" />
+    <None Include="res\Images\Logos\Main_LogoCornerTransparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
+      <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
+      <Name>Marathon.IO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
