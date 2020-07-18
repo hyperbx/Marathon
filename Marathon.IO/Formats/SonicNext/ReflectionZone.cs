@@ -1,10 +1,12 @@
 ﻿namespace Marathon.IO.Formats.SonicNext
 {
     /// <summary>
-    /// File base for the Sonic '06 RFZONE format.
+    /// File base for the Sonic '06 RAB format.
     /// </summary>
     public class ReflectionZone : FileBase
     {
-        // TODO
+        public const string Extension = ".rab";
+
+        // TODO: Everything else...
     }
 }

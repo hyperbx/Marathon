@@ -5,6 +5,8 @@
     /// </summary>
     public class PathSpline : FileBase
     {
+        public const string Extension = ".path";
+
         // TODO
     }
 }

@@ -5,6 +5,8 @@
     /// </summary>
     public class Placement : FileBase
     {
-        // TODO
+        public const string Extension = ".set";
+
+        // TODO: Everything else...
     }
 }

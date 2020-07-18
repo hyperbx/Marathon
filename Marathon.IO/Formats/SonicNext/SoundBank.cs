@@ -5,6 +5,8 @@
     /// </summary>
     public class SoundBank : FileBase
     {
-        // TODO
+        public const string Signature = "SBNK", Extension = ".sbk";
+
+        // TODO: Everything else...
     }
 }

@@ -101,7 +101,7 @@ namespace Marathon.IO.Formats.SonicNext
             BINAv1Header Header = new BINAv1Header();
             BINAWriter writer = new BINAWriter(fileStream, Header);
 
-            writer.Write("WTXT".ToCharArray());
+            writer.Write(Signature.ToCharArray());
             writer.AddString("Name", Name);
             writer.Write(Entries.Count);
 
