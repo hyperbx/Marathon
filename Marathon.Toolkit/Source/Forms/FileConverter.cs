@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+using System;
 using System.Drawing;
 using Marathon.Components;
 using System.Windows.Forms;
@@ -59,11 +60,6 @@ namespace Marathon
             ResumeLayout(true); // Resume after redraw is complete...
         }
 
-        private void FileConverter_DragDrop(object sender, DragEventArgs e)
-        {
-
-        }
-
         /// <summary>
         /// Draws all items unmodified.
         /// </summary>
@@ -73,5 +69,31 @@ namespace Marathon
         /// Redraws the column header.
         /// </summary>
         private void ListView_Conversion_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) => ListViewDark.DrawColumnHeader(sender, e);
+
+        /// <summary>
+        /// Changes the cursor if the data is present.
+        /// </summary>
+        private void FileConverter_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        /// <summary>
+        /// Gets the file dropped onto the window.
+        /// </summary>
+        private void FileConverter_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (files.Length == 1) ToolAutoSelect(files[0]);
+        }
+
+        /// <summary>
+        /// Auto-selects the required tool for the dropped file.
+        /// </summary>
+        private void ToolAutoSelect(string data)
+        {
+            throw new NotImplementedException(); // TODO
+        }
     }
 }

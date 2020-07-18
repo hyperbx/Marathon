@@ -48,7 +48,7 @@ namespace Marathon
             Application.SetCompatibleTextRenderingDefault(false);
 #if !DEBUG
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
-            Application.ThreadException += (sender, e) => new MarathonErrorHandler(e.Exception).ShowDialog();
+            Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
             Application.Run(new Toolkit());
         }

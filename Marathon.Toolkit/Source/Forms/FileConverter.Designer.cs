@@ -118,6 +118,7 @@
             // 
             // FileConverter
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
@@ -125,6 +126,7 @@
             this.Controls.Add(this.ListView_Conversion);
             this.Controls.Add(this.ButtonFlat_Convert);
             this.Controls.Add(this.MenuStripDark_Main);
+            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
@@ -134,6 +136,7 @@
             this.Name = "FileConverter";
             this.Text = "File Converter";
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragEnter);
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             this.ResumeLayout(false);

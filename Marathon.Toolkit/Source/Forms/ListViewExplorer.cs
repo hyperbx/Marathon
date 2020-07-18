@@ -24,12 +24,11 @@
  */
 
 using System;
-using System.Drawing;
+using Marathon.Components;
 using System.Windows.Forms;
 using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats.SonicNext;
-using Marathon.Components;
 
 namespace Marathon.Controls
 {
@@ -82,7 +81,7 @@ namespace Marathon.Controls
         /// </summary>
         private void TreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            // TODO
+            throw new NotImplementedException(); // TODO
         }
 
         /// <summary>
