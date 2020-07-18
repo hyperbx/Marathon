@@ -58,7 +58,7 @@
             this.WebBrowser_Explorer.Location = new System.Drawing.Point(0, 0);
             this.WebBrowser_Explorer.MinimumSize = new System.Drawing.Size(23, 23);
             this.WebBrowser_Explorer.Name = "WebBrowser_Explorer";
-            this.WebBrowser_Explorer.Size = new System.Drawing.Size(533, 379);
+            this.WebBrowser_Explorer.Size = new System.Drawing.Size(517, 340);
             this.WebBrowser_Explorer.TabIndex = 0;
             this.WebBrowser_Explorer.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser_Explorer_Navigated);
             // 
@@ -78,7 +78,7 @@
             // SplitContainer_TreeView.Panel2
             // 
             this.SplitContainer_TreeView.Panel2.Controls.Add(this.WebBrowser_Explorer);
-            this.SplitContainer_TreeView.Size = new System.Drawing.Size(720, 379);
+            this.SplitContainer_TreeView.Size = new System.Drawing.Size(704, 340);
             this.SplitContainer_TreeView.SplitterDistance = 183;
             this.SplitContainer_TreeView.TabIndex = 1;
             // 
@@ -96,7 +96,7 @@
             this.TreeView_Explorer.Location = new System.Drawing.Point(-1, -1);
             this.TreeView_Explorer.Name = "TreeView_Explorer";
             this.TreeView_Explorer.SelectedImageIndex = 0;
-            this.TreeView_Explorer.Size = new System.Drawing.Size(184, 381);
+            this.TreeView_Explorer.Size = new System.Drawing.Size(184, 342);
             this.TreeView_Explorer.TabIndex = 2;
             this.TreeView_Explorer.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Explorer_AfterExpand);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
@@ -130,7 +130,7 @@
             // SplitContainer_WebBrowser.Panel2
             // 
             this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.SplitContainer_TreeView);
-            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(720, 405);
+            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(704, 366);
             this.SplitContainer_WebBrowser.SplitterDistance = 25;
             this.SplitContainer_WebBrowser.SplitterWidth = 1;
             this.SplitContainer_WebBrowser.TabIndex = 0;
@@ -164,7 +164,7 @@
             this.ButtonFlat_Clipboard.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
             this.ButtonFlat_Clipboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonFlat_Clipboard.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Clipboard.Location = new System.Drawing.Point(695, 1);
+            this.ButtonFlat_Clipboard.Location = new System.Drawing.Point(679, 1);
             this.ButtonFlat_Clipboard.Name = "ButtonFlat_Clipboard";
             this.ButtonFlat_Clipboard.Size = new System.Drawing.Size(24, 24);
             this.ButtonFlat_Clipboard.TabIndex = 11;
@@ -238,7 +238,7 @@
             this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
             this.TextBox_Address.Location = new System.Drawing.Point(109, 1);
             this.TextBox_Address.Name = "TextBox_Address";
-            this.TextBox_Address.Size = new System.Drawing.Size(583, 24);
+            this.TextBox_Address.Size = new System.Drawing.Size(567, 24);
             this.TextBox_Address.TabIndex = 12;
             this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
             // 
@@ -252,11 +252,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ClientSize = new System.Drawing.Size(704, 366);
             this.Controls.Add(this.SplitContainer_WebBrowser);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "WebBrowserExplorer";
-            this.Size = new System.Drawing.Size(720, 405);
+            this.Text = "Marathon Explorer ";
             this.Load += new System.EventHandler(this.WebBrowserExplorer_Load);
             this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
             this.SplitContainer_TreeView.Panel2.ResumeLayout(false);

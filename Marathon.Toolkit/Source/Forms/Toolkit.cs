@@ -56,20 +56,14 @@ namespace Marathon
         {
             OpenFileDialog fileDialog = new OpenFileDialog {
                 Title = "Please select a file...",
-                Filter = Properties.Resources.Filter_CompressedU8Archive
+                Filter = "All files (*.*)|*.*",
+                InitialDirectory = ActiveWebBrowserExplorerAddress()
             };
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                UserControlForm webBrowserExplorerChild = new UserControlForm
-                {
-                    Controller = new ListViewExplorer
-                    {
-                        Name = "Marathon File Manager",
-                        CurrentFile = fileDialog.FileName
-                    }
-                };
-                webBrowserExplorerChild.Show(DockPanel_Main);
+                ListViewExplorer listViewExplorer = new ListViewExplorer { CurrentFile = fileDialog.FileName };
+                listViewExplorer.Show(DockPanel_Main);
             }
         }
 
@@ -84,15 +78,8 @@ namespace Marathon
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                UserControlForm webBrowserExplorerChild = new UserControlForm
-                {
-                    Controller = new WebBrowserExplorer
-                    {
-                        Name = "Marathon Explorer",
-                        CurrentAddress = folderDialog.SelectedPath
-                    }
-                };
-                webBrowserExplorerChild.Show(DockPanel_Main);
+                WebBrowserExplorer webBrowserExplorer = new WebBrowserExplorer { CurrentAddress = folderDialog.SelectedPath };
+                webBrowserExplorer.Show(DockPanel_Main);
             }
         }
 
@@ -100,5 +87,20 @@ namespace Marathon
         /// A function executed whenever the user selects a different child window.
         /// </summary>
         private void DockPanel_Main_ActiveDocumentChanged(object sender, EventArgs e) { }
+
+        /// <summary>
+        /// Returns the current address of the active WebBrowserExplorer document.
+        /// </summary>
+        private string ActiveWebBrowserExplorerAddress()
+        {
+            if (DockPanel_Main.ActiveDocument != null)
+            {
+                object @controller = (WebBrowserExplorer)DockPanel_Main.ActiveDocument;
+
+                return @controller != null ? ((WebBrowserExplorer)@controller).CurrentAddress : string.Empty;
+            }
+
+            return string.Empty;
+        }
     }
 }

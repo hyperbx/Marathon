@@ -23,20 +23,13 @@
  * SOFTWARE.
  */
 
-using System.Drawing;
-using System.Windows.Forms;
+using System;
 
-namespace Marathon.Components
+namespace Marathon.Serialisers
 {
-	public partial class MenuStripDark : MenuStrip
-	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new ToolStripProfessionalRenderer(new DarkColorTable());
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
-	}
+    internal class Text
+    {
+        public static string[] ParseLineBreaks(string text)
+            => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+    }
 }

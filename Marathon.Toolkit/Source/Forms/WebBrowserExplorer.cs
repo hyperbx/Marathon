@@ -31,10 +31,11 @@ using Marathon.Components;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Controls
 {
-    public partial class WebBrowserExplorer : UserControl
+    public partial class WebBrowserExplorer : DockContent
     {
         private string _CurrentAddress;
         private bool _HideDirectoryTree;

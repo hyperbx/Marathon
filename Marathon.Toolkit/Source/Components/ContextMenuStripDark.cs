@@ -34,7 +34,7 @@ namespace Marathon.Components
 		{
 			InitializeComponent();
 			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new ToolStripProfessionalRenderer(new MarathonDarkColorTable());
+			Renderer = new ToolStripProfessionalRenderer(new DarkColorTable());
 			ForeColor = SystemColors.Control;
 		}
 	}

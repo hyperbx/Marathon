@@ -52,7 +52,7 @@ namespace Marathon.IO
         public virtual void Save(string file, bool overwrite = true)
         {
             if (string.IsNullOrEmpty(file))
-                throw new ArgumentNullException("filePath");
+                throw new ArgumentNullException("file");
 
             if (!overwrite && File.Exists(file))
                 throw new Exception("Unable to save the specified file as it already exists...");

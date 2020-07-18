@@ -30,12 +30,12 @@ using System.Windows.Forms;
 
 namespace Marathon
 {
-    public partial class MarathonErrorHandler : Form
+    public partial class ErrorHandler : Form
     {
         Exception _Exception = new Exception("If you're reading this, something went horrifically wrong...") { Source = "Marathon Error Handler" };
         bool _Reported = false;
 
-        public MarathonErrorHandler(Exception ex)
+        public ErrorHandler(Exception ex)
         {
             InitializeComponent();
 

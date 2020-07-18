@@ -49,16 +49,7 @@ namespace Marathon.IO.Helpers
 
         public BINAReader(Stream input, Encoding encoding, uint offset = 0) : base(input, encoding) => Offset = offset;
 
-        public BINAHeader ReadHeader()
-        {
-            string signature = ReadSignature(4);
-
-            JumpBehind(4);
-
-            if (signature == BINAHeader.Signature) return new BINAHeaderV1(this);
-
-            return null;
-        }
+        public BINAHeader ReadHeader() => new BINAHeaderV1(this);
 
         public List<uint> ReadFooter(uint finalTableLength)
         {

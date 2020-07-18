@@ -27,10 +27,12 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using WeifenLuo.WinFormsUI.Docking;
+using Marathon.IO.Formats.SonicNext;
 
 namespace Marathon.Controls
 {
-    public partial class ListViewExplorer : UserControl
+    public partial class ListViewExplorer : DockContent
     {
         private string _CurrentFile;
 
@@ -41,7 +43,7 @@ namespace Marathon.Controls
             
             set
             {
-                _CurrentFile = value;
+                Text += $"({_CurrentFile = value})";
 
                 // Refresh the TreeView nodes only if the directory tree is available.
                 if (!SplitContainer_TreeView.Panel1Collapsed) RefreshNodes();
@@ -57,7 +59,18 @@ namespace Marathon.Controls
             {
                 TreeView_Explorer.Nodes.Clear();
 
-                // TODO
+                PictureFont pft = new PictureFont();
+                pft.Load(_CurrentFile);
+
+                foreach (PictureFont.SubImage entry in pft.Entries)
+                {
+                    TreeNode node = new TreeNode {
+                        Text = entry.Placeholder,
+                        Tag = entry
+                    };
+
+                    TreeView_Explorer.Nodes.Add(node);
+                }
             }
         }
 

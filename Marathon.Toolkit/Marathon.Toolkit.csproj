@@ -63,18 +63,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Forms\MarathonErrorHandler.cs">
+    <Compile Include="Source\Serialisers.cs" />
+    <Compile Include="Source\Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\MarathonErrorHandler.Designer.cs">
-      <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
+    <Compile Include="Source\Forms\ErrorHandler.Designer.cs">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Source\Controls\TreeViewExtensions.cs" />
+    <Compile Include="Source\TreeViewExtensions.cs" />
     <Compile Include="Source\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,17 +94,17 @@
     <Compile Include="Source\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\MarathonColourTable.cs" />
-    <Compile Include="Source\Controls\ListViewExplorer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Source\Controls\ListViewExplorer.designer.cs">
-      <DependentUpon>ListViewExplorer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Controls\UserControlForm.cs">
+    <Compile Include="Source\ColourTables.cs" />
+    <Compile Include="Source\Forms\ListViewExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Controls\UserControlForm.Designer.cs">
+    <Compile Include="Source\Forms\ListViewExplorer.designer.cs">
+      <DependentUpon>ListViewExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Forms\UserControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Forms\UserControlForm.Designer.cs">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Components\MenuStripDark.cs">
@@ -112,24 +113,24 @@
     <Compile Include="Source\Components\MenuStripDark.designer.cs">
       <DependentUpon>MenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Controls\WebBrowserExplorer.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Source\Forms\WebBrowserExplorer.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Controls\WebBrowserExplorer.Designer.cs">
+    <Compile Include="Source\Forms\WebBrowserExplorer.Designer.cs">
       <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Dialogs\OpenFolderDialog.cs" />
     <Compile Include="Source\Dialogs\ShellProvider.cs" />
-    <Compile Include="Source\Main.cs">
+    <Compile Include="Source\Forms\Toolkit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
+    <Compile Include="Source\Forms\Toolkit.Designer.cs">
+      <DependentUpon>Toolkit.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Source\Forms\MarathonErrorHandler.resx">
-      <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
+    <EmbeddedResource Include="Source\Forms\ErrorHandler.resx">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
@@ -139,17 +140,17 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Controls\ListViewExplorer.resx">
+    <EmbeddedResource Include="Source\Forms\ListViewExplorer.resx">
       <DependentUpon>ListViewExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Controls\UserControlForm.resx">
+    <EmbeddedResource Include="Source\Forms\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Controls\WebBrowserExplorer.resx">
+    <EmbeddedResource Include="Source\Forms\WebBrowserExplorer.resx">
       <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
+    <EmbeddedResource Include="Source\Forms\Toolkit.resx">
+      <DependentUpon>Toolkit.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -167,7 +168,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="License.txt" />
     <Content Include="Resources\Icons\Icon.ico" />
     <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
     <Content Include="Resources\Images\File.png" />

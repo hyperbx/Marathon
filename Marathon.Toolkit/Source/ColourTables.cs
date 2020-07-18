@@ -35,7 +35,7 @@ namespace Marathon.Components
     /// <summary>
     /// ProfessionalColorTable palette used for common controls.
     /// </summary>
-    internal class MarathonDarkColorTable : ProfessionalColorTable
+    internal class DarkColorTable : ProfessionalColorTable
     {
         public override Color MenuItemBorder => MenuItemSelected;
         public override Color ButtonSelectedBorder => MenuItemBorder;
@@ -63,11 +63,11 @@ namespace Marathon.Components
     /// <summary>
     /// ThemeBase class used for WeifenLuo libraries.
     /// </summary>
-    public abstract class MarathonDockPalette : ThemeBase
+    public abstract class DockPalette : ThemeBase
     {
-        public MarathonDockPalette(byte[] resources)
+        public DockPalette(byte[] resources)
         {
-            ColorPalette = new DockPanelColorPalette(new MarathonDockPaletteFactory(resources));
+            ColorPalette = new DockPanelColorPalette(new DockPaletteFactory(resources));
             Skin = new DockPanelSkin();
             ToolStripRenderer = new VisualStudioToolStripRenderer(ColorPalette) { UseGlassOnMenuStrip = false };
             Measures.SplitterSize = 6;
@@ -86,11 +86,11 @@ namespace Marathon.Components
     /// <summary>
     /// IPaletteFactory palette used for WeifenLuo libraries.
     /// </summary>
-    public class MarathonDockPaletteFactory : IPaletteFactory
+    public class DockPaletteFactory : IPaletteFactory
     {
         XDocument _xml = new XDocument();
 
-        public MarathonDockPaletteFactory(byte[] file) => _xml = XDocument.Load(new StreamReader(new MemoryStream(file)));
+        public DockPaletteFactory(byte[] file) => _xml = XDocument.Load(new StreamReader(new MemoryStream(file)));
 
         public void Initialize(DockPanelColorPalette palette)
         {

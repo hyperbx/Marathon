@@ -38,6 +38,8 @@ namespace Marathon.Dialogs
 
         public string SelectedPath { get; private set; }
 
+        public string InitialDirectory { get; private set; }
+
         public DialogResult ShowDialog()
         {
             FileOpenDialog dialog = new FileOpenDialog();

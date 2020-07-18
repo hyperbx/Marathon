@@ -1,6 +1,6 @@
 ﻿namespace Marathon
 {
-    partial class MarathonErrorHandler
+    partial class ErrorHandler
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MarathonErrorHandler));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorHandler));
             this.Label_Title = new System.Windows.Forms.Label();
             this.RichTextBox_Error = new System.Windows.Forms.RichTextBox();
             this.Panel_RichTextBox_Container = new System.Windows.Forms.Panel();

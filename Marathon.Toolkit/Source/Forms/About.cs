@@ -35,5 +35,33 @@ namespace Marathon
 
             Label_Version.Text = $"Version {Program.GlobalVersion}";
         }
+
+        /// <summary>
+        /// Displays information about the selected contributor.
+        /// </summary>
+        private void TreeView_Contributors_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            Panel_RichTextBox_Container.Visible = true;
+            TreeView_Contributors.SelectedNode = null;
+
+            switch (e.Node.Text)
+            {
+                case "HyperPolygon64":
+                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_HyperPolygon64;
+                    break;
+                case "Radfordhound":
+                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_Radfordhound;
+                    break;
+                case "Knuxfan24":
+                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_Knuxfan24;
+                    break;
+                case "GerbilSoft":
+                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_GerbilSoft;
+                    break;
+                default:
+                    RichTextBox_Contributor.Text = string.Empty;
+                    break;
+            }
+        }
     }
 }
