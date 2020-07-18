@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>res\Icons\Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -63,10 +63,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\MarathonErrorHandler.cs">
+    <Compile Include="Source\Forms\MarathonErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\MarathonErrorHandler.Designer.cs">
+    <Compile Include="Source\Forms\MarathonErrorHandler.Designer.cs">
       <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -74,64 +74,64 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Controls\TreeViewExtensions.cs" />
-    <Compile Include="src\Forms\About.cs">
+    <Compile Include="Source\Controls\TreeViewExtensions.cs" />
+    <Compile Include="Source\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Forms\About.Designer.cs">
+    <Compile Include="Source\Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Components\ButtonFlat.cs">
+    <Compile Include="Source\Components\ButtonFlat.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Components\ButtonFlat.designer.cs">
+    <Compile Include="Source\Components\ButtonFlat.designer.cs">
       <DependentUpon>ButtonFlat.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Components\ContextMenuStripDark.cs">
+    <Compile Include="Source\Components\ContextMenuStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Components\ContextMenuStripDark.designer.cs">
+    <Compile Include="Source\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\MarathonColourTable.cs" />
-    <Compile Include="src\Controls\ListViewExplorer.cs">
+    <Compile Include="Source\MarathonColourTable.cs" />
+    <Compile Include="Source\Controls\ListViewExplorer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="src\Controls\ListViewExplorer.designer.cs">
+    <Compile Include="Source\Controls\ListViewExplorer.designer.cs">
       <DependentUpon>ListViewExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Controls\UserControlForm.cs">
+    <Compile Include="Source\Controls\UserControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Controls\UserControlForm.Designer.cs">
+    <Compile Include="Source\Controls\UserControlForm.Designer.cs">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Components\MenuStripDark.cs">
+    <Compile Include="Source\Components\MenuStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="src\Components\MenuStripDark.designer.cs">
+    <Compile Include="Source\Components\MenuStripDark.designer.cs">
       <DependentUpon>MenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Controls\WebBrowserExplorer.cs">
+    <Compile Include="Source\Controls\WebBrowserExplorer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="src\Controls\WebBrowserExplorer.Designer.cs">
+    <Compile Include="Source\Controls\WebBrowserExplorer.Designer.cs">
       <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Dialogs\OpenFolderDialog.cs" />
-    <Compile Include="src\Dialogs\ShellProvider.cs" />
-    <Compile Include="src\Main.cs">
+    <Compile Include="Source\Dialogs\OpenFolderDialog.cs" />
+    <Compile Include="Source\Dialogs\ShellProvider.cs" />
+    <Compile Include="Source\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\Main.Designer.cs">
+    <Compile Include="Source\Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\Program.cs" />
+    <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="src\MarathonErrorHandler.resx">
+    <EmbeddedResource Include="Source\Forms\MarathonErrorHandler.resx">
       <DependentUpon>MarathonErrorHandler.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\About.resx">
+    <EmbeddedResource Include="Source\Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -139,16 +139,16 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controls\ListViewExplorer.resx">
+    <EmbeddedResource Include="Source\Controls\ListViewExplorer.resx">
       <DependentUpon>ListViewExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controls\UserControlForm.resx">
+    <EmbeddedResource Include="Source\Controls\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controls\WebBrowserExplorer.resx">
+    <EmbeddedResource Include="Source\Controls\WebBrowserExplorer.resx">
       <DependentUpon>WebBrowserExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Main.resx">
+    <EmbeddedResource Include="Source\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
@@ -167,22 +167,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\Icons\Icon.ico" />
-    <Content Include="res\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
-    <Content Include="res\Images\File.png" />
-    <Content Include="res\Images\Folder.png" />
-    <None Include="res\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Forward_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\WebBrowserExplorer_Up_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
-    <None Include="res\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
-    <None Include="res\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png" />
-    <None Include="res\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png" />
-    <None Include="res\Images\Logos\Main_LogoSmall.png" />
-    <None Include="res\Images\Logos\Main_LogoCornerTransparent.png" />
+    <None Include="License.txt" />
+    <Content Include="Resources\Icons\Icon.ico" />
+    <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
+    <Content Include="Resources\Images\File.png" />
+    <Content Include="Resources\Images\Folder.png" />
+    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Forward_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Up_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png" />
+    <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png" />
+    <None Include="Resources\Images\Logos\Main_LogoSmall.png" />
+    <None Include="Resources\Images\Logos\Main_LogoCornerTransparent.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
