@@ -7,6 +7,6 @@
     {
         public const string Extension = ".path";
 
-        // TODO
+        // TODO: Everything else...
     }
 }
