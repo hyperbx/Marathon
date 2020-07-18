@@ -49,7 +49,7 @@ namespace Marathon.IO.Helpers
 
         public BINAReader(Stream input, Encoding encoding, uint offset = 0) : base(input, encoding) => Offset = offset;
 
-        public BINAHeader ReadHeader() => new BINAHeaderV1(this);
+        public BINAHeader ReadHeader() => new BINAv1Header(this);
 
         public List<uint> ReadFooter(uint finalTableLength)
         {
@@ -149,7 +149,7 @@ namespace Marathon.IO.Helpers
             // Update header values and write footer magic...
             header.FinalTableLength = (uint)BaseStream.Position - footerStartPos;
 
-            if (header is BINAHeaderV1 h1)
+            if (header is BINAv1Header h1)
             {
                 h1.FinalTableOffset = (footerStartPos - Offset);
                 if (h1.IsFooterMagicPresent)

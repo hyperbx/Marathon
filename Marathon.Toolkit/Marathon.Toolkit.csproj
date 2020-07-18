@@ -168,6 +168,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Contributors.xml" />
     <Content Include="Resources\Icons\Icon.ico" />
     <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
     <Content Include="Resources\Images\File.png" />

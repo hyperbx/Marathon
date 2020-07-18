@@ -91,7 +91,7 @@ namespace Marathon.IO.Formats.SonicNext
         public override void Save(Stream stream)
         {
             // Header
-            BINAHeaderV1 header = new BINAHeaderV1();
+            BINAv1Header header = new BINAv1Header();
             BINAWriter writer = new BINAWriter(stream, header);
             writer.WriteSignature(Signature);
 

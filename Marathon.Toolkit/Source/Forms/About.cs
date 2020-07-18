@@ -23,7 +23,9 @@
  * SOFTWARE.
  */
 
+using System.Diagnostics;
 using System.Windows.Forms;
+using Marathon.Serialisers;
 
 namespace Marathon
 {
@@ -34,34 +36,23 @@ namespace Marathon
             InitializeComponent();
 
             Label_Version.Text = $"Version {Program.GlobalVersion}";
+
+            TreeView_Contributors.Nodes.AddRange(XML.ParseContributors());
         }
 
         /// <summary>
-        /// Displays information about the selected contributor.
+        /// Hides the node highlight upon clicking.
         /// </summary>
-        private void TreeView_Contributors_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            Panel_RichTextBox_Container.Visible = true;
-            TreeView_Contributors.SelectedNode = null;
+        private void TreeView_Contributors_AfterSelect(object sender, TreeViewEventArgs e)
+            => TreeView_Contributors.SelectedNode = null;
 
-            switch (e.Node.Text)
-            {
-                case "HyperPolygon64":
-                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_HyperPolygon64;
-                    break;
-                case "Radfordhound":
-                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_Radfordhound;
-                    break;
-                case "Knuxfan24":
-                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_Knuxfan24;
-                    break;
-                case "GerbilSoft":
-                    RichTextBox_Contributor.Text = Properties.Resources.Contributor_GerbilSoft;
-                    break;
-                default:
-                    RichTextBox_Contributor.Text = string.Empty;
-                    break;
-            }
+        /// <summary>
+        /// Navigates to the contributor's webpage.
+        /// </summary>
+        private void TreeView_Contributors_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            TreeView_Contributors.SelectedNode = null;
+            if ((string)e.Node.Tag != string.Empty) Process.Start((string)e.Node.Tag);
         }
     }
 }

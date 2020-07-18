@@ -61,40 +61,17 @@ namespace Marathon.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrote ArcPackerLib and mst06..
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot;&gt;Radfordhound&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot;&gt;Knuxfan24&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/GerbilSoft&quot;&gt;GerbilSoft&lt;/Contributor&gt;
+        ///&lt;/Marathon&gt;.
         /// </summary>
-        internal static string Contributor_GerbilSoft {
+        internal static string Contributors {
             get {
-                return ResourceManager.GetString("Contributor_GerbilSoft", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lead programmer and designer of Project Marathon.
-        ///Reverse-engineered the Picture Font format..
-        /// </summary>
-        internal static string Contributor_HyperPolygon64 {
-            get {
-                return ResourceManager.GetString("Contributor_HyperPolygon64", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reverse-engineered some BINA formats and wrote C# APIs for them..
-        /// </summary>
-        internal static string Contributor_Knuxfan24 {
-            get {
-                return ResourceManager.GetString("Contributor_Knuxfan24", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Lead programmer of HedgeLib.
-        ///Reverse-engineered many formats and designed the BINA header API..
-        /// </summary>
-        internal static string Contributor_Radfordhound {
-            get {
-                return ResourceManager.GetString("Contributor_Radfordhound", resourceCulture);
+                return ResourceManager.GetString("Contributors", resourceCulture);
             }
         }
         

@@ -117,21 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Contributor_GerbilSoft" xml:space="preserve">
-    <value>Wrote ArcPackerLib and mst06.</value>
-  </data>
-  <data name="Contributor_HyperPolygon64" xml:space="preserve">
-    <value>Lead programmer and designer of Project Marathon.
-Reverse-engineered the Picture Font format.</value>
-  </data>
-  <data name="Contributor_Knuxfan24" xml:space="preserve">
-    <value>Reverse-engineered some BINA formats and wrote C# APIs for them.</value>
-  </data>
-  <data name="Contributor_Radfordhound" xml:space="preserve">
-    <value>Lead programmer of HedgeLib.
-Reverse-engineered many formats and designed the BINA header API.</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Contributors" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\contributors.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="File" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\images\file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

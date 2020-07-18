@@ -57,7 +57,7 @@ namespace Marathon.IO.Headers
             => throw new NotImplementedException();
     }
 
-    public class BINAHeaderV1 : BINAHeader
+    public class BINAv1Header : BINAHeader
     {
         public uint FinalTableOffset;
         public bool IsFooterMagicPresent = false;
@@ -65,13 +65,13 @@ namespace Marathon.IO.Headers
         public const string FooterMagic = "bvh";
         public const uint FooterMagic2 = 0x10, PointerLength = 0x20;
 
-        public BINAHeaderV1(ushort version = 1, bool isBigEndian = true)
+        public BINAv1Header(ushort version = 1, bool isBigEndian = true)
         {
             IsBigEndian = isBigEndian;
             Version = version;
         }
 
-        public BINAHeaderV1(ExtendedBinaryReader reader)
+        public BINAv1Header(ExtendedBinaryReader reader)
         {
             IsBigEndian = true;
             Read(reader);

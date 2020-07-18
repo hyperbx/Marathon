@@ -24,12 +24,37 @@
  */
 
 using System;
+using System.Xml.Linq;
+using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Marathon.Serialisers
 {
-    internal class Text
+    internal class TXT
     {
         public static string[] ParseLineBreaks(string text)
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+    }
+
+    internal class XML
+    {
+        public static TreeNode[] ParseContributors()
+        {
+            List<TreeNode> contributors = new List<TreeNode>();
+
+            XDocument xml = XDocument.Parse(Properties.Resources.Contributors);
+
+            foreach (XElement contributorElem in xml.Root.Elements("Contributor"))
+            {
+                TreeNode node = new TreeNode {
+                    Text = contributorElem.Value,
+                    Tag = contributorElem.Attribute("URL").Value
+                };
+
+                contributors.Add(node);
+            }
+
+            return contributors.ToArray();
+        }
     }
 }
