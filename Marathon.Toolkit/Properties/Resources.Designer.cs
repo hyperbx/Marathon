@@ -118,9 +118,9 @@ namespace Marathon.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Main_LogoCornerTransparent {
+        internal static System.Drawing.Bitmap Main_Logo_Corner_Transparent {
             get {
-                object obj = ResourceManager.GetObject("Main_LogoCornerTransparent", resourceCulture);
+                object obj = ResourceManager.GetObject("Main_Logo_Corner_Transparent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -128,9 +128,19 @@ namespace Marathon.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Main_LogoSmall {
+        internal static System.Drawing.Bitmap Main_Logo_Medium_Colour {
             get {
-                object obj = ResourceManager.GetObject("Main_LogoSmall", resourceCulture);
+                object obj = ResourceManager.GetObject("Main_Logo_Medium_Colour", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Main_Logo_Small_Dark {
+            get {
+                object obj = ResourceManager.GetObject("Main_Logo_Small_Dark", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -138,16 +148,16 @@ namespace Marathon.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
-        ///  &lt;Type Extension=&quot;*.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.*&quot;&gt;All files&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.pkg&quot;&gt;Asset Package&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.bin&quot;&gt;Collision&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.path&quot;&gt;Path Spline&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.pft&quot;&gt;Picture Font&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.set&quot;&gt;Placement&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;*.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.sbk&quot;&gt;Sound Bank&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.mst&quot;&gt;Text&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.dds&quot;&gt;DirectDraw [rest of string was truncated]&quot;;.
+        ///  &lt;Type Extension=&quot;*.sbk&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SupportedFileTypes {
             get {

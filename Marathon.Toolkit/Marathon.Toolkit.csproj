@@ -186,6 +186,9 @@
     <Content Include="Resources\Images\File.png" />
     <Content Include="Resources\Images\FileDrop.png" />
     <Content Include="Resources\Images\Folder.png" />
+    <Content Include="Resources\Images\Logos\Main_Logo_Corner_Transparent.png" />
+    <Content Include="Resources\Images\Logos\Main_Logo_Medium_Colour.png" />
+    <Content Include="Resources\Images\Logos\Main_Logo_Small_Dark.png" />
     <Content Include="Resources\SupportedFileTypes.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
@@ -197,8 +200,6 @@
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
     <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png" />
     <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png" />
-    <None Include="Resources\Images\Logos\Main_LogoSmall.png" />
-    <None Include="Resources\Images\Logos\Main_LogoCornerTransparent.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
