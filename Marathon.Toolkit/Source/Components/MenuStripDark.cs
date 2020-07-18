@@ -24,6 +24,7 @@
  */
 
 using System.Drawing;
+using Marathon.Helpers;
 using System.Windows.Forms;
 
 namespace Marathon.Components

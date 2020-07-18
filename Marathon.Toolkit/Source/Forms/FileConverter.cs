@@ -25,7 +25,7 @@
 
 using System;
 using System.Drawing;
-using Marathon.Components;
+using Marathon.Helpers;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 

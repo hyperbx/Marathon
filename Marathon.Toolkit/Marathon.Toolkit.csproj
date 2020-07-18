@@ -69,6 +69,9 @@
     <Compile Include="Source\Forms\FileConverter.Designer.cs">
       <DependentUpon>FileConverter.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Helpers\DockContentHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Source\Helpers\Serialisers.cs" />
     <Compile Include="Source\Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
@@ -81,7 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Source\Helpers\TreeViewHelpers.cs" />
+    <Compile Include="Source\Helpers\TreeViewHelper.cs" />
     <Compile Include="Source\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,7 +103,7 @@
     <Compile Include="Source\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Helpers\InterfaceDrawing.cs" />
+    <Compile Include="Source\Helpers\ControlDrawing.cs" />
     <Compile Include="Source\Forms\ListViewExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +186,7 @@
     <Content Include="Resources\Images\File.png" />
     <Content Include="Resources\Images\FileDrop.png" />
     <Content Include="Resources\Images\Folder.png" />
+    <Content Include="Resources\SupportedFileTypes.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />

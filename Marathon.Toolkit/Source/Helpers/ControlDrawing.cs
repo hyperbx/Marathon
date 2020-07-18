@@ -30,7 +30,7 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Components
+namespace Marathon.Helpers
 {
     internal class ListViewDark
     {
@@ -283,8 +283,8 @@ namespace Marathon.Components
         private Color GetColourFromElement(string name, bool foreground = false)
         {
             var color = _xml.Root.Element("Theme")
-                                 .Elements("Category").FirstOrDefault(item => item.Attribute("Name").Value == "Environment")?
-                                 .Elements("Color").FirstOrDefault(item => item.Attribute("Name").Value == name)?
+                                 .Elements("Category").FirstOrDefault(item => item.Attribute("Name").Value == "Environment") ?
+                                 .Elements("Color").FirstOrDefault(item => item.Attribute("Name").Value == name) ?
                                  .Element(foreground ? "Foreground" : "Background").Attribute("Source").Value;
 
             if (color == null) return Color.Transparent;

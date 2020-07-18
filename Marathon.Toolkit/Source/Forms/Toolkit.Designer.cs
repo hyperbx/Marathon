@@ -1,4 +1,4 @@
-﻿using Marathon.Controls;
+﻿using Marathon.Helpers;
 
 namespace Marathon
 {
@@ -136,6 +136,7 @@ namespace Marathon
             this.DockPanel_Main.TabIndex = 2;
             this.DockPanel_Main.Theme = this.Theme_VS2015Dark;
             this.DockPanel_Main.ActiveDocumentChanged += new System.EventHandler(this.DockPanel_Main_ActiveDocumentChanged);
+            this.DockPanel_Main.Theme.Extender.FloatWindowFactory = new MarathonFloatWindowFactory();
             // 
             // Toolkit
             // 

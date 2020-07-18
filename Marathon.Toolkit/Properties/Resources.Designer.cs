@@ -96,15 +96,6 @@ namespace Marathon.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Compressed U8 Archive (*.arc)|*.arc.
-        /// </summary>
-        internal static string Filter_CompressedU8Archive {
-            get {
-                return ResourceManager.GetString("Filter_CompressedU8Archive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Folder {
@@ -141,6 +132,26 @@ namespace Marathon.Properties {
             get {
                 object obj = ResourceManager.GetObject("Main_LogoSmall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
+        ///  &lt;Type Extension=&quot;*.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.pkg&quot;&gt;Asset Package&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.bin&quot;&gt;Collision&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.path&quot;&gt;Path Spline&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.pft&quot;&gt;Picture Font&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.set&quot;&gt;Placement&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.sbk&quot;&gt;Sound Bank&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.mst&quot;&gt;Text&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;*.dds&quot;&gt;DirectDraw [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SupportedFileTypes {
+            get {
+                return ResourceManager.GetString("SupportedFileTypes", resourceCulture);
             }
         }
         

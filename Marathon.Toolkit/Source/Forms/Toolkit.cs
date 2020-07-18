@@ -25,6 +25,7 @@
 
 using System;
 using Marathon.Dialogs;
+using Marathon.Helpers;
 using Marathon.Controls;
 using System.Windows.Forms;
 
@@ -37,8 +38,6 @@ namespace Marathon
             InitializeComponent();
 
             Text += $"(Version {Program.GlobalVersion})";
-
-            new FileConverter().Show(DockPanel_Main);
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace Marathon
         {
             OpenFileDialog fileDialog = new OpenFileDialog {
                 Title = "Please select a file...",
-                Filter = "All files (*.*)|*.*",
+                Filter = XML.ParseSupportedFileTypes(),
                 InitialDirectory = ActiveWebBrowserExplorerAddress()
             };
 
@@ -95,7 +94,7 @@ namespace Marathon
         /// </summary>
         private string ActiveWebBrowserExplorerAddress()
         {
-            if (DockPanel_Main.ActiveDocument != null)
+            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument.GetType().Equals(typeof(WebBrowserExplorer)))
             {
                 object @controller = (WebBrowserExplorer)DockPanel_Main.ActiveDocument;
 

@@ -2,9 +2,9 @@
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace Marathon.Controls
+namespace Marathon.Helpers
 {
-    public static class TreeViewHelpers
+    public static class TreeViewHelper
     {
         public static List<string> GetExpansionState(this TreeNodeCollection treeNodeCollection)
             => treeNodeCollection.Descendants().Where(node => node.IsExpanded).Select(node => node.FullPath).ToList();

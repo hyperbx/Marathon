@@ -24,13 +24,14 @@
  */
 
 using System;
+using System.Text;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace Marathon.Serialisers
+namespace Marathon.Helpers
 {
-    internal class TXT
+    internal class Text
     {
         public static string[] ParseLineBreaks(string text)
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
@@ -38,6 +39,9 @@ namespace Marathon.Serialisers
 
     internal class XML
     {
+        /// <summary>
+        /// Parses Contributors.xml to a TreeNode array.
+        /// </summary>
         public static TreeNode[] ParseContributors()
         {
             List<TreeNode> contributors = new List<TreeNode>();
@@ -55,6 +59,26 @@ namespace Marathon.Serialisers
             }
 
             return contributors.ToArray();
+        }
+
+        /// <summary>
+        /// Parses SupportedFileTypes.xml to a string.
+        /// </summary>
+        public static string ParseSupportedFileTypes()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            XDocument xml = XDocument.Parse(Properties.Resources.SupportedFileTypes);
+
+            foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
+            {
+                string @extension = supportedFileTypesElem.Attribute("Extension").Value;
+
+                stringBuilder.Append($"{supportedFileTypesElem.Value} ({@extension})|{@extension}|");
+            }
+
+            return stringBuilder.ToString().EndsWith("|") ?
+                   stringBuilder.ToString().Remove(stringBuilder.Length - 1) :
+                   stringBuilder.ToString();
         }
     }
 }

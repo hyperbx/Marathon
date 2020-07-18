@@ -24,7 +24,7 @@
  */
 
 using System;
-using Marathon.Components;
+using Marathon.Helpers;
 using System.Windows.Forms;
 using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
@@ -59,18 +59,7 @@ namespace Marathon.Controls
             {
                 TreeView_Explorer.Nodes.Clear();
 
-                PictureFont pft = new PictureFont();
-                pft.Load(_CurrentFile);
-
-                foreach (PictureFont.SubImage entry in pft.Entries)
-                {
-                    TreeNode node = new TreeNode {
-                        Text = entry.Placeholder,
-                        Tag = entry
-                    };
-
-                    TreeView_Explorer.Nodes.Add(node);
-                }
+                // TODO
             }
         }
 

@@ -132,7 +132,7 @@
             this.ButtonFlat_Copy.UseVisualStyleBackColor = false;
             this.ButtonFlat_Copy.Click += new System.EventHandler(this.ButtonFlat_Copy_Click);
             // 
-            // MarathonErrorHandler
+            // ErrorHandler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -147,10 +147,9 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 450);
-            this.Name = "MarathonErrorHandler";
+            this.Name = "ErrorHandler";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Marathon Error Handler";
