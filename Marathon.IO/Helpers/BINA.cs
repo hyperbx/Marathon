@@ -103,7 +103,7 @@ namespace Marathon.IO.Helpers
             public StringTableEntry(string data) => Data = data;
         }
 
-        protected List<StringTableEntry> strings = new List<StringTableEntry>();
+        protected List<StringTableEntry> _StringTableEntries = new List<StringTableEntry>();
 
         public BINAWriter(Stream output, uint offset = 0, bool isBigEndian = false) : base(output, BINA.Encoding, isBigEndian)
             => Offset = offset;
@@ -128,11 +128,11 @@ namespace Marathon.IO.Helpers
             FixPadding();
             uint stringTablePos = (uint)BaseStream.Position;
 
-            foreach (var tableEntry in strings)
+            foreach (var tableEntry in _StringTableEntries)
             {
                 // Fill-in all the offsets that point to this string in the file.
                 foreach (string offsetName in tableEntry.OffsetNames)
-                    FillInOffset(offsetName, (uint)BaseStream.Position, false);
+                    FillInOffset(offsetName, (uint)BaseStream.Position, true);
 
                 // Write the string...
                 WriteNullTerminatedString(tableEntry.Data);
@@ -168,7 +168,7 @@ namespace Marathon.IO.Helpers
             uint lastOffsetPos = Offset;
             IsBigEndian = true;
 
-            // Write Offset Table
+            // Writes the offset table...
             foreach (var offset in _OffsetDictionary)
             {
                 uint d = (offset.Value - lastOffsetPos) >> 2;
@@ -203,8 +203,8 @@ namespace Marathon.IO.Helpers
             StringTableEntry tableEntry = new StringTableEntry(str);
             bool newEntry = true;
 
-            // Make sure there aren't any existing entries of this string
-            foreach (StringTableEntry strEntry in strings)
+            // Makes sure there aren't any existing entries of this string.
+            foreach (StringTableEntry strEntry in _StringTableEntries)
             {
                 if (strEntry.Data == str)
                 {
@@ -214,12 +214,12 @@ namespace Marathon.IO.Helpers
                 }
             }
 
-            // Add an offset to the string we're going to write into the string table later
+            // Adds an offset to the string to be written into the string table later.
             AddOffset(offsetName, offsetLength);
             tableEntry.OffsetNames.Add(offsetName);
 
             if (newEntry)
-                strings.Add(tableEntry);
+                _StringTableEntries.Add(tableEntry);
         }
 
         public override void FillInOffset(string name, bool additive = false, bool removeOffset = false)
