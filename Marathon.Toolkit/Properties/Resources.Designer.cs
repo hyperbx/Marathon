@@ -86,6 +86,16 @@ namespace Marathon.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FileDrop {
+            get {
+                object obj = ResourceManager.GetObject("FileDrop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compressed U8 Archive (*.arc)|*.arc.
         /// </summary>
         internal static string Filter_CompressedU8Archive {

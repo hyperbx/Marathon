@@ -32,6 +32,9 @@ using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.SonicNext
 {
+    /// <summary>
+    /// File base for the Sonic '06 PFT format.
+    /// </summary>
     public class PictureFont : FileBase
     {
         public class SubImage

@@ -37,6 +37,8 @@ namespace Marathon
             InitializeComponent();
 
             Text += $"(Version {Program.GlobalVersion})";
+
+            new FileConverter().Show(DockPanel_Main);
         }
 
         /// <summary>

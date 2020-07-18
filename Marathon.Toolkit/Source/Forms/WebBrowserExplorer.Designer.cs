@@ -258,7 +258,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "WebBrowserExplorer";
-            this.Text = "Marathon Explorer ";
+            this.Text = "Explorer ";
             this.Load += new System.EventHandler(this.WebBrowserExplorer_Load);
             this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
             this.SplitContainer_TreeView.Panel2.ResumeLayout(false);

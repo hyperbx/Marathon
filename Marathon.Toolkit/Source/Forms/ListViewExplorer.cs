@@ -29,6 +29,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats.SonicNext;
+using Marathon.Components;
 
 namespace Marathon.Controls
 {
@@ -92,22 +93,7 @@ namespace Marathon.Controls
         /// <summary>
         /// Redraws the column header.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ListView_Explorer_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
-        {
-            // Draws the column background colour.
-            Color theme = Color.FromArgb(35, 35, 38);
-            e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds);
-
-            // Draws the column header by sender.
-            ColumnHeader column = ((ListView)sender).Columns[e.ColumnIndex];
-            e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds.X, 0, 0, e.Bounds.Height);
-            e.Graphics.DrawLine(new Pen(Color.FromArgb(99, 99, 99)), e.Bounds.X, e.Bounds.Y, e.Bounds.Left, e.Bounds.Right);
-
-            // Draws the column text by sender.
-            TextRenderer.DrawText(e.Graphics, column.Text, ((ListView)sender).Font, new Point(e.Bounds.X + 4, 4), ((ListView)sender).ForeColor);
-        }
+        private void ListView_Explorer_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) => ListViewDark.DrawColumnHeader(sender, e);
 
         /// <summary>
         /// Hacky way of keeping the column colour consistent when resizing the control.

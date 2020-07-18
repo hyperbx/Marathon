@@ -2,6 +2,7 @@
 /* 
  * MIT License
  * 
+ * Copyright (c) 2019 GerbilSoft
  * Copyright (c) 2020 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,6 +33,9 @@ using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.SonicNext
 {
+    /// <summary>
+    /// File base for the Sonic '06 MST format.
+    /// </summary>
     public class Text : FileBase
     {
         public class Entry
@@ -132,53 +136,53 @@ namespace Marathon.IO.Formats.SonicNext
 
         public void ExportXML(string filePath)
         {
-            // Root Node
+            // Root Node.
             var rootElem = new XElement("Text");
             var rootNameAttr = new XAttribute("Name", Name);
             rootElem.Add(rootNameAttr);
 
-            // String Nodes
+            // String Nodes.
             for(int i = 0; i < Entries.Count; i++)
             {
-                // Escape the \f and \n characters
+                // Escape the \f and \n characters.
                 var text = Entries[i].Text.Replace("\f", "\\f");
                 text = text.Replace("\n", "\\n");
 
-                // Create XML Nodes
+                // Create XML Nodes.
                 var message = new XElement("Message", text);
                 var indexAttr = new XAttribute("Index", i);
                 var nameAttr = new XAttribute("Name", Entries[i].Name);
                 var placeholderAttr = new XAttribute("Placeholder", Entries[i].Placeholder);
 
-                // Add Nodes to appropriate XML Elements
+                // Add Nodes to appropriate XML Elements.
                 message.Add(indexAttr, nameAttr, placeholderAttr);
                 rootElem.Add(message);
             }
 
-            // Save XML
+            // Save XML.
             var xml = new XDocument(rootElem);
             xml.Save(filePath);
         }
 
         public void ImportXML(string filepath)
         {
-            // Load XML and get Name value
+            // Load XML and get Name value.
             var xml = XDocument.Load(filepath);
             Name = xml.Root.Attribute("Name").Value;
 
-            // Loop through message nodes
+            // Loop through message nodes.
             foreach (var msgElement in xml.Root.Elements("Message"))
             {
                 Entry entry = new Entry();
 
                 entry.Name = msgElement.Attribute("Name").Value;
                 entry.Placeholder = msgElement.Attribute("Placeholder").Value;
-                // Parse the escaped \f and \n characters
+                // Parse the escaped \f and \n characters.
                 entry.Text = msgElement.Value;
                 entry.Text = entry.Text.Replace("\\n", "\n");
                 entry.Text = entry.Text.Replace("\\f", "\f");
 
-                //Add to list of Entries in this file
+                //Add to list of Entries in this file.
                 Entries.Add(entry);
             }
         }

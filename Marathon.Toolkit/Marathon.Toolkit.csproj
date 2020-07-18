@@ -63,7 +63,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Serialisers.cs" />
+    <Compile Include="Source\Forms\FileConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Forms\FileConverter.Designer.cs">
+      <DependentUpon>FileConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Helpers\Serialisers.cs" />
     <Compile Include="Source\Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,7 +81,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Source\TreeViewExtensions.cs" />
+    <Compile Include="Source\Helpers\TreeViewHelpers.cs" />
     <Compile Include="Source\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,7 +100,7 @@
     <Compile Include="Source\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\ColourTables.cs" />
+    <Compile Include="Source\Helpers\InterfaceDrawing.cs" />
     <Compile Include="Source\Forms\ListViewExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     <EmbeddedResource Include="Source\Forms\ListViewExplorer.resx">
       <DependentUpon>ListViewExplorer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Source\Forms\FileConverter.resx">
+      <DependentUpon>FileConverter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Source\Forms\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,6 +181,7 @@
     <Content Include="Resources\Icons\Icon.ico" />
     <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
     <Content Include="Resources\Images\File.png" />
+    <Content Include="Resources\Images\FileDrop.png" />
     <Content Include="Resources\Images\Folder.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />

@@ -1,6 +1,9 @@
 ﻿namespace Marathon.IO.Formats.SonicNext
 {
-    class SoundBank
+    /// <summary>
+    /// File base for the Sonic '06 SBK format.
+    /// </summary>
+    public class SoundBank : FileBase
     {
         // TODO
     }

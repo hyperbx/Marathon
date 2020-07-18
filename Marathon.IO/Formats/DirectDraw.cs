@@ -1,6 +1,9 @@
 ﻿namespace Marathon.IO.Formats.Textures
 {
-    class DirectDraw
+    /// <summary>
+    /// File base for the DirectDraw Surface format.
+    /// </summary>
+    public class DirectDraw : FileBase
     {
         // TODO
     }

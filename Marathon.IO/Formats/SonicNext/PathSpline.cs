@@ -1,9 +1,9 @@
 ﻿namespace Marathon.IO.Formats.SonicNext
 {
     /// <summary>
-    /// File base for the Sonic '06 ARC format.
+    /// File base for the Sonic '06 PATH format.
     /// </summary>
-    public class CompressedU8Archive : FileBase
+    public class PathSpline : FileBase
     {
         // TODO
     }

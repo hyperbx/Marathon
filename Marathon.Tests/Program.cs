@@ -11,7 +11,7 @@ namespace Marathon.Tests
     {
         static void Main(string[] args)
         {
-
+            // Hello world!
         }
     }
 }

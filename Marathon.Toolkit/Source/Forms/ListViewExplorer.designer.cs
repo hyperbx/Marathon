@@ -154,7 +154,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ListViewExplorer";
-            this.Text = "Marathon File Manager ";
+            this.Text = "File Manager ";
             this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
             this.SplitContainer_TreeView.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).EndInit();

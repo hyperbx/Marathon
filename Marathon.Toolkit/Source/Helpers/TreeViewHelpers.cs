@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Marathon.Controls
 {
-    public static class TreeViewExtensions
+    public static class TreeViewHelpers
     {
         public static List<string> GetExpansionState(this TreeNodeCollection treeNodeCollection)
             => treeNodeCollection.Descendants().Where(node => node.IsExpanded).Select(node => node.FullPath).ToList();

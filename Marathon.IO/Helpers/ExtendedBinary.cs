@@ -297,12 +297,6 @@ namespace Marathon.IO
                 (ushort)(_Buffer[1] << 8 | _Buffer[0]);
         }
 
-        // TODO - Implement Half types
-        //public Half ReadHalf()
-        //{
-        //    return Half.ToHalf(ReadUInt16());
-        //}
-
         /// <summary>
         /// Reads an Int32 from the current position.
         /// </summary>
@@ -389,62 +383,77 @@ namespace Marathon.IO
             return *(double*)&@double;
         }
 
-        // TODO - Implement Vector types
-        //public virtual unsafe Vector2 ReadVector2()
-        //{
-        //    var vec = new Vector2();
-        //    uint v = ReadUInt32();
-        //    vec.X = *((float*)&v);
+        /// <summary>
+        /// Reads a Vector2 from the current position.
+        /// </summary>
+        public virtual unsafe Vector2 ReadVector2()
+        {
+            var vec = new Vector2();
+            uint v = ReadUInt32();
+            vec.X = *((float*)&v);
 
-        //    v = ReadUInt32();
-        //    vec.Y = *((float*)&v);
+            v = ReadUInt32();
+            vec.Y = *((float*)&v);
 
-        //    return vec;
-        //}
+            return vec;
+        }
 
-        //public virtual unsafe Vector3 ReadVector3()
-        //{
-        //    var vec = new Vector3();
-        //    uint v = ReadUInt32();
-        //    vec.X = *((float*)&v);
+        /// <summary>
+        /// Reads a Vector3 from the current position.
+        /// </summary>
+        public virtual unsafe Vector3 ReadVector3()
+        {
+            var vec = new Vector3();
+            uint v = ReadUInt32();
+            vec.X = *((float*)&v);
 
-        //    v = ReadUInt32();
-        //    vec.Y = *((float*)&v);
+            v = ReadUInt32();
+            vec.Y = *((float*)&v);
 
-        //    v = ReadUInt32();
-        //    vec.Z = *((float*)&v);
+            v = ReadUInt32();
+            vec.Z = *((float*)&v);
 
-        //    return vec;
-        //}
-        
-        //public virtual Vector4 ReadVector4()
-        //{
-        //    var vec = new Vector4();
-        //    ReadVector4(vec);
-        //    return vec;
-        //}
+            return vec;
+        }
 
-        //public virtual Quaternion ReadQuaternion()
-        //{
-        //    var vec = new Quaternion();
-        //    ReadVector4(vec);
-        //    return vec;
-        //}
+        /// <summary>
+        /// Reads a Vector4 from the current position.
+        /// </summary>
+        public virtual Vector4 ReadVector4()
+        {
+            var vec = new Vector4();
+            ReadVector4(vec);
+            return vec;
+        }
 
-        //protected unsafe virtual void ReadVector4(Vector4 vec)
-        //{
-        //    uint v = ReadUInt32();
-        //    vec.X = *((float*)&v);
+        /// <summary>
+        /// Reads a Quaternion from the current position.
+        /// </summary>
+        public virtual Quaternion ReadQuaternion()
+        {
+            var vec = new Quaternion();
+            ReadVector4(vec);
+            return vec;
+        }
 
-        //    v = ReadUInt32();
-        //    vec.Y = *((float*)&v);
+        /// <summary>
+        /// Reads a Vector4 from the current position.
+        /// </summary>
+        /// <param name="vect">Vector4 to read.</param>
+        protected unsafe virtual void ReadVector4(Vector4 vect)
+        {
+            uint v = ReadUInt32();
+            vect.X = *((float*)&v);
 
-        //    v = ReadUInt32();
-        //    vec.Z = *((float*)&v);
+            v = ReadUInt32();
+            vect.Y = *((float*)&v);
 
-        //    v = ReadUInt32();
-        //    vec.W = *((float*)&v);
-        //}
+            v = ReadUInt32();
+            vect.Z = *((float*)&v);
+
+            v = ReadUInt32();
+            vect.W = *((float*)&v);
+        }
 
         /// <summary>
         /// Fills the stream buffer.
@@ -727,8 +736,6 @@ namespace Marathon.IO
                 Write((short)data);
             else if (type == typeof(ushort))
                 Write((ushort)data);
-            //else if (type == typeof(Half))    // TODO - Implement Half types
-            //    WriteHalf((Half)data);
             else if (type == typeof(int))
                 Write((int)data);
             else if (type == typeof(uint))
@@ -741,12 +748,12 @@ namespace Marathon.IO
                 Write((ulong)data);
             else if (type == typeof(double))
                 Write((double)data);
-            //else if (type == typeof(Vector2)) // TODO - Implement Vector types
-            //    Write((Vector2)data);
-            //else if (type == typeof(Vector3))
-            //    Write((Vector3)data);
-            //else if (type == typeof(Vector4) || type == typeof(Quaternion))
-            //    Write((Vector4)data);
+            else if (type == typeof(Vector2)) // TODO - Implement Vector types
+                Write((Vector2)data);
+            else if (type == typeof(Vector3))
+                Write((Vector3)data);
+            else if (type == typeof(Vector4) || type == typeof(Quaternion))
+                Write((Vector4)data);
             else if (type == typeof(string))
                 Write((string)data);
             else
@@ -797,12 +804,6 @@ namespace Marathon.IO
 
             OutStream.Write(_DataBuffer, 0, sizeof(ushort));
         }
-
-        // TODO - Implement Half types
-        //public void WriteHalf(Half value)
-        //{
-        //    Write(value.value);
-        //}
 
         /// <summary>
         /// Writes an Int32 to the current position.
@@ -928,143 +929,153 @@ namespace Marathon.IO
         public override unsafe void Write(double value)
             => Write(*(ulong*)&value);
 
-        // TODO - Implement Vector types
-        //public virtual unsafe void Write(Vector2 vect)
-        //{
-        //    var p = ((uint*)&vect.X);
-        //    if (_IsBigEndian)
-        //    {
-        //        _DataBuffer[0] = (byte)(*p >> 24);
-        //        _DataBuffer[1] = (byte)(*p >> 16);
-        //        _DataBuffer[2] = (byte)(*p >> 8);
-        //        _DataBuffer[3] = (byte)(*p);
+        /// <summary>
+        /// Writes a Vector2 to the current position.
+        /// </summary>
+        /// <param name="vect">Vector2 to write.</param>
+        public virtual unsafe void Write(Vector2 vect)
+        {
+            var p = (uint*)&vect.X;
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(*p >> 24);
+                _DataBuffer[1] = (byte)(*p >> 16);
+                _DataBuffer[2] = (byte)(*p >> 8);
+                _DataBuffer[3] = (byte)(*p);
 
-        //        p = ((uint*)&vect.Y);
-        //        _DataBuffer[4] = (byte)(*p >> 24);
-        //        _DataBuffer[5] = (byte)(*p >> 16);
-        //        _DataBuffer[6] = (byte)(*p >> 8);
-        //        _DataBuffer[7] = (byte)(*p);
-        //    }
-        //    else
-        //    {
-        //        _DataBuffer[0] = (byte)(*p);
-        //        _DataBuffer[1] = (byte)(*p >> 8);
-        //        _DataBuffer[2] = (byte)(*p >> 16);
-        //        _DataBuffer[3] = (byte)(*p >> 24);
+                p = ((uint*)&vect.Y);
+                _DataBuffer[4] = (byte)(*p >> 24);
+                _DataBuffer[5] = (byte)(*p >> 16);
+                _DataBuffer[6] = (byte)(*p >> 8);
+                _DataBuffer[7] = (byte)(*p);
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)(*p);
+                _DataBuffer[1] = (byte)(*p >> 8);
+                _DataBuffer[2] = (byte)(*p >> 16);
+                _DataBuffer[3] = (byte)(*p >> 24);
 
-        //        p = ((uint*)&vect.Y);
-        //        _DataBuffer[4] = (byte)(*p);
-        //        _DataBuffer[5] = (byte)(*p >> 8);
-        //        _DataBuffer[6] = (byte)(*p >> 16);
-        //        _DataBuffer[7] = (byte)(*p >> 24);
-        //    }
+                p = ((uint*)&vect.Y);
+                _DataBuffer[4] = (byte)(*p);
+                _DataBuffer[5] = (byte)(*p >> 8);
+                _DataBuffer[6] = (byte)(*p >> 16);
+                _DataBuffer[7] = (byte)(*p >> 24);
+            }
 
-        //    Write(_DataBuffer, 0, 8);
-        //}
+            Write(_DataBuffer, 0, 8);
+        }
 
-        //// 12-Byte Types
-        //public virtual unsafe void Write(Vector3 vect)
-        //{
-        //    var p = ((uint*)&vect.X);
-        //    if (_IsBigEndian)
-        //    {
-        //        _DataBuffer[0] = (byte)(*p >> 24);
-        //        _DataBuffer[1] = (byte)(*p >> 16);
-        //        _DataBuffer[2] = (byte)(*p >> 8);
-        //        _DataBuffer[3] = (byte)(*p);
+        /// <summary>
+        /// Writes a Vector3 to the current position.
+        /// </summary>
+        /// <param name="vect">Vector3 to write.</param>
+        public virtual unsafe void Write(Vector3 vect)
+        {
+            var p = (uint*)&vect.X;
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(*p >> 24);
+                _DataBuffer[1] = (byte)(*p >> 16);
+                _DataBuffer[2] = (byte)(*p >> 8);
+                _DataBuffer[3] = (byte)(*p);
 
-        //        p = ((uint*)&vect.Y);
-        //        _DataBuffer[4] = (byte)(*p >> 24);
-        //        _DataBuffer[5] = (byte)(*p >> 16);
-        //        _DataBuffer[6] = (byte)(*p >> 8);
-        //        _DataBuffer[7] = (byte)(*p);
+                p = ((uint*)&vect.Y);
+                _DataBuffer[4] = (byte)(*p >> 24);
+                _DataBuffer[5] = (byte)(*p >> 16);
+                _DataBuffer[6] = (byte)(*p >> 8);
+                _DataBuffer[7] = (byte)(*p);
 
-        //        p = ((uint*)&vect.Z);
-        //        _DataBuffer[8] = (byte)(*p >> 24);
-        //        _DataBuffer[9] = (byte)(*p >> 16);
-        //        _DataBuffer[10] = (byte)(*p >> 8);
-        //        _DataBuffer[11] = (byte)(*p);
-        //    }
-        //    else
-        //    {
-        //        _DataBuffer[0] = (byte)(*p);
-        //        _DataBuffer[1] = (byte)(*p >> 8);
-        //        _DataBuffer[2] = (byte)(*p >> 16);
-        //        _DataBuffer[3] = (byte)(*p >> 24);
+                p = ((uint*)&vect.Z);
+                _DataBuffer[8] = (byte)(*p >> 24);
+                _DataBuffer[9] = (byte)(*p >> 16);
+                _DataBuffer[10] = (byte)(*p >> 8);
+                _DataBuffer[11] = (byte)(*p);
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)(*p);
+                _DataBuffer[1] = (byte)(*p >> 8);
+                _DataBuffer[2] = (byte)(*p >> 16);
+                _DataBuffer[3] = (byte)(*p >> 24);
 
-        //        p = ((uint*)&vect.Y);
-        //        _DataBuffer[4] = (byte)(*p);
-        //        _DataBuffer[5] = (byte)(*p >> 8);
-        //        _DataBuffer[6] = (byte)(*p >> 16);
-        //        _DataBuffer[7] = (byte)(*p >> 24);
+                p = ((uint*)&vect.Y);
+                _DataBuffer[4] = (byte)(*p);
+                _DataBuffer[5] = (byte)(*p >> 8);
+                _DataBuffer[6] = (byte)(*p >> 16);
+                _DataBuffer[7] = (byte)(*p >> 24);
 
-        //        p = ((uint*)&vect.Z);
-        //        _DataBuffer[8] = (byte)(*p);
-        //        _DataBuffer[9] = (byte)(*p >> 8);
-        //        _DataBuffer[10] = (byte)(*p >> 16);
-        //        _DataBuffer[11] = (byte)(*p >> 24);
-        //    }
+                p = ((uint*)&vect.Z);
+                _DataBuffer[8] = (byte)(*p);
+                _DataBuffer[9] = (byte)(*p >> 8);
+                _DataBuffer[10] = (byte)(*p >> 16);
+                _DataBuffer[11] = (byte)(*p >> 24);
+            }
 
-        //    Write(_DataBuffer, 0, 12);
-        //}
+            Write(_DataBuffer, 0, 12);
+        }
 
-        //public virtual unsafe void Write(Vector4 vect)
-        //{
-        //    float f = vect.X;
-        //    var p = ((uint*)&f);
+        /// <summary>
+        /// Writes a Vector4 to the current position.
+        /// </summary>
+        /// <param name="vect">Vector4 to write.</param>
+        public virtual unsafe void Write(Vector4 vect)
+        {
+            float f = vect.X;
+            var p = (uint*)&f;
 
-        //    if (_IsBigEndian)
-        //    {
-        //        _DataBuffer[0] = (byte)(*p >> 24);
-        //        _DataBuffer[1] = (byte)(*p >> 16);
-        //        _DataBuffer[2] = (byte)(*p >> 8);
-        //        _DataBuffer[3] = (byte)(*p);
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(*p >> 24);
+                _DataBuffer[1] = (byte)(*p >> 16);
+                _DataBuffer[2] = (byte)(*p >> 8);
+                _DataBuffer[3] = (byte)(*p);
 
-        //        f = vect.Y;
-        //        _DataBuffer[4] = (byte)(*p >> 24);
-        //        _DataBuffer[5] = (byte)(*p >> 16);
-        //        _DataBuffer[6] = (byte)(*p >> 8);
-        //        _DataBuffer[7] = (byte)(*p);
+                f = vect.Y;
+                _DataBuffer[4] = (byte)(*p >> 24);
+                _DataBuffer[5] = (byte)(*p >> 16);
+                _DataBuffer[6] = (byte)(*p >> 8);
+                _DataBuffer[7] = (byte)(*p);
 
-        //        f = vect.Z;
-        //        _DataBuffer[8] = (byte)(*p >> 24);
-        //        _DataBuffer[9] = (byte)(*p >> 16);
-        //        _DataBuffer[10] = (byte)(*p >> 8);
-        //        _DataBuffer[11] = (byte)(*p);
+                f = vect.Z;
+                _DataBuffer[8] = (byte)(*p >> 24);
+                _DataBuffer[9] = (byte)(*p >> 16);
+                _DataBuffer[10] = (byte)(*p >> 8);
+                _DataBuffer[11] = (byte)(*p);
 
-        //        f = vect.W;
-        //        _DataBuffer[12] = (byte)(*p >> 24);
-        //        _DataBuffer[13] = (byte)(*p >> 16);
-        //        _DataBuffer[14] = (byte)(*p >> 8);
-        //        _DataBuffer[15] = (byte)(*p);
-        //    }
-        //    else
-        //    {
-        //        _DataBuffer[0] = (byte)(*p);
-        //        _DataBuffer[1] = (byte)(*p >> 8);
-        //        _DataBuffer[2] = (byte)(*p >> 16);
-        //        _DataBuffer[3] = (byte)(*p >> 24);
+                f = vect.W;
+                _DataBuffer[12] = (byte)(*p >> 24);
+                _DataBuffer[13] = (byte)(*p >> 16);
+                _DataBuffer[14] = (byte)(*p >> 8);
+                _DataBuffer[15] = (byte)(*p);
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)(*p);
+                _DataBuffer[1] = (byte)(*p >> 8);
+                _DataBuffer[2] = (byte)(*p >> 16);
+                _DataBuffer[3] = (byte)(*p >> 24);
 
-        //        f = vect.Y;
-        //        _DataBuffer[4] = (byte)(*p);
-        //        _DataBuffer[5] = (byte)(*p >> 8);
-        //        _DataBuffer[6] = (byte)(*p >> 16);
-        //        _DataBuffer[7] = (byte)(*p >> 24);
+                f = vect.Y;
+                _DataBuffer[4] = (byte)(*p);
+                _DataBuffer[5] = (byte)(*p >> 8);
+                _DataBuffer[6] = (byte)(*p >> 16);
+                _DataBuffer[7] = (byte)(*p >> 24);
 
-        //        f = vect.Z;
-        //        _DataBuffer[8] = (byte)(*p);
-        //        _DataBuffer[9] = (byte)(*p >> 8);
-        //        _DataBuffer[10] = (byte)(*p >> 16);
-        //        _DataBuffer[11] = (byte)(*p >> 24);
+                f = vect.Z;
+                _DataBuffer[8] = (byte)(*p);
+                _DataBuffer[9] = (byte)(*p >> 8);
+                _DataBuffer[10] = (byte)(*p >> 16);
+                _DataBuffer[11] = (byte)(*p >> 24);
 
-        //        f = vect.W;
-        //        _DataBuffer[12] = (byte)(*p);
-        //        _DataBuffer[13] = (byte)(*p >> 8);
-        //        _DataBuffer[14] = (byte)(*p >> 16);
-        //        _DataBuffer[15] = (byte)(*p >> 24);
-        //    }
+                f = vect.W;
+                _DataBuffer[12] = (byte)(*p);
+                _DataBuffer[13] = (byte)(*p >> 8);
+                _DataBuffer[14] = (byte)(*p >> 16);
+                _DataBuffer[15] = (byte)(*p >> 24);
+            }
 
-        //    Write(_DataBuffer, 0, 16);
-        //}
+            Write(_DataBuffer, 0, 16);
+        }
     }
 }
