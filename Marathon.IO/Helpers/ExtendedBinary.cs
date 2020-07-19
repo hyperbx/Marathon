@@ -196,8 +196,6 @@ namespace Marathon.IO
                 return ReadInt16();
             else if (type == typeof(ushort))
                 return ReadUInt16();
-            //else if (type == typeof(Half))    // TODO - Implement Half types
-            //    return ReadHalf();
             else if (type == typeof(int))
                 return ReadInt32();
             else if (type == typeof(uint))
@@ -210,14 +208,14 @@ namespace Marathon.IO
                 return ReadUInt64();
             else if (type == typeof(double))
                 return ReadDouble();
-            //else if (type == typeof(Vector2)) // TODO - Implement Vector types
-            //    return ReadVector2();
-            //else if (type == typeof(Vector3))
-            //    return ReadVector3();
-            //else if (type == typeof(Quaternion))
-            //    return ReadQuaternion();
-            //else if (type == typeof(Vector4))
-            //    return ReadVector4();
+            else if (type == typeof(Vector2))
+                return ReadVector2();
+            else if (type == typeof(Vector3))
+                return ReadVector3();
+            else if (type == typeof(Quaternion))
+                return ReadQuaternion();
+            else if (type == typeof(Vector4))
+                return ReadVector4();
             else if (type == typeof(string))
                 return ReadString();
 
@@ -274,11 +272,11 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                (short)(_Buffer[0] << 8 | _Buffer[1]) :
+                   // Big-endian
+                   (short)(_Buffer[0] << 8 | _Buffer[1]) :
                 
-                // Little-endian
-                (short)(_Buffer[1] << 8 | _Buffer[0]);
+                   // Little-endian
+                   (short)(_Buffer[1] << 8 | _Buffer[0]);
         }
 
         /// <summary>
@@ -290,11 +288,43 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                (ushort)(_Buffer[0] << 8 | _Buffer[1]) :
+                   // Big-endian
+                   (ushort)(_Buffer[0] << 8 | _Buffer[1]) :
                 
-                // Little-endian
-                (ushort)(_Buffer[1] << 8 | _Buffer[0]);
+                   // Little-endian
+                   (ushort)(_Buffer[1] << 8 | _Buffer[0]);
+        }
+
+        /// <summary>
+        /// Reads an Int24 from the current position.
+        /// </summary>
+        public unsafe int ReadInt24()
+        {
+            FillBuffer(3);
+
+            return IsBigEndian ?
+
+                   // Big-endian
+                   _Buffer[0] << 16 | _Buffer[1] << 8 | _Buffer[2] :
+
+                   // Little-endian
+                   _Buffer[2] << 16 | _Buffer[1] << 8 | _Buffer[0];
+        }
+
+        /// <summary>
+        /// Reads a UInt24 from the current position.
+        /// </summary>
+        public unsafe uint ReadUInt24()
+        {
+            FillBuffer(3);
+
+            return IsBigEndian ?
+
+                   // Big-endian
+                   ((uint)_Buffer[0] << 16 | (uint)_Buffer[1] << 8 | _Buffer[2]) :
+
+                   // Little-endian
+                   ((uint)_Buffer[2] << 16 | (uint)_Buffer[1] << 8 | _Buffer[0]);
         }
 
         /// <summary>
@@ -306,11 +336,11 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                _Buffer[0] << 24 | _Buffer[1] << 16 | _Buffer[2] << 8 | _Buffer[3] :
+                   // Big-endian
+                   _Buffer[0] << 24 | _Buffer[1] << 16 | _Buffer[2] << 8 | _Buffer[3] :
 
-                // Little-endian
-                _Buffer[3] << 24 | _Buffer[2] << 16 | _Buffer[1] << 8 | _Buffer[0];
+                   // Little-endian
+                   _Buffer[3] << 24 | _Buffer[2] << 16 | _Buffer[1] << 8 | _Buffer[0];
         }
 
         /// <summary>
@@ -322,11 +352,11 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                ((uint)_Buffer[0] << 24 | (uint)_Buffer[1] << 16 | (uint)_Buffer[2] << 8 | _Buffer[3]):
+                   // Big-endian
+                   ((uint)_Buffer[0] << 24 | (uint)_Buffer[1] << 16 | (uint)_Buffer[2] << 8 | _Buffer[3]):
 
-                // Little-endian
-                ((uint)_Buffer[3] << 24 | (uint)_Buffer[2] << 16 | (uint)_Buffer[1] << 8 | _Buffer[0]);
+                   // Little-endian
+                   ((uint)_Buffer[3] << 24 | (uint)_Buffer[2] << 16 | (uint)_Buffer[1] << 8 | _Buffer[0]);
         }
 
         /// <summary>
@@ -347,13 +377,13 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                ((long)_Buffer[0] << 56 | (long)_Buffer[1] << 48 | (long)_Buffer[2] << 40 | (long)_Buffer[3] << 32 |
-                (long)_Buffer[4] << 24 | (long)_Buffer[5] << 16 | (long)_Buffer[6] << 8 | _Buffer[7]) :
+                   // Big-endian
+                   ((long)_Buffer[0] << 56 | (long)_Buffer[1] << 48 | (long)_Buffer[2] << 40 | (long)_Buffer[3] << 32 |
+                   (long)_Buffer[4] << 24 | (long)_Buffer[5] << 16 | (long)_Buffer[6] << 8 | _Buffer[7]) :
 
-                // Little-endian
-                ((long)_Buffer[7] << 56 | (long)_Buffer[6] << 48 | (long)_Buffer[5] << 40 | (long)_Buffer[4] << 32 |
-                (long)_Buffer[3] << 24 | (long)_Buffer[2] << 16 | (long)_Buffer[1] << 8 | _Buffer[0]);
+                   // Little-endian
+                   ((long)_Buffer[7] << 56 | (long)_Buffer[6] << 48 | (long)_Buffer[5] << 40 | (long)_Buffer[4] << 32 |
+                   (long)_Buffer[3] << 24 | (long)_Buffer[2] << 16 | (long)_Buffer[1] << 8 | _Buffer[0]);
         }
 
         /// <summary>
@@ -365,13 +395,13 @@ namespace Marathon.IO
 
             return IsBigEndian ?
 
-                // Big-endian
-                ((ulong)_Buffer[0] << 56 | (ulong)_Buffer[1] << 48 | (ulong)_Buffer[2] << 40 | (ulong)_Buffer[3] << 32 |
-                 (ulong)_Buffer[4] << 24 | (ulong)_Buffer[5] << 16 | (ulong)_Buffer[6] << 8 | _Buffer[7]) :
+                   // Big-endian
+                   ((ulong)_Buffer[0] << 56 | (ulong)_Buffer[1] << 48 | (ulong)_Buffer[2] << 40 | (ulong)_Buffer[3] << 32 |
+                    (ulong)_Buffer[4] << 24 | (ulong)_Buffer[5] << 16 | (ulong)_Buffer[6] << 8 | _Buffer[7]) :
 
-                // Little-endian
-                ((ulong)_Buffer[7] << 56 | (ulong)_Buffer[6] << 48 | (ulong)_Buffer[5] << 40 | (ulong)_Buffer[4] << 32 |
-                 (ulong)_Buffer[3] << 24 | (ulong)_Buffer[2] << 16 | (ulong)_Buffer[1] << 8 | _Buffer[0]);
+                   // Little-endian
+                   ((ulong)_Buffer[7] << 56 | (ulong)_Buffer[6] << 48 | (ulong)_Buffer[5] << 40 | (ulong)_Buffer[4] << 32 |
+                    (ulong)_Buffer[3] << 24 | (ulong)_Buffer[2] << 16 | (ulong)_Buffer[1] << 8 | _Buffer[0]);
         }
 
         /// <summary>
@@ -390,10 +420,10 @@ namespace Marathon.IO
         {
             var vec = new Vector2();
             uint v = ReadUInt32();
-            vec.X = *((float*)&v);
+            vec.X = *(float*)&v;
 
             v = ReadUInt32();
-            vec.Y = *((float*)&v);
+            vec.Y = *(float*)&v;
 
             return vec;
         }
@@ -405,13 +435,13 @@ namespace Marathon.IO
         {
             var vec = new Vector3();
             uint v = ReadUInt32();
-            vec.X = *((float*)&v);
+            vec.X = *(float*)&v;
 
             v = ReadUInt32();
-            vec.Y = *((float*)&v);
+            vec.Y = *(float*)&v;
 
             v = ReadUInt32();
-            vec.Z = *((float*)&v);
+            vec.Z = *(float*)&v;
 
             return vec;
         }
@@ -443,16 +473,16 @@ namespace Marathon.IO
         protected unsafe virtual void ReadVector4(Vector4 vect)
         {
             uint v = ReadUInt32();
-            vect.X = *((float*)&v);
+            vect.X = *(float*)&v;
 
             v = ReadUInt32();
-            vect.Y = *((float*)&v);
+            vect.Y = *(float*)&v;
 
             v = ReadUInt32();
-            vect.Z = *((float*)&v);
+            vect.Z = *(float*)&v;
 
             v = ReadUInt32();
-            vect.W = *((float*)&v);
+            vect.W = *(float*)&v;
         }
 
         /// <summary>
@@ -536,6 +566,19 @@ namespace Marathon.IO
                 _OffsetDictionary.Add(name, (uint)BaseStream.Position);
 
             WriteNulls(offsetLength);
+        }
+
+        /// <summary>
+        /// Adds an offset to the dictionary and overwrites any duplicates.
+        /// </summary>
+        /// <param name="name">Name of dictionary entry.</param>
+        /// <param name="offsetLength">Length of dictionary entry offset.</param>
+        public virtual void JumpToOffset(string name, bool removeOffset = true)
+        {
+            OutStream.Position = _OffsetDictionary[name];
+
+            if (removeOffset)
+                _OffsetDictionary.Remove(name);
         }
 
         /// <summary>
@@ -803,6 +846,48 @@ namespace Marathon.IO
             }
 
             OutStream.Write(_DataBuffer, 0, sizeof(ushort));
+        }
+
+        /// <summary>
+        /// Writes an Int24 to the current position.
+        /// </summary>
+        public void WriteInt24(int value)
+        {
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(value >> 16);
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)value;
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)value;
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)(value >> 16);
+            }
+
+            OutStream.Write(_DataBuffer, 0, 3);
+        }
+
+        /// <summary>
+        /// Writes a UInt24 to the current position.
+        /// </summary>
+        public void WriteUInt24(uint value)
+        {
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(value >> 16);
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)value;
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)value;
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)(value >> 16);
+            }
+
+            OutStream.Write(_DataBuffer, 0, 3);
         }
 
         /// <summary>
