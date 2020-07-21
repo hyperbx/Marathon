@@ -83,8 +83,8 @@ namespace Marathon.IO.Formats.SonicNext
 
         public override void Save(Stream fileStream)
         {
-            BINAv1Header Header = new BINAv1Header();
-            BINAWriter writer = new BINAWriter(fileStream, Header);
+            BINAv1Header header = new BINAv1Header();
+            BINAWriter writer = new BINAWriter(fileStream, header);
 
             writer.AddOffset("unknownUInt32_1");
 
@@ -113,7 +113,7 @@ namespace Marathon.IO.Formats.SonicNext
                 writer.Write(Faces[i].Flags);
             }
 
-            writer.FinishWrite(Header);
+            writer.FinishWrite(header);
         }
 
         /// <summary>
