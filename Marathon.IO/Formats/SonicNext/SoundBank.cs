@@ -137,7 +137,7 @@ namespace Marathon.IO.Formats.SonicNext
 
             writer.FillInOffset("banksOffset", true);
 
-            writer.Write(string.Concat(Name.Take(64))); // TODO: Find a way to lock this to a 64 length character array.
+            writer.Write(string.Concat(Name.Take(64)));
             writer.Write(Cues.Count);
             writer.Write(csbCueCount);
             writer.Write(streamCueCount);
@@ -151,7 +151,7 @@ namespace Marathon.IO.Formats.SonicNext
 
             for (int i = 0; i < Cues.Count; i++)
             {
-                writer.Write(string.Concat(Cues[i].Name.Take(32))); // TODO: Find a way to lock this to a 32 length character array.
+                writer.Write(string.Concat(Cues[i].Name.Take(32)));
 
                 // Write a CSB based entry.
                 if (Cues[i].Stream == null)
