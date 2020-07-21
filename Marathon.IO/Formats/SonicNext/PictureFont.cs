@@ -65,21 +65,21 @@ namespace Marathon.IO.Formats.SonicNext
 
             // Texture
             reader.JumpTo(texturePos, true);
-            string texture = reader.ReadNullTerminatedString();
+            Texture = reader.ReadNullTerminatedString();
             reader.JumpTo(position, false);
 
             // Placeholders
-            for (uint i = 0; i < placeholderEntries; ++i)
+            for (uint i = 0; i < placeholderEntries; i++)
             {
-                SubImage fontPicture = new SubImage();
-                Texture = texture;
-
                 uint placeholderEntry = reader.ReadUInt32();
 
-                fontPicture.X = reader.ReadUInt16();
-                fontPicture.Y = reader.ReadUInt16();
-                fontPicture.Width = reader.ReadUInt16();
-                fontPicture.Height = reader.ReadUInt16();
+                SubImage fontPicture = new SubImage
+                {
+                    X = reader.ReadUInt16(),
+                    Y = reader.ReadUInt16(),
+                    Width = reader.ReadUInt16(),
+                    Height = reader.ReadUInt16()
+                };
 
                 position = reader.BaseStream.Position;
 

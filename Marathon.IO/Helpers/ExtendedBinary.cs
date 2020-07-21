@@ -569,19 +569,6 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Adds an offset to the dictionary and overwrites any duplicates.
-        /// </summary>
-        /// <param name="name">Name of dictionary entry.</param>
-        /// <param name="offsetLength">Length of dictionary entry offset.</param>
-        public virtual void JumpToOffset(string name, bool removeOffset = true)
-        {
-            OutStream.Position = _OffsetDictionary[name];
-
-            if (removeOffset)
-                _OffsetDictionary.Remove(name);
-        }
-
-        /// <summary>
         /// Adds an offset table to the dictionary.
         /// </summary>
         /// <param name="namePrefix">Name of offset table.</param>
@@ -594,22 +581,23 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Writes data to a previously set dictionary entry.
+        /// Jumps to an offset in the dictionary.
         /// </summary>
         /// <param name="name">Name of dictionary entry.</param>
-        /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, bool additive = false, bool removeOffset = true)
+        public virtual void JumpToOffset(string name, bool removeOffset = true)
         {
-            long position = OutStream.Position;
-
-            WriteOffsetValueAtPosition(_OffsetDictionary[name], (uint)position, additive);
+            OutStream.Position = _OffsetDictionary[name];
 
             if (removeOffset)
                 _OffsetDictionary.Remove(name);
-
-            OutStream.Position = position;
         }
+
+        /// <summary>
+        /// Returns an offset from the dictionary.
+        /// </summary>
+        /// <param name="name">Name of dictionary entry.</param>
+        public virtual long ReadOffsetPosition(string name) => _OffsetDictionary[name];
 
         /// <summary>
         /// Writes data to a previously set dictionary entry.
@@ -617,35 +605,24 @@ namespace Marathon.IO
         /// <param name="name">Name of dictionary entry.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffsetLong(string name, bool additive = false, bool removeOffset = true)
+        public virtual void FillInOffset(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
-            long position = OutStream.Position;
+            try
+            {
+                long position = OutStream.Position;
 
-            WriteOffsetValueAtPosition(_OffsetDictionary[name], (ulong)position, additive);
+                WriteOffsetValueAtPosition(_OffsetDictionary[name], (uint)position, additive);
 
-            if (removeOffset)
-                _OffsetDictionary.Remove(name);
+                if (removeOffset)
+                    _OffsetDictionary.Remove(name);
 
-            OutStream.Position = position;
-        }
-
-        /// <summary>
-        /// Writes data to a previously set dictionary entry.
-        /// </summary>
-        /// <param name="name">Name of dictionary entry.</param>
-        /// <param name="value">Value to write at the offset.</param>
-        /// <param name="additive">Adds the specified offset to the position.</param>
-        /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = true)
-        {
-            long position = OutStream.Position;
-
-            WriteOffsetValueAtPosition(_OffsetDictionary[name], value, additive);
-
-            if (removeOffset)
-                _OffsetDictionary.Remove(name);
-
-            OutStream.Position = position;
+                OutStream.Position = position;
+            }
+            catch
+            {
+                if (throwOnMissingOffset)
+                    throw new Exception("The specified offset is not part of the dictionary!");
+            }
         }
 
         /// <summary>
@@ -655,16 +632,77 @@ namespace Marathon.IO
         /// <param name="value">Value to write at the offset.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, ulong value, bool additive = false, bool removeOffset = true)
+        public virtual void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
-            long position = OutStream.Position;
+            try
+            {
+                long position = OutStream.Position;
 
-            WriteOffsetValueAtPosition(_OffsetDictionary[name], value, additive);
+                WriteOffsetValueAtPosition(_OffsetDictionary[name], value, additive);
 
-            if (removeOffset)
-                _OffsetDictionary.Remove(name);
+                if (removeOffset)
+                    _OffsetDictionary.Remove(name);
 
-            OutStream.Position = position;
+                OutStream.Position = position;
+            }
+            catch
+            {
+                if (throwOnMissingOffset)
+                    throw new Exception("The specified offset is not part of the dictionary!");
+            }
+        }
+
+        /// <summary>
+        /// Writes data to a previously set dictionary entry.
+        /// </summary>
+        /// <param name="name">Name of dictionary entry.</param>
+        /// <param name="value">Value to write at the offset.</param>
+        /// <param name="additive">Adds the specified offset to the position.</param>
+        /// <param name="removeOffset">Removes the offset once filled in.</param>
+        public virtual void FillInOffset(string name, ulong value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        {
+            try
+            {
+                long position = OutStream.Position;
+
+                WriteOffsetValueAtPosition(_OffsetDictionary[name], value, additive);
+
+                if (removeOffset)
+                    _OffsetDictionary.Remove(name);
+
+                OutStream.Position = position;
+            }
+            catch
+            {
+                if (throwOnMissingOffset)
+                    throw new Exception("The specified offset is not part of the dictionary!");
+            }
+        }
+
+        /// <summary>
+        /// Writes data to a previously set dictionary entry.
+        /// </summary>
+        /// <param name="name">Name of dictionary entry.</param>
+        /// <param name="additive">Adds the specified offset to the position.</param>
+        /// <param name="removeOffset">Removes the offset once filled in.</param>
+        public virtual void FillInOffsetLong(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        {
+            try
+            {
+                long position = OutStream.Position;
+
+                WriteOffsetValueAtPosition(_OffsetDictionary[name], (ulong)position, additive);
+
+                if (removeOffset)
+                    _OffsetDictionary.Remove(name);
+
+                OutStream.Position = position;
+            }
+            catch
+            {
+                if (throwOnMissingOffset)
+                    throw new Exception("The specified offset is not part of the dictionary!");
+            }
         }
 
         /// <summary>
@@ -809,6 +847,12 @@ namespace Marathon.IO
 
             return true;
         }
+
+        /// <summary>
+        /// Writes a string to the current position.
+        /// </summary>
+        public override void Write(string value)
+            => Write(_Encoding.GetBytes(value));
 
         /// <summary>
         /// Writes an Int16 to the current position.

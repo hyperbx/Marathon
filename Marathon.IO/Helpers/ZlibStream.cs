@@ -50,9 +50,7 @@ namespace Marathon.IO.Helpers
         public ZlibStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen)
         {
             if (stream == null)
-            {
                 throw new ArgumentNullException("stream");
-            }
 
             if (!stream.CanWrite)
             {
@@ -69,42 +67,32 @@ namespace Marathon.IO.Helpers
         }
 
         // Implies mode == Compress
-        public ZlibStream(Stream stream, CompressionLevel compressionLevel)
-            : this(stream, compressionLevel, false)
-        { }
+        public ZlibStream(Stream stream, CompressionLevel compressionLevel) : this(stream, compressionLevel, false) { }
 
         // Implies compressionLevel == Optimal
         public ZlibStream(Stream stream, CompressionMode mode, bool leaveOpen)
         {
             if (stream == null)
-            {
                 throw new ArgumentNullException("stream");
-            }
 
+            // Can't write to this stream.
             if (mode == CompressionMode.Compress && !stream.CanWrite)
-            {
-                // Can't write to this stream.
                 throw new ArgumentException("Specified stream is not writable.", "stream");
-            }
+
+            // Can't read from this stream.
             else if (mode == CompressionMode.Decompress && !stream.CanRead)
-            {
-                // Can't read from this stream.
                 throw new ArgumentException("Specified stream is not writable.", "stream");
-            }
+
+            // Invalid CompressionMode.
             else if (mode != CompressionMode.Compress && mode != CompressionMode.Decompress)
-            {
-                // Invalid CompressionMode.
                 throw new ArgumentException("Invalid CompressionMode.", "mode");
-            }
 
             _stream = stream;
             _mode = mode;
             _leaveOpen = leaveOpen;
 
             if (mode == CompressionMode.Compress)
-            {
                 writeZlibHeader(CompressionLevel.Optimal);
-            }
             else
             {
                 // Verify the zlib header.
@@ -125,22 +113,17 @@ namespace Marathon.IO.Helpers
 
                 // Check CMF.
                 if (zlibHeader[0] != 0x78)
-                {
                     // Not Deflate with 32 KB window.
                     throw new Exception("zlib header has an incorrect CMF byte.");
-                }
 
                 // Check FCHECK.
                 if (BitConverter.IsLittleEndian)
-                {
                     Array.Reverse(zlibHeader);
-                }
-                UInt16 CMFFLG = BitConverter.ToUInt16(zlibHeader, 0);
-                if (CMFFLG % 31 != 0)
-                {
-                    // Checksum error.
-                    throw new Exception("zlib header has an incorrect checksum.");
-                }
+
+                uint CMFFLG = BitConverter.ToUInt16(zlibHeader, 0);
+
+                // Checksum error.
+                if (CMFFLG % 31 != 0) throw new Exception("zlib header has an incorrect checksum.");
             }
 
             // TODO: Adler-32 checksum handling. (Check GzipStream?)
@@ -151,10 +134,7 @@ namespace Marathon.IO.Helpers
         {
             if (!_isDisposed && disposing)
             {
-                if (_deflateStream != null)
-                {
-                    _deflateStream.Close();
-                }
+                if (_deflateStream != null) _deflateStream.Close();
 
                 if (_mode == CompressionMode.Compress)
                 {
@@ -170,26 +150,21 @@ namespace Marathon.IO.Helpers
                     // Write the Adler-32 checksum.
                     uint adler32 = unchecked((uint)((_s2 << 16) | _s1));
                     byte[] b_adler32 = BitConverter.GetBytes(adler32);
+
                     if (BitConverter.IsLittleEndian)
-                    {
                         Array.Reverse(b_adler32);
-                    }
+
                     _stream.Write(b_adler32, 0, b_adler32.Length);
                     _stream.Flush();
                 }
 
-                if (!_leaveOpen)
-                {
-                    _stream.Close();
-                }
+                if (!_leaveOpen) _stream.Close();
                 _isDisposed = true;
             }
         }
 
         // Implies compressionLevel == Optimal
-        public ZlibStream(Stream stream, CompressionMode mode)
-            : this(stream, mode, false)
-        { }
+        public ZlibStream(Stream stream, CompressionMode mode) : this(stream, mode, false) { }
 
         /// <summary>
         /// Write the zlib header to the stream.
@@ -261,8 +236,8 @@ namespace Marathon.IO.Helpers
         {
             get
             {
-                if (_stream == null)
-                    return false;
+                if (_stream == null) return false;
+
                 return (_mode == CompressionMode.Decompress && _stream.CanRead);
             }
         }
@@ -271,42 +246,32 @@ namespace Marathon.IO.Helpers
         {
             get
             {
-                if (_stream == null)
-                    return false;
+                if (_stream == null) return false;
+
                 return (_mode == CompressionMode.Compress && _stream.CanWrite);
             }
         }
 
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek { get => false; }
 
         public override long Length
         {
-            get { throw new NotSupportedException("ZlibStream does not support getting the stream length."); }
+            get => throw new NotSupportedException("ZlibStream does not support getting the stream length.");
         }
 
         public override long Position
         {
-            get { throw new NotSupportedException("ZlibStream does not support getting the stream position."); }
-            set { throw new NotSupportedException("ZlibStream does not support setting the stream position."); }
+            get => throw new NotSupportedException("ZlibStream does not support getting the stream position.");
+            set => throw new NotSupportedException("ZlibStream does not support setting the stream position.");
         }
 
-        public override void Flush()
-        {
-            EnsureNotDisposed();
-        }
+        public override void Flush() => EnsureNotDisposed();
 
         public override long Seek(long offset, SeekOrigin origin)
-        {
-            throw new NotSupportedException("ZlibStream does not support seeking.");
-        }
+            => throw new NotSupportedException("ZlibStream does not support seeking.");
 
         public override void SetLength(long value)
-        {
-            throw new NotSupportedException("ZlibStream does not support setting the stream length.");
-        }
+            => throw new NotSupportedException("ZlibStream does not support setting the stream length.");
 
         /// <summary>
         /// Process the Adler-32 checksum on a chunk of data.
@@ -317,6 +282,7 @@ namespace Marathon.IO.Helpers
         protected void processAdler32(byte[] buffer, int offset, int count)
         {
             int end = offset + count;
+
             for (int i = offset; i < end; i++)
             {
                 _s1 = (_s1 + buffer[i]) % A32Mod;

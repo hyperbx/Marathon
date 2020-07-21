@@ -222,10 +222,10 @@ namespace Marathon.IO.Helpers
                 _StringTableEntries.Add(tableEntry);
         }
 
-        public override void FillInOffset(string name, bool additive = false, bool removeOffset = false)
-            => base.FillInOffset(name, additive, removeOffset);
+        public override void FillInOffset(string name, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
+            => base.FillInOffset(name, additive, removeOffset, throwOnMissingOffset);
 
-        public override void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = false)
-            => base.FillInOffset(name, value, additive, removeOffset);
+        public override void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
+            => base.FillInOffset(name, value, additive, removeOffset, throwOnMissingOffset);
     }
 }

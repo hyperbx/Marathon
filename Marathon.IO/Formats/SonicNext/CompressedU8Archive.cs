@@ -27,10 +27,12 @@
  */
 
 using System.IO;
+using System.Linq;
 using Marathon.IO.Helpers;
 using System.IO.Compression;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
+using System;
 
 namespace Marathon.IO.Formats.SonicNext
 {
@@ -39,18 +41,21 @@ namespace Marathon.IO.Formats.SonicNext
     /// </summary>
     public class CompressedU8Archive : FileBase
     {
-        public class DataEntry
+        /* NOTES: We always skip the first iteration of the for loops in some cases
+                  to avoid applying properties to the root node, which doesn't need them. */
+
+        public class NodeEntry
         {
-            public string Name;
-            public byte[] Data;
-            public bool IsDirectory;
-            public uint ParentDirectory, CompressedSize, DecompressedSize;
+            public string Name;      // Name of the file
+            public byte[] Data;      // Decompressed data of the file
+            public bool Directory;   // Directory flag
+            public NodeEntry Parent; // Parent node
         }
 
         public const uint Signature = 0x55AA382D;
         public const string Extension = ".arc";
 
-        public List<DataEntry> Entries = new List<DataEntry>();
+        List<NodeEntry> Entries = new List<NodeEntry>();
 
         public override void Load(Stream stream)
         {
@@ -60,65 +65,68 @@ namespace Marathon.IO.Formats.SonicNext
             uint signature = reader.ReadUInt32();
             if (signature != Signature) throw new InvalidSignatureException(Signature.ToString(), signature.ToString());
 
-            uint EntriesOffset = reader.ReadUInt32(); // Offset to where the table starts.
-            uint EntriesLength = reader.ReadUInt32(); // Length of the table.
-            uint DataOffset = reader.ReadUInt32();    // Offset to where the data starts.
-
-            // TODO: Unknown - count in little-endian?
-            uint UnknownUInt32_1 = reader.ReadUInt32();
-            uint UnknownUInt32_2 = reader.ReadUInt32();
-            uint UnknownUInt32_3 = reader.ReadUInt32();
-            uint UnknownUInt32_4 = reader.ReadUInt32();
+            uint entriesOffset = reader.ReadUInt32(); // Offset to where the table starts.
+            uint entriesLength = reader.ReadUInt32(); // Length of the table.
+            uint dataOffset    = reader.ReadUInt32(); // Offset to where the data starts.
 
             // Gets the string table position.
-            reader.JumpAhead(8);
+            reader.JumpAhead(24);
             uint nodeCount = reader.ReadUInt32();
             uint stringTableOffset = (nodeCount * 16) + 32;
             reader.JumpBehind(12);
 
             for (int i = 0; i < nodeCount; i++)
             {
-                DataEntry entry = new DataEntry();
+                // Create data entry...
+                NodeEntry dataEntry = new NodeEntry();
 
                 // Sets up properties for the current entry.
-                entry.IsDirectory      = reader.ReadBoolean();
-                uint FileNameOffset    = reader.ReadUInt24();
-                uint FileDataOffset    = reader.ReadUInt32();
-                entry.CompressedSize   = reader.ReadUInt32();
-                entry.DecompressedSize = reader.ReadUInt32();
+                dataEntry.Directory   = reader.ReadBoolean(); // File = 0 | Directory = 1
+                uint fileNameOffset   = reader.ReadUInt24();  // Offset to the name in the string table
+                uint fileDataOffset   = reader.ReadUInt32();  // File = Data Offset | Directory = Parent Index
+                uint compressedSize   = reader.ReadUInt32();  // File = Compressed Size | Directory = First node outside directory
+                uint decompressedSize = reader.ReadUInt32();  // Decompressed size of the file
 
                 // Stores the current position so we can return to the table later.
                 long position = reader.BaseStream.Position;
 
-                // Reads the name of the entry.
-                reader.JumpTo(stringTableOffset + FileNameOffset);
-                entry.Name = reader.ReadNullTerminatedString();
-
-                if (!entry.IsDirectory)
+                if (fileNameOffset != 0)
                 {
-                    reader.JumpTo(FileDataOffset);
+                    // Reads the name of the entry.
+                    reader.JumpTo(stringTableOffset + fileNameOffset);
+                    dataEntry.Name = reader.ReadNullTerminatedString();
+                }
 
-                    byte[] compressedData = reader.ReadBytes((int)entry.CompressedSize);
+                if (dataEntry.Directory)
+                {
+                    // Set parent property.
+                    if (i != 0) dataEntry.Parent = Entries[(int)fileDataOffset];
 
-                    // Decompress zlib data.
-                    using (var compressedStream = new MemoryStream(compressedData))
-                        using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-                            using (var resultStream = new MemoryStream())
-                            {
-                                zipStream.CopyTo(resultStream);
-                                entry.Data = resultStream.ToArray();
-                            }
-
-                    Entries.Add(entry);
+                    // Add resulting directory to archive nodes.
+                    Entries.Add(dataEntry);
                 }
                 else
                 {
-                    // Sets the parent directory ID.
-                    entry.ParentDirectory = FileDataOffset;
+                    // Jump to the file data.
+                    reader.JumpTo(fileDataOffset);
 
-                    Entries.Add(entry);
+                    // Store compressed data for streams.
+                    byte[] compressedData = reader.ReadBytes((int)compressedSize);
+
+                    // Decompress zlib data.
+                    using (MemoryStream compressedStream = new MemoryStream(compressedData))
+                        using (ZlibStream zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
+                            using (MemoryStream resultStream = new MemoryStream())
+                            {
+                                // Copy decompressed data to result.
+                                zipStream.CopyTo(resultStream);
+
+                                // Add resulting file to archive nodes.
+                                Entries.Add(new NodeEntry() { Name = dataEntry.Name, Data = resultStream.ToArray() });
+                            }
                 }
 
+                // Jump back to the table.
                 reader.JumpTo(position);
             }
         }
@@ -141,32 +149,39 @@ namespace Marathon.IO.Formats.SonicNext
             // Fills in the offset for where the table starts.
             writer.FillInOffset("EntriesOffset");
 
+            // Stores the current position so we know where the entry table is.
+            long entryTablePosition = stream.Position;
+
             for (int i = 0; i < Entries.Count; i++)
             {
                 // Writes the directory flag.
-                writer.WriteByType(typeof(bool), Entries[i].IsDirectory);
+                writer.WriteByType(typeof(bool), Entries[i].Directory);
 
                 // Stores the offset locations for later when we fill out the string table.
                 writer.AddOffset($"StringTableOffset_{i}", 3);
 
-                if (Entries[i].IsDirectory)
-                    writer.Write(Entries[i].ParentDirectory); // Write directory parent ID.
-                else
-                    writer.AddOffset($"EntryDataOffset_{i}"); // Stores the offset location for later when we write the data.
+                // Write parent entry index if it's a directory.
+                if (Entries[i].Directory && i != 0)
+                    writer.Write((uint)(Entries[i].Parent == null ? Entries.Count : Entries.IndexOf(Entries[i].Parent)));
 
-                // Writes the compressed and decompressed sizes.
-                writer.Write(Entries[i].CompressedSize);
-                writer.Write(Entries[i].DecompressedSize);
+                // Stores the offset location for later when we write the data if it's a file.
+                else
+                    writer.AddOffset($"EntryDataOffset_{i}");
+
+                // Stores the offset location for later when we compress the data.
+                writer.AddOffset($"CompressedSize_{i}");
+
+                // Writes the decompressed size.
+                writer.Write((uint)(Entries[i].Data == null ? 0 : Entries[i].Data.Count()));
             }
 
-            // Fills in the offset for where the entries end.
-            writer.FillInOffset("EntriesLength");
-
             // Stores the current position so we know where the string table is.
-            long StringTableOffset = stream.Position;
+            long stringTableOffset = stream.Position;
 
             for (int i = 0; i < Entries.Count; i++)
             {
+                if (i == 0) continue;
+
                 // Stores the current position so we know where the last string was written.
                 long LastStringPosition = stream.Position;
 
@@ -174,71 +189,90 @@ namespace Marathon.IO.Formats.SonicNext
                 writer.JumpToOffset($"StringTableOffset_{i}", true);
 
                 // Writes the offset of the last written string.
-                writer.WriteUInt24((uint)(LastStringPosition - StringTableOffset));
+                writer.WriteUInt24((uint)(LastStringPosition - stringTableOffset) + 1);
 
                 // Jumps back to the position of the last written string.
                 stream.Position = LastStringPosition;
 
                 // Writes the name of the file or directory.
-                writer.WriteNullTerminatedString(Entries[i].Name);
+                if (Entries[i].Name != null)
+                    writer.WriteNullTerminatedString(Entries[i].Name);
             }
 
-            // TODO: Align data to 32 bytes.
-            // This doesn't appear to be necessary as the game reads it perfectly fine, but for accuracy's sake, it'd be ideal.
-
-            // Fills in the offset for where the data starts.
-            writer.FillInOffset("DataOffset");
+            // Fills in the offset for where the entries end.
+            writer.FillInOffset("EntriesLength", (uint)(stream.Position - entryTablePosition), false, true);
 
             for (int i = 0; i < Entries.Count; i++)
             {
-                if (!Entries[i].IsDirectory)
+                if (Entries[i].Directory)
                 {
-                    byte[] inputData = Entries[i].Data == null ? new byte[0] : Entries[i].Data;
-
-                    writer.FillInOffset($"EntryDataOffset_{i}");
-
-                    using (var compressedStream = new MemoryStream())
-                    {
-                        // Compress file data using ZlibStream so we have the zlib header and Adler32 checksum.
-                        using (var zipStream = new BufferedStream(new ZlibStream(compressedStream, CompressionLevel.Optimal)))
-                            zipStream.Write(inputData, 0, inputData.Length);
-
-                        // Write compressed data...
-                        writer.Write(compressedStream.ToArray());
-                    }
-                }
-            }
-        }
-
-        public void Extract(string destination)
-        {
-            string directory = string.Empty;
-
-            foreach (DataEntry entry in Entries)
-            {
-                if (entry.IsDirectory)
-                {
-                    directory = string.Empty;
-                    List<string> paths = new List<string>();
-                    paths.Add(entry.Name);
-                    uint ParentDir = entry.ParentDirectory;
-
-                    while (ParentDir != 0)
-                    {
-                        paths.Add(Entries[(int)ParentDir].Name);
-                        ParentDir = Entries[(int)ParentDir].ParentDirectory;
-                    }
-
-                    paths.Reverse();
-
-                    foreach (string path in paths)
-                        directory += $"{path}\\".Equals("\\") ? string.Empty : $"{path}\\";
-
-                    Directory.CreateDirectory(Path.Combine(destination, directory));
+                    // Fills in the offset for the last child node index.
+                    // TODO: Actually get this crap working...
+                    writer.FillInOffset($"CompressedSize_{i}", 0, false, true);
                 }
                 else
-                    File.WriteAllBytes(Path.Combine(destination, directory, entry.Name), entry.Data);
+                {
+                    // Stores the data in a new array to determine its contents.
+                    byte[] inputData = Entries[i].Data ?? new byte[0];
+
+                    using (MemoryStream compressedStream = new MemoryStream())
+                    {
+                        // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
+                        using (BufferedStream zipStream = new BufferedStream(new ZlibStream(compressedStream, CompressionLevel.Optimal)))
+                            zipStream.Write(inputData, 0, inputData.Length);
+
+                        // Stores the compressed data so we can access its properties.
+                        byte[] compressedData = compressedStream.ToArray();
+
+                        // Aligns the stream data to 32 bytes...
+                        StreamHelpers.AlignTo32Bytes(stream);
+
+                        // Fills in the offset for where the data starts and removes it after the first entry.
+                        writer.FillInOffset("DataOffset", false, true, false);
+
+                        // Fills in the offset for where the current entry's data starts.
+                        writer.FillInOffset($"EntryDataOffset_{i}");
+
+                        // Write compressed data...
+                        writer.Write(compressedData);
+
+                        // Fills in the offset for the compressed size.
+                        writer.FillInOffset($"CompressedSize_{i}", (uint)compressedData.Length, false, true);
+                    }
+                }
             }
         }
+
+        //public void Extract(string destination)
+        //{
+        //    string directory = string.Empty;
+
+        //    foreach (DataEntry entry in Entries)
+        //    {
+        //        if (entry.IsDirectory)
+        //        {
+        //            directory = string.Empty;
+
+        //            List<string> paths = new List<string> { entry.Name };
+
+        //            uint ParentDir = entry.Parent;
+
+        //            while (ParentDir != 0)
+        //            {
+        //                paths.Add(Entries[(int)ParentDir].Name);
+        //                ParentDir = Entries[(int)ParentDir].Parent;
+        //            }
+
+        //            paths.Reverse();
+
+        //            foreach (string path in paths)
+        //                directory += $"{path}\\".Equals("\\") ? string.Empty : $"{path}\\";
+
+        //            Directory.CreateDirectory(Path.Combine(destination, directory));
+        //        }
+        //        else
+        //            File.WriteAllBytes(Path.Combine(destination, directory, entry.Name), entry.Data);
+        //    }
+        //}
     }
 }
