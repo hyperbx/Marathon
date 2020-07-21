@@ -76,8 +76,10 @@ namespace Marathon.IO.Formats.SonicNext
                 uint textOffset = reader.ReadUInt32();
                 uint placeholderOffset = reader.ReadUInt32();
 
-                // Jump to offsets and read null terminated strings.
+                // Stores the current position to jump back to later.
                 long pos = reader.BaseStream.Position;
+
+                // Jump to offsets and read null terminated strings.
                 reader.JumpTo(nameOffset, true);
                 entry.Name = reader.ReadNullTerminatedString();
                 reader.JumpTo(textOffset, true);
@@ -90,8 +92,10 @@ namespace Marathon.IO.Formats.SonicNext
                     entry.Placeholder = reader.ReadNullTerminatedString();
                 }
                 
-                // Save text entry into the Entries list and return to the previously stored position.
+                // Save text entry into the Entries list.
                 Entries.Add(entry);
+
+                // Return to the previously stored position.
                 reader.JumpTo(pos);
             }
         }
@@ -136,51 +140,50 @@ namespace Marathon.IO.Formats.SonicNext
 
         public void ExportXML(string filePath)
         {
-            // Root Node.
-            var rootElem = new XElement("Text");
-            var rootNameAttr = new XAttribute("Name", Name);
+            // Root element.
+            XElement rootElem = new XElement("Text");
+            XAttribute rootNameAttr = new XAttribute("Name", Name);
             rootElem.Add(rootNameAttr);
 
-            // String Nodes.
-            for(int i = 0; i < Entries.Count; i++)
+            // String elements.
+            for (int i = 0; i < Entries.Count; i++)
             {
                 // Escape the \f and \n characters.
-                var text = Entries[i].Text.Replace("\f", "\\f");
-                text = text.Replace("\n", "\\n");
+                string text = Entries[i].Text.Replace("\f", "\\f").Replace("\n", "\\n");
 
-                // Create XML Nodes.
-                var message = new XElement("Message", text);
-                var indexAttr = new XAttribute("Index", i);
-                var nameAttr = new XAttribute("Name", Entries[i].Name);
-                var placeholderAttr = new XAttribute("Placeholder", Entries[i].Placeholder);
+                // Create XML elements.
+                XElement message           = new XElement("Message", text);
+                XAttribute indexAttr       = new XAttribute("Index", i);
+                XAttribute nameAttr        = new XAttribute("Name", Entries[i].Name);
+                XAttribute placeholderAttr = new XAttribute("Placeholder", Entries[i].Placeholder);
 
-                // Add Nodes to appropriate XML Elements.
+                // Add elements to the XML.
                 message.Add(indexAttr, nameAttr, placeholderAttr);
                 rootElem.Add(message);
             }
 
             // Save XML.
-            var xml = new XDocument(rootElem);
+            XDocument xml = new XDocument(rootElem);
             xml.Save(filePath);
         }
 
         public void ImportXML(string filepath)
         {
             // Load XML and get Name value.
-            var xml = XDocument.Load(filepath);
+            XDocument xml = XDocument.Load(filepath);
             Name = xml.Root.Attribute("Name").Value;
 
             // Loop through message nodes.
             foreach (var msgElement in xml.Root.Elements("Message"))
             {
-                Entry entry = new Entry();
+                Entry entry = new Entry
+                {
+                    Name = msgElement.Attribute("Name").Value,
+                    Placeholder = msgElement.Attribute("Placeholder").Value,
 
-                entry.Name = msgElement.Attribute("Name").Value;
-                entry.Placeholder = msgElement.Attribute("Placeholder").Value;
-                // Parse the escaped \f and \n characters.
-                entry.Text = msgElement.Value;
-                entry.Text = entry.Text.Replace("\\n", "\n");
-                entry.Text = entry.Text.Replace("\\f", "\f");
+                    // Parse the escaped \f and \n characters.
+                    Text = msgElement.Value.Replace("\\f", "\f").Replace("\\n", "\n")
+                };
 
                 //Add to list of Entries in this file.
                 Entries.Add(entry);

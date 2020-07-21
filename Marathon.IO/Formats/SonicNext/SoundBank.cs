@@ -1,4 +1,4 @@
-﻿// Soundbank.cs is licensed under the MIT License:
+﻿// SoundBank.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -153,7 +153,7 @@ namespace Marathon.IO.Formats.SonicNext
             {
                 writer.Write(string.Concat(Cues[i].Name.Take(32)));
 
-                // Write a CSB based entry.
+                // Write a CSB-based entry.
                 if (Cues[i].Stream == null)
                 {
                     writer.Write(0);
@@ -161,7 +161,7 @@ namespace Marathon.IO.Formats.SonicNext
                     csbCueID++;
                 }
 
-                // Write an XMA based entry.
+                // Write an XMA-based entry.
                 else
                 {
                     writer.Write(1);
@@ -206,8 +206,8 @@ namespace Marathon.IO.Formats.SonicNext
             XAttribute sbkNameAttr = new XAttribute("Name", name);
             rootElem.Add(sbkNameAttr);
 
-            // Cue Nodes.
-            foreach (var cue in Cues)
+            // Cue elements.
+            foreach (Cue cue in Cues)
             {
                 XElement cueElem = new XElement("Cue");
 
@@ -237,7 +237,7 @@ namespace Marathon.IO.Formats.SonicNext
             Name = xml.Root.Attribute("Name").Value.PadRight(64, '\0');
 
             // Loop through cue nodes.
-            foreach (var cueElem in xml.Root.Elements("Cue"))
+            foreach (XElement cueElem in xml.Root.Elements("Cue"))
             {
                 Cue cue = new Cue()
                 {
