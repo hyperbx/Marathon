@@ -37,9 +37,11 @@ namespace Marathon.IO.Formats.SonicNext
     /// </summary>
     public class ReflectionZone : FileBase
     {
+        // TODO: Fix footer not writing correctly...
+
         public class Reflection
         {
-            public Quaternion Offset;
+            public float Z_Rotation, Length, Y_Rotation, Height;
             public List<Vector3> Vertices = new List<Vector3>();
         }
 
@@ -60,7 +62,13 @@ namespace Marathon.IO.Formats.SonicNext
             reader.JumpTo(reflectionTableOffset, true);
 
             for (int i = 0; i < reflectionTableCount; i++)
-                Reflections.Add(new Reflection { Offset = reader.ReadQuaternion() });
+                Reflections.Add(new Reflection
+                                {
+                                    Z_Rotation = reader.ReadSingle(),
+                                    Length     = reader.ReadSingle(),
+                                    Y_Rotation = reader.ReadSingle(),
+                                    Height     = reader.ReadSingle()
+                                });
 
             reader.JumpTo(entryTableOffset, true);
 
@@ -96,17 +104,18 @@ namespace Marathon.IO.Formats.SonicNext
             {
                 writer.FillInOffset("reflectionTableOffset", true, true, false);
 
-                writer.WriteByType<Quaternion>(Reflections[i].Offset);
+                writer.Write(Reflections[i].Z_Rotation);
+                writer.Write(Reflections[i].Length);
+                writer.Write(Reflections[i].Y_Rotation);
+                writer.Write(Reflections[i].Height);
             }
 
             for (int i = 0; i < Reflections.Count; i++)
             {
                 writer.FillInOffset("entryTableOffset", true, true, false);
-
                 writer.Write(Reflections[i].Vertices.Count);
 
                 writer.AddOffset($"vertexTableOffset_{i}");
-
                 writer.Write((uint)i);
             }
 
@@ -136,10 +145,10 @@ namespace Marathon.IO.Formats.SonicNext
 
                 XElement positionElem = new XElement("Position");
 
-                positionElem.Add(new XElement("X", Reflections[i].Offset.X));
-                positionElem.Add(new XElement("Y", Reflections[i].Offset.Y));
-                positionElem.Add(new XElement("Z", Reflections[i].Offset.Z));
-                positionElem.Add(new XElement("W", Reflections[i].Offset.W));
+                positionElem.Add(new XElement("Height", Reflections[i].Height));
+                positionElem.Add(new XElement("Length", Reflections[i].Length));
+                positionElem.Add(new XElement("Z Rotation", Reflections[i].Z_Rotation));
+                positionElem.Add(new XElement("Y Rotation", Reflections[i].Y_Rotation));
 
                 reflectionElem.Add(positionElem);
 
@@ -177,12 +186,10 @@ namespace Marathon.IO.Formats.SonicNext
                 // Position
                 foreach (XElement positionElem in reflectionElem.Elements("Position"))
                 {
-                    float.TryParse(positionElem.Element("X").Value, out float X);
-                    float.TryParse(positionElem.Element("Y").Value, out float Y);
-                    float.TryParse(positionElem.Element("Z").Value, out float Z);
-                    float.TryParse(positionElem.Element("W").Value, out float W);
-
-                    entry.Offset = new Quaternion(X, Y, Z, W);
+                    float.TryParse(positionElem.Element("Height").Value, out entry.Height);
+                    float.TryParse(positionElem.Element("Length").Value, out entry.Length);
+                    float.TryParse(positionElem.Element("Z Rotation").Value, out entry.Z_Rotation);
+                    float.TryParse(positionElem.Element("Y Rotation").Value, out entry.Y_Rotation);
                 }
 
                 // Vertices
