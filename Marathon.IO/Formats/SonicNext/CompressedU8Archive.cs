@@ -26,14 +26,13 @@
  * SOFTWARE.
  */
 
+using System;
 using System.IO;
-using System.Linq;
+using System.Text;
 using Marathon.IO.Helpers;
 using System.IO.Compression;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
-using System;
-using System.Text;
 
 namespace Marathon.IO.Formats.SonicNext
 {

@@ -63,7 +63,7 @@ namespace Marathon
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                ListViewExplorer listViewExplorer = new ListViewExplorer { CurrentFile = fileDialog.FileName };
+                ArchiveExplorer listViewExplorer = new ArchiveExplorer { CurrentArchive = fileDialog.FileName };
                 listViewExplorer.Show(DockPanel_Main);
             }
         }

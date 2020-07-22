@@ -63,6 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Source\Components\ListViewDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Source\Components\ListViewDark.Designer.cs">
+      <DependentUpon>ListViewDark.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Forms\FileConverter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,11 +110,11 @@
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Helpers\ControlDrawing.cs" />
-    <Compile Include="Source\Forms\ListViewExplorer.cs">
+    <Compile Include="Source\Forms\ArchiveExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\ListViewExplorer.designer.cs">
-      <DependentUpon>ListViewExplorer.cs</DependentUpon>
+    <Compile Include="Source\Forms\ArchiveExplorer.designer.cs">
+      <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Forms\UserControlForm.cs">
       <SubType>Form</SubType>
@@ -149,8 +155,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\ListViewExplorer.resx">
-      <DependentUpon>ListViewExplorer.cs</DependentUpon>
+    <EmbeddedResource Include="Source\Forms\ArchiveExplorer.resx">
+      <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Forms\FileConverter.resx">
       <DependentUpon>FileConverter.cs</DependentUpon>

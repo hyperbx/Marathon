@@ -61,16 +61,6 @@ namespace Marathon
         }
 
         /// <summary>
-        /// Draws all items unmodified.
-        /// </summary>
-        private void ListView_Conversion_DrawItem(object sender, DrawListViewItemEventArgs e) => e.DrawDefault = true;
-
-        /// <summary>
-        /// Redraws the column header.
-        /// </summary>
-        private void ListView_Conversion_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) => ListViewDark.DrawColumnHeader(sender, e);
-
-        /// <summary>
         /// Changes the cursor if the data is present.
         /// </summary>
         private void FileConverter_DragEnter(object sender, DragEventArgs e)

@@ -103,8 +103,6 @@
             this.ListView_Conversion.UseCompatibleStateImageBehavior = false;
             this.ListView_Conversion.View = System.Windows.Forms.View.Details;
             this.ListView_Conversion.Visible = false;
-            this.ListView_Conversion.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.ListView_Conversion_DrawColumnHeader);
-            this.ListView_Conversion.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.ListView_Conversion_DrawItem);
             // 
             // Column_Name
             // 
