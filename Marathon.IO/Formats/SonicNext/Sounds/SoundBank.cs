@@ -201,9 +201,7 @@ namespace Marathon.IO.Formats.SonicNext.Sounds
             XElement rootElem = new XElement("SBK");
 
             // Replace empty characters with nothing.
-            string name = Name.Replace("\0", "");
-
-            XAttribute sbkNameAttr = new XAttribute("Name", name);
+            XAttribute sbkNameAttr = new XAttribute("Name", Name.Replace("\0", ""));
             rootElem.Add(sbkNameAttr);
 
             // Cue elements.
@@ -212,9 +210,7 @@ namespace Marathon.IO.Formats.SonicNext.Sounds
                 XElement cueElem = new XElement("Cue");
 
                 // Replace empty characters with nothing.
-                name = cue.Name.Replace("\0", "");
-
-                XElement cueNameElm      = new XElement("Name", name);
+                XElement cueNameElm      = new XElement("Name", cue.Name.Replace("\0", ""));
                 XElement cueCategoryElem = new XElement("Category", cue.Category);
                 XElement cueUnknown1Elem = new XElement("Unknown1", cue.UnknownSingle_1);
                 XElement cueUnknown2Elem = new XElement("Unknown2", cue.UnknownSingle_2);

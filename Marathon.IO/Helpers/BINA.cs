@@ -190,11 +190,11 @@ namespace Marathon.IO.Helpers
             return footerStartPos;
         }
 
-        public void AddString(string offsetName, string str, uint offsetLength = 4)
+        public void AddString(string offsetName, string str, bool writeNulls = true, uint offsetLength = 4)
         {
             if (string.IsNullOrEmpty(offsetName)) return;
 
-            if (string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str) && writeNulls)
             {
                 WriteNulls(offsetLength);
                 return;
