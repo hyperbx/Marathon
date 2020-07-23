@@ -30,7 +30,7 @@ using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext.Meshes
+namespace Marathon.IO.Formats.Meshes
 {
     /// <summary>
     /// File base for the Sonic '06 BIN format.

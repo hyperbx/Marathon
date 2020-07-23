@@ -3,8 +3,13 @@ using Marathon.IO;
 using Marathon.IO.Helpers;
 using Marathon.IO.Headers;
 using Marathon.IO.Formats;
-using Marathon.IO.Formats.SonicNext;
-using Marathon.IO.Formats.SonicNext.Miscellaneous;
+using Marathon.IO.Formats.Archives;
+using Marathon.IO.Formats.Meshes;
+using Marathon.IO.Formats.Miscellaneous;
+using Marathon.IO.Formats.Placement;
+using Marathon.IO.Formats.Sounds;
+using Marathon.IO.Formats.Text;
+using Marathon.IO.Formats.Textures;
 
 namespace Marathon.Tests
 {

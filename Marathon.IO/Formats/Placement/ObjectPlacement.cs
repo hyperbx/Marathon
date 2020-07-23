@@ -34,7 +34,7 @@ using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext
+namespace Marathon.IO.Formats.Placement
 {
     /// <summary>
     /// File base for the Sonic '06 SET format.

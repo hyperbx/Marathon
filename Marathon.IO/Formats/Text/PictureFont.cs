@@ -30,7 +30,7 @@ using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext.Text
+namespace Marathon.IO.Formats.Text
 {
     /// <summary>
     /// File base for the Sonic '06 PFT format.

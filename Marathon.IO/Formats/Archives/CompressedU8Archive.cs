@@ -34,7 +34,7 @@ using System.IO.Compression;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext.Archives
+namespace Marathon.IO.Formats.Archives
 {
     /// <summary>
     /// File base for the Sonic '06 ARC format.

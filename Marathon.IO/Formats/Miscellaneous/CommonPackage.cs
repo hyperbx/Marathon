@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Formats.SonicNext.Miscellaneous
+﻿namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
     /// File base for the Sonic '06 Common.bin format.

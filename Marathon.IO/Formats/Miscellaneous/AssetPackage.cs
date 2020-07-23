@@ -31,7 +31,7 @@ using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext.Miscellaneous
+namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
     /// File base for the Sonic '06 PKG format.

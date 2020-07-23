@@ -30,8 +30,8 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
-using Marathon.IO.Formats.SonicNext.Archives;
-using static Marathon.IO.Formats.SonicNext.Archives.CompressedU8Archive;
+using Marathon.IO.Formats.Archives;
+using static Marathon.IO.Formats.Archives.CompressedU8Archive;
 
 namespace Marathon.Controls
 {
