@@ -1,9 +1,9 @@
-﻿namespace Marathon.IO.Formats.SonicNext
+﻿namespace Marathon.IO.Formats.SonicNext.Placement
 {
     /// <summary>
     /// File base for the Sonic '06 SET format.
     /// </summary>
-    public class Placement : FileBase
+    public class ObjectPlacement : FileBase
     {
         public const string Extension = ".set";
 

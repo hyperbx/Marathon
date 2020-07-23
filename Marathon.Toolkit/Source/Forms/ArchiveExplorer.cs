@@ -23,10 +23,15 @@
  * SOFTWARE.
  */
 
+using System.IO;
+using System.Linq;
+using Marathon.Helpers;
 using System.Windows.Forms;
 using System.ComponentModel;
+using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
-using Marathon.IO.Formats.SonicNext;
+using Marathon.IO.Formats.SonicNext.Archives;
+using static Marathon.IO.Formats.SonicNext.Archives.CompressedU8Archive;
 
 namespace Marathon.Controls
 {
@@ -46,57 +51,105 @@ namespace Marathon.Controls
 
                 _LoadedArchive.Load(_CurrentArchive);
 
-                RefreshNodes();
+                GetDirectories();
             }
         }
 
         /// <summary>
-        /// Refresh the TreeView nodes.
+        /// Populate the TreeView control with all root directories.
         /// </summary>
-        private void RefreshNodes()
+        private void GetDirectories()
         {
-            if (!string.IsNullOrEmpty(_CurrentArchive))
-            {
-                TreeView_Explorer.Nodes.Clear();
+            // Store the current expanded nodes before refreshing...
+            List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
 
-                foreach (U8DirectoryEntry entry in _LoadedArchive.Entries)
+            // Clear current node to remove ghost child nodes... Spooky!
+            TreeView_Explorer.Nodes.Clear();
+
+            foreach (U8DataEntry entry in _LoadedArchive.Entries)
+            {
+                if (entry.GetType().Equals(typeof(U8DirectoryEntry)))
                 {
                     TreeNode node = new TreeNode
                     {
                         Text = entry.Name,
-                        Tag = entry
+                        Tag = entry,
+                        ImageKey = "Folder"
                     };
 
                     TreeView_Explorer.Nodes.Add(node);
 
-                    if (entry.Contents.Count != 0)
+                    // Add ghost child nodes so they can be expanded.
+                    if (((U8DirectoryEntry)entry).Contents.OfType<U8DirectoryEntry>().Count() != 0)
                         node.Nodes.Add(new TreeNode("Loading..."));
+                }
+            }
+
+            // Restore expanded nodes.
+            TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+        }
+
+        /// <summary>
+        /// Populate the TreeView control with all subdirectories.
+        /// </summary>
+        private void GetDirectories(TreeNode child)
+        {
+            if (child.Tag.GetType().Equals(typeof(U8DirectoryEntry)))
+            {
+                // Clear current node to remove ghost child nodes... Spooky!
+                child.Nodes.Clear();
+
+                foreach (U8DataEntry entry in ((U8DirectoryEntry)child.Tag).Contents)
+                {
+                    if (entry.GetType().Equals(typeof(U8DirectoryEntry)))
+                    {
+                        TreeNode node = new TreeNode
+                        {
+                            Text = entry.Name,
+                            Tag = entry,
+                            ImageKey = "Folder"
+                        };
+
+                        child.Nodes.Add(node);
+
+                        // Add ghost child nodes so they can be expanded.
+                        if (((U8DirectoryEntry)entry).Contents.OfType<U8DirectoryEntry>().Count() != 0)
+                            node.Nodes.Add(new TreeNode("Loading..."));
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Gets the U8 data from the specified child.
+        /// Gets the U8 data from the specified child node and adds it to the ListView control.
         /// </summary>
-        /// <param name="child"></param>
-        private void GetChildNodes(TreeNode child)
+        private void GetDataTable(TreeNode child)
         {
             if (child.Tag.GetType().Equals(typeof(U8DirectoryEntry)))
             {
-                child.Nodes.Clear();
+                // Clear current directory.
+                ListView_Explorer.Items.Clear();
 
+                // Add directory nodes to the ListView control.
                 foreach (U8DataEntry entry in ((U8DirectoryEntry)child.Tag).Contents)
                 {
-                    TreeNode node = new TreeNode
+                    ListViewItem node = new ListViewItem(new[]
                     {
-                        Text = entry.Name,
-                        Tag = entry
+                        // Name
+                        entry.Name,
+
+                        // Type
+                        entry.GetType().Equals(typeof(U8FileEntry)) ? $"{Path.GetExtension(entry.Name).ToUpper()} File".Substring(1) : "File folder",
+
+                        // Size
+                        entry.GetType().Equals(typeof(U8FileEntry)) ? Strings.ByteLengthToDecimalString(((U8FileEntry)entry).UncompressedSize) : string.Empty
+                    })
+                    {
+                        Tag = entry,
+                        ImageKey = "File"
                     };
 
-                    child.Nodes.Add(node);
-
-                    if (entry.GetType().Equals(typeof(U8DirectoryEntry)) && ((U8DirectoryEntry)entry).Contents.Count != 0)
-                        node.Nodes.Add(new TreeNode("Loading..."));
+                    ListView_Explorer.Items.Add(node);
                 }
             }
         }
@@ -110,16 +163,22 @@ namespace Marathon.Controls
         {
             if (e.Button == MouseButtons.Left)
             {
-                GetChildNodes(e.Node);
+                GetDirectories(e.Node);
 
-                // TODO: Add child nodes to ListView control.
+                GetDataTable(e.Node);
+
+                if (e.Node.Nodes.Count != 0) e.Node.Expand();
             }
         }
+
+        //_LoadedArchive.DecompressFileData(new FileStream(_CurrentArchive, FileMode.Open), (U8DataEntryZlib)e.Node.Tag);
 
         /// <summary>
         /// Gets the subdirectories for the current node, rather than loading all at once.
         /// </summary>
-        private void TreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
-            => GetChildNodes(e.Node);
+        private void TreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e) => GetDirectories(e.Node);
+
+        private void ListView_Explorer_MouseDoubleClick(object sender, MouseEventArgs e)
+            => GetDirectories(TreeView_Explorer.Nodes.Cast<TreeNode>().Where(x => x.Tag == ListView_Explorer.SelectedItems[0].Tag).First());
     }
 }

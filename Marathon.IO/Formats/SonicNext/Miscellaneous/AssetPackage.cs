@@ -31,7 +31,7 @@ using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext
+namespace Marathon.IO.Formats.SonicNext.Miscellaneous
 {
     /// <summary>
     /// File base for the Sonic '06 PKG format.
@@ -53,10 +53,9 @@ namespace Marathon.IO.Formats.SonicNext
 
         public List<TypeEntry> Types = new List<TypeEntry>();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            // BINA Header.
-            BINAReader reader = new BINAReader(fileStream);
+            BINAReader reader = new BINAReader(stream);
             reader.ReadHeader();
 
             // File related header stuff.
@@ -111,10 +110,10 @@ namespace Marathon.IO.Formats.SonicNext
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
             BINAv1Header header = new BINAv1Header();
-            BINAWriter writer = new BINAWriter(fileStream, header);
+            BINAWriter writer = new BINAWriter(stream, header);
 
             // Calculate what we should set the File Count to in the finalised file.
             uint filesCount = 0;

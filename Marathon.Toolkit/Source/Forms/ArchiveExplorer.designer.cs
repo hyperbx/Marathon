@@ -33,9 +33,8 @@
             this.SplitContainer_TreeView = new System.Windows.Forms.SplitContainer();
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
-            this.ListView_Explorer = new Marathon.Source.Components.ListViewDark();
+            this.ListView_Explorer = new Marathon.Components.ListViewDark();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Column_DateModified = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Space = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -103,45 +102,42 @@
             this.ListView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ListView_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
-            this.Column_DateModified,
             this.Column_Type,
             this.Column_Size,
             this.Column_Space});
             this.ListView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
+            this.ListView_Explorer.FullRowSelect = true;
             this.ListView_Explorer.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ListView_Explorer.HideSelection = false;
             this.ListView_Explorer.Location = new System.Drawing.Point(-1, 0);
             this.ListView_Explorer.Name = "ListView_Explorer";
             this.ListView_Explorer.OwnerDraw = true;
             this.ListView_Explorer.Size = new System.Drawing.Size(598, 428);
+            this.ListView_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListView_Explorer.TabIndex = 0;
             this.ListView_Explorer.UseCompatibleStateImageBehavior = false;
             this.ListView_Explorer.View = System.Windows.Forms.View.Details;
+            this.ListView_Explorer.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ListView_Explorer_MouseDoubleClick);
             // 
             // Column_Name
             // 
             this.Column_Name.Text = "Name";
-            this.Column_Name.Width = 272;
-            // 
-            // Column_DateModified
-            // 
-            this.Column_DateModified.Text = "Date modified";
-            this.Column_DateModified.Width = 143;
+            this.Column_Name.Width = 300;
             // 
             // Column_Type
             // 
             this.Column_Type.Text = "Type";
-            this.Column_Type.Width = 120;
+            this.Column_Type.Width = 150;
             // 
             // Column_Size
             // 
             this.Column_Size.Text = "Size";
-            this.Column_Size.Width = 612;
+            this.Column_Size.Width = 150;
             // 
             // Column_Space
             // 
             this.Column_Space.Text = "";
-            this.Column_Space.Width = 598;
+            this.Column_Space.Width = 298;
             // 
             // ArchiveExplorer
             // 
@@ -157,7 +153,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ArchiveExplorer";
-            this.Text = "File Manager ";
+            this.Text = "Archive Explorer ";
             this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
             this.SplitContainer_TreeView.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).EndInit();
@@ -170,9 +166,8 @@
         private System.Windows.Forms.SplitContainer SplitContainer_TreeView;
         private System.Windows.Forms.TreeView TreeView_Explorer;
         private System.Windows.Forms.ImageList ImageList_Keys;
-        private Source.Components.ListViewDark ListView_Explorer;
+        private Components.ListViewDark ListView_Explorer;
         private System.Windows.Forms.ColumnHeader Column_Name;
-        private System.Windows.Forms.ColumnHeader Column_DateModified;
         private System.Windows.Forms.ColumnHeader Column_Type;
         private System.Windows.Forms.ColumnHeader Column_Size;
         private System.Windows.Forms.ColumnHeader Column_Space;

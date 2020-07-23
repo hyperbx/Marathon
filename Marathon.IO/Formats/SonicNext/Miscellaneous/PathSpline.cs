@@ -1,4 +1,4 @@
-﻿namespace Marathon.IO.Formats.SonicNext
+﻿namespace Marathon.IO.Formats.SonicNext.Miscellaneous
 {
     /// <summary>
     /// File base for the Sonic '06 PATH format.

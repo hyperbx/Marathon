@@ -31,10 +31,75 @@ using System.Collections.Generic;
 
 namespace Marathon.Helpers
 {
-    internal class Text
+    public static class Strings
     {
         public static string[] ParseLineBreaks(string text)
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+        public static string ByteLengthToDecimalString(long i)
+        {
+            // Get absolute value.
+            long absolute_i = i < 0 ? -i : i;
+
+            // Determine the suffix and readable value.
+            string suffix;
+            double readable;
+
+            // Exabyte
+            if (absolute_i >= 0x1000000000000000)
+            {
+                suffix = "EB";
+                readable = i >> 50;
+            }
+
+            // Petabyte
+            else if (absolute_i >= 0x4000000000000)
+            {
+                suffix = "PB";
+                readable = i >> 40;
+            }
+
+            // Terabyte
+            else if (absolute_i >= 0x10000000000)
+            {
+                suffix = "TB";
+                readable = i >> 30;
+            }
+
+            // Gigabyte
+            else if (absolute_i >= 0x40000000)
+            {
+                suffix = "GB";
+                readable = i >> 20;
+            }
+
+            // Megabyte
+            else if (absolute_i >= 0x100000)
+            {
+                suffix = "MB";
+                readable = i >> 10;
+            }
+
+            // Kilobyte
+            else if (absolute_i >= 0x400)
+            {
+                suffix = "KB";
+                readable = i;
+            }
+
+            // Byte
+            else
+            {
+                suffix = "KB";
+                readable = i % 1024 >= 1 ? i + 1024 - i % 1024 : i - i % 1024;
+            }
+
+            // Divide by 1024 to get fractional value.
+            readable /= 1024;
+
+            // Return formatted number with suffix.
+            return readable.ToString("0 ") + suffix;
+        }
     }
 
     internal class XML

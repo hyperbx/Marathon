@@ -86,7 +86,7 @@ namespace Marathon.Controls
         }
 
         /// <summary>
-        /// Refresh the TreeView nodes.
+        /// Refreshes the TreeView nodes.
         /// </summary>
         private void RefreshNodes()
         {
@@ -95,6 +95,7 @@ namespace Marathon.Controls
                 // Store the current expanded nodes before refreshing...
                 List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
 
+                // Clear current node to remove ghost child nodes... Spooky!
                 TreeView_Explorer.Nodes.Clear();
 
                 DirectoryInfo directory = new DirectoryInfo(CurrentAddress);
@@ -144,6 +145,7 @@ namespace Marathon.Controls
 
                         TreeView_Explorer.Nodes.Add(dirNode);
 
+                        // Add ghost child nodes so they can be expanded.
                         if (directory.GetDirectories().Length != 0)
                             dirNode.Nodes.Add(new TreeNode("Loading..."));
                     }

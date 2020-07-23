@@ -1,4 +1,4 @@
-﻿namespace Marathon.Source.Components
+﻿namespace Marathon.Components
 {
     partial class ListViewDark
     {

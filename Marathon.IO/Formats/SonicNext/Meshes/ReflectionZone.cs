@@ -30,7 +30,7 @@ using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
 using System.Collections.Generic;
 
-namespace Marathon.IO.Formats.SonicNext
+namespace Marathon.IO.Formats.SonicNext.Meshes
 {
     /// <summary>
     /// File base for the Sonic '06 RAB format.
