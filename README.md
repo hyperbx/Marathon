@@ -32,6 +32,8 @@
     - Miscellaneous
         - [Common Package (Common.bin)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/Miscellaneous/CommonPackage.cs)
         - [Path Spline (PATH)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/Miscellaneous/PathSpline.cs)
+    - Textures
+        - [DirectDraw Surface (DDS)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/Textures/DirectDraw.cs)
     - And more to come...
 
 ### Marathon.Toolkit
