@@ -10,9 +10,6 @@
 
 <h1 align="center">Capabilities</h1>
 
-### Marathon.Toolkit
-- Currently, the Toolkit project is not ready for use.
-
 ### Marathon.IO
 - Supported formats:
     - [Sonic '06 Archive (ARC)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/SonicNext/Archives/CompressedU8Archive.cs) reading and writing
@@ -29,3 +26,10 @@
     - [Sonic '06 Common Package (Common.bin)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/SonicNext/Miscellaneous/CommonPackage.cs)
     - [Sonic '06 Path Spline (PATH)](https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.IO/Formats/SonicNext/Miscellaneous/PathSpline.cs)
     - And more to come...
+
+### Marathon.Toolkit
+- This project is currently not ready for use.
+
+### Marathon.Wiki
+- The wiki can be found [here](https://github.com/HyperPolygon64/Marathon/wiki) and links to the available HTML pages included in the repository.
+    - Special thanks to GitHub for still not allowing in-line coloured text.
