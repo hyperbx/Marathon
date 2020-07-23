@@ -1,0 +1,39 @@
+<html>
+  <head>
+	<title>Text</title>
+	
+	<style>
+		body { background-color: #1E1E1E }
+		
+		html *
+		{
+		   color: #FFFFFF;
+		   font-family: Verdana !important;
+		}
+	</style>
+  </head>
+  
+  <h3>Text</h3>
+  
+  <p>The Text (MST) format for Sonic '06 defines the strings for in-game text.</p>
+  
+  <p>After reading the BINA header, we end up at the first four important chunks of bytes.</p>
+  
+  <p style="padding-left: 40px;"><span style="color: red;">00 00 00 00</span> <span style="color: #1569C7;">00 00 00 00</span> <span style="color: #00FF00;">00 00 00 00</span> <span style="color: #E238EC;">00 00 00 00</span></p>
+  <ul>
+  <li><span style="color: red;">This String is the signature of this BINA format.</span><br/>
+  <li><span style="color: #1569C7;">This UInt32 is a pointer (plus 0x20) to the start of the null-terminated string table.</span><br/>
+  <li><span style="color: #00FF00;">This UInt32 is the amount of text entries present in the file.</span><br/>
+  <li><span style="color: #E238EC;">This UInt32 is a pointer (plus 0x20) to the internal name of the file.</span>
+  </ul>
+  
+  <p>After receiving this data, we can now start reading the offset table.</p>
+  
+  <p style="padding-left: 40px;"><span style="color: red;">00 00 00 00</span> <span style="color: #1569C7;">00 00 00 00</span> <span style="color: #00FF00;">00 00 00 00</span> 00 00 00 00</p>
+  <ul>
+  <li><span style="color: red;">This UInt32 is a pointer (plus 0x20) to the name of this entry.</span><br/>
+  <li><span style="color: #1569C7;">This UInt32 is a pointer (plus 0x20) to the UTF-16 encoded text for this entry.</span><br/>
+  <li><span style="color: #00FF00;">This UInt32 is a pointer (plus 0x20) to the placeholder information for this entry.</span><br/>
+  <li>Next entry in the offset table.</span>
+  </ul>
+</html>
