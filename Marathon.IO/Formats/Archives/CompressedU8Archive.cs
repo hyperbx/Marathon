@@ -249,16 +249,12 @@ namespace Marathon.IO.Formats.Archives
                 // Recursively parse Directory entries.
                 if (u8Entry.Type == U8DataEntryType.Directory)
                 {
-                    // If we're not dealing with the root entry, create a directory entry.
-                    if (!isRoot)
-                    {
-                        // Create U8DirectoryEntry and add it to entries.
-                        var dirEntry = new U8DirectoryEntry(name);
-                        entries.Add(dirEntry);
+                    // Create U8DirectoryEntry and add it to entries.
+                    var dirEntry = new U8DirectoryEntry(name);
+                    entries.Add(dirEntry);
 
-                        // Set entries to dirEntry.Contents.
-                        entries = dirEntry.Contents;
-                    }
+                    // Set entries to dirEntry.Contents.
+                    entries = dirEntry.Contents;
 
                     // Recursively parse the directory's child entries.
                     uint u8ChildIndex = u8EntryIndex + 1;
@@ -346,7 +342,7 @@ namespace Marathon.IO.Formats.Archives
             writer.FillInOffset("EntriesLength", (uint)stream.Position - 0x20);
 
             // Align the file to an offset divisible by 32.
-            if (hasData) StreamHelpers.AlignTo32Bytes(stream);
+            if (hasData) StreamHelper.AlignTo32Bytes(stream);
 
             // Fill-in DataOffset.
             writer.FillInOffset("DataOffset");
@@ -467,7 +463,7 @@ namespace Marathon.IO.Formats.Archives
                     }
 
                     // Align the file to an offset divisible by 32.
-                    StreamHelpers.AlignTo32Bytes(stream);
+                    StreamHelper.AlignTo32Bytes(stream);
 
                     // Fill-in file data offset and compressed size.
                     writer.FillInOffset($"Data_{globalEntryIndex}");

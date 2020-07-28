@@ -69,8 +69,8 @@ namespace Marathon.IO.Formats.Placement
 
         public class SetGroup
         {
-            public string Name, // Name of the group.
-                          Type; // TODO: Type doesn't seem like the right name for this value.
+            public string Name,     // Name of the group.
+                          Function; // Lua function executed when triggered.
 
             public List<uint> ObjectIDs = new List<uint>(); // Target IDs for grouped objects.
         }
@@ -229,7 +229,7 @@ namespace Marathon.IO.Formats.Placement
 
                 // Read group type.
                 reader.JumpTo(groupTypeOffset, true);
-                group.Type = reader.ReadNullTerminatedString();
+                group.Function = reader.ReadNullTerminatedString();
 
                 // Group Object List
                 reader.JumpTo(groupObjectListOffset, true);
@@ -382,7 +382,7 @@ namespace Marathon.IO.Formats.Placement
                 for (int i = 0; i < Groups.Count; i++)
                 {
                     writer.AddString($"groupNameOffset{i}", Groups[i].Name, false);
-                    writer.AddString($"groupTypeOffset{i}", Groups[i].Type, false);
+                    writer.AddString($"groupTypeOffset{i}", Groups[i].Function, false);
                     writer.Write(Groups[i].ObjectIDs.Count);
                     writer.AddOffset($"groupObjectList{i}");
                 }
@@ -465,7 +465,7 @@ namespace Marathon.IO.Formats.Placement
                 // Create XML Nodes.
                 XElement groupNode = new XElement("Group");
                 XElement groupName = new XElement("Name", group.Name);
-                XElement groupType = new XElement("Type", group.Type);
+                XElement groupType = new XElement("Type", group.Function);
 
                 // List of Object IDs
                 XElement groupObjectsNode = new XElement("Objects");
@@ -569,7 +569,7 @@ namespace Marathon.IO.Formats.Placement
                 SetGroup group = new SetGroup()
                 {
                     Name = groupElem.Element("Name").Value,
-                    Type = groupElem.Element("Type").Value
+                    Function = groupElem.Element("Type").Value
                 };
 
                 foreach(XElement groupObject in groupElem.Elements("Objects").Elements("Object"))

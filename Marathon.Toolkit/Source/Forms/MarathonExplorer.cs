@@ -36,7 +36,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Controls
 {
-    public partial class WebBrowserExplorer : DockContent
+    public partial class MarathonExplorer : DockContent
     {
         private string _CurrentAddress;
         private bool _HideDirectoryTree;
@@ -49,7 +49,7 @@ namespace Marathon.Controls
             set
             {
                 // Decode the URL to prevent the path from using HTML encoded characters.
-                _CurrentAddress = HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\"));
+                Text += $"({_CurrentAddress = HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\"))})";
 
                 // Set text boxes to use the current address.
                 TextBox_Address.Text = CurrentAddress;
@@ -113,15 +113,15 @@ namespace Marathon.Controls
                         });
 
                         GetDirectories(directory.GetDirectories());
-
-                        // Restore expanded nodes.
-                        TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
                     }
                 }
                 catch (UnauthorizedAccessException)
                 {
                     GoUp(); // Back out of restricted directory...
                 }
+
+                // Restore expanded nodes.
+                TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
             }
         }
 
@@ -190,7 +190,7 @@ namespace Marathon.Controls
             }
         }
 
-        public WebBrowserExplorer()
+        public MarathonExplorer()
         {
             InitializeComponent();
 

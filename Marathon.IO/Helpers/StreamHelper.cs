@@ -2,7 +2,7 @@
 
 namespace Marathon.IO.Helpers
 {
-    public class StreamHelpers
+    public class StreamHelper
     {
         /// <summary>
         /// Aligns a stream to 32 bytes.

@@ -57,7 +57,7 @@ namespace Marathon
         {
             OpenFileDialog fileDialog = new OpenFileDialog {
                 Title = "Please select a file...",
-                Filter = XML.ParseSupportedFileTypes(),
+                Filter = XML.ParseFileTypesAsFilter(Properties.Resources.AllFileTypes),
                 InitialDirectory = ActiveWebBrowserExplorerAddress()
             };
 
@@ -79,7 +79,7 @@ namespace Marathon
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                WebBrowserExplorer webBrowserExplorer = new WebBrowserExplorer { CurrentAddress = folderDialog.SelectedPath };
+                MarathonExplorer webBrowserExplorer = new MarathonExplorer { CurrentAddress = folderDialog.SelectedPath };
                 webBrowserExplorer.Show(DockPanel_Main);
             }
         }
@@ -87,18 +87,21 @@ namespace Marathon
         /// <summary>
         /// A function executed whenever the user selects a different child window.
         /// </summary>
-        private void DockPanel_Main_ActiveDocumentChanged(object sender, EventArgs e) { }
+        private void DockPanel_Main_ActiveDocumentChanged(object sender, EventArgs e)
+        {
+        
+        }
 
         /// <summary>
         /// Returns the current address of the active WebBrowserExplorer document.
         /// </summary>
         private string ActiveWebBrowserExplorerAddress()
         {
-            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument.GetType().Equals(typeof(WebBrowserExplorer)))
+            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument.GetType().Equals(typeof(MarathonExplorer)))
             {
-                object @controller = (WebBrowserExplorer)DockPanel_Main.ActiveDocument;
+                object @controller = (MarathonExplorer)DockPanel_Main.ActiveDocument;
 
-                return @controller != null ? ((WebBrowserExplorer)@controller).CurrentAddress : string.Empty;
+                return @controller != null ? ((MarathonExplorer)@controller).CurrentAddress : string.Empty;
             }
 
             return string.Empty;

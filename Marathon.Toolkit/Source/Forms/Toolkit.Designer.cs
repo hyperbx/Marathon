@@ -35,7 +35,7 @@ namespace Marathon
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_OpenFile = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_OpenFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuStripDark_Main_File_ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help_About = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,7 +66,7 @@ namespace Marathon
             this.MenuStripDark_Main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuStripDark_Main_File_OpenFile,
             this.MenuStripDark_Main_File_OpenFolder,
-            this.toolStripSeparator1,
+            this.MenuStripDark_Main_File_ToolStripSeparator1,
             this.MenuStripDark_Main_File_Exit});
             this.MenuStripDark_Main_File.Name = "MenuStripDark_Main_File";
             this.MenuStripDark_Main_File.Size = new System.Drawing.Size(37, 20);
@@ -91,10 +91,10 @@ namespace Marathon
             this.MenuStripDark_Main_File_OpenFolder.Text = "Open Folder...";
             this.MenuStripDark_Main_File_OpenFolder.Click += new System.EventHandler(this.MenuStripDark_Main_File_OpenFolder_Click);
             // 
-            // toolStripSeparator1
+            // MenuStripDark_Main_File_ToolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(220, 6);
+            this.MenuStripDark_Main_File_ToolStripSeparator1.Name = "MenuStripDark_Main_File_ToolStripSeparator1";
+            this.MenuStripDark_Main_File_ToolStripSeparator1.Size = new System.Drawing.Size(220, 6);
             // 
             // MenuStripDark_Main_File_Exit
             // 
@@ -136,7 +136,6 @@ namespace Marathon
             this.DockPanel_Main.TabIndex = 2;
             this.DockPanel_Main.Theme = this.Theme_VS2015Dark;
             this.DockPanel_Main.ActiveDocumentChanged += new System.EventHandler(this.DockPanel_Main_ActiveDocumentChanged);
-            this.DockPanel_Main.Theme.Extender.FloatWindowFactory = new MarathonFloatWindowFactory();
             // 
             // Toolkit
             // 
@@ -168,7 +167,7 @@ namespace Marathon
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help_About;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Exit;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_OpenFolder;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_File_ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_OpenFile;
         private WeifenLuo.WinFormsUI.Docking.DockPanel DockPanel_Main;
         private WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme Theme_VS2015Dark;

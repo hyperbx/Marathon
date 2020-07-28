@@ -63,6 +63,26 @@ namespace Marathon.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
+        ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.pkg&quot;&gt;Asset Package&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.path&quot;&gt;Path Spline&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.pft&quot;&gt;Picture Font&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.sbk&quot;&gt;Sound Ban [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AllFileTypes {
+            get {
+                return ResourceManager.GetString("AllFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot;&gt;Radfordhound&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot;&gt;Knuxfan24&lt;/Contributor&gt;
@@ -146,22 +166,12 @@ namespace Marathon.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Marathon&gt;
-        ///  &lt;Type Extension=&quot;*.*&quot;&gt;All files&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.pkg&quot;&gt;Asset Package&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.bin&quot;&gt;Collision&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.path&quot;&gt;Path Spline&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.pft&quot;&gt;Picture Font&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.set&quot;&gt;Placement&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;*.sbk&quot; [rest of string was truncated]&quot;;.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string SupportedFileTypes {
+        internal static System.Drawing.Bitmap Placeholder {
             get {
-                return ResourceManager.GetString("SupportedFileTypes", resourceCulture);
+                object obj = ResourceManager.GetObject("Placeholder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

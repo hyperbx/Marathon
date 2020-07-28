@@ -127,18 +127,19 @@ namespace Marathon.Helpers
         }
 
         /// <summary>
-        /// Parses SupportedFileTypes.xml to a string.
+        /// Parses file types resource to a string.
         /// </summary>
-        public static string ParseSupportedFileTypes()
+        public static string ParseFileTypesAsFilter(string resource)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            XDocument xml = XDocument.Parse(Properties.Resources.SupportedFileTypes);
+
+            XDocument xml = XDocument.Parse(resource);
 
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
                 string @extension = supportedFileTypesElem.Attribute("Extension").Value;
 
-                stringBuilder.Append($"{supportedFileTypesElem.Value} ({@extension})|{@extension}|");
+                stringBuilder.Append($"{supportedFileTypesElem.Value} (*{@extension})|*{@extension}|");
             }
 
             return stringBuilder.ToString().EndsWith("|") ?
