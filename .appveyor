@@ -27,7 +27,7 @@ build:
 
 after_build:
 - cmd: >-
-    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\*"
+    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\netstandard2.0\*"
 
     7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.Toolkit\bin\%CONFIGURATION%\*"
 
