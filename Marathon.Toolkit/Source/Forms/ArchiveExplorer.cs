@@ -40,7 +40,7 @@ namespace Marathon.Controls
     public partial class ArchiveExplorer : DockContent
     {
         private string _CurrentArchive;
-        private object _ClipboardContent;
+        private TreeNode _CurrentActiveNode, _TreeNodeClipboardContent;
         private CompressedU8Archive _LoadedArchive = new CompressedU8Archive();
 
         [Description("The current archive serialised in the TreeView and ListView controls.")]
@@ -60,6 +60,9 @@ namespace Marathon.Controls
                     Tag = _LoadedArchive.Entries[0],
                     ImageKey = "Folder",
                 };
+
+                // Stores the currently active node.
+                _CurrentActiveNode = rootNode;
 
                 TreeView_Explorer.Nodes.Add(rootNode);
 
@@ -155,14 +158,18 @@ namespace Marathon.Controls
                         if (DataTypeHelper.IsInputOfType(ListView_Explorer.SelectedItems[0].Tag, typeof(U8DirectoryEntry)))
                         {
                             // Get the first matching result to navigate in the TreeView.
-                            TreeNode @directoryEntry = TreeView_Explorer.SelectedNode.Nodes.Descendants().First(x => x.Tag == ListView_Explorer.SelectedItems[0].Tag);
+                            TreeNode @directoryEntry = _CurrentActiveNode =
+                                TreeView_Explorer.SelectedNode.Nodes.Descendants().Single(x => ((U8DataEntry)x.Tag).ID == ((U8DataEntry)ListView_Explorer.SelectedItems[0].Tag).ID);
 
-                            // Populate ListView with the tag's directory data.
-                            InitialiseFileItems(@directoryEntry.Tag);
+                            if (@directoryEntry != null)
+                            {
+                                // Populate ListView with the tag's directory data.
+                                InitialiseFileItems(@directoryEntry.Tag);
 
-                            // Navigate to the matching TreeNode.
-                            @directoryEntry.EnsureVisible();
-                            @directoryEntry.Expand();
+                                // Navigate to the matching TreeNode.
+                                @directoryEntry.EnsureVisible();
+                                @directoryEntry.Expand();
+                            }
                         }
                     }
 
@@ -176,6 +183,8 @@ namespace Marathon.Controls
         /// </summary>
         private void TreeView_Explorer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            TreeView_Explorer.SelectedNode = e.Node;
+
             switch (e.Button)
             {
                 case MouseButtons.Right:
@@ -184,16 +193,62 @@ namespace Marathon.Controls
 
                     menu.Items.Clear();
 
-                    menu.Items.AddRange(new ToolStripMenuItem[] {
-                        new ToolStripMenuItem("Copy",  Properties.Resources.Placeholder, delegate (object copySender, EventArgs copyEventArgs) { _ClipboardContent = e.Node.Tag; }),
-                        new ToolStripMenuItem("Paste", Properties.Resources.Placeholder, CopyNodeToClipboard)
-                    });
+                    menu.Items.Add(new ToolStripMenuItem("Copy", Properties.Resources.Placeholder, delegate { _TreeNodeClipboardContent = e.Node; }));
+
+                    if (_TreeNodeClipboardContent != null)
+                    {
+                        menu.Items.Add(new ToolStripMenuItem("Paste", Properties.Resources.Placeholder, delegate
+                        {
+                            TreeNode content = new TreeNode(_TreeNodeClipboardContent.Text);
+
+                            for (int i = 0; i < _TreeNodeClipboardContent.Nodes.Count; i++)
+                            {
+                                TreeNode clone = (TreeNode)_TreeNodeClipboardContent.Nodes[i].Clone();
+                                content.Nodes.Add(clone);
+                            }
+
+                            e.Node.Nodes.Add(content);
+                        }));
+                    }
 
                     menu.Items.Add(new ToolStripSeparator());
 
-                    menu.Items.AddRange(new ToolStripMenuItem[] {
-                        new ToolStripMenuItem("Delete", Properties.Resources.Placeholder, CopyNodeToClipboard),
-                        new ToolStripMenuItem("Rename", Properties.Resources.Placeholder, CopyNodeToClipboard)
+                    menu.Items.AddRange(new ToolStripMenuItem[]
+                    {
+                        new ToolStripMenuItem("Delete", Properties.Resources.Placeholder, delegate
+                        {
+                            List<U8DataEntry> lastDirectory = _LoadedArchive.Entries;
+
+                            GetIdentifier(lastDirectory);
+
+                            void GetIdentifier(List<U8DataEntry> entries)
+                            {
+                                for (int i = 0; i < entries.Count; i++)
+                                {
+                                    if (entries[i].ID == ((U8DataEntry)e.Node.Tag).ID)
+                                    {
+                                        entries.Remove(entries[i]);
+
+                                        e.Node.Remove();
+
+                                        // Reloads the active node.
+                                        InitialiseFileItems(_CurrentActiveNode.Tag);
+
+                                        // Ensures the renamed node is visible once finished.
+                                        e.Node.EnsureVisible();
+                                    }
+
+                                    if (entries[i].GetType().Equals(typeof(U8DirectoryEntry)) &&
+                                        ((U8DirectoryEntry)entries[i]).Contents.OfType<U8DirectoryEntry>().Count() != 0)
+                                    {
+                                        lastDirectory = ((U8DirectoryEntry)entries[i]).Contents;
+                                        GetIdentifier(lastDirectory);
+                                    }
+                                }
+                            }
+                        }),
+
+                        new ToolStripMenuItem("Rename", Properties.Resources.Placeholder, delegate { e.Node.BeginEdit(); })
                     });
 
                     menu.Show(Cursor.Position);
@@ -201,11 +256,6 @@ namespace Marathon.Controls
                     break;
                 }
             }
-        }
-
-        private void CopyNodeToClipboard(object sender, EventArgs e)
-        {
-            
         }
 
         /// <summary>
@@ -217,6 +267,9 @@ namespace Marathon.Controls
             {
                 case MouseButtons.Left:
                 {
+                    // Stores the currently active node.
+                    _CurrentActiveNode = e.Node;
+
                     // Navigates to the selected node if valid.
                     InitialiseFileItems(e.Node.Tag);
 
@@ -232,5 +285,23 @@ namespace Marathon.Controls
         /// Closes the form.
         /// </summary>
         private void MenuStripDark_Main_File_Close_Click(object sender, EventArgs e) => Close();
+
+        /// <summary>
+        /// Sets the archive entry's name to the new node label.
+        /// </summary>
+        private void TreeView_Explorer_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Label))
+            {
+                // Edits the name of the data entry to match the new label.
+                ((U8DataEntry)e.Node.Tag).Name = e.Label;
+
+                // Reloads the active node.
+                InitialiseFileItems(_CurrentActiveNode.Tag);
+
+                // Ensures the renamed node is visible once finished.
+                e.Node.EnsureVisible();
+            }
+        }
     }
 }

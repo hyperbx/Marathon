@@ -5,6 +5,8 @@
     /// </summary>
     public class DirectDraw : FileBase
     {
-        // TODO
+        public const string Extension = ".dds";
+
+        // TODO: Everything else...
     }
 }

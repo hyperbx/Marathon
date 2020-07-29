@@ -85,12 +85,14 @@
             this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
             this.TreeView_Explorer.ImageIndex = 0;
             this.TreeView_Explorer.ImageList = this.ImageList_Keys;
+            this.TreeView_Explorer.LabelEdit = true;
             this.TreeView_Explorer.Location = new System.Drawing.Point(0, 0);
             this.TreeView_Explorer.Name = "TreeView_Explorer";
             this.TreeView_Explorer.SelectedImageIndex = 0;
             this.TreeView_Explorer.ShowRootLines = false;
             this.TreeView_Explorer.Size = new System.Drawing.Size(182, 387);
             this.TreeView_Explorer.TabIndex = 2;
+            this.TreeView_Explorer.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TreeView_Explorer_AfterLabelEdit);
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
             // 

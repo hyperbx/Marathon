@@ -32,6 +32,6 @@ namespace Marathon.IO.Exceptions
     {
         static readonly string _Message = "The signature read from the stream is incorrect! Expected {0}, got {1}...";
 
-        public InvalidSignatureException(string expectedSig, string readSig) : base(string.Format(_Message, expectedSig, readSig)) { }
+        public InvalidSignatureException(string expectedSignature, string readSignature) : base(string.Format(_Message, expectedSignature, readSignature)) { }
     }
 }

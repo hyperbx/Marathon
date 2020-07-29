@@ -33,6 +33,7 @@ using Marathon.IO.Helpers;
 using System.IO.Compression;
 using Marathon.IO.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.IO.Formats.Archives
 {
@@ -52,6 +53,11 @@ namespace Marathon.IO.Formats.Archives
             /// Whether this U8DataEntry represents a directory or a file.
             /// </summary>
             public abstract bool IsDirectory { get; }
+
+            /// <summary>
+            /// Not required by U8 - used for convenience with Archive Explorer.
+            /// </summary>
+            public int ID;
 
             public U8DataEntry() { }
 
@@ -89,7 +95,7 @@ namespace Marathon.IO.Formats.Archives
             public byte[] Data;
 
             /// <summary>
-            /// Uncompressed size of the file (used for UI).
+            /// Uncompressed size of the file - used for convenience with Archive Explorer.
             /// </summary>
             public uint UncompressedSize;
 
@@ -186,6 +192,11 @@ namespace Marathon.IO.Formats.Archives
             /// </remarks>
             public uint UncompressedSize;
 
+            /// <summary>
+            /// Not required by U8 - used for convenience with Archive Explorer.
+            /// </summary>
+            public int ID;
+
             public const uint TypeMask = 0xFF000000;
             public const uint NameOffsetMask = 0x00FFFFFF;
             public const uint SizeOf = 16;
@@ -199,6 +210,7 @@ namespace Marathon.IO.Formats.Archives
                 Data = reader.ReadUInt32();
                 Size = reader.ReadUInt32();
                 UncompressedSize = reader.ReadUInt32();
+                ID = 0;
             }
         }
 
@@ -277,8 +289,26 @@ namespace Marathon.IO.Formats.Archives
                 }
 
                 // Throw if we encounter an entry of an unknown type
-                else throw new NotSupportedException(
-                    $"Encountered an U8 entry of unsupported type ({(uint)u8Entry.Type}).");
+                else
+                    throw new NotSupportedException($"Encountered an U8 entry of unsupported type ({(uint)u8Entry.Type}).");
+            }
+
+            // Gives each entry a unique identifier.
+            int lastID = 0;
+            SetIdentifiers(Entries);
+
+            void SetIdentifiers(List<U8DataEntry> entries)
+            {
+                for (int i = 0; i < entries.Count; i++)
+                {
+                    entries[i].ID = lastID;
+
+                    lastID++;
+
+                    if (entries[i].GetType().Equals(typeof(U8DirectoryEntry)) &&
+                        ((U8DirectoryEntry)entries[i]).Contents.OfType<U8DirectoryEntry>().Count() != 0)
+                            SetIdentifiers(((U8DirectoryEntry)entries[i]).Contents);
+                }
             }
         }
 

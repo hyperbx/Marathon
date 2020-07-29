@@ -1,4 +1,5 @@
 <br>
+
 <p align="center">
     <img src="https://github.com/HyperPolygon64/Marathon/blob/marathon-master/Marathon.Toolkit/Resources/Images/Logos/Main_Logo_Medium_Colour.png?raw=true" />
 </p>
@@ -6,9 +7,22 @@
 <h1 align="center">Marathon</h1>
 
 <h3 align="center">A work-in-progress toolkit and library for SONIC THE HEDGEHOG (2006) file formats</h3>
+
 <br>
 
-<h1 align="center">Capabilities</h1>
+# Releases
+
+### GitHub Releases
+This is where [stable builds](https://github.com/HyperPolygon64/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
+
+### AppVeyor
+While it can be fun to live on the bleeding edge; [AppVeyor builds](https://ci.appveyor.com/project/HyperPolygon64/marathon) are published for each new commit, so changes can be unstable.
+
+Build Status  |
+------------- |
+[![Build status](https://ci.appveyor.com/api/projects/status/4hib7v8lpi25u351?svg=true)](https://ci.appveyor.com/project/HyperPolygon64/marathon)  |
+
+# Capabilities
 
 ### Marathon.IO
 - Supported formats:
@@ -41,4 +55,3 @@
 
 ### Marathon.Wiki
 - The wiki can be found [here](https://github.com/HyperPolygon64/Marathon/wiki) and links to the available HTML pages included in the repository.
-    - Special thanks to GitHub for still not allowing in-line coloured text.

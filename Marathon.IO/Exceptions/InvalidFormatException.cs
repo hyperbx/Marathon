@@ -1,4 +1,4 @@
-﻿// WaveformAudio.cs is licensed under the MIT License:
+﻿// InvalidFormatException.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -23,17 +23,14 @@
  * SOFTWARE.
  */
 
-using System.IO;
+using System;
 
-namespace Marathon.IO.Formats.Sounds
+namespace Marathon.IO.Exceptions
 {
-    public class WaveformAudio : FileBase
+    class InvalidFormatException : Exception
     {
-        public const string Signature = "RIFF", Extension = ".wav";
+        static readonly string _Message = "The format read from the stream is incorrect! Expected {0}, got {1}...";
 
-        public override void Load(Stream stream)
-        {
-            ExtendedBinaryReader reader = new ExtendedBinaryReader(stream);
-        }
+        public InvalidFormatException(string expectedFormat, string readFormat) : base(string.Format(_Message, expectedFormat, readFormat)) { }
     }
 }
