@@ -23,7 +23,7 @@ before_build:
 build:
   verbosity: minimal
 
-after-build:
+after_build:
   - cmd:
       7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\$(configuration)\*"
       7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\$(configuration)\*"
