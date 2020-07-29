@@ -1,4 +1,4 @@
-version: '1.0.0-{build} ~ {branch}'
+version: '0.0.1-{build} ~ {branch}'
 
 branches:
   only:
@@ -6,7 +6,9 @@ branches:
 
 skip_tags: true
 
-configuration: Release
+configuration:
+  - Release
+  - Debug
 
 skip_commits:
   files:
@@ -17,8 +19,8 @@ skip_commits:
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
-  assembly_file_version: '1.0.0.{build}'
-  assembly_informational_version: '1.0.0-{build}'
+  assembly_file_version: '0.0.1.{build}'
+  assembly_informational_version: '0.0.1-{build}'
   
 before_build:
 - cmd: nuget restore
