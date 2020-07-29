@@ -1,8 +1,7 @@
 version: 1.0.{build}.0
 
 branches:
-  only:
-  - marathon-master
+  only: marathon-master
 
 skip_tags: true
 
@@ -20,18 +19,19 @@ assembly_info:
   assembly_file_version: '{version}'
   
 before_build:
-  - nuget restore
+- cmd: nuget restore
   
 build:
   verbosity: minimal
 
 after_build:
-  - cmd: >-
+- cmd: >-
     7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\*"
+
     7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.Toolkit\bin\%CONFIGURATION%\*"
 
 artifacts:
-  - path: Marathon.IO.zip
-    name: Marathon.IO
-  - path: Marathon.Toolkit.zip
-    name: Marathon.Toolkit
+- path: Marathon.IO.zip
+  name: Marathon.IO
+- path: Marathon.Toolkit.zip
+  name: Marathon.Toolkit
