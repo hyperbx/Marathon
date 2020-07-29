@@ -6,6 +6,8 @@ branches:
 
 skip_tags: true
 
+configuration: Release
+
 skip_commits:
   files:
     - Marathon.Wiki/**
@@ -24,9 +26,9 @@ build:
   verbosity: minimal
 
 after_build:
-  - cmd:
-      7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\$(configuration)\*"
-      7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\$(configuration)\*"
+  - cmd: >-
+    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\*"
+    7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.Toolkit\bin\%CONFIGURATION%\*"
 
 artifacts:
   - path: Marathon.IO.zip
