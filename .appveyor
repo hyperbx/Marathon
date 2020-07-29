@@ -1,0 +1,34 @@
+version: 1.0.{build}.0
+
+branches:
+  only:
+  - marathon-master
+
+skip_tags: true
+
+skip_commits:
+  files:
+    - Marathon.Wiki/**
+    - LICENSE
+    - README.md
+    
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.cs'
+  assembly_file_version: '{version}'
+  
+before_build:
+  - nuget restore
+  
+build:
+  verbosity: minimal
+
+after-build:
+  - 7z a Marathon.IO.zip %APPVEYOR_BUILD_FOLDER%\$(configuration)\*
+  - 7z a Marathon.Toolkit.zip %APPVEYOR_BUILD_FOLDER%\$(configuration)\*
+
+artifacts:
+  - path: Marathon.IO.zip
+    name: Marathon.IO
+  - path: Marathon.Toolkit.zip
+    name: Marathon.Toolkit
