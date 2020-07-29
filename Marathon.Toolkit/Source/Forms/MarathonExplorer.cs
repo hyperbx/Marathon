@@ -49,7 +49,7 @@ namespace Marathon.Controls
             set
             {
                 // Decode the URL to prevent the path from using HTML encoded characters.
-                Text += $"({_CurrentAddress = HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\"))})";
+                Text += $" ({_CurrentAddress = HttpUtility.UrlDecode(value.Replace("file:///", "").Replace("/", @"\"))})";
 
                 // Set text boxes to use the current address.
                 TextBox_Address.Text = CurrentAddress;

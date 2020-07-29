@@ -36,8 +36,7 @@ namespace Marathon
         public Toolkit()
         {
             InitializeComponent();
-
-            Text += $"(Version {Program.GlobalVersion})";
+            Text = Program.GetExtendedWindowInformation(Text);
         }
 
         /// <summary>

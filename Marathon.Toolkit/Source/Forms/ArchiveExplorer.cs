@@ -50,7 +50,7 @@ namespace Marathon.Controls
 
             set
             {
-                Text += $"({_CurrentArchive = value})";
+                Text += $" ({_CurrentArchive = value})";
 
                 _LoadedArchive.Load(_CurrentArchive);
 

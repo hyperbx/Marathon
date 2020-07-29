@@ -222,7 +222,7 @@
             this.MainMenuStrip = this.MenuStripDark_Main;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ArchiveExplorer";
-            this.Text = "Archive Explorer ";
+            this.Text = "Archive Explorer";
             this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
             this.SplitContainer_TreeView.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).EndInit();

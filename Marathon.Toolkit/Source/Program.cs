@@ -54,6 +54,21 @@ namespace Marathon
         }
 
         /// <summary>
+        /// Gets the version string for the title of the window based on flags.
+        /// </summary>
+        public static string GetExtendedWindowInformation(string text)
+        {
+#if !DEBUG
+            text += $" (Version {GlobalVersion})";
+#else
+            text += $" (Version {GlobalVersion}) [Debug]";
+#endif
+            text += RunningAsAdmin() ? " <Administrator>" : string.Empty;
+
+            return text;
+        }
+
+        /// <summary>
         /// Returns the process architecture.
         /// </summary>
         public static string Architecture()

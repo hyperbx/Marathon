@@ -152,7 +152,7 @@ namespace Marathon
             this.MainMenuStrip = this.MenuStripDark_Main;
             this.MinimumSize = new System.Drawing.Size(512, 512);
             this.Name = "Toolkit";
-            this.Text = "Marathon ";
+            this.Text = "Marathon";
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             this.ResumeLayout(false);
