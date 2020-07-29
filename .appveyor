@@ -1,4 +1,4 @@
-version: '1.0.0-{build} ~ ({branch})'
+version: '1.0.0-{build} ~ {branch}'
 
 branches:
   only:
@@ -27,9 +27,8 @@ build:
   verbosity: minimal
 
 after_build:
-- cmd: >-
+- cmd: |
     7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\netstandard2.0\*"
-    
     7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.Toolkit\bin\%CONFIGURATION%\*"
 
 artifacts:
