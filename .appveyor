@@ -1,4 +1,6 @@
-version: 1.0.0
+global_version: 1.0.0
+
+version: '{global_version}-{build} ~ ({branch})'
 
 branches:
   only:
@@ -17,8 +19,8 @@ skip_commits:
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
-  assembly_file_version: '{version}.{build}'
-  assembly_informational_version: '{version}-{build}'
+  assembly_file_version: '{global_version}.{build}'
+  assembly_informational_version: '{global_version}-{build}'
   
 before_build:
 - cmd: nuget restore
