@@ -76,11 +76,11 @@
       <DependentUpon>ListViewDark.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Exceptions\InvalidSettingsException.cs" />
-    <Compile Include="Source\Forms\Debug.cs">
+    <Compile Include="Source\Forms\Debugger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\Debug.Designer.cs">
-      <DependentUpon>Debug.cs</DependentUpon>
+    <Compile Include="Source\Forms\Debugger.Designer.cs">
+      <DependentUpon>Debugger.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Forms\FileConverter.cs">
       <SubType>Form</SubType>
@@ -157,8 +157,8 @@
     </Compile>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Source\Forms\Debug.resx">
-      <DependentUpon>Debug.cs</DependentUpon>
+    <EmbeddedResource Include="Source\Forms\Debugger.resx">
+      <DependentUpon>Debugger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Source\Forms\ErrorHandler.resx">
       <DependentUpon>ErrorHandler.cs</DependentUpon>

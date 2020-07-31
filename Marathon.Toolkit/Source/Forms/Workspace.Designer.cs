@@ -40,6 +40,7 @@
             this.MenuStripDark_Main_File_Exit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Debug = new System.Windows.Forms.ToolStripMenuItem();
             this.DockPanel_Main = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.Theme_VS2015Dark = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
             this.MenuStripDark_Main.SuspendLayout();
@@ -55,11 +56,12 @@
             this.MenuStripDark_Main.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuStripDark_Main_File,
-            this.MenuStripDark_Main_Help});
+            this.MenuStripDark_Main_Help,
+            this.MenuStripDark_Main_Debug});
             this.MenuStripDark_Main.Location = new System.Drawing.Point(-5, 0);
             this.MenuStripDark_Main.Name = "MenuStripDark_Main";
             this.MenuStripDark_Main.Padding = new System.Windows.Forms.Padding(7, 2, 0, 2);
-            this.MenuStripDark_Main.Size = new System.Drawing.Size(955, 24);
+            this.MenuStripDark_Main.Size = new System.Drawing.Size(947, 24);
             this.MenuStripDark_Main.TabIndex = 0;
             // 
             // MenuStripDark_Main_File
@@ -145,9 +147,17 @@
             // 
             this.MenuStripDark_Main_Help_About.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_Help_About.Name = "MenuStripDark_Main_Help_About";
-            this.MenuStripDark_Main_Help_About.Size = new System.Drawing.Size(107, 22);
+            this.MenuStripDark_Main_Help_About.Size = new System.Drawing.Size(180, 22);
             this.MenuStripDark_Main_Help_About.Text = "About";
             this.MenuStripDark_Main_Help_About.Click += new System.EventHandler(this.MenuStripDark_Main_Help_About_Click);
+            // 
+            // MenuStripDark_Main_Debug
+            // 
+            this.MenuStripDark_Main_Debug.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MenuStripDark_Main_Debug.Name = "MenuStripDark_Main_Debug";
+            this.MenuStripDark_Main_Debug.Size = new System.Drawing.Size(54, 20);
+            this.MenuStripDark_Main_Debug.Text = "Debug";
+            this.MenuStripDark_Main_Debug.Visible = false;
             // 
             // DockPanel_Main
             // 
@@ -167,7 +177,7 @@
             this.DockPanel_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.DockPanel_Main_DragDrop);
             this.DockPanel_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.DockPanel_Main_DragEnter);
             // 
-            // Toolkit
+            // Workspace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -181,7 +191,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStripDark_Main;
             this.MinimumSize = new System.Drawing.Size(512, 512);
-            this.Name = "Toolkit";
+            this.Name = "Workspace";
             this.Text = "Marathon";
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
@@ -204,6 +214,7 @@
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_New_Archive;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Open_File;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Open_Folder;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Debug;
     }
 }
 

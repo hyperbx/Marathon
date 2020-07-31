@@ -41,6 +41,6 @@ namespace Marathon.Toolkit
 
     partial class Settings
     {
-        
+        public static string blah { get; set; } = "bananas";
     }
 }

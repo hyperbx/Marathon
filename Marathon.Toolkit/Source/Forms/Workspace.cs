@@ -39,7 +39,9 @@ namespace Marathon.Toolkit.Forms
             Text = Program.GetExtendedInformation(Text);
 
 #if DEBUG
-            new Debug().Show(DockPanel_Main);
+            // Display debug option...
+            MenuStripDark_Main_Debug.Visible = true;
+            MenuStripDark_Main_Debug.Click += (sender, e) => new Debugger().Show(DockPanel_Main);
 #endif
         }
 

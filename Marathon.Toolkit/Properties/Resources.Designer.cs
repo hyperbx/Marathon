@@ -96,7 +96,7 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid application settings... This is likely caused by a property in the configuration file that doesn&apos;t exist or it&apos;s being deserialised to an incorrect data type..
+        ///   Looks up a localized string similar to This is likely caused by a property in the configuration file that doesn&apos;t exist or it&apos;s being deserialised to an incorrect data type..
         /// </summary>
         internal static string Exception_InvalidSettingsException {
             get {

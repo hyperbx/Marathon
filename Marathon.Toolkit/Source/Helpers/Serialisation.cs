@@ -36,16 +36,14 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Parses all line breaks from a string.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <param name="text">String to parse line breaks from.</param>
         public static string[] ParseLineBreaks(string text)
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
         /// <summary>
         /// Parses byte length to a Windows-like suffix string.
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
+        /// <param name="i">Byte length.</param>
         public static string ByteLengthToDecimalString(long i)
         {
             // Get absolute value.

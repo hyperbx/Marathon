@@ -75,6 +75,10 @@ namespace Marathon.Toolkit
             catch (Exception ex)
             {
                 new ErrorHandler(new InvalidSettingsException(pointOfFailure, ex)).ShowDialog();
+
+                MessageBox.Show("Marathon will now attempt to correct the error...", "Configuration Recovery", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                Recover(); // Fix broken elements in the configuration.
             }
 #endif
         }
@@ -82,8 +86,7 @@ namespace Marathon.Toolkit
         /// <summary>
         /// Saves the current application settings.
         /// </summary>
-        /// <param name="reload">Reload upon saving?</param>
-        public static void Save(bool reload = false)
+        public static void Save()
         {
             XElement rootElem = new XElement("Marathon");
 
@@ -98,8 +101,30 @@ namespace Marathon.Toolkit
 
             XDocument config = new XDocument(rootElem);
             config.Save(_Configuration);
+        }
 
-            if (reload) Load(); // Reload settings after saving.
+        /// <summary>
+        /// Attempts to recover the application settings.
+        /// </summary>
+        public static void Recover()
+        {
+            if (File.Exists(_Configuration))
+            {
+                XDocument config = XDocument.Load(_Configuration);
+
+                foreach (XElement propertyElem in config.Root.Elements("Property").ToArray())
+                {
+                    // Stage 1: unable to locate the property.
+                    if (typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute("Name").Value).Count() == 0)
+                        propertyElem.Remove(); // Get outta here!
+
+                    // Stage 2: unable to get the data type from the attribute.
+                    if (!TypeDescriptor.GetConverter(propertyElem.Value).CanConvertTo(Type.GetType(propertyElem.Attribute("Type").Value)))
+                        propertyElem.Remove(); // Removes the scuffed property.
+                }
+
+                config.Save(_Configuration);
+            }
         }
     }
 }
