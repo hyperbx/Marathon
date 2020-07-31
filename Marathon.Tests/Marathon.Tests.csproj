@@ -54,7 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App.config" />
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
