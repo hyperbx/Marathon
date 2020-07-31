@@ -12,7 +12,7 @@
 
 # Releases
 
-### GitHub Releases
+### GitHub
 This is where [stable builds](https://github.com/HyperPolygon64/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
 
 ### AppVeyor
