@@ -1,8 +1,7 @@
-﻿// InvalidSignatureException.cs is licensed under the MIT License:
+﻿// Marathon is licensed under the MIT License:
 /* 
  * MIT License
  * 
- * Copyright (c) 2018 Radfordhound
  * Copyright (c) 2020 HyperPolygon64
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,7 +24,6 @@
  */
 
 using System;
-using System.Xml.Linq;
 
 namespace Marathon.Toolkit.Exceptions
 {
