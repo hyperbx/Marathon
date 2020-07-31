@@ -8,6 +8,8 @@
 
 <h3 align="center">A work-in-progress toolkit and library for SONIC THE HEDGEHOG (2006) file formats</h3>
 
+<br>
+
 # Releases
 
 ### GitHub Releases
@@ -44,4 +46,4 @@ While it can be fun to live on the bleeding edge; [AppVeyor builds](https://ci.a
 - This project is currently not ready for use.
 
 ### Marathon.Wiki
-- The wiki can be found [here](https://github.com/HyperPolygon64/Marathon/wiki) and links to the available HTML pages included in the repository.
+- The wiki can be found [here](https://github.com/HyperPolygon64/Marathon/wiki) and contains links to the available HTML pages included in the repository.
