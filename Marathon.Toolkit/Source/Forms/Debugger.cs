@@ -33,11 +33,7 @@ namespace Marathon.Toolkit.Forms
 {
     public partial class Debugger : DockContent
     {
-        public Debugger()
-        {
-            InitializeComponent();
-            ImportSettingsFromXML();
-        }
+        public Debugger() => InitializeComponent();
 
         /// <summary>
         /// Loads configuration into the TreeView.

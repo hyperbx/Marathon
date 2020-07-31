@@ -33,6 +33,6 @@ namespace Marathon.Toolkit.Exceptions
     {
         static readonly string _Message = Properties.Resources.Exception_InvalidSettingsException + "\n\nFailed to parse property: {0}";
 
-        public InvalidSettingsException(XElement property, Exception innerException) : base(string.Format(_Message, property.Attribute("Name").Value), innerException) { }
+        public InvalidSettingsException(string name, Exception innerException) : base(string.Format(_Message, name), innerException) { }
     }
 }
