@@ -1,4 +1,4 @@
-﻿namespace Marathon.Controls
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class MarathonExplorer
     {
@@ -35,11 +35,11 @@
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
-            this.ButtonFlat_DirectoryTree = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Clipboard = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Up = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Forward = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Back = new Marathon.Components.ButtonFlat();
+            this.ButtonFlat_DirectoryTree = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Clipboard = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Up = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Forward = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Back = new Marathon.Toolkit.Components.ButtonFlat();
             this.TextBox_Address = new System.Windows.Forms.TextBox();
             this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
@@ -138,7 +138,7 @@
             // ButtonFlat_DirectoryTree
             // 
             this.ButtonFlat_DirectoryTree.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_DirectoryTree.BackgroundImage = global::Marathon.Properties.Resources.WebBrowserExplorer_DirectoryTree_Enabled;
+            this.ButtonFlat_DirectoryTree.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_DirectoryTree_Enabled;
             this.ButtonFlat_DirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ButtonFlat_DirectoryTree.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_DirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -157,7 +157,7 @@
             // 
             this.ButtonFlat_Clipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonFlat_Clipboard.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Clipboard.BackgroundImage = global::Marathon.Properties.Resources.WebBrowserExplorer_Clipboard_Enabled;
+            this.ButtonFlat_Clipboard.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_Clipboard_Enabled;
             this.ButtonFlat_Clipboard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ButtonFlat_Clipboard.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_Clipboard.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -175,7 +175,7 @@
             // ButtonFlat_Up
             // 
             this.ButtonFlat_Up.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Up.BackgroundImage = global::Marathon.Properties.Resources.WebBrowserExplorer_Up_Enabled;
+            this.ButtonFlat_Up.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_Up_Enabled;
             this.ButtonFlat_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ButtonFlat_Up.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_Up.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -254,8 +254,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(784, 411);
             this.Controls.Add(this.SplitContainer_WebBrowser);
-            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.Document)));
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
@@ -281,10 +280,10 @@
         private System.Windows.Forms.SplitContainer SplitContainer_TreeView;
         private System.Windows.Forms.TreeView TreeView_Explorer;
         private System.Windows.Forms.SplitContainer SplitContainer_WebBrowser;
-        private Marathon.Components.ButtonFlat ButtonFlat_Up;
-        private Marathon.Components.ButtonFlat ButtonFlat_Forward;
-        private Marathon.Components.ButtonFlat ButtonFlat_Back;
-        private Marathon.Components.ButtonFlat ButtonFlat_Clipboard;
+        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Up;
+        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Forward;
+        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Back;
+        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Clipboard;
         private System.Windows.Forms.ToolTip ToolTip_Information;
         private System.Windows.Forms.TextBox TextBox_Address;
         private Components.ButtonFlat ButtonFlat_DirectoryTree;

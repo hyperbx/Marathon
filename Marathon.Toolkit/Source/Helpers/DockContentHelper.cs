@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Helpers
+namespace Marathon.Toolkit.Helpers
 {
     public class MarathonFloatWindow : FloatWindow
     {

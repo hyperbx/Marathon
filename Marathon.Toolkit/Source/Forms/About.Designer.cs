@@ -1,4 +1,4 @@
-﻿namespace Marathon
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class About
     {
@@ -62,7 +62,7 @@
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Properties.Resources.Main_Logo_Corner_Transparent;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Corner_Transparent;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.PictureBox_Logo.Location = new System.Drawing.Point(233, 14);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -114,6 +114,7 @@
             this.Controls.Add(this.Label_Version);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.PictureBox_Logo);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

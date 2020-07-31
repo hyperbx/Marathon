@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 #pragma warning disable CS0108
 
-namespace Marathon.Dialogs
+namespace Marathon.Toolkit.Dialogs
 {
     [ComImport(), Guid(IIDGuid.IModalWindow), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     internal interface IModalWindow

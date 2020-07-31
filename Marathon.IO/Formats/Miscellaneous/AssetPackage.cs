@@ -27,9 +27,9 @@
 
 using System.IO;
 using System.Xml.Linq;
+using System.Collections.Generic;
 using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
-using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {

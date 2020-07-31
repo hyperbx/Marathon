@@ -24,10 +24,10 @@
  */
 
 using System.Drawing;
-using Marathon.Helpers;
 using System.Windows.Forms;
+using Marathon.Toolkit.Helpers;
 
-namespace Marathon.Components
+namespace Marathon.Toolkit.Components
 {
 	public partial class MenuStripDark : MenuStrip
 	{
@@ -35,7 +35,7 @@ namespace Marathon.Components
 		{
 			InitializeComponent();
 			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new ToolStripProfessionalRenderer(new DarkColorTable());
+			Renderer = new DarkContextMenuRenderer();
 			BackColor = Color.FromArgb(45, 45, 48);
 			ForeColor = SystemColors.Control;
 		}

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Marathon.Properties {
+namespace Marathon.Toolkit.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -20,6 +20,54 @@ namespace Marathon.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("blah")]
+        public string TestSetting1 {
+            get {
+                return ((string)(this["TestSetting1"]));
+            }
+            set {
+                this["TestSetting1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("banana")]
+        public string TestSetting2 {
+            get {
+                return ((string)(this["TestSetting2"]));
+            }
+            set {
+                this["TestSetting2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TestSetting3 {
+            get {
+                return ((bool)(this["TestSetting3"]));
+            }
+            set {
+                this["TestSetting3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64")]
+        public int TestSetting4 {
+            get {
+                return ((int)(this["TestSetting4"]));
+            }
+            set {
+                this["TestSetting4"] = value;
             }
         }
     }

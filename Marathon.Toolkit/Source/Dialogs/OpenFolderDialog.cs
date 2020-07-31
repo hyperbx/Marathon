@@ -27,7 +27,7 @@ using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
-namespace Marathon.Dialogs
+namespace Marathon.Toolkit.Dialogs
 {
     public class OpenFolderDialog
     {

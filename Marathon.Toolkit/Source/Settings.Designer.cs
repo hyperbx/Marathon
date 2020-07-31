@@ -23,28 +23,24 @@
  * SOFTWARE.
  */
 
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
-
-namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit
 {
-    public partial class UserControlForm : DockContent
+    // Totally Not A .NET Settings Clone™
+    /*
+     * This is where properties can be added for the configuration file.
+     * 
+     * Please use the following etiquette for creating new properties:
+     * 
+     *     /// <summary>
+     *     /// Dummy description for this property.
+     *     /// </summary>
+     *     public static [type] DummyProperty { get; set; } = [default value];
+     *     
+     * You must provide a description for each property!
+     */
+
+    partial class Settings
     {
-        public static UserControl _Controller;
-
-        public UserControl Controller
-        {
-            get => _Controller;
-
-            set
-            {
-                Controls.Add(_Controller = value);
-
-                Text = Controller.Name;
-                Controller.Dock = DockStyle.Fill;
-            }
-        }
-
-        public UserControlForm() => InitializeComponent();
+        
     }
 }

@@ -26,8 +26,8 @@
 
 using System.IO;
 using System.Text;
-using Marathon.IO.Headers;
 using System.Collections.Generic;
+using Marathon.IO.Headers;
 
 namespace Marathon.IO.Helpers
 {

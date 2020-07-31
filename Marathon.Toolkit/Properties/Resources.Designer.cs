@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Marathon.Properties {
+namespace Marathon.Toolkit.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Marathon.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Marathon.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Marathon.Toolkit.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -92,6 +92,15 @@ namespace Marathon.Properties {
         internal static string Contributors {
             get {
                 return ResourceManager.GetString("Contributors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid application settings... This is likely caused by a property in the configuration file that doesn&apos;t exist or it&apos;s being deserialised to an incorrect data type..
+        /// </summary>
+        internal static string Exception_InvalidSettingsException {
+            get {
+                return ResourceManager.GetString("Exception_InvalidSettingsException", resourceCulture);
             }
         }
         

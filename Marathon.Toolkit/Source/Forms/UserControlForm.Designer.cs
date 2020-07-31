@@ -1,4 +1,4 @@
-﻿namespace Marathon.Controls
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class UserControlForm
     {

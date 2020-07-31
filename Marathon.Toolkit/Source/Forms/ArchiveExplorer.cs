@@ -26,16 +26,16 @@
 using System;
 using System.IO;
 using System.Linq;
-using Marathon.Helpers;
-using Marathon.Components;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Components;
 using Marathon.IO.Formats.Archives;
 using static Marathon.IO.Formats.Archives.CompressedU8Archive;
 
-namespace Marathon.Controls
+namespace Marathon.Toolkit.Forms
 {
     public partial class ArchiveExplorer : DockContent
     {

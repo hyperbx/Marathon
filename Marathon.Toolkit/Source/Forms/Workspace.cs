@@ -24,19 +24,23 @@
  */
 
 using System;
-using Marathon.Dialogs;
-using Marathon.Helpers;
-using Marathon.Controls;
+using System.IO;
 using System.Windows.Forms;
+using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Dialogs;
 
-namespace Marathon
+namespace Marathon.Toolkit.Forms
 {
-    public partial class Toolkit : Form
+    public partial class Workspace : Form
     {
-        public Toolkit()
+        public Workspace()
         {
             InitializeComponent();
-            Text = Program.GetExtendedWindowInformation(Text);
+            Text = Program.GetExtendedInformation(Text);
+
+#if DEBUG
+            new Debug().Show(DockPanel_Main);
+#endif
         }
 
         /// <summary>
@@ -52,7 +56,7 @@ namespace Marathon
         /// <summary>
         /// Prompts the user for a file...
         /// </summary>
-        private void MenuStripDark_Main_File_OpenFile_Click(object sender, EventArgs e)
+        private void MenuStripDark_Main_Open_File_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog {
                 Title = "Please select a file...",
@@ -62,15 +66,15 @@ namespace Marathon
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                ArchiveExplorer listViewExplorer = new ArchiveExplorer { CurrentArchive = fileDialog.FileName };
-                listViewExplorer.Show(DockPanel_Main);
+                ArchiveExplorer archiveExplorer = new ArchiveExplorer { CurrentArchive = fileDialog.FileName };
+                archiveExplorer.Show(DockPanel_Main);
             }
         }
 
         /// <summary>
         /// Prompts the user for a folder...
         /// </summary>
-        private void MenuStripDark_Main_File_OpenFolder_Click(object sender, EventArgs e)
+        private void MenuStripDark_Main_Open_Folder_Click(object sender, EventArgs e)
         {
             OpenFolderDialog folderDialog = new OpenFolderDialog {
                 Title = "Please select a folder..."
@@ -78,17 +82,9 @@ namespace Marathon
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                MarathonExplorer webBrowserExplorer = new MarathonExplorer { CurrentAddress = folderDialog.SelectedPath };
-                webBrowserExplorer.Show(DockPanel_Main);
+                MarathonExplorer marathonExplorer = new MarathonExplorer { CurrentAddress = folderDialog.SelectedPath };
+                marathonExplorer.Show(DockPanel_Main);
             }
-        }
-
-        /// <summary>
-        /// A function executed whenever the user selects a different child window.
-        /// </summary>
-        private void DockPanel_Main_ActiveDocumentChanged(object sender, EventArgs e)
-        {
-        
         }
 
         /// <summary>
@@ -104,6 +100,29 @@ namespace Marathon
             }
 
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Changes the cursor if the data is present.
+        /// </summary>
+        private void DockPanel_Main_DragEnter(object sender, DragEventArgs e)
+            => _ = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.Effect = DragDropEffects.Copy : e.Effect = DragDropEffects.None;
+
+        /// <summary>
+        /// Gets the file dropped onto the window.
+        /// </summary>
+        private void DockPanel_Main_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            foreach (string file in files)
+            {
+                if (Path.GetExtension(file) == ".arc")
+                {
+                    ArchiveExplorer archiveExplorer = new ArchiveExplorer { CurrentArchive = file };
+                    archiveExplorer.Show(DockPanel_Main);
+                }
+            }
         }
     }
 }

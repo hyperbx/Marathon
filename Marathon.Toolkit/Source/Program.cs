@@ -24,13 +24,14 @@
  */
 
 using System;
-using Microsoft.Win32;
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Security.Principal;
+using Microsoft.Win32;
+using Marathon.Toolkit.Forms;
 
-namespace Marathon
+namespace Marathon.Toolkit
 {
     static class Program
     {
@@ -50,13 +51,15 @@ namespace Marathon
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
-            Application.Run(new Toolkit());
+            Settings.Load();
+
+            Application.Run(new Workspace());
         }
 
         /// <summary>
         /// Gets the version string for the title of the window based on flags.
         /// </summary>
-        public static string GetExtendedWindowInformation(string text)
+        public static string GetExtendedInformation(string text = "")
         {
 #if !DEBUG
             text += $" (Version {GlobalVersion})";

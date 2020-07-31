@@ -25,11 +25,10 @@
 
 using System;
 using System.Drawing;
-using Marathon.Helpers;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon
+namespace Marathon.Toolkit.Forms
 {
     public partial class FileConverter : DockContent
     {
@@ -64,9 +63,7 @@ namespace Marathon
         /// Changes the cursor if the data is present.
         /// </summary>
         private void FileConverter_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
-        }
+            => _ = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.Effect = DragDropEffects.Copy : e.Effect = DragDropEffects.None;
 
         /// <summary>
         /// Gets the file dropped onto the window.

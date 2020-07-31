@@ -30,8 +30,22 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Helpers
+namespace Marathon.Toolkit.Helpers
 {
+    /// <summary>
+    /// Dark renderer for context menus with a coloured arrow.
+    /// </summary>
+    public class DarkContextMenuRenderer : ToolStripProfessionalRenderer
+    {
+        public DarkContextMenuRenderer() : base(new DarkColorTable()) { }
+
+        protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
+        {
+            e.ArrowColor = Color.FromArgb(153, 153, 153);
+            base.OnRenderArrow(e);
+        }
+    }
+
     /// <summary>
     /// ProfessionalColorTable palette used for common controls.
     /// </summary>

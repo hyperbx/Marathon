@@ -28,7 +28,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Marathon
+namespace Marathon.Toolkit.Forms
 {
     public partial class ErrorHandler : Form
     {
@@ -54,8 +54,7 @@ namespace Marathon
 
             if (GitHub) exception.AppendLine("```");
 
-            exception.AppendLine($"Project Marathon - {Program.GlobalVersion} ({Program.Architecture()}) " +
-                                (Program.RunningAsAdmin() ? "<Administrator>" : string.Empty));
+            exception.AppendLine("Marathon" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})");
 
             if (!string.IsNullOrEmpty(_Exception.GetType().Name))
                 exception.AppendLine($"\nType: {_Exception.GetType().Name}");

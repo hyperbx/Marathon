@@ -25,9 +25,9 @@
  */
 
 using System.IO;
+using System.Collections.Generic;
 using Marathon.IO.Helpers;
 using Marathon.IO.Headers;
-using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {

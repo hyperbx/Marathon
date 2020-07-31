@@ -1,7 +1,8 @@
-﻿// Marathon is licensed under the MIT License:
+﻿// InvalidSignatureException.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
+ * Copyright (c) 2018 Radfordhound
  * Copyright (c) 2020 HyperPolygon64
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,28 +24,15 @@
  * SOFTWARE.
  */
 
-using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+using System;
+using System.Xml.Linq;
 
-namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Exceptions
 {
-    public partial class UserControlForm : DockContent
+    class InvalidSettingsException : Exception
     {
-        public static UserControl _Controller;
+        static readonly string _Message = Properties.Resources.Exception_InvalidSettingsException + "\n\nFailed to parse property: {0}";
 
-        public UserControl Controller
-        {
-            get => _Controller;
-
-            set
-            {
-                Controls.Add(_Controller = value);
-
-                Text = Controller.Name;
-                Controller.Dock = DockStyle.Fill;
-            }
-        }
-
-        public UserControlForm() => InitializeComponent();
+        public InvalidSettingsException(XElement property, Exception innerException) : base(string.Format(_Message, property.Attribute("Name").Value), innerException) { }
     }
 }

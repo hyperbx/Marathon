@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Marathon.Helpers
+namespace Marathon.Toolkit.Helpers
 {
     class DataTypeHelper
     {

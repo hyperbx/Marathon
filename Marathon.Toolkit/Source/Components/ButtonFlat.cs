@@ -26,7 +26,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Marathon.Components
+namespace Marathon.Toolkit.Components
 {
 	public partial class ButtonFlat : Button
 	{

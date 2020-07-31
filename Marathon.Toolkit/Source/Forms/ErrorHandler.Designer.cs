@@ -1,4 +1,4 @@
-﻿namespace Marathon
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class ErrorHandler
     {
@@ -33,9 +33,9 @@
             this.RichTextBox_Error = new System.Windows.Forms.RichTextBox();
             this.Panel_RichTextBox_Container = new System.Windows.Forms.Panel();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.ButtonFlat_GitHub = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Close = new Marathon.Components.ButtonFlat();
-            this.ButtonFlat_Copy = new Marathon.Components.ButtonFlat();
+            this.ButtonFlat_GitHub = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Close = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Copy = new Marathon.Toolkit.Components.ButtonFlat();
             this.Panel_RichTextBox_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
@@ -46,9 +46,9 @@
             this.Label_Title.Font = new System.Drawing.Font("Segoe UI Semilight", 14.8F);
             this.Label_Title.Location = new System.Drawing.Point(9, 9);
             this.Label_Title.Name = "Label_Title";
-            this.Label_Title.Size = new System.Drawing.Size(343, 28);
+            this.Label_Title.Size = new System.Drawing.Size(542, 28);
             this.Label_Title.TabIndex = 0;
-            this.Label_Title.Text = "An unhandled exception has occurred...";
+            this.Label_Title.Text = "A fatal error has occurred and the application has been halted...";
             // 
             // RichTextBox_Error
             // 
@@ -79,7 +79,7 @@
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Properties.Resources.Main_Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Small_Dark;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(881, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -144,11 +144,12 @@
             this.Controls.Add(this.Panel_RichTextBox_Container);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.PictureBox_Logo);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(450, 450);
+            this.MinimumSize = new System.Drawing.Size(635, 540);
             this.Name = "ErrorHandler";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

@@ -1,4 +1,4 @@
-﻿namespace Marathon
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class FileConverter
     {
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileConverter));
-            this.MenuStripDark_Main = new Marathon.Components.MenuStripDark();
+            this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
-            this.ButtonFlat_Convert = new Marathon.Components.ButtonFlat();
+            this.ButtonFlat_Convert = new Marathon.Toolkit.Components.ButtonFlat();
             this.ListView_Conversion = new System.Windows.Forms.ListView();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Blank = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));

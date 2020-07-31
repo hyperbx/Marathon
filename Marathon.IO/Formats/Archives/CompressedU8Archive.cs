@@ -28,12 +28,12 @@
 
 using System;
 using System.IO;
-using System.Text;
-using Marathon.IO.Helpers;
 using System.IO.Compression;
-using Marathon.IO.Exceptions;
-using System.Collections.Generic;
+using System.Text;
 using System.Linq;
+using System.Collections.Generic;
+using Marathon.IO.Helpers;
+using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Archives
 {

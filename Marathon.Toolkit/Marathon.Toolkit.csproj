@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{5FA99087-DD6B-40AC-A2CB-66E6FA614057}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Marathon</RootNamespace>
+    <RootNamespace>Marathon.Toolkit</RootNamespace>
     <AssemblyName>Marathon</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -33,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Icons\Icon.ico</ApplicationIcon>
@@ -74,6 +75,13 @@
     <Compile Include="Source\Components\ListViewDark.Designer.cs">
       <DependentUpon>ListViewDark.cs</DependentUpon>
     </Compile>
+    <Compile Include="Source\Exceptions\InvalidSettingsException.cs" />
+    <Compile Include="Source\Forms\Debug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Source\Forms\Debug.Designer.cs">
+      <DependentUpon>Debug.cs</DependentUpon>
+    </Compile>
     <Compile Include="Source\Forms\FileConverter.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,14 +92,18 @@
     <Compile Include="Source\Helpers\DockContentHelper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Helpers\Serialisers.cs" />
+    <Compile Include="Source\Helpers\Serialisation.cs" />
     <Compile Include="Source\Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Source\Forms\ErrorHandler.Designer.cs">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Helpers\TreeViewHelper.cs" />
+    <Compile Include="Source\Settings.cs" />
+    <Compile Include="Source\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Helpers\TreeViewExtensions.cs" />
     <Compile Include="Source\Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,14 +149,17 @@
     </Compile>
     <Compile Include="Source\Dialogs\OpenFolderDialog.cs" />
     <Compile Include="Source\Dialogs\ShellProvider.cs" />
-    <Compile Include="Source\Forms\Toolkit.cs">
+    <Compile Include="Source\Forms\Workspace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\Toolkit.Designer.cs">
-      <DependentUpon>Toolkit.cs</DependentUpon>
+    <Compile Include="Source\Forms\Workspace.Designer.cs">
+      <DependentUpon>Workspace.cs</DependentUpon>
     </Compile>
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Source\Forms\Debug.resx">
+      <DependentUpon>Debug.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Source\Forms\ErrorHandler.resx">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,8 +183,8 @@
     <EmbeddedResource Include="Source\Forms\MarathonExplorer.resx">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\Toolkit.resx">
-      <DependentUpon>Toolkit.cs</DependentUpon>
+    <EmbeddedResource Include="Source\Forms\Workspace.resx">
+      <DependentUpon>Workspace.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -184,7 +199,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <EmbeddedResource Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
@@ -215,5 +230,6 @@
       <Name>Marathon.IO</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

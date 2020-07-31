@@ -1,4 +1,4 @@
-﻿namespace Marathon.Controls
+﻿namespace Marathon.Toolkit.Forms
 {
     partial class ArchiveExplorer
     {
@@ -33,12 +33,12 @@
             this.SplitContainer_TreeView = new System.Windows.Forms.SplitContainer();
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
-            this.ListView_Explorer = new Marathon.Components.ListViewDark();
+            this.ListView_Explorer = new Marathon.Toolkit.Components.ListViewDark();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Space = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.MenuStripDark_Main = new Marathon.Components.MenuStripDark();
+            this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
@@ -217,6 +217,7 @@
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)((((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockTop) 
             | WeifenLuo.WinFormsUI.Docking.DockAreas.DockBottom) 
             | WeifenLuo.WinFormsUI.Docking.DockAreas.Document)));
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.MenuStripDark_Main;

@@ -28,10 +28,10 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using System.Collections.Generic;
 using Marathon.IO.Headers;
 using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
-using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.Sounds
 {

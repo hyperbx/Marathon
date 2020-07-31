@@ -23,11 +23,11 @@
  * SOFTWARE.
  */
 
-using Marathon.Helpers;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Marathon.Toolkit.Helpers;
 
-namespace Marathon
+namespace Marathon.Toolkit.Forms
 {
     public partial class About : Form
     {

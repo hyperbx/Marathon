@@ -27,14 +27,14 @@ using System;
 using System.IO;
 using System.Web;
 using System.Drawing;
-using Marathon.Helpers;
-using Marathon.Components;
 using System.Windows.Forms;
 using System.ComponentModel;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Components;
 
-namespace Marathon.Controls
+namespace Marathon.Toolkit.Forms
 {
     public partial class MarathonExplorer : DockContent
     {

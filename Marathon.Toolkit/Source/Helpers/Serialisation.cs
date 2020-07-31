@@ -29,13 +29,23 @@ using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
-namespace Marathon.Helpers
+namespace Marathon.Toolkit.Helpers
 {
     public static class Strings
     {
+        /// <summary>
+        /// Parses all line breaks from a string.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string[] ParseLineBreaks(string text)
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
+        /// <summary>
+        /// Parses byte length to a Windows-like suffix string.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public static string ByteLengthToDecimalString(long i)
         {
             // Get absolute value.
