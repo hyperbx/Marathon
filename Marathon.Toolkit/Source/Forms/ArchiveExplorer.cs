@@ -34,6 +34,7 @@ using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Components;
 using Marathon.IO.Formats.Archives;
 using static Marathon.IO.Formats.Archives.CompressedU8Archive;
+using System.Drawing;
 
 namespace Marathon.Toolkit.Forms
 {
