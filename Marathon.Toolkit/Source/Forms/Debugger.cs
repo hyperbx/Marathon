@@ -71,16 +71,30 @@ namespace Marathon.Toolkit.Forms
         private void TreeView_Properties_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
             => MessageBox.Show(((XElement)e.Node.Tag).Value); // If it's not an XElement... Whoops? ¯\_(ツ)_/¯
 
+        /// <summary>
+        /// Loads the configuration.
+        /// </summary>
         private void ButtonFlat_LoadSettings_Click(object sender, EventArgs e)
         {
             Settings.Load();
             ImportSettingsFromXML();
         }
 
+        /// <summary>
+        /// Saves the configuration.
+        /// </summary>
         private void ButtonFlat_SaveSettings_Click(object sender, EventArgs e)
         {
             Settings.Save();
             ImportSettingsFromXML();
+        }
+
+        /// <summary>
+        /// Opens the OpenGL window.
+        /// </summary>
+        private void ButtonFlat_OpenGL_Click(object sender, EventArgs e)
+        {
+            new UserControlForm() { Controller = new ModelViewer() { Name = "Model Viewer" } }.Show(DockPanel);
         }
     }
 }

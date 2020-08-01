@@ -50,7 +50,7 @@ namespace Marathon.Toolkit.Forms
 
             set
             {
-                Text += $" ({_CurrentArchive = value})";
+                Text = $"Archive Explorer ({_CurrentArchive = value})";
 
                 _LoadedArchive.Load(_CurrentArchive);
 

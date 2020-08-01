@@ -44,9 +44,9 @@
             this.Label_Title.Font = new System.Drawing.Font("Segoe UI Semibold", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label_Title.Location = new System.Drawing.Point(12, 7);
             this.Label_Title.Name = "Label_Title";
-            this.Label_Title.Size = new System.Drawing.Size(165, 45);
+            this.Label_Title.Size = new System.Drawing.Size(272, 45);
             this.Label_Title.TabIndex = 1;
-            this.Label_Title.Text = "Marathon";
+            this.Label_Title.Text = "Marathon Toolkit";
             // 
             // Label_Version
             // 

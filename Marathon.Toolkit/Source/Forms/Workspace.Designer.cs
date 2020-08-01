@@ -147,7 +147,7 @@
             // 
             this.MenuStripDark_Main_Help_About.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_Help_About.Name = "MenuStripDark_Main_Help_About";
-            this.MenuStripDark_Main_Help_About.Size = new System.Drawing.Size(180, 22);
+            this.MenuStripDark_Main_Help_About.Size = new System.Drawing.Size(107, 22);
             this.MenuStripDark_Main_Help_About.Text = "About";
             this.MenuStripDark_Main_Help_About.Click += new System.EventHandler(this.MenuStripDark_Main_Help_About_Click);
             // 
@@ -192,7 +192,7 @@
             this.MainMenuStrip = this.MenuStripDark_Main;
             this.MinimumSize = new System.Drawing.Size(512, 512);
             this.Name = "Workspace";
-            this.Text = "Marathon";
+            this.Text = "Marathon Toolkit";
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             this.ResumeLayout(false);

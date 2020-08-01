@@ -54,7 +54,7 @@ namespace Marathon.Toolkit.Forms
 
             if (GitHub) exception.AppendLine("```");
 
-            exception.AppendLine("Marathon" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})");
+            exception.AppendLine("Marathon Toolkit" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})");
 
             if (!string.IsNullOrEmpty(_Exception.GetType().Name))
                 exception.AppendLine($"\nType: {_Exception.GetType().Name}");

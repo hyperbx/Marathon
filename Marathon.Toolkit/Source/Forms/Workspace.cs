@@ -67,10 +67,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                ArchiveExplorer archiveExplorer = new ArchiveExplorer { CurrentArchive = fileDialog.FileName };
-                archiveExplorer.Show(DockPanel_Main);
-            }
+                new ArchiveExplorer { CurrentArchive = fileDialog.FileName }.Show(DockPanel_Main);
         }
 
         /// <summary>
@@ -83,10 +80,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
-            {
-                MarathonExplorer marathonExplorer = new MarathonExplorer { CurrentAddress = folderDialog.SelectedPath };
-                marathonExplorer.Show(DockPanel_Main);
-            }
+                new MarathonExplorer { CurrentAddress = folderDialog.SelectedPath }.Show(DockPanel_Main);
         }
 
         /// <summary>
