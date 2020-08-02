@@ -41,7 +41,7 @@ namespace Marathon.Toolkit.Forms
 #if DEBUG
             // Display debug option...
             MenuStripDark_Main_Debug.Visible = true;
-            MenuStripDark_Main_Debug.Click += (sender, e) => new Debugger().Show(DockPanel_Main);
+            MenuStripDark_Main_Debug.Click += delegate { new Debugger().Show(DockPanel_Main); };
 #endif
         }
 
@@ -62,7 +62,7 @@ namespace Marathon.Toolkit.Forms
         {
             OpenFileDialog fileDialog = new OpenFileDialog {
                 Title = "Please select a file...",
-                Filter = XML.ParseFileTypesAsFilter(Properties.Resources.AllFileTypes),
+                Filter = XML.ParseFileTypesAsFilter(Properties.Resources.FileTypes),
                 InitialDirectory = ActiveWebBrowserExplorerAddress()
             };
 

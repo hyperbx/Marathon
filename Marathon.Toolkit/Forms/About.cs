@@ -51,7 +51,7 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void TreeView_Contributors_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if ((string)e.Node.Tag != string.Empty) Process.Start((string)e.Node.Tag);
+            if (!string.IsNullOrEmpty((string)e.Node.Tag)) Process.Start((string)e.Node.Tag);
         }
     }
 }

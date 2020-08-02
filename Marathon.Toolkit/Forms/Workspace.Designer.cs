@@ -192,6 +192,7 @@
             this.MainMenuStrip = this.MenuStripDark_Main;
             this.MinimumSize = new System.Drawing.Size(512, 512);
             this.Name = "Workspace";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Marathon Toolkit";
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();

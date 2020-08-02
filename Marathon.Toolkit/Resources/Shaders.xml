@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Marathon>
+  <!-- Vertex and Fragment shaders are inherited by name from .NET resources. -->
+  <Shader Vertex="SimpleVertex" Fragment="SimpleFragment">Simple</Shader>
+</Marathon>

@@ -60,132 +60,142 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ModelViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ModelViewer.Designer.cs">
+      <DependentUpon>ModelViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenGL\Shaders.cs" />
+    <Compile Include="Forms\Components\ListViewDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\ListViewDark.Designer.cs">
+      <DependentUpon>ListViewDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\InvalidSettingsException.cs" />
+    <Compile Include="Forms\Debugger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Debugger.Designer.cs">
+      <DependentUpon>Debugger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FileConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FileConverter.Designer.cs">
+      <DependentUpon>FileConverter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenGL\Viewport.cs" />
+    <Compile Include="Helpers\DataTypeHelper.cs" />
+    <Compile Include="Helpers\DockContentHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helpers\Serialisers.cs" />
+    <Compile Include="Forms\ErrorHandler.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorHandler.Designer.cs">
+      <DependentUpon>ErrorHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Source\Components\ListViewDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Source\Components\ListViewDark.Designer.cs">
-      <DependentUpon>ListViewDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Exceptions\InvalidSettingsException.cs" />
-    <Compile Include="Source\Forms\Debugger.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\Forms\Debugger.Designer.cs">
-      <DependentUpon>Debugger.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Forms\FileConverter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\Forms\FileConverter.Designer.cs">
-      <DependentUpon>FileConverter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Forms\ModelViewer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Source\Helpers\DataTypeHelper.cs" />
-    <Compile Include="Source\Helpers\DockContentHelper.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\Helpers\Serialisation.cs" />
-    <Compile Include="Source\Forms\ErrorHandler.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Source\Forms\ErrorHandler.Designer.cs">
-      <DependentUpon>ErrorHandler.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Source\Settings.cs" />
-    <Compile Include="Source\Settings.Designer.cs">
+    <Compile Include="Settings.cs" />
+    <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Helpers\TreeViewExtensions.cs" />
-    <Compile Include="Source\Forms\About.cs">
+    <Compile Include="Helpers\TreeViewExtensions.cs" />
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\About.Designer.cs">
+    <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Components\ButtonFlat.cs">
+    <Compile Include="Forms\Components\ButtonFlat.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Source\Components\ButtonFlat.designer.cs">
+    <Compile Include="Forms\Components\ButtonFlat.designer.cs">
       <DependentUpon>ButtonFlat.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Components\ContextMenuStripDark.cs">
+    <Compile Include="Forms\Components\ContextMenuStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Source\Components\ContextMenuStripDark.designer.cs">
+    <Compile Include="Forms\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Helpers\ControlDrawing.cs" />
-    <Compile Include="Source\Forms\ArchiveExplorer.cs">
+    <Compile Include="Helpers\ControlPalettes.cs" />
+    <Compile Include="Forms\ArchiveExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\ArchiveExplorer.designer.cs">
+    <Compile Include="Forms\ArchiveExplorer.designer.cs">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Forms\UserControlForm.cs">
+    <Compile Include="Forms\UserControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\UserControlForm.Designer.cs">
+    <Compile Include="Forms\UserControlForm.Designer.cs">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Components\MenuStripDark.cs">
+    <Compile Include="Forms\Components\MenuStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Source\Components\MenuStripDark.designer.cs">
+    <Compile Include="Forms\Components\MenuStripDark.designer.cs">
       <DependentUpon>MenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Forms\MarathonExplorer.cs">
+    <Compile Include="Forms\MarathonExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\MarathonExplorer.Designer.cs">
+    <Compile Include="Forms\MarathonExplorer.Designer.cs">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Dialogs\OpenFolderDialog.cs" />
-    <Compile Include="Source\Dialogs\ShellProvider.cs" />
-    <Compile Include="Source\Forms\Workspace.cs">
+    <Compile Include="Dialogs\OpenFolderDialog.cs" />
+    <Compile Include="Dialogs\ShellProvider.cs" />
+    <Compile Include="Forms\Workspace.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Source\Forms\Workspace.Designer.cs">
+    <Compile Include="Forms\Workspace.Designer.cs">
       <DependentUpon>Workspace.cs</DependentUpon>
     </Compile>
-    <Compile Include="Source\Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Source\Forms\Debugger.resx">
+    <EmbeddedResource Include="Forms\Debugger.resx">
       <DependentUpon>Debugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\ErrorHandler.resx">
+    <EmbeddedResource Include="Forms\ErrorHandler.resx">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\About.resx">
+    <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ModelViewer.resx">
+      <DependentUpon>ModelViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\ArchiveExplorer.resx">
+    <EmbeddedResource Include="Forms\ArchiveExplorer.resx">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\FileConverter.resx">
+    <EmbeddedResource Include="Forms\FileConverter.resx">
       <DependentUpon>FileConverter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\UserControlForm.resx">
+    <EmbeddedResource Include="Forms\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\MarathonExplorer.resx">
+    <EmbeddedResource Include="Forms\MarathonExplorer.resx">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Source\Forms\Workspace.resx">
+    <EmbeddedResource Include="Forms\Workspace.resx">
       <DependentUpon>Workspace.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="Resources\Shaders\SimpleFragment.glsl" />
+    <None Include="Resources\Shaders\SimpleVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
@@ -197,8 +207,9 @@
     <Content Include="Resources\Images\Logos\Main_Logo_Corner_Transparent.png" />
     <Content Include="Resources\Images\Logos\Main_Logo_Medium_Colour.png" />
     <Content Include="Resources\Images\Logos\Main_Logo_Small_Dark.png" />
-    <Content Include="Resources\AllFileTypes.xml" />
+    <Content Include="Resources\FileTypes.xml" />
     <Content Include="Resources\Images\Placeholder.png" />
+    <Content Include="Resources\Shaders.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />
@@ -219,6 +230,9 @@
   <ItemGroup>
     <PackageReference Include="DockPanelSuite.ThemeVS2015">
       <Version>3.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="OpenTK">
+      <Version>3.1.0</Version>
     </PackageReference>
     <PackageReference Include="OpenTK.GLControl">
       <Version>3.1.0</Version>

@@ -117,11 +117,13 @@
             // 
             // ButtonFlat_OpenGL
             // 
+            this.ButtonFlat_OpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonFlat_OpenGL.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ButtonFlat_OpenGL.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_OpenGL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonFlat_OpenGL.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_OpenGL.Location = new System.Drawing.Point(272, 17);
+            this.ButtonFlat_OpenGL.Location = new System.Drawing.Point(271, 17);
             this.ButtonFlat_OpenGL.Name = "ButtonFlat_OpenGL";
             this.ButtonFlat_OpenGL.Size = new System.Drawing.Size(649, 23);
             this.ButtonFlat_OpenGL.TabIndex = 6;

@@ -94,7 +94,7 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void ButtonFlat_OpenGL_Click(object sender, EventArgs e)
         {
-            new UserControlForm() { Controller = new ModelViewer() { Name = "Model Viewer" } }.Show(DockPanel);
+            new ModelViewer().Show(DockPanel);
         }
     }
 }

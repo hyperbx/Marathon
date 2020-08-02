@@ -125,7 +125,7 @@ namespace Marathon.Toolkit.Helpers
             {
                 TreeNode node = new TreeNode {
                     Text = contributorElem.Value,
-                    Tag = contributorElem.Attribute("URL").Value
+                    Tag = contributorElem.Attribute("URL") == null ? string.Empty : contributorElem.Attribute("URL").Value
                 };
 
                 contributors.Add(node);
@@ -145,14 +145,13 @@ namespace Marathon.Toolkit.Helpers
 
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
-                string @extension = supportedFileTypesElem.Attribute("Extension").Value;
+                string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
 
-                stringBuilder.Append($"{supportedFileTypesElem.Value} (*{@extension})|*{@extension}|");
+                if (!string.IsNullOrEmpty(@extension))
+                    stringBuilder.Append($"{supportedFileTypesElem.Value} (*{@extension})|*{@extension}|");
             }
 
-            return stringBuilder.ToString().EndsWith("|") ?
-                   stringBuilder.ToString().Remove(stringBuilder.Length - 1) :
-                   stringBuilder.ToString();
+            return stringBuilder.ToString().EndsWith("|") ? stringBuilder.ToString().Remove(stringBuilder.Length - 1) : stringBuilder.ToString();
         }
     }
 }

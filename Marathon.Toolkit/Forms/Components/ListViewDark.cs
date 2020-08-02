@@ -30,8 +30,10 @@ namespace Marathon.Toolkit.Components
                 TextRenderer.DrawText(e.Graphics, column.Text, Font, new Point(e.Bounds.X + 4, 4), ForeColor);
             };
 
-            Resize += (resizeSender, resizeEventArgs) =>
+            Resize += delegate
+            {
                 Columns.Cast<ColumnHeader>().Last().Width = Width - Columns.Cast<ColumnHeader>().Select(x => x.Width).FirstOrDefault();
+            };
         }
     }
 }

@@ -63,26 +63,6 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
-        ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.pkg&quot;&gt;Asset Package&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.path&quot;&gt;Path Spline&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.pft&quot;&gt;Picture Font&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.sbk&quot;&gt;Sound Ban [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string AllFileTypes {
-            get {
-                return ResourceManager.GetString("AllFileTypes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Marathon&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot;&gt;Radfordhound&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot;&gt;Knuxfan24&lt;/Contributor&gt;
@@ -121,6 +101,26 @@ namespace Marathon.Toolkit.Properties {
             get {
                 object obj = ResourceManager.GetObject("FileDrop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
+        ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.pkg&quot;&gt;Asset Package&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.path&quot;&gt;Path Spline&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.pft&quot;&gt;Picture Font&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.sbk&quot;&gt;Sound Ban [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FileTypes {
+            get {
+                return ResourceManager.GetString("FileTypes", resourceCulture);
             }
         }
         
@@ -181,6 +181,76 @@ namespace Marathon.Toolkit.Properties {
             get {
                 object obj = ResourceManager.GetObject("Placeholder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
+        ///  &lt;Shader Vertex=&quot;SimpleVertex&quot; Fragment=&quot;SimpleFragment&quot;&gt;Simple&lt;/Shader&gt;
+        ///&lt;/Marathon&gt;
+        ///.
+        /// </summary>
+        internal static string Shaders {
+            get {
+                return ResourceManager.GetString("Shaders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330 core
+        ///
+        ///in vec4 Colour;
+        ///in vec2 Location;
+        ///
+        ///out vec4 FragmentColour;
+        ///
+        ///uniform sampler2D _Resource;
+        ///
+        ///void main()
+        ///{
+        ///	vec4 @texture = texture(_Resource, Location);
+        ///
+        ///	if (@texture.w &lt; 0.1f)
+        ///	{
+        ///		discard;
+        ///	}
+        ///
+        ///    FragmentColour = @texture * Colour;
+        ///}.
+        /// </summary>
+        internal static string SimpleFragment {
+            get {
+                return ResourceManager.GetString("SimpleFragment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #version 330 core
+        ///
+        ///layout (location = 0) in vec3 _Position;
+        ///layout (location = 1) in vec3 _Normal;
+        ///layout (location = 2) in vec4 _Colour;
+        ///layout (location = 3) in vec2 _Location;
+        ///
+        ///uniform mat4 _Model;
+        ///uniform mat4 _View;
+        ///uniform mat4 _Projection;
+        ///uniform vec4 _Highlight;
+        ///
+        ///out vec4 _OutputColour;
+        ///out vec2 _OutputLocation;
+        ///
+        ///void main()
+        ///{
+        ///	gl_Position = _Projection * _View * _Model * vec4(_Position, 1.0);
+        ///
+        ///	_OutputColour = _Colour * _Highlight;
+        ///    _OutputLocation = vec2(_Location.x, _Locat [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SimpleVertex {
+            get {
+                return ResourceManager.GetString("SimpleVertex", resourceCulture);
             }
         }
         

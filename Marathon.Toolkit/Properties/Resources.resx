@@ -118,9 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AllFileTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\allfiletypes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="Contributors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\contributors.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -132,6 +129,9 @@
   </data>
   <data name="FileDrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\filedrop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FileTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\filetypes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\images\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -150,6 +150,15 @@
   </data>
   <data name="Placeholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Shaders" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shaders.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SimpleFragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shaders\simplefragment.glsl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SimpleVertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\shaders\simplevertex.glsl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="UserControlForm_Close_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
