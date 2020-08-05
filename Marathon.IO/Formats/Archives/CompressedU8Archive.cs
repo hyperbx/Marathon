@@ -222,10 +222,7 @@ namespace Marathon.IO.Formats.Archives
             // Read archive signature.
             uint signature = reader.ReadUInt32();
             if (signature != Signature)
-            {
-                throw new InvalidSignatureException(
-                    Signature.ToString(), signature.ToString());
-            }
+                throw new InvalidSignatureException(Signature.ToString(), signature.ToString());
 
             // Read the rest of the standard U8 header.
             uint entriesOffset = reader.ReadUInt32(); // Offset to where the table starts.
