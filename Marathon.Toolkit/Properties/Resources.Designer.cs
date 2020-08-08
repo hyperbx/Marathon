@@ -63,15 +63,26 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
+        ///  &lt;!-- If no URL is specified, only your name will be displayed. --&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot;&gt;Radfordhound&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot;&gt;Knuxfan24&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/GerbilSoft&quot;&gt;GerbilSoft&lt;/Contributor&gt;
-        ///&lt;/Marathon&gt;.
+        ///  &lt;Contributor URL=&quot;https://github.com/lllsondowlll&quot;&gt;Shadow LAG&lt;/Contri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Contributors {
             get {
                 return ResourceManager.GetString("Contributors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon Error {
+            get {
+                object obj = ResourceManager.GetObject("Error", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -107,6 +118,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
+        ///  &lt;!-- If no extension is specified or is a duplicate, the entry will be disregarded. --&gt;
         ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;.pkg&quot;&gt;Asset Package&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision&lt;/Type&gt;
@@ -114,9 +126,7 @@ namespace Marathon.Toolkit.Properties {
         ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;.path&quot;&gt;Path Spline&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;.pft&quot;&gt;Picture Font&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.rfzone&quot;&gt;Reflection Zone&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.sbk&quot;&gt;Sound Ban [rest of string was truncated]&quot;;.
+        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Ty [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FileTypes {
             get {
@@ -187,6 +197,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
+        ///  &lt;!-- Vertex and Fragment shaders are inherited by name from .NET resources. --&gt;
         ///  &lt;Shader Vertex=&quot;SimpleVertex&quot; Fragment=&quot;SimpleFragment&quot;&gt;Simple&lt;/Shader&gt;
         ///&lt;/Marathon&gt;
         ///.
@@ -211,7 +222,7 @@ namespace Marathon.Toolkit.Properties {
         ///{
         ///	vec4 @texture = texture(_Resource, Location);
         ///
-        ///	if (@texture.w &lt; 0.1f)
+        ///	if (@texture.w &lt; 0.1)
         ///	{
         ///		discard;
         ///	}

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Marathon.IO.Formats.Scripts.Lua.Decompiler.Blocks;
 
 namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Statements
 {
@@ -23,10 +24,10 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Statements
                 else
                     stmt.print(@out);
 
-                if (next != null && stmt.GetType().Equals(typeof(FunctionCallStatement)) && next.beginsWithParen())
+                if (next != null && stmt is FunctionCallStatement && next.beginsWithParen())
                     @out.print(";");
 
-                if (!stmt.GetType().Equals(typeof(IfThenElseBlock)))
+                if (!(stmt is IfThenElseBlock))
                     @out.println();
             }
         }

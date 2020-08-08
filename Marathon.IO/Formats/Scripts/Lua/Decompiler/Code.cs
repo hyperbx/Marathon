@@ -15,7 +15,7 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
             extractor = function.header.extractor;
         }
 
-        public Op op(int line) => map.get(code[line - 1] & 0x0000003F);
+        public virtual Op.Opcode op(int line) => map.get(code[line - 1] & 0x0000003F);
 
         public int A(int line) => extractor.extract_A(code[line - 1]);
 
@@ -28,8 +28,6 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
         public int sBx(int line) => extractor.extract_sBx(code[line - 1]);
 
         public int codepoint(int line) => code[line - 1];
-
-        public string toString(int line) => op(line).codePointToString(codepoint(line), extractor);
     }
 
     public class Code50 : ICodeExtract

@@ -60,11 +60,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\MarathonMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
+      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\FileExtensionWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\FileExtensionWizard.Designer.cs">
+      <DependentUpon>FileExtensionWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\FileExtensionWizardTask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\FileExtensionWizardTask.Designer.cs">
+      <DependentUpon>FileExtensionWizardTask.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ModelViewer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ModelViewer.Designer.cs">
       <DependentUpon>ModelViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SaveEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SaveEditor.Designer.cs">
+      <DependentUpon>SaveEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="OpenGL\Shaders.cs" />
     <Compile Include="Forms\Components\ListViewDark.cs">
@@ -161,6 +185,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
+      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\FileExtensionWizardTask.resx">
+      <DependentUpon>FileExtensionWizardTask.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Debugger.resx">
       <DependentUpon>Debugger.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,8 +200,14 @@
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\FileExtensionWizard.resx">
+      <DependentUpon>FileExtensionWizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ModelViewer.resx">
       <DependentUpon>ModelViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SaveEditor.resx">
+      <DependentUpon>SaveEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -199,6 +235,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
+    <Content Include="Resources\Icons\Error.ico" />
     <Content Include="Resources\Icons\Icon.ico" />
     <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
     <Content Include="Resources\Images\File.png" />

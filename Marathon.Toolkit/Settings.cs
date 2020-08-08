@@ -81,7 +81,7 @@ namespace Marathon.Toolkit
                 new ErrorHandler(new InvalidSettingsException(@name, ex)).ShowDialog();
 
                 // Warn the user of attempted recovery.
-                MessageBox.Show("Marathon will now attempt to correct the error...", "Configuration Recovery", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MarathonMessageBox.Show("Marathon will now attempt to correct the error...", "Configuration Recovery", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 Recover(); // Fix broken elements in the configuration.
             }

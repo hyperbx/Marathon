@@ -47,10 +47,12 @@ namespace Marathon.Toolkit
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
 #if !DEBUG
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
+
             Settings.Load();
 
             Application.Run(new Workspace());

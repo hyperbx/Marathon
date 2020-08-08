@@ -6,14 +6,12 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 {
     public class LStringType : BObjectType<LString>
     {
-        private ThreadLocal<StringBuilder> b = new ThreadLocal<StringBuilder>();
-
         protected StringBuilder initialValue() => new StringBuilder();
 
         public override LString parse(ExtendedBinaryReader buffer, BHeader header)
         {
             BSizeT sizeT = header.sizeT.parse(buffer, header);
-            StringBuilder b = this.b.Value;
+            StringBuilder b = new StringBuilder();
 
             sizeT.iterate(new Thread(new ThreadStart(Run)));
 

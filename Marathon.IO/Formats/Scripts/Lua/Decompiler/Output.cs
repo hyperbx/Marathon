@@ -8,12 +8,17 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
         private int indentationLevel = 0;
         private int position = 0;
 
-        // TODO: See if this is problematic.
-        public Output()
-        {
-            void print(string s) => Console.Write(s);
+        public Output() => new OutputProviderAnonymousInnerClass(this);
 
-            void println() => Console.WriteLine();
+        private class OutputProviderAnonymousInnerClass : IOutputProvider
+        {
+            private readonly Output outerInstance;
+
+            public OutputProviderAnonymousInnerClass(Output outerInstance) => this.outerInstance = outerInstance;
+
+            public void print(string s) => Console.Write(s);
+
+            public void println() => Console.WriteLine();
         }
 
         public Output(IOutputProvider @out) => this.@out = @out;

@@ -1,4 +1,5 @@
 ﻿using Marathon.IO.Formats.Scripts.Lua.Helpers;
+using Marathon.IO.Formats.Scripts.Lua.Decompiler.Targets;
 
 namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Expressions
 {
@@ -49,7 +50,7 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Expressions
 
             @out.print("function ");
 
-            if (function.numParams >= 1 && d.declList[0].name.equals("self") && name.GetType().Equals(typeof(TableTarget)))
+            if (function.numParams >= 1 && d.declList[0].name.Equals("self") && name is TableTarget)
             {
                 name.printMethod(@out);
                 printMain(@out, d, false);

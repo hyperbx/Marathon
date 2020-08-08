@@ -86,9 +86,9 @@ namespace Marathon.Toolkit.Forms
         {
             if (!_Reported)
             {
-                DialogResult closeWarning = MessageBox.Show("Are you sure you want to exit without reporting this?\n" +
-                                                            "Submitting issues can help contributors fix problems faster...",
-                                                            "Exit without reporting?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult closeWarning = MarathonMessageBox.Show("Are you sure you want to exit without reporting this?\n" +
+                                                                    "Submitting issues can help contributors fix problems faster...",
+                                                                    "Exit without reporting?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (closeWarning == DialogResult.No)
                     e.Cancel = true;

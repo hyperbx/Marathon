@@ -67,7 +67,24 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
-                new ArchiveExplorer { CurrentArchive = fileDialog.FileName }.Show(DockPanel_Main);
+            {
+                string @extension = Path.GetExtension(fileDialog.FileName);
+
+                switch (@extension)
+                {
+                    case ".arc":
+                    {
+                        new ArchiveExplorer { CurrentArchive = fileDialog.FileName }.Show(DockPanel_Main);
+                        break;
+                    }
+
+                    case ".bin":
+                    {
+                        new FileExtensionWizard(DockPanel_Main, fileDialog.FileName).ShowDialog();
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -88,7 +105,7 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private string ActiveWebBrowserExplorerAddress()
         {
-            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument.GetType().Equals(typeof(MarathonExplorer)))
+            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument is MarathonExplorer)
             {
                 object @controller = (MarathonExplorer)DockPanel_Main.ActiveDocument;
 

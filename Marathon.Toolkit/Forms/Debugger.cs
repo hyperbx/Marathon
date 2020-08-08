@@ -69,7 +69,7 @@ namespace Marathon.Toolkit.Forms
         /// Perform actions when clicking a TreeNode.
         /// </summary>
         private void TreeView_Properties_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-            => MessageBox.Show(((XElement)e.Node.Tag).Value); // If it's not an XElement... Whoops? ¯\_(ツ)_/¯
+            => MarathonMessageBox.Show(((XElement)e.Node.Tag).Value); // If it's not an XElement... Whoops? ¯\_(ツ)_/¯
 
         /// <summary>
         /// Loads the configuration.

@@ -273,7 +273,7 @@ namespace Marathon.Toolkit.Forms
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.Node.Tag.GetType().Equals(typeof(string)) && (string)e.Node.Tag == "..") GoUp();
+                if (e.Node.Tag is string && (string)e.Node.Tag == "..") GoUp();
                 else
                 {
                     if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
@@ -290,8 +290,8 @@ namespace Marathon.Toolkit.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 if (!ChangeDirectoryOnValidation(((TextBox)sender).Text))
-                    MessageBox.Show($"{Name} can't find '{((TextBox)sender).Text}'. Check the spelling and try again.",
-                                    Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MarathonMessageBox.Show($"{Name} can't find '{((TextBox)sender).Text}'. Check the spelling and try again.",
+                                            Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

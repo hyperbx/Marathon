@@ -13,7 +13,12 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 
         public T peek() => data[data.Count - 1];
 
-        public void pop() => data.RemoveAt(data.Count - 1);
+        public T pop()
+        {
+            T value = data[data.Count - 1];
+            data.Remove(value);
+            return value;
+        }
 
         public void push(T item)
         {

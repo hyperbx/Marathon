@@ -17,7 +17,7 @@
 
         public override bool equals(object o)
         {
-            if (o.GetType().Equals(typeof(LString)))
+            if (o is LString)
             {
                 LString os = (LString)o;
 

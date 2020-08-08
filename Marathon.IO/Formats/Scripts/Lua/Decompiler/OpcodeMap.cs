@@ -1,147 +1,145 @@
-﻿using System;
-
-namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
+﻿namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
 {
-    public class OpcodeMap
-    {
-        private OpcodeFormat[] map;
+	public class OpcodeMap
+	{
+		private Op.Opcode[] map;
 
-        public OpcodeMap(int version)
-        {
-            if (version == 0x50)
-            {
-                map = new OpcodeFormat[35];
-                map[0] = Op.MOVE;
-                map[1] = Op.LOADK;
-                map[2] = Op.LOADBOOL;
-                map[3] = Op.LOADNIL;
-                map[4] = Op.GETUPVAL;
-                map[5] = Op.GETGLOBAL;
-                map[6] = Op.GETTABLE;
-                map[7] = Op.SETGLOBAL;
-                map[8] = Op.SETUPVAL;
-                map[9] = Op.SETTABLE;
-                map[10] = Op.NEWTABLE;
-                map[11] = Op.SELF;
-                map[12] = Op.ADD;
-                map[13] = Op.SUB;
-                map[14] = Op.MUL;
-                map[15] = Op.DIV;
-                map[16] = Op.POW;
-                map[17] = Op.UNM;
-                map[18] = Op.NOT;
-                map[19] = Op.CONCAT;
-                map[20] = Op.JMP;
-                map[21] = Op.EQ;
-                map[22] = Op.LT;
-                map[23] = Op.LE;
-                map[24] = Op.TEST50;
-                map[25] = Op.CALL;
-                map[26] = Op.TAILCALL;
-                map[27] = Op.RETURN;
-                map[28] = Op.FORLOOP;
-                map[29] = Op.TFORLOOP;
-                map[30] = Op.TFORPREP;
-                map[31] = Op.SETLIST50;
-                map[32] = Op.SETLISTO;
-                map[33] = Op.CLOSE;
-                map[34] = Op.CLOSURE;
-            }
-            else if (version == 0x51)
-            {
-                map = new OpcodeFormat[38];
-                map[0] = Op.MOVE;
-                map[1] = Op.LOADK;
-                map[2] = Op.LOADBOOL;
-                map[3] = Op.LOADNIL;
-                map[4] = Op.GETUPVAL;
-                map[5] = Op.GETGLOBAL;
-                map[6] = Op.GETTABLE;
-                map[7] = Op.SETGLOBAL;
-                map[8] = Op.SETUPVAL;
-                map[9] = Op.SETTABLE;
-                map[10] = Op.NEWTABLE;
-                map[11] = Op.SELF;
-                map[12] = Op.ADD;
-                map[13] = Op.SUB;
-                map[14] = Op.MUL;
-                map[15] = Op.DIV;
-                map[16] = Op.MOD;
-                map[17] = Op.POW;
-                map[18] = Op.UNM;
-                map[19] = Op.NOT;
-                map[20] = Op.LEN;
-                map[21] = Op.CONCAT;
-                map[22] = Op.JMP;
-                map[23] = Op.EQ;
-                map[24] = Op.LT;
-                map[25] = Op.LE;
-                map[26] = Op.TEST;
-                map[27] = Op.TESTSET;
-                map[28] = Op.CALL;
-                map[29] = Op.TAILCALL;
-                map[30] = Op.RETURN;
-                map[31] = Op.FORLOOP;
-                map[32] = Op.FORPREP;
-                map[33] = Op.TFORLOOP;
-                map[34] = Op.SETLIST;
-                map[35] = Op.CLOSE;
-                map[36] = Op.CLOSURE;
-                map[37] = Op.VARARG;
-            }
-            else
-            {
-                map = new OpcodeFormat[40];
-                map[0] = Op.MOVE;
-                map[1] = Op.LOADK;
-                map[2] = Op.LOADKX;
-                map[3] = Op.LOADBOOL;
-                map[4] = Op.LOADNIL;
-                map[5] = Op.GETUPVAL;
-                map[6] = Op.GETTABUP;
-                map[7] = Op.GETTABLE;
-                map[8] = Op.SETTABUP;
-                map[9] = Op.SETUPVAL;
-                map[10] = Op.SETTABLE;
-                map[11] = Op.NEWTABLE;
-                map[12] = Op.SELF;
-                map[13] = Op.ADD;
-                map[14] = Op.SUB;
-                map[15] = Op.MUL;
-                map[16] = Op.DIV;
-                map[17] = Op.MOD;
-                map[18] = Op.POW;
-                map[19] = Op.UNM;
-                map[20] = Op.NOT;
-                map[21] = Op.LEN;
-                map[22] = Op.CONCAT;
-                map[23] = Op.JMP;
-                map[24] = Op.EQ;
-                map[25] = Op.LT;
-                map[26] = Op.LE;
-                map[27] = Op.TEST;
-                map[28] = Op.TESTSET;
-                map[29] = Op.CALL;
-                map[30] = Op.TAILCALL;
-                map[31] = Op.RETURN;
-                map[32] = Op.FORLOOP;
-                map[33] = Op.FORPREP;
-                map[34] = Op.TFORCALL;
-                map[35] = Op.TFORLOOP;
-                map[36] = Op.SETLIST;
-                map[37] = Op.CLOSURE;
-                map[38] = Op.VARARG;
-                map[39] = Op.EXTRAARG;
-            }
-        }
+		public OpcodeMap(int version)
+		{
+			if (version == 0x50)
+			{
+				map = new Op.Opcode[35];
+				map[0] = Op.Opcode.MOVE;
+				map[1] = Op.Opcode.LOADK;
+				map[2] = Op.Opcode.LOADBOOL;
+				map[3] = Op.Opcode.LOADNIL;
+				map[4] = Op.Opcode.GETUPVAL;
+				map[5] = Op.Opcode.GETGLOBAL;
+				map[6] = Op.Opcode.GETTABLE;
+				map[7] = Op.Opcode.SETGLOBAL;
+				map[8] = Op.Opcode.SETUPVAL;
+				map[9] = Op.Opcode.SETTABLE;
+				map[10] = Op.Opcode.NEWTABLE;
+				map[11] = Op.Opcode.SELF;
+				map[12] = Op.Opcode.ADD;
+				map[13] = Op.Opcode.SUB;
+				map[14] = Op.Opcode.MUL;
+				map[15] = Op.Opcode.DIV;
+				map[16] = Op.Opcode.POW;
+				map[17] = Op.Opcode.UNM;
+				map[18] = Op.Opcode.NOT;
+				map[19] = Op.Opcode.CONCAT;
+				map[20] = Op.Opcode.JMP;
+				map[21] = Op.Opcode.EQ;
+				map[22] = Op.Opcode.LT;
+				map[23] = Op.Opcode.LE;
+				map[24] = Op.Opcode.TEST50;
+				map[25] = Op.Opcode.CALL;
+				map[26] = Op.Opcode.TAILCALL;
+				map[27] = Op.Opcode.RETURN;
+				map[28] = Op.Opcode.FORLOOP;
+				map[29] = Op.Opcode.TFORLOOP;
+				map[30] = Op.Opcode.TFORPREP;
+				map[31] = Op.Opcode.SETLIST50;
+				map[32] = Op.Opcode.SETLISTO;
+				map[33] = Op.Opcode.CLOSE;
+				map[34] = Op.Opcode.CLOSURE;
+			}
+			else if (version == 0x51)
+			{
+				map = new Op.Opcode[38];
+				map[0] = Op.Opcode.MOVE;
+				map[1] = Op.Opcode.LOADK;
+				map[2] = Op.Opcode.LOADBOOL;
+				map[3] = Op.Opcode.LOADNIL;
+				map[4] = Op.Opcode.GETUPVAL;
+				map[5] = Op.Opcode.GETGLOBAL;
+				map[6] = Op.Opcode.GETTABLE;
+				map[7] = Op.Opcode.SETGLOBAL;
+				map[8] = Op.Opcode.SETUPVAL;
+				map[9] = Op.Opcode.SETTABLE;
+				map[10] = Op.Opcode.NEWTABLE;
+				map[11] = Op.Opcode.SELF;
+				map[12] = Op.Opcode.ADD;
+				map[13] = Op.Opcode.SUB;
+				map[14] = Op.Opcode.MUL;
+				map[15] = Op.Opcode.DIV;
+				map[16] = Op.Opcode.MOD;
+				map[17] = Op.Opcode.POW;
+				map[18] = Op.Opcode.UNM;
+				map[19] = Op.Opcode.NOT;
+				map[20] = Op.Opcode.LEN;
+				map[21] = Op.Opcode.CONCAT;
+				map[22] = Op.Opcode.JMP;
+				map[23] = Op.Opcode.EQ;
+				map[24] = Op.Opcode.LT;
+				map[25] = Op.Opcode.LE;
+				map[26] = Op.Opcode.TEST;
+				map[27] = Op.Opcode.TESTSET;
+				map[28] = Op.Opcode.CALL;
+				map[29] = Op.Opcode.TAILCALL;
+				map[30] = Op.Opcode.RETURN;
+				map[31] = Op.Opcode.FORLOOP;
+				map[32] = Op.Opcode.FORPREP;
+				map[33] = Op.Opcode.TFORLOOP;
+				map[34] = Op.Opcode.SETLIST;
+				map[35] = Op.Opcode.CLOSE;
+				map[36] = Op.Opcode.CLOSURE;
+				map[37] = Op.Opcode.VARARG;
+			}
+			else
+			{
+				map = new Op.Opcode[40];
+				map[0] = Op.Opcode.MOVE;
+				map[1] = Op.Opcode.LOADK;
+				map[2] = Op.Opcode.LOADKX;
+				map[3] = Op.Opcode.LOADBOOL;
+				map[4] = Op.Opcode.LOADNIL;
+				map[5] = Op.Opcode.GETUPVAL;
+				map[6] = Op.Opcode.GETTABUP;
+				map[7] = Op.Opcode.GETTABLE;
+				map[8] = Op.Opcode.SETTABUP;
+				map[9] = Op.Opcode.SETUPVAL;
+				map[10] = Op.Opcode.SETTABLE;
+				map[11] = Op.Opcode.NEWTABLE;
+				map[12] = Op.Opcode.SELF;
+				map[13] = Op.Opcode.ADD;
+				map[14] = Op.Opcode.SUB;
+				map[15] = Op.Opcode.MUL;
+				map[16] = Op.Opcode.DIV;
+				map[17] = Op.Opcode.MOD;
+				map[18] = Op.Opcode.POW;
+				map[19] = Op.Opcode.UNM;
+				map[20] = Op.Opcode.NOT;
+				map[21] = Op.Opcode.LEN;
+				map[22] = Op.Opcode.CONCAT;
+				map[23] = Op.Opcode.JMP;
+				map[24] = Op.Opcode.EQ;
+				map[25] = Op.Opcode.LT;
+				map[26] = Op.Opcode.LE;
+				map[27] = Op.Opcode.TEST;
+				map[28] = Op.Opcode.TESTSET;
+				map[29] = Op.Opcode.CALL;
+				map[30] = Op.Opcode.TAILCALL;
+				map[31] = Op.Opcode.RETURN;
+				map[32] = Op.Opcode.FORLOOP;
+				map[33] = Op.Opcode.FORPREP;
+				map[34] = Op.Opcode.TFORCALL;
+				map[35] = Op.Opcode.TFORLOOP;
+				map[36] = Op.Opcode.SETLIST;
+				map[37] = Op.Opcode.CLOSURE;
+				map[38] = Op.Opcode.VARARG;
+				map[39] = Op.Opcode.EXTRAARG;
+			}
+		}
 
-        public OpcodeFormat get(int opNumber)
-        {
-            if (opNumber >= 0 && opNumber < map.Length)
-                return map[opNumber];
+		public virtual Op.Opcode get(int opNumber)
+		{
+			if (opNumber >= 0 && opNumber < map.Length)
+				return map[opNumber];
 
-            else
-                throw new Exception("Opcode returned null...");
-        }
-    }
+			else
+				return Op.Opcode.NULL;
+		}
+	}
 }

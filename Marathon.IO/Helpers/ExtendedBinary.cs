@@ -228,8 +228,12 @@ namespace Marathon.IO
         /// <summary>
         /// Reads a Boolean from the current position.
         /// </summary>
-        public override bool ReadBoolean()
-            => ReadByte() != 0;
+        public override bool ReadBoolean() => ReadByte() != 0;
+
+        /// <summary>
+        /// Reads a Boolean from the current position.
+        /// </summary>
+        public virtual bool ReadBoolean32() => ReadInt32() != 0;
 
         /// <summary>
         /// Reads a byte from the current position.
@@ -781,6 +785,18 @@ namespace Marathon.IO
 
                 WriteNulls(padAmount);
             }
+        }
+
+        /// <summary>
+        /// Writes a Boolean value with Int32 alignment to the stream.
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteBoolean32(bool value)
+        {
+            if (value)
+                WriteByType<int>(1);
+            else
+                WriteByType<int>(0);
         }
 
         /// <summary>

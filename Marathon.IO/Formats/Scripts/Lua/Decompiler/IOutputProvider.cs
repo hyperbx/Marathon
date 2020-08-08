@@ -2,8 +2,8 @@
 {
     public interface IOutputProvider
     {
-        public void print(string s);
+        void print(string s);
 
-        public void println();
+        void println();
     }
 }

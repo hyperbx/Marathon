@@ -31,10 +31,10 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 
         public override bool equals(object o)
         {
-            if (o.GetType().Equals(typeof(LFloatNumber)))
+            if (o is LFloatNumber)
                 return number == ((LFloatNumber)o).number;
 
-            else if (o.GetType().Equals(typeof(LNumber)))
+            else if (o is LNumber)
                 return value() == ((LNumber)o).value();
 
             return false;
@@ -62,10 +62,10 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 
         public override bool equals(object o)
         {
-            if (o.GetType().Equals(typeof(LDoubleNumber)))
+            if (o is LDoubleNumber)
                 return number == ((LDoubleNumber)o).number;
 
-            else if (o.GetType().Equals(typeof(LNumber)))
+            else if (o is LNumber)
                 return value() == ((LNumber)o).value();
 
             return false;
@@ -86,10 +86,10 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 
         public override bool equals(object o)
         {
-            if (o.GetType().Equals(typeof(LIntNumber)))
+            if (o is LIntNumber)
                 return number == ((LIntNumber)o).number;
 
-            else if (o.GetType().Equals(typeof(LNumber)))
+            else if (o is LNumber)
                 return value() == ((LNumber)o).value();
 
             return false;
@@ -110,10 +110,10 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 
         public override bool equals(object o)
         {
-            if (o.GetType().Equals(typeof(LLongNumber)))
+            if (o is LLongNumber)
                 return number == ((LLongNumber)o).number;
 
-            else if (o.GetType().Equals(typeof(LNumber)))
+            else if (o is LNumber)
                 return value() == ((LNumber)o).value();
 
             return false;

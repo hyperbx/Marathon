@@ -46,28 +46,28 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler
 
         public Constant(LObject constant)
         {
-            if (constant.GetType().Equals(typeof(LNil)))
+            if (constant is LNil)
             {
                 type = 0;
                 @bool = false;
                 number = null;
                 @string = null;
             }
-            else if (constant.GetType().Equals(typeof(LBoolean)))
+            else if (constant is LBoolean)
             {
                 type = 1;
                 @bool = constant == LBoolean.LTRUE;
                 number = null;
                 @string = null;
             }
-            else if (constant.GetType().Equals(typeof(LNumber)))
+            else if (constant is LNumber)
             {
                 type = 2;
                 @bool = false;
                 number = (LNumber)constant;
                 @string = null;
             }
-            else if (constant.GetType().Equals(typeof(LString)))
+            else if (constant is LString)
             {
                 type = 3;
                 @bool = false;

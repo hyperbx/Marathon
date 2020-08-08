@@ -9,7 +9,7 @@
 
         public bool equals(object obj)
         {
-            if (obj.GetType().Equals(typeof(LUpvalue)))
+            if (obj is LUpvalue)
             {
                 LUpvalue upvalue = (LUpvalue)obj;
 

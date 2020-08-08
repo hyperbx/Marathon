@@ -302,7 +302,7 @@ namespace Marathon.IO.Formats.Archives
 
                     lastID++;
 
-                    if (entries[i].GetType().Equals(typeof(U8DirectoryEntry)) &&
+                    if (entries[i] is U8DirectoryEntry &&
                         ((U8DirectoryEntry)entries[i]).Contents.OfType<U8DirectoryEntry>().Count() != 0)
                             SetIdentifiers(((U8DirectoryEntry)entries[i]).Contents);
                 }

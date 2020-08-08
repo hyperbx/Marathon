@@ -20,7 +20,7 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Targets
 
         public bool equals(object obj)
         {
-            if (obj.GetType().Equals(typeof(VariableTarget)))
+            if (obj is VariableTarget)
             {
                 VariableTarget t = (VariableTarget)obj;
 

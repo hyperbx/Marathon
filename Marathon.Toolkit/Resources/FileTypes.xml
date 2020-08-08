@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Marathon>
-  <!-- If no extension is specified, the entry will be disregarded. -->
+  <!-- If no extension is specified or is a duplicate, the entry will be disregarded. -->
   <Type Extension=".*">All files</Type>
   <Type Extension=".pkg">Asset Package</Type>
   <Type Extension=".bin">Collision</Type>
@@ -10,6 +10,7 @@
   <Type Extension=".pft">Picture Font</Type>
   <Type Extension=".set">Placement</Type>
   <Type Extension=".rfzone">Reflection Zone</Type>
+  <Type Extension=".bin">Save Data</Type>
   <Type Extension=".sbk">Sound Bank</Type>
   <Type Extension=".mst">Text</Type>
 </Marathon>

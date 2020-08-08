@@ -6,7 +6,7 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
 {
     public class BHeader
     {
-        public const uint signature = 0x1B4C7561;
+        public static readonly byte[] signature = { 0x1B, 0x4C, 0x75, 0x61 };
         public static readonly byte[] luacTail = { 0x19, 0x93, 0x0D, 0x0A, 0x1A, 0x0A };
 
         public readonly bool debug = false;
@@ -26,9 +26,11 @@ namespace Marathon.IO.Formats.Scripts.Lua.Helpers
         public BHeader(ExtendedBinaryReader buffer)
         {
             // Read script signature.
-            uint _signature = buffer.ReadUInt32();
-            if (_signature != signature)
-                throw new InvalidSignatureException(signature.ToString(), _signature.ToString());
+            for (int i = 0; i < signature.Length; i++)
+            {
+                if (buffer.ReadByte() != signature[i])
+                    throw new Exception("The input file does not have the signature of a valid Lua file!");
+            }
 
             int versionNumber = 0xFF & buffer.ReadByte();
 

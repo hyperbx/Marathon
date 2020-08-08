@@ -25,6 +25,7 @@
 
 using System;
 using System.Text;
+using System.Linq;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -140,16 +141,24 @@ namespace Marathon.Toolkit.Helpers
         public static string ParseFileTypesAsFilter(string resource)
         {
             StringBuilder stringBuilder = new StringBuilder();
+            Dictionary<string, string> validTypes = new Dictionary<string, string>();
 
             XDocument xml = XDocument.Parse(resource);
 
+            // Generate list of valid file extensions - if there are duplicate extensions, remove them.
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
                 string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
 
-                if (!string.IsNullOrEmpty(@extension))
-                    stringBuilder.Append($"{supportedFileTypesElem.Value} (*{@extension})|*{@extension}|");
+                if (validTypes.ContainsKey(@extension))
+                    validTypes = validTypes.Where(x => x.Key != @extension).ToDictionary(x => x.Key, x => x.Value);
+
+                else if (!string.IsNullOrEmpty(@extension))
+                    validTypes.Add(@extension, supportedFileTypesElem.Value);
             }
+
+            foreach (var entry in validTypes)
+                stringBuilder.Append($"{entry.Value} (*{entry.Key})|*{entry.Key}|");
 
             return stringBuilder.ToString().EndsWith("|") ? stringBuilder.ToString().Remove(stringBuilder.Length - 1) : stringBuilder.ToString();
         }

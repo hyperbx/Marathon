@@ -22,6 +22,6 @@ namespace Marathon.IO.Formats.Scripts.Lua.Decompiler.Branches
 
         public override void useExpression(Expression expression) { /* Nothing to see here... */ }
 
-        public override string ToString() => $"TestSetNode[target={setTarget};test={test};invert={invert};line={line};begin={begin};end={end}]";
+        public override string ToString() => $"TestSetNode[target={setTarget};test={test};invert={_invert};line={line};begin={begin};end={end}]";
     }
 }

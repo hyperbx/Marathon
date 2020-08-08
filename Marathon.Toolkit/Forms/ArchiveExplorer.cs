@@ -238,7 +238,7 @@ namespace Marathon.Toolkit.Forms
                                         e.Node.EnsureVisible();
                                     }
 
-                                    if (entries[i].GetType().Equals(typeof(U8DirectoryEntry)) &&
+                                    if (entries[i] is U8DirectoryEntry &&
                                         ((U8DirectoryEntry)entries[i]).Contents.OfType<U8DirectoryEntry>().Count() != 0)
                                     {
                                         lastDirectory = ((U8DirectoryEntry)entries[i]).Contents;

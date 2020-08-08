@@ -1,4 +1,5 @@
 ﻿using Marathon.IO.Formats.Scripts.Lua.Helpers;
+using Marathon.IO.Formats.Scripts.Lua.Decompiler;
 
 namespace Marathon.IO.Formats.Scripts.Lua
 {
@@ -26,11 +27,11 @@ namespace Marathon.IO.Formats.Scripts.Lua
 
         public abstract bool usesInlineUpvalueDeclarations();
 
-        public abstract Op getTForTarget();
+        public abstract Op.Opcode getTForTarget();
 
-        public abstract Op getForTarget();
+        public abstract Op.Opcode getForTarget();
 
-        public abstract bool isBreakableLoopEnd(Op op);
+        public abstract bool isBreakableLoopEnd(Op.Opcode op);
     }
 
     public class Version50 : Version
@@ -49,11 +50,11 @@ namespace Marathon.IO.Formats.Scripts.Lua
 
         public override bool usesInlineUpvalueDeclarations() => true;
 
-        public override Op getTForTarget() => Op.TFORLOOP;
+        public override Op.Opcode getTForTarget() => Op.Opcode.TFORLOOP;
 
-        public override Op getForTarget() => Op.FORLOOP;
+        public override Op.Opcode getForTarget() => Op.Opcode.FORLOOP;
 
-        public override bool isBreakableLoopEnd(Op op) => op == Op.JMP || op == Op.FORLOOP;
+        public override bool isBreakableLoopEnd(Op.Opcode op) => op == Op.Opcode.JMP || op == Op.Opcode.FORLOOP;
     }
 
     public class Version51 : Version
@@ -72,11 +73,11 @@ namespace Marathon.IO.Formats.Scripts.Lua
 
         public override bool usesInlineUpvalueDeclarations() => true;
 
-        public override Op getTForTarget() => Op.TFORLOOP;
+        public override Op.Opcode getTForTarget() => Op.Opcode.TFORLOOP;
 
-        public override Op getForTarget() => null;
+        public override Op.Opcode getForTarget() => Op.Opcode.NULL;
 
-        public override bool isBreakableLoopEnd(Op op) => op == Op.JMP || op == Op.FORLOOP;
+        public override bool isBreakableLoopEnd(Op.Opcode op) => op == Op.Opcode.JMP || op == Op.Opcode.FORLOOP;
     }
 
     public class Version52 : Version
@@ -95,10 +96,10 @@ namespace Marathon.IO.Formats.Scripts.Lua
 
         public override bool usesInlineUpvalueDeclarations() => false;
 
-        public override Op getTForTarget() => Op.TFORCALL;
+        public override Op.Opcode getTForTarget() => Op.Opcode.TFORCALL;
 
-        public override Op getForTarget() => null;
+        public override Op.Opcode getForTarget() => Op.Opcode.NULL;
 
-        public override bool isBreakableLoopEnd(Op op) => op == Op.JMP || op == Op.FORLOOP || op == Op.TFORLOOP;
+        public override bool isBreakableLoopEnd(Op.Opcode op) => op == Op.Opcode.JMP || op == Op.Opcode.FORLOOP || op == Op.Opcode.TFORLOOP;
     }
 }
