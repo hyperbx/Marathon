@@ -62,7 +62,10 @@ namespace Marathon.IO
                 throw new Exception("Unable to save the specified file as it already exists...");
 
             else if (!string.IsNullOrEmpty(Location) && File.Exists(Location))
-                File.Copy(Location, file, true);
+            {
+                if (file != Location)
+                    File.Copy(Location, file, true);
+            }
 
             using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite))
                 Save(fileStream);

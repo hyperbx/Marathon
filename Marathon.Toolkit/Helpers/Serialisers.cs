@@ -126,7 +126,7 @@ namespace Marathon.Toolkit.Helpers
             {
                 TreeNode node = new TreeNode {
                     Text = contributorElem.Value,
-                    Tag = contributorElem.Attribute("URL") == null ? string.Empty : contributorElem.Attribute("URL").Value
+                    Tag = contributorElem
                 };
 
                 contributors.Add(node);

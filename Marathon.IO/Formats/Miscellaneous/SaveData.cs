@@ -106,9 +106,9 @@ namespace Marathon.IO.Formats.Miscellaneous
         /// </summary>
         public class Stage
         {
-            public long Offset;        // Offset of the current stage.
+            public long Offset; // Offset of the current stage.
 
-            public string Information; // Information for the current stage.
+            public string Name; // Path or name for the current stage.
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                     {
                         episode.Information.Add(new Stage()
                         {
-                            Information = information,
+                            Name = information,
                             Offset = position
                         });
                     }
@@ -346,7 +346,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 foreach (Stage info in episode.Information)
                 {
                     writer.BaseStream.Position = info.Offset;
-                    writer.WriteNullTerminatedString(info.Information);
+                    writer.WriteNullTerminatedString(info.Name);
                 }
 
                 writer.BaseStream.Position = episode.Offset;

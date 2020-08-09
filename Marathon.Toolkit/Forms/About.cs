@@ -25,6 +25,7 @@
 
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Forms
@@ -43,15 +44,34 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Hides the node highlight upon clicking.
         /// </summary>
-        private void TreeView_Contributors_AfterSelect(object sender, TreeViewEventArgs e)
-            => TreeView_Contributors.SelectedNode = null;
+        private void TreeView_Contributors_AfterSelect(object sender, TreeViewEventArgs e) => TreeView_Contributors.SelectedNode = null;
 
         /// <summary>
-        /// Navigates to the contributor's webpage.
+        /// Accesses the selected contributor's information depending on mouse button.
         /// </summary>
         private void TreeView_Contributors_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (!string.IsNullOrEmpty((string)e.Node.Tag)) Process.Start((string)e.Node.Tag);
+            XElement selectedNode = (XElement)e.Node.Tag;
+
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                {
+                    if (!string.IsNullOrEmpty(selectedNode.Attribute("URL").Value))
+                        Process.Start(selectedNode.Attribute("URL").Value);
+
+                    break;
+                }
+
+                case MouseButtons.Right:
+                {
+                    if (!string.IsNullOrEmpty(selectedNode.Attribute("Description").Value))
+                        MarathonMessageBox.Show(selectedNode.Attribute("Description").Value, selectedNode.Value);
+
+                    break;
+                }
+            }
+            
         }
     }
 }

@@ -66,10 +66,10 @@
     <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\FileExtensionWizard.cs">
+    <Compile Include="Forms\FileExtensionWizard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\FileExtensionWizard.Designer.cs">
+    <Compile Include="Forms\FileExtensionWizard.Designer.cs">
       <DependentUpon>FileExtensionWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\FileExtensionWizardTask.cs">
@@ -200,7 +200,7 @@
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\FileExtensionWizard.resx">
+    <EmbeddedResource Include="Forms\FileExtensionWizard.resx">
       <DependentUpon>FileExtensionWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ModelViewer.resx">
@@ -242,6 +242,7 @@
     <Content Include="Resources\Images\FileDrop.png" />
     <Content Include="Resources\Images\Folder.png" />
     <Content Include="Resources\Images\Logos\Main_Logo_Corner_Transparent.png" />
+    <Content Include="Resources\Images\Logos\Main_Logo_Full_Colour.png" />
     <Content Include="Resources\Images\Logos\Main_Logo_Medium_Colour.png" />
     <Content Include="Resources\Images\Logos\Main_Logo_Small_Dark.png" />
     <Content Include="Resources\FileTypes.xml" />

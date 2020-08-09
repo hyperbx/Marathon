@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Marathon>
-  <!-- If no URL is specified, only your name will be displayed. -->
-  <Contributor URL="https://github.com/HyperPolygon64">HyperPolygon64</Contributor>
-  <Contributor URL="https://github.com/Radfordhound">Radfordhound</Contributor>
-  <Contributor URL="https://github.com/Knuxfan24">Knuxfan24</Contributor>
-  <Contributor URL="https://github.com/GerbilSoft">GerbilSoft</Contributor>
-  <Contributor URL="https://github.com/lllsondowlll">Shadow LAG</Contributor>
+  <!-- If no URL or description is specified, only your name will be displayed. -->
+  <Contributor URL="https://github.com/HyperPolygon64" Description="Lead developer and designer of Marathon">HyperPolygon64</Contributor>
+  <Contributor URL="https://github.com/Radfordhound" Description="Developed the HedgeLib# classes used as a base for Marathon.IO">Radfordhound</Contributor>
+  <Contributor URL="https://github.com/Knuxfan24" Description="Assisted with Marathon I/O API development and format cracking">Knuxfan24</Contributor>
+  <Contributor URL="https://github.com/GerbilSoft" Description="Wrote ZlibStream and supplied an API for compressing archive data">GerbilSoft</Contributor>
+  <Contributor URL="https://github.com/lllsondowlll" Description="Wrote the original Lua decompiler source in Java">Shadow LAG</Contributor>
+  <Contributor URL="https://twitter.com/LJSTAR_" Description="Created a more polished logo for Marathon">LJSTAR</Contributor>
 </Marathon>

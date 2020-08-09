@@ -1,4 +1,6 @@
-﻿namespace Marathon.Toolkit.Forms
+﻿using Marathon.Toolkit.Helpers;
+
+namespace Marathon.Toolkit.Forms
 {
     partial class SaveEditor
     {
@@ -49,6 +51,7 @@
             this.Label_Episode_Lives = new System.Windows.Forms.Label();
             this.ComboBox_Episode = new System.Windows.Forms.ComboBox();
             this.GroupBox_Upgrades = new System.Windows.Forms.GroupBox();
+            this.Panel_UpgradesContainer = new System.Windows.Forms.Panel();
             this.CheckedListBox_Upgrades = new System.Windows.Forms.CheckedListBox();
             this.GroupBox_System = new System.Windows.Forms.GroupBox();
             this.CheckBox_Subtitles = new System.Windows.Forms.CheckBox();
@@ -57,13 +60,15 @@
             this.NumericUpDown_System_Music = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
             this.GroupBox_Mission = new System.Windows.Forms.GroupBox();
-            this.Column_Information = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.SplitContainer_Left = new System.Windows.Forms.SplitContainer();
+            this.SplitContainer_Right = new System.Windows.Forms.SplitContainer();
+            this.SplitContainer_RightHorizontal = new System.Windows.Forms.SplitContainer();
             this.GroupBox_Episode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Minute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Hour)).BeginInit();
@@ -74,16 +79,30 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Rings)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Lives)).BeginInit();
             this.GroupBox_Upgrades.SuspendLayout();
+            this.Panel_UpgradesContainer.SuspendLayout();
             this.GroupBox_System.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_System_Effect)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_System_Music)).BeginInit();
             this.MenuStripDark_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_Left)).BeginInit();
+            this.SplitContainer_Left.Panel1.SuspendLayout();
+            this.SplitContainer_Left.Panel2.SuspendLayout();
+            this.SplitContainer_Left.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_Right)).BeginInit();
+            this.SplitContainer_Right.Panel1.SuspendLayout();
+            this.SplitContainer_Right.Panel2.SuspendLayout();
+            this.SplitContainer_Right.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_RightHorizontal)).BeginInit();
+            this.SplitContainer_RightHorizontal.Panel1.SuspendLayout();
+            this.SplitContainer_RightHorizontal.Panel2.SuspendLayout();
+            this.SplitContainer_RightHorizontal.SuspendLayout();
             this.SuspendLayout();
             // 
             // GroupBox_Episode
             // 
-            this.GroupBox_Episode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.GroupBox_Episode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBox_Episode.Controls.Add(this.ListViewDark_Information);
             this.GroupBox_Episode.Controls.Add(this.NumericUpDown_Episode_Minute);
             this.GroupBox_Episode.Controls.Add(this.label7);
@@ -103,32 +122,36 @@
             this.GroupBox_Episode.Controls.Add(this.Label_Episode_Lives);
             this.GroupBox_Episode.Controls.Add(this.ComboBox_Episode);
             this.GroupBox_Episode.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_Episode.Location = new System.Drawing.Point(12, 28);
+            this.GroupBox_Episode.Location = new System.Drawing.Point(16, 3);
             this.GroupBox_Episode.Name = "GroupBox_Episode";
-            this.GroupBox_Episode.Size = new System.Drawing.Size(260, 479);
+            this.GroupBox_Episode.Size = new System.Drawing.Size(259, 477);
             this.GroupBox_Episode.TabIndex = 0;
             this.GroupBox_Episode.TabStop = false;
             this.GroupBox_Episode.Text = "Episode Information";
             // 
             // ListViewDark_Information
             // 
-            this.ListViewDark_Information.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.ListViewDark_Information.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ListViewDark_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.ListViewDark_Information.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ListViewDark_Information.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.Column_Information});
             this.ListViewDark_Information.ForeColor = System.Drawing.SystemColors.Control;
+            this.ListViewDark_Information.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ListViewDark_Information.HideSelection = false;
+            this.ListViewDark_Information.LabelEdit = true;
             this.ListViewDark_Information.Location = new System.Drawing.Point(12, 299);
             this.ListViewDark_Information.Name = "ListViewDark_Information";
-            this.ListViewDark_Information.Size = new System.Drawing.Size(236, 166);
+            this.ListViewDark_Information.OwnerDraw = true;
+            this.ListViewDark_Information.Size = new System.Drawing.Size(236, 164);
             this.ListViewDark_Information.TabIndex = 19;
             this.ListViewDark_Information.UseCompatibleStateImageBehavior = false;
-            this.ListViewDark_Information.View = System.Windows.Forms.View.Details;
+            this.ListViewDark_Information.View = System.Windows.Forms.View.List;
             // 
             // NumericUpDown_Episode_Minute
             // 
+            this.NumericUpDown_Episode_Minute.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Minute.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Minute.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Minute.ForeColor = System.Drawing.SystemColors.Control;
@@ -153,6 +176,8 @@
             // 
             // NumericUpDown_Episode_Hour
             // 
+            this.NumericUpDown_Episode_Hour.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Hour.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Hour.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Hour.ForeColor = System.Drawing.SystemColors.Control;
@@ -177,6 +202,8 @@
             // 
             // NumericUpDown_Episode_Day
             // 
+            this.NumericUpDown_Episode_Day.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Day.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Day.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Day.ForeColor = System.Drawing.SystemColors.Control;
@@ -201,6 +228,8 @@
             // 
             // NumericUpDown_Episode_Month
             // 
+            this.NumericUpDown_Episode_Month.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Month.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Month.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Month.ForeColor = System.Drawing.SystemColors.Control;
@@ -225,6 +254,8 @@
             // 
             // NumericUpDown_Episode_Year
             // 
+            this.NumericUpDown_Episode_Year.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Year.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Year.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Year.ForeColor = System.Drawing.SystemColors.Control;
@@ -249,6 +280,8 @@
             // 
             // NumericUpDown_Episode_Progress
             // 
+            this.NumericUpDown_Episode_Progress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Progress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Progress.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Progress.ForeColor = System.Drawing.SystemColors.Control;
@@ -273,6 +306,8 @@
             // 
             // NumericUpDown_Episode_Rings
             // 
+            this.NumericUpDown_Episode_Rings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Rings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Rings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Rings.ForeColor = System.Drawing.SystemColors.Control;
@@ -297,6 +332,8 @@
             // 
             // NumericUpDown_Episode_Lives
             // 
+            this.NumericUpDown_Episode_Lives.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_Episode_Lives.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_Episode_Lives.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.NumericUpDown_Episode_Lives.ForeColor = System.Drawing.SystemColors.Control;
@@ -309,6 +346,7 @@
             this.NumericUpDown_Episode_Lives.Name = "NumericUpDown_Episode_Lives";
             this.NumericUpDown_Episode_Lives.Size = new System.Drawing.Size(176, 23);
             this.NumericUpDown_Episode_Lives.TabIndex = 3;
+            this.NumericUpDown_Episode_Lives.ValueChanged += new System.EventHandler(this.NumericUpDown_Episode_Lives_ValueChanged);
             // 
             // Label_Episode_Lives
             // 
@@ -321,6 +359,8 @@
             // 
             // ComboBox_Episode
             // 
+            this.ComboBox_Episode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ComboBox_Episode.BackColor = System.Drawing.SystemColors.Window;
             this.ComboBox_Episode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBox_Episode.FormattingEnabled = true;
@@ -337,23 +377,34 @@
             // 
             // GroupBox_Upgrades
             // 
-            this.GroupBox_Upgrades.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.GroupBox_Upgrades.Controls.Add(this.CheckedListBox_Upgrades);
+            this.GroupBox_Upgrades.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupBox_Upgrades.Controls.Add(this.Panel_UpgradesContainer);
             this.GroupBox_Upgrades.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_Upgrades.Location = new System.Drawing.Point(283, 28);
+            this.GroupBox_Upgrades.Location = new System.Drawing.Point(7, 3);
             this.GroupBox_Upgrades.Name = "GroupBox_Upgrades";
-            this.GroupBox_Upgrades.Size = new System.Drawing.Size(260, 479);
+            this.GroupBox_Upgrades.Size = new System.Drawing.Size(260, 477);
             this.GroupBox_Upgrades.TabIndex = 1;
             this.GroupBox_Upgrades.TabStop = false;
             this.GroupBox_Upgrades.Text = "Upgrades";
             // 
+            // Panel_UpgradesContainer
+            // 
+            this.Panel_UpgradesContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Panel_UpgradesContainer.Controls.Add(this.CheckedListBox_Upgrades);
+            this.Panel_UpgradesContainer.Location = new System.Drawing.Point(6, 21);
+            this.Panel_UpgradesContainer.Name = "Panel_UpgradesContainer";
+            this.Panel_UpgradesContainer.Size = new System.Drawing.Size(248, 450);
+            this.Panel_UpgradesContainer.TabIndex = 20;
+            // 
             // CheckedListBox_Upgrades
             // 
-            this.CheckedListBox_Upgrades.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.CheckedListBox_Upgrades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.CheckedListBox_Upgrades.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.CheckedListBox_Upgrades.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CheckedListBox_Upgrades.ForeColor = System.Drawing.SystemColors.Control;
             this.CheckedListBox_Upgrades.FormattingEnabled = true;
             this.CheckedListBox_Upgrades.Items.AddRange(new object[] {
@@ -378,22 +429,25 @@
             "Teleport",
             "Psychoshock",
             "Speed Up"});
-            this.CheckedListBox_Upgrades.Location = new System.Drawing.Point(6, 21);
+            this.CheckedListBox_Upgrades.Location = new System.Drawing.Point(0, 0);
             this.CheckedListBox_Upgrades.Name = "CheckedListBox_Upgrades";
-            this.CheckedListBox_Upgrades.Size = new System.Drawing.Size(248, 432);
+            this.CheckedListBox_Upgrades.Size = new System.Drawing.Size(248, 450);
             this.CheckedListBox_Upgrades.TabIndex = 0;
             // 
             // GroupBox_System
             // 
+            this.GroupBox_System.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBox_System.Controls.Add(this.CheckBox_Subtitles);
             this.GroupBox_System.Controls.Add(this.NumericUpDown_System_Effect);
             this.GroupBox_System.Controls.Add(this.label14);
             this.GroupBox_System.Controls.Add(this.NumericUpDown_System_Music);
             this.GroupBox_System.Controls.Add(this.label15);
             this.GroupBox_System.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_System.Location = new System.Drawing.Point(555, 28);
+            this.GroupBox_System.Location = new System.Drawing.Point(2, 3);
             this.GroupBox_System.Name = "GroupBox_System";
-            this.GroupBox_System.Size = new System.Drawing.Size(260, 136);
+            this.GroupBox_System.Size = new System.Drawing.Size(256, 121);
             this.GroupBox_System.TabIndex = 2;
             this.GroupBox_System.TabStop = false;
             this.GroupBox_System.Text = "System Settings";
@@ -410,10 +464,17 @@
             // 
             // NumericUpDown_System_Effect
             // 
+            this.NumericUpDown_System_Effect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_System_Effect.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_System_Effect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NumericUpDown_System_Effect.DecimalPlaces = 10;
+            this.NumericUpDown_System_Effect.DecimalPlaces = 1;
             this.NumericUpDown_System_Effect.ForeColor = System.Drawing.SystemColors.Control;
+            this.NumericUpDown_System_Effect.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.NumericUpDown_System_Effect.Location = new System.Drawing.Point(100, 84);
             this.NumericUpDown_System_Effect.Maximum = new decimal(new int[] {
             1,
@@ -421,7 +482,7 @@
             0,
             0});
             this.NumericUpDown_System_Effect.Name = "NumericUpDown_System_Effect";
-            this.NumericUpDown_System_Effect.Size = new System.Drawing.Size(148, 23);
+            this.NumericUpDown_System_Effect.Size = new System.Drawing.Size(144, 23);
             this.NumericUpDown_System_Effect.TabIndex = 5;
             // 
             // label14
@@ -435,10 +496,17 @@
             // 
             // NumericUpDown_System_Music
             // 
+            this.NumericUpDown_System_Music.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.NumericUpDown_System_Music.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(45)))));
             this.NumericUpDown_System_Music.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.NumericUpDown_System_Music.DecimalPlaces = 10;
+            this.NumericUpDown_System_Music.DecimalPlaces = 1;
             this.NumericUpDown_System_Music.ForeColor = System.Drawing.SystemColors.Control;
+            this.NumericUpDown_System_Music.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.NumericUpDown_System_Music.Location = new System.Drawing.Point(100, 55);
             this.NumericUpDown_System_Music.Maximum = new decimal(new int[] {
             1,
@@ -446,7 +514,7 @@
             0,
             0});
             this.NumericUpDown_System_Music.Name = "NumericUpDown_System_Music";
-            this.NumericUpDown_System_Music.Size = new System.Drawing.Size(148, 23);
+            this.NumericUpDown_System_Music.Size = new System.Drawing.Size(144, 23);
             this.NumericUpDown_System_Music.TabIndex = 3;
             // 
             // label15
@@ -460,20 +528,16 @@
             // 
             // GroupBox_Mission
             // 
-            this.GroupBox_Mission.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.GroupBox_Mission.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBox_Mission.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_Mission.Location = new System.Drawing.Point(555, 171);
+            this.GroupBox_Mission.Location = new System.Drawing.Point(2, 3);
             this.GroupBox_Mission.Name = "GroupBox_Mission";
-            this.GroupBox_Mission.Size = new System.Drawing.Size(260, 336);
+            this.GroupBox_Mission.Size = new System.Drawing.Size(256, 347);
             this.GroupBox_Mission.TabIndex = 3;
             this.GroupBox_Mission.TabStop = false;
             this.GroupBox_Mission.Text = "Mission Information";
-            // 
-            // Column_Information
-            // 
-            this.Column_Information.Text = "Information";
-            this.Column_Information.Width = 236;
             // 
             // MenuStripDark_Main
             // 
@@ -487,7 +551,7 @@
             this.MenuStripDark_Main_File});
             this.MenuStripDark_Main.Location = new System.Drawing.Point(-4, 0);
             this.MenuStripDark_Main.Name = "MenuStripDark_Main";
-            this.MenuStripDark_Main.Size = new System.Drawing.Size(832, 24);
+            this.MenuStripDark_Main.Size = new System.Drawing.Size(831, 24);
             this.MenuStripDark_Main.TabIndex = 4;
             // 
             // MenuStripDark_Main_File
@@ -534,17 +598,73 @@
             this.MenuStripDark_Main_File_Close.Text = "Close";
             this.MenuStripDark_Main_File_Close.Click += new System.EventHandler(this.MenuStripDark_Main_File_Close_Click);
             // 
+            // SplitContainer_Left
+            // 
+            this.SplitContainer_Left.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SplitContainer_Left.IsSplitterFixed = true;
+            this.SplitContainer_Left.Location = new System.Drawing.Point(-4, 27);
+            this.SplitContainer_Left.Name = "SplitContainer_Left";
+            // 
+            // SplitContainer_Left.Panel1
+            // 
+            this.SplitContainer_Left.Panel1.Controls.Add(this.GroupBox_Episode);
+            // 
+            // SplitContainer_Left.Panel2
+            // 
+            this.SplitContainer_Left.Panel2.Controls.Add(this.SplitContainer_Right);
+            this.SplitContainer_Left.Size = new System.Drawing.Size(831, 493);
+            this.SplitContainer_Left.SplitterDistance = 278;
+            this.SplitContainer_Left.TabIndex = 20;
+            // 
+            // SplitContainer_Right
+            // 
+            this.SplitContainer_Right.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer_Right.IsSplitterFixed = true;
+            this.SplitContainer_Right.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer_Right.Name = "SplitContainer_Right";
+            // 
+            // SplitContainer_Right.Panel1
+            // 
+            this.SplitContainer_Right.Panel1.Controls.Add(this.GroupBox_Upgrades);
+            // 
+            // SplitContainer_Right.Panel2
+            // 
+            this.SplitContainer_Right.Panel2.Controls.Add(this.SplitContainer_RightHorizontal);
+            this.SplitContainer_Right.Size = new System.Drawing.Size(549, 493);
+            this.SplitContainer_Right.SplitterDistance = 274;
+            this.SplitContainer_Right.TabIndex = 0;
+            // 
+            // SplitContainer_RightHorizontal
+            // 
+            this.SplitContainer_RightHorizontal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SplitContainer_RightHorizontal.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.SplitContainer_RightHorizontal.IsSplitterFixed = true;
+            this.SplitContainer_RightHorizontal.Location = new System.Drawing.Point(0, 0);
+            this.SplitContainer_RightHorizontal.Name = "SplitContainer_RightHorizontal";
+            this.SplitContainer_RightHorizontal.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // SplitContainer_RightHorizontal.Panel1
+            // 
+            this.SplitContainer_RightHorizontal.Panel1.Controls.Add(this.GroupBox_System);
+            this.SplitContainer_RightHorizontal.Panel1MinSize = 126;
+            // 
+            // SplitContainer_RightHorizontal.Panel2
+            // 
+            this.SplitContainer_RightHorizontal.Panel2.Controls.Add(this.GroupBox_Mission);
+            this.SplitContainer_RightHorizontal.Size = new System.Drawing.Size(271, 493);
+            this.SplitContainer_RightHorizontal.SplitterDistance = 126;
+            this.SplitContainer_RightHorizontal.TabIndex = 0;
+            // 
             // SaveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ClientSize = new System.Drawing.Size(827, 519);
+            this.ClientSize = new System.Drawing.Size(826, 519);
             this.Controls.Add(this.MenuStripDark_Main);
-            this.Controls.Add(this.GroupBox_Mission);
-            this.Controls.Add(this.GroupBox_System);
-            this.Controls.Add(this.GroupBox_Upgrades);
-            this.Controls.Add(this.GroupBox_Episode);
+            this.Controls.Add(this.SplitContainer_Left);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
@@ -562,12 +682,25 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Rings)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Lives)).EndInit();
             this.GroupBox_Upgrades.ResumeLayout(false);
+            this.Panel_UpgradesContainer.ResumeLayout(false);
             this.GroupBox_System.ResumeLayout(false);
             this.GroupBox_System.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_System_Effect)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_System_Music)).EndInit();
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
+            this.SplitContainer_Left.Panel1.ResumeLayout(false);
+            this.SplitContainer_Left.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_Left)).EndInit();
+            this.SplitContainer_Left.ResumeLayout(false);
+            this.SplitContainer_Right.Panel1.ResumeLayout(false);
+            this.SplitContainer_Right.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_Right)).EndInit();
+            this.SplitContainer_Right.ResumeLayout(false);
+            this.SplitContainer_RightHorizontal.Panel1.ResumeLayout(false);
+            this.SplitContainer_RightHorizontal.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_RightHorizontal)).EndInit();
+            this.SplitContainer_RightHorizontal.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -602,12 +735,15 @@
         private System.Windows.Forms.NumericUpDown NumericUpDown_System_Music;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox GroupBox_Mission;
-        private System.Windows.Forms.ColumnHeader Column_Information;
         private Components.MenuStripDark MenuStripDark_Main;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Save;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_SaveAs;
         private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_File_ToolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Close;
+        private System.Windows.Forms.SplitContainer SplitContainer_Left;
+        private System.Windows.Forms.SplitContainer SplitContainer_Right;
+        private System.Windows.Forms.SplitContainer SplitContainer_RightHorizontal;
+        private System.Windows.Forms.Panel Panel_UpgradesContainer;
     }
 }

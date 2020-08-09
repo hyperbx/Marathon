@@ -1,4 +1,6 @@
-﻿namespace Marathon.Toolkit.Forms
+﻿using Marathon.Toolkit.Helpers;
+
+namespace Marathon.Toolkit.Forms
 {
     partial class Workspace
     {
