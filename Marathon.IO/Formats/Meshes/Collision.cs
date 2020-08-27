@@ -101,7 +101,7 @@ namespace Marathon.IO.Formats.Meshes
             for (int i = 0; i < Vertices.Count; i++)
                 writer.Write(Vertices[i]);
 
-            writer.FillInOffset("faceCountOffset");
+            writer.FillInOffset("faceCountOffset", true);
             writer.Write(Faces.Count);
 
             for (int i = 0; i < Faces.Count; i++)
