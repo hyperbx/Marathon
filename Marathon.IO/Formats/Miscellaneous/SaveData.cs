@@ -66,6 +66,10 @@ namespace Marathon.IO.Formats.Miscellaneous
      * Third Set controls saves time as a int in milliseconds
      * Fourth Set is score
      * Fifth Set is rings
+     * 
+     * (0x2AC04) - Subtitles (Boolean)
+     * (0x2AC08) - Music Volume (Single)
+     * (0x2AC0C) - Effect Volume (Single)
      */
 
     /* TODO: the save data contains a crap ton of flags;
@@ -73,27 +77,27 @@ namespace Marathon.IO.Formats.Miscellaneous
              so a lot of research will need to be done. */
 
     /// <summary>
-    /// Closed file base for the Sonic '06 SonicNextSaveData.bin format.
+    /// Fixed file base for the Sonic '06 SonicNextSaveData.bin format.
     /// </summary>
-    public class SaveData : ClosedFileBase
+    public class SaveData : FixedFileBase
     {
         /// <summary>
         /// Information stored for each episode.
         /// </summary>
         public class Episode
         {
-            public long Offset; // Offset of the current episode.
+            public long Offset;     // Offset of the current episode.
 
-            public int Lives,    // Total lives.
-                       Rings,    // Total Rings.
-                       Progress; // Progress percentage.
+            public int Lives,       // Total lives.
+                       Rings,       // Total Rings.
+                       Progress;    // Progress percentage.
 
-            public short Year; // Year of last save.
+            public short Year;      // Year of last save.
 
-            public sbyte Month,  // Month of last save.
-                         Day,    // Day of last save.
-                         Hour,   // Hour of last save.
-                         Minute; // Minute of last save.
+            public sbyte Month,     // Month of last save.
+                         Day,       // Day of last save.
+                         Hour,      // Hour of last save.
+                         Minute;    // Minute of last save.
 
             public string Location; // Name of the current location string.
 
@@ -117,10 +121,10 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class Mission
         {
             public int UnknownInt32_1, // TODO: Unknown - possibly a flag?
-                       Rank,  // Best rank (0 - S | 1 - A | 2 - B | 3 - C | 4 - D).
-                       Time,  // Best time.
-                       Score, // Best score.
-                       Rings; // Best Rings.
+                       Rank,           // Best rank (0 - S | 1 - A | 2 - B | 3 - C | 4 - D).
+                       Time,           // Best time.
+                       Score,          // Best score.
+                       Rings;          // Best Rings.
         }
 
         /// <summary>
@@ -141,13 +145,13 @@ namespace Marathon.IO.Formats.Miscellaneous
                         equip_gem_yellow,
                         equip_gem_purple,
                         equip_gem_super,
-
+                        
                         // Shadow's upgrades.
                         equip_shadow_lightdash,
                         equip_shadow_boost_lv1,
                         equip_shadow_boost_lv2,
                         equip_shadow_boost_lv3,
-
+                        
                         // Silver's upgrades.
                         equip_silver_holdsmash,
                         equip_silver_catch_all,

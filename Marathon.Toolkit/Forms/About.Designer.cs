@@ -81,6 +81,7 @@
             this.Label_License.Size = new System.Drawing.Size(203, 19);
             this.Label_License.TabIndex = 4;
             this.Label_License.Text = "Licensed under the MIT License";
+            this.Label_License.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Label_License_MouseDoubleClick);
             // 
             // TreeView_Contributors
             // 

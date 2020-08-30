@@ -176,8 +176,6 @@ namespace Marathon.Toolkit.Forms
             this.DockPanel_Main.Size = new System.Drawing.Size(944, 477);
             this.DockPanel_Main.TabIndex = 2;
             this.DockPanel_Main.Theme = this.Theme_VS2015Dark;
-            this.DockPanel_Main.DragDrop += new System.Windows.Forms.DragEventHandler(this.DockPanel_Main_DragDrop);
-            this.DockPanel_Main.DragEnter += new System.Windows.Forms.DragEventHandler(this.DockPanel_Main_DragEnter);
             // 
             // Workspace
             // 

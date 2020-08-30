@@ -30,7 +30,6 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-using System.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
@@ -54,11 +53,6 @@ namespace Marathon.IO.Formats.Archives
             /// </summary>
             public abstract bool IsDirectory { get; }
 
-            /// <summary>
-            /// Not required by U8 - used for convenience with Archive Explorer.
-            /// </summary>
-            public int ID;
-
             public U8DataEntry() { }
 
             public U8DataEntry(string name)
@@ -75,7 +69,7 @@ namespace Marathon.IO.Formats.Archives
             {
                 int totalCount = dataEntries.Count;
 
-                foreach (var dataEntry in dataEntries)
+                foreach (U8DataEntry dataEntry in dataEntries)
                 {
                     if (dataEntry is U8DirectoryEntry childDirEntry)
                     {
@@ -95,9 +89,9 @@ namespace Marathon.IO.Formats.Archives
             public byte[] Data;
 
             /// <summary>
-            /// Uncompressed size of the file - used for convenience with Archive Explorer.
+            /// Information about the file - used for convenience with Archive Explorer.
             /// </summary>
-            public uint UncompressedSize;
+            public U8DataEntryZlib Information;
 
             public override bool IsDirectory => false;
 
@@ -192,11 +186,6 @@ namespace Marathon.IO.Formats.Archives
             /// </remarks>
             public uint UncompressedSize;
 
-            /// <summary>
-            /// Not required by U8 - used for convenience with Archive Explorer.
-            /// </summary>
-            public int ID;
-
             public const uint TypeMask = 0xFF000000;
             public const uint NameOffsetMask = 0x00FFFFFF;
             public const uint SizeOf = 16;
@@ -210,7 +199,6 @@ namespace Marathon.IO.Formats.Archives
                 Data = reader.ReadUInt32();
                 Size = reader.ReadUInt32();
                 UncompressedSize = reader.ReadUInt32();
-                ID = 0;
             }
         }
 
@@ -279,33 +267,15 @@ namespace Marathon.IO.Formats.Archives
                 else if (u8Entry.Type == U8DataEntryType.File)
                 {
                     // Create U8FileEntry and add it to entries.
-                    entries.Add(new U8FileEntry() { Name = name, UncompressedSize = u8Entry.UncompressedSize });
+                    entries.Add(new U8FileEntry() { Name = name, Information = u8Entry });
 
                     // Return the index of the next entry.
                     return u8EntryIndex + 1;
                 }
 
-                // Throw if we encounter an entry of an unknown type
+                // Throw if we encounter an entry of an unknown type.
                 else
                     throw new NotSupportedException($"Encountered an U8 entry of unsupported type ({(uint)u8Entry.Type}).");
-            }
-
-            // Gives each entry a unique identifier.
-            int lastID = 0;
-            SetIdentifiers(Entries);
-
-            void SetIdentifiers(List<U8DataEntry> entries)
-            {
-                for (int i = 0; i < entries.Count; i++)
-                {
-                    entries[i].ID = lastID;
-
-                    lastID++;
-
-                    if (entries[i] is U8DirectoryEntry &&
-                        ((U8DirectoryEntry)entries[i]).Contents.OfType<U8DirectoryEntry>().Count() != 0)
-                            SetIdentifiers(((U8DirectoryEntry)entries[i]).Contents);
-                }
             }
         }
 
@@ -481,9 +451,9 @@ namespace Marathon.IO.Formats.Archives
                     using (var compressedStream = new MemoryStream())
                     {
                         using (var zlibStream = new ZlibStream(compressedStream, CompressionLevel.Optimal))
-                        using (var zipStream = new BufferedStream(zlibStream))
-                            // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
-                            zipStream.Write(fileEntry.Data, 0, fileEntry.Data.Length);
+                            using (var zipStream = new BufferedStream(zlibStream))
+                                // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
+                                zipStream.Write(fileEntry.Data, 0, fileEntry.Data.Length);
 
                         // Store the compressed data so we can access its properties.
                         compressedData = compressedStream.ToArray();
@@ -508,7 +478,7 @@ namespace Marathon.IO.Formats.Archives
         public byte[] DecompressFileData(FileStream stream, U8DataEntryZlib file)
         {
             // Create ExtendedBinaryReader.
-            var reader = new ExtendedBinaryReader(stream, true);
+            ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
 
             // Jump to the file's data.
             reader.JumpTo(file.Data);
@@ -516,49 +486,20 @@ namespace Marathon.IO.Formats.Archives
             // Read the file's zlib-compressed data.
             byte[] compressedData = reader.ReadBytes((int)file.Size);
 
+            // Free the file.
+            reader.Close();
+
             // Decompress the file's zlib-compressed data.
             using (var compressedStream = new MemoryStream(compressedData))
-            using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
-            using (var resultStream = new MemoryStream())
-            {
-                // Copy decompressed data to result.
-                zipStream.CopyTo(resultStream);
+                using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
+                    using (var resultStream = new MemoryStream())
+                    {
+                        // Copy decompressed data to result.
+                        zipStream.CopyTo(resultStream);
 
-                // Return uncompressed data.
-               return resultStream.ToArray();
-            }
+                        // Return decompressed data.
+                        return resultStream.ToArray();
+                    }
         }
-
-        //public void Extract(string destination)
-        //{
-        //    string directory = string.Empty;
-
-        //    foreach (U8DataEntry entry in Entries)
-        //    {
-        //        if (entry.IsDirectory)
-        //        {
-        //            directory = string.Empty;
-
-        //            List<string> paths = new List<string> { entry.Name };
-
-        //            uint ParentDir = entry.Parent;
-
-        //            while (ParentDir != 0)
-        //            {
-        //                paths.Add(Entries[(int)ParentDir].Name);
-        //                ParentDir = Entries[(int)ParentDir].Parent;
-        //            }
-
-        //            paths.Reverse();
-
-        //            foreach (string path in paths)
-        //                directory += $"{path}\\".Equals("\\") ? string.Empty : $"{path}\\";
-
-        //            Directory.CreateDirectory(Path.Combine(destination, directory));
-        //        }
-        //        else
-        //            File.WriteAllBytes(Path.Combine(destination, directory, entry.Name), entry.Data);
-        //    }
-        //}
     }
 }

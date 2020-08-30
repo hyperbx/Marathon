@@ -233,7 +233,7 @@ namespace Marathon.Toolkit
                 "Retry" => DialogResult.Retry,
                 "Ignore" => DialogResult.Ignore,
                 "Cancel" => DialogResult.Cancel,
-                _ => DialogResult.OK,
+                _ => DialogResult.OK
             };
         }
 
@@ -251,7 +251,7 @@ namespace Marathon.Toolkit
                 "Retry" => DialogResult.Retry,
                 "Ignore" => DialogResult.Ignore,
                 "Cancel" => DialogResult.Cancel,
-                _ => DialogResult.OK,
+                _ => DialogResult.OK
             };
         }
     }

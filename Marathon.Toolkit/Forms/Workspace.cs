@@ -60,7 +60,8 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void MenuStripDark_Main_Open_File_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog {
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
                 Title = "Please select a file...",
                 Filter = XML.ParseFileTypesAsFilter(Properties.Resources.FileTypes),
                 InitialDirectory = ActiveWebBrowserExplorerAddress()
@@ -74,7 +75,7 @@ namespace Marathon.Toolkit.Forms
                 {
                     case ".arc":
                     {
-                        new ArchiveExplorer { CurrentArchive = fileDialog.FileName }.Show(DockPanel_Main);
+                        new FileExtensionWizard(DockPanel_Main, fileDialog.FileName).ShowDialog();
                         break;
                     }
 
@@ -92,7 +93,8 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void MenuStripDark_Main_Open_Folder_Click(object sender, EventArgs e)
         {
-            OpenFolderDialog folderDialog = new OpenFolderDialog {
+            OpenFolderDialog folderDialog = new OpenFolderDialog
+            {
                 Title = "Please select a folder..."
             };
 
@@ -113,29 +115,6 @@ namespace Marathon.Toolkit.Forms
             }
 
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Changes the cursor if the data is present.
-        /// </summary>
-        private void DockPanel_Main_DragEnter(object sender, DragEventArgs e)
-            => _ = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.Effect = DragDropEffects.Copy : e.Effect = DragDropEffects.None;
-
-        /// <summary>
-        /// Gets the file dropped onto the window.
-        /// </summary>
-        private void DockPanel_Main_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-            foreach (string file in files)
-            {
-                if (Path.GetExtension(file) == ".arc")
-                {
-                    ArchiveExplorer archiveExplorer = new ArchiveExplorer { CurrentArchive = file };
-                    archiveExplorer.Show(DockPanel_Main);
-                }
-            }
         }
     }
 }

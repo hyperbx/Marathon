@@ -65,22 +65,19 @@ namespace Marathon.IO
         /// </summary>
         /// <param name="position">Stream position.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
-        public void JumpTo(long position, bool additive = false)
-            => BaseStream.Position = additive ? position + Offset : position;
+        public void JumpTo(long position, bool additive = false) => BaseStream.Position = additive ? position + Offset : position;
 
         /// <summary>
         /// Jumps ahead in the stream by the specified amount of bytes.
         /// </summary>
         /// <param name="amount">Byte count.</param>
-        public void JumpAhead(long amount = 1)
-            => BaseStream.Position += amount;
+        public void JumpAhead(long amount = 1) => BaseStream.Position += amount;
 
         /// <summary>
         /// Jumps behind in the stream by the specified amount of bytes.
         /// </summary>
         /// <param name="amount">Byte count.</param>
-        public void JumpBehind(long amount = 1)
-            => BaseStream.Position -= amount;
+        public void JumpBehind(long amount = 1) => BaseStream.Position -= amount;
 
         /// <summary>
         /// Fixes padding in the stream.
@@ -106,6 +103,7 @@ namespace Marathon.IO
         public string GetString(bool additive = false, bool isNullTerminated = true)
         {
             uint offset = additive ? ReadUInt32() + Offset : ReadUInt32();
+
             return GetString(offset, isNullTerminated);
         }
 
@@ -122,6 +120,7 @@ namespace Marathon.IO
             string str = isNullTerminated ? ReadNullTerminatedString() : ReadString();
 
             BaseStream.Position = position;
+
             return str;
         }
 
@@ -129,8 +128,7 @@ namespace Marathon.IO
         /// Reads the signature at the current position.
         /// </summary>
         /// <param name="length">Signature length.</param>
-        public string ReadSignature(int length = 4)
-            => Encoding.ASCII.GetString(ReadBytes(length));
+        public string ReadSignature(int length = 4) => Encoding.ASCII.GetString(ReadBytes(length));
 
         /// <summary>
         /// Reads a null-terminated UTF-8 string at the current position.
@@ -174,8 +172,7 @@ namespace Marathon.IO
         /// <summary>
         /// Gets the type from the current position.
         /// </summary>
-        public T ReadByType<T>()
-            => (T)ReadByType(typeof(T));
+        public T ReadByType<T>() => (T)ReadByType(typeof(T));
 
         /// <summary>
         /// Gets the type from the current position.
@@ -369,6 +366,7 @@ namespace Marathon.IO
         public override unsafe float ReadSingle()
         {
             uint @single = ReadUInt32();
+
             return *(float*)&@single;
         }
 
@@ -414,6 +412,7 @@ namespace Marathon.IO
         public override unsafe double ReadDouble()
         {
             ulong @double = ReadUInt64();
+
             return *(double*)&@double;
         }
 
@@ -457,6 +456,7 @@ namespace Marathon.IO
         {
             var vec = new Vector4();
             ReadVector4(vec);
+
             return vec;
         }
 
@@ -467,6 +467,7 @@ namespace Marathon.IO
         {
             var vec = new Quaternion();
             ReadVector4(vec);
+
             return vec;
         }
 
@@ -736,15 +737,13 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a null byte at the current position.
         /// </summary>
-        public void WriteNull()
-            => OutStream.WriteByte(0);
+        public void WriteNull() => OutStream.WriteByte(0);
 
         /// <summary>
         /// Writes a series of null bytes at the current position.
         /// </summary>
         /// <param name="count">Number of null bytes.</param>
-        public void WriteNulls(uint count)
-            => Write(new byte[count]);
+        public void WriteNulls(uint count) => Write(new byte[count]);
 
         /// <summary>
         /// Writes a null-terminated UTF-8 string at the current position.
@@ -795,6 +794,7 @@ namespace Marathon.IO
         {
             if (value)
                 WriteByType<int>(1);
+
             else
                 WriteByType<int>(0);
         }
@@ -803,15 +803,13 @@ namespace Marathon.IO
         /// Writes the specified signature to the stream.
         /// </summary>
         /// <param name="signature">File signature.</param>
-        public void WriteSignature(string signature)
-            => Write(_Encoding.GetBytes(signature));
+        public void WriteSignature(string signature) => Write(_Encoding.GetBytes(signature));
 
         /// <summary>
         /// Writes the type from the current position.
         /// </summary>
         /// <param name="data">Object data.</param>
-        public void WriteByType<T>(object data)
-            => WriteByType(typeof(T), data);
+        public void WriteByType<T>(object data) => WriteByType(typeof(T), data);
 
         /// <summary>
         /// Gets the type from the current position.
@@ -867,8 +865,7 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a string to the current position.
         /// </summary>
-        public override void Write(string value)
-            => Write(_Encoding.GetBytes(value));
+        public override void Write(string value) => Write(_Encoding.GetBytes(value));
 
         /// <summary>
         /// Writes an Int16 to the current position.
@@ -999,8 +996,7 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a Single to the current position.
         /// </summary>
-        public override unsafe void Write(float value)
-            => Write(*(uint*)&value);
+        public override unsafe void Write(float value) => Write(*(uint*)&value);
 
         /// <summary>
         /// Writes an Int64 to the current position.
@@ -1071,8 +1067,7 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a Double to the current position.
         /// </summary>
-        public override unsafe void Write(double value)
-            => Write(*(ulong*)&value);
+        public override unsafe void Write(double value) => Write(*(ulong*)&value);
 
         /// <summary>
         /// Writes a Vector2 to the current position.

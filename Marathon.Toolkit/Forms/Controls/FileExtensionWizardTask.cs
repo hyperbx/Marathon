@@ -30,8 +30,14 @@ namespace Marathon.Toolkit.Controls
 
         public FileExtensionWizardTask() => InitializeComponent();
 
+        /// <summary>
+        /// Custom event handler for external use.
+        /// </summary>
         public event EventHandler Activated;
 
+        /// <summary>
+        /// Invokes the custom event handler when the task is selected.
+        /// </summary>
         private void RadioButton_Task_CheckedChanged(object sender, EventArgs e) => Activated?.Invoke(sender, e);
     }
 }

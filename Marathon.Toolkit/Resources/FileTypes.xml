@@ -9,7 +9,7 @@
   <Type Extension=".path">Path Spline</Type>
   <Type Extension=".pft">Picture Font</Type>
   <Type Extension=".set">Placement</Type>
-  <Type Extension=".rfzone">Reflection Zone</Type>
+  <Type Extension=".rab">Reflection Zone</Type>
   <Type Extension=".bin">Save Data</Type>
   <Type Extension=".sbk">Sound Bank</Type>
   <Type Extension=".mst">Text</Type>

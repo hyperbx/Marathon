@@ -8,7 +8,7 @@
         /// </summary>
         static void Main(string[] args)
         {
-            // Nothing to see here...
+
         }
     }
 }

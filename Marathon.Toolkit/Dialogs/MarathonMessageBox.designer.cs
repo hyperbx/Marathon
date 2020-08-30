@@ -176,7 +176,7 @@
             this.Name = "MarathonMessageBoxForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Unify Messenger";
+            this.Text = "Marathon";
             this.Load += new System.EventHandler(this.MarathonMessageBoxForm_Load);
             this.Panel_ButtonBackdrop.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Icon)).EndInit();

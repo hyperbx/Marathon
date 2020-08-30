@@ -45,19 +45,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\MarathonMessageBox.cs">
@@ -78,16 +71,16 @@
     <Compile Include="Forms\Controls\FileExtensionWizardTask.Designer.cs">
       <DependentUpon>FileExtensionWizardTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ModelViewer.cs">
+    <Compile Include="Forms\GUI\ModelViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ModelViewer.Designer.cs">
+    <Compile Include="Forms\GUI\ModelViewer.Designer.cs">
       <DependentUpon>ModelViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SaveEditor.cs">
+    <Compile Include="Forms\GUI\SaveEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\SaveEditor.Designer.cs">
+    <Compile Include="Forms\GUI\SaveEditor.Designer.cs">
       <DependentUpon>SaveEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="OpenGL\Shaders.cs" />
@@ -151,10 +144,10 @@
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ControlPalettes.cs" />
-    <Compile Include="Forms\ArchiveExplorer.cs">
+    <Compile Include="Forms\GUI\ArchiveExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ArchiveExplorer.designer.cs">
+    <Compile Include="Forms\GUI\ArchiveExplorer.designer.cs">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\UserControlForm.cs">
@@ -169,10 +162,10 @@
     <Compile Include="Forms\Components\MenuStripDark.designer.cs">
       <DependentUpon>MenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MarathonExplorer.cs">
+    <Compile Include="Forms\GUI\MarathonExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MarathonExplorer.Designer.cs">
+    <Compile Include="Forms\GUI\MarathonExplorer.Designer.cs">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\OpenFolderDialog.cs" />
@@ -203,10 +196,10 @@
     <EmbeddedResource Include="Forms\FileExtensionWizard.resx">
       <DependentUpon>FileExtensionWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ModelViewer.resx">
+    <EmbeddedResource Include="Forms\GUI\ModelViewer.resx">
       <DependentUpon>ModelViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SaveEditor.resx">
+    <EmbeddedResource Include="Forms\GUI\SaveEditor.resx">
       <DependentUpon>SaveEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -214,7 +207,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ArchiveExplorer.resx">
+    <EmbeddedResource Include="Forms\GUI\ArchiveExplorer.resx">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FileConverter.resx">
@@ -223,7 +216,7 @@
     <EmbeddedResource Include="Forms\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MarathonExplorer.resx">
+    <EmbeddedResource Include="Forms\GUI\MarathonExplorer.resx">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Workspace.resx">
@@ -238,6 +231,7 @@
     <Content Include="Resources\Icons\Error.ico" />
     <Content Include="Resources\Icons\Icon.ico" />
     <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
+    <Content Include="Resources\Images\Export.png" />
     <Content Include="Resources\Images\File.png" />
     <Content Include="Resources\Images\FileDrop.png" />
     <Content Include="Resources\Images\Folder.png" />

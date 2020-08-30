@@ -62,7 +62,7 @@ namespace Marathon.IO.Helpers
             _mode = CompressionMode.Compress;
             _leaveOpen = leaveOpen;
 
-            writeZlibHeader(compressionLevel);
+            WriteZlibHeader(compressionLevel);
             _deflateStream = new DeflateStream(stream, compressionLevel, true);
         }
 
@@ -92,7 +92,7 @@ namespace Marathon.IO.Helpers
             _leaveOpen = leaveOpen;
 
             if (mode == CompressionMode.Compress)
-                writeZlibHeader(CompressionLevel.Optimal);
+                WriteZlibHeader(CompressionLevel.Optimal);
             else
             {
                 // Verify the zlib header.
@@ -143,7 +143,7 @@ namespace Marathon.IO.Helpers
                         // Special case: Zero-length file needs "\x03\x00" in order to
                         // not be misdetected as uncompressed.
                         byte[] b_extra03 = new byte[] { 0x03, 0x00 };
-                        processAdler32(b_extra03, 0, b_extra03.Length);
+                        ProcessAdler32(b_extra03, 0, b_extra03.Length);
                         _stream.Write(b_extra03, 0, b_extra03.Length);
                     }
 
@@ -170,7 +170,7 @@ namespace Marathon.IO.Helpers
         /// Write the zlib header to the stream.
         /// </summary>
         /// <param name="compressionLevel">Compression level.</param>
-        protected void writeZlibHeader(CompressionLevel compressionLevel)
+        protected void WriteZlibHeader(CompressionLevel compressionLevel)
         {
             // NOTE: There doesn't appear to be a "maximum" compression option.
             // This would be zlib level 9, or byte 0xDA.
@@ -279,7 +279,7 @@ namespace Marathon.IO.Helpers
         /// <param name="buffer">Data buffer.</param>
         /// <param name="offset">Offset within buffer.</param>
         /// <param name="count">Number of bytes to process.</param>
-        protected void processAdler32(byte[] buffer, int offset, int count)
+        protected void ProcessAdler32(byte[] buffer, int offset, int count)
         {
             int end = offset + count;
 
@@ -298,7 +298,7 @@ namespace Marathon.IO.Helpers
 
             // TODO: If we reach the end of the stream, verify the Adler-32 checksum.
             int bytesRead = _deflateStream.Read(buffer, offset, count);
-            processAdler32(buffer, offset, bytesRead);
+            ProcessAdler32(buffer, offset, bytesRead);
             _bytesProcessed += bytesRead;
             return bytesRead;
         }
@@ -309,7 +309,7 @@ namespace Marathon.IO.Helpers
             ValidateParameters(buffer, offset, count);
             EnsureNotDisposed();
 
-            processAdler32(buffer, offset, count);
+            ProcessAdler32(buffer, offset, count);
             _deflateStream.Write(buffer, offset, count);
             _bytesProcessed += count;
         }

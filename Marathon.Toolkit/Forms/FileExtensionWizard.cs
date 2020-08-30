@@ -11,10 +11,35 @@ namespace Marathon.Toolkit.Forms
         {
             InitializeComponent();
 
-            string @extension = Path.GetExtension(file);
-
-            switch (@extension)
+            switch (Path.GetExtension(file))
             {
+                case ".arc":
+                {
+                    FileExtensionWizardTask exploreArchive = new FileExtensionWizardTask()
+                    {
+                        TaskName = "Explore archive",
+                        TaskDescription = "Explore the contents of this archive."
+                    };
+
+                    FileExtensionWizardTask extractArchive = new FileExtensionWizardTask()
+                    {
+                        TaskName = "Extract archive",
+                        TaskDescription = "Extract the contents of this archive and navigate using Marathon Explorer."
+                    };
+
+                    exploreArchive.Activated += delegate
+                    {
+                        new ArchiveExplorer(file).Show(parent);
+                        Close();
+                    };
+
+                    extractArchive.Activated += delegate { throw new NotImplementedException(); };
+
+                    FlowLayoutPanel_Tasks.Controls.AddRange(new[] { exploreArchive, extractArchive });
+
+                    break;
+                }
+
                 case ".bin":
                 {
                     FileExtensionWizardTask commonPackage = new FileExtensionWizardTask()
@@ -26,7 +51,7 @@ namespace Marathon.Toolkit.Forms
                     FileExtensionWizardTask collisionMesh = new FileExtensionWizardTask()
                     {
                         TaskName = "Preview collision mesh",
-                        TaskDescription = "View the collision mesh and/or export as desired."
+                        TaskDescription = "View the collision mesh."
                     };
 
                     FileExtensionWizardTask saveData = new FileExtensionWizardTask()

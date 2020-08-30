@@ -107,7 +107,7 @@ namespace Marathon.Toolkit.Helpers
             readable /= 1024;
 
             // Return formatted number with suffix.
-            return readable.ToString("0 ") + suffix;
+            return $"{readable:0} {suffix}";
         }
     }
 
@@ -140,6 +140,8 @@ namespace Marathon.Toolkit.Helpers
         /// </summary>
         public static string ParseFileTypesAsFilter(string resource)
         {
+            // TODO: Merge filters instead of removing duplicates.
+
             StringBuilder stringBuilder = new StringBuilder();
             Dictionary<string, string> validTypes = new Dictionary<string, string>();
 

@@ -45,7 +45,7 @@ namespace Marathon.Toolkit
         public static void Load()
         {
             // Dummy XML element for the exception.
-            XElement pointOfFailure = new XElement("INVALID_SETTINGS_EXCEPTION");
+            XElement pointOfFailure = new XElement("Marathon.InvalidSettingsException");
 
 #if !DEBUG
             try
@@ -58,7 +58,7 @@ namespace Marathon.Toolkit
                     foreach (XElement propertyElem in config.Root.Elements("Property"))
                     {
                         // In case of failure, set the dummy XML element so we know where it failed.
-                        //pointOfFailure = propertyElem;
+                        pointOfFailure = propertyElem;
 
                         // Finds the property.
                         PropertyInfo property = typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute("Name").Value).Single();
@@ -75,7 +75,7 @@ namespace Marathon.Toolkit
             catch (Exception ex)
             {
                 // If there's somehow a false positive, this will ensure it doesn't mess up further.
-                string @name = pointOfFailure.Attributes().Count() == 0 ? "INVALID_SETTINGS_EXCEPTION" : pointOfFailure.Attribute("Name").Value;
+                string @name = pointOfFailure.Attributes().Count() == 0 ? "Marathon.InvalidSettingsException" : pointOfFailure.Attribute("Name").Value;
 
                 // Display the error handler, just to be safe.
                 new ErrorHandler(new InvalidSettingsException(@name, ex)).ShowDialog();

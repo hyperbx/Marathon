@@ -23,9 +23,9 @@
  * SOFTWARE.
  */
 
+using System.Xml.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Forms
@@ -72,6 +72,24 @@ namespace Marathon.Toolkit.Forms
                 }
             }
             
+        }
+
+        /// <summary>
+        /// Navigates to the license information.
+        /// </summary>
+        private void Label_License_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                {
+                    MarathonMessageBox.Show(Properties.Resources.Information_License);
+
+                    Process.Start("https://github.com/HyperPolygon64/Marathon/blob/marathon-master/LICENSE");
+
+                    break;
+                }
+            }
         }
     }
 }

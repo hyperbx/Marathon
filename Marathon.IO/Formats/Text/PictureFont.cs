@@ -55,7 +55,8 @@ namespace Marathon.IO.Formats.Text
             reader.ReadHeader();
 
             string signature = reader.ReadSignature(4);
-            if (signature != Signature) throw new InvalidSignatureException(Signature, signature);
+            if (signature != Signature)
+                throw new InvalidSignatureException(Signature, signature);
 
             uint texturePos = reader.ReadUInt32();
             uint placeholderEntries = reader.ReadUInt32();

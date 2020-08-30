@@ -63,12 +63,10 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
-        ///  &lt;!-- If no URL is specified, only your name will be displayed. --&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot;&gt;Radfordhound&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot;&gt;Knuxfan24&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/GerbilSoft&quot;&gt;GerbilSoft&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/lllsondowlll&quot;&gt;Shadow LAG&lt;/Contri [rest of string was truncated]&quot;;.
+        ///  &lt;!-- If no URL or description is specified, only your name will be displayed. --&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot; Description=&quot;Lead developer and designer of Marathon&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot; Description=&quot;Developed the HedgeLib# classes used as a base for Marathon.IO&quot;&gt;Radfordhound&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot; Description=&quot;Assisted with  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Contributors {
             get {
@@ -92,6 +90,16 @@ namespace Marathon.Toolkit.Properties {
         internal static string Exception_InvalidSettingsException {
             get {
                 return ResourceManager.GetString("Exception_InvalidSettingsException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Export {
+            get {
+                object obj = ResourceManager.GetObject("Export", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -151,6 +159,17 @@ namespace Marathon.Toolkit.Properties {
             get {
                 object obj = ResourceManager.GetObject("Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sonic the Hedgehog and binary formats respective to SONIC THE HEDGEHOG (2006) are property of SEGA Corporation.
+        ///
+        ///Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2..
+        /// </summary>
+        internal static string Information_License {
+            get {
+                return ResourceManager.GetString("Information_License", resourceCulture);
             }
         }
         

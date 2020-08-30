@@ -106,8 +106,8 @@ namespace Marathon.Toolkit.Forms
         private void ButtonFlat_GitHub_Click(object sender, EventArgs e)
         {
             Process.Start($"https://github.com/HyperPolygon64/Marathon/issues/new" +
-                               $"?title=[Toolkit] " +
-                               $"&body={Uri.EscapeDataString(BuildExceptionLog(true))}");
+                          $"?title=[Toolkit] " +
+                          $"&body={Uri.EscapeDataString(BuildExceptionLog(true))}");
 
             _Reported = true;
         }
