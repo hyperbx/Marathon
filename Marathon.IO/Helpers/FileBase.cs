@@ -34,6 +34,8 @@ namespace Marathon.IO
     /// </summary>
     public class FileBase
     {
+        public string Location;
+
         public virtual void Load(string file)
         {
             if (string.IsNullOrEmpty(file))
@@ -41,6 +43,8 @@ namespace Marathon.IO
 
             if (!File.Exists(file))
                 throw new FileNotFoundException("The specified file doesn't exist...", file);
+
+            Location = file;
 
             using (var fileStream = File.OpenRead(file))
                 Load(fileStream);

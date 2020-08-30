@@ -49,6 +49,11 @@ namespace Marathon.IO.Formats.Archives
             public string Name;
 
             /// <summary>
+            /// Information about the entry - used for convenience with Archive Explorer.
+            /// </summary>
+            public U8DataEntryZlib Information;
+
+            /// <summary>
             /// Whether this U8DataEntry represents a directory or a file.
             /// </summary>
             public abstract bool IsDirectory { get; }
@@ -87,11 +92,6 @@ namespace Marathon.IO.Formats.Archives
             /// Decompressed data of the file.
             /// </summary>
             public byte[] Data;
-
-            /// <summary>
-            /// Information about the file - used for convenience with Archive Explorer.
-            /// </summary>
-            public U8DataEntryZlib Information;
 
             public override bool IsDirectory => false;
 
@@ -475,7 +475,7 @@ namespace Marathon.IO.Formats.Archives
             }
         }
 
-        public byte[] DecompressFileData(FileStream stream, U8DataEntryZlib file)
+        public byte[] DecompressFileData(Stream stream, U8DataEntryZlib file)
         {
             // Create ExtendedBinaryReader.
             ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
@@ -500,6 +500,23 @@ namespace Marathon.IO.Formats.Archives
                         // Return decompressed data.
                         return resultStream.ToArray();
                     }
+        }
+
+        public void Extract(string path)
+        {
+            WriteDataRecursive(path, (U8DirectoryEntry)Entries[0]);
+
+            void WriteDataRecursive(string location, U8DirectoryEntry directory)
+            {
+                foreach (U8DataEntry dataEntry in directory.Contents)
+                {
+                    if (dataEntry is U8FileEntry childFile)
+                        File.WriteAllBytes(Path.Combine(location, childFile.Name), DecompressFileData(new FileStream(Location, FileMode.Open), childFile.Information));
+
+                    if (dataEntry is U8DirectoryEntry childDirectory)
+                        WriteDataRecursive(Directory.CreateDirectory(Path.Combine(location, childDirectory.Name)).FullName, childDirectory);
+                }
+            }
         }
     }
 }

@@ -31,10 +31,10 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Dialogs;
 using Marathon.Toolkit.Components;
 using Marathon.IO.Formats.Archives;
 using static Marathon.IO.Formats.Archives.CompressedU8Archive;
-using Marathon.Toolkit.Dialogs;
 
 namespace Marathon.Toolkit.Forms
 {
