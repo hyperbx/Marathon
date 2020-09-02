@@ -1,4 +1,4 @@
-﻿// ObjectPlacement.cs is licensed under the MIT License:
+// ObjectPlacement.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -87,7 +87,7 @@ namespace Marathon.IO.Formats.Placement
             reader.ReadHeader();
 
             reader.JumpAhead(0xC);
-            Name = new string(reader.ReadChars(32)); // TODO: Verify this is actually a 32 byte long char array.
+            Name = new string(reader.ReadChars(32));
 
             // Store object offsets.
             uint objectCount = reader.ReadUInt32();
@@ -255,12 +255,11 @@ namespace Marathon.IO.Formats.Placement
 
             writer.WriteNulls(0xC);
 
-            if (Name != null) writer.Write(string.Concat(Name.Take(32))); // TODO: Verify this is actually a 32 byte long char array.
+            if (Name != null) writer.Write(string.Concat(Name.Take(32)));
             else
             {
-                // TODO: Make sure this writes the right amount.
-                writer.WriteNullTerminatedString("test"); // 'test' seems to be the default name in the official files, only a few don't use it.
-                writer.WriteNulls(0x1B);
+                writer.Write("test"); // 'test' seems to be the default name in the official files, only a few don't use it.
+                writer.WriteNulls(0x1C);
             }
 
             // Write object offsets.
