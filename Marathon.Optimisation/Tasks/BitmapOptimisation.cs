@@ -33,14 +33,20 @@ namespace Marathon.Optimisation.Tasks
     {
         public static void UseCachedResources(string file)
         {
+            bool BitmapFlag = false;
             List<string> DesignerCode = File.ReadAllLines(file).ToList();
 
             for (int i = 0; i < DesignerCode.Count; i++)
             {
+                // Typical string used by .NET for referencing internal resources.
                 string netResourceString = "global::Marathon.Toolkit.Properties.Resources.";
 
                 if (DesignerCode[i].Contains("Image") && DesignerCode[i].Contains(netResourceString))
                 {
+                    // File uses GDI+ Bitmaps, ring the alarm bells!
+                    BitmapFlag = true;
+
+                    // Split the property.
                     string[] splitProperty = DesignerCode[i].Split('=');
 
                     // Get resource name from reference.
@@ -54,7 +60,8 @@ namespace Marathon.Optimisation.Tasks
                 }
             }
 
-            File.WriteAllLines(file, DesignerCode);
+            if (BitmapFlag)
+                File.WriteAllLines(file, DesignerCode);
         }
     }
 }
