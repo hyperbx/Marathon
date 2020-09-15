@@ -26,6 +26,7 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Marathon.Optimisation.Tasks
 {
@@ -57,6 +58,9 @@ namespace Marathon.Optimisation.Tasks
 
                     // Join the string together and replace.
                     DesignerCode[i] = string.Join("= ", splitProperty);
+
+                    // Report feedback.
+                    Console.WriteLine($"Optimised bitmap(s) in designer file -> {file}");
                 }
             }
 
