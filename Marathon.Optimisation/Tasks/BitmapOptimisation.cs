@@ -60,7 +60,7 @@ namespace Marathon.Optimisation.Tasks
                     DesignerCode[i] = string.Join("= ", splitProperty);
 
                     // Report feedback.
-                    Console.WriteLine($"Optimised bitmap(s) in designer file -> {file}");
+                    Console.WriteLine($"Optimised bitmap on line {i + 1} in designer file -> {file}");
                 }
             }
 
