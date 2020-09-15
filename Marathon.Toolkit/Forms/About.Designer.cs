@@ -64,7 +64,7 @@ namespace Marathon.Toolkit.Forms
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = Resources.LoadBitmapResource("Main_Logo_Corner_Transparent");
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Corner_Transparent;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.PictureBox_Logo.Location = new System.Drawing.Point(233, 14);
             this.PictureBox_Logo.Name = "PictureBox_Logo";

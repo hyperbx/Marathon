@@ -43,7 +43,7 @@ namespace Marathon.Toolkit.Forms
             SuspendLayout(); // Suspend for redrawing...
 
             // Prepares the image for drawing.
-            Bitmap imageSource = Properties.Resources.FileDrop;
+            Bitmap imageSource = Resources.LoadBitmapResource(nameof(Properties.Resources.FileDrop));
             int width = imageSource.Width / 3, height = imageSource.Height / 3;
 
             // Draw the image on the paint event.

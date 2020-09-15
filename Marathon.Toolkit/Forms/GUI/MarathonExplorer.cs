@@ -219,12 +219,12 @@ namespace Marathon.Toolkit.Forms
             }
 
             // Sets the back button's Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_Back, Properties.Resources.WebBrowserExplorer_Back_Enabled,
-                                     Properties.Resources.WebBrowserExplorer_Back_Disabled, WebBrowser_Explorer.CanGoBack);
+            SetNavigationButtonState(ButtonFlat_Back, Resources.LoadBitmapResource(nameof(Properties.Resources.WebBrowserExplorer_Back_Enabled)),
+                                     Resources.LoadBitmapResource(nameof(Properties.Resources.WebBrowserExplorer_Back_Disabled)), WebBrowser_Explorer.CanGoBack);
 
             // Sets the forward button's Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_Forward, Properties.Resources.WebBrowserExplorer_Forward_Enabled,
-                                     Properties.Resources.WebBrowserExplorer_Forward_Disabled, WebBrowser_Explorer.CanGoForward);
+            SetNavigationButtonState(ButtonFlat_Forward, Resources.LoadBitmapResource(nameof(Properties.Resources.WebBrowserExplorer_Forward_Enabled)),
+                                     Resources.LoadBitmapResource(nameof(Properties.Resources.WebBrowserExplorer_Forward_Disabled)), WebBrowser_Explorer.CanGoForward);
 
             // Update current directory.
             CurrentAddress = e.Url.ToString();

@@ -77,9 +77,9 @@ namespace Marathon.Toolkit.Forms
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     if (ListViewDark_Windows.SelectedItems.Count < 2)
-                        menu.Items.Add(new ToolStripMenuItem("Focus", Properties.Resources.Placeholder, delegate { FocusSelectedDocument(); }));
+                        menu.Items.Add(new ToolStripMenuItem("Focus", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate { FocusSelectedDocument(); }));
 
-                    menu.Items.Add(new ToolStripMenuItem("Close", Properties.Resources.Placeholder, delegate
+                    menu.Items.Add(new ToolStripMenuItem("Close", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate
                     {
                         foreach (ListViewItem window in ListViewDark_Windows.SelectedItems)
                         {

@@ -54,7 +54,7 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
-                    menu.Items.Add(new ToolStripMenuItem("Copy to Clipboard", Resources.LoadBitmapResource("Placeholder"), delegate
+                    menu.Items.Add(new ToolStripMenuItem("Copy to Clipboard", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate
                     {
                         Clipboard.SetText(RichTextBoxLocked_Console.Text);
                     }));

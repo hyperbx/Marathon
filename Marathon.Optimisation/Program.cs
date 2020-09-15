@@ -38,12 +38,23 @@ namespace Marathon.Optimisation
             {
                 switch (args[0])
                 {
-                    case "--gdi-cache":
+                    case "--bitmap-cache":
                     {
-                        // Optimise designer code to use cached resources for Bitmaps.
-                        foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
+                        if (args[1] == "/undo")
                         {
-                            BitmapOptimisation.UseCachedResources(designer);
+                            // Revert optimisations to designer code for bitmaps.
+                            foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
+                            {
+                                BitmapOptimisation.RevertCachedResources(designer);
+                            }
+                        }
+                        else
+                        {
+                            // Optimise designer code to use cached resources for bitmaps.
+                            foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
+                            {
+                                BitmapOptimisation.UseCachedResources(designer);
+                            }
                         }
 
                         break;
@@ -53,13 +64,14 @@ namespace Marathon.Optimisation
             else
                 Console.WriteLine("Marathon Optimisation\n\n" +
                                   "" +
-                                  "WARNING: this tool is designed to be used pre-compile time!\n\n" +
+                                  "WARNING: this tool is designed to be used during compile time!\n\n" +
                                   "" +
                                   "Usage:\n" +
                                   "Marathon.exe [parameters] \"C:\\Directory\"\n\n" +
                                   "" +
                                   "Parameters:\n" +
-                                  "--gdi-cache - optimise GDI+ Bitmaps to use cached resources.");
+                                  "--bitmap-cache - optimise GDI+ bitmaps to use cached resources.\n" +
+                                  "         /undo - revert optimisations to designer code for bitmaps.");
         }
     }
 }

@@ -192,7 +192,7 @@ namespace Marathon.Toolkit.Forms
 
                     if (ListView_Explorer.SelectedItems.Count == 0)
                     {
-                        menu.Items.Add(new ToolStripMenuItem("Add", Properties.Resources.Export, delegate
+                        menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Export)), delegate
                         {
                             OpenFileDialog openDialog = new OpenFileDialog
                             {
@@ -206,7 +206,7 @@ namespace Marathon.Toolkit.Forms
                     }
                     else
                     {
-                        menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate
+                        menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Export)), delegate
                         {
                             switch (ListView_Explorer.SelectedItems.Count)
                             {
@@ -259,7 +259,7 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
-                    menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate { ExtractDialog(); }));
+                    menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Export)), delegate { ExtractDialog(); }));
 
                     menu.Show(Cursor.Position);
 
