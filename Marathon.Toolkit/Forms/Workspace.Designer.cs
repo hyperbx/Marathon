@@ -1,4 +1,4 @@
-﻿using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -265,7 +265,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Open_Folder;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Debug;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Window;
-        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Window_Log;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Window_Windows;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Preferences;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_View;

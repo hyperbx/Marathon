@@ -23,22 +23,43 @@
  * SOFTWARE.
  */
 
+using System;
 using System.IO;
+using System.Linq;
 using Marathon.Optimisation.Tasks;
 
 namespace Marathon.Optimisation
 {
     class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
-            string _ToolkitSource = @"..\..\..\Marathon.Toolkit\";
-
-            // Optimise designer code to use cached resources for Bitmaps.
-            foreach (string designer in Directory.GetFiles(_ToolkitSource, "*.Designer.cs", SearchOption.AllDirectories))
+            if (args.Length != 0)
             {
-                BitmapOptimisation.UseCachedResources(designer);
+                switch (args[0])
+                {
+                    case "--gdi-cache":
+                    {
+                        // Optimise designer code to use cached resources for Bitmaps.
+                        foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
+                        {
+                            BitmapOptimisation.UseCachedResources(designer);
+                        }
+
+                        break;
+                    }
+                }
             }
+            else
+                Console.WriteLine("Marathon Optimisation\n\n" +
+                                  "" +
+                                  "WARNING: this tool is designed to be used pre-compile time!\n\n" +
+                                  "" +
+                                  "Usage:\n" +
+                                  "Marathon.exe [parameters] \"C:\\Directory\"\n\n" +
+                                  "" +
+                                  "Parameters:\n" +
+                                  "--gdi-cache - optimise GDI+ Bitmaps to use cached resources.");
         }
     }
 }

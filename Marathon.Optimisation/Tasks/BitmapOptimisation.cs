@@ -35,18 +35,26 @@ namespace Marathon.Optimisation.Tasks
         {
             List<string> DesignerCode = File.ReadAllLines(file).ToList();
 
-            foreach (string line in DesignerCode)
+            for (int i = 0; i < DesignerCode.Count; i++)
             {
                 string netResourceString = "global::Marathon.Toolkit.Properties.Resources.";
 
-                if (line.Contains("Image") && line.Contains(netResourceString))
+                if (DesignerCode[i].Contains("Image") && DesignerCode[i].Contains(netResourceString))
                 {
-                    string[] splitProperty = line.Split('=');
+                    string[] splitProperty = DesignerCode[i].Split('=');
+
+                    // Get resource name from reference.
+                    string resourceName = splitProperty[1].Substring(1).Replace(netResourceString, string.Empty);
 
                     // Replace the .NET resources property with the cached resource type.
-                    splitProperty[1] = $"Resources.LoadBitmapResource({splitProperty[1].Replace(netResourceString, string.Empty).Remove(netResourceString.Length - 1)});";
+                    splitProperty[1] = $"Resources.LoadBitmapResource(\"{resourceName.Remove(resourceName.Length - 1)}\");";
+
+                    // Join the string together and replace.
+                    DesignerCode[i] = string.Join("= ", splitProperty);
                 }
             }
+
+            File.WriteAllLines(file, DesignerCode);
         }
     }
 }

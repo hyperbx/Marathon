@@ -1,4 +1,4 @@
-﻿using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -140,7 +140,7 @@ namespace Marathon.Toolkit.Forms
             // ButtonFlat_DirectoryTree
             // 
             this.ButtonFlat_DirectoryTree.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_DirectoryTree.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_DirectoryTree_Enabled;
+            this.ButtonFlat_DirectoryTree.BackgroundImage = Resources.LoadBitmapResource(WebBrowserExplorer_DirectoryTree_Enabled);
             this.ButtonFlat_DirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ButtonFlat_DirectoryTree.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_DirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -159,7 +159,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.ButtonFlat_Clipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonFlat_Clipboard.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Clipboard.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_Clipboard_Enabled;
+            this.ButtonFlat_Clipboard.BackgroundImage = Resources.LoadBitmapResource(WebBrowserExplorer_Clipboard_Enabled);
             this.ButtonFlat_Clipboard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ButtonFlat_Clipboard.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_Clipboard.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
@@ -177,7 +177,7 @@ namespace Marathon.Toolkit.Forms
             // ButtonFlat_Up
             // 
             this.ButtonFlat_Up.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Up.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.WebBrowserExplorer_Up_Enabled;
+            this.ButtonFlat_Up.BackgroundImage = Resources.LoadBitmapResource(WebBrowserExplorer_Up_Enabled);
             this.ButtonFlat_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ButtonFlat_Up.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_Up.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;

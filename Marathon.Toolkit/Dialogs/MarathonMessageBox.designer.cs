@@ -1,4 +1,4 @@
-﻿namespace Marathon.Toolkit
+namespace Marathon.Toolkit
 {
     partial class MarathonMessageBoxForm
     {

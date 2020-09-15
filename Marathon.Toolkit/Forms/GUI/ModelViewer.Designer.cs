@@ -1,4 +1,4 @@
-﻿using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Helpers;
 using System.Windows.Forms;
 
 namespace Marathon.Toolkit.Forms

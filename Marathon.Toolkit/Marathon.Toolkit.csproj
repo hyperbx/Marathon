@@ -323,4 +323,7 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.exe --gdi-cache $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

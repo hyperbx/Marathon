@@ -1,4 +1,4 @@
-﻿namespace Marathon.Toolkit.Components
+namespace Marathon.Toolkit.Components
 {
 	partial class ButtonFlat
 	{

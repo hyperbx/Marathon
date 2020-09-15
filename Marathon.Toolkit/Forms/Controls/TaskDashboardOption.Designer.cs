@@ -1,4 +1,4 @@
-﻿namespace Marathon.Toolkit.Controls
+namespace Marathon.Toolkit.Controls
 {
     partial class TaskDashboardOption
     {

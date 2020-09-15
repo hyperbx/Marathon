@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Toolkit", "Marathon.Toolkit\Marathon.Toolkit.csproj", "{5FA99087-DD6B-40AC-A2CB-66E6FA614057}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A6867A4-1C1D-4A89-9656-D34B312865A9} = {1A6867A4-1C1D-4A89-9656-D34B312865A9}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon.IO", "Marathon.IO\Marathon.IO.csproj", "{FB1B456C-2567-4DEE-9ECD-6A68D28F8194}"
 EndProject

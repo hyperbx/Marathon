@@ -1,4 +1,4 @@
-﻿namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Forms
 {
     partial class TaskDashboard
     {
@@ -48,7 +48,7 @@
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = Resources.LoadBitmapResource("Main_Logo_Small_Dark");
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(226, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";

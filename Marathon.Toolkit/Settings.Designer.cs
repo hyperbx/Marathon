@@ -1,4 +1,4 @@
-﻿// Marathon is licensed under the MIT License:
+// Marathon is licensed under the MIT License:
 /* 
  * MIT License
  * 

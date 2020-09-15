@@ -1,4 +1,4 @@
-﻿namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Forms
 {
     partial class Debugger
     {
