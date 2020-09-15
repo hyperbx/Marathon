@@ -33,6 +33,7 @@ namespace Marathon.Toolkit.Components
 		public ButtonFlat()
 		{
 			InitializeComponent();
+
 			FlatStyle = FlatStyle.Flat;
 			FlatAppearance.BorderSize = 0;
 			ForeColor = SystemColors.ControlText;

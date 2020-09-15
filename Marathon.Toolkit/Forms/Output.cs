@@ -24,14 +24,46 @@
  */
 
 using System;
+using System.Windows.Forms;
+using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Components;
+using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Toolkit.Helpers
+namespace Marathon.Toolkit.Forms
 {
-    class DataTypeHelper
+    public partial class Output : DockContent
     {
+        public Output()
+        {
+            InitializeComponent();
+
+            RichTextBoxLocked_Console.Text += "Marathon Toolkit" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})\n\n";
+
+            // Set console output to the RichTextBox control.
+            Console.SetOut(new ConsoleWriter(RichTextBoxLocked_Console));
+        }
+
         /// <summary>
-        /// Determines if the input object is of the input type.
+        /// Perform tasks upon clicking a ListViewItem.
         /// </summary>
-        public static bool IsInputOfType(object input, Type type) => input.GetType().Equals(type);
+        private void RichTextBoxLocked_Console_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Right:
+                {
+                    ContextMenuStripDark menu = new ContextMenuStripDark();
+
+                    menu.Items.Add(new ToolStripMenuItem("Copy to Clipboard", Properties.Resources.Placeholder, delegate
+                    {
+                        Clipboard.SetText(RichTextBoxLocked_Console.Text);
+                    }));
+
+                    menu.Show(Cursor.Position);
+
+                    break;
+                }
+            }
+        }
     }
 }

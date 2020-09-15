@@ -34,8 +34,9 @@ namespace Marathon.Toolkit.Components
 		public ContextMenuStripDark()
 		{
 			InitializeComponent();
+
 			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkContextMenuRenderer();
+			Renderer = new DarkToolStripProfessionalRenderer();
 			ForeColor = SystemColors.Control;
 		}
 	}

@@ -24,21 +24,34 @@
  */
 
 using System.Drawing;
-using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
+using System.Collections.Generic;
 
-namespace Marathon.Toolkit.Components
+namespace Marathon.Toolkit
 {
-	public partial class MenuStripDark : MenuStrip
+	class Resources
 	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
+		private static Dictionary<string, Bitmap> BitmapCache = new Dictionary<string, Bitmap>();
 
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkToolStripProfessionalRenderer();
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
+		/// <summary>
+		/// Loads and caches a Bitmap from .NET resources.
+		/// </summary>
+		/// <param name="resource">Name of .NET resource.</param>
+		public static Bitmap LoadBitmapResource(string resource)
+        {
+			if (BitmapCache.ContainsKey(resource))
+			{
+				return BitmapCache[resource];
+            }
+            else
+            {
+				// Get the Bitmap data from the name of the input resource.
+				Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
+
+				// Add current Bitmap to the dictionary.
+				BitmapCache.Add(resource, fromResource);
+
+				return fromResource;
+			}
+        }
 	}
 }

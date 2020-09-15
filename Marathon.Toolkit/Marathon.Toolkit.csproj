@@ -45,6 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -59,17 +60,47 @@
     <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FileExtensionWizard.cs">
+    <Compile Include="Forms\Components\RichTextBoxLocked.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\RichTextBoxLocked.Designer.cs">
+      <DependentUpon>RichTextBoxLocked.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Components\ToolStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\ToolStripDark.designer.cs">
+      <DependentUpon>ToolStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Preferences.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\FileExtensionWizard.Designer.cs">
-      <DependentUpon>FileExtensionWizard.cs</DependentUpon>
+    <Compile Include="Forms\Preferences.Designer.cs">
+      <DependentUpon>Preferences.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\FileExtensionWizardTask.cs">
+    <Compile Include="Forms\Windows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Windows.Designer.cs">
+      <DependentUpon>Windows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Output.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Output.Designer.cs">
+      <DependentUpon>Output.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TaskDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\TaskDashboard.Designer.cs">
+      <DependentUpon>TaskDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\TaskDashboardOption.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\FileExtensionWizardTask.Designer.cs">
-      <DependentUpon>FileExtensionWizardTask.cs</DependentUpon>
+    <Compile Include="Forms\Controls\TaskDashboardOption.Designer.cs">
+      <DependentUpon>TaskDashboardOption.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\GUI\ModelViewer.cs">
       <SubType>Form</SubType>
@@ -83,7 +114,6 @@
     <Compile Include="Forms\GUI\SaveEditor.Designer.cs">
       <DependentUpon>SaveEditor.cs</DependentUpon>
     </Compile>
-    <Compile Include="OpenGL\Shaders.cs" />
     <Compile Include="Forms\Components\ListViewDark.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -103,8 +133,8 @@
     <Compile Include="Forms\FileConverter.Designer.cs">
       <DependentUpon>FileConverter.cs</DependentUpon>
     </Compile>
-    <Compile Include="OpenGL\Viewport.cs" />
-    <Compile Include="Helpers\DataTypeHelper.cs" />
+    <Compile Include="Helpers\ConsoleWriter.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Helpers\DockContentHelper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +150,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resources.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
@@ -143,17 +174,17 @@
     <Compile Include="Forms\Components\ContextMenuStripDark.designer.cs">
       <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ControlPalettes.cs" />
+    <Compile Include="Forms\Components\DarkProfessionalColourTable.cs" />
     <Compile Include="Forms\GUI\ArchiveExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\GUI\ArchiveExplorer.designer.cs">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\UserControlForm.cs">
+    <Compile Include="Forms\Controls\UserControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\UserControlForm.Designer.cs">
+    <Compile Include="Forms\Controls\UserControlForm.Designer.cs">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Components\MenuStripDark.cs">
@@ -181,8 +212,17 @@
     <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\FileExtensionWizardTask.resx">
-      <DependentUpon>FileExtensionWizardTask.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Preferences.resx">
+      <DependentUpon>Preferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Windows.resx">
+      <DependentUpon>Windows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Output.resx">
+      <DependentUpon>Output.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\TaskDashboardOption.resx">
+      <DependentUpon>TaskDashboardOption.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Debugger.resx">
       <DependentUpon>Debugger.cs</DependentUpon>
@@ -193,8 +233,8 @@
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FileExtensionWizard.resx">
-      <DependentUpon>FileExtensionWizard.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\TaskDashboard.resx">
+      <DependentUpon>TaskDashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GUI\ModelViewer.resx">
       <DependentUpon>ModelViewer.cs</DependentUpon>
@@ -213,7 +253,7 @@
     <EmbeddedResource Include="Forms\FileConverter.resx">
       <DependentUpon>FileConverter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UserControlForm.resx">
+    <EmbeddedResource Include="Forms\Controls\UserControlForm.resx">
       <DependentUpon>UserControlForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\GUI\MarathonExplorer.resx">
@@ -263,11 +303,23 @@
     <PackageReference Include="DockPanelSuite.ThemeVS2015">
       <Version>3.0.6</Version>
     </PackageReference>
-    <PackageReference Include="OpenTK">
-      <Version>3.1.0</Version>
+    <PackageReference Include="NAudio">
+      <Version>1.10.0</Version>
     </PackageReference>
-    <PackageReference Include="OpenTK.GLControl">
-      <Version>3.1.0</Version>
+    <PackageReference Include="NAudio.Lame">
+      <Version>1.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.D3DCompiler">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="SharpDX.Direct3D11">
+      <Version>4.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="VGAudio">
+      <Version>2.2.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

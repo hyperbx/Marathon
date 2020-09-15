@@ -41,6 +41,7 @@ namespace Marathon.Toolkit.Forms
     public partial class ArchiveExplorer : DockContent
     {
         private string _CurrentArchive;
+        private TreeNode _ActiveNode;
         private CompressedU8Archive _LoadedArchive = new CompressedU8Archive();
 
         [Description("The current archive serialised in the TreeView and ListView controls.")]
@@ -63,6 +64,9 @@ namespace Marathon.Toolkit.Forms
 
                 TreeView_Explorer.Nodes.Add(rootNode);
 
+                // Set active node to default.
+                _ActiveNode = rootNode;
+
                 // Expand root node, because we all like better UX.
                 rootNode.Expand();
 
@@ -82,7 +86,7 @@ namespace Marathon.Toolkit.Forms
 
             foreach (U8DataEntry entry in ((U8DirectoryEntry)child.Tag).Contents)
             {
-                if (DataTypeHelper.IsInputOfType(entry, typeof(U8DirectoryEntry)))
+                if (TypeHelper.IsObjectOfType(entry, typeof(U8DirectoryEntry)))
                 {
                     TreeNode node = new TreeNode
                     {
@@ -108,7 +112,7 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitialiseFileItems(object child)
         {
-            if (DataTypeHelper.IsInputOfType(child, typeof(U8DirectoryEntry)))
+            if (TypeHelper.IsObjectOfType(child, typeof(U8DirectoryEntry)))
             {
                 // Clear current directory.
                 ListView_Explorer.Items.Clear();
@@ -116,7 +120,7 @@ namespace Marathon.Toolkit.Forms
                 // Add directory nodes to the ListView control.
                 foreach (U8DataEntry entry in ((U8DirectoryEntry)child).Contents)
                 {
-                    if (DataTypeHelper.IsInputOfType(entry, typeof(U8FileEntry)))
+                    if (TypeHelper.IsObjectOfType(entry, typeof(U8FileEntry)))
                     {
                         ListViewItem node = new ListViewItem(new[]
                         {
@@ -153,8 +157,27 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Decompresses the selected data and returns the result.
         /// </summary>
-        private byte[] DecompressSelectedData(object selected)
-            => _LoadedArchive.DecompressFileData(new FileStream(_CurrentArchive, FileMode.Open), (U8DataEntryZlib)selected);
+        private byte[] DecompressSelectedFile(U8FileEntry selected)
+        {
+            if (selected.Information.Size != 0)
+                return _LoadedArchive.DecompressFileData(new FileStream(_CurrentArchive, FileMode.Open), selected);
+            else
+                return selected.Data;
+        }
+
+        /// <summary>
+        /// Adds a file to the currently active node from a path.
+        /// </summary>
+        private void AddFileToActiveNode(string file)
+        {
+            byte[] data = File.ReadAllBytes(file);
+
+            U8DataEntryZlib zEntry = new U8DataEntryZlib() { UncompressedSize = (uint)data.Length };
+
+            ((U8DirectoryEntry)_ActiveNode.Tag).Contents.Add(new U8FileEntry(Path.GetFileName(file), data) { Information = zEntry });
+
+            InitialiseFileItems(_ActiveNode.Tag);
+        }
 
         /// <summary>
         /// Perform tasks upon clicking a ListViewItem.
@@ -167,45 +190,59 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
-                    menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate
+                    if (ListView_Explorer.SelectedItems.Count == 0)
                     {
-                        switch (ListView_Explorer.SelectedItems.Count)
+                        menu.Items.Add(new ToolStripMenuItem("Add", Properties.Resources.Export, delegate
                         {
-                            case 0:
-                                return;
-
-                            case 1:
+                            OpenFileDialog openDialog = new OpenFileDialog
                             {
-                                SaveFileDialog saveDialog = new SaveFileDialog
-                                {
-                                    Title = "Extract",
-                                    Filter = "All files (*.*)|*.*",
-                                    FileName = ((U8FileEntry)ListView_Explorer.SelectedItems[0].Tag).Name
-                                };
+                                Title = "Please select a file...",
+                                Filter = "All files (*.*)|*.*"
+                            };
 
-                                if (saveDialog.ShowDialog() == DialogResult.OK)
-                                    File.WriteAllBytes(saveDialog.FileName,
-                                                       DecompressSelectedData(((U8FileEntry)ListView_Explorer.SelectedItems[0].Tag).Information));
-
-                                break;
-                            }
-
-                            default:
+                            if (openDialog.ShowDialog() == DialogResult.OK)
+                                AddFileToActiveNode(openDialog.FileName);
+                        }));
+                    }
+                    else
+                    {
+                        menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate
+                        {
+                            switch (ListView_Explorer.SelectedItems.Count)
                             {
-                                OpenFolderDialog folderDialog = new OpenFolderDialog
+                                case 1:
                                 {
-                                    Title = "Extract"
-                                };
+                                    SaveFileDialog saveDialog = new SaveFileDialog
+                                    {
+                                        Title = "Extract",
+                                        Filter = "All files (*.*)|*.*",
+                                        FileName = ((U8FileEntry)ListView_Explorer.SelectedItems[0].Tag).Name
+                                    };
 
-                                if (folderDialog.ShowDialog() == DialogResult.OK)
-                                    foreach (ListViewItem selected in ListView_Explorer.SelectedItems)
-                                        File.WriteAllBytes(Path.Combine(folderDialog.SelectedPath, ((U8FileEntry)selected.Tag).Name),
-                                                           DecompressSelectedData(((U8FileEntry)selected.Tag).Information));
+                                    if (saveDialog.ShowDialog() == DialogResult.OK)
+                                        File.WriteAllBytes(saveDialog.FileName,
+                                                           DecompressSelectedFile((U8FileEntry)ListView_Explorer.SelectedItems[0].Tag));
 
-                                break;
+                                    break;
+                                }
+
+                                default:
+                                {
+                                    OpenFolderDialog folderDialog = new OpenFolderDialog
+                                    {
+                                        Title = "Extract"
+                                    };
+
+                                    if (folderDialog.ShowDialog() == DialogResult.OK)
+                                        foreach (ListViewItem selected in ListView_Explorer.SelectedItems)
+                                            File.WriteAllBytes(Path.Combine(folderDialog.SelectedPath, ((U8FileEntry)selected.Tag).Name),
+                                                               DecompressSelectedFile((U8FileEntry)selected.Tag));
+
+                                    break;
+                                }
                             }
-                        }
-                    }));
+                        }));
+                    }
 
                     menu.Show(Cursor.Position);
 
@@ -222,30 +259,7 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
-                    menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate
-                    {
-                        OpenFolderDialog folderDialog = new OpenFolderDialog
-                        {
-                            Title = "Extract"
-                        };
-
-                        if (folderDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            WriteDataRecursive(folderDialog.SelectedPath, (U8DirectoryEntry)e.Node.Tag);
-
-                            void WriteDataRecursive(string location, U8DirectoryEntry directory)
-                            {
-                                foreach (U8DataEntry dataEntry in directory.Contents)
-                                {
-                                    if (dataEntry is U8FileEntry childFile)
-                                        File.WriteAllBytes(Path.Combine(location, childFile.Name), DecompressSelectedData(childFile.Information));
-
-                                    if (dataEntry is U8DirectoryEntry childDirectory)
-                                        WriteDataRecursive(Directory.CreateDirectory(Path.Combine(location, childDirectory.Name)).FullName, childDirectory);
-                                }
-                            }
-                        }
-                    }));
+                    menu.Items.Add(new ToolStripMenuItem("Extract", Properties.Resources.Export, delegate { ExtractDialog(); }));
 
                     menu.Show(Cursor.Position);
 
@@ -263,6 +277,9 @@ namespace Marathon.Toolkit.Forms
             {
                 case MouseButtons.Left:
                 {
+                    // Update active node.
+                    _ActiveNode = e.Node;
+
                     // Navigates to the selected node if valid.
                     InitialiseFileItems(e.Node.Tag);
 
@@ -275,8 +292,54 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Closes the form.
+        /// Extracts the archive to the selected location.
         /// </summary>
-        private void MenuStripDark_Main_File_Close_Click(object sender, EventArgs e) => Close();
+        private void ExtractDialog()
+        {
+            OpenFolderDialog folderDialog = new OpenFolderDialog
+            {
+                Title = "Extract"
+            };
+
+            if (folderDialog.ShowDialog() == DialogResult.OK)
+                _LoadedArchive.Extract(folderDialog.SelectedPath);
+        }
+
+        /// <summary>
+        /// Group event for MenuStripDark_Main items.
+        /// </summary>
+        private void MenuStripDark_Main_File_Click_Group(object sender, EventArgs e)
+        {
+            // Displays the extract dialog.
+            if (sender == MenuStripDark_Main_File_Extract)
+            {
+                ExtractDialog();
+            }
+
+            // Saves the loaded archive.
+            else if (sender == MenuStripDark_Main_File_Save)
+            {
+                _LoadedArchive.Save(_CurrentArchive);
+            }
+
+            // Saves the loaded archive to the desired location.
+            else if (sender == MenuStripDark_Main_File_SaveAs)
+            {
+                SaveFileDialog saveDialog = new SaveFileDialog
+                {
+                    Title = "Save As",
+                    Filter = "Compressed U8 Archive (*.arc)|*.arc"
+                };
+
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                    _LoadedArchive.Save(saveDialog.FileName);
+            }
+
+            // Closes the form.
+            else if (sender == MenuStripDark_Main_File_Close)
+            {
+                Close();
+            }
+        }
     }
 }

@@ -23,22 +23,33 @@
  * SOFTWARE.
  */
 
-using System.Drawing;
+using System;
 using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
+using System.Runtime.InteropServices;
 
 namespace Marathon.Toolkit.Components
 {
-	public partial class MenuStripDark : MenuStrip
-	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
+    public partial class RichTextBoxLocked : RichTextBox
+    {
+        [DllImport("user32.dll")]
+        private static extern int HideCaret(IntPtr hwnd);
 
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkToolStripProfessionalRenderer();
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
-	}
+        public RichTextBoxLocked()
+        {
+            InitializeComponent();
+
+            ReadOnly = true;
+            TabStop = false;
+
+            Resize += delegate { HideCaret(Handle); };
+            MouseUp += delegate { HideCaret(Handle); };
+            MouseDown += delegate { HideCaret(Handle); };
+
+            HideCaret(Handle);
+        }
+
+        protected override void OnGotFocus(EventArgs e) => HideCaret(Handle);
+
+        protected override void OnEnter(EventArgs e) => HideCaret(Handle);
+    }
 }

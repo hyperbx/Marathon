@@ -31,10 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Debugger));
             this.Label_Subtitle = new System.Windows.Forms.Label();
             this.GroupBox_Settings = new System.Windows.Forms.GroupBox();
+            this.TreeView_Properties = new System.Windows.Forms.TreeView();
+            this.ButtonFlat_DirectX = new Marathon.Toolkit.Components.ButtonFlat();
             this.ButtonFlat_SaveSettings = new Marathon.Toolkit.Components.ButtonFlat();
             this.ButtonFlat_LoadSettings = new Marathon.Toolkit.Components.ButtonFlat();
-            this.TreeView_Properties = new System.Windows.Forms.TreeView();
-            this.ButtonFlat_OpenGL = new Marathon.Toolkit.Components.ButtonFlat();
             this.GroupBox_Settings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +64,42 @@
             this.GroupBox_Settings.TabIndex = 5;
             this.GroupBox_Settings.TabStop = false;
             this.GroupBox_Settings.Text = "Settings";
+            // 
+            // TreeView_Properties
+            // 
+            this.TreeView_Properties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.TreeView_Properties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.TreeView_Properties.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TreeView_Properties.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            this.TreeView_Properties.ForeColor = System.Drawing.SystemColors.Control;
+            this.TreeView_Properties.ItemHeight = 22;
+            this.TreeView_Properties.Location = new System.Drawing.Point(3, 19);
+            this.TreeView_Properties.Name = "TreeView_Properties";
+            this.TreeView_Properties.ShowLines = false;
+            this.TreeView_Properties.ShowPlusMinus = false;
+            this.TreeView_Properties.ShowRootLines = false;
+            this.TreeView_Properties.Size = new System.Drawing.Size(241, 445);
+            this.TreeView_Properties.TabIndex = 6;
+            this.TreeView_Properties.TabStop = false;
+            this.TreeView_Properties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Properties_AfterSelect);
+            this.TreeView_Properties.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Properties_NodeMouseClick);
+            // 
+            // ButtonFlat_DirectX
+            // 
+            this.ButtonFlat_DirectX.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonFlat_DirectX.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ButtonFlat_DirectX.FlatAppearance.BorderSize = 0;
+            this.ButtonFlat_DirectX.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonFlat_DirectX.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonFlat_DirectX.Location = new System.Drawing.Point(271, 17);
+            this.ButtonFlat_DirectX.Name = "ButtonFlat_DirectX";
+            this.ButtonFlat_DirectX.Size = new System.Drawing.Size(649, 23);
+            this.ButtonFlat_DirectX.TabIndex = 6;
+            this.ButtonFlat_DirectX.Text = "DirectX Tests";
+            this.ButtonFlat_DirectX.UseVisualStyleBackColor = false;
+            this.ButtonFlat_DirectX.Click += new System.EventHandler(this.ButtonFlat_OpenGL_Click);
             // 
             // ButtonFlat_SaveSettings
             // 
@@ -95,49 +131,13 @@
             this.ButtonFlat_LoadSettings.UseVisualStyleBackColor = false;
             this.ButtonFlat_LoadSettings.Click += new System.EventHandler(this.ButtonFlat_LoadSettings_Click);
             // 
-            // TreeView_Properties
-            // 
-            this.TreeView_Properties.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.TreeView_Properties.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.TreeView_Properties.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TreeView_Properties.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
-            this.TreeView_Properties.ForeColor = System.Drawing.SystemColors.Control;
-            this.TreeView_Properties.ItemHeight = 22;
-            this.TreeView_Properties.Location = new System.Drawing.Point(3, 19);
-            this.TreeView_Properties.Name = "TreeView_Properties";
-            this.TreeView_Properties.ShowLines = false;
-            this.TreeView_Properties.ShowPlusMinus = false;
-            this.TreeView_Properties.ShowRootLines = false;
-            this.TreeView_Properties.Size = new System.Drawing.Size(241, 445);
-            this.TreeView_Properties.TabIndex = 6;
-            this.TreeView_Properties.TabStop = false;
-            this.TreeView_Properties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Properties_AfterSelect);
-            this.TreeView_Properties.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Properties_NodeMouseClick);
-            // 
-            // ButtonFlat_OpenGL
-            // 
-            this.ButtonFlat_OpenGL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_OpenGL.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_OpenGL.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_OpenGL.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_OpenGL.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_OpenGL.Location = new System.Drawing.Point(271, 17);
-            this.ButtonFlat_OpenGL.Name = "ButtonFlat_OpenGL";
-            this.ButtonFlat_OpenGL.Size = new System.Drawing.Size(649, 23);
-            this.ButtonFlat_OpenGL.TabIndex = 6;
-            this.ButtonFlat_OpenGL.Text = "OpenGL Tests";
-            this.ButtonFlat_OpenGL.UseVisualStyleBackColor = false;
-            this.ButtonFlat_OpenGL.Click += new System.EventHandler(this.ButtonFlat_OpenGL_Click);
-            // 
             // Debugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(933, 519);
-            this.Controls.Add(this.ButtonFlat_OpenGL);
+            this.Controls.Add(this.ButtonFlat_DirectX);
             this.Controls.Add(this.GroupBox_Settings);
             this.Controls.Add(this.Label_Subtitle);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -157,6 +157,6 @@
         private System.Windows.Forms.TreeView TreeView_Properties;
         private Components.ButtonFlat ButtonFlat_LoadSettings;
         private Components.ButtonFlat ButtonFlat_SaveSettings;
-        private Components.ButtonFlat ButtonFlat_OpenGL;
+        private Components.ButtonFlat ButtonFlat_DirectX;
     }
 }

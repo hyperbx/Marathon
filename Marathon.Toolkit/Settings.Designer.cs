@@ -23,6 +23,9 @@
  * SOFTWARE.
  */
 
+using System.Drawing;
+using Microsoft.Win32;
+
 namespace Marathon.Toolkit
 {
     // Totally Not A .NET Settings Clone™
@@ -32,11 +35,18 @@ namespace Marathon.Toolkit
      * Please use the following etiquette for creating new properties:
      * 
      *     /// <summary>
+     *     /// Initialiser for the DummyProperty property.
+     *     /// </summary>
+     *     private static [type] _Initialiser = [default value];
+     *     
+     *     /// <summary>
      *     /// Dummy description for this property.
      *     /// </summary>
      *     public static [type] DummyProperty { get; set; } = [default value];
      *     
-     * You must provide a description for each property!
+     * You must provide a description for each property.
+     * 
+     * Properties that require custom get and set functions can use initialisers.
      */
 
     partial class Settings

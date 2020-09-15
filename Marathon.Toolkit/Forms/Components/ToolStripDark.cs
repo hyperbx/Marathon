@@ -29,9 +29,9 @@ using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Components
 {
-	public partial class MenuStripDark : MenuStrip
+	public partial class ToolStripDark : ToolStrip
 	{
-		public MenuStripDark()
+		public ToolStripDark()
 		{
 			InitializeComponent();
 

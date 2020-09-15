@@ -34,7 +34,9 @@
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_License = new System.Windows.Forms.Label();
             this.TreeView_Contributors = new System.Windows.Forms.TreeView();
+            this.Panel_TreeView_Contributors_Border = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
+            this.Panel_TreeView_Contributors_Border.SuspendLayout();
             this.SuspendLayout();
             // 
             // Label_Title
@@ -93,16 +95,27 @@
             this.TreeView_Contributors.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.TreeView_Contributors.ForeColor = System.Drawing.SystemColors.Control;
             this.TreeView_Contributors.ItemHeight = 22;
-            this.TreeView_Contributors.Location = new System.Drawing.Point(17, 100);
+            this.TreeView_Contributors.Location = new System.Drawing.Point(0, 0);
             this.TreeView_Contributors.Name = "TreeView_Contributors";
             this.TreeView_Contributors.ShowLines = false;
             this.TreeView_Contributors.ShowPlusMinus = false;
             this.TreeView_Contributors.ShowRootLines = false;
-            this.TreeView_Contributors.Size = new System.Drawing.Size(202, 96);
+            this.TreeView_Contributors.Size = new System.Drawing.Size(219, 96);
             this.TreeView_Contributors.TabIndex = 5;
             this.TreeView_Contributors.TabStop = false;
             this.TreeView_Contributors.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Contributors_AfterSelect);
             this.TreeView_Contributors.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Contributors_NodeMouseClick);
+            // 
+            // Panel_TreeView_Contributors_Border
+            // 
+            this.Panel_TreeView_Contributors_Border.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Panel_TreeView_Contributors_Border.Controls.Add(this.TreeView_Contributors);
+            this.Panel_TreeView_Contributors_Border.Location = new System.Drawing.Point(17, 100);
+            this.Panel_TreeView_Contributors_Border.Name = "Panel_TreeView_Contributors_Border";
+            this.Panel_TreeView_Contributors_Border.Size = new System.Drawing.Size(202, 96);
+            this.Panel_TreeView_Contributors_Border.TabIndex = 6;
             // 
             // About
             // 
@@ -110,11 +123,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(536, 256);
-            this.Controls.Add(this.TreeView_Contributors);
             this.Controls.Add(this.Label_License);
             this.Controls.Add(this.Label_Version);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.PictureBox_Logo);
+            this.Controls.Add(this.Panel_TreeView_Contributors_Border);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
@@ -125,6 +138,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About";
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
+            this.Panel_TreeView_Contributors_Border.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -136,5 +150,6 @@
         private System.Windows.Forms.PictureBox PictureBox_Logo;
         private System.Windows.Forms.Label Label_License;
         private System.Windows.Forms.TreeView TreeView_Contributors;
+        private System.Windows.Forms.Panel Panel_TreeView_Contributors_Border;
     }
 }

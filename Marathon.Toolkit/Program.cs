@@ -24,19 +24,16 @@
  */
 
 using System;
-using System.Reflection;
-using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
-using Microsoft.Win32;
 using Marathon.Toolkit.Forms;
 
 namespace Marathon.Toolkit
 {
     static class Program
     {
-        public static readonly string GlobalVersion = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
-        public static readonly int RegistryColour = (int)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\DWM", "ColorizationColor", null);
+        public static readonly string GlobalVersion = Application.ProductVersion;
 
         [STAThread]
 
@@ -45,6 +42,9 @@ namespace Marathon.Toolkit
         /// </summary>
         static void Main()
         {
+            // Force culture info 'en-GB' to prevent errors with values altered by language-specific differences.
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

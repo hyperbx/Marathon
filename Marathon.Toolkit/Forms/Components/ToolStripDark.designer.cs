@@ -1,6 +1,6 @@
 ﻿namespace Marathon.Toolkit.Components
 {
-	partial class ButtonFlat
+	partial class ToolStripDark
 	{
 		/// <summary> 
 		/// Required designer variable.

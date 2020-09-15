@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Marathon.Toolkit.Controls
 {
-    public partial class FileExtensionWizardTask : UserControl
+    public partial class TaskDashboardOption : UserControl
     {
         private string _TaskName, _TaskDescription;
 
@@ -24,11 +24,11 @@ namespace Marathon.Toolkit.Controls
             set
             {
                 Label_TaskDescription.Text = _TaskDescription = value;
-                Width = Label_TaskDescription.Width + 19;
+                Width = Label_TaskDescription.Width + 20;
             }
         }
 
-        public FileExtensionWizardTask() => InitializeComponent();
+        public TaskDashboardOption() => InitializeComponent();
 
         /// <summary>
         /// Custom event handler for external use.
@@ -39,5 +39,10 @@ namespace Marathon.Toolkit.Controls
         /// Invokes the custom event handler when the task is selected.
         /// </summary>
         private void RadioButton_Task_CheckedChanged(object sender, EventArgs e) => Activated?.Invoke(sender, e);
+
+        /// <summary>
+        /// Sets the task checked state if its inner region is clicked.
+        /// </summary>
+        private void QuickDashboardTask_Click_Group(object sender, EventArgs e) => RadioButton_Task.Checked = true;
     }
 }

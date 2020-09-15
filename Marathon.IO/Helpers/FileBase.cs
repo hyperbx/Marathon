@@ -46,8 +46,9 @@ namespace Marathon.IO
 
             Location = file;
 
-            using (var fileStream = File.OpenRead(file))
-                Load(fileStream);
+            using var fileStream = File.OpenRead(file);
+
+            Load(fileStream);
         }
 
         public virtual void Load(Stream fileStream)
@@ -61,8 +62,9 @@ namespace Marathon.IO
             if (!overwrite && File.Exists(file))
                 throw new Exception("Unable to save the specified file as it already exists...");
 
-            using (var fileStream = File.Create(file))
-                Save(fileStream);
+            using var fileStream = File.Create(file);
+
+            Save(fileStream);
         }
 
         public virtual void Save(Stream fileStream)

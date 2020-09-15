@@ -24,8 +24,6 @@
  */
 
 using System;
-using System.Windows.Forms;
-using Marathon.Toolkit.OpenGL;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
@@ -36,9 +34,7 @@ namespace Marathon.Toolkit.Forms
 
         private void ModelViewer_Load(object sender, EventArgs e)
         {
-            Viewport.Initialise(GLControl_Viewport);
 
-            Application.Idle += delegate { Viewport.Raster(); };
         }
     }
 }

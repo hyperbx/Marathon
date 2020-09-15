@@ -41,10 +41,13 @@
             this.Column_Space = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_File_Extract = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -57,8 +60,7 @@
             this.SplitContainer_TreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SplitContainer_TreeView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.SplitContainer_TreeView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.SplitContainer_TreeView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.SplitContainer_TreeView.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.SplitContainer_TreeView.Location = new System.Drawing.Point(-1, 23);
             this.SplitContainer_TreeView.Name = "SplitContainer_TreeView";
@@ -81,7 +83,7 @@
             this.TreeView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.TreeView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TreeView_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
@@ -92,7 +94,7 @@
             this.TreeView_Explorer.Name = "TreeView_Explorer";
             this.TreeView_Explorer.SelectedImageIndex = 0;
             this.TreeView_Explorer.ShowRootLines = false;
-            this.TreeView_Explorer.Size = new System.Drawing.Size(182, 387);
+            this.TreeView_Explorer.Size = new System.Drawing.Size(184, 389);
             this.TreeView_Explorer.TabIndex = 2;
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
@@ -108,8 +110,9 @@
             // 
             this.Label_DirectoryEmpty.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.Label_DirectoryEmpty.AutoSize = true;
+            this.Label_DirectoryEmpty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.Label_DirectoryEmpty.ForeColor = System.Drawing.SystemColors.Control;
-            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(243, 37);
+            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(244, 37);
             this.Label_DirectoryEmpty.Name = "Label_DirectoryEmpty";
             this.Label_DirectoryEmpty.Size = new System.Drawing.Size(113, 15);
             this.Label_DirectoryEmpty.TabIndex = 1;
@@ -121,7 +124,7 @@
             this.ListView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ListView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.ListView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ListView_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
@@ -135,7 +138,7 @@
             this.ListView_Explorer.Location = new System.Drawing.Point(-1, 0);
             this.ListView_Explorer.Name = "ListView_Explorer";
             this.ListView_Explorer.OwnerDraw = true;
-            this.ListView_Explorer.Size = new System.Drawing.Size(597, 404);
+            this.ListView_Explorer.Size = new System.Drawing.Size(599, 406);
             this.ListView_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListView_Explorer.TabIndex = 0;
             this.ListView_Explorer.UseCompatibleStateImageBehavior = false;
@@ -160,7 +163,7 @@
             // Column_Space
             // 
             this.Column_Space.Text = "";
-            this.Column_Space.Width = 297;
+            this.Column_Space.Width = 299;
             // 
             // MenuStripDark_Main
             // 
@@ -180,6 +183,8 @@
             // MenuStripDark_Main_File
             // 
             this.MenuStripDark_Main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripDark_Main_File_Extract,
+            this.toolStripSeparator1,
             this.MenuStripDark_Main_File_Save,
             this.MenuStripDark_Main_File_SaveAs,
             this.MenuStripDark_Main_File_ToolStripSeparator2,
@@ -188,6 +193,21 @@
             this.MenuStripDark_Main_File.Size = new System.Drawing.Size(37, 20);
             this.MenuStripDark_Main_File.Text = "File";
             // 
+            // MenuStripDark_Main_File_Extract
+            // 
+            this.MenuStripDark_Main_File_Extract.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_File_Extract.Name = "MenuStripDark_Main_File_Extract";
+            this.MenuStripDark_Main_File_Extract.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.O)));
+            this.MenuStripDark_Main_File_Extract.Size = new System.Drawing.Size(186, 22);
+            this.MenuStripDark_Main_File_Extract.Text = "Extract";
+            this.MenuStripDark_Main_File_Extract.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+            // 
             // MenuStripDark_Main_File_Save
             // 
             this.MenuStripDark_Main_File_Save.ForeColor = System.Drawing.SystemColors.Control;
@@ -195,6 +215,7 @@
             this.MenuStripDark_Main_File_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.MenuStripDark_Main_File_Save.Size = new System.Drawing.Size(186, 22);
             this.MenuStripDark_Main_File_Save.Text = "Save";
+            this.MenuStripDark_Main_File_Save.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
             // 
             // MenuStripDark_Main_File_SaveAs
             // 
@@ -204,6 +225,7 @@
             | System.Windows.Forms.Keys.S)));
             this.MenuStripDark_Main_File_SaveAs.Size = new System.Drawing.Size(186, 22);
             this.MenuStripDark_Main_File_SaveAs.Text = "Save As...";
+            this.MenuStripDark_Main_File_SaveAs.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
             // 
             // MenuStripDark_Main_File_ToolStripSeparator2
             // 
@@ -217,7 +239,7 @@
             this.MenuStripDark_Main_File_Close.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.W)));
             this.MenuStripDark_Main_File_Close.Size = new System.Drawing.Size(186, 22);
             this.MenuStripDark_Main_File_Close.Text = "Close";
-            this.MenuStripDark_Main_File_Close.Click += new System.EventHandler(this.MenuStripDark_Main_File_Close_Click);
+            this.MenuStripDark_Main_File_Close.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
             // 
             // ArchiveExplorer
             // 
@@ -264,5 +286,8 @@
         private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_File_ToolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Close;
         private System.Windows.Forms.Label Label_DirectoryEmpty;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Extract;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Drawing.Printing.PrintDocument printDocument1;
     }
 }

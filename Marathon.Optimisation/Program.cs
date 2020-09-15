@@ -23,22 +23,22 @@
  * SOFTWARE.
  */
 
-using System.Drawing;
-using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
+using System.IO;
+using Marathon.Optimisation.Tasks;
 
-namespace Marathon.Toolkit.Components
+namespace Marathon.Optimisation
 {
-	public partial class MenuStripDark : MenuStrip
-	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
+    class Program
+    {
+        static void Main()
+        {
+            string _ToolkitSource = @"..\..\..\Marathon.Toolkit\";
 
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkToolStripProfessionalRenderer();
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
-	}
+            // Optimise designer code to use cached resources for Bitmaps.
+            foreach (string designer in Directory.GetFiles(_ToolkitSource, "*.Designer.cs", SearchOption.AllDirectories))
+            {
+                BitmapOptimisation.UseCachedResources(designer);
+            }
+        }
+    }
 }

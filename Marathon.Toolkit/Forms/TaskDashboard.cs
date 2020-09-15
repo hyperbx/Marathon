@@ -1,13 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using System.Collections.Generic;
 using Marathon.Toolkit.Controls;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class FileExtensionWizard : DockContent
+    public partial class TaskDashboard : Form
     {
-        public FileExtensionWizard(DockPanel parent, string file)
+        public TaskDashboard(DockPanel parent, string file)
         {
             InitializeComponent();
 
@@ -15,13 +18,13 @@ namespace Marathon.Toolkit.Forms
             {
                 case ".arc":
                 {
-                    FileExtensionWizardTask exploreArchive = new FileExtensionWizardTask()
+                    TaskDashboardOption exploreArchive = new TaskDashboardOption()
                     {
                         TaskName = "Explore archive",
                         TaskDescription = "Explore the contents of this archive."
                     };
 
-                    FileExtensionWizardTask extractArchive = new FileExtensionWizardTask()
+                    TaskDashboardOption extractArchive = new TaskDashboardOption()
                     {
                         TaskName = "Extract archive",
                         TaskDescription = "Extract the contents of this archive and navigate using Marathon Explorer."
@@ -42,19 +45,19 @@ namespace Marathon.Toolkit.Forms
 
                 case ".bin":
                 {
-                    FileExtensionWizardTask commonPackage = new FileExtensionWizardTask()
+                    TaskDashboardOption commonPackage = new TaskDashboardOption()
                     {
                         TaskName = "Edit package container",
                         TaskDescription = "Modify the contents of a generic BINA package."
                     };
 
-                    FileExtensionWizardTask collisionMesh = new FileExtensionWizardTask()
+                    TaskDashboardOption collisionMesh = new TaskDashboardOption()
                     {
                         TaskName = "Preview collision mesh",
                         TaskDescription = "View the collision mesh."
                     };
 
-                    FileExtensionWizardTask saveData = new FileExtensionWizardTask()
+                    TaskDashboardOption saveData = new TaskDashboardOption()
                     {
                         TaskName = "Modify save data",
                         TaskDescription = "Alter your save data like a real cheater."
@@ -75,6 +78,25 @@ namespace Marathon.Toolkit.Forms
                     break;
                 }
             }
+
+            CalculateFormSize();
+        }
+
+        /// <summary>
+        /// Calculates the form size by the highest task control width and default height.
+        /// </summary>
+        private void CalculateFormSize()
+        {
+            List<int> _TaskWidthList = new List<int>();
+
+            foreach (Control control in FlowLayoutPanel_Tasks.Controls)
+            {
+                _TaskWidthList.Add(control.Width);
+
+                Height += 44; // Default height for all task controls.
+            }
+
+            Width = _TaskWidthList.Max() + 72; // Add extra width for padding.
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Marathon.Toolkit.Forms
 
             _Exception = ex;
 
-            RichTextBox_Error.Text = BuildExceptionLog();
+            RichTextBoxLocked_Error.Text = BuildExceptionLog();
         }
 
         /// <summary>

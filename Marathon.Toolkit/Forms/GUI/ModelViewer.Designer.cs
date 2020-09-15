@@ -32,20 +32,7 @@ namespace Marathon.Toolkit.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModelViewer));
-            this.GLControl_Viewport = new OpenTK.GLControl();
             this.SuspendLayout();
-            // 
-            // GLControl_Viewport
-            // 
-            this.GLControl_Viewport.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.GLControl_Viewport.BackColor = System.Drawing.Color.Black;
-            this.GLControl_Viewport.Location = new System.Drawing.Point(12, 12);
-            this.GLControl_Viewport.Name = "GLControl_Viewport";
-            this.GLControl_Viewport.Size = new System.Drawing.Size(909, 495);
-            this.GLControl_Viewport.TabIndex = 0;
-            this.GLControl_Viewport.VSync = false;
             // 
             // ModelViewer
             // 
@@ -53,7 +40,6 @@ namespace Marathon.Toolkit.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(933, 519);
-            this.Controls.Add(this.GLControl_Viewport);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -65,7 +51,5 @@ namespace Marathon.Toolkit.Forms
         }
 
         #endregion
-
-        private OpenTK.GLControl GLControl_Viewport;
     }
 }

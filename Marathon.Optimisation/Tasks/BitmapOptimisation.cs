@@ -23,22 +23,30 @@
  * SOFTWARE.
  */
 
-using System.Drawing;
-using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
 
-namespace Marathon.Toolkit.Components
+namespace Marathon.Optimisation.Tasks
 {
-	public partial class MenuStripDark : MenuStrip
-	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
+    class BitmapOptimisation
+    {
+        public static void UseCachedResources(string file)
+        {
+            List<string> DesignerCode = File.ReadAllLines(file).ToList();
 
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkToolStripProfessionalRenderer();
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
-	}
+            foreach (string line in DesignerCode)
+            {
+                string netResourceString = "global::Marathon.Toolkit.Properties.Resources.";
+
+                if (line.Contains("Image") && line.Contains(netResourceString))
+                {
+                    string[] splitProperty = line.Split('=');
+
+                    // Replace the .NET resources property with the cached resource type.
+                    splitProperty[1] = $"Resources.LoadBitmapResource({splitProperty[1].Replace(netResourceString, string.Empty).Remove(netResourceString.Length - 1)});";
+                }
+            }
+        }
+    }
 }

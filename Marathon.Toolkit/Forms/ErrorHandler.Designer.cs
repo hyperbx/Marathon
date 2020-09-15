@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorHandler));
             this.Label_Title = new System.Windows.Forms.Label();
-            this.RichTextBox_Error = new System.Windows.Forms.RichTextBox();
             this.Panel_RichTextBox_Container = new System.Windows.Forms.Panel();
+            this.RichTextBoxLocked_Error = new Marathon.Toolkit.Components.RichTextBoxLocked();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.ButtonFlat_GitHub = new Marathon.Toolkit.Components.ButtonFlat();
             this.ButtonFlat_Close = new Marathon.Toolkit.Components.ButtonFlat();
@@ -50,36 +50,37 @@
             this.Label_Title.TabIndex = 0;
             this.Label_Title.Text = "A fatal error has occurred and the application has been halted...";
             // 
-            // RichTextBox_Error
-            // 
-            this.RichTextBox_Error.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.RichTextBox_Error.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RichTextBox_Error.Cursor = System.Windows.Forms.Cursors.Default;
-            this.RichTextBox_Error.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RichTextBox_Error.ForeColor = System.Drawing.SystemColors.Control;
-            this.RichTextBox_Error.Location = new System.Drawing.Point(0, 0);
-            this.RichTextBox_Error.Name = "RichTextBox_Error";
-            this.RichTextBox_Error.ReadOnly = true;
-            this.RichTextBox_Error.Size = new System.Drawing.Size(918, 404);
-            this.RichTextBox_Error.TabIndex = 1;
-            this.RichTextBox_Error.Text = "";
-            // 
             // Panel_RichTextBox_Container
             // 
             this.Panel_RichTextBox_Container.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_RichTextBox_Container.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Panel_RichTextBox_Container.Controls.Add(this.RichTextBox_Error);
+            this.Panel_RichTextBox_Container.Controls.Add(this.RichTextBoxLocked_Error);
             this.Panel_RichTextBox_Container.Location = new System.Drawing.Point(12, 49);
             this.Panel_RichTextBox_Container.Name = "Panel_RichTextBox_Container";
             this.Panel_RichTextBox_Container.Size = new System.Drawing.Size(920, 406);
             this.Panel_RichTextBox_Container.TabIndex = 3;
             // 
+            // RichTextBoxLocked_Error
+            // 
+            this.RichTextBoxLocked_Error.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.RichTextBoxLocked_Error.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RichTextBoxLocked_Error.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.RichTextBoxLocked_Error.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RichTextBoxLocked_Error.ForeColor = System.Drawing.SystemColors.Window;
+            this.RichTextBoxLocked_Error.Location = new System.Drawing.Point(0, 0);
+            this.RichTextBoxLocked_Error.Name = "RichTextBoxLocked_Error";
+            this.RichTextBoxLocked_Error.ReadOnly = true;
+            this.RichTextBoxLocked_Error.Size = new System.Drawing.Size(918, 404);
+            this.RichTextBoxLocked_Error.TabIndex = 2;
+            this.RichTextBoxLocked_Error.TabStop = false;
+            this.RichTextBoxLocked_Error.Text = "";
+            // 
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = Resources.LoadBitmapResource("Main_Logo_Small_Dark");
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(881, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -165,11 +166,11 @@
         #endregion
 
         private System.Windows.Forms.Label Label_Title;
-        private System.Windows.Forms.RichTextBox RichTextBox_Error;
         private System.Windows.Forms.Panel Panel_RichTextBox_Container;
         private System.Windows.Forms.PictureBox PictureBox_Logo;
         private Components.ButtonFlat ButtonFlat_Close;
         private Components.ButtonFlat ButtonFlat_GitHub;
         private Components.ButtonFlat ButtonFlat_Copy;
+        private Components.RichTextBoxLocked RichTextBoxLocked_Error;
     }
 }

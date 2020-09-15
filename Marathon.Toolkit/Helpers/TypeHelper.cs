@@ -23,22 +23,15 @@
  * SOFTWARE.
  */
 
-using System.Drawing;
-using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
+using System;
 
-namespace Marathon.Toolkit.Components
+namespace Marathon.Toolkit.Helpers
 {
-	public partial class MenuStripDark : MenuStrip
-	{
-		public MenuStripDark()
-		{
-			InitializeComponent();
-
-			RenderMode = ToolStripRenderMode.Professional;
-			Renderer = new DarkToolStripProfessionalRenderer();
-			BackColor = Color.FromArgb(45, 45, 48);
-			ForeColor = SystemColors.Control;
-		}
-	}
+    class TypeHelper
+    {
+        /// <summary>
+        /// Determines if the input object is of the input type.
+        /// </summary>
+        public static bool IsObjectOfType(object input, Type type) => input.GetType().Equals(type);
+    }
 }

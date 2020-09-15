@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Dialogs;
@@ -36,6 +37,7 @@ namespace Marathon.Toolkit.Forms
         public Workspace()
         {
             InitializeComponent();
+
             Text = Program.GetExtendedInformation(Text);
 
 #if DEBUG
@@ -60,31 +62,22 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void MenuStripDark_Main_Open_File_Click(object sender, EventArgs e)
         {
+            string commonFileTypesXML = Properties.Resources.FileTypes;
+
             OpenFileDialog fileDialog = new OpenFileDialog
             {
                 Title = "Please select a file...",
-                Filter = XML.ParseFileTypesAsFilter(Properties.Resources.FileTypes),
-                InitialDirectory = ActiveWebBrowserExplorerAddress()
+                Filter = XML.ParseFileTypesToFilter(commonFileTypesXML),
+                InitialDirectory = ActiveMarathonExplorerAddress()
             };
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 string @extension = Path.GetExtension(fileDialog.FileName);
 
-                switch (@extension)
-                {
-                    case ".arc":
-                    {
-                        new FileExtensionWizard(DockPanel_Main, fileDialog.FileName).ShowDialog();
-                        break;
-                    }
-
-                    case ".bin":
-                    {
-                        new FileExtensionWizard(DockPanel_Main, fileDialog.FileName).ShowDialog();
-                        break;
-                    }
-                }
+                // Check if the extension is supported.
+                if (XML.ParseFileExtensionsToList(commonFileTypesXML).Any(x => x.Contains(@extension)))
+                    new TaskDashboard(DockPanel_Main, fileDialog.FileName).ShowDialog();
             }
         }
 
@@ -103,18 +96,33 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Returns the current address of the active WebBrowserExplorer document.
+        /// Returns the current address of the active MarathonExplorer document.
         /// </summary>
-        private string ActiveWebBrowserExplorerAddress()
+        private string ActiveMarathonExplorerAddress()
         {
-            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument is MarathonExplorer)
+            if (DockPanel_Main.ActiveDocument != null && DockPanel_Main.ActiveDocument is MarathonExplorer explorer)
             {
-                object @controller = (MarathonExplorer)DockPanel_Main.ActiveDocument;
+                object @controller = explorer;
 
                 return @controller != null ? ((MarathonExplorer)@controller).CurrentAddress : string.Empty;
             }
 
             return string.Empty;
         }
+
+        /// <summary>
+        /// Displays the MarathonLog form upon clicking.
+        /// </summary>
+        private void MenuStripDark_Main_View_Output_Click(object sender, EventArgs e) => new Output().Show(DockPanel_Main);
+
+        /// <summary>
+        /// Displays the Windows form upon clicking.
+        /// </summary>
+        private void MenuStripDark_Main_Window_Windows_Click(object sender, EventArgs e) => new Windows(DockPanel_Main).ShowDialog();
+
+        /// <summary>
+        /// Displays the Settings form upon clicking.
+        /// </summary>
+        private void MenuStripDark_Main_File_Preferences_Click(object sender, EventArgs e) => new Preferences().Show(DockPanel_Main);
     }
 }

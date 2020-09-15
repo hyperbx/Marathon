@@ -38,7 +38,7 @@ namespace Marathon.Toolkit.Forms
 
             Label_Version.Text = $"Version {Program.GlobalVersion}";
 
-            TreeView_Contributors.Nodes.AddRange(XML.ParseContributors());
+            TreeView_Contributors.Nodes.AddRange(XML.ParseContributorsToTreeNodeArray());
         }
 
         /// <summary>

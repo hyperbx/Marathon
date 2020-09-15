@@ -46,8 +46,9 @@ namespace Marathon.IO
 
             Location = file;
 
-            using (var fileStream = File.OpenRead(file))
-                Load(fileStream);
+            using var fileStream = File.OpenRead(file);
+
+            Load(fileStream);
         }
 
         public virtual void Load(Stream fileStream)
@@ -67,8 +68,9 @@ namespace Marathon.IO
                     File.Copy(Location, file, true);
             }
 
-            using (var fileStream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite))
-                Save(fileStream);
+            using var fileStream = new FileStream(file, FileMode.Open, FileAccess.ReadWrite);
+
+            Save(fileStream);
         }
 
         public virtual void Save(Stream fileStream)

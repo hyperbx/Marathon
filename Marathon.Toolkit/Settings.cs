@@ -64,10 +64,10 @@ namespace Marathon.Toolkit
                         PropertyInfo property = typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute("Name").Value).Single();
 
                         // Gets the data type from the attribute.
-                        TypeConverter dataType = TypeDescriptor.GetConverter(Type.GetType(propertyElem.Attribute("Type").Value));
+                        Type propertyType = Type.GetType(propertyElem.Attribute("Type").Value);
 
                         // Sets the new value from the configuration.
-                        property.SetValue(property, dataType.ConvertFromString(propertyElem.Value));
+                        property.SetValue(property, TypeDescriptor.GetConverter(propertyType).ConvertTo(propertyElem.Value, propertyType));
                     }
                 }
 #if !DEBUG
@@ -99,7 +99,14 @@ namespace Marathon.Toolkit
             {
                 XElement propertyElem = new XElement("Property", property.GetValue(property));
                 propertyElem.Add(new XAttribute("Name", property.Name));
-                propertyElem.Add(new XAttribute("Type", property.PropertyType));
+
+                // The assembly is native to .NET, so just write the type by name.
+                if (property.PropertyType.Module.ScopeName == "CommonLanguageRuntimeLibrary")
+                    propertyElem.Add(new XAttribute("Type", property.PropertyType));
+
+                // The assembly is not native, so write the full qualified name.
+                else
+                    propertyElem.Add(new XAttribute("Type", property.PropertyType.AssemblyQualifiedName));
 
                 rootElem.Add(propertyElem);
             }

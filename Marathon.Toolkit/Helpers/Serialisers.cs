@@ -116,7 +116,7 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Parses Contributors.xml to a TreeNode array.
         /// </summary>
-        public static TreeNode[] ParseContributors()
+        public static TreeNode[] ParseContributorsToTreeNodeArray()
         {
             List<TreeNode> contributors = new List<TreeNode>();
 
@@ -138,7 +138,7 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Parses file types resource to a string.
         /// </summary>
-        public static string ParseFileTypesAsFilter(string resource)
+        public static string ParseFileTypesToFilter(string resource)
         {
             // TODO: Merge filters instead of removing duplicates.
 
@@ -147,7 +147,7 @@ namespace Marathon.Toolkit.Helpers
 
             XDocument xml = XDocument.Parse(resource);
 
-            // Generate list of valid file extensions - if there are duplicate extensions, remove them.
+            // Generate list of valid file types - if there are duplicate types, remove them.
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
                 string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
@@ -163,6 +163,27 @@ namespace Marathon.Toolkit.Helpers
                 stringBuilder.Append($"{entry.Value} (*{entry.Key})|*{entry.Key}|");
 
             return stringBuilder.ToString().EndsWith("|") ? stringBuilder.ToString().Remove(stringBuilder.Length - 1) : stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Parses file types resource to a string list.
+        /// </summary>
+        public static List<string> ParseFileExtensionsToList(string resource)
+        {
+            List<string> extensions = new List<string>();
+
+            XDocument xml = XDocument.Parse(resource);
+
+            // Generate list of valid file extensions.
+            foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
+            {
+                XAttribute @extension = supportedFileTypesElem.Attribute("Extension");
+
+                if (@extension != null)
+                    extensions.Add(@extension.Value);
+            }
+
+            return extensions;
         }
     }
 }
