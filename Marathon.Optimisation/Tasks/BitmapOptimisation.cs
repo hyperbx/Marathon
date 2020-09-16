@@ -36,75 +36,38 @@ namespace Marathon.Optimisation.Tasks
         /// Replaces all instances of .NET resources with cached bitmaps.
         /// </summary>
         /// <param name="file">Designer file.</param>
-        public static void UseCachedResources(string file)
+        /// <param name="dotNet">Use .NET resources.</param>
+        public static void SetResourceType(string file, bool dotNet)
         {
             bool BitmapFlag = false;
             List<string> DesignerCode = File.ReadAllLines(file).ToList();
 
             for (int i = 0; i < DesignerCode.Count; i++)
             {
-                // Typical string used by .NET for referencing internal resources.
-                string netResourceString = "global::Marathon.Toolkit.Properties.Resources.";
+                // Strings used by .NET resources and Marathon resources.
+                string resourceString = dotNet ? "Resources.LoadBitmapResource(\""
+                                               : "global::Marathon.Toolkit.Properties.Resources.";
 
-                if (DesignerCode[i].Contains("Image") && DesignerCode[i].Contains(netResourceString))
+                if (DesignerCode[i].Contains("Image") && DesignerCode[i].Contains(resourceString))
                 {
-                    // File uses GDI+ bitmaps, ring the alarm bells!
+                    // File uses bitmaps!
                     BitmapFlag = true;
 
                     // Split the property.
                     string[] splitProperty = DesignerCode[i].Split('=');
 
                     // Get resource name from reference.
-                    string resourceName = splitProperty[1].Substring(1).Replace(netResourceString, string.Empty);
+                    string resourceName = splitProperty[1].Substring(1).Replace(resourceString, string.Empty);
 
-                    // Replace the .NET resources property with the cached resource type.
-                    splitProperty[1] = $"Resources.LoadBitmapResource(\"{resourceName.Remove(resourceName.Length - 1)}\");";
-
-                    // Join the string together and replace.
-                    DesignerCode[i] = string.Join("= ", splitProperty);
-
-                    // Report feedback.
-                    Console.WriteLine($"Optimised bitmap on line {i + 1} in designer file -> {file}");
-                }
-            }
-
-            if (BitmapFlag)
-                File.WriteAllLines(file, DesignerCode);
-        }
-
-        /// <summary>
-        /// Replaces all instances of cached bitmaps with .NET resources.
-        /// </summary>
-        /// <param name="file"></param>
-        public static void RevertCachedResources(string file)
-        {
-            bool BitmapFlag = false;
-            List<string> DesignerCode = File.ReadAllLines(file).ToList();
-
-            for (int i = 0; i < DesignerCode.Count; i++)
-            {
-                // Typical string used by .NET for referencing internal resources.
-                string bitmapResourceString = "Resources.LoadBitmapResource(\"";
-
-                if (DesignerCode[i].Contains("Image") && DesignerCode[i].Contains(bitmapResourceString))
-                {
-                    // File uses cached bitmaps.
-                    BitmapFlag = true;
-
-                    // Split the property.
-                    string[] splitProperty = DesignerCode[i].Split('=');
-
-                    // Get resource name from reference.
-                    string resourceName = splitProperty[1].Substring(1).Replace(bitmapResourceString, string.Empty);
-
-                    // Replace the .NET resources property with the cached resource type.
-                    splitProperty[1] = $"global::Marathon.Toolkit.Properties.Resources.{resourceName.Remove(resourceName.Length - 3)};";
+                    // Replace the property with the requested resource type.
+                    splitProperty[1] = dotNet ? $"global::Marathon.Toolkit.Properties.Resources.{resourceName.Remove(resourceName.Length - 3)};"
+                                              : $"Resources.LoadBitmapResource(\"{resourceName.Remove(resourceName.Length - 1)}\");";
 
                     // Join the string together and replace.
                     DesignerCode[i] = string.Join("= ", splitProperty);
 
                     // Report feedback.
-                    Console.WriteLine($"Reverted cached bitmap on line {i + 1} in designer file -> {file}");
+                    Console.WriteLine("Set bitmap type to " + (dotNet ? ".NET Resource" : "Marathon") + $" on line {i + 1} in designer file -> {file}");
                 }
             }
 

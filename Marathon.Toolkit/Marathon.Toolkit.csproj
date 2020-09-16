@@ -8,7 +8,7 @@
     <ProjectGuid>{5FA99087-DD6B-40AC-A2CB-66E6FA614057}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Marathon.Toolkit</RootNamespace>
-    <AssemblyName>Marathon</AssemblyName>
+    <AssemblyName>Marathon.Toolkit</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
@@ -42,6 +42,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -324,9 +327,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.exe" --bitmap-cache $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.Optimisation.exe" --bitmap-cache $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.exe" --bitmap-cache /undo $(ProjectDir)</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.Optimisation.exe" --bitmap-cache /dotNet $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -40,21 +40,10 @@ namespace Marathon.Optimisation
                 {
                     case "--bitmap-cache":
                     {
-                        if (args[1] == "/undo")
+                        foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
                         {
-                            // Revert optimisations to designer code for bitmaps.
-                            foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
-                            {
-                                BitmapOptimisation.RevertCachedResources(designer);
-                            }
-                        }
-                        else
-                        {
-                            // Optimise designer code to use cached resources for bitmaps.
-                            foreach (string designer in Directory.GetFiles(args.Last(), "*.Designer.cs", SearchOption.AllDirectories))
-                            {
-                                BitmapOptimisation.UseCachedResources(designer);
-                            }
+                            // Optimise designer code to use the requested type for bitmaps.
+                            BitmapOptimisation.SetResourceType(designer, args[1] == "/dotNet");
                         }
 
                         break;
@@ -70,8 +59,8 @@ namespace Marathon.Optimisation
                                   "Marathon.exe [parameters] \"C:\\Directory\"\n\n" +
                                   "" +
                                   "Parameters:\n" +
-                                  "--bitmap-cache - optimise GDI+ bitmaps to use cached resources.\n" +
-                                  "         /undo - revert optimisations to designer code for bitmaps.");
+                                  "--bitmap-cache - optimise bitmaps to use Marathon resources.\n" +
+                                  "       /dotNet - revert optimisations and use .NET resources for bitmaps.");
         }
     }
 }

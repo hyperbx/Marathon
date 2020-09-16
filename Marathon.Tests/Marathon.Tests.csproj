@@ -8,7 +8,7 @@
     <ProjectGuid>{9915EF7D-ACE2-4633-BA7E-F30242DAEEA1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Marathon.Tests</RootNamespace>
-    <AssemblyName>Marathon</AssemblyName>
+    <AssemblyName>Marathon.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>

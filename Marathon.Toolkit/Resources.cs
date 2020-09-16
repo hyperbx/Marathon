@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+using System;
 using System.Drawing;
 using System.Collections.Generic;
 
@@ -37,9 +38,12 @@ namespace Marathon.Toolkit
 		/// </summary>
 		/// <param name="resource">Name of .NET resource.</param>
 		public static Bitmap LoadBitmapResource(string resource)
-        {
+		{
 			if (BitmapCache.ContainsKey(resource))
 			{
+				// Collect garbage from last bitmap instance.
+				GC.Collect(GC.GetGeneration(BitmapCache[resource]), GCCollectionMode.Forced);
+
 				return BitmapCache[resource];
             }
             else

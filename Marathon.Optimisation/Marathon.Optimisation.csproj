@@ -7,7 +7,7 @@
     <ProjectGuid>{1A6867A4-1C1D-4A89-9656-D34B312865A9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Marathon.Optimisation</RootNamespace>
-    <AssemblyName>Marathon</AssemblyName>
+    <AssemblyName>Marathon.Optimisation</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

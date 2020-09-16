@@ -47,12 +47,10 @@ namespace Marathon.Toolkit
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
 #if !DEBUG
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
-
             Settings.Load();
 
             Application.Run(new Workspace());
@@ -63,10 +61,9 @@ namespace Marathon.Toolkit
         /// </summary>
         public static string GetExtendedInformation(string text = "")
         {
-#if !DEBUG
             text += $" (Version {GlobalVersion})";
-#else
-            text += $" (Version {GlobalVersion}) [Debug]";
+#if DEBUG
+            text += $" [Debug]";
 #endif
             text += RunningAsAdmin() ? " <Administrator>" : string.Empty;
 
