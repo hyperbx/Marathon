@@ -1,10 +1,4 @@
-﻿using System;
-using System.Media;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-
-// Marathon is licensed under the MIT License:
+﻿// Marathon is licensed under the MIT License:
 /*
  * MIT License
  * 
@@ -28,6 +22,10 @@ using System.Runtime.InteropServices;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+using System;
+using System.Media;
+using System.Windows.Forms;
 
 namespace Marathon.Toolkit
 {
@@ -147,26 +145,11 @@ namespace Marathon.Toolkit
                 }
             }
 
-            // Extracts an icon from a DLL.
-            Icon Extract(string file, int number, bool largeIcon)
-            {
-                ExtractIconEx(file, number, out IntPtr large, out IntPtr small, 1);
-
-                try
-                {
-                    return Icon.FromHandle(largeIcon ? large : small);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-
             switch (icon)
             {
                 case MessageBoxIcon.Error:
                 {
-                    PictureBox_Icon.BackgroundImage = Properties.Resources.Error.ToBitmap();
+                    PictureBox_Icon.BackgroundImage = Resources.LoadBitmapResource(nameof(Properties.Resources.Feedback_Error));
                     SystemSounds.Hand.Play();
                     TopMost = true;
 
@@ -175,7 +158,7 @@ namespace Marathon.Toolkit
 
                 case MessageBoxIcon.Information:
                 {
-                    PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 277, true).ToBitmap();
+                    PictureBox_Icon.BackgroundImage = Resources.LoadBitmapResource(nameof(Properties.Resources.Feedback_Information));
                     SystemSounds.Asterisk.Play();
                     TopMost = false;
 
@@ -184,7 +167,7 @@ namespace Marathon.Toolkit
 
                 case MessageBoxIcon.Question:
                 {
-                    PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 154, true).ToBitmap();
+                    PictureBox_Icon.BackgroundImage = Resources.LoadBitmapResource(nameof(Properties.Resources.Feedback_Question));
                     SystemSounds.Question.Play();
                     TopMost = false;
 
@@ -193,7 +176,7 @@ namespace Marathon.Toolkit
 
                 case MessageBoxIcon.Warning:
                 {
-                    PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 237, true).ToBitmap();
+                    PictureBox_Icon.BackgroundImage = Resources.LoadBitmapResource(nameof(Properties.Resources.Feedback_Warning));
                     SystemSounds.Asterisk.Play();
                     TopMost = true;
 
@@ -206,9 +189,6 @@ namespace Marathon.Toolkit
                 }
             }
         }
-
-        [DllImport("Shell32.dll", EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
-        private static extern int ExtractIconEx(string sFile, int iIndex, out IntPtr piLargeVersion, out IntPtr piSmallVersion, int amountIcons);
 
         /// <summary>
         /// Sends the message to the receiver upon clicking an option.
@@ -223,7 +203,8 @@ namespace Marathon.Toolkit
         /// <summary>
         /// Sets the new height of the RichTextBox control.
         /// </summary>
-        private void RichTextBox_Message_ContentsResized(object sender, ContentsResizedEventArgs e) => RichTextBox_Message.Height = TextHeight = e.NewRectangle.Height;
+        private void RichTextBox_Message_ContentsResized(object sender, ContentsResizedEventArgs e)
+            => RichTextBox_Message.Height = TextHeight = e.NewRectangle.Height;
 
         /// <summary>
         /// Resizes the form to fit the text upon loading.

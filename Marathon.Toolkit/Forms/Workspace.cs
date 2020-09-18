@@ -37,7 +37,6 @@ namespace Marathon.Toolkit.Forms
             InitializeComponent();
 
             Text = Program.GetExtendedInformation(Text);
-
 #if DEBUG
             // Display debug option...
             MenuStripDark_Main_Debug.Visible = true;

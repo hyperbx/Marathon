@@ -121,11 +121,20 @@
   <data name="Contributors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\contributors.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\icons\error.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Exception_InvalidSettingsException" xml:space="preserve">
     <value>This is likely caused by a property in the configuration file that doesn't exist or it's being deserialised to an incorrect data type.</value>
+  </data>
+  <data name="Feedback_Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Miscellaneous\Feedback_Error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Miscellaneous\Feedback_Information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Miscellaneous\Feedback_Question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Miscellaneous\Feedback_Warning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FileConverter_FileDrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Miscellaneous\FileConverter_FileDrop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

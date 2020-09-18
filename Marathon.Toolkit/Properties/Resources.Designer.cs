@@ -75,21 +75,51 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon Error {
-            get {
-                object obj = ResourceManager.GetObject("Error", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This is likely caused by a property in the configuration file that doesn&apos;t exist or it&apos;s being deserialised to an incorrect data type..
         /// </summary>
         internal static string Exception_InvalidSettingsException {
             get {
                 return ResourceManager.GetString("Exception_InvalidSettingsException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Feedback_Error {
+            get {
+                object obj = ResourceManager.GetObject("Feedback_Error", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Feedback_Information {
+            get {
+                object obj = ResourceManager.GetObject("Feedback_Information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Feedback_Question {
+            get {
+                object obj = ResourceManager.GetObject("Feedback_Question", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Feedback_Warning {
+            get {
+                object obj = ResourceManager.GetObject("Feedback_Warning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

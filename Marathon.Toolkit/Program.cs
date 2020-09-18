@@ -24,11 +24,11 @@
  */
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Marathon.Toolkit.Forms;
-using System.Diagnostics;
 
 namespace Marathon.Toolkit
 {

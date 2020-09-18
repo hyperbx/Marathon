@@ -115,7 +115,7 @@ namespace Marathon.Toolkit
             // PictureBox_Icon
             // 
             this.PictureBox_Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.PictureBox_Icon.Location = new System.Drawing.Point(16, 16);
+            this.PictureBox_Icon.Location = new System.Drawing.Point(15, 16);
             this.PictureBox_Icon.Name = "PictureBox_Icon";
             this.PictureBox_Icon.Size = new System.Drawing.Size(45, 45);
             this.PictureBox_Icon.TabIndex = 2;
@@ -131,7 +131,7 @@ namespace Marathon.Toolkit
             this.RichTextBox_Message.DetectUrls = false;
             this.RichTextBox_Message.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RichTextBox_Message.ForeColor = System.Drawing.SystemColors.Control;
-            this.RichTextBox_Message.Location = new System.Drawing.Point(64, 25);
+            this.RichTextBox_Message.Location = new System.Drawing.Point(56, 25);
             this.RichTextBox_Message.Name = "RichTextBox_Message";
             this.RichTextBox_Message.ReadOnly = true;
             this.RichTextBox_Message.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
@@ -148,9 +148,9 @@ namespace Marathon.Toolkit
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.ClientSize = new System.Drawing.Size(264, 119);
             this.ControlBox = false;
+            this.Controls.Add(this.RichTextBox_Message);
             this.Controls.Add(this.PictureBox_Icon);
             this.Controls.Add(this.Panel_ButtonBackdrop);
-            this.Controls.Add(this.RichTextBox_Message);
             this.Controls.Add(this.lbl_Description);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

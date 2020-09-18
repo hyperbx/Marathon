@@ -190,10 +190,7 @@ namespace Marathon.Toolkit.Forms
             }
         }
 
-        public MarathonExplorer()
-        {
-            InitializeComponent();
-        }
+        public MarathonExplorer() => InitializeComponent();
 
         /// <summary>
         /// Set the current directory for the WebBrowser control on load.

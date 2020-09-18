@@ -316,6 +316,13 @@
     <None Include="Resources\Images\Tasks\Task_OpenDialog.png" />
     <None Include="Resources\Images\Tasks\Task_OpenFile.png" />
     <None Include="Resources\Images\Tasks\Task_OpenFolder.png" />
+    <None Include="Resources\Icons\Warning.ico" />
+    <None Include="Resources\Icons\Information.ico" />
+    <None Include="Resources\Icons\Question.ico" />
+    <None Include="Resources\Images\Miscellaneous\Feedback_Question.png" />
+    <None Include="Resources\Images\Miscellaneous\Feedback_Warning.png" />
+    <None Include="Resources\Images\Miscellaneous\Feedback_Error.png" />
+    <None Include="Resources\Images\Miscellaneous\Feedback_Information.png" />
     <Content Include="Resources\Shaders.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
