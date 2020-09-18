@@ -52,7 +52,7 @@ namespace Marathon.Toolkit.Components
                 e.Graphics.DrawLine(new Pen(Color.FromArgb(63, 63, 70)), e.Bounds.X, e.Bounds.Y, e.Bounds.Left, e.Bounds.Right);
 
                 // Draws the column text.
-                TextRenderer.DrawText(e.Graphics, column.Text, Font, new Point(e.Bounds.X + 4, 4), ForeColor);
+                TextRenderer.DrawText(e.Graphics, column.Text, Font, new Point(e.Bounds.X + 4, 5), ForeColor);
             };
 
             Resize += delegate

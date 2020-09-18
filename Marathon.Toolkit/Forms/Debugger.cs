@@ -24,7 +24,6 @@
  */
 
 using System;
-using System.IO;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
@@ -42,15 +41,13 @@ namespace Marathon.Toolkit.Forms
         {
             TreeView_Properties.Nodes.Clear();
 
-            if (File.Exists(Settings._Configuration))
+            if (Settings._ConfigurationXML != null)
             {
-                XDocument config = XDocument.Load(Settings._Configuration);
-
-                foreach (XElement propertyElem in config.Root.Elements("Property"))
+                foreach (XElement propertyElem in Settings._ConfigurationXML.Root.Elements(Settings._PropertyElement))
                 {
                     TreeNode property = new TreeNode()
                     {
-                        Text = propertyElem.Attribute("Name").Value,
+                        Text = propertyElem.Attribute(Settings._NameElement).Value,
                         Tag = propertyElem
                     };
 

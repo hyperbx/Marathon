@@ -48,7 +48,7 @@ namespace Marathon.Toolkit.Forms
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Main_Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(226, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -74,7 +74,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(284, 94);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.Label_Title);

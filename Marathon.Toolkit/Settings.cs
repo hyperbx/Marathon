@@ -37,7 +37,14 @@ namespace Marathon.Toolkit
 {
     public partial class Settings
     {
-        public static readonly string _Configuration = Path.Combine(Application.StartupPath, "Marathon.xml");
+        public const string _RootElement     = "Marathon",
+                            _PropertyElement = "Property",
+                            _NameElement     = "Name",
+                            _TypeElement     = "Type";
+
+        public static readonly string _Configuration = Path.Combine(Application.StartupPath, $"{_RootElement}.xml");
+
+        public static XDocument _ConfigurationXML = File.Exists(_Configuration) ? XDocument.Load(_Configuration) : null;
 
         /// <summary>
         /// Loads the stored application settings.
@@ -53,18 +60,16 @@ namespace Marathon.Toolkit
 #endif
                 if (File.Exists(_Configuration))
                 {
-                    XDocument config = XDocument.Load(_Configuration);
-
-                    foreach (XElement propertyElem in config.Root.Elements("Property"))
+                    foreach (XElement propertyElem in _ConfigurationXML.Root.Elements(_PropertyElement))
                     {
                         // In case of failure, set the dummy XML element so we know where it failed.
                         pointOfFailure = propertyElem;
 
                         // Finds the property.
-                        PropertyInfo property = typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute("Name").Value).Single();
+                        PropertyInfo property = typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute(_NameElement).Value).Single();
 
                         // Gets the data type from the attribute.
-                        Type propertyType = Type.GetType(propertyElem.Attribute("Type").Value);
+                        Type propertyType = Type.GetType(propertyElem.Attribute(_TypeElement).Value);
 
                         // Sets the new value from the configuration.
                         property.SetValue(property, TypeDescriptor.GetConverter(propertyType).ConvertTo(propertyElem.Value, propertyType));
@@ -75,7 +80,7 @@ namespace Marathon.Toolkit
             catch (Exception ex)
             {
                 // If there's somehow a false positive, this will ensure it doesn't mess up further.
-                string @name = pointOfFailure.Attributes().Count() == 0 ? "Marathon.InvalidSettingsException" : pointOfFailure.Attribute("Name").Value;
+                string @name = pointOfFailure.Attributes().Count() == 0 ? "Marathon.InvalidSettingsException" : pointOfFailure.Attribute(_NameElement).Value;
 
                 // Display the error handler, just to be safe.
                 new ErrorHandler(new InvalidSettingsException(@name, ex)).ShowDialog();
@@ -89,30 +94,43 @@ namespace Marathon.Toolkit
         }
 
         /// <summary>
+        /// Returns the display name given to the property in Settings.Designer.cs.
+        /// </summary>
+        /// <param name="property">Raw property.</param>
+        public static string GetPropertyDisplayName(PropertyInfo property)
+            => property.GetCustomAttributes(typeof(DisplayNameAttribute), true).Cast<DisplayNameAttribute>().Single().DisplayName;
+
+        /// <summary>
+        /// Returns the description given to the property in Settings.Designer.cs.
+        /// </summary>
+        /// <param name="property">Raw property.</param>
+        public static string GetPropertyDescription(PropertyInfo property)
+            => property.GetCustomAttributes(typeof(DescriptionAttribute), true).Cast<DescriptionAttribute>().Single().Description;
+
+        /// <summary>
         /// Saves the current application settings.
         /// </summary>
         public static void Save()
         {
-            XElement rootElem = new XElement("Marathon");
+            XElement rootElem = new XElement(_RootElement);
 
             foreach (PropertyInfo property in typeof(Settings).GetProperties())
             {
-                XElement propertyElem = new XElement("Property", property.GetValue(property));
-                propertyElem.Add(new XAttribute("Name", property.Name));
+                XElement propertyElem = new XElement(_PropertyElement, property.GetValue(property));
+                propertyElem.Add(new XAttribute(_NameElement, property.Name));
 
                 // The assembly is native to .NET, so just write the type by name.
                 if (property.PropertyType.Module.ScopeName == "CommonLanguageRuntimeLibrary")
-                    propertyElem.Add(new XAttribute("Type", property.PropertyType));
+                    propertyElem.Add(new XAttribute(_TypeElement, property.PropertyType));
 
                 // The assembly is not native, so write the full qualified name.
                 else
-                    propertyElem.Add(new XAttribute("Type", property.PropertyType.AssemblyQualifiedName));
+                    propertyElem.Add(new XAttribute(_TypeElement, property.PropertyType.AssemblyQualifiedName));
 
                 rootElem.Add(propertyElem);
             }
 
-            XDocument config = new XDocument(rootElem);
-            config.Save(_Configuration);
+            new XDocument(rootElem).Save(_Configuration);
         }
 
         /// <summary>
@@ -122,20 +140,18 @@ namespace Marathon.Toolkit
         {
             if (File.Exists(_Configuration))
             {
-                XDocument config = XDocument.Load(_Configuration);
-
-                foreach (XElement propertyElem in config.Root.Elements("Property").ToArray())
+                foreach (XElement propertyElem in _ConfigurationXML.Root.Elements(_PropertyElement).ToArray())
                 {
                     // Stage 1: unable to locate the property.
-                    if (typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute("Name").Value).Count() == 0)
+                    if (typeof(Settings).GetProperties().Where(x => x.Name == propertyElem.Attribute(_NameElement).Value).Count() == 0)
                         propertyElem.Remove(); // Get outta here!
 
                     // Stage 2: unable to get the data type from the attribute.
-                    if (!TypeDescriptor.GetConverter(propertyElem.Value).CanConvertTo(Type.GetType(propertyElem.Attribute("Type").Value)))
+                    if (!TypeDescriptor.GetConverter(propertyElem.Value).CanConvertTo(Type.GetType(propertyElem.Attribute(_TypeElement).Value)))
                         propertyElem.Remove(); // Removes the scuffed property.
                 }
 
-                config.Save(_Configuration);
+                _ConfigurationXML.Save(_Configuration);
 
                 Load(); // Reload settings after fixing configuration.
             }

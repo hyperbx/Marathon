@@ -49,12 +49,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dialogs\MarathonMessageBox.cs">
@@ -75,11 +74,23 @@
     <Compile Include="Forms\Components\ToolStripDark.designer.cs">
       <DependentUpon>ToolStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Preferences.cs">
+    <Compile Include="Forms\Controls\OptionsField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\OptionsField.Designer.cs">
+      <DependentUpon>OptionsField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\OptionsFieldStringType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\OptionsFieldStringType.Designer.cs">
+      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Preferences.Designer.cs">
-      <DependentUpon>Preferences.cs</DependentUpon>
+    <Compile Include="Forms\Options.Designer.cs">
+      <DependentUpon>Options.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Windows.cs">
       <SubType>Form</SubType>
@@ -215,8 +226,11 @@
     <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Preferences.resx">
-      <DependentUpon>Preferences.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Controls\OptionsFieldStringType.resx">
+      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options.resx">
+      <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Windows.resx">
       <DependentUpon>Windows.cs</DependentUpon>
@@ -266,35 +280,47 @@
       <DependentUpon>Workspace.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
-    <None Include="Resources\Shaders\SimpleFragment.glsl" />
-    <None Include="Resources\Shaders\SimpleVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
     <Content Include="Resources\Icons\Error.ico" />
     <Content Include="Resources\Icons\Icon.ico" />
-    <Content Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_DirectoryTree_Enabled.png" />
-    <Content Include="Resources\Images\Export.png" />
-    <Content Include="Resources\Images\File.png" />
-    <Content Include="Resources\Images\FileDrop.png" />
-    <Content Include="Resources\Images\Folder.png" />
-    <Content Include="Resources\Images\Logos\Main_Logo_Corner_Transparent.png" />
-    <Content Include="Resources\Images\Logos\Main_Logo_Full_Colour.png" />
-    <Content Include="Resources\Images\Logos\Main_Logo_Medium_Colour.png" />
-    <Content Include="Resources\Images\Logos\Main_Logo_Small_Dark.png" />
+    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Back_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Clipboard_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_DirectoryTree_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Forward_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Up_Enabled.png" />
+    <None Include="Resources\Images\Buttons\Disabled\MarathonExplorer_Forward_Disabled.png" />
+    <None Include="Resources\Images\Buttons\Disabled\MarathonExplorer_Back_Disabled.png" />
+    <None Include="Resources\Images\Logos\Logo_Small_Dark.png" />
+    <None Include="Resources\Images\Logos\Logo_Corner_Transparent.png" />
+    <None Include="Resources\Images\Logos\Logo_Full_Colour.png" />
+    <None Include="Resources\Images\Logos\Logo_Medium_Colour.png" />
+    <None Include="Resources\Images\Formats\Format_Folder.png" />
+    <None Include="Resources\Images\Formats\Format_File.png" />
     <Content Include="Resources\FileTypes.xml" />
-    <Content Include="Resources\Images\Placeholder.png" />
+    <None Include="Resources\Images\Miscellaneous\Placeholder.png" />
+    <None Include="Resources\Images\Miscellaneous\FileConverter_FileDrop.png" />
+    <None Include="Resources\Images\Tasks\Task_NewFolder.png" />
+    <None Include="Resources\Images\Tasks\Task_Export.png" />
+    <None Include="Resources\Images\Tasks\Task_New.png" />
+    <None Include="Resources\Images\Tasks\Task_NewFile.png" />
+    <None Include="Resources\Images\Tasks\Task_NewFileCollection.png" />
+    <None Include="Resources\Images\Tasks\Task_Bug.png" />
+    <None Include="Resources\Images\Tasks\Task_Information.png" />
+    <None Include="Resources\Images\Tasks\Task_Output.png" />
+    <None Include="Resources\Images\Tasks\Task_Open.png" />
+    <None Include="Resources\Images\Tasks\Task_Settings.png" />
+    <None Include="Resources\Images\Tasks\Task_Exit.png" />
+    <None Include="Resources\Images\Tasks\Task_Archive.png" />
+    <None Include="Resources\Images\Tasks\Task_OpenDialog.png" />
+    <None Include="Resources\Images\Tasks\Task_OpenFile.png" />
+    <None Include="Resources\Images\Tasks\Task_OpenFolder.png" />
     <Content Include="Resources\Shaders.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Forward_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\WebBrowserExplorer_Up_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png" />
-    <None Include="Resources\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">

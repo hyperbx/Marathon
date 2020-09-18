@@ -24,38 +24,43 @@
  */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Reflection;
+using Marathon.Toolkit.Controls;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class FileConverter : DockContent
+    public partial class Options : DockContent
     {
-        public FileConverter() => InitializeComponent();
-
-        /// <summary>
-        /// Changes the cursor if the data is present.
-        /// </summary>
-        private void FileConverter_DragEnter(object sender, DragEventArgs e)
-            => _ = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.Effect = DragDropEffects.Copy : e.Effect = DragDropEffects.None;
-
-        /// <summary>
-        /// Gets the file dropped onto the window.
-        /// </summary>
-        private void FileConverter_DragDrop(object sender, DragEventArgs e)
+        public Options()
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            InitializeComponent();
 
-            if (files.Length == 1) ToolAutoSelect(files[0]);
+            LoadProperties();
         }
 
-        /// <summary>
-        /// Auto-selects the required tool for the dropped file.
-        /// </summary>
-        private void ToolAutoSelect(string data)
+        private void LoadProperties()
         {
-            throw new NotImplementedException(); // TODO
+            foreach (PropertyInfo property in typeof(Settings).GetProperties())
+            {
+                switch (property.GetType())
+                {
+                    case Type _ when property.PropertyType == typeof(string):
+                    {
+                        OptionsFieldStringType option = new OptionsFieldStringType()
+                        {
+                            OptionName = Settings.GetPropertyDisplayName(property),
+                            OptionDescription = Settings.GetPropertyDescription(property),
+                            OptionProperty = property
+                        };
+
+                        // Add the option control to the FlowLayoutPanel.
+                        FlowLayoutPanel_Options.Controls.Add(option);
+
+                        break;
+                    }
+                }
+            }
         }
     }
 }

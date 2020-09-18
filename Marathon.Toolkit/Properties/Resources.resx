@@ -127,20 +127,17 @@
   <data name="Exception_InvalidSettingsException" xml:space="preserve">
     <value>This is likely caused by a property in the configuration file that doesn't exist or it's being deserialised to an incorrect data type.</value>
   </data>
-  <data name="Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="File" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\images\file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FileDrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\filedrop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="FileConverter_FileDrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Miscellaneous\FileConverter_FileDrop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FileTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\filetypes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\images\folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Format_File" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Formats\Format_File.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Format_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Formats\Format_Folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -150,26 +147,92 @@
 
 Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2.</value>
   </data>
-  <data name="Main_Logo_Corner_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\logos\main_logo_corner_transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Logo_Corner_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Logos\Logo_Corner_Transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Main_Logo_Medium_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\logos\main_logo_medium_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Logo_Full_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Logos\Logo_Full_Colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Main_Logo_Small_Dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\logos\main_logo_small_dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Logo_Medium_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Logos\Logo_Medium_Colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Logo_Small_Dark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Logos\Logo_Small_Dark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Back_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Disabled\MarathonExplorer_Back_Disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Back_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Enabled\MarathonExplorer_Back_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Clipboard_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Enabled\MarathonExplorer_Clipboard_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_DirectoryTree_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Enabled\MarathonExplorer_DirectoryTree_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Forward_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Disabled\MarathonExplorer_Forward_Disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Forward_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Enabled\MarathonExplorer_Forward_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Up_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Buttons\Enabled\MarathonExplorer_Up_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Placeholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\images\placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\Resources\Images\Miscellaneous\Placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Shaders" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\shaders.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="SimpleFragment" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\shaders\simplefragment.glsl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Task_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SimpleVertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\shaders\simplevertex.glsl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Task_Bug" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Bug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_New.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_NewFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_NewFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_NewFileCollection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_NewFileCollection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_NewFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_NewFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_OpenDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_OpenDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_OpenFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_OpenFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_OpenFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_OpenFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="URL_GitHubIssueNew" xml:space="preserve">
+    <value>https://github.com/HyperPolygon64/Marathon/issues/new</value>
   </data>
   <data name="UserControlForm_Close_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -182,26 +245,5 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   </data>
   <data name="UserControlForm_Restore_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Back_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Disabled\WebBrowserExplorer_Back_Disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Back_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Enabled\WebBrowserExplorer_Back_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Clipboard_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Enabled\WebBrowserExplorer_Clipboard_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_DirectoryTree_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\images\buttons\enabled\webbrowserexplorer_directorytree_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Forward_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Disabled\WebBrowserExplorer_Forward_Disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Forward_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Enabled\WebBrowserExplorer_Forward_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="WebBrowserExplorer_Up_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Buttons\Enabled\WebBrowserExplorer_Up_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

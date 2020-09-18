@@ -28,6 +28,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Marathon.Toolkit.Forms;
+using System.Diagnostics;
 
 namespace Marathon.Toolkit
 {
@@ -81,5 +82,17 @@ namespace Marathon.Toolkit
         /// </summary>
         public static bool RunningAsAdmin()
             => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+        /// <summary>
+        /// Redirects the user to the GitHub issues page.
+        /// </summary>
+        /// <param name="title">Title used for the issue.</param>
+        /// <param name="body">Text automatically added to the issue.</param>
+        public static void CreateBugReport(string title = "[Marathon.Toolkit]", string body = "")
+        {
+            Process.Start(Properties.Resources.URL_GitHubIssueNew +
+                          Uri.EscapeUriString($"?title=" + (string.IsNullOrEmpty(title) ? "[Marathon.Toolkit]" : title) + " ") +
+                          (string.IsNullOrEmpty(body) ? string.Empty : $"&body={Uri.EscapeDataString(body)}"));
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace Marathon.Toolkit.Forms
                     exploreArchive.Activated += delegate
                     {
                         new ArchiveExplorer(file).Show(parent);
+
                         Close();
                     };
 
@@ -70,10 +71,18 @@ namespace Marathon.Toolkit.Forms
                     saveData.Activated += delegate
                     {
                         new SaveEditor(file).Show(parent);
+
                         Close();
                     };
 
                     FlowLayoutPanel_Tasks.Controls.AddRange(new[] { commonPackage, collisionMesh, saveData });
+
+                    break;
+                }
+
+                default:
+                {
+                    MarathonMessageBox.Show("This file extension is unknown - please select a format best suited for this file.");
 
                     break;
                 }
@@ -96,7 +105,8 @@ namespace Marathon.Toolkit.Forms
                 Height += 44; // Default height for all task controls.
             }
 
-            Width = _TaskWidthList.Max() + 72; // Add extra width for padding.
+            if (_TaskWidthList.Count != 0)
+                Width = _TaskWidthList.Max() + 72; // Add extra width for padding.
         }
     }
 }

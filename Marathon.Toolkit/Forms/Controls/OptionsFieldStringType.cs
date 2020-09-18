@@ -24,53 +24,72 @@
  */
 
 using System;
-using System.Windows.Forms;
+using System.Reflection;
 
 namespace Marathon.Toolkit.Controls
 {
-    public partial class TaskDashboardOption : UserControl
+    public partial class OptionsFieldStringType : OptionsField
     {
-        private string _TaskName, _TaskDescription;
+        private string _OptionName, _OptionDescription, _OptionField;
+        private PropertyInfo _OptionProperty;
 
         /// <summary>
-        /// The name of the task.
+        /// The name of the option.
         /// </summary>
-        public string TaskName
+        public override string OptionName
         {
-            get => _TaskName;
+            get => _OptionName;
 
-            set => RadioButton_Task.Text = _TaskName = value;
+            set => Label_Title.Text = _OptionName = value;
         }
 
         /// <summary>
-        /// The description given to the task.
+        /// The description given to the option.
         /// </summary>
-        public string TaskDescription
+        public override string OptionDescription
         {
-            get => _TaskDescription;
+            get => _OptionDescription;
+
+            set => Label_Description.Text = _OptionDescription = value;
+        }
+
+        /// <summary>
+        /// The property assigned to this option.
+        /// </summary>
+        public override PropertyInfo OptionProperty
+        {
+            get => _OptionProperty;
 
             set
             {
-                Label_Description.Text = _TaskDescription = value;
-                Width = Label_Description.Width + 20;
+                _OptionProperty = value;
+
+                if (_OptionProperty != null)
+                    TextBox_String.Text = (string)_OptionProperty.GetValue(value);
             }
         }
 
-        public TaskDashboardOption() => InitializeComponent();
+        /// <summary>
+        /// The string assigned to this option.
+        /// </summary>
+        private string OptionField
+        {
+            get => _OptionField;
+
+            set
+            {
+                _OptionField = value;
+
+                if (OptionProperty != null)
+                    OptionProperty.SetValue(OptionProperty, value);
+            }
+        }
+
+        public OptionsFieldStringType() => InitializeComponent();
 
         /// <summary>
-        /// Custom event handler for external use.
+        /// Sets the property to the current text.
         /// </summary>
-        public event EventHandler Activated;
-
-        /// <summary>
-        /// Invokes the custom event handler when the task is selected.
-        /// </summary>
-        private void RadioButton_Task_CheckedChanged(object sender, EventArgs e) => Activated?.Invoke(sender, e);
-
-        /// <summary>
-        /// Sets the task checked state if its inner region is clicked.
-        /// </summary>
-        private void QuickDashboardTask_Click_Group(object sender, EventArgs e) => RadioButton_Task.Checked = true;
+        private void TextBox_String_TextChanged(object sender, EventArgs e) => OptionField = TextBox_String.Text;
     }
 }

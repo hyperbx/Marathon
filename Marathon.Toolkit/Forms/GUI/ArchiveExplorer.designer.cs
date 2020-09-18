@@ -42,12 +42,11 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Extract = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuStripDark_Main_File_ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Close = new System.Windows.Forms.ToolStripMenuItem();
-            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -75,16 +74,14 @@ namespace Marathon.Toolkit.Forms
             this.SplitContainer_TreeView.Panel2.Controls.Add(this.Label_DirectoryEmpty);
             this.SplitContainer_TreeView.Panel2.Controls.Add(this.ListView_Explorer);
             this.SplitContainer_TreeView.Size = new System.Drawing.Size(786, 389);
-            this.SplitContainer_TreeView.SplitterDistance = 184;
+            this.SplitContainer_TreeView.SplitterDistance = 183;
             this.SplitContainer_TreeView.TabIndex = 1;
             // 
             // TreeView_Explorer
             // 
-            this.TreeView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.TreeView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.TreeView_Explorer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TreeView_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
             this.TreeView_Explorer.ImageIndex = 0;
@@ -94,7 +91,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Explorer.Name = "TreeView_Explorer";
             this.TreeView_Explorer.SelectedImageIndex = 0;
             this.TreeView_Explorer.ShowRootLines = false;
-            this.TreeView_Explorer.Size = new System.Drawing.Size(184, 389);
+            this.TreeView_Explorer.Size = new System.Drawing.Size(183, 389);
             this.TreeView_Explorer.TabIndex = 2;
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
@@ -110,9 +107,9 @@ namespace Marathon.Toolkit.Forms
             // 
             this.Label_DirectoryEmpty.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.Label_DirectoryEmpty.AutoSize = true;
-            this.Label_DirectoryEmpty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.Label_DirectoryEmpty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.Label_DirectoryEmpty.ForeColor = System.Drawing.SystemColors.Control;
-            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(244, 37);
+            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(245, 37);
             this.Label_DirectoryEmpty.Name = "Label_DirectoryEmpty";
             this.Label_DirectoryEmpty.Size = new System.Drawing.Size(113, 15);
             this.Label_DirectoryEmpty.TabIndex = 1;
@@ -124,7 +121,7 @@ namespace Marathon.Toolkit.Forms
             this.ListView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.ListView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ListView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ListView_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
@@ -135,10 +132,10 @@ namespace Marathon.Toolkit.Forms
             this.ListView_Explorer.FullRowSelect = true;
             this.ListView_Explorer.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ListView_Explorer.HideSelection = false;
-            this.ListView_Explorer.Location = new System.Drawing.Point(-1, 0);
+            this.ListView_Explorer.Location = new System.Drawing.Point(-1, 1);
             this.ListView_Explorer.Name = "ListView_Explorer";
             this.ListView_Explorer.OwnerDraw = true;
-            this.ListView_Explorer.Size = new System.Drawing.Size(599, 406);
+            this.ListView_Explorer.Size = new System.Drawing.Size(603, 406);
             this.ListView_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListView_Explorer.TabIndex = 0;
             this.ListView_Explorer.UseCompatibleStateImageBehavior = false;
@@ -163,14 +160,14 @@ namespace Marathon.Toolkit.Forms
             // Column_Space
             // 
             this.Column_Space.Text = "";
-            this.Column_Space.Width = 299;
+            this.Column_Space.Width = 303;
             // 
             // MenuStripDark_Main
             // 
             this.MenuStripDark_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MenuStripDark_Main.AutoSize = false;
-            this.MenuStripDark_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.MenuStripDark_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.MenuStripDark_Main.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStripDark_Main.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -184,7 +181,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.MenuStripDark_Main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuStripDark_Main_File_Extract,
-            this.toolStripSeparator1,
+            this.MenuStripDark_Main_File_ToolStripSeparator1,
             this.MenuStripDark_Main_File_Save,
             this.MenuStripDark_Main_File_SaveAs,
             this.MenuStripDark_Main_File_ToolStripSeparator2,
@@ -203,10 +200,10 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Extract.Text = "Extract";
             this.MenuStripDark_Main_File_Extract.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
             // 
-            // toolStripSeparator1
+            // MenuStripDark_Main_File_ToolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+            this.MenuStripDark_Main_File_ToolStripSeparator1.Name = "MenuStripDark_Main_File_ToolStripSeparator1";
+            this.MenuStripDark_Main_File_ToolStripSeparator1.Size = new System.Drawing.Size(183, 6);
             // 
             // MenuStripDark_Main_File_Save
             // 
@@ -287,7 +284,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Close;
         private System.Windows.Forms.Label Label_DirectoryEmpty;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Extract;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_File_ToolStripSeparator1;
     }
 }

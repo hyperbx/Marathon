@@ -33,5 +33,10 @@ namespace Marathon.Toolkit.Helpers
         /// Determines if the input object is of the input type.
         /// </summary>
         public static bool IsObjectOfType(object input, Type type) => input.GetType().Equals(type);
+
+        /// <summary>
+        /// Determines if the input types are the same.
+        /// </summary>
+        public static bool CompareType(Type type1, Type type2) => type1.Equals(type2);
     }
 }

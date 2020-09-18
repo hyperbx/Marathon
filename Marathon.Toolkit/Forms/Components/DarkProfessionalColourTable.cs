@@ -70,16 +70,6 @@ namespace Marathon.Toolkit.Helpers
         }
 
         /// <summary>
-        /// Draws the underscore when using & syntax in labels.
-        /// </summary>
-        protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
-        {
-            e.TextFormat &= ~TextFormatFlags.HidePrefix;
-
-            base.OnRenderItemText(e);
-        }
-
-        /// <summary>
         /// Changes the colour of the arrow for sub-menus upon hovering.
         /// </summary>
         protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)

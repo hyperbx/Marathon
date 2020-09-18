@@ -35,7 +35,10 @@ namespace Marathon.Toolkit
     {
         public static int TextHeight = 0;
 
-        public MarathonMessageBoxForm(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public MarathonMessageBoxForm(string text,
+                                      string caption = "Marathon",
+                                      MessageBoxButtons buttons = MessageBoxButtons.OK,
+                                      MessageBoxIcon icon = MessageBoxIcon.Information)
         {
             InitializeComponent();
 
@@ -56,50 +59,106 @@ namespace Marathon.Toolkit
 
             switch (buttons)
             {
-                case MessageBoxButtons.YesNo:
+                case MessageBoxButtons.OK:
                 {
-                    Button_Yes.Visible = true;
-                    Button_OK.Text = "No";
-                    Button_OK.BackColor = Color.Tomato;
-                    break;
-                }
+                    Button_3.Text = "OK";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.OK;
 
-                case MessageBoxButtons.YesNoCancel:
-                {
-                    Button_Yes.Visible = true;
-                    btn_No.Visible = true;
-                    Button_OK.Text = "Cancel";
-                    Button_OK.BackColor = Color.Tomato;
                     break;
                 }
 
                 case MessageBoxButtons.OKCancel:
                 {
-                    Button_Yes.Visible = true;
-                    Button_Yes.Text = "OK";
-                    Button_OK.Text = "Cancel";
-                    Button_Yes.BackColor = SystemColors.ControlLightLight;
-                    Button_OK.BackColor = Color.Tomato;
+                    Button_2.Text = "OK";
+                    Button_2.Visible = true;
+                    Button_2.Tag = MessageState.OK;
+
+                    Button_3.Text = "Cancel";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.Cancel;
+
                     break;
                 }
 
-                case MessageBoxButtons.AbortRetryIgnore:
+                case MessageBoxButtons.YesNo:
                 {
-                    Button_Abort.Visible = true;
-                    Button_Yes.Visible = true;
-                    Button_Yes.Text = "Retry";
-                    Button_OK.Text = "Ignore";
-                    Button_OK.BackColor = Color.SkyBlue;
+                    Button_2.Text = "Yes";
+                    Button_2.Visible = true;
+                    Button_2.Tag = MessageState.Yes;
+
+                    Button_3.Text = "No";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.No;
+
+                    break;
+                }
+
+                case MessageBoxButtons.YesNoCancel:
+                {
+                    Button_1.Text = "Yes";
+                    Button_1.Visible = true;
+                    Button_1.Tag = MessageState.Yes;
+
+                    Button_2.Text = "No";
+                    Button_2.Visible = true;
+                    Button_2.Tag = MessageState.No;
+
+                    Button_3.Text = "Cancel";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.Cancel;
+
                     break;
                 }
 
                 case MessageBoxButtons.RetryCancel:
                 {
-                    Button_Yes.Visible = true;
-                    Button_Yes.Text = "Retry";
-                    Button_OK.Text = "Cancel";
-                    Button_OK.BackColor = Color.Tomato;
+                    Button_2.Text = "Retry";
+                    Button_2.Visible = true;
+                    Button_2.Tag = MessageState.Retry;
+
+                    Button_3.Text = "Cancel";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.Cancel;
+
                     break;
+                }
+
+                case MessageBoxButtons.AbortRetryIgnore:
+                {
+                    Button_1.Text = "Abort";
+                    Button_1.Visible = true;
+                    Button_1.Tag = MessageState.Abort;
+
+                    Button_2.Text = "Retry";
+                    Button_2.Visible = true;
+                    Button_2.Tag = MessageState.Retry;
+
+                    Button_3.Text = "Ignore";
+                    Button_3.Visible = true;
+                    Button_3.Tag = MessageState.Ignore;
+
+                    break;
+                }
+
+                default:
+                {
+                    goto case MessageBoxButtons.OK;
+                }
+            }
+
+            // Extracts an icon from a DLL.
+            Icon Extract(string file, int number, bool largeIcon)
+            {
+                ExtractIconEx(file, number, out IntPtr large, out IntPtr small, 1);
+
+                try
+                {
+                    return Icon.FromHandle(largeIcon ? large : small);
+                }
+                catch
+                {
+                    return null;
                 }
             }
 
@@ -108,84 +167,67 @@ namespace Marathon.Toolkit
                 case MessageBoxIcon.Error:
                 {
                     PictureBox_Icon.BackgroundImage = Properties.Resources.Error.ToBitmap();
-                    TopMost = true;
                     SystemSounds.Hand.Play();
+                    TopMost = true;
+
                     break;
                 }
 
                 case MessageBoxIcon.Information:
                 {
                     PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 277, true).ToBitmap();
-                    TopMost = false;
                     SystemSounds.Asterisk.Play();
+                    TopMost = false;
+
                     break;
                 }
 
                 case MessageBoxIcon.Question:
                 {
                     PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 154, true).ToBitmap();
-                    TopMost = false;
                     SystemSounds.Question.Play();
+                    TopMost = false;
+
                     break;
                 }
 
                 case MessageBoxIcon.Warning:
                 {
                     PictureBox_Icon.BackgroundImage = Extract("shell32.dll", 237, true).ToBitmap();
-                    TopMost = true;
                     SystemSounds.Asterisk.Play();
+                    TopMost = true;
+
                     break;
                 }
-            }
 
-            BackColor = PictureBox_Icon.BackColor = RichTextBox_Message.BackColor = Color.FromArgb(45, 45, 48);
-            Panel_ButtonBackdrop.BackColor = Color.FromArgb(59, 59, 63);
-            RichTextBox_Message.ForeColor = SystemColors.Control;
-        }
-
-        private Icon Extract(string file, int number, bool largeIcon)
-        {
-            ExtractIconEx(file, number, out IntPtr large, out IntPtr small, 1);
-
-            try
-            {
-                return Icon.FromHandle(largeIcon ? large : small);
-            }
-            catch
-            {
-                return null;
+                default:
+                {
+                    goto case MessageBoxIcon.Information;
+                }
             }
         }
 
         [DllImport("Shell32.dll", EntryPoint = "ExtractIconExW", CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.StdCall)]
         private static extern int ExtractIconEx(string sFile, int iIndex, out IntPtr piLargeVersion, out IntPtr piSmallVersion, int amountIcons);
 
-        private void Button_OK_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Sends the message to the receiver upon clicking an option.
+        /// </summary>
+        private void Button_Click_Group(object sender, EventArgs e)
         {
-            MessageReceiver.State = Button_OK.Text;
+            MessageReceiver.State = (MessageState)((Button)sender).Tag;
+
             Close();
         }
 
-        private void Button_Yes_Click(object sender, EventArgs e)
-        {
-            MessageReceiver.State = Button_Yes.Text;
-            Close();
-        }
+        /// <summary>
+        /// Sets the new height of the RichTextBox control.
+        /// </summary>
+        private void RichTextBox_Message_ContentsResized(object sender, ContentsResizedEventArgs e) => RichTextBox_Message.Height = TextHeight = e.NewRectangle.Height;
 
-        private void Button_No_Click(object sender, EventArgs e)
-        {
-            MessageReceiver.State = btn_No.Text;
-            Close();
-        }
-
-        private void Button_Abort_Click(object sender, EventArgs e)
-        {
-            MessageReceiver.State = Button_Abort.Text;
-            Close();
-        }
-
-        private void RichTextBox_Message_ContentsResized(object sender, ContentsResizedEventArgs e) => ((RichTextBox)sender).Height = TextHeight = e.NewRectangle.Height;
-
+        /// <summary>
+        /// Resizes the form to fit the text upon loading.
+        /// </summary>
         private void MarathonMessageBoxForm_Load(object sender, EventArgs e)
         {
             if (RichTextBox_Message.Text.Length <= 65)
@@ -196,47 +238,89 @@ namespace Marathon.Toolkit
         }
     }
 
-    public class MessageReceiver
+    /// <summary>
+    /// Message states as enumerators.
+    /// </summary>
+    public enum MessageState
     {
-        public static string State;
+        Yes,
+        No,
+        Cancel,
+        Abort,
+        Retry,
+        Ignore,
+        OK
     }
 
+    /// <summary>
+    /// A class that receives the message from the selected choice.
+    /// </summary>
+    public class MessageReceiver
+    {
+        public static MessageState State;
+    }
+
+    /// <summary>
+    /// A custom message box class with the intent of mimicking the standard WINAPI message box with a dark theme.
+    /// </summary>
     public class MarathonMessageBox
     {
+        /// <summary>
+        /// Displays the message box with the specified text.
+        /// </summary>
+        /// <param name="text">Text to display.</param>
         public static DialogResult Show(string text)
         {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, "Marathon", MessageBoxButtons.OK, MessageBoxIcon.Information))
+            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text))
                 messenger.ShowDialog();
 
             return DialogResult.OK;
         }
 
+        /// <summary>
+        /// Displays the message box with the specified text and caption.
+        /// </summary>
+        /// <param name="text">Text to display.</param>
+        /// <param name="caption">Caption to display on the title bar.</param>
         public static DialogResult Show(string text, string caption)
         {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Information))
+            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption))
                 messenger.ShowDialog();
 
             return DialogResult.OK;
         }
 
+        /// <summary>
+        /// Displays the message box with the specified text, caption and buttons.
+        /// </summary>
+        /// <param name="text">Text to display.</param>
+        /// <param name="caption">Caption to display on the title bar.</param>
+        /// <param name="buttons">Buttons to display.</param>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
         {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, buttons, MessageBoxIcon.Information))
+            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, buttons))
                 messenger.ShowDialog();
 
             return MessageReceiver.State switch
             {
-                "OK" => DialogResult.OK,
-                "Yes" => DialogResult.Yes,
-                "No" => DialogResult.No,
-                "Abort" => DialogResult.Abort,
-                "Retry" => DialogResult.Retry,
-                "Ignore" => DialogResult.Ignore,
-                "Cancel" => DialogResult.Cancel,
-                _ => DialogResult.OK
+                MessageState.OK     => DialogResult.OK,
+                MessageState.Yes    => DialogResult.Yes,
+                MessageState.No     => DialogResult.No,
+                MessageState.Abort  => DialogResult.Abort,
+                MessageState.Retry  => DialogResult.Retry,
+                MessageState.Ignore => DialogResult.Ignore,
+                MessageState.Cancel => DialogResult.Cancel,
+                _                   => DialogResult.OK
             };
         }
 
+        /// <summary>
+        /// Displays the message box with the specified text, caption, buttons and icon.
+        /// </summary>
+        /// <param name="text">Text to display.</param>
+        /// <param name="caption">Caption to display on the title bar.</param>
+        /// <param name="buttons">Buttons to display.</param>
+        /// <param name="icon">Icon to display.</param>
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
             using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, buttons, icon))
@@ -244,14 +328,14 @@ namespace Marathon.Toolkit
 
             return MessageReceiver.State switch
             {
-                "OK" => DialogResult.OK,
-                "Yes" => DialogResult.Yes,
-                "No" => DialogResult.No,
-                "Abort" => DialogResult.Abort,
-                "Retry" => DialogResult.Retry,
-                "Ignore" => DialogResult.Ignore,
-                "Cancel" => DialogResult.Cancel,
-                _ => DialogResult.OK
+                MessageState.OK     => DialogResult.OK,
+                MessageState.Yes    => DialogResult.Yes,
+                MessageState.No     => DialogResult.No,
+                MessageState.Abort  => DialogResult.Abort,
+                MessageState.Retry  => DialogResult.Retry,
+                MessageState.Ignore => DialogResult.Ignore,
+                MessageState.Cancel => DialogResult.Cancel,
+                _                   => DialogResult.OK
             };
         }
     }

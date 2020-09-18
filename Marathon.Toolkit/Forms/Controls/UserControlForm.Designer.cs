@@ -1,6 +1,6 @@
 using Marathon.Toolkit.Helpers;
 
-namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Controls
 {
     partial class UserControlForm
     {

@@ -26,7 +26,7 @@
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Controls
 {
     public partial class UserControlForm : DockContent
     {

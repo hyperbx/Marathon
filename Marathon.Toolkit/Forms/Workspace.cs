@@ -24,8 +24,6 @@
  */
 
 using System;
-using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Dialogs;
@@ -72,13 +70,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string @extension = Path.GetExtension(fileDialog.FileName);
-
-                // Check if the extension is supported.
-                if (XML.ParseFileExtensionsToList(commonFileTypesXML).Any(x => x.Contains(@extension)))
-                    new TaskDashboard(DockPanel_Main, fileDialog.FileName).ShowDialog();
-            }
+                new TaskDashboard(DockPanel_Main, fileDialog.FileName).ShowDialog();
         }
 
         /// <summary>
@@ -118,11 +110,21 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Displays the Windows form upon clicking.
         /// </summary>
-        private void MenuStripDark_Main_Window_Windows_Click(object sender, EventArgs e) => new Windows(DockPanel_Main).ShowDialog();
+        private void MenuStripDark_Main_Window_Windows_Click(object sender, EventArgs e) => new Windows().ShowDialog();
 
         /// <summary>
-        /// Displays the Settings form upon clicking.
+        /// Displays the Options form upon clicking.
         /// </summary>
-        private void MenuStripDark_Main_File_Preferences_Click(object sender, EventArgs e) => new Preferences().Show(DockPanel_Main);
+        private void MenuStripDark_Main_File_Options_Click(object sender, EventArgs e) => new Options().Show(DockPanel_Main);
+
+        /// <summary>
+        /// Displays the File Converter form upon clicking.
+        /// </summary>
+        private void MenuStripDark_Main_View_FileConverter_Click(object sender, EventArgs e) => new FileConverter().Show(DockPanel_Main);
+
+        /// <summary>
+        /// Redirects the user to the GitHub issues page.
+        /// </summary>
+        private void MenuStripDark_Main_Help_ReportABug_Click(object sender, EventArgs e) => Program.CreateBugReport();
     }
 }

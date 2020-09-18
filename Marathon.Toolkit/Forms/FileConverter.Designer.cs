@@ -33,7 +33,9 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonFlat_Convert = new Marathon.Toolkit.Components.ButtonFlat();
+            this.PictureBox_FileDropIndicator = new System.Windows.Forms.PictureBox();
             this.MenuStripDark_Main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).BeginInit();
             this.SuspendLayout();
             // 
             // MenuStripDark_Main
@@ -81,6 +83,21 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Convert.UseVisualStyleBackColor = false;
             this.ButtonFlat_Convert.Visible = false;
             // 
+            // PictureBox_FileDropIndicator
+            // 
+            this.PictureBox_FileDropIndicator.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PictureBox_FileDropIndicator.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.FileConverter_FileDrop;
+            this.PictureBox_FileDropIndicator.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.PictureBox_FileDropIndicator.Location = new System.Drawing.Point(64, 134);
+            this.PictureBox_FileDropIndicator.Name = "PictureBox_FileDropIndicator";
+            this.PictureBox_FileDropIndicator.Size = new System.Drawing.Size(192, 192);
+            this.PictureBox_FileDropIndicator.TabIndex = 2;
+            this.PictureBox_FileDropIndicator.TabStop = false;
+            this.PictureBox_FileDropIndicator.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragDrop);
+            this.PictureBox_FileDropIndicator.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragEnter);
+            // 
             // FileConverter
             // 
             this.AllowDrop = true;
@@ -88,6 +105,7 @@ namespace Marathon.Toolkit.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(320, 471);
+            this.Controls.Add(this.PictureBox_FileDropIndicator);
             this.Controls.Add(this.ButtonFlat_Convert);
             this.Controls.Add(this.MenuStripDark_Main);
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
@@ -104,6 +122,7 @@ namespace Marathon.Toolkit.Forms
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragEnter);
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -114,5 +133,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help;
         private Components.ButtonFlat ButtonFlat_Convert;
+        private System.Windows.Forms.PictureBox PictureBox_FileDropIndicator;
     }
 }

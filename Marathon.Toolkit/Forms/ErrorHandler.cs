@@ -32,8 +32,19 @@ namespace Marathon.Toolkit.Forms
 {
     public partial class ErrorHandler : Form
     {
-        Exception _Exception = new Exception("If you're reading this, something went horrifically wrong...") { Source = "Marathon Error Handler" };
-        bool _Reported = false;
+        private Exception _Exception = new Exception("If you're reading this, something went horrifically wrong...") { Source = "Marathon Error Handler" };
+
+        private bool _Reported = false;
+
+        /* Storage for 'error corrected' exception strings.
+           In this case, strings that have been checked for null or empty already.
+           May be used elsewhere when necessary, but it's just used for GitHub for now. */
+        private string _ECC_Type,
+                       _ECC_Message,
+                       _ECC_Source,
+                       _ECC_Function,
+                       _ECC_StackTrace,
+                       _ECC_InnerException;
 
         public ErrorHandler(Exception ex)
         {
@@ -47,34 +58,34 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Builds the exception log for the RichTextBox control.
         /// </summary>
-        /// <param name="GitHub">Enables markdown for a better preview on GitHub.</param>
-        private string BuildExceptionLog(bool GitHub = false)
+        /// <param name="markdown">Enables markdown for a better preview with services that use it.</param>
+        private string BuildExceptionLog(bool markdown = false)
         {
             StringBuilder exception = new StringBuilder();
 
-            if (GitHub) exception.AppendLine("```");
+            if (markdown) exception.AppendLine("```");
 
             exception.AppendLine("Marathon Toolkit" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})");
 
             if (!string.IsNullOrEmpty(_Exception.GetType().Name))
-                exception.AppendLine($"\nType: {_Exception.GetType().Name}");
+                exception.AppendLine($"\nType: {_ECC_Type = _Exception.GetType().Name}");
 
             if (!string.IsNullOrEmpty(_Exception.Message))
-                exception.AppendLine($"Message: {_Exception.Message}");
+                exception.AppendLine($"Message: {_ECC_Message = _Exception.Message}");
 
             if (!string.IsNullOrEmpty(_Exception.Source))
-                exception.AppendLine($"Source: {_Exception.Source}");
+                exception.AppendLine($"Source: {_ECC_Source = _Exception.Source}");
 
             if (_Exception.TargetSite != null)
-                exception.AppendLine($"Function: {_Exception.TargetSite}");
+                exception.AppendLine($"Function: {_ECC_Function = _Exception.TargetSite.ToString()}");
 
             if (!string.IsNullOrEmpty(_Exception.StackTrace))
-                exception.AppendLine($"\nStack Trace: \n{_Exception.StackTrace}");
+                exception.AppendLine($"\nStack Trace: \n{_ECC_StackTrace = _Exception.StackTrace}");
 
             if (_Exception.InnerException != null)
-                exception.AppendLine($"\nInner Exception: \n{_Exception.InnerException}");
+                exception.AppendLine($"\nInner Exception: \n{_ECC_InnerException = _Exception.InnerException.ToString()}");
 
-            if (GitHub) exception.AppendLine("```");
+            if (markdown) exception.AppendLine("```");
 
             return exception.ToString();
         }
@@ -105,9 +116,10 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void ButtonFlat_GitHub_Click(object sender, EventArgs e)
         {
-            Process.Start($"https://github.com/HyperPolygon64/Marathon/issues/new" +
-                          $"?title=[Toolkit] " +
-                          $"&body={Uri.EscapeDataString(BuildExceptionLog(true))}");
+            // Generate source and message issue.
+            Program.CreateBugReport("[" + (string.IsNullOrEmpty(_ECC_Source) ? "Marathon.Toolkit" : _ECC_Source) + "] " +
+                                    (string.IsNullOrEmpty(_ECC_Message) ? string.Empty : $"'{_ECC_Message}'"),
+                                    BuildExceptionLog(true));
 
             _Reported = true;
         }
@@ -116,6 +128,6 @@ namespace Marathon.Toolkit.Forms
         /// Copies the exception log to the clipboard.
         /// </summary>
         private void ButtonFlat_Copy_Click(object sender, EventArgs e)
-            => Clipboard.SetText(BuildExceptionLog(true)); // Use GitHub markdown anyway, in case people can't read.
+            => Clipboard.SetText(BuildExceptionLog(true)); // Use markdown anyway, in case people can't read.
     }
 }

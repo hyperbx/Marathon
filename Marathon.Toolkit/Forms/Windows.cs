@@ -23,21 +23,24 @@
  * SOFTWARE.
  */
 
-using Marathon.Toolkit.Components;
+using System.Linq;
 using System.Windows.Forms;
+using Marathon.Toolkit.Components;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class Windows : Form
     {
-        public Windows(DockPanel parent)
+        public Windows()
         {
             InitializeComponent();
 
-            // Add all documents to the ListView control.
-            foreach (DockContent document in parent.Documents)
+            // Populate list with open documents.
+            foreach (DockContent document in Application.OpenForms.OfType<DockContent>())
+            {
                 ListViewDark_Windows.Items.Add(new ListViewItem(document.Text) { Tag = document });
+            }
 
             ListViewDark_Windows.MouseDoubleClick += (mouseDoubleClickSender, mouseDoubleClickEventArgs) =>
             {
