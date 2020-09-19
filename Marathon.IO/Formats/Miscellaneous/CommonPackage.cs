@@ -45,6 +45,8 @@ namespace Marathon.IO.Formats.Miscellaneous
             public float UnknownFloat_1, DebrisLifetimeBase, DebrisLifetimeModifier;
         }
 
+        public const string Extension = ".bin";
+
         public List<ObjectEntry> Entries = new List<ObjectEntry>();
 
         public override void Load(Stream stream)
