@@ -41,7 +41,7 @@ namespace Marathon.Toolkit.Forms
 
         private void LoadProperties()
         {
-            foreach (PropertyInfo property in typeof(Settings).GetProperties())
+            foreach (PropertyInfo property in typeof(ISettings).GetProperties())
             {
                 switch (property.GetType())
                 {
@@ -49,8 +49,23 @@ namespace Marathon.Toolkit.Forms
                     {
                         OptionsFieldStringType option = new OptionsFieldStringType()
                         {
-                            OptionName = Settings.GetPropertyDisplayName(property),
-                            OptionDescription = Settings.GetPropertyDescription(property),
+                            OptionName = "Under construction",
+                            OptionDescription = "Under construction",
+                            OptionProperty = property
+                        };
+
+                        // Add the option control to the FlowLayoutPanel.
+                        FlowLayoutPanel_Options.Controls.Add(option);
+
+                        break;
+                    }
+
+                    case Type _ when property.PropertyType == typeof(bool):
+                    {
+                        OptionsFieldBooleanType option = new OptionsFieldBooleanType()
+                        {
+                            OptionName = "Under construction",
+                            OptionDescription = "Under construction",
                             OptionProperty = property
                         };
 

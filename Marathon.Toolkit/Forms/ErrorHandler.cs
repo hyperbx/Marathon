@@ -117,7 +117,7 @@ namespace Marathon.Toolkit.Forms
         private void ButtonFlat_GitHub_Click(object sender, EventArgs e)
         {
             // Generate source and message issue.
-            Program.CreateBugReport("[" + (string.IsNullOrEmpty(_ECC_Source) ? "Marathon.Toolkit" : _ECC_Source) + "] " +
+            Program.InvokeFeedback("[" + (string.IsNullOrEmpty(_ECC_Source) ? "Marathon.Toolkit" : _ECC_Source) + "] " +
                                     (string.IsNullOrEmpty(_ECC_Message) ? string.Empty : $"'{_ECC_Message}'"),
                                     BuildExceptionLog(true));
 

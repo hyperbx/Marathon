@@ -37,9 +37,9 @@ using System.Collections.Generic;
 namespace Marathon.IO.Formats.Archives
 {
     /// <summary>
-    /// File base for the Sonic '06 ARC format.
+    /// File base for the U8 archive format.
     /// </summary>
-    public class CompressedU8Archive : Archive
+    public class U8Archive : Archive
     {
         public abstract class U8DataEntry
         {
@@ -167,34 +167,18 @@ namespace Marathon.IO.Formats.Archives
             /// </remarks>
             public uint Size;
 
-            /// <summary>
-            /// The uncompressed size of the file represented by this
-            /// entry, if this entry represents a file.
-            /// </summary>
-            /// <remarks>
-            /// For files, this is the uncompressed size of the file's data.
-            /// 
-            /// For directories, I'm honestly not sure what this is; sometimes
-            /// it's set to 0, sometimes it's set to the ASCII value of "none",
-            /// sometimes it's other ASCII text, sometimes it's just a random number??
-            /// 
-            /// '06 doesn't seem to care if you just set this to 0, so it might just be unused.
-            /// </remarks>
-            public uint UncompressedSize;
-
             public const uint TypeMask = 0xFF000000;
             public const uint NameOffsetMask = 0x00FFFFFF;
-            public const uint SizeOf = 16;
+            public const uint SizeOf = 12;
 
             public U8DataEntryType Type => (U8DataEntryType)((Flags & TypeMask) >> 24);
             public uint NameOffset => Flags & NameOffsetMask;
 
             public U8DataEntryZlib(ExtendedBinaryReader reader)
             {
-                Flags            = reader.ReadUInt32();
-                Data             = reader.ReadUInt32();
-                Size             = reader.ReadUInt32();
-                UncompressedSize = reader.ReadUInt32();
+                Flags = reader.ReadUInt32();
+                Data  = reader.ReadUInt32();
+                Size  = reader.ReadUInt32();
             }
         }
 
@@ -391,10 +375,9 @@ namespace Marathon.IO.Formats.Archives
                     // Store the locations of the data offset and file compressed
                     // size for later when we write the file's data.
                     writer.AddOffset($"Data_{globalEntryIndex}");
-                    writer.AddOffset($"CompressedSize_{globalEntryIndex}");
 
                     // Write the file's uncompressed size.
-                    writer.Write(fileEntry.Information.UncompressedSize);
+                    writer.Write(fileEntry.Information.Size);
 
                     // Increase global entry index.
                     ++globalEntryIndex;
@@ -448,7 +431,7 @@ namespace Marathon.IO.Formats.Archives
                             using (var zipStream = new BufferedStream(zlibStream))
                             {
                                 // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
-                                zipStream.Write(DecompressFileData(stream, fileEntry), 0, (int)fileEntry.Information.UncompressedSize);
+                                zipStream.Write(DecompressFileData(stream, fileEntry), 0, (int)fileEntry.Information.Size);
                             }
                         }
 

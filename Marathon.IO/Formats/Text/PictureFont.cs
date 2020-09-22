@@ -46,6 +46,7 @@ namespace Marathon.IO.Formats.Text
         public const string Signature = "FNTP", Extension = ".pft";
 
         public string Texture;
+
         public List<SubImage> Entries = new List<SubImage>();
 
         public override void Load(Stream stream)
@@ -67,6 +68,7 @@ namespace Marathon.IO.Formats.Text
             // Texture
             reader.JumpTo(texturePos, true);
             Texture = reader.ReadNullTerminatedString();
+
             reader.JumpTo(position, false);
 
             // Placeholders

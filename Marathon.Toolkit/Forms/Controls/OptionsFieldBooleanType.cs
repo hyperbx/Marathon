@@ -23,28 +23,75 @@
  * SOFTWARE.
  */
 
+using System;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace Marathon.Toolkit.Controls
 {
-    public partial class OptionsField : UserControl
+    public partial class OptionsFieldBooleanType : UserControl
     {
+        private string _OptionName, _OptionDescription;
+        private PropertyInfo _OptionProperty;
+        bool _OptionField;
+
         /// <summary>
         /// The name of the option.
         /// </summary>
-        public virtual string OptionName { get; set; }
+        public string OptionName
+        {
+            get => _OptionName;
+
+            set => CheckBox_Boolean.Text = _OptionName = value;
+        }
 
         /// <summary>
         /// The description given to the option.
         /// </summary>
-        public virtual string OptionDescription { get; set; }
+        public string OptionDescription
+        {
+            get => _OptionDescription;
+
+            set => Label_Description.Text = _OptionDescription = value;
+        }
 
         /// <summary>
         /// The property assigned to this option.
         /// </summary>
-        public virtual PropertyInfo OptionProperty { get; set; }
+        public PropertyInfo OptionProperty
+        {
+            get => _OptionProperty;
 
-        public OptionsField() => InitializeComponent();
+            set
+            {
+                _OptionProperty = value;
+
+                if (_OptionProperty != null)
+                    CheckBox_Boolean.Checked = (bool)_OptionProperty.GetValue(value);
+            }
+        }
+
+        /// <summary>
+        /// The Boolean assigned to this option.
+        /// </summary>
+        private bool OptionField
+        {
+            get => _OptionField;
+
+            set
+            {
+                _OptionField = value;
+
+                if (OptionProperty != null)
+                    OptionProperty.SetValue(OptionProperty, value);
+            }
+        }
+
+        public OptionsFieldBooleanType() => InitializeComponent();
+
+        /// <summary>
+        /// Sets the property to the current Boolean value.
+        /// </summary>
+        private void CheckBox_Boolean_CheckedChanged(object sender, EventArgs e) => OptionField = CheckBox_Boolean.Checked;
     }
 }

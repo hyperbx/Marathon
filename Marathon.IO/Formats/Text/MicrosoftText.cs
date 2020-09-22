@@ -36,7 +36,7 @@ namespace Marathon.IO.Formats.Text
     /// <summary>
     /// File base for the Sonic '06 MST format.
     /// </summary>
-    public class Text : FileBase
+    public class MicrosoftText : FileBase
     {
         public class Entry
         {

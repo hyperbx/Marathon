@@ -131,7 +131,7 @@ namespace Marathon.Toolkit
             this.RichTextBox_Message.DetectUrls = false;
             this.RichTextBox_Message.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RichTextBox_Message.ForeColor = System.Drawing.SystemColors.Control;
-            this.RichTextBox_Message.Location = new System.Drawing.Point(56, 25);
+            this.RichTextBox_Message.Location = new System.Drawing.Point(61, 25);
             this.RichTextBox_Message.Name = "RichTextBox_Message";
             this.RichTextBox_Message.ReadOnly = true;
             this.RichTextBox_Message.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;

@@ -170,7 +170,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_DirectoryTree.TabIndex = 13;
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_DirectoryTree, "Hide directory tree");
             this.ButtonFlat_DirectoryTree.UseVisualStyleBackColor = false;
-            this.ButtonFlat_DirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_DirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
             // 
             // ButtonFlat_Clipboard
             // 
@@ -189,7 +189,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Clipboard.TabIndex = 11;
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_Clipboard, "Copy current address to clipboard");
             this.ButtonFlat_Clipboard.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Clipboard.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_Clipboard.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
             // 
             // ButtonFlat_Up
             // 
@@ -207,7 +207,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Up.TabIndex = 10;
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_Up, "Up");
             this.ButtonFlat_Up.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Up.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_Up.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
             // 
             // ButtonFlat_Forward
             // 
@@ -226,7 +226,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Forward.TabIndex = 9;
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_Forward, "Forward");
             this.ButtonFlat_Forward.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Forward.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_Forward.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
             // 
             // ButtonFlat_Back
             // 
@@ -245,7 +245,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Back.TabIndex = 8;
             this.ToolTip_Information.SetToolTip(this.ButtonFlat_Back, "Back");
             this.ButtonFlat_Back.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click);
+            this.ButtonFlat_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
             // 
             // MarathonExplorer
             // 

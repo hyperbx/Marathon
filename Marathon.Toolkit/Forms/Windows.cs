@@ -72,15 +72,19 @@ namespace Marathon.Toolkit.Forms
                 case MouseButtons.Right:
                 {
                     /* WinForms is dumb and updates the ListViewItem selection state lazily when right-clicking.
-                     * This is a workaround for that to ensure at least one item is selected.
-                     * Just checking the count doesn't work and requires two right-clicks, which is painful. */
+                       This is a workaround for that to ensure at least one item is selected.
+                       Just checking the count doesn't work and requires two right-clicks, which is painful. */
                     if (ListViewDark_Windows.GetItemAt(e.X, e.Y) == null)
                         return;
 
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     if (ListViewDark_Windows.SelectedItems.Count < 2)
-                        menu.Items.Add(new ToolStripMenuItem("Focus", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate { FocusSelectedDocument(); }));
+                    {
+                        menu.Items.Add(new ToolStripMenuItem("Focus",
+                                                             Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)),
+                                                             delegate { FocusSelectedDocument(); }));
+                    }
 
                     menu.Items.Add(new ToolStripMenuItem("Close", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate
                     {

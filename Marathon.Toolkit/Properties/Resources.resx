@@ -192,14 +192,11 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   <data name="Placeholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Miscellaneous\Placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Shaders" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\shaders.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Task_AddFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_AddFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Task_Bug" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Bug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -207,8 +204,17 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   <data name="Task_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Task_Feature" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Feature.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Task_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Invalid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_New.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -236,6 +242,12 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   </data>
   <data name="Task_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_RemoveFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_RemoveFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

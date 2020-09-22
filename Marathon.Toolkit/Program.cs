@@ -29,6 +29,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Marathon.Toolkit.Forms;
+using Config.Net;
 
 namespace Marathon.Toolkit
 {
@@ -52,8 +53,6 @@ namespace Marathon.Toolkit
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
-            Settings.Load();
-
             Application.Run(new Workspace());
         }
 
@@ -88,11 +87,13 @@ namespace Marathon.Toolkit
         /// </summary>
         /// <param name="title">Title used for the issue.</param>
         /// <param name="body">Text automatically added to the issue.</param>
-        public static void CreateBugReport(string title = "[Marathon.Toolkit]", string body = "")
+        public static void InvokeFeedback(string title = "[Marathon.Toolkit]", string body = "", string labels = "")
         {
+            // This doesn't look elegant, but it's the quickest way of doing it.
             Process.Start(Properties.Resources.URL_GitHubIssueNew +
-                          Uri.EscapeUriString($"?title=" + (string.IsNullOrEmpty(title) ? "[Marathon.Toolkit]" : title) + " ") +
-                          (string.IsNullOrEmpty(body) ? string.Empty : $"&body={Uri.EscapeDataString(body)}"));
+                          Uri.EscapeUriString("?title=" + (string.IsNullOrEmpty(title) ? "[Marathon.Toolkit]" : title) + " ") + // Issue Title
+                          (string.IsNullOrEmpty(body) ? string.Empty : $"&body={Uri.EscapeDataString(body)}") +                 // Issue Body
+                          Uri.EscapeUriString("&labels=" + (string.IsNullOrEmpty(labels) ? string.Empty : labels)));            // Issue Labels
         }
     }
 }

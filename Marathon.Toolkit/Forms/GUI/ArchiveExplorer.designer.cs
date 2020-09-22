@@ -34,7 +34,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Explorer = new System.Windows.Forms.TreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.Label_DirectoryEmpty = new System.Windows.Forms.Label();
-            this.ListView_Explorer = new Marathon.Toolkit.Components.ListViewDark();
+            this.ListViewDark_Explorer = new Marathon.Toolkit.Components.ListViewDark();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -51,7 +51,6 @@ namespace Marathon.Toolkit.Forms
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
             this.SplitContainer_TreeView.SuspendLayout();
-            this.MenuStripDark_Main.SuspendLayout();
             this.SuspendLayout();
             // 
             // SplitContainer_TreeView
@@ -72,7 +71,7 @@ namespace Marathon.Toolkit.Forms
             // SplitContainer_TreeView.Panel2
             // 
             this.SplitContainer_TreeView.Panel2.Controls.Add(this.Label_DirectoryEmpty);
-            this.SplitContainer_TreeView.Panel2.Controls.Add(this.ListView_Explorer);
+            this.SplitContainer_TreeView.Panel2.Controls.Add(this.ListViewDark_Explorer);
             this.SplitContainer_TreeView.Size = new System.Drawing.Size(786, 389);
             this.SplitContainer_TreeView.SplitterDistance = 183;
             this.SplitContainer_TreeView.TabIndex = 1;
@@ -116,31 +115,33 @@ namespace Marathon.Toolkit.Forms
             this.Label_DirectoryEmpty.Text = "This folder is empty.";
             this.Label_DirectoryEmpty.Visible = false;
             // 
-            // ListView_Explorer
+            // ListViewDark_Explorer
             // 
-            this.ListView_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ListViewDark_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ListView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ListView_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ListViewDark_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ListViewDark_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListViewDark_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
             this.Column_Type,
             this.Column_Size,
             this.Column_Space});
-            this.ListView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
-            this.ListView_Explorer.FullRowSelect = true;
-            this.ListView_Explorer.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.ListView_Explorer.HideSelection = false;
-            this.ListView_Explorer.Location = new System.Drawing.Point(-1, 1);
-            this.ListView_Explorer.Name = "ListView_Explorer";
-            this.ListView_Explorer.OwnerDraw = true;
-            this.ListView_Explorer.Size = new System.Drawing.Size(603, 406);
-            this.ListView_Explorer.SmallImageList = this.ImageList_Keys;
-            this.ListView_Explorer.TabIndex = 0;
-            this.ListView_Explorer.UseCompatibleStateImageBehavior = false;
-            this.ListView_Explorer.View = System.Windows.Forms.View.Details;
-            this.ListView_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListView_Explorer_MouseDown);
+            this.ListViewDark_Explorer.ForeColor = System.Drawing.SystemColors.Control;
+            this.ListViewDark_Explorer.FullRowSelect = true;
+            this.ListViewDark_Explorer.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.ListViewDark_Explorer.HideSelection = false;
+            this.ListViewDark_Explorer.LabelEdit = true;
+            this.ListViewDark_Explorer.Location = new System.Drawing.Point(-1, 1);
+            this.ListViewDark_Explorer.Name = "ListViewDark_Explorer";
+            this.ListViewDark_Explorer.OwnerDraw = true;
+            this.ListViewDark_Explorer.Size = new System.Drawing.Size(603, 406);
+            this.ListViewDark_Explorer.SmallImageList = this.ImageList_Keys;
+            this.ListViewDark_Explorer.TabIndex = 0;
+            this.ListViewDark_Explorer.UseCompatibleStateImageBehavior = false;
+            this.ListViewDark_Explorer.View = System.Windows.Forms.View.Details;
+            this.ListViewDark_Explorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ListViewDark_Explorer_AfterLabelEdit);
+            this.ListViewDark_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListViewDark_Explorer_MouseDown);
             // 
             // Column_Name
             // 
@@ -170,8 +171,6 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.MenuStripDark_Main.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStripDark_Main.ForeColor = System.Drawing.SystemColors.Control;
-            this.MenuStripDark_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuStripDark_Main_File});
             this.MenuStripDark_Main.Location = new System.Drawing.Point(-4, 0);
             this.MenuStripDark_Main.Name = "MenuStripDark_Main";
             this.MenuStripDark_Main.Size = new System.Drawing.Size(790, 24);
@@ -261,8 +260,6 @@ namespace Marathon.Toolkit.Forms
             this.SplitContainer_TreeView.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).EndInit();
             this.SplitContainer_TreeView.ResumeLayout(false);
-            this.MenuStripDark_Main.ResumeLayout(false);
-            this.MenuStripDark_Main.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -271,7 +268,7 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.SplitContainer SplitContainer_TreeView;
         private System.Windows.Forms.TreeView TreeView_Explorer;
         private System.Windows.Forms.ImageList ImageList_Keys;
-        private Components.ListViewDark ListView_Explorer;
+        private Components.ListViewDark ListViewDark_Explorer;
         private System.Windows.Forms.ColumnHeader Column_Name;
         private System.Windows.Forms.ColumnHeader Column_Type;
         private System.Windows.Forms.ColumnHeader Column_Size;

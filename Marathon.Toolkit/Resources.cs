@@ -48,10 +48,10 @@ namespace Marathon.Toolkit
             }
             else
             {
-				// Get the Bitmap data from the name of the input resource.
+				// Get the bitmap data from the name of the input resource.
 				Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
 
-				// Add current Bitmap to the dictionary.
+				// Add current bitmap to the dictionary.
 				BitmapCache.Add(resource, fromResource);
 
 				return fromResource;
