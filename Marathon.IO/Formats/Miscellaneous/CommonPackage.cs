@@ -217,7 +217,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 writer.AddString($"object{i}Explosion", Entries[i].Explosion);
                 writer.AddString($"object{i}ParticleFile", Entries[i].ParticleFile);
                 writer.AddString($"object{i}ParticleName", Entries[i].ParticleName);
-                writer.AddString($"object{i}SoundBank", Entries[i].SceneBank);
+                writer.AddString($"object{i}SceneBank", Entries[i].SceneBank);
                 writer.AddString($"object{i}SoundName", Entries[i].SoundName);
                 writer.Write(Entries[i].PsiBehaviour);
             }
@@ -263,10 +263,10 @@ namespace Marathon.IO.Formats.Miscellaneous
 
                 ParticleElem.Add(ParticleBankAttr);
 
-                XAttribute SoundBankAttr = new XAttribute("SoundBank", obj.SceneBank);
+                XAttribute SceneBankAttr = new XAttribute("SceneBank", obj.SceneBank);
                 XElement SoundElem       = new XElement("Sound", obj.SoundName);
 
-                SoundElem.Add(SoundBankAttr);
+                SoundElem.Add(SceneBankAttr);
 
                 XElement PsiBehaviourElem = new XElement("PsiBehaviour", obj.PsiBehaviour);
 
@@ -316,7 +316,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                     Explosion              = objectElem.Element("Explosion").Value,
                     ParticleFile           = objectElem.Element("Particle").Attribute("ParticleBank").Value,
                     ParticleName           = objectElem.Element("Particle").Value,
-                    SceneBank              = objectElem.Element("Sound").Attribute("SoundBank").Value,
+                    SceneBank              = objectElem.Element("Sound").Attribute("SceneBank").Value,
                     SoundName              = objectElem.Element("Sound").Value,
                     PsiBehaviour           = uint.Parse(objectElem.Element("PsiBehaviour").Value)
                 };

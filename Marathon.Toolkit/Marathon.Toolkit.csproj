@@ -71,19 +71,19 @@
     <Compile Include="Forms\Components\ToolStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Components\ToolStripDark.designer.cs">
+    <Compile Include="Forms\Components\ToolStripDark.Designer.cs">
       <DependentUpon>ToolStripDark.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\OptionsFieldBooleanType.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\OptionsFieldBooleanType.designer.cs">
+    <Compile Include="Forms\Controls\OptionsFieldBooleanType.Designer.cs">
       <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\OptionsFieldStringType.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\OptionsFieldStringType.designer.cs">
+    <Compile Include="Forms\Controls\OptionsFieldStringType.Designer.cs">
       <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Options.cs">
