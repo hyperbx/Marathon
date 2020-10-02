@@ -185,7 +185,6 @@ namespace Marathon.IO.Formats.Miscellaneous
             }
         }
 
-
         public override void Save(Stream fileStream)
         {
             BINAv1Header Header = new BINAv1Header();

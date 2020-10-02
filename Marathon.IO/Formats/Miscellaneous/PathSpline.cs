@@ -60,7 +60,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
         public List<PathEntry> Paths = new List<PathEntry>();
 
-        // TODO: Exporting and Importing, Testing, Basically Everything.
+        // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
 
         public override void Load(Stream stream)
         {
@@ -140,9 +140,6 @@ namespace Marathon.IO.Formats.Miscellaneous
                 // Jump back to the saved position to read the next node.
                 reader.JumpTo(position);
             }
-
-            if (PathTableCount != NodeTableCount)
-                System.Console.WriteLine($"PathTableCount {PathTableCount} does not equal NodeTableCount {NodeTableCount}!");
         }
 
         public override void Save(Stream fileStream)
