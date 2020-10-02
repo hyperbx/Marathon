@@ -26,6 +26,7 @@
 
 using System.IO;
 using System.Collections.Generic;
+using Marathon.IO.Headers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
@@ -59,7 +60,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
         public List<PathEntry> Paths = new List<PathEntry>();
 
-        // TODO: Saving, Exporting and Importing, Testing, Basically Everything.
+        // TODO: Exporting and Importing, Testing, Basically Everything.
 
         public override void Load(Stream stream)
         {
@@ -69,7 +70,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             uint PathTableOffset = reader.ReadUInt32(); // Where the table of paths is.
             uint PathTableCount = reader.ReadUInt32();  // How many entries are in the table of paths.
             uint NodeTableOffset = reader.ReadUInt32(); // Where the table of nodes is.
-            uint NodeTableCount = reader.ReadUInt32();  // How many enteries are in the table of nodes.
+            uint NodeTableCount = reader.ReadUInt32();  // How many enteries are in the table of nodes, seems to always be the same as PathTableCount?
 
             // Jump to the Path Table's Offset for safety's sake, should always be ox30 really.
             reader.JumpTo(PathTableOffset, true);
@@ -96,10 +97,10 @@ namespace Marathon.IO.Formats.Miscellaneous
                 reader.JumpTo(SplineOffset, true);
 
                 // Read this path's splines.
-                for(int s = 0; s < SplineCount; s++)
+                for (int s = 0; s < SplineCount; s++)
                 {
                     SplineEntry spline = new SplineEntry();
-                    for(int v = 0; v < VertexCount; v++)
+                    for (int v = 0; v < VertexCount; v++)
                     {
                         VertexEntry vertex = new VertexEntry
                         {
@@ -122,7 +123,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             reader.JumpTo(NodeTableOffset, true);
 
             // Loop through based on NodeTableCount.
-            for(int i = 0; i < NodeTableCount; i++)
+            for (int i = 0; i < NodeTableCount; i++)
             {
                 Paths[i].NodeNumber = reader.ReadUInt32();    // Unknown, usually the same as the path's number sequentially, but not always.
                 Paths[i].Position = reader.ReadVector3();
@@ -139,6 +140,64 @@ namespace Marathon.IO.Formats.Miscellaneous
                 // Jump back to the saved position to read the next node.
                 reader.JumpTo(position);
             }
+
+            if (PathTableCount != NodeTableCount)
+                System.Console.WriteLine($"PathTableCount {PathTableCount} does not equal NodeTableCount {NodeTableCount}!");
+        }
+
+        public override void Save(Stream fileStream)
+        {
+            BINAv1Header Header = new BINAv1Header();
+            BINAWriter writer = new BINAWriter(fileStream, Header);
+
+            writer.AddOffset("PathTableOffset");
+            writer.Write(Paths.Count);
+            writer.AddOffset("NodeTableOffset");
+            writer.Write(Paths.Count); // Node Table Count seems to always be the same as PathTableCount?
+
+            // Path Table
+            writer.FillInOffset("PathTableOffset", true);
+            for(int i = 0; i < Paths.Count; i++)
+            {
+                writer.AddOffset($"Path{i}Offset");
+                writer.Write(Paths[i].Splines.Count);
+                writer.Write(Paths[i].Flag1);
+            }
+
+            for (int i = 0; i < Paths.Count; i++)
+            {
+                writer.FillInOffset($"Path{i}Offset", true);
+                writer.AddOffset($"Path{i}SplineOffset");
+                writer.Write(Paths[i].Splines[0].Verticies.Count);
+                writer.Write(Paths[i].Flag2);
+            }
+
+            for (int i = 0; i < Paths.Count; i++)
+            {
+                writer.FillInOffset($"Path{i}SplineOffset", true);
+                for(int s = 0; s < Paths[i].Splines.Count; s++)
+                {
+                    for(int v = 0; v < Paths[i].Splines[s].Verticies.Count; v++)
+                    {
+                        writer.Write(Paths[i].Splines[s].Verticies[v].Flag);
+                        writer.Write(Paths[i].Splines[s].Verticies[v].Position);
+                        writer.Write(Paths[i].Splines[s].Verticies[v].InvecPosition);
+                        writer.Write(Paths[i].Splines[s].Verticies[v].OutvecPosition);
+                    }
+                }
+            }
+
+            // Node Table
+            writer.FillInOffset("NodeTableOffset", true);
+            for (int i = 0; i < Paths.Count; i++)
+            {
+                writer.Write(Paths[i].NodeNumber);
+                writer.Write(Paths[i].Position);
+                writer.Write(Paths[i].Rotation);
+                writer.AddString($"Path{i}Name", Paths[i].Name);
+            }
+
+            writer.FinishWrite(Header);
         }
     }
 }
