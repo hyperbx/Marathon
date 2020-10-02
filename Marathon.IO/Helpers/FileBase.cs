@@ -36,6 +36,9 @@ namespace Marathon.IO
     {
         public string Location;
 
+        public FileBase() { }
+        public FileBase(string file) => Load(file);
+
         public virtual void Load(string file)
         {
             if (string.IsNullOrEmpty(file))

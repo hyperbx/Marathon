@@ -1,4 +1,4 @@
-// Marathon is licensed under the MIT License:
+﻿// CriWareSoundBank.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -23,35 +23,16 @@
  * SOFTWARE.
  */
 
-using System.ComponentModel;
-
-namespace Marathon.Toolkit
+namespace Marathon.IO.Formats.Sounds
 {
-    // Totally Not A .NET Settings Clone™
-    /*
-     * This is where properties can be added for the configuration file.
-     * 
-     * Please use the following etiquette for creating new properties:
-     * 
-     *     /// <summary>
-     *     /// Initialiser for the DummyProperty property.
-     *     /// </summary>
-     *     private static [type] _DummyProperty = [default value];
-     *     
-     *     /// <summary>
-     *     /// Dummy description for this property.
-     *     /// </summary>
-     *     [DisplayName("Dummy Property"), Description("Dummy description for this property.")]
-     *     public static [type] DummyProperty { get; set; } = [default value];
-     *     
-     * You must provide a summary, display name and description for each property;
-     * without a display name, the property will be discarded from the Options menu.
-     * 
-     * Properties that require custom get and set functions can use initialisers.
-     */
-
-    partial class Settings
+    /// <summary>
+    /// <para>File base for the CSB format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://www.criware.com/">CriWare</a> ADX sounds.</para>
+    /// </summary>
+    class CriWareSoundBank : FileBase
     {
+        public const string Extension = ".csb";
 
+        // TODO: Everything else...
     }
 }

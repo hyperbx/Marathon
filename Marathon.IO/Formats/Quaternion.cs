@@ -25,8 +25,11 @@
 
 using System;
 
-namespace Marathon.IO
+namespace Marathon.IO.Formats
 {
+    /// <summary>
+    /// Vector extension for Quaternion support.
+    /// </summary>
     [Serializable]
     public class Quaternion : Vector4
     {

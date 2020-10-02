@@ -24,7 +24,7 @@
  */
 
 using System;
-using System.Xml.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -32,27 +32,29 @@ namespace Marathon.Toolkit.Forms
 {
     public partial class Debugger : DockContent
     {
-        public Debugger() => InitializeComponent();
+        public Debugger()
+        {
+            InitializeComponent();
+
+            ImportSettings();
+        }
 
         /// <summary>
         /// Loads configuration into the TreeView.
         /// </summary>
-        private void ImportSettingsFromXML()
+        private void ImportSettings()
         {
             TreeView_Properties.Nodes.Clear();
 
-            if (Settings._ConfigurationXML != null)
+            foreach (PropertyInfo property in typeof(ISettings).GetProperties())
             {
-                foreach (XElement propertyElem in Settings._ConfigurationXML.Root.Elements(Settings._PropertyElement))
+                TreeNode propertyNode = new TreeNode()
                 {
-                    TreeNode property = new TreeNode()
-                    {
-                        Text = propertyElem.Attribute(Settings._NameElement).Value,
-                        Tag = propertyElem
-                    };
+                    Text = property.Name,
+                    Tag = property
+                };
 
-                    TreeView_Properties.Nodes.Add(property);
-                }
+                TreeView_Properties.Nodes.Add(propertyNode);
             }
         }
 
@@ -66,32 +68,16 @@ namespace Marathon.Toolkit.Forms
         /// Perform actions when clicking a TreeNode.
         /// </summary>
         private void TreeView_Properties_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-            => MarathonMessageBox.Show(((XElement)e.Node.Tag).Value); // If it's not an XElement... Whoops? ¯\_(ツ)_/¯
-
-        /// <summary>
-        /// Loads the configuration.
-        /// </summary>
-        private void ButtonFlat_LoadSettings_Click(object sender, EventArgs e)
         {
-            Settings.Load();
-            ImportSettingsFromXML();
-        }
+            PropertyInfo property = (PropertyInfo)e.Node.Tag;
 
-        /// <summary>
-        /// Saves the configuration.
-        /// </summary>
-        private void ButtonFlat_SaveSettings_Click(object sender, EventArgs e)
-        {
-            Settings.Save();
-            ImportSettingsFromXML();
+            MarathonMessageBox.Show(property.GetValue(property).ToString());
         }
 
         /// <summary>
         /// Opens the OpenGL window.
         /// </summary>
-        private void ButtonFlat_OpenGL_Click(object sender, EventArgs e)
-        {
-            new ModelViewer().Show(DockPanel);
-        }
+        private void ButtonFlat_DirectX_Click(object sender, EventArgs e)
+            => new ModelViewer().Show(DockPanel);
     }
 }

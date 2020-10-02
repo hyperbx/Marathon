@@ -1,4 +1,4 @@
-﻿// SaveData.cs is licensed under the MIT License:
+﻿// SonicNextSaveData.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -77,9 +77,10 @@ namespace Marathon.IO.Formats.Miscellaneous
              so a lot of research will need to be done. */
 
     /// <summary>
-    /// Fixed file base for the Sonic '06 SonicNextSaveData.bin format.
+    /// <para>Fixed file base for the SonicNextSaveData.bin format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for save data.</para>
     /// </summary>
-    public class SaveData : FixedFileBase
+    public class SonicNextSaveData : FixedFileBase
     {
         /// <summary>
         /// Information stored for each episode.

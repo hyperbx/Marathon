@@ -28,12 +28,12 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 
 namespace Marathon.IO.Formats.Meshes
 {
     /// <summary>
-    /// File base for the Sonic '06 BIN format.
+    /// <para>File base for a BIN format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for collision meshes.</para>
     /// </summary>
     public class Collision : FileBase
     {

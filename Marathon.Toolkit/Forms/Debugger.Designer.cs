@@ -33,8 +33,6 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_Settings = new System.Windows.Forms.GroupBox();
             this.TreeView_Properties = new System.Windows.Forms.TreeView();
             this.ButtonFlat_DirectX = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_SaveSettings = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_LoadSettings = new Marathon.Toolkit.Components.ButtonFlat();
             this.GroupBox_Settings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,8 +52,6 @@ namespace Marathon.Toolkit.Forms
             // 
             this.GroupBox_Settings.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.GroupBox_Settings.Controls.Add(this.ButtonFlat_SaveSettings);
-            this.GroupBox_Settings.Controls.Add(this.ButtonFlat_LoadSettings);
             this.GroupBox_Settings.Controls.Add(this.TreeView_Properties);
             this.GroupBox_Settings.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_Settings.Location = new System.Drawing.Point(12, 9);
@@ -79,7 +75,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Properties.ShowLines = false;
             this.TreeView_Properties.ShowPlusMinus = false;
             this.TreeView_Properties.ShowRootLines = false;
-            this.TreeView_Properties.Size = new System.Drawing.Size(241, 445);
+            this.TreeView_Properties.Size = new System.Drawing.Size(241, 473);
             this.TreeView_Properties.TabIndex = 6;
             this.TreeView_Properties.TabStop = false;
             this.TreeView_Properties.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Properties_AfterSelect);
@@ -99,37 +95,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_DirectX.TabIndex = 6;
             this.ButtonFlat_DirectX.Text = "DirectX Tests";
             this.ButtonFlat_DirectX.UseVisualStyleBackColor = false;
-            this.ButtonFlat_DirectX.Click += new System.EventHandler(this.ButtonFlat_OpenGL_Click);
-            // 
-            // ButtonFlat_SaveSettings
-            // 
-            this.ButtonFlat_SaveSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ButtonFlat_SaveSettings.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_SaveSettings.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_SaveSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_SaveSettings.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_SaveSettings.Location = new System.Drawing.Point(125, 470);
-            this.ButtonFlat_SaveSettings.Name = "ButtonFlat_SaveSettings";
-            this.ButtonFlat_SaveSettings.Size = new System.Drawing.Size(118, 23);
-            this.ButtonFlat_SaveSettings.TabIndex = 7;
-            this.ButtonFlat_SaveSettings.Text = "Save";
-            this.ButtonFlat_SaveSettings.UseVisualStyleBackColor = false;
-            this.ButtonFlat_SaveSettings.Click += new System.EventHandler(this.ButtonFlat_SaveSettings_Click);
-            // 
-            // ButtonFlat_LoadSettings
-            // 
-            this.ButtonFlat_LoadSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ButtonFlat_LoadSettings.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_LoadSettings.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_LoadSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_LoadSettings.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_LoadSettings.Location = new System.Drawing.Point(4, 470);
-            this.ButtonFlat_LoadSettings.Name = "ButtonFlat_LoadSettings";
-            this.ButtonFlat_LoadSettings.Size = new System.Drawing.Size(118, 23);
-            this.ButtonFlat_LoadSettings.TabIndex = 6;
-            this.ButtonFlat_LoadSettings.Text = "Load";
-            this.ButtonFlat_LoadSettings.UseVisualStyleBackColor = false;
-            this.ButtonFlat_LoadSettings.Click += new System.EventHandler(this.ButtonFlat_LoadSettings_Click);
+            this.ButtonFlat_DirectX.Click += new System.EventHandler(this.ButtonFlat_DirectX_Click);
             // 
             // Debugger
             // 
@@ -155,8 +121,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.Label Label_Subtitle;
         private System.Windows.Forms.GroupBox GroupBox_Settings;
         private System.Windows.Forms.TreeView TreeView_Properties;
-        private Components.ButtonFlat ButtonFlat_LoadSettings;
-        private Components.ButtonFlat ButtonFlat_SaveSettings;
         private Components.ButtonFlat ButtonFlat_DirectX;
     }
 }

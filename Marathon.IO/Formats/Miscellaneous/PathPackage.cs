@@ -26,13 +26,13 @@
 
 using System.IO;
 using System.Collections.Generic;
-using Marathon.IO.Helpers;
 using Marathon.IO.Headers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
-    /// File base for the Sonic '06 PathObj.bin format.
+    /// <para>File base for the PathObj.bin format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining spline guided objects.</para>
     /// </summary>
     public class PathPackage : FileBase
     {

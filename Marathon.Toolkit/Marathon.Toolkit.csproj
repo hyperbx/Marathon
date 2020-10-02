@@ -71,14 +71,14 @@
     <Compile Include="Forms\Components\ToolStripDark.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\Components\ToolStripDark.designer.cs">
+    <Compile Include="Forms\Components\ToolStripDark.Designer.cs">
       <DependentUpon>ToolStripDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\OptionsField.cs">
+    <Compile Include="Forms\Controls\OptionsFieldBooleanType.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\OptionsField.Designer.cs">
-      <DependentUpon>OptionsField.cs</DependentUpon>
+    <Compile Include="Forms\Controls\OptionsFieldBooleanType.Designer.cs">
+      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\OptionsFieldStringType.cs">
       <SubType>UserControl</SubType>
@@ -165,10 +165,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Settings.Designer.cs">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\TreeViewExtensions.cs" />
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
@@ -223,8 +219,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\OptionsFieldBooleanType.resx">
+      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\OptionsFieldStringType.resx">
       <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
@@ -283,8 +283,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
-    <Content Include="Resources\Icons\Error.ico" />
     <Content Include="Resources\Icons\Icon.ico" />
+    <None Include="Resources\Images\Tasks\Task_Rename.png" />
+    <None Include="Resources\Images\Tasks\Task_AddFile.png" />
+    <None Include="Resources\Images\Tasks\Task_RemoveFile.png" />
+    <None Include="Resources\Images\Tasks\Task_AddBinaryFile.png" />
+    <None Include="Resources\Images\Tasks\Task_Home.png" />
+    <None Include="Resources\Images\Tasks\Task_Feature.png" />
+    <None Include="Resources\Images\Tasks\Task_Invalid.png" />
     <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Back_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Clipboard_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_DirectoryTree_Enabled.png" />
@@ -316,14 +322,10 @@
     <None Include="Resources\Images\Tasks\Task_OpenDialog.png" />
     <None Include="Resources\Images\Tasks\Task_OpenFile.png" />
     <None Include="Resources\Images\Tasks\Task_OpenFolder.png" />
-    <None Include="Resources\Icons\Warning.ico" />
-    <None Include="Resources\Icons\Information.ico" />
-    <None Include="Resources\Icons\Question.ico" />
     <None Include="Resources\Images\Miscellaneous\Feedback_Question.png" />
     <None Include="Resources\Images\Miscellaneous\Feedback_Warning.png" />
     <None Include="Resources\Images\Miscellaneous\Feedback_Error.png" />
     <None Include="Resources\Images\Miscellaneous\Feedback_Information.png" />
-    <Content Include="Resources\Shaders.xml" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
     <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
@@ -336,6 +338,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Config.Net">
+      <Version>4.15.0</Version>
+    </PackageReference>
+    <PackageReference Include="Config.Net.Json">
+      <Version>4.15.0</Version>
+    </PackageReference>
     <PackageReference Include="DockPanelSuite.ThemeVS2015">
       <Version>3.0.6</Version>
     </PackageReference>
@@ -345,14 +353,8 @@
     <PackageReference Include="NAudio.Lame">
       <Version>1.1.6</Version>
     </PackageReference>
-    <PackageReference Include="SharpDX">
-      <Version>4.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.D3DCompiler">
-      <Version>4.2.0</Version>
-    </PackageReference>
-    <PackageReference Include="SharpDX.Direct3D11">
-      <Version>4.2.0</Version>
+    <PackageReference Include="Veldrid">
+      <Version>4.8.0</Version>
     </PackageReference>
     <PackageReference Include="VGAudio">
       <Version>2.2.1</Version>

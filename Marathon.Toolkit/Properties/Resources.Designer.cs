@@ -314,16 +314,12 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Marathon&gt;
-        ///  &lt;!-- Vertex and Fragment shaders are inherited by name from .NET resources. --&gt;
-        ///  &lt;Shader Vertex=&quot;SimpleVertex&quot; Fragment=&quot;SimpleFragment&quot;&gt;Simple&lt;/Shader&gt;
-        ///&lt;/Marathon&gt;
-        ///.
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static string Shaders {
+        internal static System.Drawing.Bitmap Task_AddFile {
             get {
-                return ResourceManager.GetString("Shaders", resourceCulture);
+                object obj = ResourceManager.GetObject("Task_AddFile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -333,16 +329,6 @@ namespace Marathon.Toolkit.Properties {
         internal static System.Drawing.Bitmap Task_Archive {
             get {
                 object obj = ResourceManager.GetObject("Task_Archive", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Task_Bug {
-            get {
-                object obj = ResourceManager.GetObject("Task_Bug", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -370,9 +356,39 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Task_Feature {
+            get {
+                object obj = ResourceManager.GetObject("Task_Feature", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_Home {
+            get {
+                object obj = ResourceManager.GetObject("Task_Home", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Task_Information {
             get {
                 object obj = ResourceManager.GetObject("Task_Information", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_Invalid {
+            get {
+                object obj = ResourceManager.GetObject("Task_Invalid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -463,6 +479,26 @@ namespace Marathon.Toolkit.Properties {
         internal static System.Drawing.Bitmap Task_Output {
             get {
                 object obj = ResourceManager.GetObject("Task_Output", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_RemoveFile {
+            get {
+                object obj = ResourceManager.GetObject("Task_RemoveFile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_Rename {
+            get {
+                object obj = ResourceManager.GetObject("Task_Rename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -23,44 +23,12 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Reflection;
-using Marathon.Toolkit.Controls;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class Options : DockContent
     {
-        public Options()
-        {
-            InitializeComponent();
-
-            LoadProperties();
-        }
-
-        private void LoadProperties()
-        {
-            foreach (PropertyInfo property in typeof(Settings).GetProperties())
-            {
-                switch (property.GetType())
-                {
-                    case Type _ when property.PropertyType == typeof(string):
-                    {
-                        OptionsFieldStringType option = new OptionsFieldStringType()
-                        {
-                            OptionName = Settings.GetPropertyDisplayName(property),
-                            OptionDescription = Settings.GetPropertyDescription(property),
-                            OptionProperty = property
-                        };
-
-                        // Add the option control to the FlowLayoutPanel.
-                        FlowLayoutPanel_Options.Controls.Add(option);
-
-                        break;
-                    }
-                }
-            }
-        }
+        public Options() => InitializeComponent();
     }
 }

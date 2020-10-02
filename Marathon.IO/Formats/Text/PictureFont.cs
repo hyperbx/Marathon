@@ -27,13 +27,13 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Text
 {
     /// <summary>
-    /// File base for the Sonic '06 PFT format.
+    /// <para>File base for the PFT format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining placeholder images for <see cref="MessageTable"/> files.</para>
     /// </summary>
     public class PictureFont : FileBase
     {
@@ -46,6 +46,7 @@ namespace Marathon.IO.Formats.Text
         public const string Signature = "FNTP", Extension = ".pft";
 
         public string Texture;
+
         public List<SubImage> Entries = new List<SubImage>();
 
         public override void Load(Stream stream)
@@ -67,6 +68,7 @@ namespace Marathon.IO.Formats.Text
             // Texture
             reader.JumpTo(texturePos, true);
             Texture = reader.ReadNullTerminatedString();
+
             reader.JumpTo(position, false);
 
             // Placeholders

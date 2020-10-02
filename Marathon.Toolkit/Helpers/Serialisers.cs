@@ -140,27 +140,26 @@ namespace Marathon.Toolkit.Helpers
         /// </summary>
         public static string ParseFileTypesToFilter(string resource)
         {
-            // TODO: Merge filters instead of removing duplicates.
-
             StringBuilder stringBuilder = new StringBuilder();
             Dictionary<string, string> validTypes = new Dictionary<string, string>();
 
             XDocument xml = XDocument.Parse(resource);
 
-            // Generate list of valid file types - if there are duplicate types, remove them.
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
                 string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
 
-                if (validTypes.ContainsKey(@extension))
-                    validTypes = validTypes.Where(x => x.Key != @extension).ToDictionary(x => x.Key, x => x.Value);
+                if (!string.IsNullOrEmpty(@extension))
+                {
+                    string[] commonSplit = supportedFileTypesElem.Value.Split('|');
 
-                else if (!string.IsNullOrEmpty(@extension))
-                    validTypes.Add(@extension, supportedFileTypesElem.Value);
+                    // Common extensions need to be split.
+                    foreach (string common in commonSplit)
+                    {
+                        stringBuilder.Append($"{common} (*{@extension})|*{@extension}|");
+                    }
+                }
             }
-
-            foreach (var entry in validTypes)
-                stringBuilder.Append($"{entry.Value} (*{entry.Key})|*{entry.Key}|");
 
             return stringBuilder.ToString().EndsWith("|") ? stringBuilder.ToString().Remove(stringBuilder.Length - 1) : stringBuilder.ToString();
         }

@@ -337,7 +337,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Navigation buttons for the WebBrowser control.
         /// </summary>
-        private void ButtonFlat_Navigation_Click(object sender, EventArgs e)
+        private void ButtonFlat_Navigation_Click_Group(object sender, EventArgs e)
         {
             // Navigate back a directory...
             if (sender.Equals(ButtonFlat_Back))

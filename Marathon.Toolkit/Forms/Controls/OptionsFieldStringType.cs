@@ -25,10 +25,11 @@
 
 using System;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Marathon.Toolkit.Controls
 {
-    public partial class OptionsFieldStringType : OptionsField
+    public partial class OptionsFieldStringType : UserControl
     {
         private string _OptionName, _OptionDescription, _OptionField;
         private PropertyInfo _OptionProperty;
@@ -36,7 +37,7 @@ namespace Marathon.Toolkit.Controls
         /// <summary>
         /// The name of the option.
         /// </summary>
-        public override string OptionName
+        public string OptionName
         {
             get => _OptionName;
 
@@ -46,7 +47,7 @@ namespace Marathon.Toolkit.Controls
         /// <summary>
         /// The description given to the option.
         /// </summary>
-        public override string OptionDescription
+        public string OptionDescription
         {
             get => _OptionDescription;
 
@@ -56,7 +57,7 @@ namespace Marathon.Toolkit.Controls
         /// <summary>
         /// The property assigned to this option.
         /// </summary>
-        public override PropertyInfo OptionProperty
+        public PropertyInfo OptionProperty
         {
             get => _OptionProperty;
 
