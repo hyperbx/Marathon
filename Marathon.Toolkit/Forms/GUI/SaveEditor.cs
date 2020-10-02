@@ -36,7 +36,7 @@ namespace Marathon.Toolkit.Forms
     {
         private string _LoadedFile;                          // Path to the current loaded file.
         private bool LifeCountClampWarningShown = true;      // Flag to trip when going over 99 lives.
-        private SaveData SonicNextSaveData = new SaveData(); // Stored save data properties.
+        private SonicNextSaveData SonicNextSaveData = new SonicNextSaveData(); // Stored save data properties.
 
         public SaveEditor(string file)
         {
@@ -79,7 +79,7 @@ namespace Marathon.Toolkit.Forms
 
             for (int i = 0; i < SonicNextSaveData.Missions.Count; i++)
             {
-                SaveData.Mission mission = SonicNextSaveData.Missions[i];
+                SonicNextSaveData.Mission mission = SonicNextSaveData.Missions[i];
 
                 TreeNode missionNode      = new TreeNode(i.ToString()),
                          missionFlagNode  = new TreeNode(mission.UnknownInt32_1.ToString()),

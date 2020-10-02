@@ -135,7 +135,7 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.Location = new System.Drawing.Point(-1, 1);
             this.ListViewDark_Explorer.Name = "ListViewDark_Explorer";
             this.ListViewDark_Explorer.OwnerDraw = true;
-            this.ListViewDark_Explorer.Size = new System.Drawing.Size(603, 406);
+            this.ListViewDark_Explorer.Size = new System.Drawing.Size(599, 406);
             this.ListViewDark_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListViewDark_Explorer.TabIndex = 0;
             this.ListViewDark_Explorer.UseCompatibleStateImageBehavior = false;
@@ -161,7 +161,7 @@ namespace Marathon.Toolkit.Forms
             // Column_Space
             // 
             this.Column_Space.Text = "";
-            this.Column_Space.Width = 303;
+            this.Column_Space.Width = 299;
             // 
             // MenuStripDark_Main
             // 

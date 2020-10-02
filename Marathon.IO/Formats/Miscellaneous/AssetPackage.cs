@@ -29,12 +29,12 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
-    /// File base for the Sonic '06 PKG format.
+    /// <para>File base for the PKG format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining specific assets with friendly names.</para>
     /// </summary>
     public class AssetPackage : FileBase
     {

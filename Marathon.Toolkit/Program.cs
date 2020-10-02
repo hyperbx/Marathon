@@ -29,7 +29,6 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using Marathon.Toolkit.Forms;
-using Config.Net;
 
 namespace Marathon.Toolkit
 {

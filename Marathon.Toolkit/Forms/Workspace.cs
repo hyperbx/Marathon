@@ -42,9 +42,6 @@ namespace Marathon.Toolkit.Forms
             MenuStripDark_Main_Debug.Visible = true;
             MenuStripDark_Main_Debug.Click += delegate { new Debugger().Show(DockPanel_Main); };
 #endif
-            // Display the Start Page.
-            if (Settings.Marathon.StartPageOnLaunch)
-                new StartPage().Show(DockPanel_Main);
         }
 
         /// <summary>
@@ -139,10 +136,5 @@ namespace Marathon.Toolkit.Forms
             else if (sender.Equals(MenuStripDark_Main_Help_SendFeedback_SuggestAFeature))
                 Program.InvokeFeedback(commonTitle, string.Empty, "enhancement");
         }
-
-        /// <summary>
-        /// Displays the Start Page form upon clicking.
-        /// </summary>
-        private void MenuStripDark_Main_File_StartPage_Click(object sender, EventArgs e) => new StartPage().Show(DockPanel_Main);
     }
 }

@@ -28,25 +28,27 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Text
 {
     /// <summary>
-    /// File base for the Sonic '06 MST format.
+    /// <para>File base for the MST format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://en.wikipedia.org/wiki/UTF-16">UTF-16</a> text with friendly names and placeholder data.</para>
     /// </summary>
     public class MessageTable : FileBase
     {
-        public class Entry
+        public class Message
         {
-            public string Name, Text, Placeholder = string.Empty;
+            public string Name,        // Friendly name pertaining to this message.
+                          Text,        // Text pertaining to this message.
+                          Placeholder; // Placeholder data pertaining to this message.
         }
 
         public const string Signature = "WTXT", Extension = ".mst";
 
         public string Name;
-        public List<Entry> Entries = new List<Entry>();
+        public List<Message> Entries = new List<Message>();
 
         public override void Load(Stream fileStream)
         {
@@ -69,7 +71,7 @@ namespace Marathon.IO.Formats.Text
 
             for (int i = 0; i < stringCount; i++)
             {
-                Entry entry = new Entry();
+                Message entry = new Message();
 
                 // Store offsets for later.
                 uint nameOffset = reader.ReadUInt32();
@@ -127,7 +129,7 @@ namespace Marathon.IO.Formats.Text
             // Fill placeholder offsets in with the approriate entry's placeholder value.
             for (int i = 0; i < Entries.Count; i++)
             {
-                if (Entries[i].Placeholder != string.Empty)
+                if (!string.IsNullOrEmpty(Entries[i].Placeholder))
                 {
                     writer.FillInOffset($"placeholderOffset{i}", true);
                     writer.WriteNullTerminatedString(Entries[i].Placeholder);
@@ -176,7 +178,7 @@ namespace Marathon.IO.Formats.Text
             // Loop through message nodes.
             foreach (var msgElement in xml.Root.Elements("Message"))
             {
-                Entry entry = new Entry
+                Message entry = new Message
                 {
                     Name = msgElement.Attribute("Name").Value,
                     Placeholder = msgElement.Attribute("Placeholder").Value,

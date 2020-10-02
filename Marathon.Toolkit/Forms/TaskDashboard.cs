@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using Marathon.Toolkit.Controls;
 using WeifenLuo.WinFormsUI.Docking;
+using Marathon.IO.Formats.Archives;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -14,9 +15,12 @@ namespace Marathon.Toolkit.Forms
         {
             InitializeComponent();
 
-            switch (Path.GetExtension(file))
+            string extension = Path.GetExtension(file); // Output: .blah
+
+            switch (extension)
             {
                 case ".arc":
+                case ".wad":
                 {
                     TaskDashboardOption exploreArchive = new TaskDashboardOption()
                     {
@@ -32,7 +36,14 @@ namespace Marathon.Toolkit.Forms
 
                     exploreArchive.Activated += delegate
                     {
-                        new ArchiveExplorer(file).Show(parent);
+                        if (extension == ".arc")
+                        {
+                            new ArchiveExplorer(new U8Archive(file) { StoreInMemory = false }).Show(parent);
+                        }
+                        else if (extension == ".wad")
+                        {
+                            new ArchiveExplorer(new WADHArchive(file) { StoreInMemory = false }).Show(parent);
+                        }
 
                         Close();
                     };

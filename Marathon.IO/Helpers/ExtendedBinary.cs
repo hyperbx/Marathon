@@ -28,6 +28,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
+using Marathon.IO.Formats;
 
 namespace Marathon.IO
 {

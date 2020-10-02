@@ -28,12 +28,12 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
-    /// File base for the Sonic '06 PROP format.
+    /// <para>File base for the PROP format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining object properties.</para>
     /// </summary>
     public class ObjectPropertyDatabase : FileBase
     {

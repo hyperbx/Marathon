@@ -26,12 +26,12 @@
 using System.IO;
 using System.Collections.Generic;
 using Marathon.IO.Exceptions;
-using System;
 
 namespace Marathon.IO.Formats.Text
 {
     /// <summary>
-    /// File base for the Sonic '06 FTM format.
+    /// <para>File base for the PFI format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining the proportions of <see cref="FontMap"/> characters.</para>
     /// </summary>
     public class FontProportion : FileBase
     {

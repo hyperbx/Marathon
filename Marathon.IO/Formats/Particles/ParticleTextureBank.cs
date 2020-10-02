@@ -28,13 +28,13 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Particles
 {
     /// <summary>
-    /// File base for the Sonic '06 PTB format.
+    /// <para>File base for the PTB format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG.</para>
     /// </summary>
     public class ParticleTextureBank : FileBase
     {

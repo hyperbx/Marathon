@@ -29,8 +29,11 @@ using System.Text;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
 
-namespace Marathon.IO.Helpers
+namespace Marathon.IO.Formats
 {
+    /// <summary>
+    /// BINA specification definitions.
+    /// </summary>
     public static class BINA
     {
         public static Encoding Encoding => Encoding.GetEncoding("shift-jis");
@@ -43,6 +46,9 @@ namespace Marathon.IO.Helpers
         }
     }
 
+    /// <summary>
+    /// BinaryReader extension for reading BINA formats.
+    /// </summary>
     public class BINAReader : ExtendedBinaryReader
     {
         public BINAReader(Stream input, uint offset = 0) : base(input, BINA.Encoding) => Offset = offset;
@@ -91,6 +97,9 @@ namespace Marathon.IO.Helpers
         }
     }
 
+    /// <summary>
+    /// BinaryWriter extension for writing BINA formats.
+    /// </summary>
     public class BINAWriter : ExtendedBinaryWriter
     {
         protected class StringTableEntry

@@ -27,13 +27,13 @@
 using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
-using Marathon.IO.Helpers;
 using Marathon.IO.Headers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
-    /// File base for the Sonic '06 Common.bin format.
+    /// <para>File base for the Common.bin format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining physics objects.</para>
     /// </summary>
     public class CommonPackage : FileBase
     {
@@ -51,7 +51,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                           Explosion,
                           ParticleFile,
                           ParticleName,
-                          SoundBank,
+                          SceneBank,
                           SoundName;
 
             public uint UnknownUInt32_1,
@@ -129,7 +129,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 uint explosionOffset           = reader.ReadUInt32(); // Offset to what entry in Explosion.bin should be used upon breaking this object.
                 uint particleFileOffset        = reader.ReadUInt32(); // Offset to the particle file used upon breaking this object.
                 uint particleNameOffset        = reader.ReadUInt32(); // Offset to the particle used upon breaking this object.
-                uint soundBankOffset           = reader.ReadUInt32(); // Offset to the sound bank used upon breaking this object.
+                uint sceneBankOffset           = reader.ReadUInt32(); // Offset to the scene bank used upon breaking this object.
                 uint soundNameOffset           = reader.ReadUInt32(); // Offset to the sound used upon breaking this object.
 
                 @object.PsiBehaviour           = reader.ReadUInt32(); // How this object behaves when using Silver's psychokinesis.
@@ -171,8 +171,8 @@ namespace Marathon.IO.Formats.Miscellaneous
                 reader.JumpTo(particleNameOffset, true);
                 @object.ParticleName = reader.ReadNullTerminatedString();
 
-                reader.JumpTo(soundBankOffset, true);
-                @object.SoundBank = reader.ReadNullTerminatedString();
+                reader.JumpTo(sceneBankOffset, true);
+                @object.SceneBank = reader.ReadNullTerminatedString();
 
                 reader.JumpTo(soundNameOffset, true);
                 @object.SoundName = reader.ReadNullTerminatedString();
@@ -217,7 +217,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 writer.AddString($"object{i}Explosion", Entries[i].Explosion);
                 writer.AddString($"object{i}ParticleFile", Entries[i].ParticleFile);
                 writer.AddString($"object{i}ParticleName", Entries[i].ParticleName);
-                writer.AddString($"object{i}SoundBank", Entries[i].SoundBank);
+                writer.AddString($"object{i}SoundBank", Entries[i].SceneBank);
                 writer.AddString($"object{i}SoundName", Entries[i].SoundName);
                 writer.Write(Entries[i].PsiBehaviour);
             }
@@ -263,7 +263,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
                 ParticleElem.Add(ParticleBankAttr);
 
-                XAttribute SoundBankAttr = new XAttribute("SoundBank", obj.SoundBank);
+                XAttribute SoundBankAttr = new XAttribute("SoundBank", obj.SceneBank);
                 XElement SoundElem       = new XElement("Sound", obj.SoundName);
 
                 SoundElem.Add(SoundBankAttr);
@@ -316,7 +316,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                     Explosion              = objectElem.Element("Explosion").Value,
                     ParticleFile           = objectElem.Element("Particle").Attribute("ParticleBank").Value,
                     ParticleName           = objectElem.Element("Particle").Value,
-                    SoundBank              = objectElem.Element("Sound").Attribute("SoundBank").Value,
+                    SceneBank              = objectElem.Element("Sound").Attribute("SoundBank").Value,
                     SoundName              = objectElem.Element("Sound").Value,
                     PsiBehaviour           = uint.Parse(objectElem.Element("PsiBehaviour").Value)
                 };

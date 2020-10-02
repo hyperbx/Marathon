@@ -27,13 +27,13 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Text
 {
     /// <summary>
-    /// File base for the Sonic '06 PFT format.
+    /// <para>File base for the PFT format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining placeholder images for <see cref="MessageTable"/> files.</para>
     /// </summary>
     public class PictureFont : FileBase
     {

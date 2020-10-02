@@ -1,4 +1,4 @@
-﻿// DirectDraw.cs is licensed under the MIT License:
+﻿// CriWareSoundBank.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -23,15 +23,15 @@
  * SOFTWARE.
  */
 
-namespace Marathon.IO.Formats.Textures
+namespace Marathon.IO.Formats.Sounds
 {
     /// <summary>
-    /// <para>File base for the DDS format.</para>
-    /// <para>Used commonly in a lot of media for storing textures.</para>
+    /// <para>File base for the CSB format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://www.criware.com/">CriWare</a> ADX sounds.</para>
     /// </summary>
-    public class DirectDraw : FileBase
+    class CriWareSoundBank : FileBase
     {
-        public const string Extension = ".dds";
+        public const string Extension = ".csb";
 
         // TODO: Everything else...
     }

@@ -31,13 +31,13 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Placement
 {
     /// <summary>
-    /// File base for the Sonic '06 SET format.
+    /// <para>File base for the SET format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for object placement in stages.</para>
     /// </summary>
     public class ObjectPlacement : FileBase
     {

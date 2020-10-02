@@ -1,10 +1,10 @@
-﻿// CompressedU8Archive.cs is licensed under the MIT License:
+﻿// U8Archive.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
  * Copyright (c) 2020 Radfordhound
- * Copyright (c) 2020 GerbilSoft
  * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 GerbilSoft
  * Copyright (c) 2020 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,104 +32,23 @@ using System.IO.Compression;
 using System.Text;
 using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
-using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.Archives
 {
     /// <summary>
-    /// File base for the U8 archive format.
+    /// <para>File base for the U8 format.</para>
+    /// <para>Used in more than a few games licensed by Nintendo for storing game data.</para>
+    /// <para>Also supported is Sonic Team's modified variant used in SONIC THE HEDGEHOG to support Zlib compression.</para>
     /// </summary>
     public class U8Archive : Archive
     {
-        public abstract class U8DataEntry
-        {
-            /// <summary>
-            /// Name of the file or directory this U8DataEntry represents.
-            /// </summary>
-            public string Name;
-
-            /// <summary>
-            /// Information about the entry - used for convenience with Archive Explorer.
-            /// </summary>
-            public U8DataEntryZlib Information;
-
-            /// <summary>
-            /// Whether this U8DataEntry represents a directory or a file.
-            /// </summary>
-            public abstract bool IsDirectory { get; }
-
-            public U8DataEntry() { }
-            public U8DataEntry(string name)
-            {
-                Name = name;
-            }
-
-            /// <summary>
-            /// Recursively computes the total number of DataEntries contained within the given list.
-            /// </summary>
-            /// <param name="dataEntries">The list of data entries to recurse through.</param>
-            /// <returns>The total, recursive number of DataEntries contained within the given list.</returns>
-            public static int GetTotalCount(List<U8DataEntry> dataEntries)
-            {
-                int totalCount = dataEntries.Count;
-                foreach (var dataEntry in dataEntries)
-                {
-                    if (dataEntry is U8DirectoryEntry childDirEntry)
-                    {
-                        totalCount += childDirEntry.TotalContentsCount;
-                    }
-                }
-
-                return totalCount;
-            }
-        }
-
-        public class U8FileEntry : U8DataEntry
-        {
-            /// <summary>
-            /// Decompressed data of the file.
-            /// </summary>
-            public byte[] Data;
-
-            public override bool IsDirectory => false;
-
-            public U8FileEntry() { }
-            public U8FileEntry(string name, byte[] data) : base(name)
-            {
-                Data = data;
-            }
-        }
-
-        public class U8DirectoryEntry : U8DataEntry
-        {
-            /// <summary>
-            /// The directories/files inside the directory.
-            /// </summary>
-            public List<U8DataEntry> Contents = new List<U8DataEntry>();
-
-            /// <summary>
-            /// The total, recursive number of DataEntries contained within this directory.
-            /// </summary>
-            public int TotalContentsCount => GetTotalCount(Contents);
-
-            public override bool IsDirectory => true;
-
-            public U8DirectoryEntry() { }
-            public U8DirectoryEntry(string name) : base(name) { }
-        }
-
-        public const uint Signature = 0x55AA382D;
-        public const string Extension = ".arc";
-
-        public readonly List<U8DataEntry> Entries = new List<U8DataEntry>();
-
-        public enum U8DataEntryType
+        public enum U8DataType
         {
             File = 0,
             Directory = 1
         }
 
-        public struct U8DataEntryZlib
+        public struct U8DataEntry
         {
             /// <summary>
             /// Various properties of this entry.
@@ -167,25 +86,115 @@ namespace Marathon.IO.Formats.Archives
             /// </remarks>
             public uint Size;
 
+            /// <summary>
+            /// The uncompressed size of the file represented by this
+            /// entry, if this entry represents a file.
+            /// </summary>
+            /// <remarks>
+            /// For files, this is the uncompressed size of the file's data.
+            /// 
+            /// For directories, I'm honestly not sure what this is; sometimes
+            /// it's set to 0, sometimes it's set to the ASCII value of "none",
+            /// sometimes it's other ASCII text, sometimes it's just a random number??
+            /// 
+            /// '06 doesn't seem to care if you just set this to 0, so it might just be unused.
+            /// </remarks>
+            public uint UncompressedSize;
+
             public const uint TypeMask = 0xFF000000;
             public const uint NameOffsetMask = 0x00FFFFFF;
-            public const uint SizeOf = 12;
 
-            public U8DataEntryType Type => (U8DataEntryType)((Flags & TypeMask) >> 24);
+            /// <summary>
+            /// The size of the struct.
+            /// </summary>
+            public static uint SizeOf = (uint)(Zlib ? 16 : 12);
+
+            public U8DataType Type => (U8DataType)((Flags & TypeMask) >> 24);
             public uint NameOffset => Flags & NameOffsetMask;
 
-            public U8DataEntryZlib(ExtendedBinaryReader reader)
+            public U8DataEntry(ExtendedBinaryReader reader)
             {
-                Flags = reader.ReadUInt32();
-                Data  = reader.ReadUInt32();
-                Size  = reader.ReadUInt32();
+                Flags            = reader.ReadUInt32();
+                Data             = reader.ReadUInt32();
+                Size             = reader.ReadUInt32();
+                UncompressedSize = Zlib ? reader.ReadUInt32() : 0;
             }
+        }
+
+        public class U8ArchiveFile : ArchiveFile
+        {
+            public override byte[] Decompress(Stream stream, ArchiveFile file)
+            {
+                // Create ExtendedBinaryReader.
+                ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, BigEndian);
+
+                // Jump to the file's data.
+                reader.JumpTo(file.Offset);
+
+                // Decompress if compressed.
+                if (Zlib && file.Length != 0)
+                {
+                    // Read the file's Zlib-compressed data.
+                    byte[] compressedData = reader.ReadBytes((int)file.Length);
+
+                    // Decompress the file's Zlib-compressed data.
+                    using (var compressedStream = new MemoryStream(compressedData))
+                    {
+                        using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
+                        {
+                            using (var resultStream = new MemoryStream())
+                            {
+                                // Copy decompressed data to result.
+                                zipStream.CopyTo(resultStream);
+
+                                // Return decompressed data.
+                                return resultStream.ToArray();
+                            }
+                        }
+                    }
+                }
+
+                // File is not compressed or is Nintendo U8.
+                else
+                {
+                    // Read the file's uncompressed data.
+                    return Zlib ? reader.ReadBytes((int)file.UncompressedSize) : reader.ReadBytes((int)file.Length);
+                }
+            }
+        }
+
+        public const uint Signature = 0x55AA382D;
+
+        public const string Extension = ".arc";
+
+        /// <summary>
+        /// Sets the compression level for repacking.
+        /// </summary>
+        public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Optimal;
+
+        /// <summary>
+        /// Use the Sonic Team Zlib-compressed variant of Nintendo U8.
+        /// </summary>
+        public static bool Zlib { get; set; } = true;
+
+        /// <summary>
+        /// Endianness flag, since there are little-endian variants of Nintendo U8, for whatever reason.
+        /// </summary>
+        public static bool BigEndian { get; set; } = true;
+
+        public U8Archive() { }
+        public U8Archive(string file, bool zlib = true, bool bigEndian = true)
+        {
+            Zlib = zlib;
+            BigEndian = bigEndian;
+
+            Load(file);
         }
 
         public override void Load(Stream stream)
         {
             // Create ExtendedBinaryReader.
-            var reader = new ExtendedBinaryReader(stream, true);
+            var reader = new ExtendedBinaryReader(stream, BigEndian);
 
             // Read archive signature.
             uint signature = reader.ReadUInt32();
@@ -199,42 +208,48 @@ namespace Marathon.IO.Formats.Archives
 
             // Read U8 root entry.
             reader.JumpTo(entriesOffset);
-            var u8RootEntry = new U8DataEntryZlib(reader);
+            var u8RootEntry = new U8DataEntry(reader);
 
             // Compute string table offset.
-            uint strTableOffset = entriesOffset + (u8RootEntry.Size * U8DataEntryZlib.SizeOf);
+            uint strTableOffset = entriesOffset + (u8RootEntry.Size * U8DataEntry.SizeOf);
 
             // Create U8 entries array and copy root entry into it.
-            var u8Entries = new U8DataEntryZlib[u8RootEntry.Size];
+            var u8Entries = new U8DataEntry[u8RootEntry.Size];
             u8Entries[0]  = u8RootEntry;
 
             // Read U8 child entries.
             for (uint i = 1; i < u8RootEntry.Size; ++i)
-                u8Entries[i] = new U8DataEntryZlib(reader);
+                u8Entries[i] = new U8DataEntry(reader);
 
-            // Recursively parse U8 entries, converting them into DataEntries.
-            ParseEntries(0, Entries, true);
+            // Recursively parse U8 entries, converting them into ArchiveData entries.
+            ParseEntries(0, new ArchiveDirectory() { Data = Data });
 
-            uint ParseEntries(uint u8EntryIndex, List<U8DataEntry> entries, bool isRoot = false)
+            uint ParseEntries(uint u8EntryIndex, ArchiveDirectory entries)
             {
-                ref U8DataEntryZlib u8Entry = ref u8Entries[u8EntryIndex];
+                ref U8DataEntry u8Entry = ref u8Entries[u8EntryIndex];
 
                 // Read name.
                 reader.JumpTo(strTableOffset + u8Entry.NameOffset);
                 string name = reader.ReadNullTerminatedString();
 
                 // Recursively parse Directory entries.
-                if (u8Entry.Type == U8DataEntryType.Directory)
+                if (u8Entry.Type == U8DataType.Directory)
                 {
-                    // Create U8DirectoryEntry and add it to entries.
-                    var dirEntry = new U8DirectoryEntry(name);
-                    entries.Add(dirEntry);
+                    // Create ArchiveDirectory node.
+                    var dirEntry = new ArchiveDirectory()
+                    {
+                        Name = name,
+                        Parent = entries
+                    };
 
-                    // Set entries to dirEntry.Contents.
-                    entries = dirEntry.Contents;
+                    // Add the ArchiveDirectory to the current entries.
+                    entries.Data.Add(dirEntry);
+
+                    // Set entries to dirEntry.Data.
+                    entries = dirEntry;
 
                     // Recursively parse the directory's child entries.
-                    uint u8ChildIndex = u8EntryIndex + 1;
+                    uint u8ChildIndex = ++u8EntryIndex;
                     while (u8ChildIndex < u8Entry.Size)
                         u8ChildIndex = ParseEntries(u8ChildIndex, entries);
 
@@ -243,16 +258,29 @@ namespace Marathon.IO.Formats.Archives
                 }
 
                 // Parse File entries.
-                else if (u8Entry.Type == U8DataEntryType.File)
+                else if (u8Entry.Type == U8DataType.File)
                 {
-                    // Create U8FileEntry for this particular node and add to entries.
-                    entries.Add(new U8FileEntry() { Name = name, Information = u8Entry });
+                    // Create U8ArchiveFile node.
+                    var fileEntry = new U8ArchiveFile()
+                    {
+                        Name = name,
+                        Parent = entries,
+                        Length = u8Entry.Size,
+                        UncompressedSize = u8Entry.UncompressedSize,
+                        Offset = u8Entry.Data
+                    };
+
+                    // Load the data into memory if requested.
+                    fileEntry.Data = StoreInMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
+
+                    // Add the U8ArchiveFile to the current entries.
+                    entries.Data.Add(fileEntry);
 
                     // Return the index of the next entry.
-                    return u8EntryIndex + 1;
+                    return ++u8EntryIndex;
                 }
 
-                // Throw if we encounter an entry of an unknown type
+                // Throw if we encounter an entry of an unknown type.
                 else
                     throw new NotSupportedException($"Encountered an U8 entry of unsupported type ({(uint)u8Entry.Type}).");
             }
@@ -266,7 +294,7 @@ namespace Marathon.IO.Formats.Archives
             // Search for "sort" here for more info: http://wiki.tockdom.com/wiki/U8_(File_Format)
 
             // Create ExtendedBinaryWriter.
-            var writer = new ExtendedBinaryWriter(stream, true);
+            var writer = new ExtendedBinaryWriter(stream, BigEndian);
 
             // Write archive signature.
             writer.Write(Signature);
@@ -287,31 +315,43 @@ namespace Marathon.IO.Formats.Archives
 
             // TODO: Figure out what these values are.
             // The third uint here seems like it's in little endian??
-            writer.Write(0xE4f91200U);
-            writer.Write(0x00000402U);
-            writer.WriteNulls(8);
+            if (Zlib)
+            {
+                writer.Write(0xE4f91200U);
+                writer.Write(0x00000402U);
+                writer.WriteNulls(8);
+            }
+            else
+            {
+                writer.WriteNulls(16);
+            }
 
             // Fill in the offset for where the table starts.
             writer.FillInOffset("EntriesOffset");
 
             // Write root entry.
-            writer.Write((uint)U8DataEntryType.Directory << 24);
-            writer.WriteNulls(4);
-            writer.Write((uint)U8DataEntry.GetTotalCount(Entries) + 1);
-            writer.WriteNulls(4); // TODO: Figure out what this is.
+            {
+                writer.Write((uint)U8DataType.Directory << 24);
+                writer.WriteNulls(4);
+                writer.Write((uint)ArchiveData.GetTotalCount(Data) + 1);
+
+                // TODO: Figure out what this is; it's only present in '06 archives.
+                if (Zlib)
+                    writer.WriteNulls(4);
+            }
 
             // Write entries recursively.
             uint globalEntryIndex = 1, strTableLen = 1;
             bool hasData = false;
 
-            foreach (var dataEntry in Entries)
+            foreach (var dataEntry in Data)
                 WriteEntries(dataEntry);
 
             // Write root entry name (always just an empty string).
             writer.Write((byte)0);
 
             // Write entry names recursively.
-            foreach (var dataEntry in Entries)
+            foreach (var dataEntry in Data)
                 WriteEntryNames(dataEntry);
 
             // Fill-in EntriesLength.
@@ -327,14 +367,14 @@ namespace Marathon.IO.Formats.Archives
             if (hasData)
             {
                 globalEntryIndex = 1;
-                foreach (var dataEntry in Entries)
+                foreach (var dataEntry in Data)
                     WriteEntryData(dataEntry);
             }
 
-            void WriteEntries(U8DataEntry dataEntry, uint parentIndex = 0)
+            void WriteEntries(ArchiveData dataEntry, uint parentIndex = 0)
             {
                 // Get U8 entry type.
-                var u8EntryType = dataEntry.IsDirectory ? U8DataEntryType.Directory : U8DataEntryType.File;
+                var u8EntryType = dataEntry.IsDirectory ? U8DataType.Directory : U8DataType.File;
 
                 // Write U8 entry flags.
                 writer.Write(((uint)u8EntryType << 24) | strTableLen);
@@ -345,7 +385,7 @@ namespace Marathon.IO.Formats.Archives
                 // Write directory entries.
                 if (dataEntry.IsDirectory)
                 {
-                    var dirEntry = (U8DirectoryEntry)dataEntry;
+                    var dirEntry = (ArchiveDirectory)dataEntry;
 
                     // Write parent index.
                     writer.Write(parentIndex);
@@ -359,25 +399,40 @@ namespace Marathon.IO.Formats.Archives
                     // Write next directory index.
                     writer.Write(globalEntryIndex + (uint)dirEntry.TotalContentsCount);
 
-                    // TODO: Figure out what this is.
-                    writer.WriteNulls(4);
+                    // TODO: Figure out what this is; it's only present in '06 archives.
+                    if (Zlib)
+                        writer.WriteNulls(4);
 
                     // Write directory contents recursively.
-                    foreach (var childEntry in dirEntry.Contents)
+                    foreach (var childEntry in dirEntry.Data)
                         WriteEntries(childEntry, parentIndex);
                 }
 
                 // Write file entries.
                 else
                 {
-                    var fileEntry = (U8FileEntry)dataEntry;
+                    var fileEntry = (ArchiveFile)dataEntry;
 
-                    // Store the locations of the data offset and file compressed
-                    // size for later when we write the file's data.
+                    /* Store the locations of the data offset and file compressed
+                       size for later when we write the file's data. */
                     writer.AddOffset($"Data_{globalEntryIndex}");
 
-                    // Write the file's uncompressed size.
-                    writer.Write(fileEntry.Information.Size);
+                    // Write compressed and uncompressed sizes for decompression.
+                    if (Zlib)
+                    {
+                        // Write the file's compressed size.
+                        writer.AddOffset($"CompressedSize_{globalEntryIndex}");
+
+                        // Write the file's uncompressed size.
+                        writer.Write(fileEntry.UncompressedSize);
+                    }
+
+                    // Nintendo U8 doesn't store compressed size.
+                    else
+                    {
+                        // Write the file's uncompressed size.
+                        writer.Write(fileEntry.Length);
+                    }
 
                     // Increase global entry index.
                     ++globalEntryIndex;
@@ -387,7 +442,7 @@ namespace Marathon.IO.Formats.Archives
                 }
             }
 
-            void WriteEntryNames(U8DataEntry dataEntry)
+            void WriteEntryNames(ArchiveData dataEntry)
             {
                 // Write entry name.
                 writer.WriteNullTerminatedString(dataEntry.Name);
@@ -395,48 +450,58 @@ namespace Marathon.IO.Formats.Archives
                 // Recurse through directory entry contents.
                 if (dataEntry.IsDirectory)
                 {
-                    var dirEntry = (U8DirectoryEntry)dataEntry;
-                    foreach (var childEntry in dirEntry.Contents)
+                    var dirEntry = (ArchiveDirectory)dataEntry;
+                    foreach (var childEntry in dirEntry.Data)
                         WriteEntryNames(childEntry);
                 }
             }
 
-            void WriteEntryData(U8DataEntry dataEntry)
+            void WriteEntryData(ArchiveData dataEntry)
             {
                 // Recurse through directory entry contents.
                 if (dataEntry.IsDirectory)
                 {
-                    var dirEntry = (U8DirectoryEntry)dataEntry;
+                    var dirEntry = (ArchiveDirectory)dataEntry;
 
                     // Increase global entry index.
                     ++globalEntryIndex;
 
                     // Write entry data recursively.
-                    foreach (var childEntry in dirEntry.Contents)
+                    foreach (var childEntry in dirEntry.Data)
                         WriteEntryData(childEntry);
                 }
 
                 // Write file entry data.
                 else
                 {
-                    var fileEntry = (U8FileEntry)dataEntry;
+                    var fileEntry = (ArchiveFile)dataEntry;
 
-                    // Compress the file's data.
-                    byte[] compressedData;
+                    // Temporary storage for the file's data.
+                    byte[] data;
 
-                    using (var compressedStream = new MemoryStream())
+                    // Decompress the file's data.
+                    if (Zlib)
                     {
-                        using (var zlibStream = new ZlibStream(compressedStream, CompressionLevel.Optimal))
+                        using (var compressedStream = new MemoryStream())
                         {
-                            using (var zipStream = new BufferedStream(zlibStream))
+                            using (var zlibStream = new ZlibStream(compressedStream, CompressionLevel))
                             {
-                                // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
-                                zipStream.Write(DecompressFileData(stream, fileEntry), 0, (int)fileEntry.Information.Size);
+                                using (var zipStream = new BufferedStream(zlibStream))
+                                {
+                                    // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
+                                    zipStream.Write(fileEntry.Data, 0, (int)fileEntry.UncompressedSize);
+                                }
                             }
-                        }
 
-                        // Store the compressed data so we can access its properties.
-                        compressedData = compressedStream.ToArray();
+                            // Store the compressed data so we can access its properties.
+                            data = compressedStream.ToArray();
+                        }
+                    }
+
+                    // Nintendo U8 doesn't use compression.
+                    else
+                    {
+                        data = fileEntry.Data;
                     }
 
                     // Align the file to an offset divisible by 32.
@@ -444,63 +509,16 @@ namespace Marathon.IO.Formats.Archives
 
                     // Fill-in file data offset and compressed size.
                     writer.FillInOffset($"Data_{globalEntryIndex}");
-                    writer.FillInOffset($"CompressedSize_{globalEntryIndex}", (uint)compressedData.Length);
 
-                    // Write the file's compressed data.
-                    writer.Write(compressedData);
+                    // Nintendo U8 doesn't store compressed size.
+                    if (Zlib)
+                        writer.FillInOffset($"CompressedSize_{globalEntryIndex}", (uint)data.Length);
+
+                    // Write the file's data.
+                    writer.Write(data);
 
                     // Increase global entry index.
                     ++globalEntryIndex;
-                }
-            }
-        }
-
-        public byte[] DecompressFileData(Stream stream, U8FileEntry file)
-        {
-            if (file.Information.Size != 0)
-            {
-                // Create ExtendedBinaryReader.
-                ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
-
-                // Jump to the file's data.
-                reader.JumpTo(file.Information.Data);
-
-                // Read the file's zlib-compressed data.
-                byte[] compressedData = reader.ReadBytes((int)file.Information.Size);
-
-                // Decompress the file's zlib-compressed data.
-                using (var compressedStream = new MemoryStream(compressedData))
-                {
-                    using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
-                    {
-                        using (var resultStream = new MemoryStream())
-                        {
-                            // Copy decompressed data to result.
-                            zipStream.CopyTo(resultStream);
-
-                            // Return decompressed data.
-                            return resultStream.ToArray();
-                        }
-                    }
-                }
-            }
-            else
-                return file.Data;
-        }
-
-        public void Extract(string path, U8DirectoryEntry directory)
-        {
-            WriteDataRecursive(path, directory);
-
-            void WriteDataRecursive(string location, U8DirectoryEntry directory)
-            {
-                foreach (U8DataEntry dataEntry in directory.Contents)
-                {
-                    if (dataEntry is U8FileEntry childFile)
-                        File.WriteAllBytes(Path.Combine(location, childFile.Name), DecompressFileData(File.OpenRead(Location), childFile));
-
-                    if (dataEntry is U8DirectoryEntry childDirectory)
-                        WriteDataRecursive(Directory.CreateDirectory(Path.Combine(location, childDirectory.Name)).FullName, childDirectory);
                 }
             }
         }

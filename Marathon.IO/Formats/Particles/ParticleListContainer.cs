@@ -27,12 +27,12 @@ using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 
 namespace Marathon.IO.Formats.Particles
 {
     /// <summary>
-    /// File base for the Sonic '06 PLC format.
+    /// <para>File base for the PLC format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG.</para>
     /// </summary>
     public class ParticleListContainer : FileBase
     {

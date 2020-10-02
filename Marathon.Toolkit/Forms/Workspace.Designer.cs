@@ -38,7 +38,6 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Open_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Open_Folder = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuStripDark_Main_File_StartPage = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Options = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,7 +83,6 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuStripDark_Main_File_New,
             this.MenuStripDark_Main_File_Open,
-            this.MenuStripDark_Main_File_StartPage,
             this.MenuStripDark_Main_File_ToolStripSeparator1,
             this.MenuStripDark_Main_File_Options,
             this.MenuStripDark_Main_File_Exit});
@@ -137,15 +135,6 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Open_Folder.Size = new System.Drawing.Size(191, 22);
             this.MenuStripDark_Main_File_Open_Folder.Text = "Fol&der...";
             this.MenuStripDark_Main_File_Open_Folder.Click += new System.EventHandler(this.MenuStripDark_Main_Open_Folder_Click);
-            // 
-            // MenuStripDark_Main_File_StartPage
-            // 
-            this.MenuStripDark_Main_File_StartPage.ForeColor = System.Drawing.SystemColors.Control;
-            this.MenuStripDark_Main_File_StartPage.Image = global::Marathon.Toolkit.Properties.Resources.Task_Home;
-            this.MenuStripDark_Main_File_StartPage.Name = "MenuStripDark_Main_File_StartPage";
-            this.MenuStripDark_Main_File_StartPage.Size = new System.Drawing.Size(180, 22);
-            this.MenuStripDark_Main_File_StartPage.Text = "Start Page";
-            this.MenuStripDark_Main_File_StartPage.Click += new System.EventHandler(this.MenuStripDark_Main_File_StartPage_Click);
             // 
             // MenuStripDark_Main_File_ToolStripSeparator1
             // 
@@ -334,7 +323,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_Help_ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help_SendFeedback_ReportAProblem;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help_SendFeedback_SuggestAFeature;
-        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_StartPage;
     }
 }
 

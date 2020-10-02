@@ -25,7 +25,7 @@
 
 using System;
 
-namespace Marathon.IO
+namespace Marathon.IO.Formats
 {
     [Serializable]
     public struct Vector2
@@ -65,16 +65,14 @@ namespace Marathon.IO
             new Vector2(v1.X / m, v1.Y / m);
     }
 
-    // All Vector3s in HedgeLib should use these axes:
-    // X-left, Y-up, Z-forward
-    // This follows the axes used in Sonic Generations.
+    /// <summary>
+    /// Vector extension for Y-up support.
+    /// </summary>
     [Serializable]
     public struct Vector3
     {
-        // Variables/Constants
         public float X, Y, Z;
 
-        // Constructors
         public Vector3(float x, float y)
         {
             X = x;
@@ -89,11 +87,7 @@ namespace Marathon.IO
             Z = z;
         }
 
-        // Methods
-        public override string ToString()
-        {
-            return $"({X}, {Y}, {Z})";
-        }
+        public override string ToString() => $"({X}, {Y}, {Z})";
 
         public static Vector3 operator +(Vector3 v1, Vector3 v2) =>
             new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
@@ -117,10 +111,8 @@ namespace Marathon.IO
     [Serializable]
     public class Vector4
     {
-        // Variables/Constants
         public float X = 0, Y = 0, Z = 0, W = 0;
 
-        // Constructors
         public Vector4() { }
         public Vector4(float x, float y)
         {
@@ -146,10 +138,6 @@ namespace Marathon.IO
             W = w;
         }
 
-        // Methods
-        public override string ToString()
-        {
-            return $"({X}, {Y}, {Z}, {W})";
-        }
+        public override string ToString() => $"({X}, {Y}, {Z}, {W})";
     }
 }

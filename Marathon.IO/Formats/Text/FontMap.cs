@@ -25,13 +25,13 @@
 
 using System.IO;
 using System.Collections.Generic;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Text
 {
     /// <summary>
-    /// File base for the Sonic '06 FTM format.
+    /// <para>File base for the FTM format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for <a href="https://home.unicode.org">Unicode</a> and <a href="https://en.wikipedia.org/wiki/Shift_JIS">Shift JIS</a> font maps.</para>
     /// </summary>
     public class FontMap : FileBase
     {

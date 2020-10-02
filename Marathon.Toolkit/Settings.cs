@@ -24,10 +24,7 @@
  */
 
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
-using System.ComponentModel;
 using Config.Net;
 
 namespace Marathon.Toolkit
@@ -43,27 +40,6 @@ namespace Marathon.Toolkit
         /// Initialises the settings interface.
         /// </summary>
         public static ISettings Marathon = new ConfigurationBuilder<ISettings>().UseJsonFile(Configuration).Build();
-
-        /// <summary>
-        /// Returns the display name given to the property.
-        /// </summary>
-        /// <param name="property">Raw property.</param>
-        public static string GetPropertyDisplayName(PropertyInfo property)
-            => property.GetCustomAttributes(typeof(DisplayNameAttribute), true).Cast<DisplayNameAttribute>().Single().DisplayName;
-
-        /// <summary>
-        /// Returns the description given to the property.
-        /// </summary>
-        /// <param name="property">Raw property.</param>
-        public static string GetPropertyDescription(PropertyInfo property)
-            => property.GetCustomAttributes(typeof(DescriptionAttribute), true).Cast<DescriptionAttribute>().Single().Description;
-
-        /// <summary>
-        /// Returns the default value given to the property.
-        /// </summary>
-        /// <param name="property">Raw property.</param>
-        public static object GetPropertyDefault(PropertyInfo property)
-            => property.GetCustomAttributes(typeof(DefaultValueAttribute), true).Cast<DefaultValueAttribute>().Single().Value;
     }
 
     public interface ISettings
@@ -76,19 +52,14 @@ namespace Marathon.Toolkit
          *     /// <summary>
          *     /// Dummy description for this property.
          *     /// </summary>
-         *     [DisplayName("Dummy Property"), Description("Dummy description for this property."), DefaultValue([value])]
+         *     [Option(Alias = "DummyProperty", DefaultValue = [value])]
          *     [type] DummyProperty { get; set; }
          *     
-         * You must provide a summary, display name and description for each property;
-         * without a display name, the property will be discarded from the Options menu.
+         * You must provide a summary, alias and default value for each property;
+         * aliases must only be used when necessary if multiple properties fall under
+         * the same category and should be grouped together.
          * 
          * Properties that require custom get and set functions can use initialisers.
          */
-
-        /// <summary>
-        /// Automatically open the Start Page upon launch.
-        /// </summary>
-        [DisplayName("Display Start Page on Launch"), Description("Automatically open the Start Page upon launch."), DefaultValue(true)]
-        public bool StartPageOnLaunch { get; set; }
     }
 }

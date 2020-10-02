@@ -1,4 +1,4 @@
-﻿// SoundBank.cs is licensed under the MIT License:
+﻿// SceneBank.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
@@ -30,22 +30,22 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
-using Marathon.IO.Helpers;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Sounds
 {
     /// <summary>
-    /// File base for the Sonic '06 SBK format.
+    /// <para>File base for the SBK format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining <a href="https://www.criware.com/">CriWare</a> sound effects in <see cref="CriWareSoundBank"/> files.</para>
     /// </summary>
-    public class SoundBank : FileBase
+    public class SceneBank : FileBase
     {
         /* TODO: Experiment with the Unknown values in the Cue entries and see what they do.
                  Also try messing with the Unknown value in the Header and see if it affects anything. */
 
         public class Cue
         {
-            public string Name;                            // Name of this Cue in the Sound Bank
+            public string Name;                            // Name of this Cue in the Scene Bank
             public uint Category;                          // Uncertain what exactly this affects
             public float UnknownSingle_1, UnknownSingle_2; // TODO: Unknown - possibly flags?
             public string Stream;                          // XMA this Cue uses, if null, assume it uses a CSB instead
@@ -66,15 +66,15 @@ namespace Marathon.IO.Formats.Sounds
 
             uint UnknownUInt32_1 = reader.ReadUInt32();   // These four bytes seems to always be { 20, 06, 07, 00 } in official files.
 
-            uint bankNameOffset    = reader.ReadUInt32(); // Offset to the Sound Bank name (seemingly always { 00, 00, 00, 18 } in official files).
-            uint cueNameOffset     = reader.ReadUInt32(); // Offset of the first entry in the Sound Bank (seemingly always { 00, 00, 00, 64 } in official files).
+            uint bankNameOffset    = reader.ReadUInt32(); // Offset to the Scene Bank name (seemingly always { 00, 00, 00, 18 } in official files).
+            uint cueNameOffset     = reader.ReadUInt32(); // Offset of the first entry in the Scene Bank (seemingly always { 00, 00, 00, 64 } in official files).
             uint cueIndiciesOffset = reader.ReadUInt32(); // Offset to the number list for non-stream indices (set to { 00, 00, 00, 00 } if the file doesn't have any).
             uint streamOffset      = reader.ReadUInt32(); // Offset to the table for XMA names (set to { 00, 00, 00, 00 } if the file doesn't have any).
 
-            Name                = new string(reader.ReadChars(64)); // Sound Bank's name.
-            uint cueCount       = reader.ReadUInt32();              // Total Number of Cues in this Sound Bank.
-            uint csbCueCount    = reader.ReadUInt32();              // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
-            uint streamCueCount = reader.ReadUInt32();              // Amount of Cues in this Sound Bank which use XMA files.
+            Name                = new string(reader.ReadChars(64)); // Scene Bank's name.
+            uint cueCount       = reader.ReadUInt32();              // Total Number of Cues in this Scene Bank.
+            uint csbCueCount    = reader.ReadUInt32();              // Amount of Cues in this Scene Bank which pull their data from a corresponding CSB file.
+            uint streamCueCount = reader.ReadUInt32();              // Amount of Cues in this Scene Bank which use XMA files.
 
             int streams = 0; // Keep track of which stream we're on so we know where to jump to in the XMA String Table.
 

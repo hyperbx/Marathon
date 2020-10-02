@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Marathon>
   <!-- If no extension is specified or is a duplicate, the entry will be disregarded. -->
+  <!-- File types that use common extensions should be appended to their respective types by name. -->
   <Type Extension=".*">All files</Type>
-  <Type Extension=".pkg">Asset Package</Type>
-  <Type Extension=".bin">Collision</Type>
-  <Type Extension=".arc">Compressed U8 Archive</Type>
+  <Type Extension=".arc">U8 Archive</Type>
+  <Type Extension=".bin">Collision|Common Package|Save Data</Type>
+  <Type Extension=".csb">CriWare Sound Bank</Type>
   <Type Extension=".dds">DirectDraw Surface</Type>
+  <Type Extension=".mst">Text</Type>
   <Type Extension=".path">Path Spline</Type>
   <Type Extension=".pft">Picture Font</Type>
-  <Type Extension=".set">Placement</Type>
+  <Type Extension=".pkg">Asset Package</Type>
   <Type Extension=".rab">Reflection Zone</Type>
-  <Type Extension=".bin">Save Data</Type>
-  <Type Extension=".sbk">Sound Bank</Type>
-  <Type Extension=".mst">Text</Type>
+  <Type Extension=".sbk">Scene Bank</Type>
+  <Type Extension=".set">Placement</Type>
+  <Type Extension=".wad">WADH Archive</Type>
 </Marathon>
