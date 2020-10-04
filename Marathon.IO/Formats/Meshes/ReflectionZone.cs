@@ -146,8 +146,8 @@ namespace Marathon.IO.Formats.Meshes
 
                 positionElem.Add(new XElement("Height", Reflections[i].Height));
                 positionElem.Add(new XElement("Length", Reflections[i].Length));
-                positionElem.Add(new XElement("Z Rotation", Reflections[i].Z_Rotation));
-                positionElem.Add(new XElement("Y Rotation", Reflections[i].Y_Rotation));
+                positionElem.Add(new XElement("ZRotation", Reflections[i].Z_Rotation));
+                positionElem.Add(new XElement("YRotation", Reflections[i].Y_Rotation));
 
                 reflectionElem.Add(positionElem);
 
@@ -187,8 +187,8 @@ namespace Marathon.IO.Formats.Meshes
                 {
                     float.TryParse(positionElem.Element("Height").Value, out entry.Height);
                     float.TryParse(positionElem.Element("Length").Value, out entry.Length);
-                    float.TryParse(positionElem.Element("Z Rotation").Value, out entry.Z_Rotation);
-                    float.TryParse(positionElem.Element("Y Rotation").Value, out entry.Y_Rotation);
+                    float.TryParse(positionElem.Element("ZRotation").Value, out entry.Z_Rotation);
+                    float.TryParse(positionElem.Element("YRotation").Value, out entry.Y_Rotation);
                 }
 
                 // Vertices
