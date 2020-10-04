@@ -37,7 +37,7 @@ namespace Marathon.IO.Formats.Meshes
     /// </summary>
     public class ReflectionZone : FileBase
     {
-        // TODO: Fix footer not writing correctly...
+        // TODO: Comment code and test on more than one file
 
         public class Reflection
         {
@@ -94,34 +94,33 @@ namespace Marathon.IO.Formats.Meshes
             BINAv1Header header = new BINAv1Header();
             BINAWriter writer = new BINAWriter(stream, header);
 
-            writer.Write((uint)Reflections.Count);
+            writer.Write(Reflections.Count);
             writer.AddOffset("reflectionTableOffset");
 
-            writer.Write((uint)Reflections.Count);
+            writer.Write(Reflections.Count);
             writer.AddOffset("entryTableOffset");
 
+            writer.FillInOffset("reflectionTableOffset", true);
             for (int i = 0; i < Reflections.Count; i++)
             {
-                writer.FillInOffset("reflectionTableOffset", true, true, false);
-
                 writer.Write(Reflections[i].Z_Rotation);
                 writer.Write(Reflections[i].Length);
                 writer.Write(Reflections[i].Y_Rotation);
                 writer.Write(Reflections[i].Height);
             }
 
+            writer.FillInOffset("entryTableOffset", true);
             for (int i = 0; i < Reflections.Count; i++)
             {
-                writer.FillInOffset("entryTableOffset", true, true, false);
                 writer.Write(Reflections[i].Vertices.Count);
 
                 writer.AddOffset($"vertexTableOffset_{i}");
-                writer.Write((uint)i);
+                writer.Write(i);
             }
 
             for (int i = 0; i < Reflections.Count; i++)
             {
-                writer.FillInOffset($"vertexTableOffset_{i}", true, true, false);
+                writer.FillInOffset($"vertexTableOffset_{i}", true);
 
                 foreach (Vector3 vector in Reflections[i].Vertices)
                     writer.WriteByType<Vector3>(vector);
