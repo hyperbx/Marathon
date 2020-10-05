@@ -8,7 +8,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 {
     public class ExplosionPackage : FileBase
     {
-        // TODO: Understand the unknowns, clean up code, write XML importer.
+        // TODO: Understand the unknowns, clean up code.
 
         public class Entry
         {
