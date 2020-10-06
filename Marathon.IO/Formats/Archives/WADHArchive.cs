@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * Copyright (c) 2020 Radfordhound
  * Copyright (c) 2020 Knuxfan24
  * 
@@ -81,6 +81,21 @@ namespace Marathon.IO.Formats.Archives
             }
         }
 
+        public class WADHArchiveFile : ArchiveFile
+        {
+            public override byte[] Decompress(Stream stream, ArchiveFile file)
+            {
+                // Create ExtendedBinaryReader.
+                ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, false);
+
+                // Jump to the file's data.
+                reader.JumpTo(file.Offset);
+
+                // Read the file's uncompressed data.
+                return reader.ReadBytes((int)file.Length);
+            }
+        }
+
         public const string Signature = "WADH",
                             Extension = ".wad";
 
@@ -151,15 +166,20 @@ namespace Marathon.IO.Formats.Archives
                 // Parse File entries.
                 else
                 {
-                    // Create ArchiveFile for this particular node and add to entries.
-                    entries.Data.Add(new ArchiveFile()
+                    // Create U8ArchiveFile node.
+                    var fileEntry = new WADHArchiveFile()
                     {
                         Name = name,
                         Parent = entries,
+                        UncompressedSize = wadhEntry.Size,
+                        Offset = wadhEntry.Data
+                    };
 
-                        // Load the data into memory if requested.
-                        Data = StoreInMemory ? FetchFileData(stream, wadhEntry) : new byte[] { 0x00 }
-                    });
+                    // Load the data into memory if requested.
+                    fileEntry.Data = StoreInMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
+
+                    // Add the U8ArchiveFile to the current entries.
+                    entries.Data.Add(fileEntry);
 
                     // Return the index of the next entry.
                     return ++wadhEntryIndex;
@@ -185,18 +205,6 @@ namespace Marathon.IO.Formats.Archives
             writer.AddOffset("stringTableLength");
 
             // TODO: Finish saving.
-        }
-
-        public byte[] FetchFileData(Stream stream, WADHDataEntry file)
-        {
-            // Create ExtendedBinaryReader.
-            ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, false);
-
-            // Jump to the file's data.
-            reader.JumpTo(file.Data);
-
-            // Read the file's uncompressed data.
-            return reader.ReadBytes((int)file.Size);
         }
     }
 }

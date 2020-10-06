@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
  */
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
@@ -35,10 +34,9 @@ namespace Marathon.Toolkit.Forms
         public FileConverter() => InitializeComponent();
 
         /// <summary>
-        /// Changes the cursor if the data is present.
+        /// Changes the cursor if data is present.
         /// </summary>
-        private void FileConverter_DragEnter(object sender, DragEventArgs e)
-            => _ = e.Data.GetDataPresent(DataFormats.FileDrop) ? e.Effect = DragDropEffects.Copy : e.Effect = DragDropEffects.None;
+        private void FileConverter_DragEnter(object sender, DragEventArgs e) => e.Effect = e.AllowedEffect;
 
         /// <summary>
         /// Gets the file dropped onto the window.

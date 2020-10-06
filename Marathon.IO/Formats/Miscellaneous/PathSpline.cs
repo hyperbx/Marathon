@@ -3,7 +3,7 @@
  * MIT License
  * 
  * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 {
     /// <summary>
     /// <para>File base for the PATH format.</para>
-    /// <para>Used in SONIC THE HEDGEHOG for guide, grind and splines.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for splines.</para>
     /// </summary>
 
     // Old MaxScripts created by Paraxade0 were heavily used in the writing of this class.

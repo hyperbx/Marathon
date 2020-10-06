@@ -2,7 +2,7 @@
 /* 
  * MIT License
  *
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * Copyright (c) 2018 Radfordhound
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -45,6 +45,18 @@ namespace Marathon.IO.Formats
         public Archive() { }
         public Archive(string file) => Load(file);
         public Archive(Archive arc) => Data = arc.Data;
+
+        /// <summary>
+        /// Disposes the list of data.
+        /// </summary>
+        public void Dispose()
+        {
+            // Clear the data list.
+            Data.Clear();
+
+            // Collect remaining garbage.
+            GC.Collect(GC.GetGeneration(Data), GCCollectionMode.Forced);
+        }
 
         /// <summary>
         /// Recursively gathers all files from the current list.
@@ -113,28 +125,50 @@ namespace Marathon.IO.Formats
         /// </summary>
         /// <param name="dir">Directory to add from.</param>
         /// <param name="includeSubDirectories">Include subdirectories in the result.</param>
-        public void AddDirectory(string dir, bool includeSubDirectories = false)
-            => Data.AddRange(GetFilesFromDirectory(dir, includeSubDirectories));
+        public void AddDirectory(string directoryPath, bool includeSubDirectories = false)
+            => Data.AddRange(GetFilesFromDirectory(directoryPath, includeSubDirectories));
+
+        /// <summary>
+        /// Add all files from a directory to the archive.
+        /// </summary>
+        /// <param name="dir">Directory to add from.</param>
+        /// <param name="base">The directory these nodes should be added to.</param>
+        /// <param name="includeSubDirectories">Include subdirectories in the result.</param>
+        public void AddDirectory(string directoryPath, ArchiveData @base, bool includeSubDirectories = false)
+        {
+            // Input is a valid ArchiveDirectory.
+            if (@base is ArchiveDirectory dir)
+                dir.Data.AddRange(GetFilesFromDirectory(directoryPath, includeSubDirectories));
+
+            // Some other type was used.
+            else
+                throw new NotSupportedException($"Encountered an archive entry of unsupported type ({@base.GetType()})." +
+                                                "The input *must* be an ArchiveDirectory.");
+        }
 
         /// <summary>
         /// Enumerate all files from a directory.
         /// </summary>
-        /// <param name="dir">Directory to enumerate from.</param>
+        /// <param name="directoryPath">Directory to enumerate from.</param>
         /// <param name="includeSubDirectories">Include subdirectories in the result.</param>
-        public static List<ArchiveData> GetFilesFromDirectory(string dir, bool includeSubDirectories = false)
+        public static List<ArchiveData> GetFilesFromDirectory(string directoryPath, bool includeSubDirectories = false)
         {
-            List<ArchiveData> data = new List<ArchiveData>();
+            ArchiveDirectory dir = new ArchiveDirectory(Path.GetFileName(directoryPath));
 
             // Add each file in the current sub-directory.
-            foreach (string filePath in Directory.GetFiles(dir))
-                data.Add(new ArchiveFile(filePath));
+            foreach (string filePath in Directory.GetFiles(directoryPath))
+                dir.Data.Add(new ArchiveFile(filePath) { Parent = dir });
 
             // Repeat for each sub directory.
             if (includeSubDirectories)
-                foreach (string subDir in Directory.GetDirectories(dir))
-                    data.Add(new ArchiveDirectory() { Data = GetFilesFromDirectory(subDir, includeSubDirectories) });
+                foreach (string subDir in Directory.GetDirectories(directoryPath))
+                    dir.Data.Add(new ArchiveDirectory(Path.GetFileName(subDir))
+                    {
+                        Data = GetFilesFromDirectory(subDir, includeSubDirectories),
+                        Parent = dir
+                    });
 
-            return data;
+            return dir.Data;
         }
 
         /// <summary>

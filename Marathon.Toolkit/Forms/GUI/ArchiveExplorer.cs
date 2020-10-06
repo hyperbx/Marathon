@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,8 +50,13 @@ namespace Marathon.Toolkit.Forms
 
             set
             {
-                Text = $"Archive Explorer ({_LoadedArchive = value})";
+                // Set the initialiser.
+                _LoadedArchive = value;
 
+                // Set the title to contain the archive path.
+                Text = $"Archive Explorer ({_LoadedArchive.Location})";
+
+                // Create the root node.
                 TreeNode rootNode = new TreeNode
                 {
                     Text = Path.GetFileName(_LoadedArchive.Location),
@@ -59,6 +64,7 @@ namespace Marathon.Toolkit.Forms
                     ImageKey = "Folder",
                 };
 
+                // Add the root node by the name of the archive.
                 TreeView_Explorer.Nodes.Add(rootNode);
 
                 // Set active node to default.
@@ -126,7 +132,7 @@ namespace Marathon.Toolkit.Forms
                         $"{Path.GetExtension(entry.Name).ToUpper()} File".Substring(1),
 
                         // Size
-                        Strings.ByteLengthToDecimalString(entry.UncompressedSize)
+                        StringHelper.ByteLengthToDecimalString(entry.UncompressedSize)
                     })
                     {
                         Tag = entry,
@@ -163,12 +169,11 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Adds a file to the currently active node from a path.
+        /// Returns the warning message for common file addition if the given file exists by name.
         /// </summary>
-        private void AddFileToActiveNode(string file)
+        /// <param name="fileName">Name of the file.</param>
+        private void CheckIfFileExists(string fileName)
         {
-            string fileName = Path.GetFileName(file);
-
             if (((ArchiveDirectory)_ActiveNode.Tag).Data.Any(x => x.Name == fileName))
             {
                 MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - please either rename it or delete it...",
@@ -176,8 +181,44 @@ namespace Marathon.Toolkit.Forms
 
                 return;
             }
+        }
+
+        /// <summary>
+        /// Adds a file to the currently active node from a path.
+        /// </summary>
+        private void AddFileToActiveNode(string file)
+        {
+            string fileName = Path.GetFileName(file);
+
+            // Ensures the file doesn't exist already.
+            CheckIfFileExists(fileName);
 
             byte[] data = File.ReadAllBytes(file);
+
+            // Create a new data entry using the bytes from the input file.
+            // TODO: Load the data only when repacking.
+            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
+            {
+                UncompressedSize = (uint)data.Length
+            });
+
+            // Refresh current node.
+            InitialiseFileItems(_ActiveNode.Tag);
+        }
+
+        /// <summary>
+        /// Adds a file to the currently active node from a ListViewItem.
+        /// </summary>
+        private void AddFileToActiveNode(ListViewItem item)
+        {
+            ArchiveFile file = (ArchiveFile)item.Tag;
+
+            string fileName = file.Name;
+
+            // Ensures the file doesn't exist already.
+            CheckIfFileExists(fileName);
+
+            byte[] data = file.Data;
 
             // Create a new data entry using the bytes from the input file.
             // TODO: Load the data only when repacking.
@@ -215,6 +256,15 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+        }
+
+        /// <summary>
+        /// Sets the new name of the file after editing the label.
+        /// </summary>
+        private void ListViewDark_Explorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Label))
+                RenameFileInActiveNode(ListViewDark_Explorer.Items[e.Item], e.Label);
         }
 
         /// <summary>
@@ -258,6 +308,7 @@ namespace Marathon.Toolkit.Forms
                                operation, we can do so this way. */
                             switch (ListViewDark_Explorer.SelectedItems.Count)
                             {
+                                // Just a single item was selected.
                                 case 1:
                                 {
                                     SaveFileDialog saveDialog = new SaveFileDialog
@@ -277,6 +328,7 @@ namespace Marathon.Toolkit.Forms
                                     break;
                                 }
 
+                                // More than one item was selected.
                                 default:
                                 {
                                     OpenFolderDialog folderDialog = new OpenFolderDialog
@@ -302,11 +354,9 @@ namespace Marathon.Toolkit.Forms
                         // Delete context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Delete", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)), delegate
                         {
-                            // Number of selected items.
-                            int selectedCount = ListViewDark_Explorer.SelectedItems.Count;
-
-                            switch (selectedCount)
+                            switch (ListViewDark_Explorer.SelectedItems.Count)
                             {
+                                // Just a single item was selected.
                                 case 1:
                                 {
                                     DialogResult confirmSingleDelete =
@@ -322,20 +372,10 @@ namespace Marathon.Toolkit.Forms
                                     break;
                                 }
 
+                                // More than one item was selected.
                                 default:
                                 {
-                                    DialogResult confirmMultiDelete =
-                                        MarathonMessageBox.Show($"Are you sure that you want to permanently delete these {selectedCount} items?",
-                                                                "Delete Multiple Items", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                                    // Delete all selected items.
-                                    if (confirmMultiDelete == DialogResult.Yes)
-                                    {
-                                        foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
-                                        {
-                                            DeleteFileFromActiveNode(selected);
-                                        }
-                                    }
+                                    BulkDeleteItems();
 
                                     break;
                                 }
@@ -355,6 +395,25 @@ namespace Marathon.Toolkit.Forms
                     menu.Show(Cursor.Position);
 
                     break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes all selected items.
+        /// </summary>
+        private void BulkDeleteItems()
+        {
+            DialogResult confirmMultiDelete =
+                MarathonMessageBox.Show($"Are you sure that you want to permanently delete these {ListViewDark_Explorer.SelectedItems.Count} items?",
+                                        "Delete Multiple Items", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Delete all selected items.
+            if (confirmMultiDelete == DialogResult.Yes)
+            {
+                foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
+                {
+                    DeleteFileFromActiveNode(selected);
                 }
             }
         }
@@ -441,7 +500,7 @@ namespace Marathon.Toolkit.Forms
                 SaveFileDialog saveDialog = new SaveFileDialog
                 {
                     Title = "Save As",
-                    Filter = "Compressed U8 Archive (*.arc)|*.arc"
+                    Filter = Program.FileTypes[".arc"]
                 };
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
@@ -456,12 +515,72 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Sets the new name of the file after editing the label.
+        /// Disposes the loaded archive upon exit.
         /// </summary>
-        private void ListViewDark_Explorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        private void ArchiveExplorer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.Label))
-                RenameFileInActiveNode(ListViewDark_Explorer.Items[e.Item], e.Label);
+            LoadedArchive.Dispose();
+        }
+
+        /// <summary>
+        /// Gets the data dropped onto the window.
+        /// </summary>
+        private void ListViewDark_Explorer_DragDrop(object sender, DragEventArgs e)
+        {
+            // Dragged content is a file or collection of files.
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Add all files to the current node.
+                foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop))
+                {
+                    AddFileToActiveNode(file);
+                }
+            }
+
+            // Dragged content is a ListViewItem or collection of ListViewItems.
+            else if (e.Data.GetDataPresent(typeof(ListView.SelectedListViewItemCollection)))
+            {
+                // Add all ListViewItems to the current node.
+                foreach (ListViewItem item in (ListView.SelectedListViewItemCollection)e.Data.GetData(typeof(ListView.SelectedListViewItemCollection)))
+                {
+                    AddFileToActiveNode(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Changes the cursor if data is present.
+        /// </summary>
+        private void ListViewDark_Explorer_DragEnter(object sender, DragEventArgs e) => e.Effect = e.AllowedEffect;
+
+        /// <summary>
+        /// Events for key presses on ListViewDark_Explorer.
+        /// </summary>
+        private void ListViewDark_Explorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                // Delete all selected items.
+                BulkDeleteItems();
+            }
+        }
+
+        private void ListViewDark_Explorer_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            ListViewDark_Explorer.DoDragDrop(ListViewDark_Explorer.SelectedItems, DragDropEffects.All);
+
+            // Decompress all files.
+            foreach (ListViewItem item in ListViewDark_Explorer.SelectedItems)
+            {
+                // Store item for easier reference.
+                ArchiveFile file = (ArchiveFile)item.Tag;
+
+                // Write feedback to the console output.
+                ConsoleWriter.WriteLine($"Decompressing {item.Text} ({StringHelper.ByteLengthToDecimalString(file.UncompressedSize)})...");
+
+                // Decompress current file.
+                file.Decompress(_LoadedArchive.Location, file);
+            }
         }
     }
 }

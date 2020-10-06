@@ -1,4 +1,6 @@
-﻿namespace Marathon.Tests
+﻿using Marathon.IO.Formats.Textures;
+
+namespace Marathon.Tests
 {
     /// <summary>
     /// <para>A simple command-line application used for testing APIs.</para>
@@ -8,7 +10,8 @@
     {
         static void Main()
         {
-
+            DirectDrawMatrix DDM = new DirectDrawMatrix();
+            DDM.Load(@"C:\Users\gabe1\AppData\Local\Hyper_Development_Team\Sonic '06 Toolkit\Archives\23325\1qmosoc4.ck1\enemy\win32\enemy\eSearcher\eSearcher.ddm");
         }
     }
 }

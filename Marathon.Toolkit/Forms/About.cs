@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ namespace Marathon.Toolkit.Forms
 
             Label_Version.Text = $"Version {Program.GlobalVersion}";
 
-            TreeView_Contributors.Nodes.AddRange(XML.ParseContributorsToTreeNodeArray());
+            TreeView_Contributors.Nodes.AddRange(XMLHelper.ParseContributorsToTreeNodeArray());
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Marathon.Toolkit.Forms
                 {
                     MarathonMessageBox.Show(Properties.Resources.Information_License);
 
-                    Process.Start("https://github.com/HyperPolygon64/Marathon/blob/marathon-master/LICENSE");
+                    Process.Start("https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE");
 
                     break;
                 }

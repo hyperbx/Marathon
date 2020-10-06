@@ -3,7 +3,7 @@
  * MIT License
  * 
  * Copyright (c) 2020 Radfordhound
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * Copyright (c) 2020 GerbilSoft
  * Copyright (c) 2020 Knuxfan24
  * 

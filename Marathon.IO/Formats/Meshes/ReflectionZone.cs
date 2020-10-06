@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * Copyright (c) 2020 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -146,8 +146,8 @@ namespace Marathon.IO.Formats.Meshes
 
                 positionElem.Add(new XElement("Height", Reflections[i].Height));
                 positionElem.Add(new XElement("Length", Reflections[i].Length));
-                positionElem.Add(new XElement("ZRotation", Reflections[i].Z_Rotation));
-                positionElem.Add(new XElement("YRotation", Reflections[i].Y_Rotation));
+                positionElem.Add(new XElement("Z_Rotation", Reflections[i].Z_Rotation));
+                positionElem.Add(new XElement("Y_Rotation", Reflections[i].Y_Rotation));
 
                 reflectionElem.Add(positionElem);
 
@@ -187,8 +187,8 @@ namespace Marathon.IO.Formats.Meshes
                 {
                     float.TryParse(positionElem.Element("Height").Value, out entry.Height);
                     float.TryParse(positionElem.Element("Length").Value, out entry.Length);
-                    float.TryParse(positionElem.Element("ZRotation").Value, out entry.Z_Rotation);
-                    float.TryParse(positionElem.Element("YRotation").Value, out entry.Y_Rotation);
+                    float.TryParse(positionElem.Element("Z_Rotation").Value, out entry.Z_Rotation);
+                    float.TryParse(positionElem.Element("Y_Rotation").Value, out entry.Y_Rotation);
                 }
 
                 // Vertices
