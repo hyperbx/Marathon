@@ -105,7 +105,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 uint objectNameOffset          = reader.ReadUInt32(); // Offset to this object's name.
                 uint modelOffset               = reader.ReadUInt32(); // Offset to this object's model file.
                 uint havokOffset               = reader.ReadUInt32(); // Offset to this object's Havok file.
-                uint timeEventOffset           = reader.ReadUInt32(); // Offset to this object's time event file
+                uint timeEventOffset           = reader.ReadUInt32(); // Offset to this object's time event file.
                 uint materialAnimationOffset   = reader.ReadUInt32(); // Offset to this object's material animation file.
                 uint luaScriptOffset           = reader.ReadUInt32(); // Offset to this object's Lua Script.
 
