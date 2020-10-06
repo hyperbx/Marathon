@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,17 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
+using System.Collections.Generic;
 using Marathon.Toolkit.Forms;
+using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit
 {
     static class Program
     {
         public static readonly string GlobalVersion = Application.ProductVersion;
+
+        public static Dictionary<string, string> FileTypes = new Dictionary<string, string>();
 
         [STAThread]
 
@@ -53,6 +57,9 @@ namespace Marathon.Toolkit
             Application.ThreadException += (sender, e) => new ErrorHandler(e.Exception).ShowDialog();
 #endif
             Application.Run(new Workspace());
+
+            // Parse the file types into the void so we can populate the dictionary.
+            XMLHelper.ParseFileTypesToFilter(Properties.Resources.FileTypes);
         }
 
         /// <summary>

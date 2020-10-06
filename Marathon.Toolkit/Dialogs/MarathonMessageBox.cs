@@ -2,7 +2,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2020 HyperPolygon64
+ * Copyright (c) 2020 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,8 @@ namespace Marathon.Toolkit
 {
     public partial class MarathonMessageBoxForm : Form
     {
-        public static int TextHeight = 0;
+        private int TextHeight = 0;
+        private MessageBoxButtons Buttons = MessageBoxButtons.OK;
 
         public MarathonMessageBoxForm(string text,
                                       string caption = "Marathon",
@@ -40,8 +41,9 @@ namespace Marathon.Toolkit
         {
             InitializeComponent();
 
-            Text = caption;
             RichTextBox_Message.Text = text;
+            Text = caption;
+            Buttons = buttons;
 
             if (RichTextBox_Message.Text.Length <= 65)
             {

@@ -62,7 +62,7 @@ namespace Marathon.Toolkit
             this.Panel_ButtonBackdrop.Location = new System.Drawing.Point(-1, 77);
             this.Panel_ButtonBackdrop.Name = "Panel_ButtonBackdrop";
             this.Panel_ButtonBackdrop.Size = new System.Drawing.Size(268, 58);
-            this.Panel_ButtonBackdrop.TabIndex = 1;
+            this.Panel_ButtonBackdrop.TabIndex = 0;
             // 
             // Button_2
             // 
@@ -74,7 +74,7 @@ namespace Marathon.Toolkit
             this.Button_2.Location = new System.Drawing.Point(95, 10);
             this.Button_2.Name = "Button_2";
             this.Button_2.Size = new System.Drawing.Size(75, 23);
-            this.Button_2.TabIndex = 1;
+            this.Button_2.TabIndex = 0;
             this.Button_2.Text = "None";
             this.Button_2.UseVisualStyleBackColor = false;
             this.Button_2.Visible = false;
@@ -106,7 +106,7 @@ namespace Marathon.Toolkit
             this.Button_3.Location = new System.Drawing.Point(179, 10);
             this.Button_3.Name = "Button_3";
             this.Button_3.Size = new System.Drawing.Size(75, 23);
-            this.Button_3.TabIndex = 0;
+            this.Button_3.TabIndex = 1;
             this.Button_3.Text = "None";
             this.Button_3.UseVisualStyleBackColor = false;
             this.Button_3.Visible = false;

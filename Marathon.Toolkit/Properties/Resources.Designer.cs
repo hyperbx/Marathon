@@ -64,7 +64,7 @@ namespace Marathon.Toolkit.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
         ///  &lt;!-- If no URL or description is specified, only your name will be displayed. --&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/HyperPolygon64&quot; Description=&quot;Lead developer and designer of Marathon&quot;&gt;HyperPolygon64&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/HyperBE32&quot; Description=&quot;Lead developer and designer of Marathon&quot;&gt;HyperBE32&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot; Description=&quot;Developed the HedgeLib# classes used as a base for Marathon.IO&quot;&gt;Radfordhound&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot; Description=&quot;Assisted with  [rest of string was truncated]&quot;;.
         /// </summary>
@@ -514,7 +514,7 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/HyperPolygon64/Marathon/issues/new.
+        ///   Looks up a localized string similar to https://github.com/HyperBE32/Marathon/issues/new.
         /// </summary>
         internal static string URL_GitHubIssueNew {
             get {
