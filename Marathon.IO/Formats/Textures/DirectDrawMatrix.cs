@@ -37,7 +37,7 @@ namespace Marathon.IO.Formats.Textures
             Texture = 0x4B435344  // DSCK
         }
 
-        public struct MatrixNode
+        public class MatrixNode
         {
             /// <summary>
             /// The name of the current node.
@@ -70,16 +70,6 @@ namespace Marathon.IO.Formats.Textures
             public byte[] Data;
 
             public MatrixType Type => (MatrixType)Signature;
-
-            public MatrixNode(ExtendedBinaryReader reader)
-            {
-                Name            = string.Empty;
-                Signature       = reader.ReadInt32();
-                Length          = reader.ReadUInt32() - 8;
-                UnknownUInt32_1 = reader.ReadUInt32();
-                UnknownUInt32_2 = reader.ReadUInt32();
-                Data            = reader.ReadBytes((int)Length);
-            }
         }
 
         public const string Extension = ".ddm";
@@ -90,31 +80,47 @@ namespace Marathon.IO.Formats.Textures
         {
             ExtendedBinaryReader reader = new ExtendedBinaryReader(stream);
 
-            List<string> stringTable = new List<string>();
+            List<string> names = new List<string>();
 
             while (reader.BaseStream.Position != reader.BaseStream.Length)
             {
-                MatrixNode node = new MatrixNode(reader);
+                MatrixNode node = new MatrixNode
+                {
+                    Signature       = reader.ReadInt32(),
+                    Length          = reader.ReadUInt32() - 8,
+                    UnknownUInt32_1 = reader.ReadUInt32(),
+                    UnknownUInt32_2 = reader.ReadUInt32()
+                };
 
                 if (node.Type == MatrixType.Names)
                 {
-                    for (int i = 0; i < node.Length; i++)
+                    long position = reader.BaseStream.Position;
+
+                    while (reader.BaseStream.Position != (position + node.Length))
                     {
-                        // Add current string to the table.
-                        stringTable.Add(reader.ReadNullTerminatedString());
+                        string name = reader.ReadNullTerminatedString();
+
+                        // Add current string to the list.
+                        if (!string.IsNullOrEmpty(name))
+                            names.Add(name);
                     }
                 }
-                else
+                else if (node.Type == MatrixType.Texture)
                 {
-                    if (stringTable.Count != 0)
+                    // Assign name to this node and remove it to prevent duplicates.
+                    if (names.Count != 0)
                     {
-                        node.Name = stringTable[0];
-                        stringTable.RemoveAt(0);
+                        node.Name = names[0];
+                        names.RemoveAt(0);
                     }
+
+                    node.Data = reader.ReadBytes((int)node.Length);
                 }
 
                 Nodes.Add(node);
             }
         }
+
+        // TODO: Add writing support - the game never uses this format, so this is very low priority.
     }
 }

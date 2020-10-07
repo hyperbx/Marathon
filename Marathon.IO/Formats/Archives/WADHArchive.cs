@@ -89,7 +89,7 @@ namespace Marathon.IO.Formats.Archives
                 ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, false);
 
                 // Jump to the file's data.
-                reader.JumpTo(file.Offset);
+                reader.JumpTo((uint)file.Offset);
 
                 // Read the file's uncompressed data.
                 return reader.ReadBytes((int)file.Length);
@@ -166,7 +166,7 @@ namespace Marathon.IO.Formats.Archives
                 // Parse File entries.
                 else
                 {
-                    // Create U8ArchiveFile node.
+                    // Create WADHArchiveFile node.
                     var fileEntry = new WADHArchiveFile()
                     {
                         Name = name,

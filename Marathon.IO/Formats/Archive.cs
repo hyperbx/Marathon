@@ -284,6 +284,7 @@ namespace Marathon.IO.Formats
 
             Name = new FileInfo(filePath).Name;
             Data = File.ReadAllBytes(filePath);
+            UncompressedSize = (uint)Data.Length;
         }
 
         public ArchiveFile(string name, byte[] data)
