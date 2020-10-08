@@ -34,7 +34,6 @@ namespace Marathon.IO.Formats.Miscellaneous
 {
     public class EventPlaybook : FileBase
     {
-        // TODO: XML Importing
         public class Event
         {
             public string Name,
@@ -146,7 +145,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             BINAWriter writer = new BINAWriter(fileStream, Header);
 
             writer.WriteSignature(Extension.ToUpper());
-            writer.Write(537265920u);
+            writer.Write(537265920u); // TODO: Unhardcode this once we figure out what it does.
             writer.Write(Entries.Count);
             writer.AddOffset("EventTableOffset");
 
@@ -182,17 +181,23 @@ namespace Marathon.IO.Formats.Miscellaneous
                 XElement NameElem = new XElement("Name", @event.Name);
                 XElement FolderElem = new XElement("Folder", @event.Folder);
                 XElement EventLengthElem = new XElement("EventLength", @event.EventLength);
+                
+                //Position
                 XElement Position = new XElement("Position");
                 XElement PositionX = new XElement("X", @event.Position.X);
                 XElement PositionY = new XElement("Y", @event.Position.Y);
                 XElement PositionZ = new XElement("Z", @event.Position.Z);
                 Position.Add(PositionX, PositionY, PositionZ);
+
+                // Rotation
                 XElement Rotation = new XElement("Rotation");
                 XElement RotationX = new XElement("X", @event.Rotation.X);
                 XElement RotationY = new XElement("Y", @event.Rotation.Y);
                 XElement RotationZ = new XElement("Z", @event.Rotation.Z);
                 Rotation.Add(RotationX, RotationY, RotationZ);
-                XElement TerrainElem = new XElement("Terain", @event.Terrain);
+
+
+                XElement TerrainElem = new XElement("Terrain", @event.Terrain);
                 XElement SceneLuaElem = new XElement("SceneLua", @event.SceneLua);
                 XElement SceneBankElem = new XElement("SceneBank", @event.SceneBank);
                 XElement ParticleListElem = new XElement("ParticleList", @event.ParticleList);
@@ -206,6 +211,42 @@ namespace Marathon.IO.Formats.Miscellaneous
             // Save XML.
             XDocument xml = new XDocument(rootElem);
             xml.Save(filepath);
+        }
+
+        public void ImportXML(string filepath)
+        {
+            // Load XML.
+            XDocument xml = XDocument.Load(filepath);
+
+            // Loop through event nodes.
+            foreach (XElement eventElem in xml.Root.Elements("Event"))
+            {
+                // Read event values.
+                Event @event = new Event
+                {
+                    Name = eventElem.Element("Name").Value,
+                    Folder = eventElem.Element("Folder").Value,
+                    EventLength = uint.Parse(eventElem.Element("EventLength").Value),
+                    Terrain = eventElem.Element("Terrain").Value,
+                    SceneLua = eventElem.Element("SceneLua").Value,
+                    SceneBank = eventElem.Element("SceneBank").Value,
+                    ParticleList = eventElem.Element("ParticleList").Value,
+                    SubtitleMST = eventElem.Element("SubtitleMST").Value
+                };
+
+                // Position
+                @event.Position.X = float.Parse(eventElem.Element("Position").Element("X").Value);
+                @event.Position.Y = float.Parse(eventElem.Element("Position").Element("Y").Value);
+                @event.Position.Z = float.Parse(eventElem.Element("Position").Element("Z").Value);
+
+                // Rotation
+                @event.Rotation.X = float.Parse(eventElem.Element("Rotation").Element("X").Value);
+                @event.Rotation.Y = float.Parse(eventElem.Element("Rotation").Element("Y").Value);
+                @event.Rotation.Z = float.Parse(eventElem.Element("Rotation").Element("Z").Value);
+
+                // Add event to Entries list.
+                Entries.Add(@event);
+            }
         }
     }
 }
