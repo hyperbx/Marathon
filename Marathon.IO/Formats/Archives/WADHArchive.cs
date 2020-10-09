@@ -89,7 +89,7 @@ namespace Marathon.IO.Formats.Archives
                 ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, false);
 
                 // Jump to the file's data.
-                reader.JumpTo((uint)file.Offset);
+                reader.JumpTo(file.Offset);
 
                 // Read the file's uncompressed data.
                 return reader.ReadBytes((int)file.Length);
@@ -100,7 +100,8 @@ namespace Marathon.IO.Formats.Archives
                             Extension = ".wad";
 
         public WADHArchive() { }
-        public WADHArchive(string file) : base(file) { }
+
+        public WADHArchive(string file, bool storeInMemory = true) : base(file, storeInMemory) { }
 
         public override void Load(Stream stream)
         {

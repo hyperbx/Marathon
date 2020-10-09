@@ -37,6 +37,20 @@ namespace Marathon.Toolkit.Helpers
             => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
         /// <summary>
+        /// Truncates a string down to the requested length.
+        /// </summary>
+        /// <param name="value">Input string.</param>
+        /// <param name="maxLength">Maximum length of the string.</param>
+        /// <returns></returns>
+        public static string Truncate(string value, int maxLength, bool ellipsis = true)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + (ellipsis ? " ..." : string.Empty);
+        }
+
+        /// <summary>
         /// Parses byte length to a Windows-like suffix string.
         /// </summary>
         /// <param name="i">Byte length.</param>

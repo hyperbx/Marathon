@@ -27,7 +27,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats;
 using Marathon.Toolkit.Helpers;
@@ -56,62 +55,69 @@ namespace Marathon.Toolkit.Forms
                 // Set the title to contain the archive path.
                 Text = $"Archive Explorer ({_LoadedArchive.Location})";
 
-                // Create the root node.
-                TreeNode rootNode = new TreeNode
-                {
-                    Text = Path.GetFileName(_LoadedArchive.Location),
-                    Tag = _LoadedArchive.Data[0],
-                    ImageKey = "Folder",
-                };
-
-                // Add the root node by the name of the archive.
-                TreeView_Explorer.Nodes.Add(rootNode);
-
-                // Set active node to default.
-                _ActiveNode = rootNode;
-
-                // Expand root node, because we all like better UX.
-                rootNode.Expand();
-
-                // Populate TreeView and ListView with the root files.
-                InitialiseDirectoryTree(rootNode);
-                InitialiseFileItems(rootNode.Tag);
+                // Load the archive nodes.
+                InitialiseDirectoryTree();
             }
         }
 
         /// <summary>
         /// Populate the specified TreeNode with all sub-directories.
         /// </summary>
-        private void InitialiseDirectoryTree(TreeNode child)
+        private void InitialiseDirectoryTree()
         {
-            // Store the current expanded nodes before refreshing...
-            List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
+            // Clear the TreeView.
+            TreeView_Explorer.Nodes.Clear();
 
-            foreach (ArchiveData entry in ((ArchiveDirectory)child.Tag).Data)
+            // Create the root node.
+            TreeNode rootNode = new TreeNode
             {
-                if (TypeHelper.IsObjectOfType(entry, typeof(ArchiveDirectory)))
+                Text = Path.GetFileName(LoadedArchive.Location),
+                ImageKey = "Folder"
+            };
+
+            // If the archive is now empty, create a new root node - otherwise, use the pre-existing one.
+            rootNode.Tag = LoadedArchive.Data.Count == 0 ? new ArchiveDirectory(rootNode.Text) : LoadedArchive.Data[0];
+
+            // Add the root node by the name of the archive.
+            TreeView_Explorer.Nodes.Add(rootNode);
+
+            // Set active node to root.
+            _ActiveNode = rootNode;
+
+            // Recurse through the directory nodes.
+            RecurseNodes(rootNode);
+
+            void RecurseNodes(TreeNode child)
+            {
+                foreach (ArchiveData entry in ((ArchiveDirectory)child.Tag).Data)
                 {
-                    TreeNode node = new TreeNode
+                    if (TypeHelper.IsObjectOfType(entry, typeof(ArchiveDirectory)))
                     {
-                        Text = entry.Name,
-                        Tag = entry,
-                        ImageKey = "Folder"
-                    };
+                        TreeNode node = new TreeNode
+                        {
+                            Text = entry.Name,
+                            Tag = entry,
+                            ImageKey = "Folder"
+                        };
 
-                    child.Nodes.Add(node);
+                        child.Nodes.Add(node);
 
-                    // Add child nodes for sub-directories.
-                    if (((ArchiveDirectory)entry).Data.OfType<ArchiveDirectory>().Count() != 0)
-                        InitialiseDirectoryTree(node);
+                        // Add child nodes for sub-directories.
+                        if (((ArchiveDirectory)entry).Data.OfType<ArchiveDirectory>().Count() != 0)
+                            RecurseNodes(node);
+                    }
                 }
             }
 
-            // Restore expanded nodes.
-            TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+            // Expand root node, because we all like better UX.
+            rootNode.Expand();
+
+            // Load the files into the ListView.
+            InitialiseFileItems(rootNode.Tag);
         }
 
         /// <summary>
-        /// Gets the U8 data from the specified child node and adds it to the ListView control.
+        /// Gets the data from the specified child node and adds it to the ListView control.
         /// </summary>
         private void InitialiseFileItems(object child)
         {
@@ -169,29 +175,42 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Returns the warning message for common file addition if the given file exists by name.
+        /// Returns whether the file exists or not, with added warning.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        private void CheckIfFileExists(string fileName)
+        private bool ReplaceFileNode(string fileName)
         {
-            if (((ArchiveDirectory)_ActiveNode.Tag).Data.Any(x => x.Name == fileName))
-            {
-                MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - please either rename it or delete it...",
-                                        "File already exists...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            ArchiveDirectory dir = (ArchiveDirectory)_ActiveNode.Tag;
 
-                return;
+            if (dir.Data.Any(x => x.Name == fileName))
+            {
+                DialogResult overwrite = MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - would you like to replace it?",
+                                                                 "Replace Files", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+
+                if (overwrite == DialogResult.Yes)
+                {
+                    // Remove any duplicates that somehow managed to get in.
+                    dir.Data.RemoveAll(x => x.Name == fileName);
+
+                    return true;
+                }
+                else
+                    return false;
             }
+            else
+                return true;
         }
 
         /// <summary>
         /// Adds a file to the currently active node from a path.
         /// </summary>
-        private void AddFileToActiveNode(string file)
+        private void AddFile(string file)
         {
             string fileName = Path.GetFileName(file);
 
             // Ensures the file doesn't exist already.
-            CheckIfFileExists(fileName);
+            if (!ReplaceFileNode(fileName))
+                return;
 
             byte[] data = File.ReadAllBytes(file);
 
@@ -209,14 +228,15 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Adds a file to the currently active node from a ListViewItem.
         /// </summary>
-        private void AddFileToActiveNode(ListViewItem item)
+        private void AddFile(ListViewItem item)
         {
             ArchiveFile file = (ArchiveFile)item.Tag;
 
             string fileName = file.Name;
 
             // Ensures the file doesn't exist already.
-            CheckIfFileExists(fileName);
+            if (!ReplaceFileNode(fileName))
+                return;
 
             byte[] data = file.Data;
 
@@ -234,7 +254,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Deletes a file from the currently active node.
         /// </summary>
-        private void DeleteFileFromActiveNode(ListViewItem file)
+        private void DeleteFile(ListViewItem file)
         {
             // Remove the file entry from the directory entry.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Remove((ArchiveFile)file.Tag);
@@ -249,13 +269,25 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Renames a file in the currently active node.
         /// </summary>
-        private void RenameFileInActiveNode(ListViewItem file, string newName)
+        private void RenameFile(ListViewItem file, string newName)
         {
-            // Change ListViewItem and U8FileEntry text.
-            file.Text = ((ArchiveFile)file.Tag).Name = newName;
+            // Change ListViewItem and ArchiveData text.
+            file.Text = ((ArchiveData)file.Tag).Name = newName;
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+        }
+
+        /// <summary>
+        /// Renames a directory in the TreeView.
+        /// </summary>
+        private void RenameFile(TreeNode dir, string newName)
+        {
+            // Change TreeNode and ArchiveData text.
+            dir.Text = ((ArchiveData)dir.Tag).Name = newName;
+
+            // Refresh the TreeView.
+            InitialiseDirectoryTree();
         }
 
         /// <summary>
@@ -264,7 +296,22 @@ namespace Marathon.Toolkit.Forms
         private void ListViewDark_Explorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Label))
-                RenameFileInActiveNode(ListViewDark_Explorer.Items[e.Item], e.Label);
+                RenameFile(ListViewDark_Explorer.Items[e.Item], e.Label);
+        }
+
+        /// <summary>
+        /// Ensures the node isn't root before editing the label.
+        /// </summary>
+        private void TreeView_Explorer_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
+            => e.CancelEdit = e.Node.Parent == null;
+
+        /// <summary>
+        /// Sets the new name of the directory after editing the label.
+        /// </summary>
+        private void TreeView_Explorer_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.Label))
+                RenameFile(e.Node, e.Label);
         }
 
         /// <summary>
@@ -278,16 +325,22 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
+                    // Add context menu item.
                     menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_AddFile)), delegate
                     {
                         OpenFileDialog openDialog = new OpenFileDialog
                         {
                             Title = "Please select a file...",
-                            Filter = "All files (*.*)|*.*"
+                            Filter = "All files (*.*)|*.*",
+                            Multiselect = true
                         };
 
                         if (openDialog.ShowDialog() == DialogResult.OK)
-                            AddFileToActiveNode(openDialog.FileName);
+                        {
+                            // Iterate through selection.
+                            foreach (string file in openDialog.FileNames)
+                                AddFile(file);
+                        }
                     }));
 
                     // Get the selected item at the current X/Y position.
@@ -301,6 +354,7 @@ namespace Marathon.Toolkit.Forms
                         // Gotta make things look pretty.
                         menu.Items.Add(new ToolStripSeparator());
 
+                        // Extract context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Export)), delegate
                         {
                             /* These switches will be used frequently in cases where items can be operated on,
@@ -366,7 +420,7 @@ namespace Marathon.Toolkit.Forms
                                     // Delete single selected item.
                                     if (confirmSingleDelete == DialogResult.Yes)
                                     {
-                                        DeleteFileFromActiveNode(selected);
+                                        DeleteFile(selected);
                                     }
 
                                     break;
@@ -413,7 +467,7 @@ namespace Marathon.Toolkit.Forms
             {
                 foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
                 {
-                    DeleteFileFromActiveNode(selected);
+                    DeleteFile(selected);
                 }
             }
         }
@@ -423,15 +477,126 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void TreeView_Explorer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            // Fucking WinForms...
+            TreeView_Explorer.SelectedNode = e.Node;
+
+            // Store the directory for later.
+            ArchiveDirectory dir = (ArchiveDirectory)e.Node.Tag;
+
             switch (e.Button)
             {
                 case MouseButtons.Right:
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
+                    // Add context menu item.
+                    menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_AddFile)), delegate
+                    {
+                        // Create new directory node.
+                        TreeNode dirNode = new TreeNode()
+                        {
+                            Text = "New folder"
+                        };
+
+                        // Set the tag to the new directory.
+                        dirNode.Tag = new ArchiveDirectory(dirNode.Text);
+
+                        // Add node to the TreeView.
+                        e.Node.Nodes.Add(dirNode);
+
+                        // Add node tag to the archive as a directory.
+                        dir.Data.Add((ArchiveDirectory)dirNode.Tag);
+
+                        // Select the new node.
+                        TreeView_Explorer.SelectedNode = dirNode;
+
+                        // Enter edit mode.
+                        dirNode.BeginEdit();
+
+                        // Navigates to the selected node if valid.
+                        InitialiseFileItems(dirNode.Tag);
+                    }));
+
+                    // Add context menu item.
+                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_OpenFolder)), delegate
+                    {
+                        OpenFolderDialog folderDialog = new OpenFolderDialog
+                        {
+                            Title = "Please select a folder..."
+                        };
+
+                        // Import the selected directory.
+                        if (folderDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            // Confirm the inclusion of subdirectories.
+                            bool includeSubDirectories =
+                                MarathonMessageBox.Show("Would you like to import the subdirectories?", "Archive Explorer",
+                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+
+                            // Create new directory node.
+                            TreeNode dirNode = new TreeNode()
+                            {
+                                Text = Path.GetFileName(folderDialog.SelectedPath)
+                            };
+
+                            // Set the tag to the new directory.
+                            dirNode.Tag = new ArchiveDirectory(dirNode.Text);
+
+                            // Add the selected path to the new node.
+                            LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)dirNode.Tag, includeSubDirectories);
+
+                            // Add node to the TreeView.
+                            e.Node.Nodes.Add(dirNode);
+
+                            // Add node tag to the archive as a directory.
+                            dir.Data.Add((ArchiveDirectory)dirNode.Tag);
+
+                            // Select the new node.
+                            TreeView_Explorer.SelectedNode = dirNode;
+
+                            // Enter edit mode.
+                            dirNode.BeginEdit();
+
+                            // Refresh views.
+                            InitialiseDirectoryTree();
+                            InitialiseFileItems(dirNode.Tag);
+                        }
+                    }));
+
+                    // Prettify the context menu. :)
+                    menu.Items.Add(new ToolStripSeparator());
+
+                    // Extract context menu item.
                     menu.Items.Add(new ToolStripMenuItem("Extract",
                                    Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Export)),
-                                   delegate { ExtractDialog((ArchiveDirectory)e.Node.Tag); }));
+                                   delegate { ExtractDialog(dir); }));
+
+                    // Delete context menu item.
+                    menu.Items.Add(new ToolStripMenuItem("Delete", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)), delegate
+                    {
+                        DialogResult confirmFolderDelete =
+                            MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
+                                                    "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        // Delete selected item.
+                        if (confirmFolderDelete == DialogResult.Yes)
+                        {
+                            // Remove the item.
+                            // TODO: kms.
+
+                            // Reload the TreeView.
+                            InitialiseDirectoryTree();
+                        }
+                    }));
+
+                    // If the parent is null, we're at root and shouldn't allow renaming.
+                    if (e.Node.Parent != null)
+                    {
+                        // Rename context menu item.
+                        menu.Items.Add(new ToolStripMenuItem("Rename",
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Rename)),
+                                       delegate { e.Node.BeginEdit(); }));
+                    }
 
                     menu.Show(Cursor.Position);
 
@@ -533,7 +698,7 @@ namespace Marathon.Toolkit.Forms
                 // Add all files to the current node.
                 foreach (string file in (string[])e.Data.GetData(DataFormats.FileDrop))
                 {
-                    AddFileToActiveNode(file);
+                    AddFile(file);
                 }
             }
 
@@ -543,7 +708,7 @@ namespace Marathon.Toolkit.Forms
                 // Add all ListViewItems to the current node.
                 foreach (ListViewItem item in (ListView.SelectedListViewItemCollection)e.Data.GetData(typeof(ListView.SelectedListViewItemCollection)))
                 {
-                    AddFileToActiveNode(item);
+                    AddFile(item);
                 }
             }
         }
@@ -565,8 +730,12 @@ namespace Marathon.Toolkit.Forms
             }
         }
 
+        /// <summary>
+        /// Initialises the drag and drop events for ListViewItems.
+        /// </summary>
         private void ListViewDark_Explorer_ItemDrag(object sender, ItemDragEventArgs e)
         {
+            // Start file dragging.
             ListViewDark_Explorer.DoDragDrop(ListViewDark_Explorer.SelectedItems, DragDropEffects.All);
 
             // Decompress all files.
@@ -576,11 +745,43 @@ namespace Marathon.Toolkit.Forms
                 ArchiveFile file = (ArchiveFile)item.Tag;
 
                 // Write feedback to the console output.
-                ConsoleWriter.WriteLine($"Decompressing {item.Text} ({StringHelper.ByteLengthToDecimalString(file.UncompressedSize)})...");
+                ConsoleWriter.WriteLine($"Decompressing {file.Name} ({StringHelper.ByteLengthToDecimalString(file.UncompressedSize)})...");
 
                 // Decompress current file.
                 file.Decompress(_LoadedArchive.Location, file);
             }
+        }
+
+        /// <summary>
+        /// Displays a tool tip for the hovered item.
+        /// </summary>
+        private void ListViewDark_Explorer_ItemMouseHover(object sender, ListViewItemMouseHoverEventArgs e)
+        {
+            ArchiveFile file = (ArchiveFile)e.Item.Tag;
+
+            // This is rather self-explanatory.
+            e.Item.ToolTipText = $"Type: {Path.GetExtension(file.Name).ToUpper().Substring(1)} File\n" +
+                                 $"Size: {StringHelper.ByteLengthToDecimalString(file.UncompressedSize)}";
+        }
+
+        /// <summary>
+        /// Displays a tool tip for the hovered node.
+        /// </summary>
+        private void TreeView_Explorer_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            ArchiveDirectory dir = (ArchiveDirectory)e.Node.Tag;
+
+            // Lists of directories and files in the root of the current node.
+            string folders = string.Join(", ", dir.Data.OfType<ArchiveDirectory>().Select(x => x.Name)),
+                   files   = string.Join(", ", dir.Data.OfType<ArchiveFile>().Select(x => x.Name));
+
+            // Common length to truncate the above strings.
+            int truncateLength = 45;
+
+            // This is rather self-explanatory.
+            e.Node.ToolTipText = $"Size: {StringHelper.ByteLengthToDecimalString(dir.TotalContentsSize)}\n" +
+                                 (folders.Length == 0 ? string.Empty : $"Folders: {StringHelper.Truncate(folders, truncateLength)}\n") +
+                                 (files.Length == 0 ? string.Empty : $"Files: {StringHelper.Truncate(files, truncateLength)}");
         }
     }
 }

@@ -38,13 +38,25 @@ namespace Marathon.IO.Formats
         /// <summary>
         /// Loads all archive data into memory.
         /// </summary>
-        public bool StoreInMemory { get; set; } = true;
+        public bool StoreInMemory { get; set; } = false;
 
         public List<ArchiveData> Data = new List<ArchiveData>();
 
-        public Archive() { }
-        public Archive(string file) => Load(file);
-        public Archive(Archive arc) => Data = arc.Data;
+        public Archive(bool storeInMemory = false) => StoreInMemory = storeInMemory;
+
+        public Archive(string file, bool storeInMemory = false)
+        {
+            StoreInMemory = storeInMemory;
+
+            Load(file);
+        }
+
+        public Archive(Archive arc, bool storeInMemory = false)
+        {
+            StoreInMemory = storeInMemory;
+
+            Data = arc.Data;
+        }
 
         /// <summary>
         /// Disposes the list of data.
@@ -248,6 +260,31 @@ namespace Marathon.IO.Formats
 
             return totalCount;
         }
+
+        /// <summary>
+        /// Recursively gets the total size of all data entries.
+        /// </summary>
+        /// <param name="dataEntries">List of entries to query.</param>
+        public static uint GetTotalSize(List<ArchiveData> dataEntries)
+        {
+            uint totalSize = 0;
+
+            foreach (var dataEntry in dataEntries)
+            {
+                if (dataEntry is ArchiveDirectory childDirEntry)
+                {
+                    /* When we call TotalContentsSize, we recurse again
+                       for the child directory. */
+                    totalSize += childDirEntry.TotalContentsSize;
+                }
+                else if (dataEntry is ArchiveFile fileEntry)
+                {
+                    totalSize += fileEntry.UncompressedSize;
+                }
+            }
+
+            return totalSize;
+        }
     }
 
     public class ArchiveFile : ArchiveData
@@ -324,6 +361,11 @@ namespace Marathon.IO.Formats
         /// Total amount of entries in this directory (including subdirectories).
         /// </summary>
         public int TotalContentsCount => GetTotalCount(Data);
+
+        /// <summary>
+        /// Total size of entries in this directory (including subdirectories).
+        /// </summary>
+        public uint TotalContentsSize => GetTotalSize(Data);
 
         // Yes, the class called 'ArchiveDirectory' is a directory.
         public override bool IsDirectory => true;

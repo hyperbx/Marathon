@@ -90,9 +90,13 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Explorer.Location = new System.Drawing.Point(0, 0);
             this.TreeView_Explorer.Name = "TreeView_Explorer";
             this.TreeView_Explorer.SelectedImageIndex = 0;
+            this.TreeView_Explorer.ShowNodeToolTips = true;
             this.TreeView_Explorer.ShowRootLines = false;
             this.TreeView_Explorer.Size = new System.Drawing.Size(183, 389);
             this.TreeView_Explorer.TabIndex = 2;
+            this.TreeView_Explorer.BeforeLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TreeView_Explorer_BeforeLabelEdit);
+            this.TreeView_Explorer.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.TreeView_Explorer_AfterLabelEdit);
+            this.TreeView_Explorer.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.TreeView_Explorer_NodeMouseHover);
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
             // 
@@ -137,6 +141,7 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.Location = new System.Drawing.Point(-1, 1);
             this.ListViewDark_Explorer.Name = "ListViewDark_Explorer";
             this.ListViewDark_Explorer.OwnerDraw = true;
+            this.ListViewDark_Explorer.ShowItemToolTips = true;
             this.ListViewDark_Explorer.Size = new System.Drawing.Size(599, 406);
             this.ListViewDark_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListViewDark_Explorer.TabIndex = 0;
@@ -144,6 +149,7 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.View = System.Windows.Forms.View.Details;
             this.ListViewDark_Explorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ListViewDark_Explorer_AfterLabelEdit);
             this.ListViewDark_Explorer.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListViewDark_Explorer_ItemDrag);
+            this.ListViewDark_Explorer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.ListViewDark_Explorer_ItemMouseHover);
             this.ListViewDark_Explorer.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListViewDark_Explorer_DragDrop);
             this.ListViewDark_Explorer.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListViewDark_Explorer_DragEnter);
             this.ListViewDark_Explorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListViewDark_Explorer_KeyDown);

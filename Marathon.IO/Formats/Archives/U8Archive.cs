@@ -183,7 +183,8 @@ namespace Marathon.IO.Formats.Archives
         public static bool BigEndian { get; set; } = true;
 
         public U8Archive() { }
-        public U8Archive(string file, bool zlib = true, bool bigEndian = true)
+
+        public U8Archive(string file, bool zlib = true, bool bigEndian = true, bool storeInMemory = true) : base(storeInMemory)
         {
             Zlib = zlib;
             BigEndian = bigEndian;

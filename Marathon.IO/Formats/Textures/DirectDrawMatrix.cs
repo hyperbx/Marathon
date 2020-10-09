@@ -28,6 +28,10 @@ using System.Collections.Generic;
 
 namespace Marathon.IO.Formats.Textures
 {
+    /// <summary>
+    /// <para>File base for the DDM format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for storing multiple <see cref="DirectDraw"/> textures.</para>
+    /// </summary>
     public class DirectDrawMatrix : FileBase
     {
         public enum MatrixType

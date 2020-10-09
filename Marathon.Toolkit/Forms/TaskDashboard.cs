@@ -38,11 +38,11 @@ namespace Marathon.Toolkit.Forms
                     {
                         if (extension == ".arc")
                         {
-                            new ArchiveExplorer(new U8Archive(file) { StoreInMemory = false }).Show(parent);
+                            new ArchiveExplorer(new U8Archive(file, true, true, false)).Show(parent);
                         }
                         else if (extension == ".wad")
                         {
-                            new ArchiveExplorer(new WADHArchive(file) { StoreInMemory = false }).Show(parent);
+                            new ArchiveExplorer(new WADHArchive(file)).Show(parent);
                         }
 
                         Close();
