@@ -155,11 +155,15 @@ namespace Marathon.IO.Formats.Archives
                 }
 
                 // File is not compressed or is Nintendo U8.
-                else
+                else if (file.UncompressedSize != 0)
                 {
                     // Read the file's uncompressed data.
                     return Zlib ? reader.ReadBytes((int)file.UncompressedSize) : reader.ReadBytes((int)file.Length);
                 }
+
+                // File is already uncompressed.
+                else
+                    return file.Data;
             }
         }
 
@@ -192,6 +196,12 @@ namespace Marathon.IO.Formats.Archives
             Load(file);
         }
 
+        /// <summary>
+        /// Reloads the archive with the same properties.
+        /// </summary>
+        public override Archive Reload()
+            => new U8Archive(Location, Zlib, BigEndian, StoreInMemory);
+
         public override void Load(Stream stream)
         {
             // Create ExtendedBinaryReader.
@@ -223,9 +233,9 @@ namespace Marathon.IO.Formats.Archives
                 u8Entries[i] = new U8DataEntry(reader);
 
             // Recursively parse U8 entries, converting them into ArchiveData entries.
-            ParseEntries(0, new ArchiveDirectory() { Data = Data });
+            ParseEntries(0, new ArchiveDirectory() { Data = Data }, true);
 
-            uint ParseEntries(uint u8EntryIndex, ArchiveDirectory entries)
+            uint ParseEntries(uint u8EntryIndex, ArchiveDirectory entries, bool isRoot = false)
             {
                 ref U8DataEntry u8Entry = ref u8Entries[u8EntryIndex];
 
@@ -240,7 +250,8 @@ namespace Marathon.IO.Formats.Archives
                     var dirEntry = new ArchiveDirectory()
                     {
                         Name = name,
-                        Parent = entries
+                        Parent = entries,
+                        IsRoot = isRoot
                     };
 
                     // Add the ArchiveDirectory to the current entries.
@@ -330,26 +341,12 @@ namespace Marathon.IO.Formats.Archives
             // Fill in the offset for where the table starts.
             writer.FillInOffset("EntriesOffset");
 
-            // Write root entry.
-            {
-                writer.Write((uint)U8DataType.Directory << 24);
-                writer.WriteNulls(4);
-                writer.Write((uint)ArchiveData.GetTotalCount(Data) + 1);
-
-                // TODO: Figure out what this is; it's only present in '06 archives.
-                if (Zlib)
-                    writer.WriteNulls(4);
-            }
-
-            // Write entries recursively.
-            uint globalEntryIndex = 1, strTableLen = 1;
+            uint globalEntryIndex = 0, strTableLen = 0;
             bool hasData = false;
 
+            // Write entries recursively.
             foreach (var dataEntry in Data)
                 WriteEntries(dataEntry);
-
-            // Write root entry name (always just an empty string).
-            writer.Write((byte)0);
 
             // Write entry names recursively.
             foreach (var dataEntry in Data)
@@ -364,10 +361,11 @@ namespace Marathon.IO.Formats.Archives
             // Fill-in DataOffset.
             writer.FillInOffset("DataOffset");
 
-            // Write entry data recursively.
             if (hasData)
             {
-                globalEntryIndex = 1;
+                globalEntryIndex = 0;
+
+                // Write entry data recursively.
                 foreach (var dataEntry in Data)
                     WriteEntryData(dataEntry);
             }
@@ -388,17 +386,31 @@ namespace Marathon.IO.Formats.Archives
                 {
                     var dirEntry = (ArchiveDirectory)dataEntry;
 
-                    // Write parent index.
-                    writer.Write(parentIndex);
+                    if (dirEntry.IsRoot)
+                    {
+                        // Root node has no parent.
+                        writer.WriteNulls(4);
 
-                    // Set parent index to the index of the current directory entry.
-                    parentIndex = globalEntryIndex;
+                        // Increase global entry index.
+                        ++globalEntryIndex;
 
-                    // Increase global entry index.
-                    ++globalEntryIndex;
+                        // Write the number of nodes in the archive.
+                        writer.Write((uint)ArchiveData.GetTotalCount(Data));
+                    }
+                    else
+                    {
+                        // Write parent index.
+                        writer.Write(parentIndex);
 
-                    // Write next directory index.
-                    writer.Write(globalEntryIndex + (uint)dirEntry.TotalContentsCount);
+                        // Set parent index to the index of the current directory entry.
+                        parentIndex = globalEntryIndex;
+
+                        // Increase global entry index.
+                        ++globalEntryIndex;
+
+                        // Write next directory index.
+                        writer.Write(globalEntryIndex + (uint)dirEntry.TotalContentsCount);
+                    }
 
                     // TODO: Figure out what this is; it's only present in '06 archives.
                     if (Zlib)
@@ -480,7 +492,7 @@ namespace Marathon.IO.Formats.Archives
                     // Temporary storage for the file's data.
                     byte[] data;
 
-                    // Decompress the file's data.
+                    // Compress the file's data.
                     if (Zlib)
                     {
                         using (var compressedStream = new MemoryStream())
@@ -489,8 +501,8 @@ namespace Marathon.IO.Formats.Archives
                             {
                                 using (var zipStream = new BufferedStream(zlibStream))
                                 {
-                                    // Compress data using ZlibStream so we have the zlib header and Adler32 checksum.
-                                    zipStream.Write(fileEntry.Data, 0, (int)fileEntry.UncompressedSize);
+                                    // Compress data using ZlibStream so we have the Zlib header and Adler32 checksum.
+                                    zipStream.Write(fileEntry.Data, 0, fileEntry.Data.Length);
                                 }
                             }
 

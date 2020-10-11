@@ -134,7 +134,6 @@
     <Compile Include="Forms\Components\ListViewDark.Designer.cs">
       <DependentUpon>ListViewDark.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\InvalidSettingsException.cs" />
     <Compile Include="Forms\Debugger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -152,14 +151,12 @@
     <Compile Include="Helpers\DockContentHelper.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ErrorHandler.Designer.cs">
       <DependentUpon>ErrorHandler.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\XMLHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

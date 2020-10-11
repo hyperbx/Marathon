@@ -27,6 +27,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Marathon.IO.Helpers;
 
 namespace Marathon.IO.Formats
 {
@@ -68,6 +69,32 @@ namespace Marathon.IO.Formats
 
             // Collect remaining garbage.
             GC.Collect(GC.GetGeneration(Data), GCCollectionMode.Forced);
+        }
+
+        /// <summary>
+        /// Reloads the archive.
+        /// </summary>
+        public virtual Archive Reload()
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// Decompresses the archive data.
+        /// </summary>
+        /// <param name="files">List of entries to decompress.</param>
+        /// <param name="includeSubDirectories">Include subdirectories in the returned list.</param>
+        public void Decompress(ref List<ArchiveData> files, bool includeSubDirectories = true)
+        {
+            foreach (ArchiveData data in files)
+            {
+                if (includeSubDirectories && data is ArchiveDirectory dir)
+                {
+                    Decompress(ref dir.Data);
+                }
+                else if (data is ArchiveFile file)
+                {
+                    file.Data = file.Decompress(Location, file);
+                }
+            }
         }
 
         /// <summary>
@@ -237,7 +264,7 @@ namespace Marathon.IO.Formats
         /// <summary>
         /// Placeholder for later implementation.
         /// </summary>
-        public virtual void Extract(string placeholder)
+        public virtual void Extract(string placeholder, bool decompress = false, string location = "")
             => throw new NotImplementedException();
 
         /// <summary>
@@ -309,6 +336,11 @@ namespace Marathon.IO.Formats
         /// </summary>
         public uint Offset;
 
+        /// <summary>
+        /// The physical location of the file - used for Archive Explorer.
+        /// </summary>
+        public string Location;
+
         // This should be false, since it's a file, duh.
         public override bool IsDirectory => false;
 
@@ -334,7 +366,35 @@ namespace Marathon.IO.Formats
         /// Decompresses the file data using the overridden method.
         /// </summary>
         public virtual byte[] Decompress(string archive, ArchiveFile file)
-            => Decompress(File.OpenRead(archive), file);
+        {
+            // File is stored in memory or in an archive.
+            if (string.IsNullOrEmpty(Location))
+            {
+                // Check if the lengths are valid.
+                if (file.Length != 0 && file.UncompressedSize != 0)
+                {
+                    // Write feedback to the console output.
+                    ConsoleWriter.WriteLine($"Decompressing {file.Name} ({StringHelper.ByteLengthToDecimalString(file.UncompressedSize)})...");
+
+                    using (var fileStream = File.OpenRead(archive))
+                        return Decompress(fileStream, file);
+                }
+
+                // File is probably already decompressed.
+                else
+                    return file.Data;
+            }
+
+            // File is stored on disk, so read it.
+            else if (!string.IsNullOrEmpty(Location) && Data == null)
+            {
+                return File.ReadAllBytes(Location);
+            }
+
+            // File is probably already decompressed.
+            else
+                return file.Data;
+        }
 
         /// <summary>
         /// Decompresses the file data using the overridden method.
@@ -346,7 +406,7 @@ namespace Marathon.IO.Formats
         /// Extracts file data from the archive.
         /// </summary>
         /// <param name="filePath">Location to extract to.</param>
-        public override void Extract(string filePath)
+        public override void Extract(string filePath, bool decompress = false, string location = "")
             => File.WriteAllBytes(filePath, Data);
     }
 
@@ -367,6 +427,11 @@ namespace Marathon.IO.Formats
         /// </summary>
         public uint TotalContentsSize => GetTotalSize(Data);
 
+        /// <summary>
+        /// Determines if the current directory is the root of the archive.
+        /// </summary>
+        public bool IsRoot;
+
         // Yes, the class called 'ArchiveDirectory' is a directory.
         public override bool IsDirectory => true;
 
@@ -377,12 +442,17 @@ namespace Marathon.IO.Formats
         /// Extracts all data from the current directory.
         /// </summary>
         /// <param name="directory">Directory to extract to.</param>
-        public override void Extract(string directory)
+        public override void Extract(string directory, bool decompress = false, string location = "")
         {
             Directory.CreateDirectory(directory);
 
-            foreach (ArchiveData file in Data)
-                file.Extract(Path.Combine(directory, file.Name));
+            foreach (ArchiveData data in Data)
+            {
+                if (decompress && data is ArchiveFile file)
+                    file.Data = file.Decompress(location, file);
+
+                data.Extract(Path.Combine(directory, data.Name), decompress, location);
+            }
         }
     }
 }

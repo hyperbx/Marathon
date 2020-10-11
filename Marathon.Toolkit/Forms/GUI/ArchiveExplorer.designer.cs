@@ -99,6 +99,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Explorer.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.TreeView_Explorer_NodeMouseHover);
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
+            this.TreeView_Explorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_Explorer_KeyDown);
             // 
             // ImageList_Keys
             // 
@@ -119,6 +120,7 @@ namespace Marathon.Toolkit.Forms
             this.Label_DirectoryEmpty.TabIndex = 1;
             this.Label_DirectoryEmpty.Text = "This folder is empty.";
             this.Label_DirectoryEmpty.Visible = false;
+            this.Label_DirectoryEmpty.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListViewDark_Explorer_MouseDown);
             // 
             // ListViewDark_Explorer
             // 

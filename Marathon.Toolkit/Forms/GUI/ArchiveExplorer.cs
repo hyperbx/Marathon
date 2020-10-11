@@ -27,8 +27,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats;
+using Marathon.IO.Helpers;
 using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Dialogs;
 using Marathon.Toolkit.Components;
@@ -161,20 +163,6 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Decompresses the selected data and returns the result.
-        /// </summary>
-        private byte[] DecompressSelectedFile(ArchiveFile selected)
-        {
-            // Data is compressed.
-            if (selected.Length != 0)
-                return selected.Decompress(LoadedArchive.Location, selected);
-
-            // Data is already uncompressed.
-            else
-                return selected.Data;
-        }
-
-        /// <summary>
         /// Returns whether the file exists or not, with added warning.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
@@ -184,8 +172,9 @@ namespace Marathon.Toolkit.Forms
 
             if (dir.Data.Any(x => x.Name == fileName))
             {
-                DialogResult overwrite = MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - would you like to replace it?",
-                                                                 "Replace Files", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                DialogResult overwrite =
+                    MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - would you like to replace it?",
+                                            "Replace Files", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
 
                 if (overwrite == DialogResult.Yes)
                 {
@@ -212,13 +201,12 @@ namespace Marathon.Toolkit.Forms
             if (!ReplaceFileNode(fileName))
                 return;
 
-            byte[] data = File.ReadAllBytes(file);
-
-            // Create a new data entry using the bytes from the input file.
-            // TODO: Load the data only when repacking.
-            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
+            // Create a new data entry using the location from the input file.
+            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile()
             {
-                UncompressedSize = (uint)data.Length
+                Name = fileName,
+                Location = file,
+                UncompressedSize = (uint)new FileInfo(file).Length
             });
 
             // Refresh current node.
@@ -241,7 +229,6 @@ namespace Marathon.Toolkit.Forms
             byte[] data = file.Data;
 
             // Create a new data entry using the bytes from the input file.
-            // TODO: Load the data only when repacking.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
             {
                 UncompressedSize = (uint)data.Length
@@ -281,7 +268,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Renames a directory in the TreeView.
         /// </summary>
-        private void RenameFile(TreeNode dir, string newName)
+        private void RenameFolder(TreeNode dir, string newName)
         {
             // Change TreeNode and ArchiveData text.
             dir.Text = ((ArchiveData)dir.Tag).Name = newName;
@@ -311,7 +298,7 @@ namespace Marathon.Toolkit.Forms
         private void TreeView_Explorer_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
             if (!string.IsNullOrEmpty(e.Label))
-                RenameFile(e.Node, e.Label);
+                RenameFolder(e.Node, e.Label);
         }
 
         /// <summary>
@@ -343,6 +330,25 @@ namespace Marathon.Toolkit.Forms
                         }
                     }));
 
+                    // Import context menu item.
+                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_OpenFolder)), delegate
+                    {
+                        OpenFolderDialog folderDialog = new OpenFolderDialog
+                        {
+                            Title = "Please select a folder..."
+                        };
+
+                        // Import the selected directory.
+                        if (folderDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            // Add the selected path to the new node.
+                            LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)_ActiveNode.Tag, false);
+
+                            // Refresh current node.
+                            InitialiseFileItems(_ActiveNode.Tag);
+                        }
+                    }));
+
                     // Get the selected item at the current X/Y position.
                     ListViewItem selected = ListViewDark_Explorer.GetItemAt(e.X, e.Y);
 
@@ -365,18 +371,20 @@ namespace Marathon.Toolkit.Forms
                                 // Just a single item was selected.
                                 case 1:
                                 {
+                                    // Store file for later.
+                                    var file = (ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag;
+
                                     SaveFileDialog saveDialog = new SaveFileDialog
                                     {
                                         Title = "Extract",
                                         Filter = "All files (*.*)|*.*",
-                                        FileName = ((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag).Name
+                                        FileName = file.Name
                                     };
 
                                     // Extract single selected item.
                                     if (saveDialog.ShowDialog() == DialogResult.OK)
                                     {
-                                        File.WriteAllBytes(saveDialog.FileName,
-                                                           DecompressSelectedFile((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag));
+                                        File.WriteAllBytes(saveDialog.FileName, file.Decompress(LoadedArchive.Location, file));
                                     }
 
                                     break;
@@ -395,8 +403,11 @@ namespace Marathon.Toolkit.Forms
                                     {
                                         foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
                                         {
+                                            // Store file for later.
+                                            var file = (ArchiveFile)selected.Tag;
+
                                             File.WriteAllBytes(Path.Combine(folderDialog.SelectedPath, ((ArchiveFile)selected.Tag).Name),
-                                                               DecompressSelectedFile((ArchiveFile)selected.Tag));
+                                                               file.Decompress(LoadedArchive.Location, (ArchiveFile)selected.Tag));
                                         }
                                     }
 
@@ -429,7 +440,7 @@ namespace Marathon.Toolkit.Forms
                                 // More than one item was selected.
                                 default:
                                 {
-                                    BulkDeleteItems();
+                                    DeleteFiles();
 
                                     break;
                                 }
@@ -454,9 +465,9 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Deletes all selected items.
+        /// Deletes all selected files in the ListView.
         /// </summary>
-        private void BulkDeleteItems()
+        private void DeleteFiles()
         {
             DialogResult confirmMultiDelete =
                 MarathonMessageBox.Show($"Are you sure that you want to permanently delete these {ListViewDark_Explorer.SelectedItems.Count} items?",
@@ -469,6 +480,30 @@ namespace Marathon.Toolkit.Forms
                 {
                     DeleteFile(selected);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selected folder in the TreeView.
+        /// </summary>
+        private void DeleteFolder()
+        {
+            DialogResult confirmFolderDelete =
+                MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
+                                        "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Delete selected item.
+            if (confirmFolderDelete == DialogResult.Yes)
+            {
+                // Store the directory and its parent.
+                var dir = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag;
+                var parent = (ArchiveDirectory)dir.Parent;
+
+                // Remove the item from the parent.
+                parent.Data.Remove(dir);
+
+                // Reload the TreeView.
+                InitialiseDirectoryTree();
             }
         }
 
@@ -517,7 +552,7 @@ namespace Marathon.Toolkit.Forms
                         InitialiseFileItems(dirNode.Tag);
                     }));
 
-                    // Add context menu item.
+                    // Import context menu item.
                     menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_OpenFolder)), delegate
                     {
                         OpenFolderDialog folderDialog = new OpenFolderDialog
@@ -572,22 +607,9 @@ namespace Marathon.Toolkit.Forms
                                    delegate { ExtractDialog(dir); }));
 
                     // Delete context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Delete", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)), delegate
-                    {
-                        DialogResult confirmFolderDelete =
-                            MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
-                                                    "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        // Delete selected item.
-                        if (confirmFolderDelete == DialogResult.Yes)
-                        {
-                            // Remove the item.
-                            // TODO: kms.
-
-                            // Reload the TreeView.
-                            InitialiseDirectoryTree();
-                        }
-                    }));
+                    menu.Items.Add(new ToolStripMenuItem("Delete",
+                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)),
+                                   delegate { DeleteFolder(); }));
 
                     // If the parent is null, we're at root and shouldn't allow renaming.
                     if (e.Node.Parent != null)
@@ -639,7 +661,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
-                directory.Extract(folderDialog.SelectedPath);
+                directory.Extract(folderDialog.SelectedPath, true, LoadedArchive.Location);
         }
 
         /// <summary>
@@ -650,13 +672,13 @@ namespace Marathon.Toolkit.Forms
             // Displays the extract dialog.
             if (sender == MenuStripDark_Main_File_Extract)
             {
-                ExtractDialog((ArchiveDirectory)_LoadedArchive.Data[0]);
+                ExtractDialog((ArchiveDirectory)LoadedArchive.Data[0]);
             }
 
             // Saves the loaded archive.
             else if (sender == MenuStripDark_Main_File_Save)
             {
-                _LoadedArchive.Save(_LoadedArchive.Location);
+                SaveArchive(LoadedArchive.Location);
             }
 
             // Saves the loaded archive to the desired location.
@@ -669,7 +691,9 @@ namespace Marathon.Toolkit.Forms
                 };
 
                 if (saveDialog.ShowDialog() == DialogResult.OK)
-                    _LoadedArchive.Save(saveDialog.FileName);
+                {
+                    SaveArchive(saveDialog.FileName);
+                }
             }
 
             // Closes the form.
@@ -677,15 +701,30 @@ namespace Marathon.Toolkit.Forms
             {
                 Close();
             }
+
+            void SaveArchive(string location)
+            {
+                // Store the current expanded nodes before reloading...
+                List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
+
+                // Decompress everything before repacking so we have valid data.
+                LoadedArchive.Decompress(ref LoadedArchive.Data);
+
+                // Save the modified archive.
+                LoadedArchive.Save(location);
+
+                // Reload the archive.
+                LoadedArchive = LoadedArchive.Reload();
+
+                // Restore expanded nodes.
+                TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+            }
         }
 
         /// <summary>
         /// Disposes the loaded archive upon exit.
         /// </summary>
-        private void ArchiveExplorer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            LoadedArchive.Dispose();
-        }
+        private void ArchiveExplorer_FormClosing(object sender, FormClosingEventArgs e) => LoadedArchive.Dispose();
 
         /// <summary>
         /// Gets the data dropped onto the window.
@@ -725,8 +764,20 @@ namespace Marathon.Toolkit.Forms
         {
             if (e.KeyCode == Keys.Delete)
             {
-                // Delete all selected items.
-                BulkDeleteItems();
+                // Delete all selected files.
+                DeleteFiles();
+            }
+        }
+
+        /// <summary>
+        /// Events for key presses on TreeView_Explorer.
+        /// </summary>
+        private void TreeView_Explorer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                // Delete selected folder.
+                DeleteFolder();
             }
         }
 
@@ -735,21 +786,18 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void ListViewDark_Explorer_ItemDrag(object sender, ItemDragEventArgs e)
         {
-            // Start file dragging.
-            ListViewDark_Explorer.DoDragDrop(ListViewDark_Explorer.SelectedItems, DragDropEffects.All);
-
             // Decompress all files.
             foreach (ListViewItem item in ListViewDark_Explorer.SelectedItems)
             {
-                // Store item for easier reference.
+                // Store node for easier reference.
                 ArchiveFile file = (ArchiveFile)item.Tag;
 
-                // Write feedback to the console output.
-                ConsoleWriter.WriteLine($"Decompressing {file.Name} ({StringHelper.ByteLengthToDecimalString(file.UncompressedSize)})...");
-
                 // Decompress current file.
-                file.Decompress(_LoadedArchive.Location, file);
+                file.Data = file.Decompress(_LoadedArchive.Location, file);
             }
+
+            // Start file dragging.
+            ListViewDark_Explorer.DoDragDrop(ListViewDark_Explorer.SelectedItems, DragDropEffects.All);
         }
 
         /// <summary>

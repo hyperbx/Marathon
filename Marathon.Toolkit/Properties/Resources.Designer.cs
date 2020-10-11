@@ -61,25 +61,27 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Marathon&gt;
-        ///  &lt;!-- If no URL or description is specified, only your name will be displayed. --&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/HyperBE32&quot; Description=&quot;Lead developer and designer of Marathon&quot;&gt;HyperBE32&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot; Description=&quot;Developed the HedgeLib# classes used as a base for Marathon.IO&quot;&gt;Radfordhound&lt;/Contributor&gt;
-        ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot; Description=&quot;Assisted with  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to Sonic the Hedgehog and binary formats respective to SONIC THE HEDGEHOG (2006) are property of SEGA Corporation.
+        ///
+        ///Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;amp;D No. 2..
         /// </summary>
-        internal static string Contributors {
+        internal static string About_License {
             get {
-                return ResourceManager.GetString("Contributors", resourceCulture);
+                return ResourceManager.GetString("About_License", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is likely caused by a property in the configuration file that doesn&apos;t exist or it&apos;s being deserialised to an incorrect data type..
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Marathon&gt;
+        ///  &lt;!-- If no URL or description is specified, only your name will be displayed. --&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/HyperBE32&quot; Description=&quot;Lead developer and designer of Marathon&quot;&gt;Hyper&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot; Description=&quot;Developed the HedgeLib classes used as a base for Marathon I/O&quot;&gt;Radfordhound&lt;/Contributor&gt;
+        ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot; Description=&quot;Assisted with Marathon I/O A [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Exception_InvalidSettingsException {
+        internal static string Contributors {
             get {
-                return ResourceManager.GetString("Exception_InvalidSettingsException", resourceCulture);
+                return ResourceManager.GetString("Contributors", resourceCulture);
             }
         }
         
@@ -137,14 +139,13 @@ namespace Marathon.Toolkit.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Marathon&gt;
         ///  &lt;!-- If no extension is specified or is a duplicate, the entry will be disregarded. --&gt;
+        ///  &lt;!-- File types that use common extensions should be appended to their respective types by name. --&gt;
         ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.pkg&quot;&gt;Asset Package&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.arc&quot;&gt;Compressed U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.arc&quot;&gt;U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision|Common Package|Save Data&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.csb&quot;&gt;CriWare Sound Bank&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.path&quot;&gt;Path Spline&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.pft&quot;&gt;Picture Font&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.set&quot;&gt;Placement&lt;/Ty [rest of string was truncated]&quot;;.
+        ///  &lt;Type [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FileTypes {
             get {
@@ -179,17 +180,6 @@ namespace Marathon.Toolkit.Properties {
             get {
                 object obj = ResourceManager.GetObject("Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sonic the Hedgehog and binary formats respective to SONIC THE HEDGEHOG (2006) are property of SEGA Corporation.
-        ///
-        ///Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2..
-        /// </summary>
-        internal static string Information_License {
-            get {
-                return ResourceManager.GetString("Information_License", resourceCulture);
             }
         }
         

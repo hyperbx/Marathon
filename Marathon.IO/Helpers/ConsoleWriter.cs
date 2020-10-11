@@ -24,25 +24,11 @@
  */
 
 using System;
-using System.IO;
-using System.Text;
-using System.Windows.Forms;
 
-namespace Marathon.Toolkit.Helpers
+namespace Marathon.IO.Helpers
 {
-    public class ConsoleWriter : TextWriter
+    public class ConsoleWriter
     {
-        private Control Writer;
-        private StringBuilder Content = new StringBuilder();
-
-        public ConsoleWriter(ListBox _ListBox) => Writer = _ListBox;
-
-        public ConsoleWriter(TextBox _TextBox) => Writer = _TextBox;
-
-        public ConsoleWriter(RichTextBox _RichTextBox) => Writer = _RichTextBox;
-
-        public override Encoding Encoding => Encoding.UTF8;
-
         public static void Write(object value, bool timestamp = false, string source = "")
         {
             Console.Write((timestamp ? $"[{DateTime.Now:hh:mm:ss tt}] " : string.Empty) +
@@ -53,49 +39,6 @@ namespace Marathon.Toolkit.Helpers
         {
             Console.Write((timestamp ? $"[{DateTime.Now:hh:mm:ss tt}] " : string.Empty) +
                           (string.IsNullOrEmpty(source) ? string.Empty : $"[{source}] ") + value + '\n');
-        }
-
-        /// <summary>
-        /// Writes a string to the control - used when calling Console.WriteLine().
-        /// </summary>
-        /// <param name="value">String to write.</param>
-        public override void Write(string value)
-        {
-            InvokeWriter(value);
-        }
-
-        /// <summary>
-        /// Writes a character to the control - used when calling Console.Write().
-        /// </summary>
-        /// <param name="value">Character to write.</param>
-        public override void Write(char value)
-        {
-            Content.Append(value);
-
-            InvokeWriter(Content);
-
-            Content = new StringBuilder();
-        }
-
-        /// <summary>
-        /// Invokes the writer control to write the character or string.
-        /// </summary>
-        /// <param name="value">Character or string to write.</param>
-        private void InvokeWriter(object value)
-        {
-            if (TypeHelper.IsObjectOfType(Writer, typeof(ListBox)))
-            {
-                var listBox = (ListBox)Writer;
-
-                listBox.Items.Add(value);
-
-                listBox.SelectedIndex = ((ListBox)Writer).Items.Count - 1;
-                listBox.SelectedIndex = -1;
-            }
-            else
-            {
-                Writer.Text += value;
-            }
         }
     }
 }

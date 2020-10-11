@@ -23,12 +23,13 @@
  * SOFTWARE.
  */
 
+using System;
 using System.IO;
 using System.Linq;
 
 namespace Marathon.IO.Helpers
 {
-    class Paths
+    public class StringHelper
     {
         /// <summary>
         /// Returns the full path without an extension.
@@ -65,5 +66,96 @@ namespace Marathon.IO.Helpers
         /// </summary>
         public static string ReplaceFilename(string path, string newFile)
             => Path.Combine(Path.GetDirectoryName(path), Path.GetFileName(newFile));
+
+        /// <summary>
+        /// Parses all line breaks from a string.
+        /// </summary>
+        /// <param name="text">String to parse line breaks from.</param>
+        public static string[] ParseLineBreaks(string text)
+            => text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+        /// <summary>
+        /// Truncates a string down to the requested length.
+        /// </summary>
+        /// <param name="value">Input string.</param>
+        /// <param name="maxLength">Maximum length of the string.</param>
+        /// <param name="ellipsis">Ends the truncated string with an ellipsis to display that it's been truncated.</param>
+        /// <returns></returns>
+        public static string Truncate(string value, int maxLength, bool ellipsis = true)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + (ellipsis ? " ..." : string.Empty);
+        }
+
+        /// <summary>
+        /// Parses byte length to a Windows-like suffix string.
+        /// </summary>
+        /// <param name="i">Byte length.</param>
+        public static string ByteLengthToDecimalString(long i)
+        {
+            // Get absolute value.
+            long absolute_i = i < 0 ? -i : i;
+
+            // Determine the suffix and readable value.
+            string suffix;
+            double readable;
+
+            // Exabyte
+            if (absolute_i >= 0x1000000000000000)
+            {
+                suffix = "EB";
+                readable = i >> 50;
+            }
+
+            // Petabyte
+            else if (absolute_i >= 0x4000000000000)
+            {
+                suffix = "PB";
+                readable = i >> 40;
+            }
+
+            // Terabyte
+            else if (absolute_i >= 0x10000000000)
+            {
+                suffix = "TB";
+                readable = i >> 30;
+            }
+
+            // Gigabyte
+            else if (absolute_i >= 0x40000000)
+            {
+                suffix = "GB";
+                readable = i >> 20;
+            }
+
+            // Megabyte
+            else if (absolute_i >= 0x100000)
+            {
+                suffix = "MB";
+                readable = i >> 10;
+            }
+
+            // Kilobyte
+            else if (absolute_i >= 0x400)
+            {
+                suffix = "KB";
+                readable = i;
+            }
+
+            // Byte
+            else
+            {
+                suffix = "KB";
+                readable = i % 1024 >= 1 ? i + 1024 - i % 1024 : i - i % 1024;
+            }
+
+            // Divide by 1024 to get fractional value.
+            readable /= 1024;
+
+            // Return formatted number with suffix.
+            return $"{readable:0} {suffix}";
+        }
     }
 }

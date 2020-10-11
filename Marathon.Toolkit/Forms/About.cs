@@ -26,7 +26,6 @@
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -38,7 +37,7 @@ namespace Marathon.Toolkit.Forms
 
             Label_Version.Text = $"Version {Program.GlobalVersion}";
 
-            TreeView_Contributors.Nodes.AddRange(XMLHelper.ParseContributorsToTreeNodeArray());
+            TreeView_Contributors.Nodes.AddRange(Resources.ParseContributorsToTreeNodeArray());
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Marathon.Toolkit.Forms
             {
                 case MouseButtons.Left:
                 {
-                    MarathonMessageBox.Show(Properties.Resources.Information_License);
+                    MarathonMessageBox.Show(Properties.Resources.About_License);
 
                     Process.Start("https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE");
 

@@ -25,7 +25,6 @@
 
 using System;
 using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Dialogs;
 
 namespace Marathon.Toolkit.Forms
@@ -64,7 +63,7 @@ namespace Marathon.Toolkit.Forms
             OpenFileDialog fileDialog = new OpenFileDialog
             {
                 Title = "Please select a file...",
-                Filter = XMLHelper.ParseFileTypesToFilter(commonFileTypesXML),
+                Filter = Resources.ParseFileTypesToFilter(commonFileTypesXML),
                 InitialDirectory = ActiveMarathonExplorerAddress()
             };
 
