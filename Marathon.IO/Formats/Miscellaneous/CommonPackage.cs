@@ -102,37 +102,37 @@ namespace Marathon.IO.Formats.Miscellaneous
             {
                 ObjectEntry @object = new ObjectEntry();
 
-                uint objectNameOffset          = reader.ReadUInt32(); // Offset to this object's name.
-                uint modelOffset               = reader.ReadUInt32(); // Offset to this object's model file.
-                uint havokOffset               = reader.ReadUInt32(); // Offset to this object's Havok file.
-                uint timeEventOffset           = reader.ReadUInt32(); // TODO: Offset to an unknown string.
-                uint materialAnimationOffset   = reader.ReadUInt32(); // Offset to this object's material animation file.
-                uint luaScriptOffset           = reader.ReadUInt32(); // Offset to this object's Lua Script.
+                uint objectNameOffset = reader.ReadUInt32(); // Offset to this object's name.
+                uint modelOffset = reader.ReadUInt32(); // Offset to this object's model file.
+                uint havokOffset = reader.ReadUInt32(); // Offset to this object's Havok file.
+                uint timeEventOffset = reader.ReadUInt32(); // Offset to this object's time event file.
+                uint materialAnimationOffset = reader.ReadUInt32(); // Offset to this object's material animation file.
+                uint luaScriptOffset = reader.ReadUInt32(); // Offset to this object's Lua Script.
 
-                @object.UnknownUInt32_1        = reader.ReadUInt32(); // TODO: Unknown - seems to screw with how the object breaks?
+                @object.UnknownUInt32_1 = reader.ReadUInt32(); // TODO: Unknown - seems to screw with how the object breaks?
 
-                uint unknownString1Offset      = reader.ReadUInt32(); // Offset to an Unknown string.
+                uint unknownString1Offset = reader.ReadUInt32(); // Offset to an Unknown string.
 
-                @object.Collision              = reader.ReadUInt32(); // This object's collision flag.
-                @object.UnknownUInt32_2        = reader.ReadUInt32(); // TODO: Unknown - seems to screw with this object's physics and the Homing Attack?
-                @object.Rigidity               = reader.ReadUInt32(); // This object's rigidity value. (not too sure that's the right name for that.
-                @object.Damage                 = reader.ReadUInt32(); // The damage this object does when colliding with an enemy with force.
-                @object.UnknownFloat_1         = reader.ReadSingle(); // TODO: Unknown - seems to be something regarding the object breaking from gravity or something?
-                @object.Potency                = reader.ReadUInt32(); // How much force an attack needs to have to damage this object. (not sure potency is the right name for that)
-                @object.UnknownUInt32_3        = reader.ReadUInt32(); // TODO: Unknown.
-                @object.Health                 = reader.ReadUInt32(); // TODO: This object's health value - how many times this object needs to be attacked to break?
-                @object.DebrisLifetimeBase     = reader.ReadSingle(); // The amount of time this object lasts if it is setup as a set of debris.
+                @object.Collision = reader.ReadUInt32(); // This object's collision flag.
+                @object.UnknownUInt32_2 = reader.ReadUInt32(); // TODO: Unknown - seems to screw with this object's physics and the Homing Attack?
+                @object.Rigidity = reader.ReadUInt32(); // This object's rigidity value. (not too sure that's the right name for that.
+                @object.Damage = reader.ReadUInt32(); // The damage this object does when colliding with an enemy with force.
+                @object.UnknownFloat_1 = reader.ReadSingle(); // TODO: Unknown - seems to be something regarding the object breaking from gravity or something?
+                @object.Potency = reader.ReadUInt32(); // How much force an attack needs to have to damage this object. (not sure potency is the right name for that)
+                @object.UnknownUInt32_3 = reader.ReadUInt32(); // TODO: Unknown.
+                @object.Health = reader.ReadUInt32(); // TODO: This object's health value - how many times this object needs to be attacked to break?
+                @object.DebrisLifetimeBase = reader.ReadSingle(); // The amount of time this object lasts if it is setup as a set of debris.
                 @object.DebrisLifetimeModifier = reader.ReadSingle(); // TODO: Modifier to randomly increase the time for debris to disappear to add variety?
-                @object.UnknownUInt32_4        = reader.ReadUInt32(); // TODO: Unknown.
+                @object.UnknownUInt32_4 = reader.ReadUInt32(); // TODO: Unknown.
 
-                uint breakObjectOffset         = reader.ReadUInt32(); // Offset to what should be spawned (if anything) upon breaking this object.
-                uint explosionOffset           = reader.ReadUInt32(); // Offset to what entry in Explosion.bin should be used upon breaking this object.
-                uint particleFileOffset        = reader.ReadUInt32(); // Offset to the particle file used upon breaking this object.
-                uint particleNameOffset        = reader.ReadUInt32(); // Offset to the particle used upon breaking this object.
-                uint sceneBankOffset           = reader.ReadUInt32(); // Offset to the scene bank used upon breaking this object.
-                uint soundNameOffset           = reader.ReadUInt32(); // Offset to the sound used upon breaking this object.
+                uint breakObjectOffset = reader.ReadUInt32(); // Offset to what should be spawned (if anything) upon breaking this object.
+                uint explosionOffset = reader.ReadUInt32(); // Offset to what entry in Explosion.bin should be used upon breaking this object.
+                uint particleFileOffset = reader.ReadUInt32(); // Offset to the particle file used upon breaking this object.
+                uint particleNameOffset = reader.ReadUInt32(); // Offset to the particle used upon breaking this object.
+                uint sceneBankOffset = reader.ReadUInt32(); // Offset to the scene bank used upon breaking this object.
+                uint soundNameOffset = reader.ReadUInt32(); // Offset to the sound used upon breaking this object.
 
-                @object.PsiBehaviour           = reader.ReadUInt32(); // How this object behaves when using Silver's psychokinesis.
+                @object.PsiBehaviour = reader.ReadUInt32(); // How this object behaves when using Silver's psychokinesis.
 
                 // Store current position to jump back to for the next entry.
                 long position = reader.BaseStream.Position;
@@ -191,7 +191,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             BINAWriter writer = new BINAWriter(fileStream, Header);
 
             // Write the objects.
-            for(int i = 0; i < Entries.Count; i++)
+            for (int i = 0; i < Entries.Count; i++)
             {
                 writer.AddString($"object{i}Name", Entries[i].PropName);
                 writer.AddString($"object{i}ModelName", Entries[i].ModelName);
@@ -234,36 +234,36 @@ namespace Marathon.IO.Formats.Miscellaneous
             // Object elements.
             foreach (ObjectEntry obj in Entries)
             {
-                XElement objElem                    = new XElement("Object");
-                XAttribute NameAttr                 = new XAttribute("ObjectName", obj.PropName);
-                XElement ModelElem                  = new XElement("Model", obj.ModelName);
-                XElement HavokElem                  = new XElement("Havok", obj.HKXName);
-                XElement TimeEventElem              = new XElement("TimeEvent", obj.TimeEvent);
-                XElement MaterialAnimElem           = new XElement("MaterialAnimation", obj.MaterialAnimation);
-                XElement LuaElem                    = new XElement("LuaScript", obj.LuaScript);
-                XElement UnknownUInt1Elem           = new XElement("UnknownUInt1", obj.UnknownUInt32_1);
-                XElement UnknownString1Elem         = new XElement("UnknownString1", obj.UnknownString_1);
-                XElement CollisionElem              = new XElement("ColisionFlag", obj.Collision);
-                XElement UnknownUInt2Elem           = new XElement("UnknownUInt2", obj.UnknownUInt32_2);
-                XElement RigidityElem               = new XElement("Rigidity", obj.Rigidity);
-                XElement DamageElem                 = new XElement("Damage", obj.Damage);
-                XElement UnknownFloat1Elem          = new XElement("UnknownFloat1", obj.UnknownFloat_1);
-                XElement PotencyElem                = new XElement("Potency", obj.Potency);
-                XElement UnknownUInt3Elem           = new XElement("UnknownUInt3", obj.UnknownUInt32_3);
-                XElement HealthElem                 = new XElement("Health", obj.Health);
-                XElement DebrisLifetimeBaseElem     = new XElement("DebrisLifetimeBase", obj.DebrisLifetimeBase);
+                XElement objElem = new XElement("Object");
+                XAttribute NameAttr = new XAttribute("ObjectName", obj.PropName);
+                XElement ModelElem = new XElement("Model", obj.ModelName);
+                XElement HavokElem = new XElement("Havok", obj.HKXName);
+                XElement TimeEventElem = new XElement("TimeEvent", obj.TimeEvent);
+                XElement MaterialAnimElem = new XElement("MaterialAnimation", obj.MaterialAnimation);
+                XElement LuaElem = new XElement("LuaScript", obj.LuaScript);
+                XElement UnknownUInt1Elem = new XElement("UnknownUInt32_1", obj.UnknownUInt32_1);
+                XElement UnknownString1Elem = new XElement("UnknownString_1", obj.UnknownString_1);
+                XElement CollisionElem = new XElement("ColisionFlag", obj.Collision);
+                XElement UnknownUInt2Elem = new XElement("UnknownUInt32_2", obj.UnknownUInt32_2);
+                XElement RigidityElem = new XElement("Rigidity", obj.Rigidity);
+                XElement DamageElem = new XElement("Damage", obj.Damage);
+                XElement UnknownFloat1Elem = new XElement("UnknownFloat_1", obj.UnknownFloat_1);
+                XElement PotencyElem = new XElement("Potency", obj.Potency);
+                XElement UnknownUInt3Elem = new XElement("UnknownUInt32_3", obj.UnknownUInt32_3);
+                XElement HealthElem = new XElement("Health", obj.Health);
+                XElement DebrisLifetimeBaseElem = new XElement("DebrisLifetimeBase", obj.DebrisLifetimeBase);
                 XElement DebrisLifetimeModifierElem = new XElement("DebrisLifetimeModifier", obj.DebrisLifetimeModifier);
-                XElement UnknownUInt4Elem           = new XElement("UnknownUInt4", obj.UnknownUInt32_4);
-                XElement BreakObjectElem            = new XElement("BreakObject", obj.BreakObject);
-                XElement ExplosionElem              = new XElement("Explosion", obj.Explosion);
+                XElement UnknownUInt4Elem = new XElement("UnknownUInt32_4", obj.UnknownUInt32_4);
+                XElement BreakObjectElem = new XElement("BreakObject", obj.BreakObject);
+                XElement ExplosionElem = new XElement("Explosion", obj.Explosion);
 
                 XAttribute ParticleBankAttr = new XAttribute("ParticleBank", obj.ParticleFile);
-                XElement ParticleElem       = new XElement("Particle", obj.ParticleName);
+                XElement ParticleElem = new XElement("Particle", obj.ParticleName);
 
                 ParticleElem.Add(ParticleBankAttr);
 
                 XAttribute SceneBankAttr = new XAttribute("SceneBank", obj.SceneBank);
-                XElement SoundElem       = new XElement("Sound", obj.SoundName);
+                XElement SoundElem = new XElement("Sound", obj.SoundName);
 
                 SoundElem.Add(SceneBankAttr);
 
@@ -292,32 +292,32 @@ namespace Marathon.IO.Formats.Miscellaneous
                 // Read object values.
                 ObjectEntry @object = new ObjectEntry
                 {
-                    PropName               = objectElem.Attribute("ObjectName").Value,
-                    ModelName              = objectElem.Element("Model").Value,
-                    HKXName                = objectElem.Element("Havok").Value,
-                    TimeEvent              = objectElem.Element("TimeEvent").Value,
-                    MaterialAnimation      = objectElem.Element("MaterialAnimation").Value,
-                    LuaScript              = objectElem.Element("LuaScript").Value,
-                    UnknownUInt32_1        = uint.Parse(objectElem.Element("UnknownUInt1").Value),
-                    UnknownString_1        = objectElem.Element("UnknownString1").Value,
-                    Collision              = uint.Parse(objectElem.Element("ColisionFlag").Value),
-                    UnknownUInt32_2        = uint.Parse(objectElem.Element("UnknownUInt2").Value),
-                    Rigidity               = uint.Parse(objectElem.Element("Rigidity").Value),
-                    Damage                 = uint.Parse(objectElem.Element("Damage").Value),
-                    UnknownFloat_1         = float.Parse(objectElem.Element("UnknownFloat1").Value),
-                    Potency                = uint.Parse(objectElem.Element("Potency").Value),
-                    UnknownUInt32_3        = uint.Parse(objectElem.Element("UnknownUInt3").Value),
-                    Health                 = uint.Parse(objectElem.Element("Health").Value),
-                    DebrisLifetimeBase     = float.Parse(objectElem.Element("DebrisLifetimeBase").Value),
+                    PropName = objectElem.Attribute("ObjectName").Value,
+                    ModelName = objectElem.Element("Model").Value,
+                    HKXName = objectElem.Element("Havok").Value,
+                    TimeEvent = objectElem.Element("TimeEvent").Value,
+                    MaterialAnimation = objectElem.Element("MaterialAnimation").Value,
+                    LuaScript = objectElem.Element("LuaScript").Value,
+                    UnknownUInt32_1 = uint.Parse(objectElem.Element("UnknownUInt32_1").Value),
+                    UnknownString_1 = objectElem.Element("UnknownString_1").Value,
+                    Collision = uint.Parse(objectElem.Element("ColisionFlag").Value),
+                    UnknownUInt32_2 = uint.Parse(objectElem.Element("UnknownUInt32_2").Value),
+                    Rigidity = uint.Parse(objectElem.Element("Rigidity").Value),
+                    Damage = uint.Parse(objectElem.Element("Damage").Value),
+                    UnknownFloat_1 = float.Parse(objectElem.Element("UnknownFloat_1").Value),
+                    Potency = uint.Parse(objectElem.Element("Potency").Value),
+                    UnknownUInt32_3 = uint.Parse(objectElem.Element("UnknownUInt32_3").Value),
+                    Health = uint.Parse(objectElem.Element("Health").Value),
+                    DebrisLifetimeBase = float.Parse(objectElem.Element("DebrisLifetimeBase").Value),
                     DebrisLifetimeModifier = float.Parse(objectElem.Element("DebrisLifetimeModifier").Value),
-                    UnknownUInt32_4        = uint.Parse(objectElem.Element("UnknownUInt4").Value),
-                    BreakObject            = objectElem.Element("BreakObject").Value,
-                    Explosion              = objectElem.Element("Explosion").Value,
-                    ParticleFile           = objectElem.Element("Particle").Attribute("ParticleBank").Value,
-                    ParticleName           = objectElem.Element("Particle").Value,
-                    SceneBank              = objectElem.Element("Sound").Attribute("SceneBank").Value,
-                    SoundName              = objectElem.Element("Sound").Value,
-                    PsiBehaviour           = uint.Parse(objectElem.Element("PsiBehaviour").Value)
+                    UnknownUInt32_4 = uint.Parse(objectElem.Element("UnknownUInt32_4").Value),
+                    BreakObject = objectElem.Element("BreakObject").Value,
+                    Explosion = objectElem.Element("Explosion").Value,
+                    ParticleFile = objectElem.Element("Particle").Attribute("ParticleBank").Value,
+                    ParticleName = objectElem.Element("Particle").Value,
+                    SceneBank = objectElem.Element("Sound").Attribute("SceneBank").Value,
+                    SoundName = objectElem.Element("Sound").Value,
+                    PsiBehaviour = uint.Parse(objectElem.Element("PsiBehaviour").Value)
                 };
 
                 // Add object to Entries list.

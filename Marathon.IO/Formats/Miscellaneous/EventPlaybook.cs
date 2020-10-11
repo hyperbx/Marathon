@@ -196,7 +196,6 @@ namespace Marathon.IO.Formats.Miscellaneous
                 XElement RotationZ = new XElement("Z", @event.Rotation.Z);
                 Rotation.Add(RotationX, RotationY, RotationZ);
 
-
                 XElement TerrainElem = new XElement("Terrain", @event.Terrain);
                 XElement SceneLuaElem = new XElement("SceneLua", @event.SceneLua);
                 XElement SceneBankElem = new XElement("SceneBank", @event.SceneBank);
