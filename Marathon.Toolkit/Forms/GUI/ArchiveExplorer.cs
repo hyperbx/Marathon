@@ -756,6 +756,9 @@ namespace Marathon.Toolkit.Forms
             // Save the modified archive.
             LoadedArchive.Save(location);
 
+            // Set the new location.
+            LoadedArchive.Location = location;
+
             // Reload the archive.
             LoadedArchive = LoadedArchive.Reload();
 
@@ -781,7 +784,6 @@ namespace Marathon.Toolkit.Forms
             // Archive has been edited, so display the warning message.
             if (_EditCount != 0)
             {
-                
                 DialogResult saveResult = MarathonMessageBox.Show("This archive has been edited - do you want to save?", string.Empty,
                                                                   MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
