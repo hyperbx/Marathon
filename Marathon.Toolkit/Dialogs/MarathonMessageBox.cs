@@ -249,64 +249,15 @@ namespace Marathon.Toolkit
     public class MarathonMessageBox
     {
         /// <summary>
-        /// Displays the message box with the specified text.
-        /// </summary>
-        /// <param name="text">Text to display.</param>
-        public static DialogResult Show(string text)
-        {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text))
-                messenger.ShowDialog();
-
-            return DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Displays the message box with the specified text and caption.
-        /// </summary>
-        /// <param name="text">Text to display.</param>
-        /// <param name="caption">Caption to display on the title bar.</param>
-        public static DialogResult Show(string text, string caption)
-        {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption))
-                messenger.ShowDialog();
-
-            return DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Displays the message box with the specified text, caption and buttons.
-        /// </summary>
-        /// <param name="text">Text to display.</param>
-        /// <param name="caption">Caption to display on the title bar.</param>
-        /// <param name="buttons">Buttons to display.</param>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
-        {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, buttons))
-                messenger.ShowDialog();
-
-            return MessageReceiver.State switch
-            {
-                MessageState.OK     => DialogResult.OK,
-                MessageState.Yes    => DialogResult.Yes,
-                MessageState.No     => DialogResult.No,
-                MessageState.Abort  => DialogResult.Abort,
-                MessageState.Retry  => DialogResult.Retry,
-                MessageState.Ignore => DialogResult.Ignore,
-                MessageState.Cancel => DialogResult.Cancel,
-                _                   => DialogResult.OK
-            };
-        }
-
-        /// <summary>
         /// Displays the message box with the specified text, caption, buttons and icon.
         /// </summary>
         /// <param name="text">Text to display.</param>
         /// <param name="caption">Caption to display on the title bar.</param>
         /// <param name="buttons">Buttons to display.</param>
         /// <param name="icon">Icon to display.</param>
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        public static DialogResult Show(string text, string caption = "Marathon", MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Information)
         {
-            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, caption, buttons, icon))
+            using (MarathonMessageBoxForm messenger = new MarathonMessageBoxForm(text, string.IsNullOrEmpty(caption) ? "Marathon" : caption, buttons, icon))
                 messenger.ShowDialog();
 
             return MessageReceiver.State switch

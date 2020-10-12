@@ -27,7 +27,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats;
 using Marathon.IO.Helpers;
@@ -41,6 +40,7 @@ namespace Marathon.Toolkit.Forms
     {
         private Archive _LoadedArchive;
         private TreeNode _ActiveNode;
+        private int _EditCount;
 
         /// <summary>
         /// The current archive serialised in the TreeView and ListView controls.
@@ -181,6 +181,9 @@ namespace Marathon.Toolkit.Forms
                     // Remove any duplicates that somehow managed to get in.
                     dir.Data.RemoveAll(x => x.Name == fileName);
 
+                    // Increase the edit count.
+                    _EditCount++;
+
                     return true;
                 }
                 else
@@ -211,6 +214,9 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+
+            // Increase the edit count.
+            _EditCount++;
         }
 
         /// <summary>
@@ -236,6 +242,9 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+
+            // Increase the edit count.
+            _EditCount++;
         }
 
         /// <summary>
@@ -251,6 +260,9 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+
+            // Increase the edit count.
+            _EditCount++;
         }
 
         /// <summary>
@@ -263,6 +275,9 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
+
+            // Increase the edit count.
+            _EditCount++;
         }
 
         /// <summary>
@@ -275,6 +290,9 @@ namespace Marathon.Toolkit.Forms
 
             // Refresh the TreeView.
             InitialiseDirectoryTree();
+
+            // Increase the edit count.
+            _EditCount++;
         }
 
         /// <summary>
@@ -346,6 +364,9 @@ namespace Marathon.Toolkit.Forms
 
                             // Refresh current node.
                             InitialiseFileItems(_ActiveNode.Tag);
+
+                            // Increase the edit count.
+                            _EditCount++;
                         }
                     }));
 
@@ -504,6 +525,9 @@ namespace Marathon.Toolkit.Forms
 
                 // Reload the TreeView.
                 InitialiseDirectoryTree();
+
+                // Increase the edit count.
+                _EditCount++;
             }
         }
 
@@ -550,6 +574,9 @@ namespace Marathon.Toolkit.Forms
 
                         // Navigates to the selected node if valid.
                         InitialiseFileItems(dirNode.Tag);
+
+                        // Increase the edit count.
+                        _EditCount++;
                     }));
 
                     // Import context menu item.
@@ -595,6 +622,9 @@ namespace Marathon.Toolkit.Forms
                             // Refresh views.
                             InitialiseDirectoryTree();
                             InitialiseFileItems(dirNode.Tag);
+
+                            // Increase the edit count.
+                            _EditCount++;
                         }
                     }));
 
@@ -709,37 +739,82 @@ namespace Marathon.Toolkit.Forms
             {
                 Close();
             }
+        }
 
-            void SaveArchive(string location)
-            {
-                // Store the current expanded nodes before reloading...
-                var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
+        /// <summary>
+        /// Saves the archive to the desired location.
+        /// </summary>
+        /// <param name="location">Location of the archive.</param>
+        private void SaveArchive(string location)
+        {
+            // Store the current expanded nodes before reloading...
+            var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
 
-                // Decompress everything before repacking so we have valid data.
-                LoadedArchive.Decompress(ref LoadedArchive.Data);
+            // Decompress everything before repacking so we have valid data.
+            LoadedArchive.Decompress(ref LoadedArchive.Data);
 
-                // Save the modified archive.
-                LoadedArchive.Save(location);
+            // Save the modified archive.
+            LoadedArchive.Save(location);
 
-                // Reload the archive.
-                LoadedArchive = LoadedArchive.Reload();
+            // Reload the archive.
+            LoadedArchive = LoadedArchive.Reload();
 
-                // Restore expanded nodes.
-                TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
+            // Restore expanded nodes.
+            TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
 
-                // Refreshes the file view to the previously selected node.
-                if (TreeView_Explorer.SelectedNode != null)
-                    ActivateDirectoryNode(TreeView_Explorer.SelectedNode);
+            // Refreshes the file view to the previously selected node.
+            if (TreeView_Explorer.SelectedNode != null)
+                ActivateDirectoryNode(TreeView_Explorer.SelectedNode);
 
-                // Force garbage collection.
-                GC.Collect();
-            }
+            // Force garbage collection.
+            GC.Collect();
+
+            // Reset the edit count.
+            _EditCount = 0;
         }
 
         /// <summary>
         /// Disposes the loaded archive upon exit.
         /// </summary>
-        private void ArchiveExplorer_FormClosing(object sender, FormClosingEventArgs e) => LoadedArchive.Dispose();
+        private void ArchiveExplorer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Archive has been edited, so display the warning message.
+            if (_EditCount != 0)
+            {
+                
+                DialogResult saveResult = MarathonMessageBox.Show("This archive has been edited - do you want to save?", string.Empty,
+                                                                  MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                switch (saveResult)
+                {
+                    case DialogResult.Yes:
+                    {
+                        // Save the archive.
+                        SaveArchive(LoadedArchive.Location);
+
+                        break;
+                    }
+
+                    case DialogResult.No:
+                    {
+                        break;
+                    }
+
+                    case DialogResult.Cancel:
+                    {
+                        // Cancel the closing event if the result was DialogResult.Cancel...
+                        e.Cancel = true;
+
+                        break;
+                    }
+                }
+
+                return;
+            }
+
+            // Dispose the archive contents.
+            LoadedArchive.Dispose();
+        }
 
         /// <summary>
         /// Gets the data dropped onto the window.

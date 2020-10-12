@@ -80,13 +80,12 @@ namespace Marathon.IO.Helpers
         /// <param name="value">Input string.</param>
         /// <param name="maxLength">Maximum length of the string.</param>
         /// <param name="ellipsis">Ends the truncated string with an ellipsis to display that it's been truncated.</param>
-        /// <returns></returns>
         public static string Truncate(string value, int maxLength, bool ellipsis = true)
         {
             if (string.IsNullOrEmpty(value))
                 return value;
 
-            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + (ellipsis ? " ..." : string.Empty);
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength) + (ellipsis ? "..." : string.Empty);
         }
 
         /// <summary>
