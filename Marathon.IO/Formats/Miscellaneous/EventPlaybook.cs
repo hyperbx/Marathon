@@ -74,16 +74,16 @@ namespace Marathon.IO.Formats.Miscellaneous
             for (int i = 0; i < EventCount; i++)
             {
                 Event @event = new Event();
-                uint eventNameOffset = reader.ReadUInt32();     // Offset to this event's name.
-                uint eventFolderOffset = reader.ReadUInt32();   // Offset to this event's folder.
-                @event.EventLength = reader.ReadUInt32();       // The length of this event in frames.
-                @event.Position = reader.ReadVector3();         // The position this event's objects are placed relative to.
-                @event.Rotation = reader.ReadVector3();         // The rotation of this event's objects.
-                uint terrainOffset = reader.ReadUInt32();       // Offset to this event's terrain.
-                uint sceneLuaOffset = reader.ReadUInt32();      // Offset to this event's scene lua.
-                uint sceneBankOffset = reader.ReadUInt32();     // Offset to this event's scene bank.
-                uint particleListOffset = reader.ReadUInt32();  // Offset to this event's particle list.
-                uint subtitleMSTOffset = reader.ReadUInt32();   // Offset to this event's MST file.
+                uint eventNameOffset = reader.ReadUInt32();    // Offset to this event's name.
+                uint eventFolderOffset = reader.ReadUInt32();  // Offset to this event's folder.
+                @event.EventLength = reader.ReadUInt32();      // The length of this event in frames.
+                @event.Position = reader.ReadVector3();        // The position this event's objects are placed relative to.
+                @event.Rotation = reader.ReadVector3();        // The rotation of this event's objects.
+                uint terrainOffset = reader.ReadUInt32();      // Offset to this event's terrain.
+                uint sceneLuaOffset = reader.ReadUInt32();     // Offset to this event's scene lua.
+                uint sceneBankOffset = reader.ReadUInt32();    // Offset to this event's scene bank.
+                uint particleListOffset = reader.ReadUInt32(); // Offset to this event's particle list.
+                uint subtitleMSTOffset = reader.ReadUInt32();  // Offset to this event's MST file.
 
                 // Store current position to jump back to for the next entry.
                 long position = reader.BaseStream.Position;

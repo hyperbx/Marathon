@@ -636,18 +636,26 @@ namespace Marathon.Toolkit.Forms
             {
                 case MouseButtons.Left:
                 {
-                    // Update active node.
-                    _ActiveNode = e.Node;
-
-                    // Navigates to the selected node if valid.
-                    InitialiseFileItems(e.Node.Tag);
-
-                    // Set expanded state.
-                    e.Node.Expand();
+                    ActivateDirectoryNode(e.Node);
 
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the current node to the input.
+        /// </summary>
+        private void ActivateDirectoryNode(TreeNode node)
+        {
+            // Update active node.
+            _ActiveNode = node;
+
+            // Navigates to the selected node if valid.
+            InitialiseFileItems(node.Tag);
+
+            // Set expanded state.
+            node.Expand();
         }
 
         /// <summary>
@@ -705,7 +713,7 @@ namespace Marathon.Toolkit.Forms
             void SaveArchive(string location)
             {
                 // Store the current expanded nodes before reloading...
-                List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
+                var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
 
                 // Decompress everything before repacking so we have valid data.
                 LoadedArchive.Decompress(ref LoadedArchive.Data);
@@ -717,7 +725,14 @@ namespace Marathon.Toolkit.Forms
                 LoadedArchive = LoadedArchive.Reload();
 
                 // Restore expanded nodes.
-                TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+                TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
+
+                // Refreshes the file view to the previously selected node.
+                if (TreeView_Explorer.SelectedNode != null)
+                    ActivateDirectoryNode(TreeView_Explorer.SelectedNode);
+
+                // Force garbage collection.
+                GC.Collect();
             }
         }
 

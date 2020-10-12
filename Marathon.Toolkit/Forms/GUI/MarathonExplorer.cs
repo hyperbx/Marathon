@@ -93,7 +93,7 @@ namespace Marathon.Toolkit.Forms
             if (!string.IsNullOrEmpty(CurrentAddress))
             {
                 // Store the current expanded nodes before refreshing...
-                List<string> storedExpansionState = TreeView_Explorer.Nodes.GetExpansionState();
+                var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
 
                 // Clear current node to remove ghost child nodes... Spooky!
                 TreeView_Explorer.Nodes.Clear();
@@ -121,7 +121,7 @@ namespace Marathon.Toolkit.Forms
                 }
 
                 // Restore expanded nodes.
-                TreeView_Explorer.Nodes.SetExpansionState(storedExpansionState);
+                TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
             }
         }
 
