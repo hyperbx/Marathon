@@ -2,17 +2,26 @@
 <Marathon>
   <!-- If no extension is specified or is a duplicate, the entry will be disregarded. -->
   <!-- File types that use common extensions should be appended to their respective types by name. -->
-  <Type Extension=".*">All files</Type>
-  <Type Extension=".arc">U8 Archive</Type>
-  <Type Extension=".bin">Collision|Common Package|Save Data</Type>
-  <Type Extension=".csb">CriWare Sound Bank</Type>
-  <Type Extension=".dds">DirectDraw Surface</Type>
-  <Type Extension=".mst">Text</Type>
-  <Type Extension=".path">Path Spline</Type>
-  <Type Extension=".pft">Picture Font</Type>
-  <Type Extension=".pkg">Asset Package</Type>
-  <Type Extension=".rab">Reflection Zone</Type>
-  <Type Extension=".sbk">Scene Bank</Type>
-  <Type Extension=".set">Placement</Type>
-  <Type Extension=".wad">WADH Archive</Type>
+  <Type Extension=".*" Category="Any">All files</Type>
+  <Type Extension=".arc" Category="Archives">U8 Archive</Type>
+  <Type Extension=".bin" Category="Miscellaneous">Collision|Common Package|Explosion Package|Path Package|Save Data</Type>
+  <Type Extension=".csb" Category="Sounds">CriWare Sound Bank</Type>
+  <Type Extension=".ddm" Category="Textures">DirectDraw Matrix</Type>
+  <Type Extension=".dds" Category="Textures">DirectDraw Surface</Type>
+  <Type Extension=".epb" Category="Miscellaneous">Event Playbook</Type>
+  <Type Extension=".ftm" Category="Text">Font Map</Type>
+  <Type Extension=".lub" Category="Scripts">Lua Bytecode</Type>
+  <Type Extension=".mst" Category="Text">Message Table</Type>
+  <Type Extension=".path" Category="Miscellaneous">Path Spline</Type>
+  <Type Extension=".pft" Category="Text">Picture Font</Type>
+  <Type Extension=".pfi" Category="Text">Font Proportion</Type>
+  <Type Extension=".pkg" Category="Miscellaneous">Asset Package</Type>
+  <Type Extension=".plc" Category="Particles">Particle List Container</Type>
+  <Type Extension=".prop" Category="Miscellaneous">Object Property Database</Type>
+  <Type Extension=".ptb" Category="Particles">Particle Texture Bank</Type>
+  <Type Extension=".rab" Category="Meshes">Reflection Zone</Type>
+  <Type Extension=".sbk" Category="Sounds">Scene Bank</Type>
+  <Type Extension=".set" Category="Placement">Object Placement</Type>
+  <Type Extension=".wad" Category="Archives">WADH Archive</Type>
+  <Type Extension=".wiiu.stream" Category="Archives">Boom Archive</Type>
 </Marathon>

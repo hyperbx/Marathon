@@ -140,12 +140,10 @@ namespace Marathon.Toolkit.Properties {
         ///&lt;Marathon&gt;
         ///  &lt;!-- If no extension is specified or is a duplicate, the entry will be disregarded. --&gt;
         ///  &lt;!-- File types that use common extensions should be appended to their respective types by name. --&gt;
-        ///  &lt;Type Extension=&quot;.*&quot;&gt;All files&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.arc&quot;&gt;U8 Archive&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.bin&quot;&gt;Collision|Common Package|Save Data&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.csb&quot;&gt;CriWare Sound Bank&lt;/Type&gt;
-        ///  &lt;Type Extension=&quot;.dds&quot;&gt;DirectDraw Surface&lt;/Type&gt;
-        ///  &lt;Type [rest of string was truncated]&quot;;.
+        ///  &lt;Type Extension=&quot;.*&quot; Category=&quot;Any&quot;&gt;All files&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.arc&quot; Category=&quot;Archives&quot;&gt;U8 Archive&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;.bin&quot; Category=&quot;Miscellaneous&quot;&gt;Collision|Common Package|Explosion Package|Path Package|Save Data&lt;/Type&gt;
+        ///  &lt;Type Extension=&quot;. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FileTypes {
             get {
@@ -326,6 +324,16 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Task_Copy {
+            get {
+                object obj = ResourceManager.GetObject("Task_Copy", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Task_Exit {
             get {
                 object obj = ResourceManager.GetObject("Task_Exit", resourceCulture);
@@ -469,6 +477,16 @@ namespace Marathon.Toolkit.Properties {
         internal static System.Drawing.Bitmap Task_Output {
             get {
                 object obj = ResourceManager.GetObject("Task_Output", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Task_Paste {
+            get {
+                object obj = ResourceManager.GetObject("Task_Paste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

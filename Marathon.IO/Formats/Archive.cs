@@ -190,22 +190,45 @@ namespace Marathon.IO.Formats
         /// </summary>
         /// <param name="directoryPath">Directory to enumerate from.</param>
         /// <param name="includeSubDirectories">Include subdirectories in the result.</param>
-        public static List<ArchiveData> GetFilesFromDirectory(string directoryPath, bool includeSubDirectories = false)
+        public List<ArchiveData> GetFilesFromDirectory(string directoryPath, bool includeSubDirectories = false)
         {
             ArchiveDirectory dir = new ArchiveDirectory(Path.GetFileName(directoryPath));
 
             // Add each file in the current sub-directory.
             foreach (string filePath in Directory.GetFiles(directoryPath))
-                dir.Data.Add(new ArchiveFile(filePath) { Parent = dir });
+            {
+                ArchiveFile file;
+
+                if (StoreInMemory)
+                {
+                    file = new ArchiveFile(filePath) { Parent = dir };
+                }
+                else
+                {
+                    file = new ArchiveFile()
+                    {
+                        Name = Path.GetFileName(filePath),
+                        Parent = dir,
+                        Location = filePath,
+                        UncompressedSize = (uint)new FileInfo(filePath).Length
+                    };
+                }
+
+                dir.Data.Add(file);
+            }
 
             // Repeat for each sub directory.
             if (includeSubDirectories)
+            {
                 foreach (string subDir in Directory.GetDirectories(directoryPath))
+                {
                     dir.Data.Add(new ArchiveDirectory(Path.GetFileName(subDir))
                     {
-                        Data = GetFilesFromDirectory(subDir, includeSubDirectories),
-                        Parent = dir
+                        Parent = dir,
+                        Data = GetFilesFromDirectory(subDir, includeSubDirectories)
                     });
+                }
+            }
 
             return dir.Data;
         }
@@ -367,6 +390,10 @@ namespace Marathon.IO.Formats
         /// </summary>
         public virtual byte[] Decompress(string archive, ArchiveFile file)
         {
+            // Archive is new.
+            if (!File.Exists(archive))
+                return file.Data;
+
             // File is stored in memory or in an archive.
             if (string.IsNullOrEmpty(Location))
             {

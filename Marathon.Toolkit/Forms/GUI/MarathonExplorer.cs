@@ -29,7 +29,6 @@ using System.Web;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Components;
@@ -282,8 +281,8 @@ namespace Marathon.Toolkit.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 if (!ChangeDirectoryOnValidation(((TextBox)sender).Text))
-                    MarathonMessageBox.Show($"{Name} can't find '{((TextBox)sender).Text}'. Check the spelling and try again.",
-                                            Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MarathonMessageBox.Show($"Marathon can't find '{((TextBox)sender).Text}' - check the spelling and try again.",
+                                            string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

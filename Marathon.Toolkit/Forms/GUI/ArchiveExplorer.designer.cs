@@ -47,6 +47,16 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Close = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Tools_Copy = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Tools_Paste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.MenuStripDark_Main_Tools_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Tools_Rename = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Selection = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Selection_SelectAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Selection_SelectNone = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuStripDark_Main_Selection_InvertSelection = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
             this.SplitContainer_TreeView.Panel1.SuspendLayout();
             this.SplitContainer_TreeView.Panel2.SuspendLayout();
@@ -99,7 +109,6 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Explorer.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.TreeView_Explorer_NodeMouseHover);
             this.TreeView_Explorer.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseClick);
             this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
-            this.TreeView_Explorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TreeView_Explorer_KeyDown);
             // 
             // ImageList_Keys
             // 
@@ -152,9 +161,9 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.ListViewDark_Explorer_AfterLabelEdit);
             this.ListViewDark_Explorer.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.ListViewDark_Explorer_ItemDrag);
             this.ListViewDark_Explorer.ItemMouseHover += new System.Windows.Forms.ListViewItemMouseHoverEventHandler(this.ListViewDark_Explorer_ItemMouseHover);
+            this.ListViewDark_Explorer.SelectedIndexChanged += new System.EventHandler(this.ListViewDark_Explorer_SelectedIndexChanged);
             this.ListViewDark_Explorer.DragDrop += new System.Windows.Forms.DragEventHandler(this.ListViewDark_Explorer_DragDrop);
             this.ListViewDark_Explorer.DragEnter += new System.Windows.Forms.DragEventHandler(this.ListViewDark_Explorer_DragEnter);
-            this.ListViewDark_Explorer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListViewDark_Explorer_KeyDown);
             this.ListViewDark_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ListViewDark_Explorer_MouseDown);
             // 
             // Column_Name
@@ -186,7 +195,9 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStripDark_Main.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuStripDark_Main_File});
+            this.MenuStripDark_Main_File,
+            this.MenuStripDark_Main_Tools,
+            this.MenuStripDark_Main_Selection});
             this.MenuStripDark_Main.Location = new System.Drawing.Point(-4, 0);
             this.MenuStripDark_Main.Name = "MenuStripDark_Main";
             this.MenuStripDark_Main.Size = new System.Drawing.Size(790, 24);
@@ -253,6 +264,98 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Close.Text = "Close";
             this.MenuStripDark_Main_File_Close.Click += new System.EventHandler(this.MenuStripDark_Main_File_Click_Group);
             // 
+            // MenuStripDark_Main_Tools
+            // 
+            this.MenuStripDark_Main_Tools.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripDark_Main_Tools_Copy,
+            this.MenuStripDark_Main_Tools_Paste,
+            this.toolStripSeparator1,
+            this.MenuStripDark_Main_Tools_Delete,
+            this.MenuStripDark_Main_Tools_Rename});
+            this.MenuStripDark_Main_Tools.Name = "MenuStripDark_Main_Tools";
+            this.MenuStripDark_Main_Tools.Size = new System.Drawing.Size(46, 20);
+            this.MenuStripDark_Main_Tools.Text = "Tools";
+            // 
+            // MenuStripDark_Main_Tools_Copy
+            // 
+            this.MenuStripDark_Main_Tools_Copy.Enabled = false;
+            this.MenuStripDark_Main_Tools_Copy.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Tools_Copy.Name = "MenuStripDark_Main_Tools_Copy";
+            this.MenuStripDark_Main_Tools_Copy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.MenuStripDark_Main_Tools_Copy.Size = new System.Drawing.Size(144, 22);
+            this.MenuStripDark_Main_Tools_Copy.Text = "Copy";
+            this.MenuStripDark_Main_Tools_Copy.Click += new System.EventHandler(this.MenuStripDark_Main_Tools_Click_Group);
+            // 
+            // MenuStripDark_Main_Tools_Paste
+            // 
+            this.MenuStripDark_Main_Tools_Paste.Enabled = false;
+            this.MenuStripDark_Main_Tools_Paste.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Tools_Paste.Name = "MenuStripDark_Main_Tools_Paste";
+            this.MenuStripDark_Main_Tools_Paste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.MenuStripDark_Main_Tools_Paste.Size = new System.Drawing.Size(144, 22);
+            this.MenuStripDark_Main_Tools_Paste.Text = "Paste";
+            this.MenuStripDark_Main_Tools_Paste.Click += new System.EventHandler(this.MenuStripDark_Main_Tools_Click_Group);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(141, 6);
+            // 
+            // MenuStripDark_Main_Tools_Delete
+            // 
+            this.MenuStripDark_Main_Tools_Delete.Enabled = false;
+            this.MenuStripDark_Main_Tools_Delete.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Tools_Delete.Name = "MenuStripDark_Main_Tools_Delete";
+            this.MenuStripDark_Main_Tools_Delete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.MenuStripDark_Main_Tools_Delete.Size = new System.Drawing.Size(144, 22);
+            this.MenuStripDark_Main_Tools_Delete.Text = "Delete";
+            this.MenuStripDark_Main_Tools_Delete.Click += new System.EventHandler(this.MenuStripDark_Main_Tools_Click_Group);
+            // 
+            // MenuStripDark_Main_Tools_Rename
+            // 
+            this.MenuStripDark_Main_Tools_Rename.Enabled = false;
+            this.MenuStripDark_Main_Tools_Rename.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Tools_Rename.Name = "MenuStripDark_Main_Tools_Rename";
+            this.MenuStripDark_Main_Tools_Rename.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.MenuStripDark_Main_Tools_Rename.Size = new System.Drawing.Size(144, 22);
+            this.MenuStripDark_Main_Tools_Rename.Text = "Rename";
+            this.MenuStripDark_Main_Tools_Rename.Click += new System.EventHandler(this.MenuStripDark_Main_Tools_Click_Group);
+            // 
+            // MenuStripDark_Main_Selection
+            // 
+            this.MenuStripDark_Main_Selection.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripDark_Main_Selection_SelectAll,
+            this.MenuStripDark_Main_Selection_SelectNone,
+            this.MenuStripDark_Main_Selection_InvertSelection});
+            this.MenuStripDark_Main_Selection.Name = "MenuStripDark_Main_Selection";
+            this.MenuStripDark_Main_Selection.Size = new System.Drawing.Size(67, 20);
+            this.MenuStripDark_Main_Selection.Text = "Selection";
+            // 
+            // MenuStripDark_Main_Selection_SelectAll
+            // 
+            this.MenuStripDark_Main_Selection_SelectAll.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Selection_SelectAll.Name = "MenuStripDark_Main_Selection_SelectAll";
+            this.MenuStripDark_Main_Selection_SelectAll.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.MenuStripDark_Main_Selection_SelectAll.Size = new System.Drawing.Size(164, 22);
+            this.MenuStripDark_Main_Selection_SelectAll.Text = "Select All";
+            this.MenuStripDark_Main_Selection_SelectAll.Click += new System.EventHandler(this.MenuStripDark_Main_Selection_Click_Group);
+            // 
+            // MenuStripDark_Main_Selection_SelectNone
+            // 
+            this.MenuStripDark_Main_Selection_SelectNone.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Selection_SelectNone.Name = "MenuStripDark_Main_Selection_SelectNone";
+            this.MenuStripDark_Main_Selection_SelectNone.Size = new System.Drawing.Size(164, 22);
+            this.MenuStripDark_Main_Selection_SelectNone.Text = "Select None";
+            this.MenuStripDark_Main_Selection_SelectNone.Click += new System.EventHandler(this.MenuStripDark_Main_Selection_Click_Group);
+            // 
+            // MenuStripDark_Main_Selection_InvertSelection
+            // 
+            this.MenuStripDark_Main_Selection_InvertSelection.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_Selection_InvertSelection.Name = "MenuStripDark_Main_Selection_InvertSelection";
+            this.MenuStripDark_Main_Selection_InvertSelection.Size = new System.Drawing.Size(164, 22);
+            this.MenuStripDark_Main_Selection_InvertSelection.Text = "Invert Selection";
+            this.MenuStripDark_Main_Selection_InvertSelection.Click += new System.EventHandler(this.MenuStripDark_Main_Selection_Click_Group);
+            // 
             // ArchiveExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -301,5 +404,15 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.Label Label_DirectoryEmpty;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Extract;
         private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_File_ToolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools_Copy;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools_Paste;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools_Rename;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools_Delete;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Selection;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Selection_SelectAll;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Selection_SelectNone;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Selection_InvertSelection;
     }
 }

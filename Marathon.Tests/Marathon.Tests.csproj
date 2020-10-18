@@ -49,13 +49,13 @@
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
       <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
       <Name>Marathon.IO</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

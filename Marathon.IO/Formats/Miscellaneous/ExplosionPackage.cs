@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
-using Marathon.IO.Helpers;
 using Marathon.IO.Headers;
 
 namespace Marathon.IO.Formats.Miscellaneous

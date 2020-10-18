@@ -24,8 +24,8 @@
  */
 
 using System;
-using System.IO;
 using System.Text;
+using System.Linq;
 using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
@@ -101,6 +101,7 @@ namespace Marathon.Toolkit
 
             foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
             {
+                // Store the extension for later.
                 string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
 
                 if (!string.IsNullOrEmpty(@extension))
@@ -124,24 +125,39 @@ namespace Marathon.Toolkit
         }
 
         /// <summary>
-        /// Parses file types resource to a string list.
+        /// Parses file types resource to a string based on category.
         /// </summary>
-        public static List<string> ParseFileExtensionsToList(string resource)
+        public static string ParseFileTypeCategory(string resource, string category)
         {
-            List<string> extensions = new List<string>();
+            // Create StringBuilder to make the filter.
+            StringBuilder stringBuilder = new StringBuilder();
 
+            // Load the resource.
             XDocument xml = XDocument.Parse(resource);
 
-            // Generate list of valid file extensions.
-            foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
+            // Search for all elements in the requested category or any.
+            foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type")
+                                                                .Where(x => x.Attribute("Category").Value == category ||
+                                                                            x.Attribute("Category").Value == "Any"))
             {
-                XAttribute @extension = supportedFileTypesElem.Attribute("Extension");
+                // Store the extension and category for later.
+                string @extension = supportedFileTypesElem.Attribute("Extension") == null ? string.Empty : supportedFileTypesElem.Attribute("Extension").Value;
 
-                if (@extension != null)
-                    extensions.Add(@extension.Value);
+                if (!string.IsNullOrEmpty(@extension) && !string.IsNullOrEmpty(@category))
+                {
+                    string[] commonSplit = supportedFileTypesElem.Value.Split('|');
+                    string splitFilter = string.Empty;
+
+                    // Common extensions need to be split.
+                    foreach (string common in commonSplit)
+                    {
+                        // Add to the current filter.
+                        stringBuilder.Append(splitFilter = $"{common} (*{@extension})|*{@extension}|");
+                    }
+                }
             }
 
-            return extensions;
+            return stringBuilder.ToString().Remove(stringBuilder.Length - 1);
         }
     }
 }

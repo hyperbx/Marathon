@@ -32,6 +32,7 @@ namespace Marathon.Toolkit.Controls
     public partial class OptionsFieldStringType : UserControl
     {
         private string _OptionName, _OptionDescription, _OptionField;
+        private bool _OptionIsPath;
         private PropertyInfo _OptionProperty;
 
         /// <summary>
@@ -55,6 +56,28 @@ namespace Marathon.Toolkit.Controls
         }
 
         /// <summary>
+        /// Determines if the string is a path.
+        /// </summary>
+        public bool OptionIsPath
+        {
+            get => _OptionIsPath;
+
+            set
+            {
+                ButtonFlat_Browse.Visible = _OptionIsPath = value;
+
+                if (value)
+                {
+                    TextBoxDark_String.Width -= 31;
+                }
+                else
+                {
+                    TextBoxDark_String.Width += 31;
+                }
+            }
+        }
+
+        /// <summary>
         /// The property assigned to this option.
         /// </summary>
         public PropertyInfo OptionProperty
@@ -66,7 +89,7 @@ namespace Marathon.Toolkit.Controls
                 _OptionProperty = value;
 
                 if (_OptionProperty != null)
-                    TextBox_String.Text = (string)_OptionProperty.GetValue(value);
+                    TextBoxDark_String.Text = (string)_OptionProperty.GetValue(value);
             }
         }
 
@@ -86,11 +109,16 @@ namespace Marathon.Toolkit.Controls
             }
         }
 
+        private void ButtonFlat_Browse_Click(object sender, EventArgs e)
+        {
+            // TODO
+        }
+
         public OptionsFieldStringType() => InitializeComponent();
 
         /// <summary>
         /// Sets the property to the current text.
         /// </summary>
-        private void TextBox_String_TextChanged(object sender, EventArgs e) => OptionField = TextBox_String.Text;
+        private void TextBoxDark_String_TextChanged(object sender, EventArgs e) => OptionField = TextBoxDark_String.Text;
     }
 }

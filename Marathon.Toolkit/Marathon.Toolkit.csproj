@@ -62,11 +62,23 @@
     <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\BulkRenamer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BulkRenamer.Designer.cs">
+      <DependentUpon>BulkRenamer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Components\RichTextBoxLocked.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Forms\Components\RichTextBoxLocked.Designer.cs">
       <DependentUpon>RichTextBoxLocked.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Components\TextBoxDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\Components\TextBoxDark.Designer.cs">
+      <DependentUpon>TextBoxDark.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Components\ToolStripDark.cs">
       <SubType>Component</SubType>
@@ -221,6 +233,9 @@
     <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
       <DependentUpon>MarathonMessageBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BulkRenamer.resx">
+      <DependentUpon>BulkRenamer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Controls\OptionsFieldBooleanType.resx">
       <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
     </EmbeddedResource>
@@ -282,6 +297,8 @@
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />
     <Content Include="Resources\Icons\Icon.ico" />
+    <None Include="Resources\Images\Tasks\Task_Paste.png" />
+    <None Include="Resources\Images\Tasks\Task_Copy.png" />
     <None Include="Resources\Images\Tasks\Task_Rename.png" />
     <None Include="Resources\Images\Tasks\Task_AddFile.png" />
     <None Include="Resources\Images\Tasks\Task_RemoveFile.png" />

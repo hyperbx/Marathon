@@ -27,6 +27,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats;
 using Marathon.IO.Helpers;
@@ -38,6 +39,8 @@ namespace Marathon.Toolkit.Forms
 {
     public partial class ArchiveExplorer : DockContent
     {
+        private List<ListViewItem> _Clipboard = new List<ListViewItem>();
+
         private Archive _LoadedArchive;
         private TreeNode _ActiveNode;
         private int _EditCount;
@@ -78,7 +81,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             // If the archive is now empty, create a new root node - otherwise, use the pre-existing one.
-            rootNode.Tag = LoadedArchive.Data.Count == 0 ? new ArchiveDirectory(rootNode.Text) : LoadedArchive.Data[0];
+            rootNode.Tag = LoadedArchive.Data.Count == 0 ? new ArchiveDirectory(rootNode.Text) { IsRoot = true } : LoadedArchive.Data[0];
 
             // Add the root node by the name of the archive.
             TreeView_Explorer.Nodes.Add(rootNode);
@@ -89,6 +92,7 @@ namespace Marathon.Toolkit.Forms
             // Recurse through the directory nodes.
             RecurseNodes(rootNode);
 
+            // The name says it all.
             void RecurseNodes(TreeNode child)
             {
                 foreach (ArchiveData entry in ((ArchiveDirectory)child.Tag).Data)
@@ -133,13 +137,13 @@ namespace Marathon.Toolkit.Forms
                 {
                     ListViewItem node = new ListViewItem(new[]
                     {
-                        // Name
+                        // Name.
                         entry.Name,
 
-                        // Type
+                        // Type.
                         $"{Path.GetExtension(entry.Name).ToUpper()} File".Substring(1),
 
-                        // Size
+                        // Size.
                         StringHelper.ByteLengthToDecimalString(entry.UncompressedSize)
                     })
                     {
@@ -209,7 +213,8 @@ namespace Marathon.Toolkit.Forms
             {
                 Name = fileName,
                 Location = file,
-                UncompressedSize = (uint)new FileInfo(file).Length
+                UncompressedSize = (uint)new FileInfo(file).Length,
+                Parent = (ArchiveDirectory)_ActiveNode.Tag
             });
 
             // Refresh current node.
@@ -237,7 +242,8 @@ namespace Marathon.Toolkit.Forms
             // Create a new data entry using the bytes from the input file.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
             {
-                UncompressedSize = (uint)data.Length
+                UncompressedSize = (uint)data.Length,
+                Parent = (ArchiveDirectory)_ActiveNode.Tag
             });
 
             // Refresh current node.
@@ -245,6 +251,38 @@ namespace Marathon.Toolkit.Forms
 
             // Increase the edit count.
             _EditCount++;
+        }
+
+        /// <summary>
+        /// Copies the selected files to the clipboard.
+        /// </summary>
+        private void CopyFiles()
+        {
+            // Clear the clipboard so we don't have tons of items left over.
+            _Clipboard.Clear();
+
+            // Decompress everything so we can copy properly.
+            DecompressSelectedItems();
+
+            // Add all ListViewItems to the clipboard.
+            foreach (ListViewItem item in ListViewDark_Explorer.SelectedItems)
+            {
+                // Add item to clipboard.
+                _Clipboard.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Pastes the files from the clipboard to the active node.
+        /// </summary>
+        private void PasteFiles()
+        {
+            // Add all clipboard items to the active node.
+            foreach (ListViewItem item in _Clipboard)
+            {
+                // Add to node from clipboard.
+                AddFile(item);
+            }
         }
 
         /// <summary>
@@ -263,6 +301,86 @@ namespace Marathon.Toolkit.Forms
 
             // Increase the edit count.
             _EditCount++;
+        }
+
+        /// <summary>
+        /// Deletes all selected files in the ListView.
+        /// </summary>
+        private void DeleteFiles()
+        {
+            // Store this for easier reference.
+            int selectedCount = ListViewDark_Explorer.SelectedItems.Count;
+
+            /* Change the message based on the amount of selected items.
+               Yes, we are just copying Windows. */
+            string pluraliseMessage = selectedCount == 1 ?
+                                      "Are you sure that you want to permanently delete this file?" :
+                                      $"Are you sure that you want to permanently delete these {selectedCount} items?";
+
+            DialogResult confirmMultiDelete =
+                MarathonMessageBox.Show(pluraliseMessage,
+                                        selectedCount == 1 ? "Delete File" : "Delete Multiple Items", // Change the title too, just like Windows.
+                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Delete all selected items.
+            if (confirmMultiDelete == DialogResult.Yes)
+            {
+                foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
+                {
+                    DeleteFile(selected);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes the selected folder in the TreeView.
+        /// </summary>
+        private void DeleteFolder()
+        {
+            DialogResult confirmFolderDelete =
+                MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
+                                        "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            // Delete selected item.
+            if (confirmFolderDelete == DialogResult.Yes)
+            {
+                // Store the directory and its parent.
+                var dir = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag;
+                var parent = (ArchiveDirectory)dir.Parent;
+
+                // Remove the item from the parent.
+                if (parent != null)
+                    parent.Data.Remove(dir);
+
+                // Reload the TreeView.
+                InitialiseDirectoryTree();
+
+                // Increase the edit count.
+                _EditCount++;
+            }
+        }
+
+        /// <summary>
+        /// Invokes the rename events depending on selection count.
+        /// </summary>
+        private void InvokeRename()
+        {
+            if (ListViewDark_Explorer.SelectedItems.Count <= 1)
+            {
+                // Enter label edit mode.
+                ListViewDark_Explorer.SelectedItems[0].BeginEdit();
+            }
+            else
+            {
+                // Launch Bulk Renamer with the selected items.
+                new BulkRenamer(ListViewDark_Explorer).ShowDialog();
+
+                // Refresh current node.
+                InitialiseFileItems(_ActiveNode.Tag);
+
+                // Increase the edit count.
+                _EditCount++;
+            }
         }
 
         /// <summary>
@@ -336,7 +454,7 @@ namespace Marathon.Toolkit.Forms
                         OpenFileDialog openDialog = new OpenFileDialog
                         {
                             Title = "Please select a file...",
-                            Filter = "All files (*.*)|*.*",
+                            Filter = Program.FileTypes[".*"],
                             Multiselect = true
                         };
 
@@ -370,24 +488,17 @@ namespace Marathon.Toolkit.Forms
                         }
                     }));
 
-                    // Get the selected item at the current X/Y position.
-                    ListViewItem selected = ListViewDark_Explorer.GetItemAt(e.X, e.Y);
-
-                    /* WinForms is dumb and updates the ListViewItem selection state lazily when right-clicking.
-                       This is a workaround for that to ensure at least one item is selected.
-                       Just checking the count doesn't work and requires two right-clicks, which is painful. */
-                    if (selected != null)
+                    // Extract context menu item.
+                    if (ListViewDark_Explorer.Items.Count != 0)
                     {
-                        // Gotta make things look pretty.
-                        menu.Items.Add(new ToolStripSeparator());
-
-                        // Extract context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Export)), delegate
                         {
+                            int count = ListViewDark_Explorer.SelectedItems.Count;
+
                             /* These switches will be used frequently in cases where items can be operated on,
                                either as a single element or multiple. If we want to change the behaviour of either
                                operation, we can do so this way. */
-                            switch (ListViewDark_Explorer.SelectedItems.Count)
+                            switch (count)
                             {
                                 // Just a single item was selected.
                                 case 1:
@@ -412,7 +523,7 @@ namespace Marathon.Toolkit.Forms
                                 }
 
                                 // More than one item was selected.
-                                default:
+                                case var multi when count > 1:
                                 {
                                     OpenFolderDialog folderDialog = new OpenFolderDialog
                                     {
@@ -434,8 +545,48 @@ namespace Marathon.Toolkit.Forms
 
                                     break;
                                 }
+
+                                // Default case when all else fails.
+                                default:
+                                {
+                                    // Extract everything from the directory.
+                                    ExtractDialog((ArchiveDirectory)_ActiveNode.Tag);
+
+                                    break;
+                                }
                             }
                         }));
+                    }
+
+                    /* Paste context menu item - this'll be used later on,
+                       just storing here before we determine when. Its appearance will be based on clipboard population. */
+                    ToolStripMenuItem ctxPaste = new ToolStripMenuItem("Paste",
+                                                 Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Paste)),
+                                                 delegate { PasteFiles(); });
+
+                    // Get the selected item at the current X/Y position.
+                    ListViewItem selected = ListViewDark_Explorer.GetItemAt(e.X, e.Y);
+
+                    /* WinForms is dumb and updates the ListViewItem selection state lazily when right-clicking.
+                       This is a workaround for that to ensure at least one item is selected.
+                       Just checking the count doesn't work and requires two right-clicks, which is painful. */
+                    if (selected != null)
+                    {
+                        // Can I get uhh... ToolStripSeparator?
+                        menu.Items.Add(new ToolStripSeparator());
+
+                        // Copy context menu item.
+                        menu.Items.Add(new ToolStripMenuItem("Copy",
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Copy)),
+                                       delegate { CopyFiles(); }));
+
+                        // Add the Paste option if the clipboard is populated.
+                        if (_Clipboard.Count != 0)
+                            menu.Items.Add(ctxPaste);
+
+                        /* You'd think I'd just use AddRange at this point,
+                           but Microsoft decided that ToolStripSeparators aren't ToolStripItems. */
+                        menu.Items.Add(new ToolStripSeparator());
 
                         // Delete context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Delete", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)), delegate
@@ -468,66 +619,31 @@ namespace Marathon.Toolkit.Forms
                             }
                         }));
 
-                        // Yet another confusing looking workaround for another dumb WinForms bug.
-                        if (ListViewDark_Explorer.SelectedItems.Count < 2)
+                        // Rename context menu item.
+                        menu.Items.Add(new ToolStripMenuItem("Rename",
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Rename)),
+                                       delegate { InvokeRename(); }));
+                    }
+
+                    // The selection was null, so that means nothing is selected.
+                    else
+                    {
+                        // Add the Paste option if the clipboard is populated.
+                        if (_Clipboard.Count != 0)
                         {
-                            // Rename context menu item.
-                            menu.Items.Add(new ToolStripMenuItem("Rename",
-                                           Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Rename)),
-                                           delegate { selected.BeginEdit(); }));
+                            // Yeah... here's another separator.
+                            menu.Items.Add(new ToolStripSeparator());
+
+                            // And here's your paste option.
+                            menu.Items.Add(ctxPaste);
                         }
                     }
 
+                    // Display the assembled menu.
                     menu.Show(Cursor.Position);
 
                     break;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Deletes all selected files in the ListView.
-        /// </summary>
-        private void DeleteFiles()
-        {
-            DialogResult confirmMultiDelete =
-                MarathonMessageBox.Show($"Are you sure that you want to permanently delete these {ListViewDark_Explorer.SelectedItems.Count} items?",
-                                        "Delete Multiple Items", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            // Delete all selected items.
-            if (confirmMultiDelete == DialogResult.Yes)
-            {
-                foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
-                {
-                    DeleteFile(selected);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Deletes the selected folder in the TreeView.
-        /// </summary>
-        private void DeleteFolder()
-        {
-            DialogResult confirmFolderDelete =
-                MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
-                                        "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            // Delete selected item.
-            if (confirmFolderDelete == DialogResult.Yes)
-            {
-                // Store the directory and its parent.
-                var dir = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag;
-                var parent = (ArchiveDirectory)dir.Parent;
-
-                // Remove the item from the parent.
-                parent.Data.Remove(dir);
-
-                // Reload the TreeView.
-                InitialiseDirectoryTree();
-
-                // Increase the edit count.
-                _EditCount++;
             }
         }
 
@@ -592,7 +708,7 @@ namespace Marathon.Toolkit.Forms
                         {
                             // Confirm the inclusion of subdirectories.
                             bool includeSubDirectories =
-                                MarathonMessageBox.Show("Would you like to import the subdirectories?", "Archive Explorer",
+                                MarathonMessageBox.Show("Would you like to import the subdirectories?", string.Empty,
                                                         MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
 
                             // Create new directory node.
@@ -602,7 +718,10 @@ namespace Marathon.Toolkit.Forms
                             };
 
                             // Set the tag to the new directory.
-                            dirNode.Tag = new ArchiveDirectory(dirNode.Text);
+                            dirNode.Tag = new ArchiveDirectory(dirNode.Text)
+                            {
+                                Parent = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag
+                            };
 
                             // Add the selected path to the new node.
                             LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)dirNode.Tag, includeSubDirectories);
@@ -650,6 +769,7 @@ namespace Marathon.Toolkit.Forms
                                        delegate { e.Node.BeginEdit(); }));
                     }
 
+                    // Display the assembled menu.
                     menu.Show(Cursor.Position);
 
                     break;
@@ -703,7 +823,7 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Group event for MenuStripDark_Main items.
+        /// Group event for MenuStripDark_Main_File items.
         /// </summary>
         private void MenuStripDark_Main_File_Click_Group(object sender, EventArgs e)
         {
@@ -739,6 +859,103 @@ namespace Marathon.Toolkit.Forms
             {
                 Close();
             }
+        }
+
+        /// <summary>
+        /// Events for when the selected index for ListViewDark_Explorer changes.
+        /// </summary>
+        private void ListViewDark_Explorer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Store this for easier reference.
+            bool isSelection = ListViewDark_Explorer.SelectedItems.Count != 0;
+
+            // Enable items based on selection count.
+            foreach (var item in MenuStripDark_Main_Tools.DropDownItems)
+            {
+                if (item is ToolStripMenuItem menuItem)
+                {
+                    // Enable Paste if the clipboard is populated.
+                    if (menuItem == MenuStripDark_Main_Tools_Paste)
+                    {
+                        menuItem.Enabled = isSelection && _Clipboard.Count != 0;
+                    }
+
+                    // Otherwise, just enable if there's at least a selection.
+                    else
+                    {
+                        menuItem.Enabled = isSelection;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Group event for MenuStripDark_Main_Tools items.
+        /// </summary>
+        private void MenuStripDark_Main_Tools_Click_Group(object sender, EventArgs e)
+        {
+            // Copy items to clipboard.
+            if (sender == MenuStripDark_Main_Tools_Copy)
+            {
+                CopyFiles();
+            }
+
+            // Paste items from clipboard.
+            else if (sender == MenuStripDark_Main_Tools_Paste)
+            {
+                PasteFiles();
+            }
+
+            // Delete the selected items from ListViewDark_Explorer.
+            else if (sender == MenuStripDark_Main_Tools_Delete)
+            {
+                DeleteFiles();
+            }
+
+            // Invoke renaming or bulk rename tasks.
+            else if (sender == MenuStripDark_Main_Tools_Rename)
+            {
+                InvokeRename();
+            }
+        }
+
+        /// <summary>
+        /// Group event for MenuStripDark_Main_Selection items.
+        /// </summary>
+        private void MenuStripDark_Main_Selection_Click_Group(object sender, EventArgs e)
+        {
+            // Store all items so we can do whatever with them.
+            List<ListViewItem> items = ListViewDark_Explorer.Items.OfType<ListViewItem>().ToList();
+
+            // Select all items in ListViewDark_Explorer.
+            if (sender == MenuStripDark_Main_Selection_SelectAll)
+            {
+                SetSelectedState(items, true);
+            }
+
+            // Deselect all items in ListViewDark_Explorer.
+            else if (sender == MenuStripDark_Main_Selection_SelectNone)
+            {
+                SetSelectedState(items, false);
+            }
+
+            // Invert current selection in ListViewDark_Explorer.
+            else if (sender == MenuStripDark_Main_Selection_InvertSelection)
+            {
+                // Store the unselected items before we deselect everything.
+                List<ListViewItem> unselectedItems = ListViewDark_Explorer.Items.OfType<ListViewItem>().ToList()
+                                                                                .Where(item => item.Selected == false).ToList();
+
+                // Deselect everything.
+                SetSelectedState(items, false);
+
+                // Select all previously unselected items.
+                SetSelectedState(unselectedItems, true);
+            }
+
+            // Selects things and stuff. lol
+            void SetSelectedState(List<ListViewItem> items, bool selected)
+                => items.OfType<ListViewItem>().ToList().ForEach(item => item.Selected = selected);
         }
 
         /// <summary>
@@ -797,11 +1014,6 @@ namespace Marathon.Toolkit.Forms
                         break;
                     }
 
-                    case DialogResult.No:
-                    {
-                        break;
-                    }
-
                     case DialogResult.Cancel:
                     {
                         // Cancel the closing event if the result was DialogResult.Cancel...
@@ -850,33 +1062,9 @@ namespace Marathon.Toolkit.Forms
         private void ListViewDark_Explorer_DragEnter(object sender, DragEventArgs e) => e.Effect = e.AllowedEffect;
 
         /// <summary>
-        /// Events for key presses on ListViewDark_Explorer.
+        /// Decompresses all selected items in ListViewDark_Explorer.
         /// </summary>
-        private void ListViewDark_Explorer_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                // Delete all selected files.
-                DeleteFiles();
-            }
-        }
-
-        /// <summary>
-        /// Events for key presses on TreeView_Explorer.
-        /// </summary>
-        private void TreeView_Explorer_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                // Delete selected folder.
-                DeleteFolder();
-            }
-        }
-
-        /// <summary>
-        /// Initialises the drag and drop events for ListViewItems.
-        /// </summary>
-        private void ListViewDark_Explorer_ItemDrag(object sender, ItemDragEventArgs e)
+        private void DecompressSelectedItems()
         {
             // Decompress all files.
             foreach (ListViewItem item in ListViewDark_Explorer.SelectedItems)
@@ -887,6 +1075,15 @@ namespace Marathon.Toolkit.Forms
                 // Decompress current file.
                 file.Data = file.Decompress(_LoadedArchive.Location, file);
             }
+        }
+
+        /// <summary>
+        /// Initialises the drag and drop events for ListViewItems.
+        /// </summary>
+        private void ListViewDark_Explorer_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            // Decompress everything so we can copy properly.
+            DecompressSelectedItems();
 
             // Start file dragging.
             ListViewDark_Explorer.DoDragDrop(ListViewDark_Explorer.SelectedItems, DragDropEffects.All);
@@ -920,6 +1117,8 @@ namespace Marathon.Toolkit.Forms
 
             // This is rather self-explanatory.
             e.Node.ToolTipText = $"Size: {StringHelper.ByteLengthToDecimalString(dir.TotalContentsSize)}\n" +
+
+                                 // We don't want these to display when there aren't any files or folders, hence the conditions.
                                  (folders.Length == 0 ? string.Empty : $"Folders: {StringHelper.Truncate(folders, truncateLength)}\n") +
                                  (files.Length == 0 ? string.Empty : $"Files: {StringHelper.Truncate(files, truncateLength)}");
         }

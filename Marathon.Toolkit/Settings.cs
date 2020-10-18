@@ -61,5 +61,10 @@ namespace Marathon.Toolkit
          * 
          * Properties that require custom get and set functions can use initialisers.
          */
+
+        /// <summary>
+        /// The location of the executable file for SONIC THE HEDGEHOG.
+        /// </summary>
+        public string GameExecutable { get; set; }
     }
 }

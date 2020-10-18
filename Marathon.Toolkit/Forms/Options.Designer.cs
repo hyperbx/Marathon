@@ -32,7 +32,9 @@ namespace Marathon.Toolkit.Forms
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_Title = new System.Windows.Forms.Label();
             this.FlowLayoutPanel_Options = new System.Windows.Forms.FlowLayoutPanel();
+            this.Options_GameExecutable = new Marathon.Toolkit.Controls.OptionsFieldStringType();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
+            this.FlowLayoutPanel_Options.SuspendLayout();
             this.SuspendLayout();
             // 
             // PictureBox_Logo
@@ -62,6 +64,7 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FlowLayoutPanel_Options.AutoScroll = true;
+            this.FlowLayoutPanel_Options.Controls.Add(this.Options_GameExecutable);
             this.FlowLayoutPanel_Options.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.FlowLayoutPanel_Options.Location = new System.Drawing.Point(0, 50);
             this.FlowLayoutPanel_Options.Name = "FlowLayoutPanel_Options";
@@ -69,6 +72,19 @@ namespace Marathon.Toolkit.Forms
             this.FlowLayoutPanel_Options.Size = new System.Drawing.Size(933, 469);
             this.FlowLayoutPanel_Options.TabIndex = 9;
             this.FlowLayoutPanel_Options.WrapContents = false;
+            // 
+            // Options_GameExecutable
+            // 
+            this.Options_GameExecutable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.Options_GameExecutable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Options_GameExecutable.ForeColor = System.Drawing.SystemColors.Control;
+            this.Options_GameExecutable.Location = new System.Drawing.Point(28, 8);
+            this.Options_GameExecutable.Name = "Options_GameExecutable";
+            this.Options_GameExecutable.OptionDescription = "SONIC THE HEDGEHOG executable file";
+            this.Options_GameExecutable.OptionName = "Game Executable";
+            this.Options_GameExecutable.OptionProperty = null;
+            this.Options_GameExecutable.Size = new System.Drawing.Size(408, 51);
+            this.Options_GameExecutable.TabIndex = 0;
             // 
             // Options
             // 
@@ -85,6 +101,7 @@ namespace Marathon.Toolkit.Forms
             this.Name = "Options";
             this.Text = "Options";
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
+            this.FlowLayoutPanel_Options.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,5 +112,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.PictureBox PictureBox_Logo;
         private System.Windows.Forms.Label Label_Title;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Options;
+        private Controls.OptionsFieldStringType Options_GameExecutable;
     }
 }

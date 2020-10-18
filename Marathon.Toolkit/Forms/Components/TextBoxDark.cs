@@ -23,17 +23,21 @@
  * SOFTWARE.
  */
 
-using WeifenLuo.WinFormsUI.Docking;
+using System.Drawing;
+using System.Windows.Forms;
 
-namespace Marathon.Toolkit.Forms
+namespace Marathon.Toolkit.Components
 {
-    public partial class Options : DockContent
+    public partial class TextBoxDark : TextBox
     {
-        public Options()
+        public TextBoxDark()
         {
             InitializeComponent();
 
-            Options_GameExecutable.OptionProperty = typeof(Settings).GetProperty(nameof(Settings.Marathon.GameExecutable));
+            BorderStyle = BorderStyle.FixedSingle;
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            ForeColor = SystemColors.Control;
+            BackColor = Color.FromArgb(45, 45, 48);
         }
     }
 }

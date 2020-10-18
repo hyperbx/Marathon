@@ -54,16 +54,30 @@ namespace Marathon.Toolkit.Forms
         private void MenuStripDark_Main_Help_About_Click(object sender, EventArgs e) => new About().ShowDialog();
 
         /// <summary>
+        /// Prompts the user to create a new file.
+        /// </summary>
+        private void MenuStripDark_Main_File_New_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Title = "New...",
+                Filter = Resources.ParseFileTypesToFilter(Properties.Resources.FileTypes),
+                InitialDirectory = ActiveMarathonExplorerAddress()
+            };
+
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+                new TaskDashboard(DockPanel_Main, saveDialog.FileName, TaskDashboard.TaskState.New).ShowDialog();
+        }
+
+        /// <summary>
         /// Prompts the user for a file...
         /// </summary>
         private void MenuStripDark_Main_Open_File_Click(object sender, EventArgs e)
         {
-            string commonFileTypesXML = Properties.Resources.FileTypes;
-
             OpenFileDialog fileDialog = new OpenFileDialog
             {
                 Title = "Please select a file...",
-                Filter = Resources.ParseFileTypesToFilter(commonFileTypesXML),
+                Filter = Resources.ParseFileTypesToFilter(Properties.Resources.FileTypes),
                 InitialDirectory = ActiveMarathonExplorerAddress()
             };
 
@@ -134,6 +148,28 @@ namespace Marathon.Toolkit.Forms
             // Feature request...
             else if (sender.Equals(MenuStripDark_Main_Help_SendFeedback_SuggestAFeature))
                 Program.InvokeFeedback(commonTitle, string.Empty, "enhancement");
+        }
+
+        private void MenuStripDark_Main_View_BulkRenamer_Click(object sender, EventArgs e)
+        {
+            string path = ActiveMarathonExplorerAddress();
+
+            if (!string.IsNullOrEmpty(path))
+            {
+                // Launch Bulk Renamer from Marathon Explorer.
+                new BulkRenamer(path).ShowDialog();
+            }
+            else
+            {
+                OpenFolderDialog folderDialog = new OpenFolderDialog
+                {
+                    Title = "Please select a folder..."
+                };
+
+                // Launch Bulk Renamer from requested path.
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                    new BulkRenamer(folderDialog.SelectedPath).ShowDialog();
+            }
         }
     }
 }

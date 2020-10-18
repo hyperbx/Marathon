@@ -34,7 +34,6 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_New = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuStripDark_Main_File_New_Archive = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Open_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Open_Folder = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,6 +54,7 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_Debug = new System.Windows.Forms.ToolStripMenuItem();
             this.DockPanel_Main = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.Theme_VS2015Dark = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
+            this.MenuStripDark_Main_View_BulkRenamer = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,20 +92,12 @@ namespace Marathon.Toolkit.Forms
             // 
             // MenuStripDark_Main_File_New
             // 
-            this.MenuStripDark_Main_File_New.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuStripDark_Main_File_New_Archive});
             this.MenuStripDark_Main_File_New.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_File_New.Name = "MenuStripDark_Main_File_New";
-            this.MenuStripDark_Main_File_New.Size = new System.Drawing.Size(180, 22);
-            this.MenuStripDark_Main_File_New.Text = "&New";
-            // 
-            // MenuStripDark_Main_File_New_Archive
-            // 
-            this.MenuStripDark_Main_File_New_Archive.ForeColor = System.Drawing.SystemColors.Control;
-            this.MenuStripDark_Main_File_New_Archive.Name = "MenuStripDark_Main_File_New_Archive";
-            this.MenuStripDark_Main_File_New_Archive.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.MenuStripDark_Main_File_New_Archive.Size = new System.Drawing.Size(166, 22);
-            this.MenuStripDark_Main_File_New_Archive.Text = "&Archive...";
+            this.MenuStripDark_Main_File_New.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.MenuStripDark_Main_File_New.Size = new System.Drawing.Size(150, 22);
+            this.MenuStripDark_Main_File_New.Text = "&New...";
+            this.MenuStripDark_Main_File_New.Click += new System.EventHandler(this.MenuStripDark_Main_File_New_Click);
             // 
             // MenuStripDark_Main_File_Open
             // 
@@ -114,7 +106,7 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Open_Folder});
             this.MenuStripDark_Main_File_Open.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_File_Open.Name = "MenuStripDark_Main_File_Open";
-            this.MenuStripDark_Main_File_Open.Size = new System.Drawing.Size(180, 22);
+            this.MenuStripDark_Main_File_Open.Size = new System.Drawing.Size(150, 22);
             this.MenuStripDark_Main_File_Open.Text = "&Open";
             // 
             // MenuStripDark_Main_File_Open_File
@@ -139,13 +131,13 @@ namespace Marathon.Toolkit.Forms
             // MenuStripDark_Main_File_ToolStripSeparator1
             // 
             this.MenuStripDark_Main_File_ToolStripSeparator1.Name = "MenuStripDark_Main_File_ToolStripSeparator1";
-            this.MenuStripDark_Main_File_ToolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.MenuStripDark_Main_File_ToolStripSeparator1.Size = new System.Drawing.Size(147, 6);
             // 
             // MenuStripDark_Main_File_Options
             // 
             this.MenuStripDark_Main_File_Options.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_File_Options.Name = "MenuStripDark_Main_File_Options";
-            this.MenuStripDark_Main_File_Options.Size = new System.Drawing.Size(180, 22);
+            this.MenuStripDark_Main_File_Options.Size = new System.Drawing.Size(150, 22);
             this.MenuStripDark_Main_File_Options.Text = "&Options...";
             this.MenuStripDark_Main_File_Options.Click += new System.EventHandler(this.MenuStripDark_Main_File_Options_Click);
             // 
@@ -154,13 +146,14 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Exit.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_File_Exit.Name = "MenuStripDark_Main_File_Exit";
             this.MenuStripDark_Main_File_Exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.MenuStripDark_Main_File_Exit.Size = new System.Drawing.Size(180, 22);
+            this.MenuStripDark_Main_File_Exit.Size = new System.Drawing.Size(150, 22);
             this.MenuStripDark_Main_File_Exit.Text = "&Exit";
             this.MenuStripDark_Main_File_Exit.Click += new System.EventHandler(this.MenuStripDark_Main_File_Exit_Click);
             // 
             // MenuStripDark_Main_View
             // 
             this.MenuStripDark_Main_View.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuStripDark_Main_View_BulkRenamer,
             this.MenuStripDark_Main_View_FileConverter,
             this.MenuStripDark_Main_View_Output});
             this.MenuStripDark_Main_View.Name = "MenuStripDark_Main_View";
@@ -171,7 +164,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.MenuStripDark_Main_View_FileConverter.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_View_FileConverter.Name = "MenuStripDark_Main_View_FileConverter";
-            this.MenuStripDark_Main_View_FileConverter.Size = new System.Drawing.Size(147, 22);
+            this.MenuStripDark_Main_View_FileConverter.Size = new System.Drawing.Size(180, 22);
             this.MenuStripDark_Main_View_FileConverter.Text = "&File Converter";
             this.MenuStripDark_Main_View_FileConverter.Click += new System.EventHandler(this.MenuStripDark_Main_View_FileConverter_Click);
             // 
@@ -179,7 +172,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.MenuStripDark_Main_View_Output.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_View_Output.Name = "MenuStripDark_Main_View_Output";
-            this.MenuStripDark_Main_View_Output.Size = new System.Drawing.Size(147, 22);
+            this.MenuStripDark_Main_View_Output.Size = new System.Drawing.Size(180, 22);
             this.MenuStripDark_Main_View_Output.Text = "&Output";
             this.MenuStripDark_Main_View_Output.Click += new System.EventHandler(this.MenuStripDark_Main_View_Output_Click);
             // 
@@ -195,7 +188,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.MenuStripDark_Main_Window_Windows.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main_Window_Windows.Name = "MenuStripDark_Main_Window_Windows";
-            this.MenuStripDark_Main_Window_Windows.Size = new System.Drawing.Size(132, 22);
+            this.MenuStripDark_Main_Window_Windows.Size = new System.Drawing.Size(180, 22);
             this.MenuStripDark_Main_Window_Windows.Text = "&Windows...";
             this.MenuStripDark_Main_Window_Windows.Click += new System.EventHandler(this.MenuStripDark_Main_Window_Windows_Click);
             // 
@@ -274,6 +267,14 @@ namespace Marathon.Toolkit.Forms
             this.DockPanel_Main.TabIndex = 2;
             this.DockPanel_Main.Theme = this.Theme_VS2015Dark;
             // 
+            // MenuStripDark_Main_View_BulkRenamer
+            // 
+            this.MenuStripDark_Main_View_BulkRenamer.ForeColor = System.Drawing.SystemColors.Control;
+            this.MenuStripDark_Main_View_BulkRenamer.Name = "MenuStripDark_Main_View_BulkRenamer";
+            this.MenuStripDark_Main_View_BulkRenamer.Size = new System.Drawing.Size(180, 22);
+            this.MenuStripDark_Main_View_BulkRenamer.Text = "&Bulk Renamer";
+            this.MenuStripDark_Main_View_BulkRenamer.Click += new System.EventHandler(this.MenuStripDark_Main_View_BulkRenamer_Click);
+            // 
             // Workspace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -309,7 +310,6 @@ namespace Marathon.Toolkit.Forms
         private WeifenLuo.WinFormsUI.Docking.DockPanel DockPanel_Main;
         private WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme Theme_VS2015Dark;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_New;
-        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_New_Archive;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Open_File;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_File_Open_Folder;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Debug;
@@ -323,6 +323,7 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.ToolStripSeparator MenuStripDark_Main_Help_ToolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help_SendFeedback_ReportAProblem;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help_SendFeedback_SuggestAFeature;
+        private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_View_BulkRenamer;
     }
 }
 

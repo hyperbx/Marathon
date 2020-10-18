@@ -195,6 +195,9 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   <data name="Task_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Task_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Task_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -239,6 +242,9 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   </data>
   <data name="Task_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_Output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Task_RemoveFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_RemoveFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

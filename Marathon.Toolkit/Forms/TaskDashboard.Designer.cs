@@ -88,9 +88,11 @@ namespace Marathon.Toolkit.Forms
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 133);
             this.Name = "TaskDashboard";
+            this.Opacity = 0D;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Task Dashboard";
+            this.Load += new System.EventHandler(this.TaskDashboard_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
