@@ -373,9 +373,11 @@ namespace Marathon.Toolkit.Forms
                 // Use text from the first TextBox.
                 else
                 {
+                    // Ensure the criteria isn't nothingness first.
                     if (!string.IsNullOrEmpty(@criteria))
                     {
-                        renamed = new Regex(@criteria, CheckBox_CaseSensitive.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
+                        // Using a regular expression here so we can enable/disable case sensitivity.
+                        renamed = new Regex(@criteria, CheckBox_CaseSensitive.CheckState == CheckState.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
                                      .Replace(@nodeModule.Name, TextBoxDark_Criteria_2.Text);
                     }
                 }
@@ -384,15 +386,15 @@ namespace Marathon.Toolkit.Forms
                 if (@nodeModule.Name != renamed)
                 {
                                                                  // Uppercase result.
-                    node.SubItems[1].Text = @nodeModule.Rename = CheckBox_MakeUppercase.Checked ?
+                    node.SubItems[1].Text = @nodeModule.Rename = CheckBox_MakeUppercase.CheckState == CheckState.Checked ?
                                                                  renamed.ToUpper() :
                                                                  
                                                                  // Lowercase result.
-                                                                 CheckBox_MakeLowercase.Checked ? 
+                                                                 CheckBox_MakeLowercase.CheckState == CheckState.Checked ? 
                                                                  renamed.ToLower() :
                                                                  
                                                                  // Titlecase result.
-                                                                 CheckBox_MakeTitlecase.Checked ?
+                                                                 CheckBox_MakeTitlecase.CheckState == CheckState.Checked ?
                                                                  CultureInfo.DefaultThreadCurrentUICulture.TextInfo.ToTitleCase(renamed) :
                                                                  
                                                                  // Default result.
