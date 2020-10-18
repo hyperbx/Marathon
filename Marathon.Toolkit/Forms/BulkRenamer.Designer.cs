@@ -31,14 +31,15 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BulkRenamer));
             this.GroupBox_Criteria = new System.Windows.Forms.GroupBox();
-            this.Label_TextBoxDark_2 = new System.Windows.Forms.Label();
-            this.TextBoxDark_2 = new Marathon.Toolkit.Components.TextBoxDark();
-            this.Label_TextBoxDark_1 = new System.Windows.Forms.Label();
-            this.TextBoxDark_1 = new Marathon.Toolkit.Components.TextBoxDark();
+            this.Label_TextBoxDark_Criteria_2 = new System.Windows.Forms.Label();
+            this.TextBoxDark_Criteria_2 = new Marathon.Toolkit.Components.TextBoxDark();
+            this.Label_TextBoxDark_Criteria_1 = new System.Windows.Forms.Label();
+            this.TextBoxDark_Criteria_1 = new Marathon.Toolkit.Components.TextBoxDark();
             this.GroupBox_Properties = new System.Windows.Forms.GroupBox();
             this.FlowLayoutPanel_Properties = new System.Windows.Forms.FlowLayoutPanel();
             this.CheckBox_CreatePrefix = new System.Windows.Forms.CheckBox();
             this.CheckBox_CreateSuffix = new System.Windows.Forms.CheckBox();
+            this.CheckBox_AppendSuffixToExtension = new System.Windows.Forms.CheckBox();
             this.CheckBox_IncludeFiles = new System.Windows.Forms.CheckBox();
             this.CheckBox_IncludeDirectories = new System.Windows.Forms.CheckBox();
             this.CheckBox_IncludeSubdirectoryContents = new System.Windows.Forms.CheckBox();
@@ -63,10 +64,10 @@
             // 
             this.GroupBox_Criteria.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GroupBox_Criteria.Controls.Add(this.Label_TextBoxDark_2);
-            this.GroupBox_Criteria.Controls.Add(this.TextBoxDark_2);
-            this.GroupBox_Criteria.Controls.Add(this.Label_TextBoxDark_1);
-            this.GroupBox_Criteria.Controls.Add(this.TextBoxDark_1);
+            this.GroupBox_Criteria.Controls.Add(this.Label_TextBoxDark_Criteria_2);
+            this.GroupBox_Criteria.Controls.Add(this.TextBoxDark_Criteria_2);
+            this.GroupBox_Criteria.Controls.Add(this.Label_TextBoxDark_Criteria_1);
+            this.GroupBox_Criteria.Controls.Add(this.TextBoxDark_Criteria_1);
             this.GroupBox_Criteria.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_Criteria.Location = new System.Drawing.Point(12, 6);
             this.GroupBox_Criteria.Name = "GroupBox_Criteria";
@@ -75,51 +76,52 @@
             this.GroupBox_Criteria.TabStop = false;
             this.GroupBox_Criteria.Text = "Criteria";
             // 
-            // Label_TextBoxDark_2
+            // Label_TextBoxDark_Criteria_2
             // 
-            this.Label_TextBoxDark_2.Location = new System.Drawing.Point(7, 57);
-            this.Label_TextBoxDark_2.Name = "Label_TextBoxDark_2";
-            this.Label_TextBoxDark_2.Size = new System.Drawing.Size(42, 15);
-            this.Label_TextBoxDark_2.TabIndex = 3;
-            this.Label_TextBoxDark_2.Text = "New:";
-            this.Label_TextBoxDark_2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.Label_TextBoxDark_Criteria_2.Location = new System.Drawing.Point(7, 57);
+            this.Label_TextBoxDark_Criteria_2.Name = "Label_TextBoxDark_Criteria_2";
+            this.Label_TextBoxDark_Criteria_2.Size = new System.Drawing.Size(42, 15);
+            this.Label_TextBoxDark_Criteria_2.TabIndex = 3;
+            this.Label_TextBoxDark_Criteria_2.Text = "New:";
+            this.Label_TextBoxDark_Criteria_2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // TextBoxDark_2
+            // TextBoxDark_Criteria_2
             // 
-            this.TextBoxDark_2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextBoxDark_Criteria_2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxDark_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBoxDark_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBoxDark_2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBoxDark_2.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBoxDark_2.Location = new System.Drawing.Point(52, 53);
-            this.TextBoxDark_2.Name = "TextBoxDark_2";
-            this.TextBoxDark_2.Size = new System.Drawing.Size(402, 23);
-            this.TextBoxDark_2.TabIndex = 2;
-            this.TextBoxDark_2.TextChanged += new System.EventHandler(this.TextBoxDark_2_TextChanged);
+            this.TextBoxDark_Criteria_2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBoxDark_Criteria_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxDark_Criteria_2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBoxDark_Criteria_2.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBoxDark_Criteria_2.Location = new System.Drawing.Point(52, 53);
+            this.TextBoxDark_Criteria_2.Name = "TextBoxDark_Criteria_2";
+            this.TextBoxDark_Criteria_2.Size = new System.Drawing.Size(402, 23);
+            this.TextBoxDark_Criteria_2.TabIndex = 2;
+            this.TextBoxDark_Criteria_2.TextChanged += new System.EventHandler(this.TextBoxDark_Criteria_TextChanged_Group);
             // 
-            // Label_TextBoxDark_1
+            // Label_TextBoxDark_Criteria_1
             // 
-            this.Label_TextBoxDark_1.AutoSize = true;
-            this.Label_TextBoxDark_1.Location = new System.Drawing.Point(20, 26);
-            this.Label_TextBoxDark_1.Name = "Label_TextBoxDark_1";
-            this.Label_TextBoxDark_1.Size = new System.Drawing.Size(29, 15);
-            this.Label_TextBoxDark_1.TabIndex = 1;
-            this.Label_TextBoxDark_1.Text = "Old:";
-            this.Label_TextBoxDark_1.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.Label_TextBoxDark_Criteria_1.AutoSize = true;
+            this.Label_TextBoxDark_Criteria_1.Location = new System.Drawing.Point(20, 26);
+            this.Label_TextBoxDark_Criteria_1.Name = "Label_TextBoxDark_Criteria_1";
+            this.Label_TextBoxDark_Criteria_1.Size = new System.Drawing.Size(29, 15);
+            this.Label_TextBoxDark_Criteria_1.TabIndex = 1;
+            this.Label_TextBoxDark_Criteria_1.Text = "Old:";
+            this.Label_TextBoxDark_Criteria_1.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // TextBoxDark_1
+            // TextBoxDark_Criteria_1
             // 
-            this.TextBoxDark_1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TextBoxDark_Criteria_1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxDark_1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.TextBoxDark_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TextBoxDark_1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TextBoxDark_1.ForeColor = System.Drawing.SystemColors.Control;
-            this.TextBoxDark_1.Location = new System.Drawing.Point(52, 22);
-            this.TextBoxDark_1.Name = "TextBoxDark_1";
-            this.TextBoxDark_1.Size = new System.Drawing.Size(402, 23);
-            this.TextBoxDark_1.TabIndex = 0;
+            this.TextBoxDark_Criteria_1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.TextBoxDark_Criteria_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBoxDark_Criteria_1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBoxDark_Criteria_1.ForeColor = System.Drawing.SystemColors.Control;
+            this.TextBoxDark_Criteria_1.Location = new System.Drawing.Point(52, 22);
+            this.TextBoxDark_Criteria_1.Name = "TextBoxDark_Criteria_1";
+            this.TextBoxDark_Criteria_1.Size = new System.Drawing.Size(402, 23);
+            this.TextBoxDark_Criteria_1.TabIndex = 0;
+            this.TextBoxDark_Criteria_1.TextChanged += new System.EventHandler(this.TextBoxDark_Criteria_TextChanged_Group);
             // 
             // GroupBox_Properties
             // 
@@ -138,6 +140,7 @@
             // 
             this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_CreatePrefix);
             this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_CreateSuffix);
+            this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_AppendSuffixToExtension);
             this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_IncludeFiles);
             this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_IncludeDirectories);
             this.FlowLayoutPanel_Properties.Controls.Add(this.CheckBox_IncludeSubdirectoryContents);
@@ -174,12 +177,24 @@
             this.CheckBox_CreateSuffix.UseVisualStyleBackColor = true;
             this.CheckBox_CreateSuffix.CheckedChanged += new System.EventHandler(this.CheckBox_Properties_CheckedChanged_Group);
             // 
+            // CheckBox_AppendSuffixToExtension
+            // 
+            this.CheckBox_AppendSuffixToExtension.AutoSize = true;
+            this.CheckBox_AppendSuffixToExtension.Location = new System.Drawing.Point(208, 3);
+            this.CheckBox_AppendSuffixToExtension.Name = "CheckBox_AppendSuffixToExtension";
+            this.CheckBox_AppendSuffixToExtension.Size = new System.Drawing.Size(169, 19);
+            this.CheckBox_AppendSuffixToExtension.TabIndex = 9;
+            this.CheckBox_AppendSuffixToExtension.Text = "Append Suffix to Extension";
+            this.CheckBox_AppendSuffixToExtension.UseVisualStyleBackColor = true;
+            this.CheckBox_AppendSuffixToExtension.Visible = false;
+            this.CheckBox_AppendSuffixToExtension.CheckedChanged += new System.EventHandler(this.CheckBox_Properties_CheckedChanged_Group);
+            // 
             // CheckBox_IncludeFiles
             // 
             this.CheckBox_IncludeFiles.AutoSize = true;
             this.CheckBox_IncludeFiles.Checked = true;
             this.CheckBox_IncludeFiles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBox_IncludeFiles.Location = new System.Drawing.Point(208, 3);
+            this.CheckBox_IncludeFiles.Location = new System.Drawing.Point(10, 28);
             this.CheckBox_IncludeFiles.Name = "CheckBox_IncludeFiles";
             this.CheckBox_IncludeFiles.Size = new System.Drawing.Size(91, 19);
             this.CheckBox_IncludeFiles.TabIndex = 5;
@@ -190,7 +205,7 @@
             // CheckBox_IncludeDirectories
             // 
             this.CheckBox_IncludeDirectories.AutoSize = true;
-            this.CheckBox_IncludeDirectories.Location = new System.Drawing.Point(305, 3);
+            this.CheckBox_IncludeDirectories.Location = new System.Drawing.Point(107, 28);
             this.CheckBox_IncludeDirectories.Name = "CheckBox_IncludeDirectories";
             this.CheckBox_IncludeDirectories.Size = new System.Drawing.Size(124, 19);
             this.CheckBox_IncludeDirectories.TabIndex = 2;
@@ -201,7 +216,7 @@
             // CheckBox_IncludeSubdirectoryContents
             // 
             this.CheckBox_IncludeSubdirectoryContents.AutoSize = true;
-            this.CheckBox_IncludeSubdirectoryContents.Location = new System.Drawing.Point(10, 28);
+            this.CheckBox_IncludeSubdirectoryContents.Location = new System.Drawing.Point(237, 28);
             this.CheckBox_IncludeSubdirectoryContents.Name = "CheckBox_IncludeSubdirectoryContents";
             this.CheckBox_IncludeSubdirectoryContents.Size = new System.Drawing.Size(186, 19);
             this.CheckBox_IncludeSubdirectoryContents.TabIndex = 3;
@@ -212,7 +227,7 @@
             // CheckBox_CaseSensitive
             // 
             this.CheckBox_CaseSensitive.AutoSize = true;
-            this.CheckBox_CaseSensitive.Location = new System.Drawing.Point(202, 28);
+            this.CheckBox_CaseSensitive.Location = new System.Drawing.Point(10, 53);
             this.CheckBox_CaseSensitive.Name = "CheckBox_CaseSensitive";
             this.CheckBox_CaseSensitive.Size = new System.Drawing.Size(100, 19);
             this.CheckBox_CaseSensitive.TabIndex = 4;
@@ -223,7 +238,7 @@
             // CheckBox_MakeUppercase
             // 
             this.CheckBox_MakeUppercase.AutoSize = true;
-            this.CheckBox_MakeUppercase.Location = new System.Drawing.Point(308, 28);
+            this.CheckBox_MakeUppercase.Location = new System.Drawing.Point(116, 53);
             this.CheckBox_MakeUppercase.Name = "CheckBox_MakeUppercase";
             this.CheckBox_MakeUppercase.Size = new System.Drawing.Size(113, 19);
             this.CheckBox_MakeUppercase.TabIndex = 6;
@@ -234,7 +249,7 @@
             // CheckBox_MakeLowercase
             // 
             this.CheckBox_MakeLowercase.AutoSize = true;
-            this.CheckBox_MakeLowercase.Location = new System.Drawing.Point(10, 53);
+            this.CheckBox_MakeLowercase.Location = new System.Drawing.Point(235, 53);
             this.CheckBox_MakeLowercase.Name = "CheckBox_MakeLowercase";
             this.CheckBox_MakeLowercase.Size = new System.Drawing.Size(113, 19);
             this.CheckBox_MakeLowercase.TabIndex = 7;
@@ -245,7 +260,7 @@
             // CheckBox_MakeTitlecase
             // 
             this.CheckBox_MakeTitlecase.AutoSize = true;
-            this.CheckBox_MakeTitlecase.Location = new System.Drawing.Point(129, 53);
+            this.CheckBox_MakeTitlecase.Location = new System.Drawing.Point(354, 53);
             this.CheckBox_MakeTitlecase.Name = "CheckBox_MakeTitlecase";
             this.CheckBox_MakeTitlecase.Size = new System.Drawing.Size(103, 19);
             this.CheckBox_MakeTitlecase.TabIndex = 8;
@@ -359,10 +374,10 @@
 
         private System.Windows.Forms.GroupBox GroupBox_Criteria;
         private System.Windows.Forms.GroupBox GroupBox_Properties;
-        private System.Windows.Forms.Label Label_TextBoxDark_2;
-        private Components.TextBoxDark TextBoxDark_2;
-        private System.Windows.Forms.Label Label_TextBoxDark_1;
-        private Components.TextBoxDark TextBoxDark_1;
+        private System.Windows.Forms.Label Label_TextBoxDark_Criteria_2;
+        private Components.TextBoxDark TextBoxDark_Criteria_2;
+        private System.Windows.Forms.Label Label_TextBoxDark_Criteria_1;
+        private Components.TextBoxDark TextBoxDark_Criteria_1;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Properties;
         private System.Windows.Forms.CheckBox CheckBox_CreatePrefix;
         private System.Windows.Forms.CheckBox CheckBox_CreateSuffix;
@@ -380,5 +395,6 @@
         private System.Windows.Forms.Panel Panel_ListViewDark_Preview;
         private System.Windows.Forms.ImageList ImageList_Keys;
         private Components.ButtonFlat ButtonFlat_Rename;
+        private System.Windows.Forms.CheckBox CheckBox_AppendSuffixToExtension;
     }
 }

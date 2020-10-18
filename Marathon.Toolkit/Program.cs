@@ -44,7 +44,7 @@ namespace Marathon.Toolkit
                                       Location = Application.ExecutablePath,
                                       WorkingDirectory = Path.GetDirectoryName(Location);
 
-        // Full dictionaries of supported file types and categories that can be used globally.
+        // Full dictionary of supported file types that can be used globally.
         public static Dictionary<string, string> FileTypes = new Dictionary<string, string>();
 
         [STAThread]

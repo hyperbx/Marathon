@@ -24,11 +24,11 @@
  */
 
 using System;
+using System.IO;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 using Marathon.IO.Formats;
 using Marathon.IO.Helpers;
 
@@ -178,29 +178,39 @@ namespace Marathon.Toolkit.Forms
 
                         // Rename the label based on sender.
                         _ = sender == CheckBox_CreatePrefix ?
-                                      Label_TextBoxDark_2.Text = "Prefix:" :
-                                      Label_TextBoxDark_2.Text = "Suffix:";
+                                      Label_TextBoxDark_Criteria_2.Text = "Prefix:" :
+                                      Label_TextBoxDark_Criteria_2.Text = "Suffix:";
 
-                        // Disable the opposing box so it can't interfere.
+                        // Disable the interfering boxes.
                         {
                             // Unsubscribe from this event so it doesn't recurse.
                             opposed.CheckedChanged -= CheckBox_Properties_CheckedChanged_Group;
 
-                            // Sender is CheckBox_CreatePrefix, so disable the Create Suffix box.
+                            /* Disable the opposite CheckBox, as well as the Case Sensitive one,
+                               since it's redundant. */
                             opposed.Checked =
-                                opposed.AutoCheck = false;
+                            opposed.AutoCheck =
+                            CheckBox_CaseSensitive.AutoCheck = false;
 
-                            /* Set the state to indeterminate so we have a visual representation
-                               that this CheckBox is being interfered with. */
-                            opposed.CheckState = CheckState.Indeterminate;
+                            /* Set the states to indeterminate so we have a visual representation
+                               that these CheckBoxes are being interfered with. */
+                            opposed.CheckState =
+                            CheckBox_CaseSensitive.CheckState = CheckState.Indeterminate;
 
                             // Subscribe back to this event.
                             opposed.CheckedChanged += CheckBox_Properties_CheckedChanged_Group;
                         }
 
+                        // Set visibility state for CheckBox_AppendSuffixToExtension.
+                        if (sender == CheckBox_CreateSuffix)
+                        {
+                            // We only want this to display for suffix creation.
+                            CheckBox_AppendSuffixToExtension.Visible = true;
+                        }
+
                         // Disable the second TextBox, as it won't be necessary.
-                        Label_TextBoxDark_1.ForeColor = SystemColors.GrayText;
-                        TextBoxDark_1.Enabled = false;
+                        Label_TextBoxDark_Criteria_1.ForeColor = SystemColors.GrayText;
+                        TextBoxDark_Criteria_1.Enabled = false;
 
                         break;
                     }
@@ -208,19 +218,24 @@ namespace Marathon.Toolkit.Forms
                     case false:
                     {
                         // Restore first TextBox label.
-                        Label_TextBoxDark_2.Text = "New:";
+                        Label_TextBoxDark_Criteria_2.Text = "New:";
 
                         // Restore the boxes.
                         CheckBox_CreatePrefix.AutoCheck =
-                        CheckBox_CreateSuffix.AutoCheck = true;
+                        CheckBox_CreateSuffix.AutoCheck =
+                        CheckBox_CaseSensitive.AutoCheck = true;
 
                         // Uncheck the boxes.
                         CheckBox_CreatePrefix.CheckState =
-                        CheckBox_CreateSuffix.CheckState = CheckState.Unchecked;
+                        CheckBox_CreateSuffix.CheckState =
+                        CheckBox_CaseSensitive.CheckState = CheckState.Unchecked;
+
+                        // Reset visibility state for CheckBox_AppendSuffixToExtension.
+                        CheckBox_AppendSuffixToExtension.Visible = false;
 
                         // Restore the second TextBox.
-                        Label_TextBoxDark_1.ForeColor = SystemColors.Control;
-                        TextBoxDark_1.Enabled = true;
+                        Label_TextBoxDark_Criteria_1.ForeColor = SystemColors.Control;
+                        TextBoxDark_Criteria_1.Enabled = true;
 
                         break;
                     }
@@ -321,48 +336,84 @@ namespace Marathon.Toolkit.Forms
                     checkBox.CheckedChanged += CheckBox_Properties_CheckedChanged_Group;
                 }
             }
+
+            // Update the live preview.
+            UpdatePreview();
         }
 
         /// <summary>
-        /// Updates the renamed preview.
+        /// Updates the preview with the current properties.
         /// </summary>
-        private void TextBoxDark_2_TextChanged(object sender, EventArgs e)
+        private void UpdatePreview()
         {
-            string @criteria = TextBoxDark_1.Text;
+            string @criteria = TextBoxDark_Criteria_1.Text;
 
-            if (!string.IsNullOrEmpty(@criteria))
+            foreach (ListViewItem node in ListViewDark_Preview.CheckedItems)
             {
-                foreach (ListViewItem node in ListViewDark_Preview.Items)
+                RenameModule @nodeModule = (RenameModule)node.Tag;
+
+                // Renamed string.
+                string renamed = string.Empty;
+
+                // Use prefix string.
+                if (CheckBox_CreatePrefix.CheckState == CheckState.Checked)
                 {
-                    RenameModule @nodeModule = (RenameModule)node.Tag;
+                    renamed = TextBoxDark_Criteria_2.Text + @nodeModule.Name;
+                }
 
-                    // Renamed string.
-                    string renamed = new Regex(@criteria, CheckBox_CaseSensitive.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
-                                        .Replace(@nodeModule.Name, TextBoxDark_2.Text);
+                // Use suffix string.
+                else if (CheckBox_CreateSuffix.CheckState == CheckState.Checked)
+                {
+                    // Just a quick condition so we can append both ways.
+                    renamed = CheckBox_AppendSuffixToExtension.Checked ?
+                              @nodeModule.Name + TextBoxDark_Criteria_2.Text :
+                              Path.GetFileNameWithoutExtension(@nodeModule.Name) + TextBoxDark_Criteria_2.Text + Path.GetExtension(@nodeModule.Name);
+                }
 
-                    // Change the renamed text only if there's a difference.
-                    if (renamed != @nodeModule.Name)
+                // Use text from the first TextBox.
+                else
+                {
+                    if (!string.IsNullOrEmpty(@criteria))
                     {
-                                                                     // Uppercase result.
-                        node.SubItems[1].Text = @nodeModule.Rename = CheckBox_MakeUppercase.Checked ?
-                                                                     renamed.ToUpper() :
-                                                                     
-                                                                     // Lowercase result.
-                                                                     CheckBox_MakeLowercase.Checked ? 
-                                                                     renamed.ToLower() :
-                                                                     
-                                                                     // Titlecase result.
-                                                                     CheckBox_MakeTitlecase.Checked ?
-                                                                     CultureInfo.DefaultThreadCurrentUICulture.TextInfo.ToTitleCase(renamed) :
-                                                                     
-                                                                     // Default result.
-                                                                     renamed;
+                        renamed = new Regex(@criteria, CheckBox_CaseSensitive.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
+                                     .Replace(@nodeModule.Name, TextBoxDark_Criteria_2.Text);
                     }
+                }
+
+                // Change the renamed text only if there's a difference.
+                if (@nodeModule.Name != renamed)
+                {
+                                                                 // Uppercase result.
+                    node.SubItems[1].Text = @nodeModule.Rename = CheckBox_MakeUppercase.Checked ?
+                                                                 renamed.ToUpper() :
+                                                                 
+                                                                 // Lowercase result.
+                                                                 CheckBox_MakeLowercase.Checked ? 
+                                                                 renamed.ToLower() :
+                                                                 
+                                                                 // Titlecase result.
+                                                                 CheckBox_MakeTitlecase.Checked ?
+                                                                 CultureInfo.DefaultThreadCurrentUICulture.TextInfo.ToTitleCase(renamed) :
+                                                                 
+                                                                 // Default result.
+                                                                 renamed;
+                }
+
+                // No difference, so reset.
+                else
+                {
+                    // Reset the renamed string.
+                    node.SubItems[1].Text = @nodeModule.Rename = string.Empty;
                 }
             }
         }
 
         /// <summary>
+        /// Updates the renamed preview when typed into.
+        /// </summary>
+        private void TextBoxDark_Criteria_TextChanged_Group(object sender, EventArgs e) => UpdatePreview();
+
+            /// <summary>
         /// Begins the renaming process.
         /// </summary>
         private void ButtonFlat_Rename_Click(object sender, EventArgs e)
