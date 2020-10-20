@@ -25,35 +25,30 @@
 
 using System.Drawing;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Toolkit.Helpers
+namespace Marathon.Toolkit.Components
 {
-    public class MarathonFloatWindow : FloatWindow
+    public partial class RibbonLayoutPanel : FlowLayoutPanel
     {
-        public MarathonFloatWindow(DockPanel dockPanel, DockPane pane) : base(dockPanel, pane)
+        public RibbonLayoutPanel()
         {
-            FormBorderStyle = FormBorderStyle.Sizable;
-            DoubleClickTitleBarToDock = false;
-            ShowInTaskbar = true;
-            Owner = null;
+            InitializeComponent();
+
+            WrapContents = false;
+
+            Dock = DockStyle.Fill;
+
+            Margin = Padding = Padding.Empty;
+
+            BackColor = Color.FromArgb(32, 32, 32);
         }
 
-        public MarathonFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds) : base(dockPanel, pane, bounds)
+        protected override void OnControlAdded(ControlEventArgs e)
         {
-            FormBorderStyle = FormBorderStyle.Sizable;
-            DoubleClickTitleBarToDock = false;
-            ShowInTaskbar = true;
-            Owner = null;
+            // Removes the margin for all controls.
+            e.Control.Margin = Padding.Empty;
+
+            base.OnControlAdded(e);
         }
-    }
-
-    public class MarathonFloatWindowFactory : DockPanelExtender.IFloatWindowFactory
-    {
-        public FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane)
-            => new MarathonFloatWindow(dockPanel, pane);
-
-        public FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds)
-            => new MarathonFloatWindow(dockPanel, pane, bounds);
     }
 }

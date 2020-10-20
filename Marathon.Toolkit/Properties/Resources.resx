@@ -189,6 +189,15 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   <data name="Placeholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Miscellaneous\Placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Ribbon_ExpandDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\buttons\ribbon_expanddown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ribbon_ExpandUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\buttons\ribbon_expandup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TabControlFlat_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\buttons\tabcontrolflat_close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Task_AddFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Tasks\Task_AddFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -269,5 +278,8 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   </data>
   <data name="UserControlForm_Restore_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VS2015DarkTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\miscellaneous\vs2015dark.vstheme.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

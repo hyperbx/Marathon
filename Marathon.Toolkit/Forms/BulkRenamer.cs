@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -344,12 +345,33 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Updates the preview with the current properties.
         /// </summary>
-        private void UpdatePreview()
+        private void UpdatePreview(ListViewItem item = null)
         {
             string @criteria = TextBoxDark_Criteria_1.Text;
 
-            foreach (ListViewItem node in ListViewDark_Preview.CheckedItems)
+            // Update by iteration.
+            if (item == null)
             {
+                foreach (ListViewItem node in ListViewDark_Preview.CheckedItems)
+                {
+                    UpdateItem(node);
+                }
+            }
+
+            // Update single item.
+            else
+            {
+                UpdateItem(item);
+            }
+
+            // Updates the renamed string for the input item.
+            void UpdateItem(ListViewItem node = null)
+            {
+                // This should never happen, but just in case...
+                if (node == null)
+                    return;
+
+                // Stored for easier reference, as usual.
                 RenameModule @nodeModule = (RenameModule)node.Tag;
 
                 // Renamed string.
@@ -411,11 +433,47 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
+        /// Resets the renamed string if the item was unchecked.
+        /// </summary>
+        private void ListViewDark_Preview_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Store the item for easier reference.
+            ListViewItem @checked = ListViewDark_Preview.Items[e.Index];
+
+            // Result is unchecked.
+            if (e.NewValue == CheckState.Unchecked)
+            {
+                // Reset the renamed string.
+                @checked.SubItems[1].Text = ((RenameModule)@checked.Tag).Rename = string.Empty;
+            }
+
+            // Result is checked.
+            else if (e.NewValue == CheckState.Checked)
+            {
+                // Update the renamed string.
+                UpdatePreview(@checked);
+            }
+        }
+
+        /// <summary>
+        /// Selects all items when doing CTRL + A.
+        /// </summary>
+        private void ListViewDark_Preview_KeyDown(object sender, KeyEventArgs e)
+        {
+            // CTRL + A shortcut.
+            if (e.Control && e.KeyCode == Keys.A)
+            {
+                // Selects everything in the list.
+                ListViewDark_Preview.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Selected = true);
+            }
+        }
+
+        /// <summary>
         /// Updates the renamed preview when typed into.
         /// </summary>
         private void TextBoxDark_Criteria_TextChanged_Group(object sender, EventArgs e) => UpdatePreview();
 
-            /// <summary>
+        /// <summary>
         /// Begins the renaming process.
         /// </summary>
         private void ButtonFlat_Rename_Click(object sender, EventArgs e)

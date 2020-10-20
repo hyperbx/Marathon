@@ -24,36 +24,45 @@
  */
 
 using System.Drawing;
+using System.Drawing.Text;
+using System.Drawing.Drawing2D;
+using System.ComponentModel;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
 
-namespace Marathon.Toolkit.Helpers
+namespace Marathon.Toolkit.Controls
 {
-    public class MarathonFloatWindow : FloatWindow
+    public partial class RibbonSeparator : UserControl
     {
-        public MarathonFloatWindow(DockPanel dockPanel, DockPane pane) : base(dockPanel, pane)
+        /// <summary>
+        /// The colour of the separator.
+        /// </summary>
+        [Category("Appearance"), Browsable(true), Description("The colour of the separator.")]
+        public Color SeparatorColour { get; set; } = Color.FromArgb(92, 92, 92);
+
+        public RibbonSeparator()
         {
-            FormBorderStyle = FormBorderStyle.Sizable;
-            DoubleClickTitleBarToDock = false;
-            ShowInTaskbar = true;
-            Owner = null;
+            InitializeComponent();
+
+            // Remove default margin.
+            Margin = Padding.Empty;
         }
 
-        public MarathonFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds) : base(dockPanel, pane, bounds)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            FormBorderStyle = FormBorderStyle.Sizable;
-            DoubleClickTitleBarToDock = false;
-            ShowInTaskbar = true;
-            Owner = null;
+            var drawer = e.Graphics;
+
+            drawer.SmoothingMode = SmoothingMode.HighQuality;
+            drawer.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            drawer.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            drawer.Clear(BackColor);
+
+            var separatorPen = new Pen(SeparatorColour, 1) { Alignment = PenAlignment.Outset };
+
+            // Draws the separator.
+            drawer.DrawLine(separatorPen, new Point(Width / 2, 9), new Point(Width / 2, Height));
+
+            // Set interpolation mode.
+            drawer.InterpolationMode = InterpolationMode.HighQualityBicubic;
         }
-    }
-
-    public class MarathonFloatWindowFactory : DockPanelExtender.IFloatWindowFactory
-    {
-        public FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane)
-            => new MarathonFloatWindow(dockPanel, pane);
-
-        public FloatWindow CreateFloatWindow(DockPanel dockPanel, DockPane pane, Rectangle bounds)
-            => new MarathonFloatWindow(dockPanel, pane, bounds);
     }
 }

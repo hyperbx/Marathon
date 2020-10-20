@@ -41,15 +41,17 @@ namespace Marathon.Toolkit.Components
             ReadOnly = true;
             TabStop = false;
 
-            Resize += delegate { HideCaret(Handle); };
-            MouseUp += delegate { HideCaret(Handle); };
-            MouseDown += delegate { HideCaret(Handle); };
-
             HideCaret(Handle);
         }
 
         protected override void OnGotFocus(EventArgs e) => HideCaret(Handle);
 
         protected override void OnEnter(EventArgs e) => HideCaret(Handle);
+
+        protected override void OnResize(EventArgs e) => HideCaret(Handle);
+
+        protected override void OnMouseUp(MouseEventArgs mevent) => HideCaret(Handle);
+
+        protected override void OnMouseDown(MouseEventArgs e) => HideCaret(Handle);
     }
 }

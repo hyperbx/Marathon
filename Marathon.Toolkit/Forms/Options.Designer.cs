@@ -112,6 +112,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.PictureBox PictureBox_Logo;
         private System.Windows.Forms.Label Label_Title;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Options;
-        private Controls.OptionsFieldStringType Options_GameExecutable;
+        private Marathon.Toolkit.Controls.OptionsFieldStringType Options_GameExecutable;
     }
 }

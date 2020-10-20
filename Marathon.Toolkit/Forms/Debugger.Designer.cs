@@ -33,6 +33,7 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_Settings = new System.Windows.Forms.GroupBox();
             this.TreeView_Properties = new System.Windows.Forms.TreeView();
             this.ButtonFlat_DirectX = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonFlat_Ribbon = new Marathon.Toolkit.Components.ButtonFlat();
             this.GroupBox_Settings.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,12 +98,29 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_DirectX.UseVisualStyleBackColor = false;
             this.ButtonFlat_DirectX.Click += new System.EventHandler(this.ButtonFlat_DirectX_Click);
             // 
+            // ButtonFlat_Ribbon
+            // 
+            this.ButtonFlat_Ribbon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonFlat_Ribbon.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ButtonFlat_Ribbon.FlatAppearance.BorderSize = 0;
+            this.ButtonFlat_Ribbon.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonFlat_Ribbon.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonFlat_Ribbon.Location = new System.Drawing.Point(271, 46);
+            this.ButtonFlat_Ribbon.Name = "ButtonFlat_Ribbon";
+            this.ButtonFlat_Ribbon.Size = new System.Drawing.Size(649, 23);
+            this.ButtonFlat_Ribbon.TabIndex = 7;
+            this.ButtonFlat_Ribbon.Text = "Ribbon Tests";
+            this.ButtonFlat_Ribbon.UseVisualStyleBackColor = false;
+            this.ButtonFlat_Ribbon.Click += new System.EventHandler(this.ButtonFlat_Ribbon_Click);
+            // 
             // Debugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.ClientSize = new System.Drawing.Size(933, 519);
+            this.Controls.Add(this.ButtonFlat_Ribbon);
             this.Controls.Add(this.ButtonFlat_DirectX);
             this.Controls.Add(this.GroupBox_Settings);
             this.Controls.Add(this.Label_Subtitle);
@@ -122,5 +140,6 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.GroupBox GroupBox_Settings;
         private System.Windows.Forms.TreeView TreeView_Properties;
         private Components.ButtonFlat ButtonFlat_DirectX;
+        private Components.ButtonFlat ButtonFlat_Ribbon;
     }
 }

@@ -54,6 +54,7 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_Debug = new System.Windows.Forms.ToolStripMenuItem();
             this.DockPanel_Main = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.Theme_VS2015Dark = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
+
             this.MenuStripDark_Main_View_BulkRenamer = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main.SuspendLayout();
             this.SuspendLayout();

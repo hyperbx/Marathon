@@ -26,7 +26,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Marathon.Toolkit.Helpers
+namespace Marathon.Toolkit.Renderers
 {
     /// <summary>
     /// ProfessionalColorTable palette used for common controls.
@@ -74,10 +74,7 @@ namespace Marathon.Toolkit.Helpers
         /// </summary>
         protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
         {
-            if (e.Item.Selected)
-                e.ArrowColor = Color.FromArgb(0, 122, 204);
-            else
-                e.ArrowColor = Color.FromArgb(153, 153, 153);
+            _ = e.Item.Selected ? e.ArrowColor = Color.FromArgb(0, 122, 204) : e.ArrowColor = Color.FromArgb(153, 153, 153);
 
             base.OnRenderArrow(e);
         }

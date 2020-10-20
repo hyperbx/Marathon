@@ -25,11 +25,13 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Security.Principal;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Marathon.Toolkit.Forms;
 
 namespace Marathon.Toolkit
@@ -96,17 +98,49 @@ namespace Marathon.Toolkit
             => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
         /// <summary>
+        /// Returns if the process is running in Visual Studio.
+        /// </summary>
+        ///
+        /// <remarks>
+        /// Not the most ideal solution, and probably the least efficient - but if it fixes nested controls
+        /// breaking Design View in all possible ways, I'm okay with it for now.
+        /// </remarks>
+        public static bool RunningInDesigner(Control ctrl = null)
+        {
+            // Should be the first result given when in Design View.
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+                return true;
+
+            // Simplest way to check outside of a control, if all else fails.
+            if (Assembly.GetExecutingAssembly().Location.Contains("VisualStudio"))
+                return true;
+
+            // Now we check if the input control has anything nested.
+            while (ctrl != null)
+            {
+                if (ctrl.Site != null && ctrl.Site.DesignMode)
+                    return true;
+
+                ctrl = ctrl.Parent;
+            }
+
+            // Guess we're runtime. ¯\_(ツ)_/¯
+            return false;
+        }
+
+        /// <summary>
         /// Redirects the user to the GitHub issues page.
         /// </summary>
         /// <param name="title">Title used for the issue.</param>
         /// <param name="body">Text automatically added to the issue.</param>
+        /// <param name="labels">Labels automatically added to the issue.</param>
         public static void InvokeFeedback(string title = "[Marathon.Toolkit]", string body = "", string labels = "")
         {
             // This doesn't look elegant, but it's the quickest way of doing it.
             Process.Start(Properties.Resources.URL_GitHubIssueNew +
-                          Uri.EscapeUriString("?title=" + (string.IsNullOrEmpty(title) ? "[Marathon.Toolkit]" : title) + " ") + // Issue Title
-                          (string.IsNullOrEmpty(body) ? string.Empty : $"&body={Uri.EscapeDataString(body)}") +                 // Issue Body
-                          Uri.EscapeUriString("&labels=" + (string.IsNullOrEmpty(labels) ? string.Empty : labels)));            // Issue Labels
+                          Uri.EscapeUriString("?title=" + (string.IsNullOrEmpty(title) ? "[Marathon.Toolkit]" : title) + " ") + // Issue Title.
+                          (string.IsNullOrEmpty(body) ? string.Empty : $"&body={Uri.EscapeDataString(body)}") +                 // Issue Body.
+                          Uri.EscapeUriString("&labels=" + (string.IsNullOrEmpty(labels) ? string.Empty : labels)));            // Issue Labels.
         }
     }
 }

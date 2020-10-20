@@ -69,7 +69,7 @@
             this.GroupBox_Criteria.Controls.Add(this.Label_TextBoxDark_Criteria_1);
             this.GroupBox_Criteria.Controls.Add(this.TextBoxDark_Criteria_1);
             this.GroupBox_Criteria.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_Criteria.Location = new System.Drawing.Point(12, 6);
+            this.GroupBox_Criteria.Location = new System.Drawing.Point(12, 7);
             this.GroupBox_Criteria.Name = "GroupBox_Criteria";
             this.GroupBox_Criteria.Size = new System.Drawing.Size(468, 92);
             this.GroupBox_Criteria.TabIndex = 0;
@@ -129,7 +129,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupBox_Properties.Controls.Add(this.FlowLayoutPanel_Properties);
             this.GroupBox_Properties.ForeColor = System.Drawing.SystemColors.Control;
-            this.GroupBox_Properties.Location = new System.Drawing.Point(12, 104);
+            this.GroupBox_Properties.Location = new System.Drawing.Point(12, 105);
             this.GroupBox_Properties.Name = "GroupBox_Properties";
             this.GroupBox_Properties.Size = new System.Drawing.Size(468, 103);
             this.GroupBox_Properties.TabIndex = 1;
@@ -275,7 +275,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_ListViewDark_Preview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Panel_ListViewDark_Preview.Controls.Add(this.ListViewDark_Preview);
-            this.Panel_ListViewDark_Preview.Location = new System.Drawing.Point(12, 220);
+            this.Panel_ListViewDark_Preview.Location = new System.Drawing.Point(12, 222);
             this.Panel_ListViewDark_Preview.Name = "Panel_ListViewDark_Preview";
             this.Panel_ListViewDark_Preview.Size = new System.Drawing.Size(468, 300);
             this.Panel_ListViewDark_Preview.TabIndex = 1;
@@ -303,6 +303,8 @@
             this.ListViewDark_Preview.TabIndex = 0;
             this.ListViewDark_Preview.UseCompatibleStateImageBehavior = false;
             this.ListViewDark_Preview.View = System.Windows.Forms.View.Details;
+            this.ListViewDark_Preview.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.ListViewDark_Preview_ItemCheck);
+            this.ListViewDark_Preview.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ListViewDark_Preview_KeyDown);
             // 
             // Column_Original
             // 
@@ -334,7 +336,7 @@
             this.ButtonFlat_Rename.FlatAppearance.BorderSize = 0;
             this.ButtonFlat_Rename.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonFlat_Rename.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Rename.Location = new System.Drawing.Point(12, 531);
+            this.ButtonFlat_Rename.Location = new System.Drawing.Point(12, 537);
             this.ButtonFlat_Rename.Name = "ButtonFlat_Rename";
             this.ButtonFlat_Rename.Size = new System.Drawing.Size(468, 23);
             this.ButtonFlat_Rename.TabIndex = 2;
@@ -347,7 +349,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ClientSize = new System.Drawing.Size(492, 566);
+            this.ClientSize = new System.Drawing.Size(492, 575);
             this.Controls.Add(this.ButtonFlat_Rename);
             this.Controls.Add(this.Panel_ListViewDark_Preview);
             this.Controls.Add(this.GroupBox_Properties);
@@ -355,7 +357,7 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(508, 605);
+            this.MinimumSize = new System.Drawing.Size(508, 614);
             this.Name = "BulkRenamer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Bulk Renamer";

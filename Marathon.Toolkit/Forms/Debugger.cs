@@ -79,5 +79,11 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void ButtonFlat_DirectX_Click(object sender, EventArgs e)
             => new ModelViewer().Show(DockPanel);
+
+        /// <summary>
+        /// Opens the ribbon testing window.
+        /// </summary>
+        private void ButtonFlat_Ribbon_Click(object sender, EventArgs e)
+            => new RibbonTests().Show(DockPanel);
     }
 }

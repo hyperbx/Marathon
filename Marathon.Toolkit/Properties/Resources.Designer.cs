@@ -304,6 +304,36 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Ribbon_ExpandDown {
+            get {
+                object obj = ResourceManager.GetObject("Ribbon_ExpandDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Ribbon_ExpandUp {
+            get {
+                object obj = ResourceManager.GetObject("Ribbon_ExpandUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TabControlFlat_Close {
+            get {
+                object obj = ResourceManager.GetObject("TabControlFlat_Close", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Task_AddFile {
             get {
                 object obj = ResourceManager.GetObject("Task_AddFile", resourceCulture);
@@ -567,6 +597,16 @@ namespace Marathon.Toolkit.Properties {
             get {
                 object obj = ResourceManager.GetObject("UserControlForm_Restore_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] VS2015DarkTheme {
+            get {
+                object obj = ResourceManager.GetObject("VS2015DarkTheme", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

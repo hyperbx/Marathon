@@ -31,8 +31,7 @@ namespace Marathon.Toolkit
 {
     public partial class MarathonMessageBoxForm : Form
     {
-        private int TextHeight = 0;
-        private MessageBoxButtons Buttons = MessageBoxButtons.OK;
+        private int TextHeight;
 
         public MarathonMessageBoxForm(string text,
                                       string caption = "Marathon",
@@ -43,7 +42,6 @@ namespace Marathon.Toolkit
 
             RichTextBox_Message.Text = text;
             Text = caption;
-            Buttons = buttons;
 
             if (RichTextBox_Message.Text.Length <= 65)
             {

@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+using System;
 using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
@@ -35,31 +36,40 @@ namespace Marathon.Toolkit.Components
         {
             InitializeComponent();
 
-            DrawItem += (drawItemSender, drawItemEventArgs) => drawItemEventArgs.DrawDefault = true;
+            OwnerDraw = true;
+        }
 
-            DrawColumnHeader += (drawColumnHeaderSender, drawColumnHeaderEventArgs) =>
-            {
-                // Shorten event arguments for consistency's sake.
-                DrawListViewColumnHeaderEventArgs e = drawColumnHeaderEventArgs;
+        protected override void OnDrawItem(DrawListViewItemEventArgs e)
+        {
+            // Draw the items.
+            e.DrawDefault = true;
 
-                // Draws the column background colour.
-                Color theme = Color.FromArgb(37, 37, 38);
-                e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds);
+            base.OnDrawItem(e);
+        }
 
-                // Draws the column header.
-                ColumnHeader column = Columns[e.ColumnIndex];
-                e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds.X, 0, 0, e.Bounds.Height);
-                e.Graphics.DrawLine(new Pen(Color.FromArgb(63, 63, 70)), e.Bounds.X, e.Bounds.Y, e.Bounds.Left, e.Bounds.Right);
+        protected override void OnDrawColumnHeader(DrawListViewColumnHeaderEventArgs e)
+        {
+            // Draws the column background colour.
+            Color theme = Color.FromArgb(37, 37, 38);
+            e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds);
 
-                // Draws the column text.
-                TextRenderer.DrawText(e.Graphics, column.Text, Font, new Point(e.Bounds.X + 4, 5), ForeColor);
-            };
+            // Draws the column header.
+            ColumnHeader column = Columns[e.ColumnIndex];
+            e.Graphics.FillRectangle(new SolidBrush(theme), e.Bounds.X, 0, 0, e.Bounds.Height);
+            e.Graphics.DrawLine(new Pen(Color.FromArgb(63, 63, 70)), e.Bounds.X, e.Bounds.Y, e.Bounds.Left, e.Bounds.Right);
 
-            Resize += delegate
-            {
-                if (Columns.Count != 0)
-                    Columns.Cast<ColumnHeader>().Last().Width = Width - Columns.Cast<ColumnHeader>().Select(x => x.Width).FirstOrDefault();
-            };
+            // Draws the column text.
+            TextRenderer.DrawText(e.Graphics, column.Text, Font, new Point(e.Bounds.X + 4, 5), ForeColor);
+
+            base.OnDrawColumnHeader(e);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            if (Columns.Count != 0)
+                Columns.Cast<ColumnHeader>().Last().Width = Width - Columns.Cast<ColumnHeader>().Select(x => x.Width).FirstOrDefault();
+
+            base.OnResize(e);
         }
     }
 }
