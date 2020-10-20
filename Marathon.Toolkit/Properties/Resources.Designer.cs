@@ -599,15 +599,5 @@ namespace Marathon.Toolkit.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] VS2015DarkTheme {
-            get {
-                object obj = ResourceManager.GetObject("VS2015DarkTheme", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

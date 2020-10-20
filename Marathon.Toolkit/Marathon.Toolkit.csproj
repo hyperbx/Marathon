@@ -370,7 +370,6 @@
       <DependentUpon>Workspace.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
-    <None Include="Resources\Miscellaneous\VS2015Dark.vstheme.gz" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Contributors.xml" />

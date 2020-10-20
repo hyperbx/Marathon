@@ -43,23 +43,26 @@ namespace Marathon.Toolkit
 		/// <param name="resource">Name of .NET resource.</param>
 		public static Bitmap LoadBitmapResource(string resource)
 		{
-			if (BitmapCache.ContainsKey(resource))
+            /* This entire function is skipped if we're running in Design View - takes too long to process
+               and slows things down horrifically, so it'll be easier and faster to return the input bitmap. */
+            bool designMode = Program.RunningInDesigner();
+
+			if (BitmapCache.ContainsKey(resource) && !designMode)
 			{
 				// Collect garbage from last bitmap instance.
 				GC.Collect(GC.GetGeneration(BitmapCache[resource]), GCCollectionMode.Forced);
 
 				return BitmapCache[resource];
             }
-            else
-            {
-				// Get the bitmap data from the name of the input resource.
-				Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
 
-				// Add current bitmap to the dictionary.
-				BitmapCache.Add(resource, fromResource);
+            // Get the bitmap data from the name of the input resource.
+			Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
 
-				return fromResource;
-			}
+			// Add current bitmap to the dictionary.
+            if (!designMode)
+			    BitmapCache.Add(resource, fromResource);
+
+			return fromResource;
         }
 
         /// <summary>

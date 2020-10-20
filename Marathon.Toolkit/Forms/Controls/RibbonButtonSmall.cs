@@ -52,8 +52,8 @@ namespace Marathon.Toolkit.Controls
         public Bitmap ButtonImage
         {
             get => PictureBox_Image.BackgroundImage == null ?
-                Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)) : // Return the placeholder icon.
-                new Bitmap(PictureBox_Image.BackgroundImage);
+                                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)) : // Return the placeholder icon.
+                                                       new Bitmap(PictureBox_Image.BackgroundImage);
 
             set => PictureBox_Image.BackgroundImage = value;
         }

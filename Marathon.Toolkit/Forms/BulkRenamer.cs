@@ -178,9 +178,7 @@ namespace Marathon.Toolkit.Forms
                                                      CheckBox_CreatePrefix;
 
                         // Rename the label based on sender.
-                        _ = sender == CheckBox_CreatePrefix ?
-                                      Label_TextBoxDark_Criteria_2.Text = "Prefix:" :
-                                      Label_TextBoxDark_Criteria_2.Text = "Suffix:";
+                        Label_TextBoxDark_Criteria_2.Text = sender == CheckBox_CreatePrefix ? "Prefix:" : "Suffix:";
 
                         // Disable the interfering boxes.
                         {

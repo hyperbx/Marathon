@@ -74,7 +74,7 @@ namespace Marathon.Toolkit.Renderers
         /// </summary>
         protected override void OnRenderArrow(ToolStripArrowRenderEventArgs e)
         {
-            _ = e.Item.Selected ? e.ArrowColor = Color.FromArgb(0, 122, 204) : e.ArrowColor = Color.FromArgb(153, 153, 153);
+            e.ArrowColor = e.Item.Selected ? Color.FromArgb(0, 122, 204) : Color.FromArgb(153, 153, 153);
 
             base.OnRenderArrow(e);
         }
