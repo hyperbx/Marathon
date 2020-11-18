@@ -1,4 +1,4 @@
-version: '0.0.1.{build} ~ {branch}'
+version: '0.0.1.{build}'
 
 branches:
   only:
@@ -19,7 +19,7 @@ skip_commits:
 assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
-  assembly_file_version: '0.0.1.{build}'
+  assembly_file_version: '{version}'
   assembly_informational_version: '$(APPVEYOR_REPO_COMMIT)'
   
 before_build:
