@@ -20,7 +20,7 @@ assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
   assembly_file_version: '0.0.1.{build}'
-  assembly_informational_version: '0.0.1-{build}-$(APPVEYOR_REPO_COMMIT.substring(0,7))'
+  assembly_informational_version: '0.0.1-{build}-$(APPVEYOR_REPO_COMMIT)'
   
 before_build:
 - cmd: nuget restore
