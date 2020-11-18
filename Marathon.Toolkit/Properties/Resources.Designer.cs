@@ -790,6 +790,15 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE.
+        /// </summary>
+        internal static string URL_GitHubLicense {
+            get {
+                return ResourceManager.GetString("URL_GitHubLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap UserControlForm_Close_Enabled {

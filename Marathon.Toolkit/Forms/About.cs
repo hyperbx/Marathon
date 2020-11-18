@@ -37,7 +37,7 @@ namespace Marathon.Toolkit.Forms
             InitializeComponent();
 
             // Set the version text.
-            Label_Version.Text = Program.GetAssemblyInformationalVersion();
+            Label_Version.Text = Program.GetFriendlyVersion();
 
             TreeView_Contributors.Nodes.AddRange(Resources.ParseContributorsToTreeNodeArray());
         }
@@ -47,25 +47,12 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void Label_Version_Click(object sender, EventArgs e)
         {
-            // Shortened for easier reference.
-            string shortVer = Program.InformationalVersion;
-
             // Don't bother if pending.
-            if (shortVer == Program.PendingVersion)
+            if (Program.InformationalVersion == Program.PendingVersion)
                 return;
 
-            // Bit of error checking before we run a substring on this.
-            if (!string.IsNullOrEmpty(shortVer) && shortVer.Length > 7)
-            {
-                string commitID = shortVer.Substring(shortVer.Length - 7);
-
-                // Dunno how this would ever occur, but just in case.
-                if (!string.IsNullOrEmpty(commitID))
-                {
-                    // Navigate to the commit page.
-                    Process.Start($"{Properties.Resources.URL_GitHubCommit}/{commitID}");
-                }
-            }
+            // Navigate to the commit page.
+            Process.Start($"{Properties.Resources.URL_GitHubCommit}/{Program.GetCommitID()}");
         }
 
         /// <summary>
@@ -76,7 +63,7 @@ namespace Marathon.Toolkit.Forms
             MarathonMessageBox.Show(Properties.Resources.About_License);
 
             // Navigate to the license page.
-            Process.Start("https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE");
+            Process.Start(Properties.Resources.URL_GitHubLicense);
         }
 
         /// <summary>
