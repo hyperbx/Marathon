@@ -1,4 +1,4 @@
-version: '0.0.1-{build} ~ {branch}'
+version: '0.0.1.{build} ~ {branch}'
 
 branches:
   only:
@@ -20,7 +20,7 @@ assembly_info:
   patch: true
   file: '**\AssemblyInfo.cs'
   assembly_file_version: '0.0.1.{build}'
-  assembly_informational_version: '0.0.1-{build}-$(APPVEYOR_REPO_COMMIT)'
+  assembly_informational_version: '$(APPVEYOR_REPO_COMMIT)'
   
 before_build:
 - cmd: nuget restore

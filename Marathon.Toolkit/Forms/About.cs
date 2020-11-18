@@ -47,12 +47,8 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void Label_Version_Click(object sender, EventArgs e)
         {
-            // Don't bother if pending.
-            if (Program.InformationalVersion == Program.PendingVersion)
-                return;
-
             // Navigate to the commit page.
-            Process.Start($"{Properties.Resources.URL_GitHubCommit}/{Program.GetCommitID()}");
+            Process.Start($"{Properties.Resources.URL_GitHubCommit}/{Program.CommitID}");
         }
 
         /// <summary>
