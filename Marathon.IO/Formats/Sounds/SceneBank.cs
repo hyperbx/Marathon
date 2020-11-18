@@ -36,7 +36,7 @@ namespace Marathon.IO.Formats.Sounds
 {
     /// <summary>
     /// <para>File base for the SBK format.</para>
-    /// <para>Used in SONIC THE HEDGEHOG for defining <a href="https://www.criware.com/">CriWare</a> sound effects in <see cref="CriWareSoundBank"/> files.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for defining <a href="https://www.criware.com/">CriWare</a> sound effects in <see cref="CueSheetBinary"/> files.</para>
     /// </summary>
     public class SceneBank : FileBase
     {

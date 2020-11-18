@@ -34,8 +34,9 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// <para>File base for the PATH format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for splines.</para>
     /// </summary>
-
-    // Old MaxScripts created by Paraxade0 were heavily used in the writing of this class.
+    ///
+    /// Old MaxScripts created by Paraxade0 were heavily used in the writing of this class.
+    ///
     public class PathSpline : FileBase
     {
         public class PathEntry

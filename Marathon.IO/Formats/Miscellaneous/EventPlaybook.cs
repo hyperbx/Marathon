@@ -32,6 +32,10 @@ using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
+    /// <summary>
+    /// <para>File base for the EPB format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for cutscene properties.</para>
+    /// </summary>
     public class EventPlaybook : FileBase
     {
         public class Event

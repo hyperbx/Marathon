@@ -5,6 +5,10 @@ using Marathon.IO.Headers;
 
 namespace Marathon.IO.Formats.Miscellaneous
 {
+    /// <summary>
+    /// <para>File base for a BIN format.</para>
+    /// <para>Used in SONIC THE HEDGEHOG for explosion properties.</para>
+    /// </summary>
     public class ExplosionPackage : FileBase
     {
         // TODO: Understand the unknowns, clean up code.

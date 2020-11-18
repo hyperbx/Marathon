@@ -29,7 +29,7 @@ namespace Marathon.IO.Formats.Sounds
     /// <para>File base for the CSB format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://www.criware.com/">CriWare</a> ADX sounds.</para>
     /// </summary>
-    class CriWareSoundBank : FileBase
+    class CueSheetBinary : FileBase
     {
         public const string Extension = ".csb";
 
