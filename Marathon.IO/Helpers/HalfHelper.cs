@@ -83,6 +83,7 @@ namespace Marathon.IO.Helpers
 
             return exponentTable;
         }
+
         private static ushort[] GenerateOffsetTable()
         {
             ushort[] offsetTable = new ushort[64];
