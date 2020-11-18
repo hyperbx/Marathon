@@ -5,7 +5,8 @@
   <Type Extension=".*" Category="Any">All files</Type>
   <Type Extension=".arc" Category="Archives">U8 Archive</Type>
   <Type Extension=".bin" Category="Miscellaneous">Collision|Common Package|Explosion Package|Path Package|Save Data</Type>
-  <Type Extension=".csb" Category="Sounds">CriWare Sound Bank</Type>
+  <Type Extension=".cpk" Category="Archives">Cri Pack File</Type>
+  <Type Extension=".csb" Category="Sounds">Cue Sheet Binary</Type>
   <Type Extension=".ddm" Category="Textures">DirectDraw Matrix</Type>
   <Type Extension=".dds" Category="Textures">DirectDraw Surface</Type>
   <Type Extension=".epb" Category="Miscellaneous">Event Playbook</Type>
@@ -22,6 +23,4 @@
   <Type Extension=".rab" Category="Meshes">Reflection Zone</Type>
   <Type Extension=".sbk" Category="Sounds">Scene Bank</Type>
   <Type Extension=".set" Category="Placement">Object Placement</Type>
-  <Type Extension=".wad" Category="Archives">WADH Archive</Type>
-  <Type Extension=".wiiu.stream" Category="Archives">Boom Archive</Type>
 </Marathon>

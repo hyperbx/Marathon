@@ -23,11 +23,11 @@
  * SOFTWARE.
  */
 
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class RibbonTests : DockContent
+    public partial class RibbonTests : MarathonDockContent
     {
         public RibbonTests()
         {

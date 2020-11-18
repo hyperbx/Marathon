@@ -23,18 +23,12 @@
  * SOFTWARE.
  */
 
-using System;
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class ModelViewer : DockContent
+    public partial class ModelViewer : MarathonDockContent
     {
         public ModelViewer() => InitializeComponent();
-
-        private void ModelViewer_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

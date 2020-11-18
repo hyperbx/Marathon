@@ -23,17 +23,15 @@
  * SOFTWARE.
  */
 
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class Options : DockContent
+    public partial class Options : MarathonDockContent
     {
         public Options()
         {
             InitializeComponent();
-
-            Options_GameExecutable.OptionProperty = typeof(Settings).GetProperty(nameof(Settings.Marathon.GameExecutable));
         }
     }
 }

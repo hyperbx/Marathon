@@ -1,6 +1,3 @@
-using Marathon.Toolkit.Helpers;
-using System.Windows.Forms;
-
 namespace Marathon.Toolkit.Forms
 {
     partial class ModelViewer
@@ -42,10 +39,8 @@ namespace Marathon.Toolkit.Forms
             this.ClientSize = new System.Drawing.Size(933, 519);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModelViewer";
             this.Text = "Model Viewer";
-            this.Load += new System.EventHandler(this.ModelViewer_Load);
             this.ResumeLayout(false);
 
         }

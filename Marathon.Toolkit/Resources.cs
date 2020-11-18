@@ -24,6 +24,7 @@
  */
 
 using System;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Drawing;
@@ -33,36 +34,36 @@ using System.Collections.Generic;
 
 namespace Marathon.Toolkit
 {
-	class Resources
-	{
-		private static Dictionary<string, Bitmap> BitmapCache = new Dictionary<string, Bitmap>();
+    class Resources
+    {
+        private static Dictionary<string, Bitmap> BitmapCache = new Dictionary<string, Bitmap>();
 
-		/// <summary>
-		/// Loads and caches a Bitmap from .NET resources.
-		/// </summary>
-		/// <param name="resource">Name of .NET resource.</param>
-		public static Bitmap LoadBitmapResource(string resource)
-		{
+        /// <summary>
+        /// Loads and caches a Bitmap from .NET resources.
+        /// </summary>
+        /// <param name="resource">Name of .NET resource.</param>
+        public static Bitmap LoadBitmapResource(string resource)
+        {
             /* This entire function is skipped if we're running in Design View - takes too long to process
                and slows things down horrifically, so it'll be easier and faster to return the input bitmap. */
             bool designMode = Program.RunningInDesigner();
 
-			if (BitmapCache.ContainsKey(resource) && !designMode)
-			{
-				// Collect garbage from last bitmap instance.
-				GC.Collect(GC.GetGeneration(BitmapCache[resource]), GCCollectionMode.Forced);
+            if (BitmapCache.ContainsKey(resource) && !designMode)
+            {
+                // Collect garbage from last bitmap instance.
+                GC.Collect(GC.GetGeneration(BitmapCache[resource]), GCCollectionMode.Forced);
 
-				return BitmapCache[resource];
+                return BitmapCache[resource];
             }
 
             // Get the bitmap data from the name of the input resource.
-			Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
+            Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
 
-			// Add current bitmap to the dictionary.
+            // Add current bitmap to the dictionary.
             if (!designMode)
-			    BitmapCache.Add(resource, fromResource);
+                BitmapCache.Add(resource, fromResource);
 
-			return fromResource;
+            return fromResource;
         }
 
         /// <summary>
@@ -86,6 +87,30 @@ namespace Marathon.Toolkit
             }
 
             return contributors.ToArray();
+        }
+
+        /// <summary>
+        /// Parses the name of the file type by extension.
+        /// </summary>
+        public static string ParseFriendlyNameFromFileExtension(string resource, string fileName)
+        {
+            // Load the resource.
+            XDocument xml = XDocument.Parse(resource);
+
+            // Full extension parsed from the file name.
+            string extension = Path.GetExtension(fileName);
+
+            foreach (XElement supportedFileTypesElem in xml.Root.Elements("Type"))
+            {
+                if (supportedFileTypesElem.Attribute("Extension").Value == extension)
+                {
+                    // Return the friendly name if there are no splits - otherwise, return 'Common' as the type is used frequently.
+                    return supportedFileTypesElem.Value.Split('|').Length == 1 ? supportedFileTypesElem.Value : "Common Supported Type";
+                }
+            }
+
+            // Return the extension.
+            return (string.IsNullOrEmpty(extension) ? string.Empty : $"{extension.ToUpper().Substring(1)} ") + "File";
         }
 
         /// <summary>

@@ -198,22 +198,24 @@ namespace Marathon.IO
                 return ReadInt32();
             else if (type == typeof(uint))
                 return ReadUInt32();
-            else if (type == typeof(float))
-                return ReadSingle();
             else if (type == typeof(long))
                 return ReadInt64();
             else if (type == typeof(ulong))
                 return ReadUInt64();
+            else if (type == typeof(Half))
+                return ReadHalf();
+            else if (type == typeof(float))
+                return ReadSingle();
             else if (type == typeof(double))
                 return ReadDouble();
             else if (type == typeof(Vector2))
                 return ReadVector2();
             else if (type == typeof(Vector3))
                 return ReadVector3();
-            else if (type == typeof(Quaternion))
-                return ReadQuaternion();
             else if (type == typeof(Vector4))
                 return ReadVector4();
+            else if (type == typeof(Quaternion))
+                return ReadQuaternion();
             else if (type == typeof(string))
                 return ReadString();
 
@@ -264,6 +266,12 @@ namespace Marathon.IO
 
             return (sbyte)@sbyte;
         }
+
+        /// <summary>
+        /// Reads two bytes from the current position as a half-precision floating point value.
+        /// </summary>
+        public Half ReadHalf()
+            => Half.ToHalf(ReadUInt16());
 
         /// <summary>
         /// Reads an Int16 from the current position.

@@ -26,11 +26,26 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Marathon.IO.Helpers
 {
     public class StringHelper
     {
+        /// <summary>
+        /// Appends text to the file name before the extension.
+        /// </summary>
+        /// <param name="fileName">Full file name.</param>
+        /// <param name="text">Text to append.</param>
+        public static string AppendToFileName(string fileName, string text)
+            => Path.GetFileNameWithoutExtension(fileName) + text + GetFullExtension(fileName);
+
+        /// <summary>
+        /// Returns the full extension from the file name.
+        /// </summary>
+        public static string GetFullExtension(string fileName)
+            => Regex.Match(fileName, @"\..*").Value;
+
         /// <summary>
         /// Returns the full path without an extension.
         /// </summary>

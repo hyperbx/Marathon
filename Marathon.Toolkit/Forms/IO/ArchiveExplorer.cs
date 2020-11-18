@@ -28,16 +28,17 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats;
 using Marathon.IO.Helpers;
 using Marathon.Toolkit.Helpers;
 using Marathon.Toolkit.Dialogs;
+using Marathon.Toolkit.Controls;
 using Marathon.Toolkit.Components;
+using ComponentFactory.Krypton.Ribbon;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class ArchiveExplorer : DockContent
+    public partial class ArchiveExplorer : MarathonDockContent
     {
         private List<ListViewItem> _Clipboard = new List<ListViewItem>();
 
@@ -70,8 +71,11 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitialiseDirectoryTree()
         {
+            // Store the current expanded nodes before reloading...
+            var storedExpansionState = KryptonTreeView_Explorer.GetExpandedNodesState();
+
             // Clear the TreeView.
-            TreeView_Explorer.Nodes.Clear();
+            KryptonTreeView_Explorer.Nodes.Clear();
 
             // Create the root node.
             TreeNode rootNode = new TreeNode
@@ -84,7 +88,7 @@ namespace Marathon.Toolkit.Forms
             rootNode.Tag = LoadedArchive.Data.Count == 0 ? new ArchiveDirectory(rootNode.Text) { IsRoot = true } : LoadedArchive.Data[0];
 
             // Add the root node by the name of the archive.
-            TreeView_Explorer.Nodes.Add(rootNode);
+            KryptonTreeView_Explorer.Nodes.Add(rootNode);
 
             // Set active node to root.
             _ActiveNode = rootNode;
@@ -120,6 +124,9 @@ namespace Marathon.Toolkit.Forms
 
             // Load the files into the ListView.
             InitialiseFileItems(rootNode.Tag);
+
+            // Restore expanded nodes.
+            KryptonTreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
         }
 
         /// <summary>
@@ -141,7 +148,7 @@ namespace Marathon.Toolkit.Forms
                         entry.Name,
 
                         // Type.
-                        $"{Path.GetExtension(entry.Name).ToUpper()} File".Substring(1),
+                        Resources.ParseFriendlyNameFromFileExtension(Properties.Resources.FileTypes, entry.Name),
 
                         // Size.
                         StringHelper.ByteLengthToDecimalString(entry.UncompressedSize)
@@ -167,14 +174,18 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
+        /// Returns whether the input file name matches a file that exists in the active node.
+        /// </summary>
+        private bool ConflictingNameExistsInActiveNode(string name)
+            => ((ArchiveDirectory)_ActiveNode.Tag).Data.Any(x => x.Name == name);
+
+        /// <summary>
         /// Returns whether the file exists or not, with added warning.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         private bool ReplaceFileNode(string fileName)
         {
-            ArchiveDirectory dir = (ArchiveDirectory)_ActiveNode.Tag;
-
-            if (dir.Data.Any(x => x.Name == fileName))
+            if (ConflictingNameExistsInActiveNode(fileName))
             {
                 DialogResult overwrite =
                     MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - would you like to replace it?",
@@ -183,35 +194,66 @@ namespace Marathon.Toolkit.Forms
                 if (overwrite == DialogResult.Yes)
                 {
                     // Remove any duplicates that somehow managed to get in.
-                    dir.Data.RemoveAll(x => x.Name == fileName);
+                    ((ArchiveDirectory)_ActiveNode.Tag).Data.RemoveAll(x => x.Name == fileName);
 
                     // Increase the edit count.
                     _EditCount++;
 
+                    // Overwrite the file.
                     return true;
                 }
+
+                // Skip adding this file.
                 else
                     return false;
             }
+
+            // No duplicate found, proceed as normal.
             else
                 return true;
         }
 
         /// <summary>
+        /// Returns the name with a duplicate indicator.
+        /// </summary>
+        private string AppendDuplicateIdentifier(string fileName)
+        {
+            string common = " - Copy",
+                   dupe = StringHelper.AppendToFileName(fileName, common);
+
+            // Cached result for the while loop when it occurs.
+            string cache = dupe;
+
+            int i = 1; // While loop iterations.
+
+            // Recurse adding identifiers until there's no duplicate.
+            while (ConflictingNameExistsInActiveNode(cache))
+            {
+                // Append iteration count, like Windows.
+                cache = StringHelper.AppendToFileName(dupe, $" ({i})");
+
+                i++; // Increase iteration count.
+            }
+
+            return cache;
+        }
+
+        /// <summary>
         /// Adds a file to the currently active node from a path.
         /// </summary>
-        private void AddFile(string file)
+        private void AddFile(string file, bool pasted = false)
         {
             string fileName = Path.GetFileName(file);
 
-            // Ensures the file doesn't exist already.
-            if (!ReplaceFileNode(fileName))
+            /* Ensures the file doesn't exist already;
+               also checking if the file was pasted so we can add a copy indicator. */
+            if (!pasted && !ReplaceFileNode(fileName))
                 return;
 
             // Create a new data entry using the location from the input file.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile()
             {
-                Name = fileName,
+                Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
                 Location = file,
                 UncompressedSize = (uint)new FileInfo(file).Length,
                 Parent = (ArchiveDirectory)_ActiveNode.Tag
@@ -227,14 +269,15 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Adds a file to the currently active node from a ListViewItem.
         /// </summary>
-        private void AddFile(ListViewItem item)
+        private void AddFile(ListViewItem item, bool pasted = false)
         {
             ArchiveFile file = (ArchiveFile)item.Tag;
 
             string fileName = file.Name;
 
-            // Ensures the file doesn't exist already.
-            if (!ReplaceFileNode(fileName))
+            /* Ensures the file doesn't exist already;
+               also checking if the file was pasted so we can add a copy indicator. */
+            if (!pasted && !ReplaceFileNode(fileName))
                 return;
 
             byte[] data = file.Data;
@@ -242,6 +285,7 @@ namespace Marathon.Toolkit.Forms
             // Create a new data entry using the bytes from the input file.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
             {
+                Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
                 UncompressedSize = (uint)data.Length,
                 Parent = (ArchiveDirectory)_ActiveNode.Tag
             });
@@ -253,10 +297,40 @@ namespace Marathon.Toolkit.Forms
             _EditCount++;
         }
 
+        private void AddFolder(TreeNode node, ArchiveDirectory directory)
+        {
+            // Create new directory node.
+            TreeNode dirNode = new TreeNode()
+            {
+                Text = AppendDuplicateIdentifier("New folder")
+            };
+
+            // Set the tag to the new directory.
+            dirNode.Tag = new ArchiveDirectory(dirNode.Text);
+
+            // Add node to the TreeView.
+            node.Nodes.Add(dirNode);
+
+            // Add node tag to the archive as a directory.
+            directory.Data.Add((ArchiveDirectory)dirNode.Tag);
+
+            // Select the new node.
+            KryptonTreeView_Explorer.SelectedNode = dirNode;
+
+            // Enter edit mode.
+            dirNode.BeginEdit();
+
+            // Navigates to the selected node if valid.
+            InitialiseFileItems(dirNode.Tag);
+
+            // Increase the edit count.
+            _EditCount++;
+        }
+
         /// <summary>
         /// Copies the selected files to the clipboard.
         /// </summary>
-        private void CopyFiles()
+        private void CopyFiles(bool cut = false)
         {
             // Clear the clipboard so we don't have tons of items left over.
             _Clipboard.Clear();
@@ -267,9 +341,16 @@ namespace Marathon.Toolkit.Forms
             // Add all ListViewItems to the clipboard.
             foreach (ListViewItem item in ListViewDark_Explorer.SelectedItems)
             {
+                // Set the format image to a more transparent version.
+                if (cut)
+                    item.ImageKey = "PendingFile";
+
                 // Add item to clipboard.
                 _Clipboard.Add(item);
             }
+
+            // Enable the Paste button if files were copied successfully.
+            KryptonRibbonGroupButton_Clipboard_Paste.Enabled = _Clipboard.Count != 0;
         }
 
         /// <summary>
@@ -280,9 +361,24 @@ namespace Marathon.Toolkit.Forms
             // Add all clipboard items to the active node.
             foreach (ListViewItem item in _Clipboard)
             {
+                /* Easiest way to check and remove files pending a paste;
+                   normally wouldn't accept something like a string comparison, but I'd rather do this
+                   than convolute things further with another class for enum states. */
+                if (item.ImageKey == "PendingFile")
+                {
+                    // TODO: This is ugly - make this into a function so we can refer back to this another time.
+                    ((ArchiveDirectory)((ArchiveFile)item.Tag).Parent).Data.Remove((ArchiveFile)item.Tag);
+                }
+
                 // Add to node from clipboard.
-                AddFile(item);
+                AddFile(item, true);
             }
+
+            // Remove all pending files from the clipboard using the same condition as earlier.
+            _Clipboard.RemoveAll(x => x.ImageKey == "PendingFile");
+
+            // Validate enabled state if the files were cut.
+            KryptonRibbonGroupButton_Clipboard_Paste.Enabled = _Clipboard.Count != 0;
         }
 
         /// <summary>
@@ -292,12 +388,6 @@ namespace Marathon.Toolkit.Forms
         {
             // Remove the file entry from the directory entry.
             ((ArchiveDirectory)_ActiveNode.Tag).Data.Remove((ArchiveFile)file.Tag);
-
-            // Remove the item from the active node.
-            file.Remove();
-
-            // Refresh current node.
-            InitialiseFileItems(_ActiveNode.Tag);
 
             // Increase the edit count.
             _EditCount++;
@@ -313,9 +403,8 @@ namespace Marathon.Toolkit.Forms
 
             /* Change the message based on the amount of selected items.
                Yes, we are just copying Windows. */
-            string pluraliseMessage = selectedCount == 1 ?
-                                      "Are you sure that you want to permanently delete this file?" :
-                                      $"Are you sure that you want to permanently delete these {selectedCount} items?";
+            string pluraliseMessage = "Are you sure that you want to permanently delete " +
+                                      (selectedCount == 1 ? $"'{ListViewDark_Explorer.SelectedItems[0].Text}?'" : $"these {selectedCount} items?");
 
             DialogResult confirmMultiDelete =
                 MarathonMessageBox.Show(pluraliseMessage,
@@ -329,6 +418,9 @@ namespace Marathon.Toolkit.Forms
                 {
                     DeleteFile(selected);
                 }
+
+                // Refresh current node.
+                InitialiseFileItems(_ActiveNode.Tag);
             }
         }
 
@@ -345,7 +437,7 @@ namespace Marathon.Toolkit.Forms
             if (confirmFolderDelete == DialogResult.Yes)
             {
                 // Store the directory and its parent.
-                var dir = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag;
+                var dir = (ArchiveData)KryptonTreeView_Explorer.SelectedNode.Tag;
                 var parent = (ArchiveDirectory)dir.Parent;
 
                 // Remove the item from the parent.
@@ -365,17 +457,20 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InvokeRename()
         {
-            if (ListViewDark_Explorer.SelectedItems.Count <= 1)
+            // Stored for easier reference.
+            int commonCount = ListViewDark_Explorer.SelectedItems.Count;
+
+            if (commonCount == 1)
             {
                 // Enter label edit mode.
                 ListViewDark_Explorer.SelectedItems[0].BeginEdit();
             }
-            else
+            else if (commonCount > 1)
             {
-                // Launch Bulk Renamer with the selected items.
+                // Launch Bulk Renamer with the ListView control.
                 new BulkRenamer(ListViewDark_Explorer).ShowDialog();
 
-                // Refresh current node.
+                // Refresh current node upon closing.
                 InitialiseFileItems(_ActiveNode.Tag);
 
                 // Increase the edit count.
@@ -388,8 +483,8 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void RenameFile(ListViewItem file, string newName)
         {
-            // Change ListViewItem and ArchiveData text.
-            file.Text = ((ArchiveData)file.Tag).Name = newName;
+            // Change ArchiveData text and update the ListViewItem text.
+            file.Text = ((ArchiveData)file.Tag).Name = newName.TrimEnd('.');
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
@@ -403,10 +498,10 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void RenameFolder(TreeNode dir, string newName)
         {
-            // Change TreeNode and ArchiveData text.
+            // Change ArchiveData text and update the TreeNode text.
             dir.Text = ((ArchiveData)dir.Tag).Name = newName;
 
-            // Refresh the TreeView.
+            // Reload the TreeView.
             InitialiseDirectoryTree();
 
             // Increase the edit count.
@@ -414,27 +509,61 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Sets the new name of the file after editing the label.
+        /// Extracts a single file to the requested directory.
         /// </summary>
-        private void ListViewDark_Explorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        private string ExtractFile(ArchiveFile file)
         {
-            if (!string.IsNullOrEmpty(e.Label))
-                RenameFile(ListViewDark_Explorer.Items[e.Item], e.Label);
+            SaveFileDialog saveDialog = new SaveFileDialog
+            {
+                Title = "Extract",
+                Filter = Program.FileTypes[".*"],
+                FileName = file.Name
+            };
+
+            // Extract single selected item.
+            if (saveDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Write the file to the location.
+                File.WriteAllBytes(saveDialog.FileName, file.Decompress(LoadedArchive.Location, file));
+
+                // Return the saved location.
+                return saveDialog.FileName;
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
         /// Ensures the node isn't root before editing the label.
         /// </summary>
-        private void TreeView_Explorer_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
+        private void KryptonTreeView_Explorer_BeforeLabelEdit(object sender, NodeLabelEditEventArgs e)
             => e.CancelEdit = e.Node.Parent == null;
 
         /// <summary>
         /// Sets the new name of the directory after editing the label.
         /// </summary>
-        private void TreeView_Explorer_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        private void KryptonTreeView_Explorer_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
+            /* This is rather counter-intuitive, but it allows
+               the node to be updated with the ArchiveData... I hate everything. */
+            e.CancelEdit = true;
+
+            // Rename the folder if the string is populated.
             if (!string.IsNullOrEmpty(e.Label))
                 RenameFolder(e.Node, e.Label);
+        }
+
+        /// <summary>
+        /// Sets the new name of the file after editing the label.
+        /// </summary>
+        private void ListViewDark_Explorer_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            // See above.
+            e.CancelEdit = true;
+
+            // Rename the file if the string is populated, removing any trailing extension markers.
+            if (!string.IsNullOrEmpty(e.Label))
+                RenameFile(ListViewDark_Explorer.Items[e.Item], e.Label);
         }
 
         /// <summary>
@@ -449,7 +578,7 @@ namespace Marathon.Toolkit.Forms
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     // Add context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_AddFile)), delegate
+                    menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_AddFile)), delegate
                     {
                         OpenFileDialog openDialog = new OpenFileDialog
                         {
@@ -467,7 +596,7 @@ namespace Marathon.Toolkit.Forms
                     }));
 
                     // Import context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_OpenFolder)), delegate
+                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_OpenFolder)), delegate
                     {
                         OpenFolderDialog folderDialog = new OpenFolderDialog
                         {
@@ -491,7 +620,7 @@ namespace Marathon.Toolkit.Forms
                     // Extract context menu item.
                     if (ListViewDark_Explorer.Items.Count != 0)
                     {
-                        menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Export)), delegate
+                        menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Export)), delegate
                         {
                             int count = ListViewDark_Explorer.SelectedItems.Count;
 
@@ -503,21 +632,7 @@ namespace Marathon.Toolkit.Forms
                                 // Just a single item was selected.
                                 case 1:
                                 {
-                                    // Store file for later.
-                                    var file = (ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag;
-
-                                    SaveFileDialog saveDialog = new SaveFileDialog
-                                    {
-                                        Title = "Extract",
-                                        Filter = "All files (*.*)|*.*",
-                                        FileName = file.Name
-                                    };
-
-                                    // Extract single selected item.
-                                    if (saveDialog.ShowDialog() == DialogResult.OK)
-                                    {
-                                        File.WriteAllBytes(saveDialog.FileName, file.Decompress(LoadedArchive.Location, file));
-                                    }
+                                    ExtractFile((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag);
 
                                     break;
                                 }
@@ -561,7 +676,7 @@ namespace Marathon.Toolkit.Forms
                     /* Paste context menu item - this'll be used later on,
                        just storing here before we determine when. Its appearance will be based on clipboard population. */
                     ToolStripMenuItem ctxPaste = new ToolStripMenuItem("Paste",
-                                                 Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Paste)),
+                                                 Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Paste)),
                                                  delegate { PasteFiles(); });
 
                     // Get the selected item at the current X/Y position.
@@ -577,7 +692,7 @@ namespace Marathon.Toolkit.Forms
 
                         // Copy context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Copy",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Copy)),
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Copy)),
                                        delegate { CopyFiles(); }));
 
                         // Add the Paste option if the clipboard is populated.
@@ -589,39 +704,13 @@ namespace Marathon.Toolkit.Forms
                         menu.Items.Add(new ToolStripSeparator());
 
                         // Delete context menu item.
-                        menu.Items.Add(new ToolStripMenuItem("Delete", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)), delegate
-                        {
-                            switch (ListViewDark_Explorer.SelectedItems.Count)
-                            {
-                                // Just a single item was selected.
-                                case 1:
-                                {
-                                    DialogResult confirmSingleDelete =
-                                        MarathonMessageBox.Show($"Are you sure that you want to permanently delete '{selected.Text}?'",
-                                                                "Delete File", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                                    // Delete single selected item.
-                                    if (confirmSingleDelete == DialogResult.Yes)
-                                    {
-                                        DeleteFile(selected);
-                                    }
-
-                                    break;
-                                }
-
-                                // More than one item was selected.
-                                default:
-                                {
-                                    DeleteFiles();
-
-                                    break;
-                                }
-                            }
-                        }));
+                        menu.Items.Add(new ToolStripMenuItem("Delete",
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_RemoveFile)),
+                                       delegate { DeleteFiles(); }));
 
                         // Rename context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Rename",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Rename)),
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Rename)),
                                        delegate { InvokeRename(); }));
                     }
 
@@ -650,10 +739,11 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Perform tasks upon clicking a TreeNode.
         /// </summary>
-        private void TreeView_Explorer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void KryptonTreeView_Explorer_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            // Fucking WinForms...
-            TreeView_Explorer.SelectedNode = e.Node;
+            /* WinForms deselects the node for whatever reason when opening up the context menu,
+               so we're forcing it to be selected again... */
+            KryptonTreeView_Explorer.SelectedNode = e.Node;
 
             // Store the directory for later.
             ArchiveDirectory dir = (ArchiveDirectory)e.Node.Tag;
@@ -665,38 +755,12 @@ namespace Marathon.Toolkit.Forms
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     // Add context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_AddFile)), delegate
-                    {
-                        // Create new directory node.
-                        TreeNode dirNode = new TreeNode()
-                        {
-                            Text = "New folder"
-                        };
-
-                        // Set the tag to the new directory.
-                        dirNode.Tag = new ArchiveDirectory(dirNode.Text);
-
-                        // Add node to the TreeView.
-                        e.Node.Nodes.Add(dirNode);
-
-                        // Add node tag to the archive as a directory.
-                        dir.Data.Add((ArchiveDirectory)dirNode.Tag);
-
-                        // Select the new node.
-                        TreeView_Explorer.SelectedNode = dirNode;
-
-                        // Enter edit mode.
-                        dirNode.BeginEdit();
-
-                        // Navigates to the selected node if valid.
-                        InitialiseFileItems(dirNode.Tag);
-
-                        // Increase the edit count.
-                        _EditCount++;
-                    }));
+                    menu.Items.Add(new ToolStripMenuItem("Add",
+                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_AddFile)),
+                                   delegate { AddFolder(e.Node, dir); }));
 
                     // Import context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_OpenFolder)), delegate
+                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_OpenFolder)), delegate
                     {
                         OpenFolderDialog folderDialog = new OpenFolderDialog
                         {
@@ -720,7 +784,7 @@ namespace Marathon.Toolkit.Forms
                             // Set the tag to the new directory.
                             dirNode.Tag = new ArchiveDirectory(dirNode.Text)
                             {
-                                Parent = (ArchiveDirectory)TreeView_Explorer.SelectedNode.Tag
+                                Parent = (ArchiveDirectory)KryptonTreeView_Explorer.SelectedNode.Tag
                             };
 
                             // Add the selected path to the new node.
@@ -733,7 +797,7 @@ namespace Marathon.Toolkit.Forms
                             dir.Data.Add((ArchiveDirectory)dirNode.Tag);
 
                             // Select the new node.
-                            TreeView_Explorer.SelectedNode = dirNode;
+                            KryptonTreeView_Explorer.SelectedNode = dirNode;
 
                             // Enter edit mode.
                             dirNode.BeginEdit();
@@ -752,12 +816,12 @@ namespace Marathon.Toolkit.Forms
 
                     // Extract context menu item.
                     menu.Items.Add(new ToolStripMenuItem("Extract",
-                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Export)),
+                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Export)),
                                    delegate { ExtractDialog(dir); }));
 
                     // Delete context menu item.
                     menu.Items.Add(new ToolStripMenuItem("Delete",
-                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_RemoveFile)),
+                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_RemoveFile)),
                                    delegate { DeleteFolder(); }));
 
                     // If the parent is null, we're at root and shouldn't allow renaming.
@@ -765,7 +829,7 @@ namespace Marathon.Toolkit.Forms
                     {
                         // Rename context menu item.
                         menu.Items.Add(new ToolStripMenuItem("Rename",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Rename)),
+                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Rename)),
                                        delegate { e.Node.BeginEdit(); }));
                     }
 
@@ -780,7 +844,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Perform tasks upon double clicking a TreeNode.
         /// </summary>
-        private void TreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void KryptonTreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             switch (e.Button)
             {
@@ -804,9 +868,57 @@ namespace Marathon.Toolkit.Forms
             // Navigates to the selected node if valid.
             InitialiseFileItems(node.Tag);
 
+            // Update enabled state based on current directory.
+            UpdateRibbonControls();
+
             // Set expanded state.
             node.Expand();
         }
+
+        /// <summary>
+        /// Updates the enabled state of common ribbon controls.
+        /// </summary>
+        private void UpdateRibbonControls()
+        {
+            // Store this for easier reference.
+            bool isSelection = ListViewDark_Explorer.SelectedItems.Count != 0;
+
+            // Enable organise ribbon group items based on selection count.
+            foreach (var item in KryptonRibbonGroupTriple_Organise_Delete_Rename.Items)
+            {
+                if (item is KryptonRibbonGroupButton ribbonButton)
+                {
+                    // Enable if there's at least a selection.
+                    ribbonButton.Enabled = isSelection;
+                }
+            }
+
+            // Enable clipboard ribbon group items based on selection count.
+            foreach (var item in KryptonRibbonGroupTriple_Clipboard_Copy_Paste.Items)
+            {
+                if (item is KryptonRibbonGroupButton ribbonButton)
+                {
+                    // Enable Paste if the clipboard is populated.
+                    if (ribbonButton == KryptonRibbonGroupButton_Clipboard_Paste)
+                    {
+                        ribbonButton.Enabled = _Clipboard.Count != 0;
+                    }
+
+                    // Otherwise, just enable if there's at least a selection.
+                    else
+                    {
+                        // Include Cut in here as well...
+                        KryptonRibbonGroupButton_Clipboard_Cut.Enabled = ribbonButton.Enabled = isSelection;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Events for when the selected index for ListViewDark_Explorer changes.
+        /// </summary>
+        private void ListViewDark_Explorer_SelectedIndexChanged(object sender, EventArgs e)
+            => UpdateRibbonControls();
 
         /// <summary>
         /// Extracts the archive to the selected location.
@@ -823,24 +935,24 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Group event for MenuStripDark_Main_File items.
+        /// Group event for RibbonAppButton_AppButtonMenuItems items.
         /// </summary>
-        private void MenuStripDark_Main_File_Click_Group(object sender, EventArgs e)
+        private void RibbonAppButton_AppButtonMenuItems_Click_Group(object sender, EventArgs e)
         {
             // Displays the extract dialog.
-            if (sender == MenuStripDark_Main_File_Extract)
+            if (sender == KryptonContextMenuItem_File_Extract || sender == KryptonRibbonQATButton_Extract)
             {
                 ExtractDialog((ArchiveDirectory)LoadedArchive.Data[0]);
             }
 
             // Saves the loaded archive.
-            else if (sender == MenuStripDark_Main_File_Save)
+            else if (sender == KryptonContextMenuItem_File_Save || sender == KryptonRibbonQATButton_Save)
             {
                 SaveArchive(LoadedArchive.Location);
             }
 
             // Saves the loaded archive to the desired location.
-            else if (sender == MenuStripDark_Main_File_SaveAs)
+            else if (sender == KryptonContextMenuItem_File_SaveAs)
             {
                 SaveFileDialog saveDialog = new SaveFileDialog
                 {
@@ -853,94 +965,72 @@ namespace Marathon.Toolkit.Forms
                     SaveArchive(saveDialog.FileName);
                 }
             }
-
-            // Closes the form.
-            else if (sender == MenuStripDark_Main_File_Close)
-            {
-                Close();
-            }
         }
 
         /// <summary>
-        /// Events for when the selected index for ListViewDark_Explorer changes.
+        /// Group event for KryptonRibbonGroup_Clipboard items.
         /// </summary>
-        private void ListViewDark_Explorer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // Store this for easier reference.
-            bool isSelection = ListViewDark_Explorer.SelectedItems.Count != 0;
-
-            // Enable items based on selection count.
-            foreach (var item in MenuStripDark_Main_Tools.DropDownItems)
-            {
-                if (item is ToolStripMenuItem menuItem)
-                {
-                    // Enable Paste if the clipboard is populated.
-                    if (menuItem == MenuStripDark_Main_Tools_Paste)
-                    {
-                        menuItem.Enabled = isSelection && _Clipboard.Count != 0;
-                    }
-
-                    // Otherwise, just enable if there's at least a selection.
-                    else
-                    {
-                        menuItem.Enabled = isSelection;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Group event for MenuStripDark_Main_Tools items.
-        /// </summary>
-        private void MenuStripDark_Main_Tools_Click_Group(object sender, EventArgs e)
+        private void KryptonRibbonGroup_Clipboard_Click_Group(object sender, EventArgs e)
         {
             // Copy items to clipboard.
-            if (sender == MenuStripDark_Main_Tools_Copy)
+            if (sender == KryptonRibbonGroupButton_Clipboard_Copy)
             {
                 CopyFiles();
             }
 
             // Paste items from clipboard.
-            else if (sender == MenuStripDark_Main_Tools_Paste)
+            else if (sender == KryptonRibbonGroupButton_Clipboard_Paste)
             {
                 PasteFiles();
             }
 
+            // Cut items to clipboard.
+            if (sender == KryptonRibbonGroupButton_Clipboard_Cut)
+            {
+                CopyFiles(true);
+            }
+        }
+
+        /// <summary>
+        /// Group event for KryptonRibbonGroup_Organise items.
+        /// </summary>
+        private void KryptonRibbonGroupButton_Organise_Click_Group(object sender, EventArgs e)
+        {
             // Delete the selected items from ListViewDark_Explorer.
-            else if (sender == MenuStripDark_Main_Tools_Delete)
+            if (sender == KryptonRibbonGroupButton_Organise_Delete)
             {
                 DeleteFiles();
             }
 
             // Invoke renaming or bulk rename tasks.
-            else if (sender == MenuStripDark_Main_Tools_Rename)
+            else if (sender == KryptonRibbonGroupButton_Organise_Rename)
             {
                 InvokeRename();
             }
         }
 
         /// <summary>
-        /// Group event for MenuStripDark_Main_Selection items.
+        /// Group event for KryptonRibbonGroup_Select items.
         /// </summary>
-        private void MenuStripDark_Main_Selection_Click_Group(object sender, EventArgs e)
+        private void KryptonRibbonGroup_Select_Click_Group(object sender, EventArgs e)
         {
             // Store all items so we can do whatever with them.
             List<ListViewItem> items = ListViewDark_Explorer.Items.OfType<ListViewItem>().ToList();
 
             // Select all items in ListViewDark_Explorer.
-            if (sender == MenuStripDark_Main_Selection_SelectAll)
+            if (sender == KryptonRibbonGroupButton_Select_SelectAll)
             {
                 SetSelectedState(items, true);
             }
 
             // Deselect all items in ListViewDark_Explorer.
-            else if (sender == MenuStripDark_Main_Selection_SelectNone)
+            else if (sender == KryptonRibbonGroupButton_Select_SelectNone)
             {
                 SetSelectedState(items, false);
             }
 
             // Invert current selection in ListViewDark_Explorer.
-            else if (sender == MenuStripDark_Main_Selection_InvertSelection)
+            else if (sender == KryptonRibbonGroupButton_Select_InvertSelection)
             {
                 // Store the unselected items before we deselect everything.
                 List<ListViewItem> unselectedItems = ListViewDark_Explorer.Items.OfType<ListViewItem>().ToList()
@@ -964,9 +1054,6 @@ namespace Marathon.Toolkit.Forms
         /// <param name="location">Location of the archive.</param>
         private void SaveArchive(string location)
         {
-            // Store the current expanded nodes before reloading...
-            var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
-
             // Decompress everything before repacking so we have valid data.
             LoadedArchive.Decompress(ref LoadedArchive.Data);
 
@@ -979,12 +1066,9 @@ namespace Marathon.Toolkit.Forms
             // Reload the archive.
             LoadedArchive = LoadedArchive.Reload();
 
-            // Restore expanded nodes.
-            TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
-
             // Refreshes the file view to the previously selected node.
-            if (TreeView_Explorer.SelectedNode != null)
-                ActivateDirectoryNode(TreeView_Explorer.SelectedNode);
+            if (KryptonTreeView_Explorer.SelectedNode != null)
+                ActivateDirectoryNode(KryptonTreeView_Explorer.SelectedNode);
 
             // Force garbage collection.
             GC.Collect();
@@ -1051,7 +1135,7 @@ namespace Marathon.Toolkit.Forms
                 // Add all ListViewItems to the current node.
                 foreach (ListViewItem item in (ListView.SelectedListViewItemCollection)e.Data.GetData(typeof(ListView.SelectedListViewItemCollection)))
                 {
-                    AddFile(item);
+                    AddFile(item, true);
                 }
             }
         }
@@ -1097,14 +1181,14 @@ namespace Marathon.Toolkit.Forms
             ArchiveFile file = (ArchiveFile)e.Item.Tag;
 
             // This is rather self-explanatory.
-            e.Item.ToolTipText = $"Type: {Path.GetExtension(file.Name).ToUpper().Substring(1)} File\n" +
+            e.Item.ToolTipText = $"Type: {Resources.ParseFriendlyNameFromFileExtension(Properties.Resources.FileTypes, file.Name)}\n" +
                                  $"Size: {StringHelper.ByteLengthToDecimalString(file.UncompressedSize)}";
         }
 
         /// <summary>
         /// Displays a tool tip for the hovered node.
         /// </summary>
-        private void TreeView_Explorer_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
+        private void KryptonTreeView_Explorer_NodeMouseHover(object sender, TreeNodeMouseHoverEventArgs e)
         {
             ArchiveDirectory dir = (ArchiveDirectory)e.Node.Tag;
 
@@ -1121,6 +1205,25 @@ namespace Marathon.Toolkit.Forms
                                  // We don't want these to display when there aren't any files or folders, hence the conditions.
                                  (folders.Length == 0 ? string.Empty : $"Folders: {StringHelper.Truncate(folders, truncateLength)}\n") +
                                  (files.Length == 0 ? string.Empty : $"Files: {StringHelper.Truncate(files, truncateLength)}");
+        }
+
+        /// <summary>
+        /// Adds a new folder to the currently active node upon clicking.
+        /// </summary>
+        private void KryptonRibbonGroupButton_New_NewFolder_Click(object sender, EventArgs e)
+            => AddFolder(_ActiveNode, (ArchiveDirectory)_ActiveNode.Tag);
+
+        /// <summary>
+        /// Opens the selected file with Task Dashboard.
+        /// </summary>
+        private void ListViewDark_Explorer_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            // Extract the selected file and store the path.
+            string file = ExtractFile((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag);
+
+            // Launch Task Dashboard with the input file.
+            if (!string.IsNullOrEmpty(file))
+                new TaskDashboard(DockPanel, file, TaskDashboard.TaskState.Open).ShowDialog(InheritanceRibbon);
         }
     }
 }

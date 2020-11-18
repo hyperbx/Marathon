@@ -63,6 +63,8 @@ namespace Marathon.Toolkit
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.OK;
 
+                    AcceptButton = Button_3;
+
                     break;
                 }
 
@@ -76,6 +78,9 @@ namespace Marathon.Toolkit
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.Cancel;
 
+                    AcceptButton = Button_2;
+                    CancelButton = Button_3;
+
                     break;
                 }
 
@@ -88,6 +93,9 @@ namespace Marathon.Toolkit
                     Button_3.Text = "No";
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.No;
+
+                    AcceptButton = Button_2;
+                    CancelButton = Button_3;
 
                     break;
                 }
@@ -106,6 +114,9 @@ namespace Marathon.Toolkit
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.Cancel;
 
+                    AcceptButton = Button_1;
+                    CancelButton = Button_3;
+
                     break;
                 }
 
@@ -118,6 +129,9 @@ namespace Marathon.Toolkit
                     Button_3.Text = "Cancel";
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.Cancel;
+
+                    AcceptButton = Button_2;
+                    CancelButton = Button_3;
 
                     break;
                 }
@@ -135,6 +149,9 @@ namespace Marathon.Toolkit
                     Button_3.Text = "Ignore";
                     Button_3.Visible = true;
                     Button_3.Tag = MessageState.Ignore;
+
+                    AcceptButton = Button_2;
+                    CancelButton = Button_3;
 
                     break;
                 }

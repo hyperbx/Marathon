@@ -90,11 +90,11 @@ namespace Marathon.Toolkit.Forms
                     {
                         foreach (ListViewItem window in ListViewDark_Windows.SelectedItems)
                         {
-                        // Close the selected document.
-                        ((DockContent)window.Tag).Close();
+                            // Close the selected document.
+                            ((DockContent)window.Tag).Close();
 
-                        // Remove the selected item.
-                        window.Remove();
+                            // Remove the selected item.
+                            window.Remove();
                         }
                     }));
 

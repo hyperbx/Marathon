@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using ComponentFactory.Krypton.Toolkit;
 
 namespace Marathon.Toolkit.Helpers
 {
@@ -23,7 +24,7 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Stores the current expansion state of all TreeNodes.
         /// </summary>
-        public static TreeViewState GetExpandedNodesState(this TreeView tree)
+        public static TreeViewState GetExpandedNodesState(this KryptonTreeView tree)
         {
             var expandedNodesList = new List<string>();
             foreach (TreeNode node in tree.Nodes)
@@ -37,7 +38,7 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Restores the absolute state of the nodes.
         /// </summary>
-        public static void RestoreExpandedNodesState(this TreeView tree, TreeViewState state)
+        public static void RestoreExpandedNodesState(this KryptonTreeView tree, TreeViewState state)
         {
             tree.BeginUpdate();
 
@@ -59,7 +60,7 @@ namespace Marathon.Toolkit.Helpers
         /// <summary>
         /// Locates the TreeNode from a path.
         /// </summary>
-        static TreeNode FindNodeFromPath(TreeView tree, string path)
+        static TreeNode FindNodeFromPath(KryptonTreeView tree, string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return null;

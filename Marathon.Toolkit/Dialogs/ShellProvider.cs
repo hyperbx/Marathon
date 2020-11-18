@@ -396,7 +396,7 @@ namespace Marathon.Toolkit.Dialogs
         SIATTRIBFLAGS_APPCOMPAT = 0x00000003, // Call GetAttributes directly on the ShellFolder for multiple attributes.
     }
 
-    [ComImport, ClassInterface(ClassInterfaceType.None), TypeLibType(TypeLibTypeFlags.FCanCreate), Guid(CLSIDGuid.FileOpenDialog)]
+    [ComImport, ClassInterface(ClassInterfaceType.None), Guid(CLSIDGuid.FileOpenDialog)]
     internal class FileOpenDialogRCW { }
 
     [ComImport, Guid(IIDGuid.IFileOpenDialog), CoClass(typeof(FileOpenDialogRCW))]

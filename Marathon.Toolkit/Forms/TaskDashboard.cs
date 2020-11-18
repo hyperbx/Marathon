@@ -30,12 +30,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using Marathon.Toolkit.Controls;
-using WeifenLuo.WinFormsUI.Docking;
 using Marathon.IO.Formats.Archives;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class TaskDashboard : Form
+    public partial class TaskDashboard : MarathonDockContent
     {
         /// <summary>
         /// Input states for the tasks.
@@ -46,7 +46,7 @@ namespace Marathon.Toolkit.Forms
             Open // Input file is to be opened.
         }
 
-        private DockPanel ParentPanel;
+        private DockPanel DockParent;
         private string File;
         private TaskState State;
 
@@ -54,7 +54,7 @@ namespace Marathon.Toolkit.Forms
         {
             InitializeComponent();
 
-            ParentPanel = parent;
+            DockParent = parent;
             File = file;
             State = state;
         }
@@ -62,27 +62,19 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Loads the tasks.
         /// </summary>
-        private void TaskDashboard_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             string extension = Path.GetExtension(File); // Output: .blah
 
             switch (extension)
             {
                 case ".arc":
-                case ".wad":
                 {
                     switch (State)
                     {
                         case TaskState.New:
                         {
-                            if (extension == ".arc")
-                            {
-                                new ArchiveExplorer(new U8Archive() { Location = File }).Show(ParentPanel);
-                            }
-                            else if (extension == ".wad")
-                            {
-                                new ArchiveExplorer(new WADHArchive() { Location = File }).Show(ParentPanel);
-                            }
+                            new ArchiveExplorer(new U8Archive() { Location = File }).Show(DockParent, InheritanceRibbon);
 
                             Close();
 
@@ -105,14 +97,7 @@ namespace Marathon.Toolkit.Forms
 
                             exploreArchive.Activated += delegate
                             {
-                                if (extension == ".arc")
-                                {
-                                    new ArchiveExplorer(new U8Archive(File, true, true, false)).Show(ParentPanel);
-                                }
-                                else if (extension == ".wad")
-                                {
-                                    new ArchiveExplorer(new WADHArchive(File)).Show(ParentPanel);
-                                }
+                                new ArchiveExplorer(new U8Archive(File, true, true, false)).Show(DockParent, InheritanceRibbon);
 
                                 Close();
                             };
@@ -154,7 +139,7 @@ namespace Marathon.Toolkit.Forms
 
                     saveData.Activated += delegate
                     {
-                        new SaveEditor(File).Show(ParentPanel);
+                        new SaveEditor(File).Show(DockParent, InheritanceRibbon);
 
                         Close();
                     };
@@ -173,6 +158,8 @@ namespace Marathon.Toolkit.Forms
             }
 
             Initialise();
+
+            base.OnLoad(e);
         }
 
         /// <summary>
@@ -182,8 +169,9 @@ namespace Marathon.Toolkit.Forms
         {
             List<int> _TaskWidthList = new List<int>();
 
+            // Make window visible.
             if (FlowLayoutPanel_Tasks.Controls.Count != 0)
-                Opacity = 100; // Make window visible.
+                Opacity = 100;
 
             // No tasks available, just close.
             else
@@ -208,6 +196,9 @@ namespace Marathon.Toolkit.Forms
                 Top  = (area.Height - Height) / 2;
                 Left = (area.Width - Width) / 2;
             }
+
+            // Set new minimum size after initialising.
+            MinimumSize = Size;
         }
     }
 }

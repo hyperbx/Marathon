@@ -1,5 +1,3 @@
-using Marathon.Toolkit.Helpers;
-
 namespace Marathon.Toolkit.Forms
 {
     partial class MarathonExplorer
@@ -33,8 +31,7 @@ namespace Marathon.Toolkit.Forms
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MarathonExplorer));
             this.WebBrowser_Explorer = new System.Windows.Forms.WebBrowser();
-            this.SplitContainer_TreeView = new System.Windows.Forms.SplitContainer();
-            this.TreeView_Explorer = new System.Windows.Forms.TreeView();
+            this.KryptonTreeView_Explorer = new ComponentFactory.Krypton.Toolkit.KryptonTreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
             this.ButtonFlat_DirectoryTree = new Marathon.Toolkit.Components.ButtonFlat();
@@ -43,16 +40,25 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Forward = new Marathon.Toolkit.Components.ButtonFlat();
             this.ButtonFlat_Back = new Marathon.Toolkit.Components.ButtonFlat();
             this.TextBox_Address = new System.Windows.Forms.TextBox();
+            this.KryptonSplitContainer_Explorer = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
             this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).BeginInit();
-            this.SplitContainer_TreeView.Panel1.SuspendLayout();
-            this.SplitContainer_TreeView.Panel2.SuspendLayout();
-            this.SplitContainer_TreeView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_WebBrowser)).BeginInit();
             this.SplitContainer_WebBrowser.Panel1.SuspendLayout();
             this.SplitContainer_WebBrowser.Panel2.SuspendLayout();
             this.SplitContainer_WebBrowser.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel1)).BeginInit();
+            this.KryptonSplitContainer_Explorer.Panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel2)).BeginInit();
+            this.KryptonSplitContainer_Explorer.Panel2.SuspendLayout();
+            this.KryptonSplitContainer_Explorer.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(969, 142);
             // 
             // WebBrowser_Explorer
             // 
@@ -60,47 +66,39 @@ namespace Marathon.Toolkit.Forms
             this.WebBrowser_Explorer.Location = new System.Drawing.Point(0, 0);
             this.WebBrowser_Explorer.MinimumSize = new System.Drawing.Size(23, 23);
             this.WebBrowser_Explorer.Name = "WebBrowser_Explorer";
-            this.WebBrowser_Explorer.Size = new System.Drawing.Size(597, 385);
+            this.WebBrowser_Explorer.Size = new System.Drawing.Size(783, 547);
             this.WebBrowser_Explorer.TabIndex = 0;
             this.WebBrowser_Explorer.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser_Explorer_Navigated);
             // 
-            // SplitContainer_TreeView
+            // KryptonTreeView_Explorer
             // 
-            this.SplitContainer_TreeView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.SplitContainer_TreeView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer_TreeView.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.SplitContainer_TreeView.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainer_TreeView.Name = "SplitContainer_TreeView";
-            // 
-            // SplitContainer_TreeView.Panel1
-            // 
-            this.SplitContainer_TreeView.Panel1.Controls.Add(this.TreeView_Explorer);
-            this.SplitContainer_TreeView.Panel1MinSize = 109;
-            // 
-            // SplitContainer_TreeView.Panel2
-            // 
-            this.SplitContainer_TreeView.Panel2.Controls.Add(this.WebBrowser_Explorer);
-            this.SplitContainer_TreeView.Size = new System.Drawing.Size(784, 385);
-            this.SplitContainer_TreeView.SplitterDistance = 183;
-            this.SplitContainer_TreeView.TabIndex = 1;
-            // 
-            // TreeView_Explorer
-            // 
-            this.TreeView_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
-            this.TreeView_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.TreeView_Explorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TreeView_Explorer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TreeView_Explorer.ForeColor = System.Drawing.SystemColors.Control;
-            this.TreeView_Explorer.ImageIndex = 0;
-            this.TreeView_Explorer.ImageList = this.ImageList_Keys;
-            this.TreeView_Explorer.Location = new System.Drawing.Point(0, 0);
-            this.TreeView_Explorer.Name = "TreeView_Explorer";
-            this.TreeView_Explorer.SelectedImageIndex = 0;
-            this.TreeView_Explorer.Size = new System.Drawing.Size(183, 385);
-            this.TreeView_Explorer.TabIndex = 2;
-            this.TreeView_Explorer.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Explorer_AfterExpand);
-            this.TreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Explorer_NodeMouseDoubleClick);
-            this.TreeView_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TreeView_Explorer_MouseDown);
+            this.KryptonTreeView_Explorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KryptonTreeView_Explorer.ImageIndex = 0;
+            this.KryptonTreeView_Explorer.ImageList = this.ImageList_Keys;
+            this.KryptonTreeView_Explorer.Location = new System.Drawing.Point(0, 0);
+            this.KryptonTreeView_Explorer.Name = "KryptonTreeView_Explorer";
+            this.KryptonTreeView_Explorer.SelectedImageIndex = 0;
+            this.KryptonTreeView_Explorer.Size = new System.Drawing.Size(182, 547);
+            this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(70)))));
+            this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(70)))));
+            this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.KryptonTreeView_Explorer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.KryptonTreeView_Explorer.StateCommon.Border.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.False;
+            this.KryptonTreeView_Explorer.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.KryptonTreeView_Explorer.StateCommon.Node.Content.LongText.Color1 = System.Drawing.SystemColors.Control;
+            this.KryptonTreeView_Explorer.StateCommon.Node.Content.LongText.Color2 = System.Drawing.SystemColors.Control;
+            this.KryptonTreeView_Explorer.StateCommon.Node.Content.ShortText.Color1 = System.Drawing.SystemColors.Control;
+            this.KryptonTreeView_Explorer.StateCommon.Node.Content.ShortText.Color2 = System.Drawing.SystemColors.Control;
+            this.KryptonTreeView_Explorer.TabIndex = 4;
+            this.KryptonTreeView_Explorer.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.KryptonTreeView_Explorer_AfterExpand);
+            this.KryptonTreeView_Explorer.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.KryptonTreeView_Explorer_NodeMouseDoubleClick);
+            this.KryptonTreeView_Explorer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.KryptonTreeView_Explorer_MouseDown);
             // 
             // ImageList_Keys
             // 
@@ -129,8 +127,8 @@ namespace Marathon.Toolkit.Forms
             // 
             // SplitContainer_WebBrowser.Panel2
             // 
-            this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.SplitContainer_TreeView);
-            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(784, 411);
+            this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.KryptonSplitContainer_Explorer);
+            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(969, 573);
             this.SplitContainer_WebBrowser.SplitterDistance = 25;
             this.SplitContainer_WebBrowser.SplitterWidth = 1;
             this.SplitContainer_WebBrowser.TabIndex = 0;
@@ -164,7 +162,7 @@ namespace Marathon.Toolkit.Forms
             this.ButtonFlat_Clipboard.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
             this.ButtonFlat_Clipboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonFlat_Clipboard.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Clipboard.Location = new System.Drawing.Point(759, 1);
+            this.ButtonFlat_Clipboard.Location = new System.Drawing.Point(944, 1);
             this.ButtonFlat_Clipboard.Name = "ButtonFlat_Clipboard";
             this.ButtonFlat_Clipboard.Size = new System.Drawing.Size(24, 24);
             this.ButtonFlat_Clipboard.TabIndex = 11;
@@ -238,9 +236,30 @@ namespace Marathon.Toolkit.Forms
             this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
             this.TextBox_Address.Location = new System.Drawing.Point(107, 1);
             this.TextBox_Address.Name = "TextBox_Address";
-            this.TextBox_Address.Size = new System.Drawing.Size(651, 24);
+            this.TextBox_Address.Size = new System.Drawing.Size(836, 24);
             this.TextBox_Address.TabIndex = 12;
             this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
+            // 
+            // KryptonSplitContainer_Explorer
+            // 
+            this.KryptonSplitContainer_Explorer.ContainerBackStyle = ComponentFactory.Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
+            this.KryptonSplitContainer_Explorer.Cursor = System.Windows.Forms.Cursors.Default;
+            this.KryptonSplitContainer_Explorer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KryptonSplitContainer_Explorer.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.KryptonSplitContainer_Explorer.Location = new System.Drawing.Point(0, 0);
+            this.KryptonSplitContainer_Explorer.Name = "KryptonSplitContainer_Explorer";
+            // 
+            // KryptonSplitContainer_Explorer.Panel1
+            // 
+            this.KryptonSplitContainer_Explorer.Panel1.Controls.Add(this.KryptonTreeView_Explorer);
+            // 
+            // KryptonSplitContainer_Explorer.Panel2
+            // 
+            this.KryptonSplitContainer_Explorer.Panel2.Controls.Add(this.WebBrowser_Explorer);
+            this.KryptonSplitContainer_Explorer.Size = new System.Drawing.Size(969, 547);
+            this.KryptonSplitContainer_Explorer.SplitterDistance = 182;
+            this.KryptonSplitContainer_Explorer.SplitterWidth = 4;
+            this.KryptonSplitContainer_Explorer.TabIndex = 1;
             // 
             // ToolTip_Information
             // 
@@ -252,33 +271,35 @@ namespace Marathon.Toolkit.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(784, 411);
+            this.ClientSize = new System.Drawing.Size(969, 573);
             this.Controls.Add(this.SplitContainer_WebBrowser);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "MarathonExplorer";
             this.Text = "Marathon Explorer";
-            this.Load += new System.EventHandler(this.WebBrowserExplorer_Load);
-            this.SplitContainer_TreeView.Panel1.ResumeLayout(false);
-            this.SplitContainer_TreeView.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_TreeView)).EndInit();
-            this.SplitContainer_TreeView.ResumeLayout(false);
+            this.UseRibbon = false;
+            this.Controls.SetChildIndex(this.SplitContainer_WebBrowser, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             this.SplitContainer_WebBrowser.Panel1.ResumeLayout(false);
             this.SplitContainer_WebBrowser.Panel1.PerformLayout();
             this.SplitContainer_WebBrowser.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_WebBrowser)).EndInit();
             this.SplitContainer_WebBrowser.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel1)).EndInit();
+            this.KryptonSplitContainer_Explorer.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel2)).EndInit();
+            this.KryptonSplitContainer_Explorer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer)).EndInit();
+            this.KryptonSplitContainer_Explorer.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.WebBrowser WebBrowser_Explorer;
-        private System.Windows.Forms.SplitContainer SplitContainer_TreeView;
-        private System.Windows.Forms.TreeView TreeView_Explorer;
         private System.Windows.Forms.SplitContainer SplitContainer_WebBrowser;
         private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Up;
         private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Forward;
@@ -288,5 +309,7 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.TextBox TextBox_Address;
         private Components.ButtonFlat ButtonFlat_DirectoryTree;
         private System.Windows.Forms.ImageList ImageList_Keys;
+        private ComponentFactory.Krypton.Toolkit.KryptonTreeView KryptonTreeView_Explorer;
+        private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer KryptonSplitContainer_Explorer;
     }
 }

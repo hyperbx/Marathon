@@ -29,13 +29,13 @@ using System.Web;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
-using WeifenLuo.WinFormsUI.Docking;
 using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Controls;
 using Marathon.Toolkit.Components;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class MarathonExplorer : DockContent
+    public partial class MarathonExplorer : MarathonDockContent
     {
         private string _CurrentAddress;
         private bool _HideDirectoryTree;
@@ -54,7 +54,7 @@ namespace Marathon.Toolkit.Forms
                 TextBox_Address.Text = CurrentAddress;
 
                 // Refresh the TreeView nodes only if the directory tree is available.
-                if (!SplitContainer_TreeView.Panel1Collapsed) RefreshNodes();
+                if (!KryptonSplitContainer_Explorer.Panel1Collapsed) RefreshNodes();
             }
         }
 
@@ -65,7 +65,7 @@ namespace Marathon.Toolkit.Forms
 
             set
             {
-                if (_HideDirectoryTree = SplitContainer_TreeView.Panel1Collapsed = value)
+                if (_HideDirectoryTree = KryptonSplitContainer_Explorer.Panel1Collapsed = value)
                     ToolTip_Information.SetToolTip(ButtonFlat_DirectoryTree, "Show directory tree");
                 else
                 {
@@ -80,7 +80,8 @@ namespace Marathon.Toolkit.Forms
         {
             set
             {
-                if (value) SplitContainer_TreeView.Panel1Collapsed = SplitContainer_WebBrowser.Panel1Collapsed = true;
+                if (value)
+                    KryptonSplitContainer_Explorer.Panel1Collapsed = SplitContainer_WebBrowser.Panel1Collapsed = true;
             }
         }
 
@@ -92,10 +93,10 @@ namespace Marathon.Toolkit.Forms
             if (!string.IsNullOrEmpty(CurrentAddress))
             {
                 // Store the current expanded nodes before refreshing...
-                var storedExpansionState = TreeView_Explorer.GetExpandedNodesState();
+                var storedExpansionState = KryptonTreeView_Explorer.GetExpandedNodesState();
 
                 // Clear current node to remove ghost child nodes... Spooky!
-                TreeView_Explorer.Nodes.Clear();
+                KryptonTreeView_Explorer.Nodes.Clear();
 
                 DirectoryInfo directory = new DirectoryInfo(CurrentAddress);
 
@@ -104,7 +105,7 @@ namespace Marathon.Toolkit.Forms
                     if (directory.Exists)
                     {
                         // Create parent directory node...
-                        TreeView_Explorer.Nodes.Add(new TreeNode
+                        KryptonTreeView_Explorer.Nodes.Add(new TreeNode
                         {
                             Text = "..",
                             Tag = "..",
@@ -120,7 +121,7 @@ namespace Marathon.Toolkit.Forms
                 }
 
                 // Restore expanded nodes.
-                TreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
+                KryptonTreeView_Explorer.RestoreExpandedNodesState(storedExpansionState);
             }
         }
 
@@ -142,7 +143,7 @@ namespace Marathon.Toolkit.Forms
                             ImageKey = "Folder"
                         };
 
-                        TreeView_Explorer.Nodes.Add(dirNode);
+                        KryptonTreeView_Explorer.Nodes.Add(dirNode);
 
                         // Add ghost child nodes so they can be expanded.
                         if (directory.GetDirectories().Length != 0)
@@ -189,13 +190,22 @@ namespace Marathon.Toolkit.Forms
             }
         }
 
-        public MarathonExplorer() => InitializeComponent();
+        public MarathonExplorer(string address)
+        {
+            InitializeComponent();
+
+            CurrentAddress = address;
+        }
 
         /// <summary>
         /// Set the current directory for the WebBrowser control on load.
         /// </summary>
-        private void WebBrowserExplorer_Load(object sender, EventArgs e)
-            => WebBrowser_Explorer.Url = new Uri(CurrentAddress);
+        protected override void OnLoad(EventArgs e)
+        {
+            WebBrowser_Explorer.Url = new Uri(CurrentAddress);
+
+            base.OnLoad(e);
+        }
 
         /// <summary>
         /// Updates the current directory and watches over it to update the TreeView control.
@@ -260,15 +270,19 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Navigates to the selected node if valid.
         /// </summary>
-        private void TreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void KryptonTreeView_Explorer_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                if (e.Node.Tag is string && (string)e.Node.Tag == "..") GoUp();
+                // Nodes with '..' as the tag go up a path.
+                if (e.Node.Tag is string @string && @string == "..")
+                    GoUp();
+
+                // Otherwise, check the node's validity.
                 else
                 {
                     if (!ChangeDirectoryOnValidation(((DirectoryInfo)e.Node.Tag).FullName))
-                        TreeView_Explorer.Nodes.Remove(e.Node);
+                        KryptonTreeView_Explorer.Nodes.Remove(e.Node);
                 }
             }
         }
@@ -308,7 +322,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Navigates back and forward using the dedicated mouse buttons.
         /// </summary>
-        private void TreeView_Explorer_MouseDown(object sender, MouseEventArgs e)
+        private void KryptonTreeView_Explorer_MouseDown(object sender, MouseEventArgs e)
         {
             switch (e.Button)
             {
@@ -362,7 +376,12 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Gets the subdirectories for the current node, rather than loading all at once.
         /// </summary>
-        private void TreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
+        private void KryptonTreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
             => GetDirectories(((DirectoryInfo)e.Node.Tag).GetDirectories(), e.Node);
+
+        private void kryptonRibbonGroupButton1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

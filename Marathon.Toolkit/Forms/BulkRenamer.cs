@@ -485,11 +485,11 @@ namespace Marathon.Toolkit.Forms
                     // Original path.
                     string @modulePath = (string)@nodeModule.Tag;
 
-                    // Check if the renamed string isn't null before we overwrite it with nothingness.
-                    if (!string.IsNullOrEmpty(@nodeModule.Rename))
+                    // Check if the renamed string isn't null or invalid before we overwrite it.
+                    if (!string.IsNullOrEmpty(@nodeModule.Rename) && @nodeModule.Rename.IndexOfAny(Path.GetInvalidFileNameChars()) != 0)
                     {
                         // Assembled path from renamed node.
-                        string newPath = StringHelper.ReplaceFilename(@modulePath, @nodeModule.Rename);
+                        string newPath = StringHelper.ReplaceFilename(@modulePath, @nodeModule.Rename.TrimEnd('.'));
 
                         // Original path was a file.
                         if (File.Exists(@modulePath))
@@ -509,7 +509,7 @@ namespace Marathon.Toolkit.Forms
                     if (!string.IsNullOrEmpty(@nodeModule.Rename))
                     {
                         // Rename time!
-                        @moduleData.Name = @nodeModule.Rename;
+                        node.Text = @moduleData.Name = @nodeModule.Rename.TrimEnd('.');
                     }
                 }
             }

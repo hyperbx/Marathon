@@ -25,11 +25,11 @@
 
 using System;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class FileConverter : DockContent
+    public partial class FileConverter : MarathonDockContent
     {
         public FileConverter() => InitializeComponent();
 

@@ -28,21 +28,24 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Options));
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_Title = new System.Windows.Forms.Label();
             this.FlowLayoutPanel_Options = new System.Windows.Forms.FlowLayoutPanel();
-            this.Options_GameExecutable = new Marathon.Toolkit.Controls.OptionsFieldStringType();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
-            this.FlowLayoutPanel_Options.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonVisible = false;
             // 
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.PictureBox_Logo.Location = new System.Drawing.Point(875, 0);
+            this.PictureBox_Logo.Location = new System.Drawing.Point(862, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
             this.PictureBox_Logo.Size = new System.Drawing.Size(51, 50);
             this.PictureBox_Logo.TabIndex = 7;
@@ -64,44 +67,34 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.FlowLayoutPanel_Options.AutoScroll = true;
-            this.FlowLayoutPanel_Options.Controls.Add(this.Options_GameExecutable);
             this.FlowLayoutPanel_Options.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.FlowLayoutPanel_Options.Location = new System.Drawing.Point(0, 50);
+            this.FlowLayoutPanel_Options.Location = new System.Drawing.Point(0, 49);
             this.FlowLayoutPanel_Options.Name = "FlowLayoutPanel_Options";
             this.FlowLayoutPanel_Options.Padding = new System.Windows.Forms.Padding(25, 5, 0, 0);
-            this.FlowLayoutPanel_Options.Size = new System.Drawing.Size(933, 469);
+            this.FlowLayoutPanel_Options.Size = new System.Drawing.Size(917, 431);
             this.FlowLayoutPanel_Options.TabIndex = 9;
             this.FlowLayoutPanel_Options.WrapContents = false;
-            // 
-            // Options_GameExecutable
-            // 
-            this.Options_GameExecutable.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.Options_GameExecutable.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Options_GameExecutable.ForeColor = System.Drawing.SystemColors.Control;
-            this.Options_GameExecutable.Location = new System.Drawing.Point(28, 8);
-            this.Options_GameExecutable.Name = "Options_GameExecutable";
-            this.Options_GameExecutable.OptionDescription = "SONIC THE HEDGEHOG executable file";
-            this.Options_GameExecutable.OptionName = "Game Executable";
-            this.Options_GameExecutable.OptionProperty = null;
-            this.Options_GameExecutable.Size = new System.Drawing.Size(408, 51);
-            this.Options_GameExecutable.TabIndex = 0;
             // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(933, 519);
+            this.ClientSize = new System.Drawing.Size(917, 480);
             this.Controls.Add(this.FlowLayoutPanel_Options);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.Label_Title);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ForeColor = System.Drawing.SystemColors.Control;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Options";
             this.Text = "Options";
+            this.UseRibbon = false;
+            this.Controls.SetChildIndex(this.Label_Title, 0);
+            this.Controls.SetChildIndex(this.PictureBox_Logo, 0);
+            this.Controls.SetChildIndex(this.FlowLayoutPanel_Options, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
-            this.FlowLayoutPanel_Options.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -112,6 +105,5 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.PictureBox PictureBox_Logo;
         private System.Windows.Forms.Label Label_Title;
         private System.Windows.Forms.FlowLayoutPanel FlowLayoutPanel_Options;
-        private Marathon.Toolkit.Controls.OptionsFieldStringType Options_GameExecutable;
     }
 }

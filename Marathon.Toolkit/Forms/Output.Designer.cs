@@ -28,9 +28,13 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Output));
             this.RichTextBoxLocked_Console = new Marathon.Toolkit.Components.RichTextBoxLocked();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(800, 142);
             // 
             // RichTextBoxLocked_Console
             // 
@@ -53,15 +57,19 @@ namespace Marathon.Toolkit.Forms
             // 
             // Output
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.RichTextBoxLocked_Console);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Output";
             this.Text = "Output";
+            this.UseRibbon = false;
+            this.Controls.SetChildIndex(this.RichTextBoxLocked_Console, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

@@ -26,11 +26,11 @@
 using System;
 using System.Reflection;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class Debugger : DockContent
+    public partial class Debugger : MarathonDockContent
     {
         public Debugger()
         {
@@ -46,16 +46,17 @@ namespace Marathon.Toolkit.Forms
         {
             TreeView_Properties.Nodes.Clear();
 
-            foreach (PropertyInfo property in typeof(ISettings).GetProperties())
-            {
-                TreeNode propertyNode = new TreeNode()
-                {
-                    Text = property.Name,
-                    Tag = property
-                };
-
-                TreeView_Properties.Nodes.Add(propertyNode);
-            }
+            // TODO: Rework for .NET settings.
+            // foreach (PropertyInfo property in typeof(ISettings).GetProperties())
+            // {
+            //     TreeNode propertyNode = new TreeNode()
+            //     {
+            //         Text = property.Name,
+            //         Tag = property
+            //     };
+               
+            //     TreeView_Properties.Nodes.Add(propertyNode);
+            // }
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Opens the OpenGL window.
+        /// Opens the DirectX window.
         /// </summary>
         private void ButtonFlat_DirectX_Click(object sender, EventArgs e)
             => new ModelViewer().Show(DockPanel);

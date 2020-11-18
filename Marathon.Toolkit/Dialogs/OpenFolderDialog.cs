@@ -45,6 +45,7 @@ namespace Marathon.Toolkit.Dialogs
             FileOpenDialog dialog = new FileOpenDialog();
             dialog.SetTitle(Title);
             dialog.SetOptions(FOS.FOS_PICKFOLDERS | FOS.FOS_FORCEFILESYSTEM | FOS.FOS_FILEMUSTEXIST);
+
             HRESULT res = (HRESULT)dialog.Show(GetActiveWindow());
 
             if (res == HRESULT.S_OK)

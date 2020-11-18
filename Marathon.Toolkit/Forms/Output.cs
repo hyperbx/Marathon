@@ -26,12 +26,12 @@
 using System;
 using System.Windows.Forms;
 using Marathon.Toolkit.Helpers;
+using Marathon.Toolkit.Controls;
 using Marathon.Toolkit.Components;
-using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class Output : DockContent
+    public partial class Output : MarathonDockContent
     {
         public Output()
         {

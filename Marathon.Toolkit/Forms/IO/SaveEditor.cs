@@ -26,13 +26,13 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Toolkit.Controls;
 using Marathon.Toolkit.Components;
 using Marathon.IO.Formats.Miscellaneous;
 
 namespace Marathon.Toolkit.Forms
 {
-    public partial class SaveEditor : DockContent
+    public partial class SaveEditor : MarathonDockContent
     {
         private string _LoadedFile;                          // Path to the current loaded file.
         private bool LifeCountClampWarningShown = true;      // Flag to trip when going over 99 lives.

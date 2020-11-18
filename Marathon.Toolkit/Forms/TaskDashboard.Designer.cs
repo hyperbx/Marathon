@@ -32,8 +32,14 @@ namespace Marathon.Toolkit.Forms
             this.Label_Title = new System.Windows.Forms.Label();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.FlowLayoutPanel_Tasks = new System.Windows.Forms.FlowLayoutPanel();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonVisible = false;
             // 
             // Label_Title
             // 
@@ -79,20 +85,20 @@ namespace Marathon.Toolkit.Forms
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.FlowLayoutPanel_Tasks);
+            this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.Float;
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(300, 133);
             this.Name = "TaskDashboard";
-            this.Opacity = 0D;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Task Dashboard";
-            this.Load += new System.EventHandler(this.TaskDashboard_Load);
+            this.UseRibbon = false;
+            this.Controls.SetChildIndex(this.FlowLayoutPanel_Tasks, 0);
+            this.Controls.SetChildIndex(this.Label_Title, 0);
+            this.Controls.SetChildIndex(this.PictureBox_Logo, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

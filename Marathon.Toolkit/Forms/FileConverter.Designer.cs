@@ -28,15 +28,19 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FileConverter));
             this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
             this.MenuStripDark_Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
             this.ButtonFlat_Convert = new Marathon.Toolkit.Components.ButtonFlat();
             this.PictureBox_FileDropIndicator = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             this.MenuStripDark_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).BeginInit();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(320, 142);
             // 
             // MenuStripDark_Main
             // 
@@ -108,22 +112,24 @@ namespace Marathon.Toolkit.Forms
             this.Controls.Add(this.PictureBox_FileDropIndicator);
             this.Controls.Add(this.ButtonFlat_Convert);
             this.Controls.Add(this.MenuStripDark_Main);
-            this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft) 
-            | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)));
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.MenuStripDark_Main;
             this.MinimumSize = new System.Drawing.Size(252, 382);
             this.Name = "FileConverter";
             this.Text = "File Converter";
+            this.UseRibbon = false;
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragEnter);
+            this.Controls.SetChildIndex(this.MenuStripDark_Main, 0);
+            this.Controls.SetChildIndex(this.ButtonFlat_Convert, 0);
+            this.Controls.SetChildIndex(this.PictureBox_FileDropIndicator, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

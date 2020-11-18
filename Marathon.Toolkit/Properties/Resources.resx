@@ -120,7 +120,7 @@
   <data name="About_License" xml:space="preserve">
     <value>Sonic the Hedgehog and binary formats respective to SONIC THE HEDGEHOG (2006) are property of SEGA Corporation.
 
-Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;amp;D No. 2.</value>
+Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Contributors" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -146,6 +146,9 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   </data>
   <data name="Format_File" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Formats\Format_File.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Format_File_Pending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Formats\Format_File_Pending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Format_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Formats\Format_Folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -195,74 +198,140 @@ Marathon and its contributors are not affiliated with SEGA Corporation and/or SE
   <data name="Ribbon_ExpandUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\buttons\ribbon_expandup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Ribbon_SelectAll_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\images\buttons\enabled\ribbon_selectall_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="TabControlFlat_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\images\buttons\tabcontrolflat_close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_AddFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_AddFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Task_Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_QAT_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_QAT_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_QAT_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_QAT_Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_QAT_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_QAT_Undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Feature" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Feature.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_CopyPath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_CopyPath.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Invalid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_New.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_NewFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_NewFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_InvertSelection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_InvertSelection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_NewFileCollection" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_NewFileCollection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_NewItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_NewItem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_NewFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_NewFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_OpenDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_OpenDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_OpenFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_OpenFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_OpenFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_OpenFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_SelectAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_SelectAll.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_SelectNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_SelectNone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Ribbon_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Ribbon\Task_Ribbon_Undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_RemoveFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_RemoveFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Strip_AddFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_AddFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Strip_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Task_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\Tasks\Task_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Task_Strip_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Feature" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Feature.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Invalid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_New.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_NewFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFileCollection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_NewFileCollection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_NewFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_OpenDialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_OpenFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_OpenFolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_RemoveFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_RemoveFile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\Tasks\Strip\Task_Strip_Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="URL_GitHubCommit" xml:space="preserve">
+    <value>https://github.com/HyperBE32/Marathon/commit</value>
   </data>
   <data name="URL_GitHubIssueNew" xml:space="preserve">
     <value>https://github.com/HyperBE32/Marathon/issues/new</value>

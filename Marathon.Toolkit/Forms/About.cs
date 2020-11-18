@@ -23,6 +23,7 @@
  * SOFTWARE.
  */
 
+using System;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -35,15 +36,54 @@ namespace Marathon.Toolkit.Forms
         {
             InitializeComponent();
 
-            Label_Version.Text = $"Version {Program.GlobalVersion}";
+            // Set the version text.
+            Label_Version.Text = Program.GetAssemblyInformationalVersion();
 
             TreeView_Contributors.Nodes.AddRange(Resources.ParseContributorsToTreeNodeArray());
         }
 
         /// <summary>
+        /// Navigates to the commit page.
+        /// </summary>
+        private void Label_Version_Click(object sender, EventArgs e)
+        {
+            // Shortened for easier reference.
+            string shortVer = Program.InformationalVersion;
+
+            // Don't bother if pending.
+            if (shortVer == Program.PendingVersion)
+                return;
+
+            // Bit of error checking before we run a substring on this.
+            if (!string.IsNullOrEmpty(shortVer) && shortVer.Length > 7)
+            {
+                string commitID = shortVer.Substring(shortVer.Length - 7);
+
+                // Dunno how this would ever occur, but just in case.
+                if (!string.IsNullOrEmpty(commitID))
+                {
+                    // Navigate to the commit page.
+                    Process.Start($"{Properties.Resources.URL_GitHubCommit}/{commitID}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the license information on GitHub.
+        /// </summary>
+        private void Label_License_Click(object sender, EventArgs e)
+        {
+            MarathonMessageBox.Show(Properties.Resources.About_License);
+
+            // Navigate to the license page.
+            Process.Start("https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE");
+        }
+
+        /// <summary>
         /// Hides the node highlight upon clicking.
         /// </summary>
-        private void TreeView_Contributors_AfterSelect(object sender, TreeViewEventArgs e) => TreeView_Contributors.SelectedNode = null;
+        private void TreeView_Contributors_AfterSelect(object sender, TreeViewEventArgs e)
+            => TreeView_Contributors.SelectedNode = null;
 
         /// <summary>
         /// Accesses the selected contributor's information depending on mouse button.
@@ -74,21 +114,15 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Navigates to the license information.
+        /// Shows the scroll bar on mouse enter.
         /// </summary>
-        private void Label_License_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            switch (e.Button)
-            {
-                case MouseButtons.Left:
-                {
-                    MarathonMessageBox.Show(Properties.Resources.About_License);
+        private void TreeView_Contributors_MouseEnter(object sender, EventArgs e)
+            => TreeView_Contributors.Width -= 17;
 
-                    Process.Start("https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE");
-
-                    break;
-                }
-            }
-        }
+        /// <summary>
+        /// Hides the scroll bar on mouse leave.
+        /// </summary>
+        private void TreeView_Contributors_MouseLeave(object sender, EventArgs e)
+            => TreeView_Contributors.Width += 17;
     }
 }

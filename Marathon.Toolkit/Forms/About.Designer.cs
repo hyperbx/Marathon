@@ -60,6 +60,7 @@ namespace Marathon.Toolkit.Forms
             this.Label_Version.Size = new System.Drawing.Size(96, 21);
             this.Label_Version.TabIndex = 2;
             this.Label_Version.Text = "Placeholder";
+            this.Label_Version.Click += new System.EventHandler(this.Label_Version_Click);
             // 
             // PictureBox_Logo
             // 
@@ -77,13 +78,13 @@ namespace Marathon.Toolkit.Forms
             this.Label_License.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.Label_License.AutoSize = true;
             this.Label_License.BackColor = System.Drawing.Color.Transparent;
-            this.Label_License.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
-            this.Label_License.Location = new System.Drawing.Point(16, 223);
+            this.Label_License.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.Label_License.Location = new System.Drawing.Point(18, 223);
             this.Label_License.Name = "Label_License";
-            this.Label_License.Size = new System.Drawing.Size(203, 19);
+            this.Label_License.Size = new System.Drawing.Size(206, 19);
             this.Label_License.TabIndex = 4;
             this.Label_License.Text = "Licensed under the MIT License";
-            this.Label_License.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Label_License_MouseDoubleClick);
+            this.Label_License.Click += new System.EventHandler(this.Label_License_Click);
             // 
             // TreeView_Contributors
             // 
@@ -100,11 +101,13 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Contributors.ShowLines = false;
             this.TreeView_Contributors.ShowPlusMinus = false;
             this.TreeView_Contributors.ShowRootLines = false;
-            this.TreeView_Contributors.Size = new System.Drawing.Size(219, 96);
+            this.TreeView_Contributors.Size = new System.Drawing.Size(219, 134);
             this.TreeView_Contributors.TabIndex = 5;
             this.TreeView_Contributors.TabStop = false;
             this.TreeView_Contributors.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeView_Contributors_AfterSelect);
             this.TreeView_Contributors.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.TreeView_Contributors_NodeMouseClick);
+            this.TreeView_Contributors.MouseEnter += new System.EventHandler(this.TreeView_Contributors_MouseEnter);
+            this.TreeView_Contributors.MouseLeave += new System.EventHandler(this.TreeView_Contributors_MouseLeave);
             // 
             // Panel_TreeView_Contributors_Border
             // 
@@ -112,9 +115,9 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_TreeView_Contributors_Border.Controls.Add(this.TreeView_Contributors);
-            this.Panel_TreeView_Contributors_Border.Location = new System.Drawing.Point(17, 100);
+            this.Panel_TreeView_Contributors_Border.Location = new System.Drawing.Point(17, 82);
             this.Panel_TreeView_Contributors_Border.Name = "Panel_TreeView_Contributors_Border";
-            this.Panel_TreeView_Contributors_Border.Size = new System.Drawing.Size(202, 96);
+            this.Panel_TreeView_Contributors_Border.Size = new System.Drawing.Size(202, 134);
             this.Panel_TreeView_Contributors_Border.TabIndex = 6;
             // 
             // About
