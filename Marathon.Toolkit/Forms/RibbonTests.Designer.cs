@@ -28,7 +28,12 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
             this.SuspendLayout();
+            // 
+            // KryptonRibbon_MarathonForm
+            // 
+            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
             // 
             // RibbonTests
             // 
@@ -39,6 +44,8 @@ namespace Marathon.Toolkit.Forms
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "RibbonTests";
             this.Text = "Ribbon Tests";
+            this.UseRibbon = false;
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

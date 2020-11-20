@@ -796,19 +796,6 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Writes a Boolean value with Int32 alignment to the stream.
-        /// </summary>
-        /// <param name="value"></param>
-        public void WriteBoolean32(bool value)
-        {
-            if (value)
-                WriteByType<int>(1);
-
-            else
-                WriteByType<int>(0);
-        }
-
-        /// <summary>
         /// Writes the specified signature to the stream.
         /// </summary>
         /// <param name="signature">File signature.</param>
@@ -844,15 +831,17 @@ namespace Marathon.IO
                 Write((int)data);
             else if (type == typeof(uint))
                 Write((uint)data);
-            else if (type == typeof(float))
-                Write((float)data);
             else if (type == typeof(long))
                 Write((long)data);
             else if (type == typeof(ulong))
                 Write((ulong)data);
+            else if (type == typeof(Half))
+                Write((Half)data);
+            else if (type == typeof(float))
+                Write((float)data);
             else if (type == typeof(double))
                 Write((double)data);
-            else if (type == typeof(Vector2)) // TODO - Implement Vector types
+            else if (type == typeof(Vector2))
                 Write((Vector2)data);
             else if (type == typeof(Vector3))
                 Write((Vector3)data);
@@ -869,6 +858,61 @@ namespace Marathon.IO
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Writes a Boolean value with Int32 alignment to the stream.
+        /// </summary>
+        /// <param name="value"></param>
+        public void WriteBoolean32(bool value)
+        {
+            if (value)
+                WriteByType<int>(1);
+
+            else
+                WriteByType<int>(0);
+        }
+
+        /// <summary>
+        /// Writes an Int24 to the current position.
+        /// </summary>
+        public void WriteInt24(int value)
+        {
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(value >> 16);
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)value;
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)value;
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)(value >> 16);
+            }
+
+            OutStream.Write(_DataBuffer, 0, 3);
+        }
+
+        /// <summary>
+        /// Writes a UInt24 to the current position.
+        /// </summary>
+        public void WriteUInt24(uint value)
+        {
+            if (IsBigEndian)
+            {
+                _DataBuffer[0] = (byte)(value >> 16);
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)value;
+            }
+            else
+            {
+                _DataBuffer[0] = (byte)value;
+                _DataBuffer[1] = (byte)(value >> 8);
+                _DataBuffer[2] = (byte)(value >> 16);
+            }
+
+            OutStream.Write(_DataBuffer, 0, 3);
         }
 
         /// <summary>
@@ -912,48 +956,6 @@ namespace Marathon.IO
             }
 
             OutStream.Write(_DataBuffer, 0, sizeof(ushort));
-        }
-
-        /// <summary>
-        /// Writes an Int24 to the current position.
-        /// </summary>
-        public void WriteInt24(int value)
-        {
-            if (IsBigEndian)
-            {
-                _DataBuffer[0] = (byte)(value >> 16);
-                _DataBuffer[1] = (byte)(value >> 8);
-                _DataBuffer[2] = (byte)value;
-            }
-            else
-            {
-                _DataBuffer[0] = (byte)value;
-                _DataBuffer[1] = (byte)(value >> 8);
-                _DataBuffer[2] = (byte)(value >> 16);
-            }
-
-            OutStream.Write(_DataBuffer, 0, 3);
-        }
-
-        /// <summary>
-        /// Writes a UInt24 to the current position.
-        /// </summary>
-        public void WriteUInt24(uint value)
-        {
-            if (IsBigEndian)
-            {
-                _DataBuffer[0] = (byte)(value >> 16);
-                _DataBuffer[1] = (byte)(value >> 8);
-                _DataBuffer[2] = (byte)value;
-            }
-            else
-            {
-                _DataBuffer[0] = (byte)value;
-                _DataBuffer[1] = (byte)(value >> 8);
-                _DataBuffer[2] = (byte)(value >> 16);
-            }
-
-            OutStream.Write(_DataBuffer, 0, 3);
         }
 
         /// <summary>
@@ -1001,11 +1003,6 @@ namespace Marathon.IO
 
             OutStream.Write(_DataBuffer, 0, sizeof(uint));
         }
-
-        /// <summary>
-        /// Writes a Single to the current position.
-        /// </summary>
-        public override unsafe void Write(float value) => Write(*(uint*)&value);
 
         /// <summary>
         /// Writes an Int64 to the current position.
@@ -1072,6 +1069,16 @@ namespace Marathon.IO
 
             OutStream.Write(_DataBuffer, 0, sizeof(ulong));
         }
+
+        /// <summary>
+        /// Writes a Half to the current position.
+        /// </summary>
+        public void Write(Half value) => Write(value.value);
+
+        /// <summary>
+        /// Writes a Single to the current position.
+        /// </summary>
+        public override unsafe void Write(float value) => Write(*(uint*)&value);
 
         /// <summary>
         /// Writes a Double to the current position.

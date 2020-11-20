@@ -76,7 +76,6 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbon_Workspace.RibbonTabs.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab[] {
             this.KryptonRibbonTab_Home,
             this.KryptonRibbonTab_Developer});
-            this.KryptonRibbon_Workspace.SelectedContext = null;
             this.KryptonRibbon_Workspace.SelectedTab = this.KryptonRibbonTab_Home;
             this.KryptonRibbon_Workspace.Size = new System.Drawing.Size(1264, 115);
             this.KryptonRibbon_Workspace.TabIndex = 5;
