@@ -28,6 +28,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
+using Assimp;
+using Assimp.Configs;
 
 namespace Marathon.IO.Formats.Meshes
 {
@@ -41,8 +43,9 @@ namespace Marathon.IO.Formats.Meshes
         {
             switch (Path.GetExtension(file))
             {
+                case ".fbx":
                 case ".obj":
-                    ImportOBJ(file);
+                    ImportAssimp(file);
                     break;
                 default:
                     Load(file);
@@ -101,7 +104,7 @@ namespace Marathon.IO.Formats.Meshes
 
             writer.AddOffset("unknownUInt32_1");
 
-            writer.Write(0); // Ignore MOPP code offset.
+            writer.WriteNulls(4); // Ignore MOPP code offset.
 
             writer.FillInOffset("unknownUInt32_1", true);
 
@@ -142,56 +145,47 @@ namespace Marathon.IO.Formats.Meshes
 
                 foreach (Face face in Faces)
                 {
-                    obj.WriteLine($"g {Path.GetFileNameWithoutExtension(filepath)}_{face.Flags}");
+                    obj.WriteLine($"g {Path.GetFileNameWithoutExtension(filepath)}@{face.Flags.ToString("x")}");
                     obj.WriteLine($"f {face.Vertex1 + 1} {face.Vertex2 + 1} {face.Vertex3 + 1}");
                 }
             }
         }
 
         /// <summary>
-        /// Imports the vertices and faces from the OBJ format.
-        /// This could do with being rewritten with a proper model handling approach.
+        /// Imports data from an Assimp compatible format
         /// </summary>
-        public void ImportOBJ(string filepath)
+        /// <param name="filepath"></param>
+        public void ImportAssimp(string filepath)
         {
-            string[] obj = File.ReadAllLines(filepath);
-            uint flags = 0;
-            foreach (string line in obj)
+            // Setup Assimp Scene.
+            AssimpContext assimpImporter = new AssimpContext();
+            KeepSceneHierarchyConfig config = new KeepSceneHierarchyConfig(true);
+            assimpImporter.SetConfig(config);
+            Scene assimpModel = assimpImporter.ImportFile(filepath, PostProcessSteps.PreTransformVertices);
+
+            foreach(Mesh assimpMesh in assimpModel.Meshes)
             {
-                if (line.StartsWith("v "))
-                {
-                    string[] split = line.Split(' ');
-                    Vector3 vertex = new Vector3();
-                    vertex.X = float.Parse(split[2]);
-                    vertex.Y = float.Parse(split[3]);
-                    vertex.Z = float.Parse(split[4]);
-                    Vertices.Add(vertex);
-                }
+                // Mesh Tag
+                uint meshNameTag = 0u;
+                if (assimpMesh.Name.Contains("@")) { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name.Substring(assimpMesh.Name.LastIndexOf('@') + 1), 16); }
 
-                if (line.StartsWith("g "))
+                // Faces.
+                foreach (Assimp.Face assimpFace in assimpMesh.Faces)
                 {
-                    if (line.Contains("@"))
+                    Face face = new Face
                     {
-                        string temp = line.Substring(line.LastIndexOf('@') + 1);
-                        flags = (uint)Convert.ToInt32(temp, 16);
-                    }
-                    else if (line.Contains("_at_"))
-                    {
-                        string temp = line.Substring(line.LastIndexOf("_at_") + 4);
-                        flags = (uint)Convert.ToInt32(temp, 16);
-                    }
-                    else { flags = 0; }
-                }
-
-                if (line.StartsWith("f "))
-                {
-                    Face face = new Face();
-                    string[] split = line.Split(' ');
-                    if (split[1].Contains("/")) { face.Vertex1 = (ushort)(float.Parse(split[1].Substring(0, split[1].IndexOf('/'))) - 1f); }
-                    if (split[2].Contains("/")) { face.Vertex2 = (ushort)(float.Parse(split[2].Substring(0, split[2].IndexOf('/'))) - 1f); }
-                    if (split[3].Contains("/")) { face.Vertex3 = (ushort)(float.Parse(split[3].Substring(0, split[3].IndexOf('/'))) - 1f); }
-                    face.Flags = flags;
+                        Vertex1 = (ushort)(assimpFace.Indices[0] + Vertices.Count),
+                        Vertex2 = (ushort)(assimpFace.Indices[1] + Vertices.Count),
+                        Vertex3 = (ushort)(assimpFace.Indices[2] + Vertices.Count),
+                        Flags   = meshNameTag
+                    };
                     Faces.Add(face);
+                }
+
+                // Verticies.
+                foreach(Vector3D assimpVertex in assimpMesh.Vertices)
+                {
+                    Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
                 }
             }
         }
