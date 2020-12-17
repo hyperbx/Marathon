@@ -38,6 +38,19 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class MessageTable : FileBase
     {
+        public MessageTable(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Message
         {
             public string Name,        // Friendly name pertaining to this message.
@@ -61,7 +74,7 @@ namespace Marathon.IO.Formats.Text
 
             // Store offsets for the string table.
             uint stringTableOffset = reader.ReadUInt32(); // Location of the table of internal string names (including the name) in this file.
-            uint stringCount = reader.ReadUInt32();       // Count of internal string enteries in this file.
+            uint stringCount       = reader.ReadUInt32(); // Count of internal string enteries in this file.
 
             // Get name of MST.
             long namePos = reader.BaseStream.Position;
@@ -74,8 +87,8 @@ namespace Marathon.IO.Formats.Text
                 Message entry = new Message();
 
                 // Store offsets for later.
-                uint nameOffset = reader.ReadUInt32();
-                uint textOffset = reader.ReadUInt32();
+                uint nameOffset        = reader.ReadUInt32();
+                uint textOffset        = reader.ReadUInt32();
                 uint placeholderOffset = reader.ReadUInt32();
 
                 // Stores the current position to jump back to later.
@@ -180,7 +193,7 @@ namespace Marathon.IO.Formats.Text
             {
                 Message entry = new Message
                 {
-                    Name = msgElement.Attribute("Name").Value,
+                    Name        = msgElement.Attribute("Name").Value,
                     Placeholder = msgElement.Attribute("Placeholder").Value,
 
                     // Parse the escaped \f and \n characters.

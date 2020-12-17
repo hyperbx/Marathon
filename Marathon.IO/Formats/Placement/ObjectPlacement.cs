@@ -41,6 +41,19 @@ namespace Marathon.IO.Formats.Placement
     /// </summary>
     public class ObjectPlacement : FileBase
     {
+        public ObjectPlacement(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class SetObject
         {
             public int ID;             // For convenience when writing XMLs.

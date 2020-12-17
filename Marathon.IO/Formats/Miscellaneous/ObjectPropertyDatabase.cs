@@ -37,6 +37,19 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class ObjectPropertyDatabase : FileBase
     {
+        public ObjectPropertyDatabase(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Entry
         {
             public string Name;
@@ -68,8 +81,8 @@ namespace Marathon.IO.Formats.Miscellaneous
             {
                 Entry entry = new Entry();
                 uint objectNameOffset = reader.ReadUInt32();
-                uint parameterCount = reader.ReadUInt32();
-                uint parameterOffset = reader.ReadUInt32();
+                uint parameterCount   = reader.ReadUInt32();
+                uint parameterOffset  = reader.ReadUInt32();
 
                 reader.JumpAhead(8); // Always 0.
 

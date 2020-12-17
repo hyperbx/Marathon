@@ -38,6 +38,19 @@ namespace Marathon.IO.Formats.Miscellaneous
     public class CommonPackage : FileBase
     {
         // TODO: Understand the unknown values.
+        public CommonPackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class ObjectEntry
         {
             public string PropName,

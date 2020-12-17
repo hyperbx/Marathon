@@ -36,6 +36,21 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class PathPackage : FileBase
     {
+        // TODO: Write XML Exporter and Importer.
+
+        public PathPackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    //ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class ObjectEntry
         {
             public string Name;

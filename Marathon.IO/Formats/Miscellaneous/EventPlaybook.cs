@@ -38,6 +38,19 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class EventPlaybook : FileBase
     {
+        public EventPlaybook(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Event
         {
             public string Name,
@@ -227,14 +240,14 @@ namespace Marathon.IO.Formats.Miscellaneous
                 // Read event values.
                 Event @event = new Event
                 {
-                    Name = eventElem.Element("Name").Value,
-                    Folder = eventElem.Element("Folder").Value,
-                    EventLength = uint.Parse(eventElem.Element("EventLength").Value),
-                    Terrain = eventElem.Element("Terrain").Value,
-                    SceneLua = eventElem.Element("SceneLua").Value,
-                    SceneBank = eventElem.Element("SceneBank").Value,
+                    Name         = eventElem.Element("Name").Value,
+                    Folder       = eventElem.Element("Folder").Value,
+                    EventLength  = uint.Parse(eventElem.Element("EventLength").Value),
+                    Terrain      = eventElem.Element("Terrain").Value,
+                    SceneLua     = eventElem.Element("SceneLua").Value,
+                    SceneBank    = eventElem.Element("SceneBank").Value,
                     ParticleList = eventElem.Element("ParticleList").Value,
-                    SubtitleMST = eventElem.Element("SubtitleMST").Value
+                    SubtitleMST  = eventElem.Element("SubtitleMST").Value
                 };
 
                 // Position

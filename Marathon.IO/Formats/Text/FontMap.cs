@@ -35,6 +35,17 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class FontMap : FileBase
     {
+        // TODO: Basically everything, unsure if this reading is finished or not.
+        public FontMap(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Character
         {
             public byte Unicode,

@@ -85,6 +85,16 @@ namespace Marathon.IO.Formats.Miscellaneous
         /// <summary>
         /// Information stored for each episode.
         /// </summary>
+        public SonicNextSaveData(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Episode
         {
             public long Offset;     // Offset of the current episode.

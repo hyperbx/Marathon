@@ -34,6 +34,20 @@ namespace Marathon.IO.Formats.Textures
     /// </summary>
     public class DirectDrawMatrix : FileBase
     {
+
+        /* TODO: Add writing support - the game never uses this format, so this is very low priority.
+                 Each node has 32-byte alignment, so there are an extra set of nulls at the end of each one. */
+
+        public DirectDrawMatrix(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public enum MatrixType
         {
             Root    = 0x204D4444, // DDM 
@@ -124,8 +138,5 @@ namespace Marathon.IO.Formats.Textures
                 Nodes.Add(node);
             }
         }
-
-        /* TODO: Add writing support - the game never uses this format, so this is very low priority.
-                 Each node has 32-byte alignment, so there are an extra set of nulls at the end of each one. */
     }
 }

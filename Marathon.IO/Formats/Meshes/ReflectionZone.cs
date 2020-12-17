@@ -38,6 +38,18 @@ namespace Marathon.IO.Formats.Meshes
     public class ReflectionZone : FileBase
     {
         // TODO: Comment code and test on more than one file
+        public ReflectionZone(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
 
         public class Reflection
         {

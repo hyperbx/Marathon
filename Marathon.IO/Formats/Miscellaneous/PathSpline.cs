@@ -39,6 +39,18 @@ namespace Marathon.IO.Formats.Miscellaneous
     ///
     public class PathSpline : FileBase
     {
+        // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
+
+        public PathSpline(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class PathEntry
         {
             public uint Flag1, Flag2, NodeNumber;
@@ -60,8 +72,6 @@ namespace Marathon.IO.Formats.Miscellaneous
         public const string Extension = ".path";
 
         public List<PathEntry> Paths = new List<PathEntry>();
-
-        // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
 
         public override void Load(Stream stream)
         {

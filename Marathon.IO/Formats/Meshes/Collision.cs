@@ -37,6 +37,19 @@ namespace Marathon.IO.Formats.Meshes
     /// </summary>
     public class Collision : FileBase
     {
+        public Collision(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".obj":
+                    ImportOBJ(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Face
         {
             public ushort Vertex1, Vertex2, Vertex3;
@@ -73,9 +86,9 @@ namespace Marathon.IO.Formats.Meshes
                     Vertex3 = reader.ReadUInt16()
                 };
 
-                reader.JumpAhead(2);
+                reader.JumpAhead(2); // Could probably use reader.FixPadding(); here?
 
-                face.Flags = reader.ReadUInt32();
+                face.Flags = reader.ReadUInt32(); // Could probably do with finding a way to read each Nibble (half byte) individually.
 
                 Faces.Add(face);
             }
@@ -109,7 +122,7 @@ namespace Marathon.IO.Formats.Meshes
                 writer.Write(Faces[i].Vertex1);
                 writer.Write(Faces[i].Vertex2);
                 writer.Write(Faces[i].Vertex3);
-                writer.WriteNulls(2);
+                writer.WriteNulls(2);           // Could probably use writer.FixPadding(); here?
                 writer.Write(Faces[i].Flags);
             }
 

@@ -36,6 +36,19 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleListContainer : FileBase
     {
+        public ParticleListContainer(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Particle
         {
             public string Name1, Name2, FileName; // TODO: not sure what Name2 actually is - sometimes it's the same as Name1, other times it's not, sometimes it's empty.

@@ -38,6 +38,19 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleTextureBank : FileBase
     {
+        public ParticleTextureBank(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Particle
         {
             public string Name, FileName;
@@ -69,7 +82,7 @@ namespace Marathon.IO.Formats.Particles
             {
                 Particle particle = new Particle()
                 {
-                    Name = new string(reader.ReadChars(32)),
+                    Name     = new string(reader.ReadChars(32)),
                     FileName = new string(reader.ReadChars(128)),
                     Unknown1 = reader.ReadUInt32(),
                     Unknown2 = reader.ReadUInt32()
@@ -142,7 +155,7 @@ namespace Marathon.IO.Formats.Particles
             {
                 Particle particle = new Particle
                 {
-                    Name = particleElem.Element("Name").Value.PadRight(32, '\0'),
+                    Name     = particleElem.Element("Name").Value.PadRight(32, '\0'),
                     FileName = particleElem.Element("FileName").Value.PadRight(128, '\0'),
                     Unknown1 = uint.Parse(particleElem.Element("Unknown1").Value),
                     Unknown2 = uint.Parse(particleElem.Element("Unknown2").Value)

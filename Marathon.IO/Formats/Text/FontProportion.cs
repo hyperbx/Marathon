@@ -35,6 +35,18 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class FontProportion : FileBase
     {
+        // TODO: Basically everything, unsure if this reading is finished or not.
+
+        public FontProportion(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Character
         {
             public byte Width;

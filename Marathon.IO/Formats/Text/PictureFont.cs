@@ -37,6 +37,19 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class PictureFont : FileBase
     {
+        public PictureFont(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class SubImage
         {
             public string Placeholder;
@@ -98,7 +111,7 @@ namespace Marathon.IO.Formats.Text
         {
             // Header
             BINAv1Header header = new BINAv1Header();
-            BINAWriter writer = new BINAWriter(stream, header);
+            BINAWriter writer   = new BINAWriter(stream, header);
             writer.WriteSignature(Signature);
 
             // Texture
@@ -127,7 +140,7 @@ namespace Marathon.IO.Formats.Text
             XElement rootElem = new XElement("PFT");
 
             // Texture
-            XElement typeElem = new XElement("Texture");
+            XElement typeElem   = new XElement("Texture");
             XAttribute typeAttr = new XAttribute("File", Texture);
             typeElem.Add(typeAttr);
 
