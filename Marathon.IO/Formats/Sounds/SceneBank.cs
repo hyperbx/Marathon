@@ -43,6 +43,7 @@ namespace Marathon.IO.Formats.Sounds
         /* TODO: Experiment with the Unknown values in the Cue entries and see what they do.
                  Also try messing with the Unknown value in the Header and see if it affects anything. */
 
+        public SceneBank() { }
         public SceneBank(string file)
         {
             switch (Path.GetExtension(file))

@@ -12,6 +12,8 @@ namespace Marathon.IO.Formats.Miscellaneous
     public class ExplosionPackage : FileBase
     {
         // TODO: Understand the unknowns, clean up code.
+
+        public ExplosionPackage() { }
         public ExplosionPackage(string file)
         {
             switch (Path.GetExtension(file))

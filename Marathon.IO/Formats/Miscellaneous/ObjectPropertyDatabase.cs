@@ -37,6 +37,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class ObjectPropertyDatabase : FileBase
     {
+        public ObjectPropertyDatabase() { }
         public ObjectPropertyDatabase(string file)
         {
             switch (Path.GetExtension(file))

@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class MessageTable : FileBase
     {
+        public MessageTable() { }
         public MessageTable(string file)
         {
             switch (Path.GetExtension(file))

@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     {
         // TODO: Write XML Exporter and Importer.
 
+        public PathPackage() { }
         public PathPackage(string file)
         {
             switch (Path.GetExtension(file))

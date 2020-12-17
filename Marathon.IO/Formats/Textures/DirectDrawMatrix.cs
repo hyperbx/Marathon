@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Textures
         /* TODO: Add writing support - the game never uses this format, so this is very low priority.
                  Each node has 32-byte alignment, so there are an extra set of nulls at the end of each one. */
 
+        public DirectDrawMatrix() { }
         public DirectDrawMatrix(string file)
         {
             switch (Path.GetExtension(file))

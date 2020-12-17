@@ -41,6 +41,7 @@ namespace Marathon.IO.Formats.Placement
     /// </summary>
     public class ObjectPlacement : FileBase
     {
+        public ObjectPlacement() { }
         public ObjectPlacement(string file)
         {
             switch (Path.GetExtension(file))

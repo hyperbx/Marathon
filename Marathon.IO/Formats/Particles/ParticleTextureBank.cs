@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleTextureBank : FileBase
     {
+        public ParticleTextureBank() { }
         public ParticleTextureBank(string file)
         {
             switch (Path.GetExtension(file))

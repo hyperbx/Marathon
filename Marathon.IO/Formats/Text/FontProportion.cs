@@ -37,6 +37,7 @@ namespace Marathon.IO.Formats.Text
     {
         // TODO: Basically everything, unsure if this reading is finished or not.
 
+        public FontProportion() { }
         public FontProportion(string file)
         {
             switch (Path.GetExtension(file))

@@ -39,6 +39,7 @@ namespace Marathon.IO.Formats.Meshes
     /// </summary>
     public class Collision : FileBase
     {
+        public Collision() { }
         public Collision(string file)
         {
             switch (Path.GetExtension(file))

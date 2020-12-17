@@ -41,6 +41,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     {
         // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
 
+        public PathSpline() { }
         public PathSpline(string file)
         {
             switch (Path.GetExtension(file))

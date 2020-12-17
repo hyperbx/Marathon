@@ -82,9 +82,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class SonicNextSaveData : FixedFileBase
     {
-        /// <summary>
-        /// Information stored for each episode.
-        /// </summary>
+        public SonicNextSaveData() { }
         public SonicNextSaveData(string file)
         {
             switch (Path.GetExtension(file))
@@ -94,6 +92,10 @@ namespace Marathon.IO.Formats.Miscellaneous
                     break;
             }
         }
+
+        /// <summary>
+        /// Information stored for each episode.
+        /// </summary>
 
         public class Episode
         {

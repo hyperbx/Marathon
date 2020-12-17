@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class EventPlaybook : FileBase
     {
+        public EventPlaybook() { }
         public EventPlaybook(string file)
         {
             switch (Path.GetExtension(file))

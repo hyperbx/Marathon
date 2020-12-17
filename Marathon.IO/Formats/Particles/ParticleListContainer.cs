@@ -36,6 +36,7 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleListContainer : FileBase
     {
+        public ParticleListContainer() { }
         public ParticleListContainer(string file)
         {
             switch (Path.GetExtension(file))

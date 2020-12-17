@@ -38,6 +38,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class AssetPackage : FileBase
     {
+        public AssetPackage() { }
         public AssetPackage(string file)
         {
             switch (Path.GetExtension(file))

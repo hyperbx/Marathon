@@ -37,6 +37,7 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class PictureFont : FileBase
     {
+        public PictureFont() { }
         public PictureFont(string file)
         {
             switch (Path.GetExtension(file))

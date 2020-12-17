@@ -38,6 +38,8 @@ namespace Marathon.IO.Formats.Miscellaneous
     public class CommonPackage : FileBase
     {
         // TODO: Understand the unknown values.
+
+        public CommonPackage() { }
         public CommonPackage(string file)
         {
             switch (Path.GetExtension(file))
