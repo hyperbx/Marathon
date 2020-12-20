@@ -80,9 +80,9 @@ namespace Marathon.IO.Formats.Miscellaneous
             reader.ReadHeader();
 
             uint PathTableOffset = reader.ReadUInt32(); // Where the table of paths is.
-            uint PathTableCount = reader.ReadUInt32();  // How many entries are in the table of paths.
+            uint PathTableCount  = reader.ReadUInt32(); // How many entries are in the table of paths.
             uint NodeTableOffset = reader.ReadUInt32(); // Where the table of nodes is.
-            uint NodeTableCount = reader.ReadUInt32();  // How many enteries are in the table of nodes, seems to always be the same as PathTableCount?
+            uint NodeTableCount  = reader.ReadUInt32(); // How many enteries are in the table of nodes, seems to always be the same as PathTableCount?
 
             // Jump to the Path Table's Offset for safety's sake, should always be ox30 really.
             reader.JumpTo(PathTableOffset, true);
@@ -90,10 +90,10 @@ namespace Marathon.IO.Formats.Miscellaneous
             // Loop through based on PathTableCount.
             for (int i = 0; i < PathTableCount; i++)
             {
-                PathEntry path = new PathEntry();
-                uint PathOffset = reader.ReadUInt32();  // Offset to the path data.
+                PathEntry path   = new PathEntry();
+                uint PathOffset  = reader.ReadUInt32(); // Offset to the path data.
                 uint SplineCount = reader.ReadUInt32(); // How many splines make up this path.
-                path.Flag1 = reader.ReadUInt32();       // Read this path's flag.
+                path.Flag1       = reader.ReadUInt32(); // Read this path's flag.
 
                 // Store position in file.
                 long position = reader.BaseStream.Position;
@@ -102,8 +102,8 @@ namespace Marathon.IO.Formats.Miscellaneous
                 reader.JumpTo(PathOffset, true);
 
                 uint SplineOffset = reader.ReadUInt32(); // Offset to the spines of this path.
-                uint VertexCount = reader.ReadUInt32();  // How many verticies make up this path's splines.
-                path.Flag2 = reader.ReadUInt32();        // Read this path's second flag.
+                uint VertexCount  = reader.ReadUInt32(); // How many verticies make up this path's splines.
+                path.Flag2        = reader.ReadUInt32(); // Read this path's second flag.
 
                 // Jump to the position of this path's splines.
                 reader.JumpTo(SplineOffset, true);
@@ -116,9 +116,9 @@ namespace Marathon.IO.Formats.Miscellaneous
                     {
                         VertexEntry vertex = new VertexEntry
                         {
-                            Flag = reader.ReadUInt32(),
-                            Position = reader.ReadVector3(),
-                            InvecPosition = reader.ReadVector3(),
+                            Flag           = reader.ReadUInt32(),
+                            Position       = reader.ReadVector3(),
+                            InvecPosition  = reader.ReadVector3(),
                             OutvecPosition = reader.ReadVector3()
                         };
                         spline.Verticies.Add(vertex);
@@ -138,8 +138,8 @@ namespace Marathon.IO.Formats.Miscellaneous
             for (int i = 0; i < NodeTableCount; i++)
             {
                 Paths[i].NodeNumber = reader.ReadUInt32();    // Unknown, usually the same as the path's number sequentially, but not always.
-                Paths[i].Position = reader.ReadVector3();
-                Paths[i].Rotation = reader.ReadQuaternion();
+                Paths[i].Position   = reader.ReadVector3();
+                Paths[i].Rotation   = reader.ReadQuaternion();
                 uint NameOffset = reader.ReadUInt32();       // Offset to the path's name.
 
                 // Store position in file.

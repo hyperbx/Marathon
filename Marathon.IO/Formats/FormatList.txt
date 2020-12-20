@@ -1,0 +1,44 @@
+﻿.arc	-	Compressed U8 Archive								-	Full Support (U8Archive.cs)
+.bin	-	Various Generic Binary Archives						-	N/A
+.csb	-	Cue Sheet Binary									-	No Support
+.ddm	-	DirectDraw Matrix									-	Partial Support (DirectDrawMatrix.cs)
+.dds	-	DirectDraw Surface Texture							-	No Support
+.epb	-	Event Playbook										-	Full Support (EventPlaybook.cs)
+.fpo	-	???													-	N/A
+.ftm	-	Font Map Table										-	Little Support (FontMap.cs)
+.fxo	-	Shader												-	No Support
+.hkx	-	Havok 3.3.0-b2 Binary								-	No Support
+.kbf	-	Autodesk Kynapse									-	No Support
+.lub	-	Lua Bytecode										-	Little Support (non functional Lua Decompiler)
+.mab	-	Particle ???										-	No Support
+.mbi	-	Motion Base Information								-	Plain Text
+.mdl	-	SOX Model											-	Partial Support (SOXModel.cs)
+.mst	-	Message Table										-	Full Support (MessageTable.cs)
+.path	-	Path Spline											-	Partial Support (PathSpline.cs)
+.peb	-	Particle Effect Bank								-	No Support
+.pfi	-	Picture Font Information?							-	No Support
+.pft	-	Picture Font Table									-	Full Support (PictureFont.cs)
+.pgs	-	Particle Generation System?							-	No Support
+.pkg	-	Asset Package										-	Full Support (AssetPackage.cs)
+.plc	-	Particle List Container?							-	Full(?) Support (ParticleListContainer.cs)
+.png	-	Portable Network Graphic							-	No Support, can be handled in NET Framework.
+.prop	-	Object Property Database?							-	Full Support (ObjectPropertyDatabase.cs)
+.ptb	-	Particle Texture Bank?								-	Full(?) Support (ParticleTextureBank.cs)
+.rab	-	Reflection Zone										-	Full(?) Support (ReflectionZone.cs)
+.sbk	-	Scene Bank											-	Full Support (SceneBank.cs)
+.set	-	Object Placement, Stage Entity Table?				-	Full Support (ObjectPlacement.cs)
+.tev	-	Time Event											-	Partial Support (TimeEvent.cs)
+.vpo	-	???													-	N/A
+.xna	-	Unknown SegaNN Format								-	No Support
+.xncp	-	Xbox Ninja UI										-	No Support
+.xnd	-	Unknown SegaNN Format seemingly related to cameras	-	No Support
+.xne	-	Unknown SegaNN Format (Xbox Ninja Effect?)			-	No Support
+.xnf	-	Xbox Ninja Morph Motion								-	No Support
+.xng	-	Unknown SegaNN Format								-	No Support
+.xni	-	Xbox Ninja Illumination?							-	No Support
+.xnm	-	Xbox Ninja Motion									-	Little Support (SegaNNXbox.cs)
+.xno	-	Xbox Ninja Object									-	Little Support (SegaNNXbox.cs)
+.xnv	-	Xbox Ninja Material Colour							-	Little Support (SegaNNXbox.cs)
+.xtm	-	Plain Text Xbox Ninja Motion						-	Plain Text
+.xto	-	Plain Text Xbox Ninja Object						-	Plain Text
+.xtv	-	Plain Text Xbox Ninja Material Colour				-	Plain Text
