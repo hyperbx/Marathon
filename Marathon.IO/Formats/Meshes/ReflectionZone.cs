@@ -42,6 +42,7 @@ namespace Marathon.IO.Formats.Meshes
         public class Reflection
         {
             public float Z_Rotation, Length, Y_Rotation, Height;
+
             public List<Vector3> Vertices = new List<Vector3>();
         }
 
@@ -62,13 +63,18 @@ namespace Marathon.IO.Formats.Meshes
             reader.JumpTo(reflectionTableOffset, true);
 
             for (int i = 0; i < reflectionTableCount; i++)
-                Reflections.Add(new Reflection
-                                {
-                                    Z_Rotation = reader.ReadSingle(),
-                                    Length     = reader.ReadSingle(),
-                                    Y_Rotation = reader.ReadSingle(),
-                                    Height     = reader.ReadSingle()
-                                });
+            {
+                Reflections.Add
+                (
+                    new Reflection
+                    {
+                        Z_Rotation = reader.ReadSingle(),
+                        Length = reader.ReadSingle(),
+                        Y_Rotation = reader.ReadSingle(),
+                        Height = reader.ReadSingle()
+                    }
+                );
+            }
 
             reader.JumpTo(entryTableOffset, true);
 

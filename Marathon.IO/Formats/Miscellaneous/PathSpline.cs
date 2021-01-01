@@ -42,18 +42,25 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class PathEntry
         {
             public uint Flag1, Flag2, NodeNumber;
+
             public List<SplineEntry> Splines = new List<SplineEntry>();
+
             public Vector3 Position;
+
             public Quaternion Rotation;
+
             public string Name;
         }
+
         public class SplineEntry
         {
             public List<VertexEntry> Verticies = new List<VertexEntry>();
         }
+
         public class VertexEntry
         {
             public uint Flag;
+
             public Vector3 Position, InvecPosition, OutvecPosition;
         }
 
@@ -110,6 +117,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                             InvecPosition = reader.ReadVector3(),
                             OutvecPosition = reader.ReadVector3()
                         };
+
                         spline.Verticies.Add(vertex);
                     }
                     path.Splines.Add(spline);
@@ -127,9 +135,11 @@ namespace Marathon.IO.Formats.Miscellaneous
             for (int i = 0; i < NodeTableCount; i++)
             {
                 Paths[i].NodeNumber = reader.ReadUInt32();    // Unknown, usually the same as the path's number sequentially, but not always.
-                Paths[i].Position = reader.ReadVector3();
-                Paths[i].Rotation = reader.ReadQuaternion();
-                uint NameOffset = reader.ReadUInt32();       // Offset to the path's name.
+                Paths[i].Position   = reader.ReadVector3();
+                Paths[i].Rotation   = reader.ReadQuaternion();
+
+                // Offset to the path's name.
+                uint NameOffset = reader.ReadUInt32();
 
                 // Store position in file.
                 long position = reader.BaseStream.Position;
@@ -150,6 +160,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
             writer.AddOffset("PathTableOffset");
             writer.Write(Paths.Count);
+
             writer.AddOffset("NodeTableOffset");
             writer.Write(Paths.Count); // Node Table Count seems to always be the same as PathTableCount?
 

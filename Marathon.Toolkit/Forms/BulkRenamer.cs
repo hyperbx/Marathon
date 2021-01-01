@@ -29,9 +29,12 @@ using System.Linq;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Marathon.IO.Formats;
-using Marathon.IO.Helpers;
+using Marathon.Helpers;
+using Marathon.Components;
+using Marathon.IO.Formats.Archives;
+using BrightIdeasSoftware;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -42,6 +45,9 @@ namespace Marathon.Toolkit.Forms
         private SearchOption _SearchOption = SearchOption.TopDirectoryOnly;
         private RenameState _RenameState;
 
+        // List of rename modules for the ObjectListView.
+        private List<RenameModule> Modules = new List<RenameModule>();
+
         public enum RenameState
         {
             Archive,
@@ -50,12 +56,14 @@ namespace Marathon.Toolkit.Forms
 
         public class RenameModule
         {
-            public string Name, Rename;
+            public string Original, // Original file name.
+                          Renamed;   // Renamed file name.
+
             public object Tag;
 
             public RenameModule(string name, object tag)
             {
-                Name = name;
+                Original = name;
                 Tag = tag;
             }
         }
@@ -93,9 +101,9 @@ namespace Marathon.Toolkit.Forms
                 _RenameState = RenameState.Archive;
 
                 // Remove redundant properties.
-                FlowLayoutPanel_Properties.Controls.Remove(CheckBox_IncludeFiles);
-                FlowLayoutPanel_Properties.Controls.Remove(CheckBox_IncludeDirectories);
-                FlowLayoutPanel_Properties.Controls.Remove(CheckBox_IncludeSubdirectoryContents);
+                FlowLayoutPanel_Properties.Controls.Remove(CheckBoxDark_IncludeFiles);
+                FlowLayoutPanel_Properties.Controls.Remove(CheckBoxDark_IncludeDirectories);
+                FlowLayoutPanel_Properties.Controls.Remove(CheckBoxDark_IncludeSubdirectoryContents);
             }
 
             // Load files.
@@ -109,37 +117,21 @@ namespace Marathon.Toolkit.Forms
         {
             if (_RenameState == RenameState.Drive)
             {
-                if (CheckBox_IncludeDirectories.Checked)
+                if (CheckBoxDark_IncludeDirectories.Checked)
                 {
                     foreach (string node in Directory.GetDirectories(_MarathonExplorerPath, "*", _SearchOption))
                     {
-                        // Create module for this node so we can refer to its full name later.
-                        RenameModule nodeModule = new RenameModule(Path.GetFileName(node), node);
-
-                        // Add node to the ListView.
-                        ListViewDark_Preview.Items.Add(new ListViewItem(new [] {nodeModule.Name, "" })
-                        {
-                            Tag = nodeModule,
-                            Checked = true,
-                            ImageKey = "Folder"
-                        });
+                        // Add this file to the modules list.
+                        Modules.Add(new RenameModule(Path.GetFileName(node), node));
                     }
                 }
 
-                if (CheckBox_IncludeFiles.Checked)
+                if (CheckBoxDark_IncludeFiles.Checked)
                 {
                     foreach (string node in Directory.GetFiles(_MarathonExplorerPath, "*", _SearchOption))
                     {
-                        // Create module for this node so we can refer to its full name later.
-                        RenameModule nodeModule = new RenameModule(Path.GetFileName(node), node);
-
-                        // Add node to the ListView.
-                        ListViewDark_Preview.Items.Add(new ListViewItem(new[] { nodeModule.Name, "" })
-                        {
-                            Tag = nodeModule,
-                            Checked = true,
-                            ImageKey = "File"
-                        });
+                        // Add this file to the modules list.
+                        Modules.Add(new RenameModule(Path.GetFileName(node), node));
                     }
                 }
             }
@@ -147,68 +139,46 @@ namespace Marathon.Toolkit.Forms
             {
                 foreach (ListViewItem node in _ArchiveExplorerListView.SelectedItems)
                 {
-                    // Create module for this node so we can refer to its ArchiveData later.
-                    RenameModule nodeModule = new RenameModule(node.Text, node.Tag);
-
-                    // Add node to the ListView.
-                    ListViewDark_Preview.Items.Add(new ListViewItem(new[] { nodeModule.Name, "" })
-                    {
-                        Tag = nodeModule,
-                        Checked = true,
-                        ImageKey = "File"
-                    });
+                    // Add this file to the modules list.
+                    Modules.Add(new RenameModule(node.Text, node.Tag));
                 }
             }
+
+            // Load all rename modules as objects.
+            MarathonListView_Preview.ListView.SetObjects(Modules);
         }
 
-        private void CheckBox_Properties_CheckedChanged_Group(object sender, EventArgs e)
+        private void CheckBoxDark_Properties_CheckedChanged_Group(object sender, EventArgs e)
         {
             // Store the checked state for easier reference.
-            bool @checked = ((CheckBox)sender).Checked;
+            bool @checked = ((CheckBoxDark)sender).Checked;
 
-            if (sender == CheckBox_CreatePrefix || sender == CheckBox_CreateSuffix)
+            if (sender == CheckBoxDark_CreatePrefix || sender == CheckBoxDark_CreateSuffix)
             {
                 switch (@checked)
                 {
                     case true:
                     {
                         // The opposite CheckBox to the sender.
-                        CheckBox opposed = sender == CheckBox_CreatePrefix ?
-                                                     CheckBox_CreateSuffix :
-                                                     CheckBox_CreatePrefix;
+                        CheckBoxDark opposed = sender == CheckBoxDark_CreatePrefix ?
+                                                         CheckBoxDark_CreateSuffix :
+                                                         CheckBoxDark_CreatePrefix;
 
-                        // Rename the label based on sender.
-                        Label_TextBoxDark_Criteria_2.Text = sender == CheckBox_CreatePrefix ? "Prefix:" : "Suffix:";
+                        // Rename the watermark based on sender.
+                        TextBoxDark_Criteria_2.Watermark = sender == CheckBoxDark_CreatePrefix ? "Text to prepend" : "Text to append";
 
-                        // Disable the interfering boxes.
-                        {
-                            // Unsubscribe from this event so it doesn't recurse.
-                            opposed.CheckedChanged -= CheckBox_Properties_CheckedChanged_Group;
-
-                            /* Disable the opposite CheckBox, as well as the Case Sensitive one,
-                               since it's redundant. */
-                            opposed.Checked =
-                            opposed.AutoCheck =
-                            CheckBox_CaseSensitive.AutoCheck = false;
-
-                            /* Set the states to indeterminate so we have a visual representation
-                               that these CheckBoxes are being interfered with. */
-                            opposed.CheckState =
-                            CheckBox_CaseSensitive.CheckState = CheckState.Indeterminate;
-
-                            // Subscribe back to this event.
-                            opposed.CheckedChanged += CheckBox_Properties_CheckedChanged_Group;
-                        }
+                        /* Disable the opposite CheckBox, as well as the Case Sensitive one,
+                            since it's redundant. */
+                        opposed.Enabled = CheckBoxDark_CaseSensitive.Enabled = false;
 
                         // Set visibility state for CheckBox_AppendSuffixToExtension.
-                        if (sender == CheckBox_CreateSuffix)
+                        if (sender == CheckBoxDark_CreateSuffix)
                         {
                             // We only want this to display for suffix creation.
-                            CheckBox_AppendSuffixToExtension.Visible = true;
+                            CheckBoxDark_AppendSuffixToExtension.Visible = true;
                         }
 
                         // Disable the second TextBox, as it won't be necessary.
-                        Label_TextBoxDark_Criteria_1.ForeColor = SystemColors.GrayText;
                         TextBoxDark_Criteria_1.Enabled = false;
 
                         break;
@@ -216,44 +186,35 @@ namespace Marathon.Toolkit.Forms
 
                     case false:
                     {
-                        // Restore first TextBox label.
-                        Label_TextBoxDark_Criteria_2.Text = "New:";
+                        // Restore TextBox watermark.
+                        TextBoxDark_Criteria_2.Watermark = "New name";
 
                         // Restore the boxes.
-                        CheckBox_CreatePrefix.AutoCheck =
-                        CheckBox_CreateSuffix.AutoCheck =
-                        CheckBox_CaseSensitive.AutoCheck = true;
-
-                        // Uncheck the boxes.
-                        CheckBox_CreatePrefix.CheckState =
-                        CheckBox_CreateSuffix.CheckState =
-                        CheckBox_CaseSensitive.CheckState = CheckState.Unchecked;
+                        CheckBoxDark_CreatePrefix.Enabled  =
+                        CheckBoxDark_CreateSuffix.Enabled  =
+                        CheckBoxDark_CaseSensitive.Enabled = true;
 
                         // Reset visibility state for CheckBox_AppendSuffixToExtension.
-                        CheckBox_AppendSuffixToExtension.Visible = false;
+                        CheckBoxDark_AppendSuffixToExtension.Visible = false;
 
                         // Restore the second TextBox.
-                        Label_TextBoxDark_Criteria_1.ForeColor = SystemColors.Control;
                         TextBoxDark_Criteria_1.Enabled = true;
 
                         break;
                     }
                 }
             }
-            else if (sender == CheckBox_IncludeFiles || sender == CheckBox_IncludeDirectories || sender == CheckBox_IncludeSubdirectoryContents)
+            else if (sender == CheckBoxDark_IncludeFiles || sender == CheckBoxDark_IncludeDirectories || sender == CheckBoxDark_IncludeSubdirectoryContents)
             {
-                // Clear the current list.
-                ListViewDark_Preview.Items.Clear();
-
                 if (@checked)
                 {
-                    if (sender == CheckBox_IncludeFiles)
+                    if (sender == CheckBoxDark_IncludeFiles)
                     {
                         // Enable CheckBox_IncludeSubdirectoryContents.
-                        SetSubdirectoryEnabledState(true);
+                        CheckBoxDark_IncludeSubdirectoryContents.Enabled = true;
                     }
 
-                    if (sender == CheckBox_IncludeSubdirectoryContents)
+                    if (sender == CheckBoxDark_IncludeSubdirectoryContents)
                     {
                         // Set the global search option.
                         _SearchOption = SearchOption.AllDirectories;
@@ -261,78 +222,50 @@ namespace Marathon.Toolkit.Forms
                 }
                 else
                 {
-                    if (sender == CheckBox_IncludeFiles)
+                    if (sender == CheckBoxDark_IncludeFiles)
                     {
                         // Disable CheckBox_IncludeSubdirectoryContents.
-                        SetSubdirectoryEnabledState(false);
+                        CheckBoxDark_IncludeSubdirectoryContents.Enabled = false;
                     }
 
-                    if (sender == CheckBox_IncludeSubdirectoryContents)
+                    if (sender == CheckBoxDark_IncludeSubdirectoryContents)
                     {
                         // Reset the global search option.
                         _SearchOption = SearchOption.TopDirectoryOnly;
                     }
                 }
 
-                // Changes the enabled state for CheckBox_IncludeSubdirectoryContents.
-                void SetSubdirectoryEnabledState(bool enabled)
-                {
-                    // Unsubscribe from this event so it doesn't recurse.
-                    CheckBox_IncludeSubdirectoryContents.CheckedChanged -= CheckBox_Properties_CheckedChanged_Group;
-
-                    // Restore the subdirectory contents box.
-                    CheckBox_IncludeSubdirectoryContents.AutoCheck = enabled;
-                    CheckBox_IncludeSubdirectoryContents.CheckState = enabled ? CheckState.Unchecked : CheckState.Indeterminate;
-
-                    // Subscribe back to this event.
-                    CheckBox_IncludeSubdirectoryContents.CheckedChanged += CheckBox_Properties_CheckedChanged_Group;
-                }
-
                 // Load files.
                 LoadContentNodes();
             }
-            else if (sender == CheckBox_MakeUppercase || sender == CheckBox_MakeLowercase || sender == CheckBox_MakeTitlecase)
+            else if (sender == CheckBoxDark_MakeUppercase || sender == CheckBoxDark_MakeLowercase || sender == CheckBoxDark_MakeTitlecase)
             {
                 /* This is kind of a messy solution, but it's 2am and I can't think of anything better right now.
                    Feel free to grill me if you come across this - alternatively, a reminder will do; I don't make a good snack. */
 
                 if (@checked)
                 {
-                    if (sender == CheckBox_MakeUppercase)
+                    if (sender == CheckBoxDark_MakeUppercase)
                     {
-                        SetCaseEnabledState(CheckBox_MakeLowercase, false);
-                        SetCaseEnabledState(CheckBox_MakeTitlecase, false);
+                        CheckBoxDark_MakeLowercase.Enabled = false;
+                        CheckBoxDark_MakeTitlecase.Enabled = false;
                     }
-                    else if (sender == CheckBox_MakeLowercase)
+                    else if (sender == CheckBoxDark_MakeLowercase)
                     {
-                        SetCaseEnabledState(CheckBox_MakeUppercase, false);
-                        SetCaseEnabledState(CheckBox_MakeTitlecase, false);
+                        CheckBoxDark_MakeUppercase.Enabled = false;
+                        CheckBoxDark_MakeTitlecase.Enabled = false;
                     }
-                    else if (sender == CheckBox_MakeTitlecase)
+                    else if (sender == CheckBoxDark_MakeTitlecase)
                     {
-                        SetCaseEnabledState(CheckBox_MakeUppercase, false);
-                        SetCaseEnabledState(CheckBox_MakeLowercase, false);
+                        CheckBoxDark_MakeUppercase.Enabled = false;
+                        CheckBoxDark_MakeLowercase.Enabled = false;
                     }
                 }
                 else
                 {
-                    SetCaseEnabledState(CheckBox_MakeUppercase, true);
-                    SetCaseEnabledState(CheckBox_MakeLowercase, true);
-                    SetCaseEnabledState(CheckBox_MakeTitlecase, true);
-                }
-
-                // Changes the enabled state for the case checkboxes.
-                void SetCaseEnabledState(CheckBox checkBox, bool enabled)
-                {
-                    // Unsubscribe from this event so it doesn't recurse.
-                    checkBox.CheckedChanged -= CheckBox_Properties_CheckedChanged_Group;
-
-                    // Restore the case box.
-                    checkBox.AutoCheck = enabled;
-                    checkBox.CheckState = enabled ? CheckState.Unchecked : CheckState.Indeterminate;
-
-                    // Subscribe back to this event.
-                    checkBox.CheckedChanged += CheckBox_Properties_CheckedChanged_Group;
+                    CheckBoxDark_MakeUppercase.Enabled = true;
+                    CheckBoxDark_MakeLowercase.Enabled = true;
+                    CheckBoxDark_MakeTitlecase.Enabled = true;
                 }
             }
 
@@ -343,14 +276,14 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Updates the preview with the current properties.
         /// </summary>
-        private void UpdatePreview(ListViewItem item = null)
+        private void UpdatePreview(OLVListItem item = null)
         {
             string @criteria = TextBoxDark_Criteria_1.Text;
 
             // Update by iteration.
             if (item == null)
             {
-                foreach (ListViewItem node in ListViewDark_Preview.CheckedItems)
+                foreach (OLVListItem node in MarathonListView_Preview.ListView.CheckedItems)
                 {
                     UpdateItem(node);
                 }
@@ -363,31 +296,31 @@ namespace Marathon.Toolkit.Forms
             }
 
             // Updates the renamed string for the input item.
-            void UpdateItem(ListViewItem node = null)
+            void UpdateItem(OLVListItem node = null)
             {
                 // This should never happen, but just in case...
                 if (node == null)
                     return;
 
                 // Stored for easier reference, as usual.
-                RenameModule @nodeModule = (RenameModule)node.Tag;
+                RenameModule @nodeModule = (RenameModule)node.RowObject;
 
                 // Renamed string.
                 string renamed = string.Empty;
 
                 // Use prefix string.
-                if (CheckBox_CreatePrefix.CheckState == CheckState.Checked)
+                if (CheckBoxDark_CreatePrefix.Checked && !CheckBoxDark_CreatePrefix.Indeterminate)
                 {
-                    renamed = TextBoxDark_Criteria_2.Text + @nodeModule.Name;
+                    renamed = TextBoxDark_Criteria_2.Text + @nodeModule.Original;
                 }
 
                 // Use suffix string.
-                else if (CheckBox_CreateSuffix.CheckState == CheckState.Checked)
+                else if (CheckBoxDark_CreateSuffix.Checked && !CheckBoxDark_CreateSuffix.Indeterminate)
                 {
                     // Just a quick condition so we can append both ways.
-                    renamed = CheckBox_AppendSuffixToExtension.Checked ?
-                              @nodeModule.Name + TextBoxDark_Criteria_2.Text :
-                              Path.GetFileNameWithoutExtension(@nodeModule.Name) + TextBoxDark_Criteria_2.Text + Path.GetExtension(@nodeModule.Name);
+                    renamed = CheckBoxDark_AppendSuffixToExtension.Checked ?
+                              @nodeModule.Original + TextBoxDark_Criteria_2.Text :
+                              Path.GetFileNameWithoutExtension(@nodeModule.Original) + TextBoxDark_Criteria_2.Text + Path.GetExtension(@nodeModule.Original);
                 }
 
                 // Use text from the first TextBox.
@@ -397,24 +330,24 @@ namespace Marathon.Toolkit.Forms
                     if (!string.IsNullOrEmpty(@criteria))
                     {
                         // Using a regular expression here so we can enable/disable case sensitivity.
-                        renamed = new Regex(@criteria, CheckBox_CaseSensitive.CheckState == CheckState.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
-                                     .Replace(@nodeModule.Name, TextBoxDark_Criteria_2.Text);
+                        renamed = new Regex(@criteria, CheckBoxDark_CaseSensitive.Checked ? RegexOptions.None : RegexOptions.IgnoreCase)
+                                     .Replace(@nodeModule.Original, TextBoxDark_Criteria_2.Text);
                     }
                 }
 
                 // Change the renamed text only if there's a difference.
-                if (@nodeModule.Name != renamed)
+                if (@nodeModule.Original != renamed)
                 {
                                                                  // Uppercase result.
-                    node.SubItems[1].Text = @nodeModule.Rename = CheckBox_MakeUppercase.CheckState == CheckState.Checked ?
+                    node.SubItems[1].Text = @nodeModule.Renamed = CheckBoxDark_MakeUppercase.Checked ?
                                                                  renamed.ToUpper() :
                                                                  
                                                                  // Lowercase result.
-                                                                 CheckBox_MakeLowercase.CheckState == CheckState.Checked ? 
+                                                                 CheckBoxDark_MakeLowercase.Checked ? 
                                                                  renamed.ToLower() :
                                                                  
                                                                  // Titlecase result.
-                                                                 CheckBox_MakeTitlecase.CheckState == CheckState.Checked ?
+                                                                 CheckBoxDark_MakeTitlecase.Checked ?
                                                                  CultureInfo.DefaultThreadCurrentUICulture.TextInfo.ToTitleCase(renamed) :
                                                                  
                                                                  // Default result.
@@ -425,7 +358,7 @@ namespace Marathon.Toolkit.Forms
                 else
                 {
                     // Reset the renamed string.
-                    node.SubItems[1].Text = @nodeModule.Rename = string.Empty;
+                    node.SubItems[1].Text = @nodeModule.Renamed = string.Empty;
                 }
             }
         }
@@ -433,16 +366,16 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Resets the renamed string if the item was unchecked.
         /// </summary>
-        private void ListViewDark_Preview_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void MarathonListView_Preview_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             // Store the item for easier reference.
-            ListViewItem @checked = ListViewDark_Preview.Items[e.Index];
+            OLVListItem @checked = (OLVListItem)MarathonListView_Preview.ListView.Items[e.Index];
 
             // Result is unchecked.
             if (e.NewValue == CheckState.Unchecked)
             {
                 // Reset the renamed string.
-                @checked.SubItems[1].Text = ((RenameModule)@checked.Tag).Rename = string.Empty;
+                @checked.SubItems[1].Text = ((RenameModule)@checked.RowObject).Renamed = string.Empty;
             }
 
             // Result is checked.
@@ -454,19 +387,6 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Selects all items when doing CTRL + A.
-        /// </summary>
-        private void ListViewDark_Preview_KeyDown(object sender, KeyEventArgs e)
-        {
-            // CTRL + A shortcut.
-            if (e.Control && e.KeyCode == Keys.A)
-            {
-                // Selects everything in the list.
-                ListViewDark_Preview.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Selected = true);
-            }
-        }
-
-        /// <summary>
         /// Updates the renamed preview when typed into.
         /// </summary>
         private void TextBoxDark_Criteria_TextChanged_Group(object sender, EventArgs e) => UpdatePreview();
@@ -474,11 +394,11 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Begins the renaming process.
         /// </summary>
-        private void ButtonFlat_Rename_Click(object sender, EventArgs e)
+        private void ButtonDark_Rename_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem node in ListViewDark_Preview.Items)
+            foreach (OLVListItem node in MarathonListView_Preview.ListView.Items)
             {
-                RenameModule @nodeModule = (RenameModule)node.Tag;
+                RenameModule @nodeModule = (RenameModule)node.RowObject;
 
                 if (_RenameState == RenameState.Drive)
                 {
@@ -486,10 +406,10 @@ namespace Marathon.Toolkit.Forms
                     string @modulePath = (string)@nodeModule.Tag;
 
                     // Check if the renamed string isn't null or invalid before we overwrite it.
-                    if (!string.IsNullOrEmpty(@nodeModule.Rename) && @nodeModule.Rename.IndexOfAny(Path.GetInvalidFileNameChars()) != 0)
+                    if (!string.IsNullOrEmpty(@nodeModule.Renamed) && @nodeModule.Renamed.IndexOfAny(Path.GetInvalidFileNameChars()) != 0)
                     {
                         // Assembled path from renamed node.
-                        string newPath = StringHelper.ReplaceFilename(@modulePath, @nodeModule.Rename.TrimEnd('.'));
+                        string newPath = StringHelper.ReplaceFilename(@modulePath, @nodeModule.Renamed.TrimEnd('.'));
 
                         // Original path was a file.
                         if (File.Exists(@modulePath))
@@ -506,10 +426,10 @@ namespace Marathon.Toolkit.Forms
                     ArchiveData @moduleData = (ArchiveData)@nodeModule.Tag;
 
                     // Check if the renamed string isn't null before we kill the data. lolmao
-                    if (!string.IsNullOrEmpty(@nodeModule.Rename))
+                    if (!string.IsNullOrEmpty(@nodeModule.Renamed))
                     {
                         // Rename time!
-                        node.Text = @moduleData.Name = @nodeModule.Rename.TrimEnd('.');
+                        node.Text = @moduleData.Name = @nodeModule.Renamed.TrimEnd('.');
                     }
                 }
             }

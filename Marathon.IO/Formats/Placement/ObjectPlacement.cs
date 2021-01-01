@@ -145,27 +145,37 @@ namespace Marathon.IO.Formats.Placement
                     switch (parameterType)
                     {
                         case 0: // Boolean
+                        {
                             parameter.DataType = typeof(bool);
                             parameter.Data = reader.ReadUInt32() == 1; // TODO: What does this actually do? It was written like this in HedgeLib but I don't understand why.
 
                             reader.JumpAhead(12); // TODO: Unknown - always 0 in official files?
+
                             break;
+                        }
 
                         case 1: // Int32
+                        {
                             parameter.DataType = typeof(int);
                             parameter.Data = reader.ReadInt32();
 
                             reader.JumpAhead(12); // TODO: Unknown - always 0 in official files?
+
                             break;
+                        }
 
                         case 2: // Single
+                        {
                             parameter.DataType = typeof(float);
                             parameter.Data = reader.ReadSingle();
 
                             reader.JumpAhead(12); // TODO: Unknown - always 0 in official files?
+
                             break;
+                        }
 
                         case 3: // String
+                        {
                             parameter.DataType = typeof(string);
                             uint stringOffset = reader.ReadUInt32();
                             long stringParameterPosition = reader.BaseStream.Position;
@@ -177,24 +187,34 @@ namespace Marathon.IO.Formats.Placement
                             reader.JumpAhead(4); // TODO: Unknown - always 0 in official files?
 
                             parameter.StringPadding = reader.ReadUInt32(); // TODO: Figure out if there's a pattern with these four bytes and replicate it properly.
+
                             break;
+                        }
 
                         case 4: // Vector3
+                        {
                             parameter.DataType = typeof(Vector3);
                             parameter.Data = reader.ReadVector3();
 
                             reader.JumpAhead(4); // TODO: Unknown - always 0 in official files?
+
                             break;
+                        }
 
                         case 6: // UInt32
+                        {
                             parameter.DataType = typeof(uint);
                             parameter.Data = reader.ReadUInt32();
 
                             reader.JumpAhead(12); // TODO: Unknown - always 0 in official files?
+
                             break;
+                        }
 
                         default:
+                        {
                             throw new InvalidSetParameterType(parameterType, reader.BaseStream.Position - 4);
+                        }
                     }
 
                     @object.Parameters.Add(parameter);
@@ -322,27 +342,37 @@ namespace Marathon.IO.Formats.Placement
                         switch (parameter.DataType.ToString()) // Read the parameters data type.
                         {
                             case "System.Boolean":
+                            {
                                 writer.Write(0);
                                 writer.Write(((bool)parameter.Data) ? 1 : 0); // TODO: What does this actually do? It was written like this in HedgeLib but I don't understand why.
 
                                 writer.WriteNulls(12);
+
                                 break;
+                            }
 
                             case "System.Int32":
+                            {
                                 writer.Write(1);
                                 writer.Write((int)parameter.Data);
 
                                 writer.WriteNulls(12);
+
                                 break;
+                            }
 
                             case "System.Single":
+                            {
                                 writer.Write(2);
                                 writer.Write((float)parameter.Data);
 
                                 writer.WriteNulls(12);
+
                                 break;
+                            }
 
                             case "System.String":
+                            {
                                 writer.Write(3);
                                 writer.AddString($"stringParamOffset{stringParamCount}", (string)parameter.Data, false);
                                 writer.Write(1);
@@ -350,24 +380,34 @@ namespace Marathon.IO.Formats.Placement
 
                                 writer.Write(parameter.StringPadding); // TODO: Figure out if there's a pattern with these four bytes and replicate it properly.
                                 stringParamCount++;
-                                break;
 
-                            case "Marathon.IO.Vector3":
+                                break;
+                            }
+
+                            case "Marathon.IO.Formats.Vector3":
+                            {
                                 writer.Write(4);
                                 writer.Write((Vector3)parameter.Data);
 
                                 writer.WriteNulls(4);
+
                                 break;
+                            }
 
                             case "System.UInt32":
+                            {
                                 writer.Write(6);
                                 writer.Write((uint)parameter.Data);
 
                                 writer.WriteNulls(12);
+
                                 break;
+                            }
 
                             default:
+                            {
                                 throw new Exception($"Got invalid data type {parameter.DataType} in Object Parameter at position {i}...");
+                            }
                         }
                     }
                 }
@@ -522,38 +562,58 @@ namespace Marathon.IO.Formats.Placement
                     switch (dataType)
                     {
                         case "System.Boolean":
+                        {
                             parameter.DataType = typeof(bool);
                             parameter.Data = bool.Parse(paramElem.Value);
+
                             break;
+                        }
 
                         case "System.Int32":
+                        {
                             parameter.DataType = typeof(int);
                             parameter.Data = int.Parse(paramElem.Value);
+
                             break;
+                        }
 
                         case "System.Single":
+                        {
                             parameter.DataType = typeof(float);
                             parameter.Data = float.Parse(paramElem.Value);
+
                             break;
+                        }
 
                         case "System.String":
+                        {
                             parameter.DataType = typeof(string);
                             parameter.Data = paramElem.Value;
-                            break;
 
-                        case "Marathon.IO.Vector3":
+                            break;
+                        }
+
+                        case "Marathon.IO.Formats.Vector3":
+                        {
                             parameter.DataType = typeof(Vector3);
                             string[] vectorArray = paramElem.Value.Replace("(", string.Empty).Replace(")", string.Empty).Replace(" ", string.Empty).Split(',');
                             parameter.Data = new Vector3(float.Parse(vectorArray[0]), float.Parse(vectorArray[1]), float.Parse(vectorArray[2]));
+
                             break;
+                        }
 
                         case "System.UInt32":
+                        {
                             parameter.DataType = typeof(uint);
                             parameter.Data = uint.Parse(paramElem.Value);
+
                             break;
+                        }
 
                         default:
+                        {
                             throw new Exception($"Got invalid data type {paramElem.Value} in Object Parameter...");
+                        }
                     }
 
                     Object.Parameters.Add(parameter);

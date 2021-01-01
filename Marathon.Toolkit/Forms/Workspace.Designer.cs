@@ -37,24 +37,31 @@ namespace Marathon.Toolkit.Forms
             this.KryptonContextMenuItem_File_Open_Items_OpenFile = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
             this.KryptonContextMenuItem_File_Open_Items_OpenFolder = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
             this.KryptonContextMenuSeparator_File_1 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator();
+            this.KryptonContextMenuItem_File_Output = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
+            this.KryptonContextMenuItem_File_Windows = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
+            this.KryptonContextMenuSeparator_File_2 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator();
             this.ButtonSpecAppMenu_AboutMarathon = new ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu();
             this.ButtonSpecAppMenu_MarathonOptions = new ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu();
             this.ButtonSpecAppMenu_ExitMarathon = new ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu();
-            this.KryptonRibbonTab_Home = new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab();
-            this.KryptonRibbonGroup_Home_Organise = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
-            this.KryptonRibbonGroupTriple_Home_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.KryptonRibbonTab_Developer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab();
-            this.KryptonRibbonGroup_Developer_Tools = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
-            this.KryptonRibbonGroupTriple_Developer_New_Debugger = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.KryptonRibbonTab_Marathon = new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab();
+            this.KryptonRibbonGroup_Marathon_Organise = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
+            this.KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.KryptonRibbonGroup_Marathon_Developer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
+            this.KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
             this.DockPanel_Workspace = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             this.VS2015DarkTheme_DockPanel_Workspace = new WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme();
             this.KryptonManager_Workspace = new ComponentFactory.Krypton.Toolkit.KryptonManager(this.components);
             this.KryptonPalette_Marathon = new ComponentFactory.Krypton.Toolkit.KryptonPalette(this.components);
             this.kryptonContextMenuItem2 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
+            this.StatusStripDark_Workspace = new Marathon.Components.StatusStripDark();
+            this.ToolStripStatusLabel_Status = new System.Windows.Forms.ToolStripStatusLabel();
+            this.ToolStripStatusLabel_Version = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_Workspace)).BeginInit();
+            this.StatusStripDark_Workspace.SuspendLayout();
             this.SuspendLayout();
             // 
             // KryptonRibbon_Workspace
@@ -66,19 +73,22 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonMenuItems.AddRange(new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.KryptonContextMenuItem_File_New,
             this.KryptonContextMenuItem_File_Open,
-            this.KryptonContextMenuSeparator_File_1});
+            this.KryptonContextMenuSeparator_File_1,
+            this.KryptonContextMenuItem_File_Output,
+            this.KryptonContextMenuItem_File_Windows,
+            this.KryptonContextMenuSeparator_File_2});
             this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonSpecs.AddRange(new ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu[] {
             this.ButtonSpecAppMenu_AboutMarathon,
             this.ButtonSpecAppMenu_MarathonOptions,
             this.ButtonSpecAppMenu_ExitMarathon});
-            this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonToolTipBody = "All your \'06 formats are belong to us.";
+            this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonToolTipBody = "All your \'06 formats are belong to us";
             this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonToolTipTitle = "Marathon";
             this.KryptonRibbon_Workspace.RibbonTabs.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab[] {
-            this.KryptonRibbonTab_Home,
-            this.KryptonRibbonTab_Developer});
-            this.KryptonRibbon_Workspace.SelectedTab = this.KryptonRibbonTab_Home;
+            this.KryptonRibbonTab_Marathon});
+            this.KryptonRibbon_Workspace.SelectedTab = this.KryptonRibbonTab_Marathon;
             this.KryptonRibbon_Workspace.Size = new System.Drawing.Size(1264, 115);
             this.KryptonRibbon_Workspace.TabIndex = 5;
+            this.KryptonRibbon_Workspace.MinimizedModeChanged += new System.EventHandler(this.KryptonRibbon_Workspace_MinimizedModeChanged);
             // 
             // KryptonContextMenuItem_File_New
             // 
@@ -104,18 +114,33 @@ namespace Marathon.Toolkit.Forms
             // 
             // KryptonContextMenuItem_File_Open_Items_OpenFile
             // 
+            this.KryptonContextMenuItem_File_Open_Items_OpenFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.KryptonContextMenuItem_File_Open_Items_OpenFile.Text = "Open File";
             this.KryptonContextMenuItem_File_Open_Items_OpenFile.Click += new System.EventHandler(this.KryptonContextMenuItem_File_Open_Items_OpenFile_Click);
             // 
             // KryptonContextMenuItem_File_Open_Items_OpenFolder
             // 
+            this.KryptonContextMenuItem_File_Open_Items_OpenFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
             this.KryptonContextMenuItem_File_Open_Items_OpenFolder.Text = "Open Folder";
             this.KryptonContextMenuItem_File_Open_Items_OpenFolder.Click += new System.EventHandler(this.KryptonContextMenuItem_File_Open_Items_OpenFolder_Click);
+            // 
+            // KryptonContextMenuItem_File_Output
+            // 
+            this.KryptonContextMenuItem_File_Output.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
+            | System.Windows.Forms.Keys.O)));
+            this.KryptonContextMenuItem_File_Output.Text = "Output...";
+            this.KryptonContextMenuItem_File_Output.Click += new System.EventHandler(this.KryptonContextMenuItem_File_Output_Click);
+            // 
+            // KryptonContextMenuItem_File_Windows
+            // 
+            this.KryptonContextMenuItem_File_Windows.Text = "Windows...";
+            this.KryptonContextMenuItem_File_Windows.Click += new System.EventHandler(this.KryptonContextMenuItem_File_Windows_Click);
             // 
             // ButtonSpecAppMenu_AboutMarathon
             // 
             this.ButtonSpecAppMenu_AboutMarathon.Edge = ComponentFactory.Krypton.Toolkit.PaletteRelativeEdgeAlign.Near;
-            this.ButtonSpecAppMenu_AboutMarathon.Image = global::Marathon.Toolkit.Properties.Resources.Task_Strip_Information;
+            this.ButtonSpecAppMenu_AboutMarathon.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSpecAppMenu_AboutMarathon.Image")));
             this.ButtonSpecAppMenu_AboutMarathon.Style = ComponentFactory.Krypton.Toolkit.PaletteButtonStyle.Standalone;
             this.ButtonSpecAppMenu_AboutMarathon.Text = "About Marathon";
             this.ButtonSpecAppMenu_AboutMarathon.UniqueName = "c6f6a7f45c694cc4a173e72b19bd03b0";
@@ -123,7 +148,7 @@ namespace Marathon.Toolkit.Forms
             // 
             // ButtonSpecAppMenu_MarathonOptions
             // 
-            this.ButtonSpecAppMenu_MarathonOptions.Image = global::Marathon.Toolkit.Properties.Resources.Task_Strip_Settings;
+            this.ButtonSpecAppMenu_MarathonOptions.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSpecAppMenu_MarathonOptions.Image")));
             this.ButtonSpecAppMenu_MarathonOptions.Style = ComponentFactory.Krypton.Toolkit.PaletteButtonStyle.Standalone;
             this.ButtonSpecAppMenu_MarathonOptions.Text = "Marathon Options";
             this.ButtonSpecAppMenu_MarathonOptions.UniqueName = "1caf061d845e4bc7ac3722e8fcce01d9";
@@ -131,74 +156,77 @@ namespace Marathon.Toolkit.Forms
             // 
             // ButtonSpecAppMenu_ExitMarathon
             // 
-            this.ButtonSpecAppMenu_ExitMarathon.Image = global::Marathon.Toolkit.Properties.Resources.Task_Strip_Exit;
+            this.ButtonSpecAppMenu_ExitMarathon.Image = ((System.Drawing.Image)(resources.GetObject("ButtonSpecAppMenu_ExitMarathon.Image")));
             this.ButtonSpecAppMenu_ExitMarathon.Style = ComponentFactory.Krypton.Toolkit.PaletteButtonStyle.Standalone;
             this.ButtonSpecAppMenu_ExitMarathon.Text = "Exit Marathon";
             this.ButtonSpecAppMenu_ExitMarathon.UniqueName = "1bdc55c5b4784595b5956e1fb9ad2c74";
             this.ButtonSpecAppMenu_ExitMarathon.Click += new System.EventHandler(this.ButtonSpecAppMenu_ExitMarathon_Click);
             // 
-            // KryptonRibbonTab_Home
+            // KryptonRibbonTab_Marathon
             // 
-            this.KryptonRibbonTab_Home.Groups.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup[] {
-            this.KryptonRibbonGroup_Home_Organise});
-            this.KryptonRibbonTab_Home.KeyTip = "H";
-            this.KryptonRibbonTab_Home.Text = "Home";
+            this.KryptonRibbonTab_Marathon.Groups.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup[] {
+            this.KryptonRibbonGroup_Marathon_Organise,
+            this.KryptonRibbonGroup_Marathon_Developer});
+            this.KryptonRibbonTab_Marathon.KeyTip = "M";
+            this.KryptonRibbonTab_Marathon.Text = "Marathon";
             // 
-            // KryptonRibbonGroup_Home_Organise
+            // KryptonRibbonGroup_Marathon_Organise
             // 
-            this.KryptonRibbonGroup_Home_Organise.DialogBoxLauncher = false;
-            this.KryptonRibbonGroup_Home_Organise.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.KryptonRibbonGroupTriple_Home_Organise_BulkRenamer});
-            this.KryptonRibbonGroup_Home_Organise.TextLine1 = "Organise";
+            this.KryptonRibbonGroup_Marathon_Organise.DialogBoxLauncher = false;
+            this.KryptonRibbonGroup_Marathon_Organise.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer});
+            this.KryptonRibbonGroup_Marathon_Organise.TextLine1 = "Organise";
             // 
-            // KryptonRibbonGroupTriple_Home_Organise_BulkRenamer
+            // KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer
             // 
-            this.KryptonRibbonGroupTriple_Home_Organise_BulkRenamer.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer});
+            this.KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer,
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager});
             // 
-            // KryptonRibbonGroupButton_Home_Organise_BulkRenamer
+            // KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer
             // 
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Task_Ribbon_Rename;
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.KeyTip = "F2";
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.TextLine1 = "Bulk";
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.TextLine2 = "Renamer";
-            this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer.Click += new System.EventHandler(this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer_Click);
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Task_Ribbon_Rename;
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.KeyTip = "F2";
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.TextLine1 = "Bulk";
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.TextLine2 = "Renamer";
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.Click += new System.EventHandler(this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer_Click);
             // 
-            // KryptonRibbonTab_Developer
+            // KryptonRibbonGroupButton_Marathon_Organise_ModManager
             // 
-            this.KryptonRibbonTab_Developer.Groups.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup[] {
-            this.KryptonRibbonGroup_Developer_Tools});
-            this.KryptonRibbonTab_Developer.KeyTip = "L";
-            this.KryptonRibbonTab_Developer.Text = "Developer";
-            this.KryptonRibbonTab_Developer.Visible = false;
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Manager_Small_Colour;
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.KeyTip = "MMM";
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.TextLine1 = "Mod";
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.TextLine2 = "Manager";
+            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.Click += new System.EventHandler(this.KryptonRibbonGroupButton_Home_Organise_ModManager_Click);
             // 
-            // KryptonRibbonGroup_Developer_Tools
+            // KryptonRibbonGroup_Marathon_Developer
             // 
-            this.KryptonRibbonGroup_Developer_Tools.DialogBoxLauncher = false;
-            this.KryptonRibbonGroup_Developer_Tools.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupContainer[] {
-            this.KryptonRibbonGroupTriple_Developer_New_Debugger});
-            this.KryptonRibbonGroup_Developer_Tools.TextLine1 = "Tools";
+            this.KryptonRibbonGroup_Marathon_Developer.DialogBoxLauncher = false;
+            this.KryptonRibbonGroup_Marathon_Developer.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupContainer[] {
+            this.KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings});
+            this.KryptonRibbonGroup_Marathon_Developer.TextLine1 = "Developer";
+            this.KryptonRibbonGroup_Marathon_Developer.Visible = false;
             // 
-            // KryptonRibbonGroupTriple_Developer_New_Debugger
+            // KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings
             // 
-            this.KryptonRibbonGroupTriple_Developer_New_Debugger.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger,
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings});
+            this.KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupItem[] {
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger,
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings});
             // 
-            // KryptonRibbonGroupButton_Developer_Tools_Debugger
+            // KryptonRibbonGroupButton_Marathon_Developer_Debugger
             // 
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger.KeyTip = "D";
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger.TextLine1 = "Debugger";
-            this.KryptonRibbonGroupButton_Developer_Tools_Debugger.Click += new System.EventHandler(this.KryptonRibbonGroup_Developer_Tools_Click_Group);
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Toolkit_Small_Colour;
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger.KeyTip = "D";
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger.TextLine1 = "Debugger";
+            this.KryptonRibbonGroupButton_Marathon_Developer_Debugger.Click += new System.EventHandler(this.KryptonRibbonGroup_Developer_Tools_Click_Group);
             // 
-            // KryptonRibbonGroupButton_Developer_Tools_ResetSettings
+            // KryptonRibbonGroupButton_Marathon_Developer_ResetSettings
             // 
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Feedback_Warning;
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings.TextLine1 = "Reset";
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings.TextLine2 = "settings";
-            this.KryptonRibbonGroupButton_Developer_Tools_ResetSettings.Click += new System.EventHandler(this.KryptonRibbonGroup_Developer_Tools_Click_Group);
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Feedback_Warning;
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings.TextLine1 = "Reset";
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings.TextLine2 = "settings";
+            this.KryptonRibbonGroupButton_Marathon_Developer_ResetSettings.Click += new System.EventHandler(this.KryptonRibbonGroup_Developer_Tools_Click_Group);
             // 
             // DockPanel_Workspace
             // 
@@ -211,7 +239,7 @@ namespace Marathon.Toolkit.Forms
             this.DockPanel_Workspace.Name = "DockPanel_Workspace";
             this.DockPanel_Workspace.Padding = new System.Windows.Forms.Padding(6);
             this.DockPanel_Workspace.ShowAutoHideContentOnHover = false;
-            this.DockPanel_Workspace.Size = new System.Drawing.Size(1264, 566);
+            this.DockPanel_Workspace.Size = new System.Drawing.Size(1264, 544);
             this.DockPanel_Workspace.SupportDeeplyNestedContent = true;
             this.DockPanel_Workspace.TabIndex = 6;
             this.DockPanel_Workspace.Theme = this.VS2015DarkTheme_DockPanel_Workspace;
@@ -225,6 +253,29 @@ namespace Marathon.Toolkit.Forms
             // KryptonPalette_Marathon
             // 
             this.KryptonPalette_Marathon.BasePaletteMode = ComponentFactory.Krypton.Toolkit.PaletteMode.Office365Black;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(94)))), ((int)(((byte)(94)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Back.ColorStyle = ComponentFactory.Krypton.Toolkit.PaletteColorStyle.SolidInside;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Border.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(112)))), ((int)(((byte)(112)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedNormal.Border.Rounding = 0;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedPressed.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedPressed.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedPressed.Back.ColorStyle = ComponentFactory.Krypton.Toolkit.PaletteColorStyle.SolidInside;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedPressed.Border.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.False;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedPressed.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedTracking.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedTracking.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(71)))), ((int)(((byte)(71)))));
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedTracking.Back.ColorStyle = ComponentFactory.Krypton.Toolkit.PaletteColorStyle.SolidInside;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedTracking.Border.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.False;
+            this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StateCheckedTracking.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
+            | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StatePressed.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
             this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StatePressed.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(108)))), ((int)(((byte)(108)))), ((int)(((byte)(108)))));
             this.KryptonPalette_Marathon.ButtonStyles.ButtonCommon.StatePressed.Back.ColorStyle = ComponentFactory.Krypton.Toolkit.PaletteColorStyle.SolidInside;
@@ -312,7 +363,7 @@ namespace Marathon.Toolkit.Forms
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
             this.KryptonPalette_Marathon.ControlStyles.ControlToolTip.StateNormal.Border.Rounding = 0;
             this.KryptonPalette_Marathon.CustomisedKryptonPaletteFilePath = null;
-            this.KryptonPalette_Marathon.Images.ContextMenu.Checked = global::Marathon.Toolkit.Properties.Resources.Task_Checked;
+            this.KryptonPalette_Marathon.Images.ContextMenu.Checked = ((System.Drawing.Image)(resources.GetObject("KryptonPalette_Marathon.Images.ContextMenu.Checked")));
             this.KryptonPalette_Marathon.LabelStyles.LabelKeyTip.StateCommon.LongText.Color1 = System.Drawing.Color.White;
             this.KryptonPalette_Marathon.LabelStyles.LabelKeyTip.StateCommon.LongText.Color2 = System.Drawing.Color.White;
             this.KryptonPalette_Marathon.LabelStyles.LabelKeyTip.StateCommon.ShortText.Color1 = System.Drawing.Color.White;
@@ -379,15 +430,45 @@ namespace Marathon.Toolkit.Forms
             // 
             this.kryptonContextMenuItem2.Text = "Menu Item";
             // 
+            // StatusStripDark_Workspace
+            // 
+            this.StatusStripDark_Workspace.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.StatusStripDark_Workspace.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripStatusLabel_Status,
+            this.ToolStripStatusLabel_Version});
+            this.StatusStripDark_Workspace.Location = new System.Drawing.Point(0, 659);
+            this.StatusStripDark_Workspace.Name = "StatusStripDark_Workspace";
+            this.StatusStripDark_Workspace.Padding = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.StatusStripDark_Workspace.Size = new System.Drawing.Size(1264, 22);
+            this.StatusStripDark_Workspace.SizingGrip = false;
+            this.StatusStripDark_Workspace.TabIndex = 7;
+            // 
+            // ToolStripStatusLabel_Status
+            // 
+            this.ToolStripStatusLabel_Status.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ToolStripStatusLabel_Status.Name = "ToolStripStatusLabel_Status";
+            this.ToolStripStatusLabel_Status.Size = new System.Drawing.Size(198, 17);
+            this.ToolStripStatusLabel_Status.Text = "All your \'06 formats are belong to us";
+            this.ToolStripStatusLabel_Status.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            // 
+            // ToolStripStatusLabel_Version
+            // 
+            this.ToolStripStatusLabel_Version.Name = "ToolStripStatusLabel_Version";
+            this.ToolStripStatusLabel_Version.Size = new System.Drawing.Size(1064, 17);
+            this.ToolStripStatusLabel_Version.Spring = true;
+            this.ToolStripStatusLabel_Version.Text = "Version 0.0.0.0-fffffff";
+            this.ToolStripStatusLabel_Version.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Workspace
             // 
             this.AllowFormChrome = false;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.DockPanel_Workspace);
             this.Controls.Add(this.KryptonRibbon_Workspace);
+            this.Controls.Add(this.StatusStripDark_Workspace);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
@@ -402,6 +483,8 @@ namespace Marathon.Toolkit.Forms
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Workspace_FormClosing);
             this.ResizeEnd += new System.EventHandler(this.Workspace_ResizeEnd);
             ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_Workspace)).EndInit();
+            this.StatusStripDark_Workspace.ResumeLayout(false);
+            this.StatusStripDark_Workspace.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -413,26 +496,32 @@ namespace Marathon.Toolkit.Forms
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_New;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Open;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator KryptonContextMenuSeparator_File_1;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonTab KryptonRibbonTab_Developer;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup KryptonRibbonGroup_Developer_Tools;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple KryptonRibbonGroupTriple_Developer_New_Debugger;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Developer_Tools_Debugger;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup KryptonRibbonGroup_Marathon_Developer;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Marathon_Developer_Debugger;
         private WeifenLuo.WinFormsUI.Docking.DockPanel DockPanel_Workspace;
         private WeifenLuo.WinFormsUI.Docking.VS2015DarkTheme VS2015DarkTheme_DockPanel_Workspace;
         private ComponentFactory.Krypton.Toolkit.KryptonManager KryptonManager_Workspace;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItems KryptonContextMenuItem_File_Open_Items;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Open_Items_OpenFile;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Open_Items_OpenFolder;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonTab KryptonRibbonTab_Home;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup KryptonRibbonGroup_Home_Organise;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple KryptonRibbonGroupTriple_Home_Organise_BulkRenamer;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Home_Organise_BulkRenamer;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonTab KryptonRibbonTab_Marathon;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup KryptonRibbonGroup_Marathon_Organise;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer;
         private ComponentFactory.Krypton.Toolkit.KryptonPalette KryptonPalette_Marathon;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem kryptonContextMenuItem2;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Developer_Tools_ResetSettings;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Marathon_Developer_ResetSettings;
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_ExitMarathon;
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_MarathonOptions;
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_AboutMarathon;
+        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Marathon_Organise_ModManager;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Windows;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator KryptonContextMenuSeparator_File_2;
+        private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabel_Status;
+        private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabel_Version;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Output;
+        public Components.StatusStripDark StatusStripDark_Workspace;
     }
 }
 

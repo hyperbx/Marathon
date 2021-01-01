@@ -3,16 +3,15 @@ using Marathon.IO.Formats;
 
 namespace Marathon.IO.Helpers
 {
-    /// This class was developed by ladislavlang, and was released into the public domain.
-    /// https://www.gamedev.net/forums/topic/540570-half-precision-floating-point-in-c/?do=findComment&comment=4487933
-    /// 
     /// <summary>
-    /// Helper class for Half conversions and some low level operations.
-    /// This class is internally used in the Half class.
+    /// <para>Helper class for Half conversions and some low level operations.</para>
+    /// <para>This class is internally used in the Half class.</para>
     /// </summary>
+    /// 
     /// <remarks>
     /// References:
-    ///     - Fast Half Float Conversions, Jeroen van der Zijp, link: http://www.fox-toolkit.org/ftp/fasthalffloatconversion.pdf
+    ///     - Half precision floating point in C#: https://www.gamedev.net/forums/topic/540570-half-precision-floating-point-in-c/?do=findComment&comment=4487933
+    ///     - Fast half float conversions: http://www.fox-toolkit.org/ftp/fasthalffloatconversion.pdf
     /// </remarks>
     [ComVisible(false)]
     internal static class HalfHelper
@@ -113,27 +112,32 @@ namespace Marathon.IO.Helpers
                 sbyte e = (sbyte)(127 - i);
 
                 if (e > 24)
-                { // Very small numbers map to zero
+                {
+                    // Very small numbers map to zero.
                     baseTable[i | 0x000] = 0x0000;
                     baseTable[i | 0x100] = 0x8000;
                 }
                 else if (e > 14)
-                { // Small numbers map to denorms
+                {
+                    // Small numbers map to denorms.
                     baseTable[i | 0x000] = (ushort)(0x0400 >> (18 + e));
                     baseTable[i | 0x100] = (ushort)((0x0400 >> (18 + e)) | 0x8000);
                 }
                 else if (e >= -15)
-                { // Normal numbers just lose precision
+                {
+                    // Normal numbers just lose precision.
                     baseTable[i | 0x000] = (ushort)((15 - e) << 10);
                     baseTable[i | 0x100] = (ushort)(((15 - e) << 10) | 0x8000);
                 }
                 else if (e > -128)
-                { // Large numbers map to Infinity
+                {
+                    // Large numbers map to Infinity.
                     baseTable[i | 0x000] = 0x7c00;
                     baseTable[i | 0x100] = 0xfc00;
                 }
                 else
-                { // Infinity and NaN's stay Infinity and NaN's
+                {
+                    // Infinity and NaNs stay Infinity and NaNs.
                     baseTable[i | 0x000] = 0x7c00;
                     baseTable[i | 0x100] = 0xfc00;
                 }
@@ -151,27 +155,32 @@ namespace Marathon.IO.Helpers
                 sbyte e = (sbyte)(127 - i);
 
                 if (e > 24)
-                { // Very small numbers map to zero
+                {
+                    // Very small numbers map to zero.
                     shiftTable[i | 0x000] = 24;
                     shiftTable[i | 0x100] = 24;
                 }
                 else if (e > 14)
-                { // Small numbers map to denorms
+                {
+                    // Small numbers map to denorms.
                     shiftTable[i | 0x000] = (sbyte)(e - 1);
                     shiftTable[i | 0x100] = (sbyte)(e - 1);
                 }
                 else if (e >= -15)
-                { // Normal numbers just lose precision
+                {
+                    // Normal numbers just lose precision.
                     shiftTable[i | 0x000] = 13;
                     shiftTable[i | 0x100] = 13;
                 }
                 else if (e > -128)
-                { // Large numbers map to Infinity
+                {
+                    // Large numbers map to Infinity.
                     shiftTable[i | 0x000] = 24;
                     shiftTable[i | 0x100] = 24;
                 }
                 else
-                { // Infinity and NaN's stay Infinity and NaN's
+                {
+                    // Infinity and NaNs stay Infinity and NaNs.
                     shiftTable[i | 0x000] = 13;
                     shiftTable[i | 0x100] = 13;
                 }

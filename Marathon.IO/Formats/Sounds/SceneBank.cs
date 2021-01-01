@@ -31,6 +31,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
 using Marathon.IO.Exceptions;
+using System;
 
 namespace Marathon.IO.Formats.Sounds
 {
@@ -46,14 +47,20 @@ namespace Marathon.IO.Formats.Sounds
         public class Cue
         {
             public string Name;                            // Name of this Cue in the Scene Bank
+
             public uint Category;                          // Uncertain what exactly this affects
-            public float UnknownSingle_1, UnknownSingle_2; // TODO: Unknown - possibly flags?
+
+            public float UnknownSingle_1,                  // TODO: Unknown - possibly a flag?
+                         UnknownSingle_2;                  // TODO: Unknown - possibly a flag?
+
             public string Stream;                          // XMA this Cue uses, if null, assume it uses a CSB instead
         }
 
-        public const string Signature = "SBNK", Extension = ".sbk";
+        public const string Signature = "SBNK",
+                            Extension = ".sbk";
 
         public string Name;
+
         public List<Cue> Cues = new List<Cue>();
 
         public override void Load(Stream fileStream)
@@ -62,7 +69,8 @@ namespace Marathon.IO.Formats.Sounds
             reader.ReadHeader();
 
             string signature = reader.ReadSignature(4);
-            if (signature != Signature) throw new InvalidSignatureException(Signature, signature);
+            if (signature != Signature)
+                throw new InvalidSignatureException(Signature, signature);
 
             uint UnknownUInt32_1 = reader.ReadUInt32();   // These four bytes seems to always be { 20, 06, 07, 00 } in official files.
 
@@ -120,7 +128,7 @@ namespace Marathon.IO.Formats.Sounds
 
             for (int i = 0; i < Cues.Count; i++)
             {
-                if (Cues[i].Stream == null)
+                if (string.IsNullOrEmpty(Cues[i].Stream))
                     csbCueCount++;
                 else
                     streamCueCount++;
@@ -132,12 +140,12 @@ namespace Marathon.IO.Formats.Sounds
 
             writer.AddOffset("banksOffset");
             writer.AddOffset("cueNamesOffset");
-            writer.AddOffset("cueIndiciesOffset");
+            writer.AddOffset("cueIndicesOffset");
             writer.AddOffset("streamsOffset");
 
             writer.FillInOffset("banksOffset", true);
 
-            writer.Write(string.Concat(Name.Take(64)));
+            writer.WriteNullPaddedString(Name, 64);
             writer.Write(Cues.Count);
             writer.Write(csbCueCount);
             writer.Write(streamCueCount);
@@ -151,10 +159,10 @@ namespace Marathon.IO.Formats.Sounds
 
             for (int i = 0; i < Cues.Count; i++)
             {
-                writer.Write(string.Concat(Cues[i].Name.Take(32)));
+                writer.WriteNullPaddedString(Cues[i].Name, 32);
 
                 // Write a CSB-based entry.
-                if (Cues[i].Stream == null)
+                if (string.IsNullOrEmpty(Cues[i].Stream))
                 {
                     writer.Write(0);
                     writer.Write(csbCueID);
@@ -177,8 +185,10 @@ namespace Marathon.IO.Formats.Sounds
             // CSB Cue ID List (if any are present).
             if (csbCueCount != 0)
             {
-                writer.FillInOffset("cueIndiciesOffset", true);
-                for (int i = 0; i < csbCueCount; i++) { writer.Write(i); }
+                writer.FillInOffset("cueIndicesOffset", true);
+
+                for (int i = 0; i < csbCueCount; i++)
+                    writer.Write(i);
             }
 
             // Stream Names (if any are present).
@@ -187,8 +197,10 @@ namespace Marathon.IO.Formats.Sounds
                 writer.FillInOffset("streamsOffset", true);
 
                 for (int i = 0; i < Cues.Count; i++)
+                {
                     if (Cues[i].Stream != null)
                         writer.AddString($"streamOffset{i}", $"{Cues[i].Stream}");
+                }
             }
 
             // Write the footer.

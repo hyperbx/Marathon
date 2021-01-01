@@ -33,7 +33,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer = new ComponentFactory.Krypton.Toolkit.KryptonTreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.Label_DirectoryEmpty = new System.Windows.Forms.Label();
-            this.ListViewDark_Explorer = new Marathon.Toolkit.Components.ListViewDark();
+            this.ListViewDark_Explorer = new Marathon.Components.ListViewDark();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Type = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,6 +46,10 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbonGroupTriple_Clipboard_Cut_CopyPath = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.KryptonRibbonGroupButton_Clipboard_Cut = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
             this.KryptonRibbonGroupButton_Clipboard_CopyPath = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
+            this.KryptonContextMenu_CopyPath = new ComponentFactory.Krypton.Toolkit.KryptonContextMenu();
+            this.KryptonContextMenuItems_CopyPath = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItems();
+            this.KryptonContextMenuItem_CopyRelativePath = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
+            this.KryptonContextMenuItem_CopyFullPath = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
             this.KryptonRibbonGroup_Organise = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
             this.KryptonRibbonGroupTriple_Organise_Delete_Rename = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.KryptonRibbonGroupButton_Organise_Delete = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -67,7 +71,10 @@ namespace Marathon.Toolkit.Forms
             this.KryptonContextMenuItem_File_SaveAs = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
             this.KryptonContextMenuSeparator_File_1 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator();
             this.KryptonContextMenuItem_File_Extract = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
+            this.kryptonContextMenuCheckButton1 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckButton();
+            this.kryptonContextMenuCheckButton2 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckButton();
+            this.kryptonContextMenuCheckBox2 = new ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel1)).BeginInit();
             this.KryptonSplitContainer_Explorer.Panel1.SuspendLayout();
@@ -76,21 +83,21 @@ namespace Marathon.Toolkit.Forms
             this.KryptonSplitContainer_Explorer.SuspendLayout();
             this.SuspendLayout();
             // 
-            // KryptonRibbon_MarathonForm
+            // KryptonRibbon_MarathonDockContent
             // 
-            this.KryptonRibbon_MarathonForm.QATButtons.AddRange(new System.ComponentModel.Component[] {
+            this.KryptonRibbon_MarathonDockContent.QATButtons.AddRange(new System.ComponentModel.Component[] {
             this.KryptonRibbonQATButton_Save,
             this.KryptonRibbonQATButton_Extract});
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonMenuItems.AddRange(new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonMenuItems.AddRange(new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItemBase[] {
             this.KryptonContextMenuItem_File_Save,
             this.KryptonContextMenuItem_File_SaveAs,
             this.KryptonContextMenuSeparator_File_1,
             this.KryptonContextMenuItem_File_Extract});
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
-            this.KryptonRibbon_MarathonForm.RibbonTabs.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab[] {
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonDockContent.RibbonTabs.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab[] {
             this.KryptonRibbonTab_Home});
-            this.KryptonRibbon_MarathonForm.SelectedTab = this.KryptonRibbonTab_Home;
-            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(969, 115);
+            this.KryptonRibbon_MarathonDockContent.SelectedTab = this.KryptonRibbonTab_Home;
+            this.KryptonRibbon_MarathonDockContent.Size = new System.Drawing.Size(1264, 115);
             // 
             // KryptonTreeView_Explorer
             // 
@@ -101,7 +108,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer.Location = new System.Drawing.Point(0, 0);
             this.KryptonTreeView_Explorer.Name = "KryptonTreeView_Explorer";
             this.KryptonTreeView_Explorer.SelectedImageIndex = 0;
-            this.KryptonTreeView_Explorer.Size = new System.Drawing.Size(182, 573);
+            this.KryptonTreeView_Explorer.Size = new System.Drawing.Size(182, 681);
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(70)))));
@@ -109,7 +116,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.KryptonTreeView_Explorer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.KryptonTreeView_Explorer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.KryptonTreeView_Explorer.StateCommon.Border.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.False;
             this.KryptonTreeView_Explorer.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
@@ -139,7 +146,7 @@ namespace Marathon.Toolkit.Forms
             this.Label_DirectoryEmpty.AutoSize = true;
             this.Label_DirectoryEmpty.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.Label_DirectoryEmpty.ForeColor = System.Drawing.SystemColors.Control;
-            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(344, 41);
+            this.Label_DirectoryEmpty.Location = new System.Drawing.Point(492, 41);
             this.Label_DirectoryEmpty.Name = "Label_DirectoryEmpty";
             this.Label_DirectoryEmpty.Size = new System.Drawing.Size(113, 15);
             this.Label_DirectoryEmpty.TabIndex = 1;
@@ -153,13 +160,16 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListViewDark_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ListViewDark_Explorer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ListViewDark_Explorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListViewDark_Explorer.CentreColumnText = false;
+            this.ListViewDark_Explorer.ColumnBackColour = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ListViewDark_Explorer.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
             this.Column_Type,
             this.Column_Size,
             this.Column_Space});
+            this.ListViewDark_Explorer.ColumnSeparatorColour = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(99)))), ((int)(((byte)(99)))));
             this.ListViewDark_Explorer.ForeColor = System.Drawing.SystemColors.Control;
             this.ListViewDark_Explorer.FullRowSelect = true;
             this.ListViewDark_Explorer.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -169,7 +179,7 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Explorer.Name = "ListViewDark_Explorer";
             this.ListViewDark_Explorer.OwnerDraw = true;
             this.ListViewDark_Explorer.ShowItemToolTips = true;
-            this.ListViewDark_Explorer.Size = new System.Drawing.Size(784, 590);
+            this.ListViewDark_Explorer.Size = new System.Drawing.Size(1079, 698);
             this.ListViewDark_Explorer.SmallImageList = this.ImageList_Keys;
             this.ListViewDark_Explorer.TabIndex = 0;
             this.ListViewDark_Explorer.UseCompatibleStateImageBehavior = false;
@@ -201,7 +211,7 @@ namespace Marathon.Toolkit.Forms
             // Column_Space
             // 
             this.Column_Space.Text = "";
-            this.Column_Space.Width = 484;
+            this.Column_Space.Width = 779;
             // 
             // KryptonRibbonTab_Home
             // 
@@ -264,10 +274,33 @@ namespace Marathon.Toolkit.Forms
             // 
             // KryptonRibbonGroupButton_Clipboard_CopyPath
             // 
+            this.KryptonRibbonGroupButton_Clipboard_CopyPath.ButtonType = ComponentFactory.Krypton.Ribbon.GroupButtonType.Split;
             this.KryptonRibbonGroupButton_Clipboard_CopyPath.ImageSmall = global::Marathon.Toolkit.Properties.Resources.Task_Ribbon_CopyPath;
             this.KryptonRibbonGroupButton_Clipboard_CopyPath.KeyTip = "D";
+            this.KryptonRibbonGroupButton_Clipboard_CopyPath.KryptonContextMenu = this.KryptonContextMenu_CopyPath;
             this.KryptonRibbonGroupButton_Clipboard_CopyPath.TextLine1 = "Copy path";
             this.KryptonRibbonGroupButton_Clipboard_CopyPath.Click += new System.EventHandler(this.KryptonRibbonGroup_Clipboard_Click_Group);
+            // 
+            // KryptonContextMenu_CopyPath
+            // 
+            this.KryptonContextMenu_CopyPath.Items.AddRange(new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.KryptonContextMenuItems_CopyPath});
+            // 
+            // KryptonContextMenuItems_CopyPath
+            // 
+            this.KryptonContextMenuItems_CopyPath.Items.AddRange(new ComponentFactory.Krypton.Toolkit.KryptonContextMenuItemBase[] {
+            this.KryptonContextMenuItem_CopyRelativePath,
+            this.KryptonContextMenuItem_CopyFullPath});
+            // 
+            // KryptonContextMenuItem_CopyRelativePath
+            // 
+            this.KryptonContextMenuItem_CopyRelativePath.Text = "Copy relative path";
+            this.KryptonContextMenuItem_CopyRelativePath.Click += new System.EventHandler(this.KryptonRibbonGroup_Clipboard_Click_Group);
+            // 
+            // KryptonContextMenuItem_CopyFullPath
+            // 
+            this.KryptonContextMenuItem_CopyFullPath.Text = "Copy full path";
+            this.KryptonContextMenuItem_CopyFullPath.Click += new System.EventHandler(this.KryptonRibbonGroup_Clipboard_Click_Group);
             // 
             // KryptonRibbonGroup_Organise
             // 
@@ -318,11 +351,12 @@ namespace Marathon.Toolkit.Forms
             // KryptonRibbonGroupButton_New_NewFolder
             // 
             this.KryptonRibbonGroupButton_New_NewFolder.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Task_Ribbon_Folder;
+            this.KryptonRibbonGroupButton_New_NewFolder.KeyTip = "F";
             this.KryptonRibbonGroupButton_New_NewFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.N)));
             this.KryptonRibbonGroupButton_New_NewFolder.TextLine1 = "New";
             this.KryptonRibbonGroupButton_New_NewFolder.TextLine2 = "folder";
-            this.KryptonRibbonGroupButton_New_NewFolder.Click += new System.EventHandler(this.KryptonRibbonGroupButton_New_NewFolder_Click);
+            this.KryptonRibbonGroupButton_New_NewFolder.Click += new System.EventHandler(this.KryptonRibbonGroupButton_New_Click_Group);
             // 
             // KryptonRibbonGroupTriple_New_NewItem
             // 
@@ -335,6 +369,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbonGroupButton_New_NewItem.ImageSmall = global::Marathon.Toolkit.Properties.Resources.Task_Ribbon_NewItem;
             this.KryptonRibbonGroupButton_New_NewItem.KeyTip = "N";
             this.KryptonRibbonGroupButton_New_NewItem.TextLine1 = "New item";
+            this.KryptonRibbonGroupButton_New_NewItem.Click += new System.EventHandler(this.KryptonRibbonGroupButton_New_Click_Group);
             // 
             // KryptonRibbonGroup_Select
             // 
@@ -379,14 +414,14 @@ namespace Marathon.Toolkit.Forms
             // 
             // KryptonRibbonQATButton_Save
             // 
-            this.KryptonRibbonQATButton_Save.Image = global::Marathon.Toolkit.Properties.Resources.Task_QAT_Save;
+            this.KryptonRibbonQATButton_Save.Image = ((System.Drawing.Image)(resources.GetObject("KryptonRibbonQATButton_Save.Image")));
             this.KryptonRibbonQATButton_Save.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.KryptonRibbonQATButton_Save.Text = "Save";
             this.KryptonRibbonQATButton_Save.Click += new System.EventHandler(this.RibbonAppButton_AppButtonMenuItems_Click_Group);
             // 
             // KryptonRibbonQATButton_Extract
             // 
-            this.KryptonRibbonQATButton_Extract.Image = global::Marathon.Toolkit.Properties.Resources.Task_QAT_Export;
+            this.KryptonRibbonQATButton_Extract.Image = ((System.Drawing.Image)(resources.GetObject("KryptonRibbonQATButton_Extract.Image")));
             this.KryptonRibbonQATButton_Extract.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
             | System.Windows.Forms.Keys.O)));
             this.KryptonRibbonQATButton_Extract.Text = "Extract";
@@ -409,7 +444,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.KryptonSplitContainer_Explorer.Panel2.Controls.Add(this.Label_DirectoryEmpty);
             this.KryptonSplitContainer_Explorer.Panel2.Controls.Add(this.ListViewDark_Explorer);
-            this.KryptonSplitContainer_Explorer.Size = new System.Drawing.Size(969, 573);
+            this.KryptonSplitContainer_Explorer.Size = new System.Drawing.Size(1264, 681);
             this.KryptonSplitContainer_Explorer.SplitterDistance = 182;
             this.KryptonSplitContainer_Explorer.SplitterWidth = 4;
             this.KryptonSplitContainer_Explorer.TabIndex = 3;
@@ -434,21 +469,33 @@ namespace Marathon.Toolkit.Forms
             this.KryptonContextMenuItem_File_Extract.Text = "&Extract";
             this.KryptonContextMenuItem_File_Extract.Click += new System.EventHandler(this.RibbonAppButton_AppButtonMenuItems_Click_Group);
             // 
+            // kryptonContextMenuCheckButton1
+            // 
+            this.kryptonContextMenuCheckButton1.Text = "CheckButton";
+            // 
+            // kryptonContextMenuCheckButton2
+            // 
+            this.kryptonContextMenuCheckButton2.Text = "CheckButton";
+            // 
+            // kryptonContextMenuCheckBox2
+            // 
+            this.kryptonContextMenuCheckBox2.ExtraText = "";
+            // 
             // ArchiveExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(969, 573);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.KryptonSplitContainer_Explorer);
-            this.DoubleBuffered = true;
+            this.CreateOutput = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "ArchiveExplorer";
             this.Text = "Archive Explorer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ArchiveExplorer_FormClosing);
             this.Controls.SetChildIndex(this.KryptonSplitContainer_Explorer, 0);
-            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel1)).EndInit();
             this.KryptonSplitContainer_Explorer.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.KryptonSplitContainer_Explorer.Panel2)).EndInit();
@@ -499,5 +546,12 @@ namespace Marathon.Toolkit.Forms
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Extract;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator KryptonContextMenuSeparator_File_1;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_SaveAs;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenu KryptonContextMenu_CopyPath;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItems KryptonContextMenuItems_CopyPath;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_CopyFullPath;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_CopyRelativePath;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckButton kryptonContextMenuCheckButton1;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckButton kryptonContextMenuCheckButton2;
+        private ComponentFactory.Krypton.Toolkit.KryptonContextMenuCheckBox kryptonContextMenuCheckBox2;
     }
 }

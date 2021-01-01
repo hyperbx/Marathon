@@ -23,11 +23,9 @@
  * SOFTWARE.
  */
 
-using System;
 using System.IO;
 using System.Text;
 using System.Linq;
-using System.Drawing;
 using System.Xml.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -36,36 +34,6 @@ namespace Marathon.Toolkit
 {
     class Resources
     {
-        private static Dictionary<string, Bitmap> BitmapCache = new Dictionary<string, Bitmap>();
-
-        /// <summary>
-        /// Loads and caches a Bitmap from .NET resources.
-        /// </summary>
-        /// <param name="resource">Name of .NET resource.</param>
-        public static Bitmap LoadBitmapResource(string resource)
-        {
-            /* This entire function is skipped if we're running in Design View - takes too long to process
-               and slows things down horrifically, so it'll be easier and faster to return the input bitmap. */
-            bool designMode = Program.RunningInDesigner();
-
-            if (BitmapCache.ContainsKey(resource) && !designMode)
-            {
-                // Collect garbage from last bitmap instance.
-                GC.Collect(GC.GetGeneration(BitmapCache[resource]), GCCollectionMode.Forced);
-
-                return BitmapCache[resource];
-            }
-
-            // Get the bitmap data from the name of the input resource.
-            Bitmap fromResource = (Bitmap)Properties.Resources.ResourceManager.GetObject(resource);
-
-            // Add current bitmap to the dictionary.
-            if (!designMode)
-                BitmapCache.Add(resource, fromResource);
-
-            return fromResource;
-        }
-
         /// <summary>
         /// Parses Contributors.xml to a TreeNode array.
         /// </summary>
@@ -73,7 +41,7 @@ namespace Marathon.Toolkit
         {
             List<TreeNode> contributors = new List<TreeNode>();
 
-            XDocument xml = XDocument.Parse(Properties.Resources.Contributors);
+            XDocument xml = XDocument.Parse(Marathon.Properties.Resources.Contributors);
 
             foreach (XElement contributorElem in xml.Root.Elements("Contributor"))
             {

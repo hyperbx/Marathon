@@ -14,6 +14,8 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,8 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Marathon.Components\Marathon.Components.csproj">
+      <Project>{6F18D9C8-7F6F-4F60-A997-0C1C4CC997B5}</Project>
+      <Name>Marathon.Components</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
       <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
       <Name>Marathon.IO</Name>

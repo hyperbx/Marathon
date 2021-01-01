@@ -22,7 +22,7 @@ namespace Marathon.Toolkit.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Marathon.Toolkit.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Marathon.Toolkit.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Marathon.Toolkit.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -65,7 +65,7 @@ namespace Marathon.Toolkit.Properties {
         ///
         ///Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2..
         /// </summary>
-        internal static string About_License {
+        public static string About_License {
             get {
                 return ResourceManager.GetString("About_License", resourceCulture);
             }
@@ -79,7 +79,7 @@ namespace Marathon.Toolkit.Properties {
         ///  &lt;Contributor URL=&quot;https://github.com/Radfordhound&quot; Description=&quot;Developed the HedgeLib classes used as a base for Marathon I/O&quot;&gt;Radfordhound&lt;/Contributor&gt;
         ///  &lt;Contributor URL=&quot;https://github.com/Knuxfan24&quot; Description=&quot;Assisted with Marathon I/O A [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Contributors {
+        public static string Contributors {
             get {
                 return ResourceManager.GetString("Contributors", resourceCulture);
             }
@@ -88,7 +88,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Feedback_Error {
+        public static System.Drawing.Bitmap Feedback_Error {
             get {
                 object obj = ResourceManager.GetObject("Feedback_Error", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -98,7 +98,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Feedback_Information {
+        public static System.Drawing.Bitmap Feedback_Information {
             get {
                 object obj = ResourceManager.GetObject("Feedback_Information", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -108,7 +108,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Feedback_Question {
+        public static System.Drawing.Bitmap Feedback_Question {
             get {
                 object obj = ResourceManager.GetObject("Feedback_Question", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -118,7 +118,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Feedback_Warning {
+        public static System.Drawing.Bitmap Feedback_Warning {
             get {
                 object obj = ResourceManager.GetObject("Feedback_Warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -128,7 +128,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FileConverter_FileDrop {
+        public static System.Drawing.Bitmap FileConverter_FileDrop {
             get {
                 object obj = ResourceManager.GetObject("FileConverter_FileDrop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -145,7 +145,7 @@ namespace Marathon.Toolkit.Properties {
         ///  &lt;Type Extension=&quot;.bin&quot; Category=&quot;Miscellaneous&quot;&gt;Collision|Common Package|Explosion Package|Path Package|Save Data&lt;/Type&gt;
         ///  &lt;Type Extension=&quot;. [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string FileTypes {
+        public static string FileTypes {
             get {
                 return ResourceManager.GetString("FileTypes", resourceCulture);
             }
@@ -154,7 +154,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Format_File {
+        public static System.Drawing.Bitmap Format_File {
             get {
                 object obj = ResourceManager.GetObject("Format_File", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -164,7 +164,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Format_File_Pending {
+        public static System.Drawing.Bitmap Format_File_Pending {
             get {
                 object obj = ResourceManager.GetObject("Format_File_Pending", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -174,7 +174,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Format_Folder {
+        public static System.Drawing.Bitmap Format_Folder {
             get {
                 object obj = ResourceManager.GetObject("Format_Folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -182,21 +182,11 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon Icon {
-            get {
-                object obj = ResourceManager.GetObject("Icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Logo_Corner_Transparent {
+        public static System.Drawing.Bitmap Manager_Full_Colour {
             get {
-                object obj = ResourceManager.GetObject("Logo_Corner_Transparent", resourceCulture);
+                object obj = ResourceManager.GetObject("Manager_Full_Colour", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -204,9 +194,9 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Logo_Full_Colour {
+        public static System.Drawing.Bitmap Manager_Small_Colour {
             get {
-                object obj = ResourceManager.GetObject("Logo_Full_Colour", resourceCulture);
+                object obj = ResourceManager.GetObject("Manager_Small_Colour", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -214,27 +204,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Logo_Medium_Colour {
-            get {
-                object obj = ResourceManager.GetObject("Logo_Medium_Colour", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Logo_Small_Dark {
-            get {
-                object obj = ResourceManager.GetObject("Logo_Small_Dark", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Back_Disabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Back_Disabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Back_Disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -244,7 +214,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Back_Enabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Back_Enabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Back_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -254,7 +224,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Clipboard_Enabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Clipboard_Enabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Clipboard_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -264,7 +234,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_DirectoryTree_Enabled {
+        public static System.Drawing.Bitmap MarathonExplorer_DirectoryTree_Enabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_DirectoryTree_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -274,7 +244,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Forward_Disabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Forward_Disabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Forward_Disabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -284,7 +254,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Forward_Enabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Forward_Enabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Forward_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -294,7 +264,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap MarathonExplorer_Up_Enabled {
+        public static System.Drawing.Bitmap MarathonExplorer_Up_Enabled {
             get {
                 object obj = ResourceManager.GetObject("MarathonExplorer_Up_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -304,7 +274,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Placeholder {
+        public static System.Drawing.Bitmap Placeholder {
             get {
                 object obj = ResourceManager.GetObject("Placeholder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -314,37 +284,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Ribbon_ExpandDown {
-            get {
-                object obj = ResourceManager.GetObject("Ribbon_ExpandDown", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Ribbon_ExpandUp {
-            get {
-                object obj = ResourceManager.GetObject("Ribbon_ExpandUp", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Ribbon_SelectAll_Enabled {
-            get {
-                object obj = ResourceManager.GetObject("Ribbon_SelectAll_Enabled", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap TabControlFlat_Close {
+        public static System.Drawing.Bitmap TabControlFlat_Close {
             get {
                 object obj = ResourceManager.GetObject("TabControlFlat_Close", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -354,7 +294,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Checked {
+        public static System.Drawing.Bitmap Task_Checked {
             get {
                 object obj = ResourceManager.GetObject("Task_Checked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -364,37 +304,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_QAT_Export {
-            get {
-                object obj = ResourceManager.GetObject("Task_QAT_Export", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Task_QAT_Save {
-            get {
-                object obj = ResourceManager.GetObject("Task_QAT_Save", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Task_QAT_Undo {
-            get {
-                object obj = ResourceManager.GetObject("Task_QAT_Undo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Copy {
+        public static System.Drawing.Bitmap Task_Ribbon_Copy {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -404,7 +314,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_CopyPath {
+        public static System.Drawing.Bitmap Task_Ribbon_CopyPath {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_CopyPath", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -414,7 +324,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Cut {
+        public static System.Drawing.Bitmap Task_Ribbon_Cut {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Cut", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -424,7 +334,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Delete {
+        public static System.Drawing.Bitmap Task_Ribbon_Delete {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -434,7 +344,17 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Export {
+        public static System.Drawing.Bitmap Task_Ribbon_DetailsPane {
+            get {
+                object obj = ResourceManager.GetObject("Task_Ribbon_DetailsPane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Task_Ribbon_Export {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Export", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -444,7 +364,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Folder {
+        public static System.Drawing.Bitmap Task_Ribbon_Folder {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Folder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -454,7 +374,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_InvertSelection {
+        public static System.Drawing.Bitmap Task_Ribbon_InvertSelection {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_InvertSelection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -464,7 +384,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_NewItem {
+        public static System.Drawing.Bitmap Task_Ribbon_NewItem {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_NewItem", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -474,7 +394,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Paste {
+        public static System.Drawing.Bitmap Task_Ribbon_Paste {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Paste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -484,7 +404,17 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Refresh {
+        public static System.Drawing.Bitmap Task_Ribbon_PreviewPane {
+            get {
+                object obj = ResourceManager.GetObject("Task_Ribbon_PreviewPane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Task_Ribbon_Refresh {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Refresh", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -494,7 +424,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Rename {
+        public static System.Drawing.Bitmap Task_Ribbon_Rename {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Rename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -504,7 +434,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Save {
+        public static System.Drawing.Bitmap Task_Ribbon_Save {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -514,7 +444,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_SelectAll {
+        public static System.Drawing.Bitmap Task_Ribbon_SelectAll {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_SelectAll", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -524,7 +454,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_SelectNone {
+        public static System.Drawing.Bitmap Task_Ribbon_SelectNone {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_SelectNone", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -534,7 +464,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Ribbon_Undo {
+        public static System.Drawing.Bitmap Task_Ribbon_Undo {
             get {
                 object obj = ResourceManager.GetObject("Task_Ribbon_Undo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -544,7 +474,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_AddFile {
+        public static System.Drawing.Bitmap Task_Strip_AddFile {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_AddFile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -554,7 +484,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Archive {
+        public static System.Drawing.Bitmap Task_Strip_Archive {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Archive", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -564,7 +494,17 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Copy {
+        public static System.Drawing.Bitmap Task_Strip_ClearWindowContent {
+            get {
+                object obj = ResourceManager.GetObject("Task_Strip_ClearWindowContent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Task_Strip_Copy {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -574,7 +514,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Exit {
+        public static System.Drawing.Bitmap Task_Strip_Exit {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Exit", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -584,7 +524,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Export {
+        public static System.Drawing.Bitmap Task_Strip_Export {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Export", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -594,7 +534,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Feature {
+        public static System.Drawing.Bitmap Task_Strip_Feature {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Feature", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -604,7 +544,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Home {
+        public static System.Drawing.Bitmap Task_Strip_Home {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Home", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -614,7 +554,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Information {
+        public static System.Drawing.Bitmap Task_Strip_Information {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Information", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -624,7 +564,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Invalid {
+        public static System.Drawing.Bitmap Task_Strip_Invalid {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Invalid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -634,7 +574,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_New {
+        public static System.Drawing.Bitmap Task_Strip_New {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_New", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -644,7 +584,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_NewFile {
+        public static System.Drawing.Bitmap Task_Strip_NewFile {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_NewFile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -654,7 +594,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_NewFileCollection {
+        public static System.Drawing.Bitmap Task_Strip_NewFileCollection {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_NewFileCollection", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -664,7 +604,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_NewFolder {
+        public static System.Drawing.Bitmap Task_Strip_NewFolder {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_NewFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -674,7 +614,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Open {
+        public static System.Drawing.Bitmap Task_Strip_Open {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Open", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -684,7 +624,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_OpenDialog {
+        public static System.Drawing.Bitmap Task_Strip_OpenDialog {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_OpenDialog", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -694,7 +634,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_OpenFile {
+        public static System.Drawing.Bitmap Task_Strip_OpenFile {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_OpenFile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -704,7 +644,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_OpenFolder {
+        public static System.Drawing.Bitmap Task_Strip_OpenFolder {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_OpenFolder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -714,7 +654,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Output {
+        public static System.Drawing.Bitmap Task_Strip_Output {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Output", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -724,7 +664,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Paste {
+        public static System.Drawing.Bitmap Task_Strip_Paste {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Paste", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -734,7 +674,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_RemoveFile {
+        public static System.Drawing.Bitmap Task_Strip_RemoveFile {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_RemoveFile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -744,7 +684,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Rename {
+        public static System.Drawing.Bitmap Task_Strip_Rename {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Rename", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -754,7 +694,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Save {
+        public static System.Drawing.Bitmap Task_Strip_Save {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Save", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -764,7 +704,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Task_Strip_Settings {
+        public static System.Drawing.Bitmap Task_Strip_Settings {
             get {
                 object obj = ResourceManager.GetObject("Task_Strip_Settings", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -772,9 +712,69 @@ namespace Marathon.Toolkit.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Task_Strip_WordWrap {
+            get {
+                object obj = ResourceManager.GetObject("Task_Strip_WordWrap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap TextEditor_TalkWindow {
+            get {
+                object obj = ResourceManager.GetObject("TextEditor_TalkWindow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Toolkit_Corner_Transparent {
+            get {
+                object obj = ResourceManager.GetObject("Toolkit_Corner_Transparent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Toolkit_Full_Colour {
+            get {
+                object obj = ResourceManager.GetObject("Toolkit_Full_Colour", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Toolkit_Medium_Colour {
+            get {
+                object obj = ResourceManager.GetObject("Toolkit_Medium_Colour", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Toolkit_Small_Colour {
+            get {
+                object obj = ResourceManager.GetObject("Toolkit_Small_Colour", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://github.com/HyperBE32/Marathon/commit.
         /// </summary>
-        internal static string URL_GitHubCommit {
+        public static string URL_GitHubCommit {
             get {
                 return ResourceManager.GetString("URL_GitHubCommit", resourceCulture);
             }
@@ -783,7 +783,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to https://github.com/HyperBE32/Marathon/issues/new.
         /// </summary>
-        internal static string URL_GitHubIssueNew {
+        public static string URL_GitHubIssueNew {
             get {
                 return ResourceManager.GetString("URL_GitHubIssueNew", resourceCulture);
             }
@@ -792,7 +792,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized string similar to https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE.
         /// </summary>
-        internal static string URL_GitHubLicense {
+        public static string URL_GitHubLicense {
             get {
                 return ResourceManager.GetString("URL_GitHubLicense", resourceCulture);
             }
@@ -801,7 +801,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UserControlForm_Close_Enabled {
+        public static System.Drawing.Bitmap UserControlForm_Close_Enabled {
             get {
                 object obj = ResourceManager.GetObject("UserControlForm_Close_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -811,7 +811,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UserControlForm_Maximise_Enabled {
+        public static System.Drawing.Bitmap UserControlForm_Maximise_Enabled {
             get {
                 object obj = ResourceManager.GetObject("UserControlForm_Maximise_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -821,7 +821,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UserControlForm_Minimise_Enabled {
+        public static System.Drawing.Bitmap UserControlForm_Minimise_Enabled {
             get {
                 object obj = ResourceManager.GetObject("UserControlForm_Minimise_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -831,7 +831,7 @@ namespace Marathon.Toolkit.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap UserControlForm_Restore_Enabled {
+        public static System.Drawing.Bitmap UserControlForm_Restore_Enabled {
             get {
                 object obj = ResourceManager.GetObject("UserControlForm_Restore_Enabled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));

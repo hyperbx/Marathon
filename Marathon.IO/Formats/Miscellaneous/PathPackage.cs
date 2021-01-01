@@ -39,6 +39,7 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class ObjectEntry
         {
             public string Name;
+
             public List<string> Files = new List<string>();
         }
 

@@ -25,22 +25,40 @@
 
 using System;
 using System.Windows.Forms;
-using Marathon.Toolkit.Helpers;
-using Marathon.Toolkit.Controls;
-using Marathon.Toolkit.Components;
+using Marathon.Components;
+using Marathon.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class Output : MarathonDockContent
     {
+        private readonly string _DefaultOutput = "Marathon Toolkit" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})\n\n";
+
         public Output()
         {
             InitializeComponent();
 
-            RichTextBoxLocked_Console.Text += "Marathon Toolkit" + $"{Program.GetExtendedInformation()} ({Program.Architecture()})\n\n";
+            // Set last word wrap setting.
+            ButtonDark_ToggleWordWrap.Checked =
+            MarathonRichTextBox_Console.WordWrapToContentPadding =
+            Marathon.Properties.Settings.Default.Output_ToggleWordWrap;
+
+            InitialiseOutput();
+        }
+
+        /// <summary>
+        /// Resets the output window and initialises it.
+        /// </summary>
+        private void InitialiseOutput()
+        {
+            // Reset output.
+            MarathonRichTextBox_Console.Text = string.Empty;
+
+            // Set output info.
+            MarathonRichTextBox_Console.Text += _DefaultOutput;
 
             // Set console output to the RichTextBox control.
-            Console.SetOut(new ConsoleWriter(RichTextBoxLocked_Console));
+            Console.SetOut(new ConsoleWriter(MarathonRichTextBox_Console));
         }
 
         /// <summary>
@@ -54,16 +72,55 @@ namespace Marathon.Toolkit.Forms
                 {
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
-                    menu.Items.Add(new ToolStripMenuItem("Copy to Clipboard", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate
-                    {
-                        Clipboard.SetText(RichTextBoxLocked_Console.Text);
-                    }));
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Copy to Clipboard",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Placeholder)),
+                            
+                            delegate
+                            {
+                                Clipboard.SetText(MarathonRichTextBox_Console.Text);
+                            }
+                        )
+                    );
 
                     menu.Show(Cursor.Position);
 
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Clear the output window.
+        /// </summary>
+        private void ButtonFlat_ClearAll_Click(object sender, EventArgs e)
+            => InitialiseOutput();
+
+        /// <summary>
+        /// Toggles word wrap for the output window.
+        /// </summary>
+        private void ButtonFlat_ToggleWordWrap_Click(object sender, EventArgs e)
+        {
+            // Set properties and settings to the opposite of the current.
+            ButtonDark_ToggleWordWrap.Checked =
+            MarathonRichTextBox_Console.WordWrapToContentPadding =
+            Marathon.Properties.Settings.Default.Output_ToggleWordWrap =
+            !MarathonRichTextBox_Console.WordWrapToContentPadding;
+        }
+
+        /// <summary>
+        /// Keeps the output box scrolled to the end always.
+        /// </summary>
+        private void MarathonRichTextBox_Console_TextChanged(object sender, EventArgs e)
+        {
+            // Move caret to the end.
+            MarathonRichTextBox_Console.SelectionStart = MarathonRichTextBox_Console.Text.Length;
+
+            // Scroll to the end.
+            MarathonRichTextBox_Console.ScrollToCaret();
         }
     }
 }

@@ -69,7 +69,8 @@ namespace Marathon.IO.Formats
         /// Initializes a new instance of System.Half to the value of the specified single-precision floating-point number.
         /// </summary>
         /// <param name="value">The value to represent as a System.Half.</param>
-        public Half(float value) { this = HalfHelper.SingleToHalf(value); }
+        public Half(float value)
+            => this = HalfHelper.SingleToHalf(value);
 
         /// <summary>
         /// Initializes a new instance of System.Half to the value of the specified 32-bit signed integer.
@@ -112,7 +113,8 @@ namespace Marathon.IO.Formats
         /// </summary>
         /// <param name="half">A System.Half.</param>
         /// <returns>A System.Half with the value of half, but the opposite sign. -or- Zero, if half is zero.</returns>
-        public static Half Negate(Half half) => -half;
+        public static Half Negate(Half half)
+            => -half;
 
         /// <summary>
         /// Adds two specified System.Half values.
@@ -120,7 +122,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>A System.Half value that is the sum of half1 and half2.</returns>
-        public static Half Add(Half half1, Half half2) => half1 + half2;
+        public static Half Add(Half half1, Half half2)
+            => half1 + half2;
 
         /// <summary>
         /// Subtracts one specified System.Half value from another.
@@ -128,7 +131,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half (the minuend).</param>
         /// <param name="half2">A System.Half (the subtrahend).</param>
         /// <returns>The System.Half result of subtracting half2 from half1.</returns>
-        public static Half Subtract(Half half1, Half half2) => half1 - half2;
+        public static Half Subtract(Half half1, Half half2)
+            => half1 - half2;
 
         /// <summary>
         /// Multiplies two specified System.Half values.
@@ -136,7 +140,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half (the multiplicand).</param>
         /// <param name="half2">A System.Half (the multiplier).</param>
         /// <returns>A System.Half that is the result of multiplying half1 and half2.</returns>
-        public static Half Multiply(Half half1, Half half2) => half1 * half2;
+        public static Half Multiply(Half half1, Half half2)
+            => half1 * half2;
 
         /// <summary>
         /// Divides two specified System.Half values.
@@ -145,35 +150,40 @@ namespace Marathon.IO.Formats
         /// <param name="half2">A System.Half (the divisor).</param>
         /// <returns>The System.Half that is the result of dividing half1 by half2.</returns>
         /// <exception cref="DivideByZeroException">half2 is zero.</exception>
-        public static Half Divide(Half half1, Half half2) => half1 / half2;
+        public static Half Divide(Half half1, Half half2)
+            => half1 / half2;
 
         /// <summary>
         /// Returns the value of the System.Half operand (the sign of the operand is unchanged).
         /// </summary>
         /// <param name="half">The System.Half operand.</param>
         /// <returns>The value of the operand, half.</returns>
-        public static Half operator +(Half half) => half;
+        public static Half operator +(Half half)
+            => half;
 
         /// <summary>
         /// Negates the value of the specified System.Half operand.
         /// </summary>
         /// <param name="half">The System.Half operand.</param>
         /// <returns>The result of half multiplied by negative one (-1).</returns>
-        public static Half operator -(Half half) => HalfHelper.Negate(half);
+        public static Half operator -(Half half)
+            => HalfHelper.Negate(half);
 
         /// <summary>
         /// Increments the System.Half operand by 1.
         /// </summary>
         /// <param name="half">The System.Half operand.</param>
         /// <returns>The value of half incremented by 1.</returns>
-        public static Half operator ++(Half half) => (Half)(half + 1f);
+        public static Half operator ++(Half half)
+            => (Half)(half + 1f);
 
         /// <summary>
         /// Decrements the System.Half operand by one.
         /// </summary>
         /// <param name="half">The System.Half operand.</param>
         /// <returns>The value of half decremented by 1.</returns>
-        public static Half operator --(Half half) => (Half)(half - 1f);
+        public static Half operator --(Half half)
+            => (Half)(half - 1f);
 
         /// <summary>
         /// Adds two specified System.Half values.
@@ -181,7 +191,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>The System.Half result of adding half1 and half2.</returns>
-        public static Half operator +(Half half1, Half half2) => half1 + half2;
+        public static Half operator +(Half half1, Half half2)
+            => half1 + half2;
 
         /// <summary>
         /// Subtracts two specified System.Half values.
@@ -189,7 +200,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>The System.Half result of subtracting half1 and half2.</returns>        
-        public static Half operator -(Half half1, Half half2) => half1 - half2;
+        public static Half operator -(Half half1, Half half2)
+            => half1 - half2;
 
         /// <summary>
         /// Multiplies two specified System.Half values.
@@ -197,7 +209,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>The System.Half result of multiplying half1 by half2.</returns>
-        public static Half operator *(Half half1, Half half2) => half1 * half2;
+        public static Half operator *(Half half1, Half half2)
+            => half1 * half2;
 
         /// <summary>
         /// Divides two specified System.Half values.
@@ -205,7 +218,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half (the dividend).</param>
         /// <param name="half2">A System.Half (the divisor).</param>
         /// <returns>The System.Half result of half1 by half2.</returns>
-        public static Half operator /(Half half1, Half half2) => half1 / half2;
+        public static Half operator /(Half half1, Half half2)
+            => half1 / half2;
 
         /// <summary>
         /// Returns a value indicating whether two instances of System.Half are equal.
@@ -213,7 +227,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 and half2 are equal; otherwise, false.</returns>
-        public static bool operator ==(Half half1, Half half2) => !IsNaN(half1) && (half1.value == half2.value);
+        public static bool operator ==(Half half1, Half half2)
+            => !IsNaN(half1) && (half1.value == half2.value);
 
         /// <summary>
         /// Returns a value indicating whether two instances of System.Half are not equal.
@@ -221,7 +236,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 and half2 are not equal; otherwise, false.</returns>
-        public static bool operator !=(Half half1, Half half2) => !(half1.value == half2.value);
+        public static bool operator !=(Half half1, Half half2)
+            => !(half1.value == half2.value);
 
         /// <summary>
         /// Returns a value indicating whether a specified System.Half is less than another specified System.Half.
@@ -229,7 +245,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 is less than half1; otherwise, false.</returns>
-        public static bool operator <(Half half1, Half half2) => half1 < half2;
+        public static bool operator <(Half half1, Half half2)
+            => half1 < half2;
 
         /// <summary>
         /// Returns a value indicating whether a specified System.Half is greater than another specified System.Half.
@@ -237,7 +254,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 is greater than half2; otherwise, false.</returns>
-        public static bool operator >(Half half1, Half half2) => half1 > half2;
+        public static bool operator >(Half half1, Half half2)
+            => half1 > half2;
 
         /// <summary>
         /// Returns a value indicating whether a specified System.Half is less than or equal to another specified System.Half.
@@ -245,7 +263,8 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 is less than or equal to half2; otherwise, false.</returns>
-        public static bool operator <=(Half half1, Half half2) => (half1 == half2) || (half1 < half2);
+        public static bool operator <=(Half half1, Half half2)
+            => (half1 == half2) || (half1 < half2);
 
         /// <summary>
         /// Returns a value indicating whether a specified System.Half is greater than or equal to another specified System.Half.
@@ -253,175 +272,200 @@ namespace Marathon.IO.Formats
         /// <param name="half1">A System.Half.</param>
         /// <param name="half2">A System.Half.</param>
         /// <returns>true if half1 is greater than or equal to half2; otherwise, false.</returns>
-        public static bool operator >=(Half half1, Half half2) => (half1 == half2) || (half1 > half2);
+        public static bool operator >=(Half half1, Half half2)
+            => (half1 == half2) || (half1 > half2);
 
         /// <summary>
         /// Converts an 8-bit unsigned integer to a System.Half.
         /// </summary>
         /// <param name="value">An 8-bit unsigned integer.</param>
         /// <returns>A System.Half that represents the converted 8-bit unsigned integer.</returns>
-        public static implicit operator Half(byte value) => new Half((float)value);
+        public static implicit operator Half(byte value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 16-bit signed integer to a System.Half.
         /// </summary>
         /// <param name="value">A 16-bit signed integer.</param>
         /// <returns>A System.Half that represents the converted 16-bit signed integer.</returns>
-        public static implicit operator Half(short value) => new Half((float)value);
+        public static implicit operator Half(short value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a Unicode character to a System.Half.
         /// </summary>
         /// <param name="value">A Unicode character.</param>
         /// <returns>A System.Half that represents the converted Unicode character.</returns>
-        public static implicit operator Half(char value) => new Half((float)value);
+        public static implicit operator Half(char value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 32-bit signed integer to a System.Half.
         /// </summary>
         /// <param name="value">A 32-bit signed integer.</param>
         /// <returns>A System.Half that represents the converted 32-bit signed integer.</returns>
-        public static implicit operator Half(int value) => new Half((float)value);
+        public static implicit operator Half(int value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 64-bit signed integer to a System.Half.
         /// </summary>
         /// <param name="value">A 64-bit signed integer.</param>
         /// <returns>A System.Half that represents the converted 64-bit signed integer.</returns>
-        public static implicit operator Half(long value) => new Half((float)value);
+        public static implicit operator Half(long value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a single-precision floating-point number to a System.Half.
         /// </summary>
         /// <param name="value">A single-precision floating-point number.</param>
         /// <returns>A System.Half that represents the converted single-precision floating point number.</returns>
-        public static explicit operator Half(float value) => new Half((float)value);
+        public static explicit operator Half(float value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a double-precision floating-point number to a System.Half.
         /// </summary>
         /// <param name="value">A double-precision floating-point number.</param>
         /// <returns>A System.Half that represents the converted double-precision floating point number.</returns>
-        public static explicit operator Half(double value) => new Half((float)value);
+        public static explicit operator Half(double value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a decimal number to a System.Half.
         /// </summary>
         /// <param name="value">decimal number</param>
         /// <returns>A System.Half that represents the converted decimal number.</returns>
-        public static explicit operator Half(decimal value) => new Half((float)value);
+        public static explicit operator Half(decimal value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a System.Half to an 8-bit unsigned integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>An 8-bit unsigned integer that represents the converted System.Half.</returns>
-        public static explicit operator byte(Half value) => (byte)(float)value;
+        public static explicit operator byte(Half value)
+            => (byte)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a Unicode character.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A Unicode character that represents the converted System.Half.</returns>
-        public static explicit operator char(Half value) => (char)(float)value;
+        public static explicit operator char(Half value)
+            => (char)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 16-bit signed integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 16-bit signed integer that represents the converted System.Half.</returns>
-        public static explicit operator short(Half value) => (short)(float)value;
+        public static explicit operator short(Half value)
+            => (short)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 32-bit signed integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 32-bit signed integer that represents the converted System.Half.</returns>
-        public static explicit operator int(Half value) => (int)(float)value;
+        public static explicit operator int(Half value)
+            => (int)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 64-bit signed integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 64-bit signed integer that represents the converted System.Half.</returns>
-        public static explicit operator long(Half value) => (long)(float)value;
+        public static explicit operator long(Half value)
+            => (long)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a single-precision floating-point number.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A single-precision floating-point number that represents the converted System.Half.</returns>
-        public static implicit operator float(Half value) => (float)HalfHelper.HalfToSingle(value);
+        public static implicit operator float(Half value)
+            => (float)HalfHelper.HalfToSingle(value);
 
         /// <summary>
         /// Converts a System.Half to a double-precision floating-point number.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A double-precision floating-point number that represents the converted System.Half.</returns>
-        public static implicit operator double(Half value) => (float)value;
+        public static implicit operator double(Half value)
+            => (float)value;
 
         /// <summary>
         /// Converts a System.Half to a decimal number.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A decimal number that represents the converted System.Half.</returns>
-        public static explicit operator decimal(Half value) => (decimal)(float)value;
+        public static explicit operator decimal(Half value)
+            => (decimal)(float)value;
 
         /// <summary>
         /// Converts an 8-bit signed integer to a System.Half.
         /// </summary>
         /// <param name="value">An 8-bit signed integer.</param>
         /// <returns>A System.Half that represents the converted 8-bit signed integer.</returns>
-        public static implicit operator Half(sbyte value) => new Half((float)value);
+        public static implicit operator Half(sbyte value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 16-bit unsigned integer to a System.Half.
         /// </summary>
         /// <param name="value">A 16-bit unsigned integer.</param>
         /// <returns>A System.Half that represents the converted 16-bit unsigned integer.</returns>
-        public static implicit operator Half(ushort value) => new Half((float)value);
+        public static implicit operator Half(ushort value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 32-bit unsigned integer to a System.Half.
         /// </summary>
         /// <param name="value">A 32-bit unsigned integer.</param>
         /// <returns>A System.Half that represents the converted 32-bit unsigned integer.</returns>
-        public static implicit operator Half(uint value) => new Half((float)value);
+        public static implicit operator Half(uint value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a 64-bit unsigned integer to a System.Half.
         /// </summary>
         /// <param name="value">A 64-bit unsigned integer.</param>
         /// <returns>A System.Half that represents the converted 64-bit unsigned integer.</returns>
-        public static implicit operator Half(ulong value) => new Half((float)value);
+        public static implicit operator Half(ulong value)
+            => new Half((float)value);
 
         /// <summary>
         /// Converts a System.Half to an 8-bit signed integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>An 8-bit signed integer that represents the converted System.Half.</returns>
-        public static explicit operator sbyte(Half value) => (sbyte)(float)value;
+        public static explicit operator sbyte(Half value)
+            => (sbyte)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 16-bit unsigned integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 16-bit unsigned integer that represents the converted System.Half.</returns>
-        public static explicit operator ushort(Half value) => (ushort)(float)value;
+        public static explicit operator ushort(Half value)
+            => (ushort)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 32-bit unsigned integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 32-bit unsigned integer that represents the converted System.Half.</returns>
-        public static explicit operator uint(Half value) => (uint)(float)value;
+        public static explicit operator uint(Half value)
+            => (uint)(float)value;
 
         /// <summary>
         /// Converts a System.Half to a 64-bit unsigned integer.
         /// </summary>
         /// <param name="value">A System.Half to convert.</param>
         /// <returns>A 64-bit unsigned integer that represents the converted System.Half.</returns>
-        public static explicit operator ulong(Half value) => (ulong)(float)value;
+        public static explicit operator ulong(Half value)
+            => (ulong)(float)value;
 
         /// <summary>
         /// Compares this instance to a specified System.Half object.

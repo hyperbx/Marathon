@@ -25,15 +25,14 @@
 
 using System;
 using System.IO;
+using System.Text;
 using System.Linq;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using Marathon.IO.Formats;
-using Marathon.IO.Helpers;
+using Marathon.Helpers;
+using Marathon.Components;
 using Marathon.Toolkit.Helpers;
-using Marathon.Toolkit.Dialogs;
-using Marathon.Toolkit.Controls;
-using Marathon.Toolkit.Components;
+using Marathon.IO.Formats.Archives;
 using ComponentFactory.Krypton.Ribbon;
 
 namespace Marathon.Toolkit.Forms
@@ -59,7 +58,7 @@ namespace Marathon.Toolkit.Forms
                 _LoadedArchive = value;
 
                 // Set the title to contain the archive path.
-                Text = $"Archive Explorer ({_LoadedArchive.Location})";
+                Text = $"{Text} ({_LoadedArchive.Location})";
 
                 // Load the archive nodes.
                 InitialiseDirectoryTree();
@@ -142,17 +141,20 @@ namespace Marathon.Toolkit.Forms
                 // Add directory nodes to the ListView control.
                 foreach (ArchiveFile entry in ((ArchiveDirectory)child).Data.OfType<ArchiveFile>())
                 {
-                    ListViewItem node = new ListViewItem(new[]
-                    {
-                        // Name.
-                        entry.Name,
+                    ListViewItem node = new ListViewItem
+                    (
+                        new[]
+                        {
+                            // Name.
+                            entry.Name,
 
-                        // Type.
-                        Resources.ParseFriendlyNameFromFileExtension(Properties.Resources.FileTypes, entry.Name),
+                            // Type.
+                            Resources.ParseFriendlyNameFromFileExtension(Marathon.Properties.Resources.FileTypes, entry.Name),
 
-                        // Size.
-                        StringHelper.ByteLengthToDecimalString(entry.UncompressedSize)
-                    })
+                            // Size.
+                            StringHelper.ByteLengthToDecimalString(entry.UncompressedSize)
+                        }
+                    )
                     {
                         Tag = entry,
                         ImageKey = "File"
@@ -160,6 +162,9 @@ namespace Marathon.Toolkit.Forms
 
                     ListViewDark_Explorer.Items.Add(node);
                 }
+
+                // Update enabled state based on current directory.
+                UpdateRibbonControls();
 
                 // Set empty directory text visibility.
                 Label_DirectoryEmpty.Visible = ListViewDark_Explorer.Items.Count == 0;
@@ -187,9 +192,13 @@ namespace Marathon.Toolkit.Forms
         {
             if (ConflictingNameExistsInActiveNode(fileName))
             {
-                DialogResult overwrite =
-                    MarathonMessageBox.Show($"The destination already has a file named '{fileName}' - would you like to replace it?",
-                                            "Replace Files", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                DialogResult overwrite = MarathonMessageBox.Show
+                (
+                    $"The destination already has a file named '{fileName}' - would you like to replace it?",
+                    "Replace Files",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Error
+                );
 
                 if (overwrite == DialogResult.Yes)
                 {
@@ -251,13 +260,16 @@ namespace Marathon.Toolkit.Forms
                 return;
 
             // Create a new data entry using the location from the input file.
-            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile()
-            {
-                Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
-                Location = file,
-                UncompressedSize = (uint)new FileInfo(file).Length,
-                Parent = (ArchiveDirectory)_ActiveNode.Tag
-            });
+            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add
+            (
+                new ArchiveFile()
+                {
+                    Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
+                    Location = file,
+                    UncompressedSize = (uint)new FileInfo(file).Length,
+                    Parent = (ArchiveDirectory)_ActiveNode.Tag
+                }
+            );
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
@@ -283,12 +295,15 @@ namespace Marathon.Toolkit.Forms
             byte[] data = file.Data;
 
             // Create a new data entry using the bytes from the input file.
-            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add(new ArchiveFile(fileName, data)
-            {
-                Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
-                UncompressedSize = (uint)data.Length,
-                Parent = (ArchiveDirectory)_ActiveNode.Tag
-            });
+            ((ArchiveDirectory)_ActiveNode.Tag).Data.Add
+            (
+                new ArchiveFile(fileName, data)
+                {
+                    Name = pasted ? AppendDuplicateIdentifier(fileName) : fileName,
+                    UncompressedSize = (uint)data.Length,
+                    Parent = (ArchiveDirectory)_ActiveNode.Tag
+                }
+            );
 
             // Refresh current node.
             InitialiseFileItems(_ActiveNode.Tag);
@@ -297,6 +312,29 @@ namespace Marathon.Toolkit.Forms
             _EditCount++;
         }
 
+        /// <summary>
+        /// Requests a path to add files from.
+        /// </summary>
+        private void AddFileDialog()
+        {
+            OpenFileDialog openDialog = new OpenFileDialog
+            {
+                Title = "Please select a file...",
+                Filter = Program.FileTypes[".*"],
+                Multiselect = true
+            };
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Iterate through selection.
+                foreach (string file in openDialog.FileNames)
+                    AddFile(file);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new folder to the selected node.
+        /// </summary>
         private void AddFolder(TreeNode node, ArchiveDirectory directory)
         {
             // Create new directory node.
@@ -406,10 +444,13 @@ namespace Marathon.Toolkit.Forms
             string pluraliseMessage = "Are you sure that you want to permanently delete " +
                                       (selectedCount == 1 ? $"'{ListViewDark_Explorer.SelectedItems[0].Text}?'" : $"these {selectedCount} items?");
 
-            DialogResult confirmMultiDelete =
-                MarathonMessageBox.Show(pluraliseMessage,
-                                        selectedCount == 1 ? "Delete File" : "Delete Multiple Items", // Change the title too, just like Windows.
-                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirmMultiDelete = MarathonMessageBox.Show
+            (
+                pluraliseMessage,
+                selectedCount == 1 ? "Delete File" : "Delete Multiple Items", // Change the title too, just like Windows.
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             // Delete all selected items.
             if (confirmMultiDelete == DialogResult.Yes)
@@ -429,9 +470,13 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void DeleteFolder()
         {
-            DialogResult confirmFolderDelete =
-                MarathonMessageBox.Show($"Are you sure that you want to permanently delete this folder?",
-                                        "Delete Folder", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult confirmFolderDelete = MarathonMessageBox.Show
+            (
+                $"Are you sure that you want to permanently delete this folder?",
+                "Delete Folder",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             // Delete selected item.
             if (confirmFolderDelete == DialogResult.Yes)
@@ -578,106 +623,128 @@ namespace Marathon.Toolkit.Forms
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     // Add context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Add", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_AddFile)), delegate
-                    {
-                        OpenFileDialog openDialog = new OpenFileDialog
-                        {
-                            Title = "Please select a file...",
-                            Filter = Program.FileTypes[".*"],
-                            Multiselect = true
-                        };
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Add",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_AddFile)),
 
-                        if (openDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            // Iterate through selection.
-                            foreach (string file in openDialog.FileNames)
-                                AddFile(file);
-                        }
-                    }));
+                            delegate
+                            {
+                                AddFileDialog();
+                            }
+                        )
+                    );
 
                     // Import context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_OpenFolder)), delegate
-                    {
-                        OpenFolderDialog folderDialog = new OpenFolderDialog
-                        {
-                            Title = "Please select a folder..."
-                        };
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Import",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_OpenFolder)),
+                            
+                            delegate
+                            {
+                                OpenFolderDialog folderDialog = new OpenFolderDialog
+                                {
+                                    Title = "Please select a folder..."
+                                };
 
-                        // Import the selected directory.
-                        if (folderDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            // Add the selected path to the new node.
-                            LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)_ActiveNode.Tag, false);
+                                // Import the selected directory.
+                                if (folderDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    // Add the selected path to the new node.
+                                    LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)_ActiveNode.Tag, false);
 
-                            // Refresh current node.
-                            InitialiseFileItems(_ActiveNode.Tag);
+                                    // Refresh current node.
+                                    InitialiseFileItems(_ActiveNode.Tag);
 
-                            // Increase the edit count.
-                            _EditCount++;
-                        }
-                    }));
+                                    // Increase the edit count.
+                                    _EditCount++;
+                                }
+                            }
+                        )
+                    );
 
                     // Extract context menu item.
                     if (ListViewDark_Explorer.Items.Count != 0)
                     {
-                        menu.Items.Add(new ToolStripMenuItem("Extract", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Export)), delegate
-                        {
-                            int count = ListViewDark_Explorer.SelectedItems.Count;
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Extract",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Export)),
 
-                            /* These switches will be used frequently in cases where items can be operated on,
-                               either as a single element or multiple. If we want to change the behaviour of either
-                               operation, we can do so this way. */
-                            switch (count)
-                            {
-                                // Just a single item was selected.
-                                case 1:
+                                delegate
                                 {
-                                    ExtractFile((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag);
+                                    int count = ListViewDark_Explorer.SelectedItems.Count;
 
-                                    break;
-                                }
-
-                                // More than one item was selected.
-                                case var multi when count > 1:
-                                {
-                                    OpenFolderDialog folderDialog = new OpenFolderDialog
+                                    /* These switches will be used frequently in cases where items can be operated on,
+                                       either as a single element or multiple. If we want to change the behaviour of either
+                                       operation, we can do so this way. */
+                                    switch (count)
                                     {
-                                        Title = "Extract"
-                                    };
-
-                                    // Extract all selected items.
-                                    if (folderDialog.ShowDialog() == DialogResult.OK)
-                                    {
-                                        foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
+                                        // Just a single item was selected.
+                                        case 1:
                                         {
-                                            // Store file for later.
-                                            var file = (ArchiveFile)selected.Tag;
+                                            ExtractFile((ArchiveFile)ListViewDark_Explorer.SelectedItems[0].Tag);
 
-                                            File.WriteAllBytes(Path.Combine(folderDialog.SelectedPath, ((ArchiveFile)selected.Tag).Name),
-                                                               file.Decompress(LoadedArchive.Location, (ArchiveFile)selected.Tag));
+                                            break;
+                                        }
+
+                                        // More than one item was selected.
+                                        case var multi when count > 1:
+                                        {
+                                            OpenFolderDialog folderDialog = new OpenFolderDialog
+                                            {
+                                                Title = "Extract"
+                                            };
+
+                                            // Extract all selected items.
+                                            if (folderDialog.ShowDialog() == DialogResult.OK)
+                                            {
+                                                foreach (ListViewItem selected in ListViewDark_Explorer.SelectedItems)
+                                                {
+                                                    // Store file for later.
+                                                    var file = (ArchiveFile)selected.Tag;
+
+                                                    File.WriteAllBytes(Path.Combine(folderDialog.SelectedPath, ((ArchiveFile)selected.Tag).Name),
+                                                                       file.Decompress(LoadedArchive.Location, (ArchiveFile)selected.Tag));
+                                                }
+                                            }
+
+                                            break;
+                                        }
+
+                                        // Default case when all else fails.
+                                        default:
+                                        {
+                                            // Extract everything from the directory.
+                                            ExtractDialog((ArchiveDirectory)_ActiveNode.Tag);
+
+                                            break;
                                         }
                                     }
-
-                                    break;
                                 }
-
-                                // Default case when all else fails.
-                                default:
-                                {
-                                    // Extract everything from the directory.
-                                    ExtractDialog((ArchiveDirectory)_ActiveNode.Tag);
-
-                                    break;
-                                }
-                            }
-                        }));
+                            )
+                        );
                     }
 
                     /* Paste context menu item - this'll be used later on,
                        just storing here before we determine when. Its appearance will be based on clipboard population. */
-                    ToolStripMenuItem ctxPaste = new ToolStripMenuItem("Paste",
-                                                 Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Paste)),
-                                                 delegate { PasteFiles(); });
+                    ToolStripMenuItem ctxPaste = new ToolStripMenuItem
+                    (
+                        "Paste",
+                        Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Paste)),
+
+                        delegate
+                        {
+                            PasteFiles();
+                        }
+                    );
 
                     // Get the selected item at the current X/Y position.
                     ListViewItem selected = ListViewDark_Explorer.GetItemAt(e.X, e.Y);
@@ -691,9 +758,19 @@ namespace Marathon.Toolkit.Forms
                         menu.Items.Add(new ToolStripSeparator());
 
                         // Copy context menu item.
-                        menu.Items.Add(new ToolStripMenuItem("Copy",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Copy)),
-                                       delegate { CopyFiles(); }));
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Copy",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Copy)),
+                                
+                                delegate
+                                {
+                                    CopyFiles();
+                                }
+                            )
+                        );
 
                         // Add the Paste option if the clipboard is populated.
                         if (_Clipboard.Count != 0)
@@ -704,14 +781,34 @@ namespace Marathon.Toolkit.Forms
                         menu.Items.Add(new ToolStripSeparator());
 
                         // Delete context menu item.
-                        menu.Items.Add(new ToolStripMenuItem("Delete",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_RemoveFile)),
-                                       delegate { DeleteFiles(); }));
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Delete",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_RemoveFile)),
+
+                                delegate
+                                {
+                                    DeleteFiles();
+                                }
+                            )
+                        );
 
                         // Rename context menu item.
-                        menu.Items.Add(new ToolStripMenuItem("Rename",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Rename)),
-                                       delegate { InvokeRename(); }));
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Rename",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Rename)),
+
+                                delegate
+                                {
+                                    InvokeRename();
+                                }
+                            )
+                        );
                     }
 
                     // The selection was null, so that means nothing is selected.
@@ -755,82 +852,131 @@ namespace Marathon.Toolkit.Forms
                     ContextMenuStripDark menu = new ContextMenuStripDark();
 
                     // Add context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Add",
-                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_AddFile)),
-                                   delegate { AddFolder(e.Node, dir); }));
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Add",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_AddFile)),
+                                   
+                            delegate
+                            {
+                                AddFolder(e.Node, dir);
+                            }
+                        )
+                    );
 
                     // Import context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Import", Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_OpenFolder)), delegate
-                    {
-                        OpenFolderDialog folderDialog = new OpenFolderDialog
-                        {
-                            Title = "Please select a folder..."
-                        };
-
-                        // Import the selected directory.
-                        if (folderDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            // Confirm the inclusion of subdirectories.
-                            bool includeSubDirectories =
-                                MarathonMessageBox.Show("Would you like to import the subdirectories?", string.Empty,
-                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
-
-                            // Create new directory node.
-                            TreeNode dirNode = new TreeNode()
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Import",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_OpenFolder)),
+                            
+                            delegate
                             {
-                                Text = Path.GetFileName(folderDialog.SelectedPath)
-                            };
+                                OpenFolderDialog folderDialog = new OpenFolderDialog
+                                {
+                                    Title = "Please select a folder..."
+                                };
 
-                            // Set the tag to the new directory.
-                            dirNode.Tag = new ArchiveDirectory(dirNode.Text)
-                            {
-                                Parent = (ArchiveDirectory)KryptonTreeView_Explorer.SelectedNode.Tag
-                            };
+                                // Import the selected directory.
+                                if (folderDialog.ShowDialog() == DialogResult.OK)
+                                {
+                                    // Confirm the inclusion of subdirectories.
+                                    bool includeSubDirectories =
+                                        MarathonMessageBox.Show("Would you like to import the subdirectories?", string.Empty,
+                                                                MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
 
-                            // Add the selected path to the new node.
-                            LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)dirNode.Tag, includeSubDirectories);
+                                    // Create new directory node.
+                                    TreeNode dirNode = new TreeNode()
+                                    {
+                                        Text = Path.GetFileName(folderDialog.SelectedPath)
+                                    };
 
-                            // Add node to the TreeView.
-                            e.Node.Nodes.Add(dirNode);
+                                    // Set the tag to the new directory.
+                                    dirNode.Tag = new ArchiveDirectory(dirNode.Text)
+                                    {
+                                        Parent = (ArchiveDirectory)KryptonTreeView_Explorer.SelectedNode.Tag
+                                    };
 
-                            // Add node tag to the archive as a directory.
-                            dir.Data.Add((ArchiveDirectory)dirNode.Tag);
+                                    // Add the selected path to the new node.
+                                    LoadedArchive.AddDirectory(folderDialog.SelectedPath, (ArchiveDirectory)dirNode.Tag, includeSubDirectories);
 
-                            // Select the new node.
-                            KryptonTreeView_Explorer.SelectedNode = dirNode;
+                                    // Add node to the TreeView.
+                                    e.Node.Nodes.Add(dirNode);
 
-                            // Enter edit mode.
-                            dirNode.BeginEdit();
+                                    // Add node tag to the archive as a directory.
+                                    dir.Data.Add((ArchiveDirectory)dirNode.Tag);
 
-                            // Refresh views.
-                            InitialiseDirectoryTree();
-                            InitialiseFileItems(dirNode.Tag);
+                                    // Select the new node.
+                                    KryptonTreeView_Explorer.SelectedNode = dirNode;
 
-                            // Increase the edit count.
-                            _EditCount++;
-                        }
-                    }));
+                                    // Enter edit mode.
+                                    dirNode.BeginEdit();
+
+                                    // Refresh views.
+                                    InitialiseDirectoryTree();
+                                    InitialiseFileItems(dirNode.Tag);
+
+                                    // Increase the edit count.
+                                    _EditCount++;
+                                }
+                            }
+                        )
+                    );
 
                     // Prettify the context menu. :)
                     menu.Items.Add(new ToolStripSeparator());
 
                     // Extract context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Extract",
-                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Export)),
-                                   delegate { ExtractDialog(dir); }));
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Extract",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Export)),
+
+                            delegate
+                            {
+                                ExtractDialog(dir);
+                            }
+                        )
+                    );
 
                     // Delete context menu item.
-                    menu.Items.Add(new ToolStripMenuItem("Delete",
-                                   Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_RemoveFile)),
-                                   delegate { DeleteFolder(); }));
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Delete",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_RemoveFile)),
+
+                            delegate
+                            {
+                                DeleteFolder();
+                            }
+                        )
+                    );
 
                     // If the parent is null, we're at root and shouldn't allow renaming.
                     if (e.Node.Parent != null)
                     {
                         // Rename context menu item.
-                        menu.Items.Add(new ToolStripMenuItem("Rename",
-                                       Resources.LoadBitmapResource(nameof(Properties.Resources.Task_Strip_Rename)),
-                                       delegate { e.Node.BeginEdit(); }));
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Rename",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Task_Strip_Rename)),
+
+                                delegate
+                                {
+                                    e.Node.BeginEdit();
+                                }
+                            )
+                        );
                     }
 
                     // Display the assembled menu.
@@ -868,11 +1014,13 @@ namespace Marathon.Toolkit.Forms
             // Navigates to the selected node if valid.
             InitialiseFileItems(node.Tag);
 
-            // Update enabled state based on current directory.
-            UpdateRibbonControls();
-
             // Set expanded state.
             node.Expand();
+
+            // Shortened for easier reference.
+            int @itemCount = ListViewDark_Explorer.Items.Count;
+
+            // TODO: update the status strip in the workspace using the above integer.
         }
 
         /// <summary>
@@ -918,7 +1066,15 @@ namespace Marathon.Toolkit.Forms
         /// Events for when the selected index for ListViewDark_Explorer changes.
         /// </summary>
         private void ListViewDark_Explorer_SelectedIndexChanged(object sender, EventArgs e)
-            => UpdateRibbonControls();
+        {
+            // Shortened for easier reference.
+            int @selectedCount = ListViewDark_Explorer.SelectedItems.Count;
+
+            // Update the ribbon based on selection count.
+            UpdateRibbonControls();
+
+            // TODO: update the status strip in the workspace using the above integer.
+        }
 
         /// <summary>
         /// Extracts the archive to the selected location.
@@ -931,7 +1087,7 @@ namespace Marathon.Toolkit.Forms
             };
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
-                directory.Extract(folderDialog.SelectedPath, true, LoadedArchive.Location);
+                directory.Extract(folderDialog.SelectedPath);
         }
 
         /// <summary>
@@ -985,9 +1141,65 @@ namespace Marathon.Toolkit.Forms
             }
 
             // Cut items to clipboard.
-            if (sender == KryptonRibbonGroupButton_Clipboard_Cut)
+            else if(sender == KryptonRibbonGroupButton_Clipboard_Cut)
             {
                 CopyFiles(true);
+            }
+
+            // Copy current folder structure as a string.
+            else if (sender == KryptonRibbonGroupButton_Clipboard_CopyPath || sender == KryptonContextMenuItem_CopyRelativePath)
+            {
+                CopyPath();
+            }
+
+            // Copy current folder structure as a string (including the path to the archive).
+            else if (sender == KryptonContextMenuItem_CopyFullPath)
+            {
+                CopyPath(true);
+            }
+
+            void CopyPath(bool fullPath = false)
+            {
+                List<string> paths = new List<string>();
+                ArchiveData parent = (ArchiveData)_ActiveNode.Tag;
+
+                while (parent != null)
+                {
+                    // Add the parent name to the list.
+                    if (!string.IsNullOrEmpty(parent.Name))
+                        paths.Add(parent.Name);
+
+                    // Iterate to next parent.
+                    parent = parent.Parent;
+                }
+
+                // Reverse the list to correct the path order.
+                paths.Reverse();
+
+                // Form the path with a string builder.
+                {
+                    StringBuilder path = new StringBuilder();
+
+                    // Get the name of the selected file.
+                    string selectedFile = ListViewDark_Explorer.SelectedItems.Count == 1 ?
+                                          ((ArchiveData)ListViewDark_Explorer.SelectedItems[0].Tag).Name :
+                                          string.Empty;
+
+                    // Add the path to the loaded archive.
+                    if (fullPath)
+                        path.Append(LoadedArchive.Location);
+
+                    // Join the list together to form a path.
+                    if (paths.Count != 0)
+                        path.Append((fullPath ? @"\" : "") + string.Join(@"\", paths) + @"\");
+
+                    // Add the selected file to the path.
+                    path.Append(selectedFile);
+
+                    // Copy to clipboard.
+                    if (!string.IsNullOrEmpty(path.ToString()))
+                        Clipboard.SetText(path.ToString());
+                }
             }
         }
 
@@ -1085,8 +1297,13 @@ namespace Marathon.Toolkit.Forms
             // Archive has been edited, so display the warning message.
             if (_EditCount != 0)
             {
-                DialogResult saveResult = MarathonMessageBox.Show("This archive has been edited - do you want to save?", string.Empty,
-                                                                  MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                DialogResult saveResult = MarathonMessageBox.Show
+                (
+                    "This archive has been edited - do you want to save?",
+                    string.Empty,
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question
+                );
 
                 switch (saveResult)
                 {
@@ -1110,8 +1327,7 @@ namespace Marathon.Toolkit.Forms
                 return;
             }
 
-            // Dispose the archive contents.
-            LoadedArchive.Dispose();
+            // TODO: Dispose archive contents.
         }
 
         /// <summary>
@@ -1143,7 +1359,8 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Changes the cursor if data is present.
         /// </summary>
-        private void ListViewDark_Explorer_DragEnter(object sender, DragEventArgs e) => e.Effect = e.AllowedEffect;
+        private void ListViewDark_Explorer_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.AllowedEffect;
 
         /// <summary>
         /// Decompresses all selected items in ListViewDark_Explorer.
@@ -1181,7 +1398,7 @@ namespace Marathon.Toolkit.Forms
             ArchiveFile file = (ArchiveFile)e.Item.Tag;
 
             // This is rather self-explanatory.
-            e.Item.ToolTipText = $"Type: {Resources.ParseFriendlyNameFromFileExtension(Properties.Resources.FileTypes, file.Name)}\n" +
+            e.Item.ToolTipText = $"Type: {Resources.ParseFriendlyNameFromFileExtension(Marathon.Properties.Resources.FileTypes, file.Name)}\n" +
                                  $"Size: {StringHelper.ByteLengthToDecimalString(file.UncompressedSize)}";
         }
 
@@ -1210,8 +1427,17 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Adds a new folder to the currently active node upon clicking.
         /// </summary>
-        private void KryptonRibbonGroupButton_New_NewFolder_Click(object sender, EventArgs e)
-            => AddFolder(_ActiveNode, (ArchiveDirectory)_ActiveNode.Tag);
+        private void KryptonRibbonGroupButton_New_Click_Group(object sender, EventArgs e)
+        {
+            if (sender == KryptonRibbonGroupButton_New_NewFolder)
+            {
+                AddFolder(_ActiveNode, (ArchiveDirectory)_ActiveNode.Tag);
+            }
+            else if (sender == KryptonRibbonGroupButton_New_NewItem)
+            {
+                AddFileDialog();
+            }
+        }
 
         /// <summary>
         /// Opens the selected file with Task Dashboard.

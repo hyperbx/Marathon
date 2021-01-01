@@ -32,14 +32,14 @@ namespace Marathon.Toolkit.Forms
             this.Label_Title = new System.Windows.Forms.Label();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.FlowLayoutPanel_Tasks = new System.Windows.Forms.FlowLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
             // 
-            // KryptonRibbon_MarathonForm
+            // KryptonRibbon_MarathonDockContent
             // 
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonVisible = false;
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonVisible = false;
             // 
             // Label_Title
             // 
@@ -54,7 +54,7 @@ namespace Marathon.Toolkit.Forms
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Toolkit_Small_Colour;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(226, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -80,13 +80,12 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(284, 94);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.FlowLayoutPanel_Tasks);
             this.DockAreas = WeifenLuo.WinFormsUI.Docking.DockAreas.Float;
-            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimizeBox = false;
@@ -97,8 +96,8 @@ namespace Marathon.Toolkit.Forms
             this.Controls.SetChildIndex(this.FlowLayoutPanel_Tasks, 0);
             this.Controls.SetChildIndex(this.Label_Title, 0);
             this.Controls.SetChildIndex(this.PictureBox_Logo, 0);
-            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

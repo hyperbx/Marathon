@@ -17,8 +17,9 @@ namespace Marathon.Toolkit.Helpers
             }
 
             public readonly List<string> ExpandedNodes = null;
-            public readonly string TopNodePath = "";
-            public readonly string SelectedNodePath = "";
+
+            public readonly string TopNodePath = string.Empty,
+                                   SelectedNodePath = string.Empty;
         }
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace Marathon.Toolkit.Helpers
         public static TreeViewState GetExpandedNodesState(this KryptonTreeView tree)
         {
             var expandedNodesList = new List<string>();
+
             foreach (TreeNode node in tree.Nodes)
             {
                 UpdateExpandedList(ref expandedNodesList, node);
@@ -68,6 +70,7 @@ namespace Marathon.Toolkit.Helpers
             List<string> elements = path.Split(tree.PathSeparator.ToCharArray()).ToList();
 
             TreeNode curNode = tree.Nodes.FindByText(elements[0]);
+
             if (curNode == null)
                 return null;
 
@@ -88,8 +91,11 @@ namespace Marathon.Toolkit.Helpers
         static TreeNode FindByText(this TreeNodeCollection tnc, string text)
         {
             foreach (TreeNode node in tnc)
+            {
                 if (node.Text == text)
                     return node;
+            }
+
             return null;
         }
 

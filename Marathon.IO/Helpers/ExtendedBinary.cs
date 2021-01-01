@@ -64,21 +64,24 @@ namespace Marathon.IO
         /// <summary>
         /// Jumps to a position in the stream.
         /// </summary>
-        /// <param name="position">Stream position.</param>
-        /// <param name="additive">Adds the specified offset to the position.</param>
-        public void JumpTo(long position, bool additive = false) => BaseStream.Position = additive ? position + Offset : position;
+        /// <param name="position">Position to jump to.</param>
+        /// <param name="absolute">Jumps to the specified position and adds the offset size.</param>
+        public void JumpTo(long position, bool absolute = false)
+            => BaseStream.Position = absolute ? position + Offset : position;
 
         /// <summary>
         /// Jumps ahead in the stream by the specified amount of bytes.
         /// </summary>
         /// <param name="amount">Byte count.</param>
-        public void JumpAhead(long amount = 1) => BaseStream.Position += amount;
+        public void JumpAhead(long amount = 1)
+            => BaseStream.Position += amount;
 
         /// <summary>
         /// Jumps behind in the stream by the specified amount of bytes.
         /// </summary>
         /// <param name="amount">Byte count.</param>
-        public void JumpBehind(long amount = 1) => BaseStream.Position -= amount;
+        public void JumpBehind(long amount = 1)
+            => BaseStream.Position -= amount;
 
         /// <summary>
         /// Fixes padding in the stream.
@@ -129,7 +132,8 @@ namespace Marathon.IO
         /// Reads the signature at the current position.
         /// </summary>
         /// <param name="length">Signature length.</param>
-        public string ReadSignature(int length = 4) => Encoding.ASCII.GetString(ReadBytes(length));
+        public string ReadSignature(int length = 4)
+            => Encoding.ASCII.GetString(ReadBytes(length));
 
         /// <summary>
         /// Reads a null-terminated UTF-8 string at the current position.
@@ -173,7 +177,8 @@ namespace Marathon.IO
         /// <summary>
         /// Gets the type from the current position.
         /// </summary>
-        public T ReadByType<T>() => (T)ReadByType(typeof(T));
+        public T ReadByType<T>()
+            => (T)ReadByType(typeof(T));
 
         /// <summary>
         /// Gets the type from the current position.
@@ -228,12 +233,14 @@ namespace Marathon.IO
         /// <summary>
         /// Reads a Boolean from the current position.
         /// </summary>
-        public override bool ReadBoolean() => ReadByte() != 0;
+        public override bool ReadBoolean()
+            => ReadByte() != 0;
 
         /// <summary>
         /// Reads a Boolean from the current position.
         /// </summary>
-        public virtual bool ReadBoolean32() => ReadInt32() != 0;
+        public virtual bool ReadBoolean32()
+            => ReadInt32() != 0;
 
         /// <summary>
         /// Reads a byte from the current position.
@@ -431,6 +438,7 @@ namespace Marathon.IO
         public virtual unsafe Vector2 ReadVector2()
         {
             var vec = new Vector2();
+
             uint v = ReadUInt32();
             vec.X = *(float*)&v;
 
@@ -446,6 +454,7 @@ namespace Marathon.IO
         public virtual unsafe Vector3 ReadVector3()
         {
             var vec = new Vector3();
+
             uint v = ReadUInt32();
             vec.X = *(float*)&v;
 
@@ -464,6 +473,7 @@ namespace Marathon.IO
         public virtual Vector4 ReadVector4()
         {
             var vec = new Vector4();
+
             ReadVector4(vec);
 
             return vec;
@@ -475,6 +485,7 @@ namespace Marathon.IO
         public virtual Quaternion ReadQuaternion()
         {
             var vec = new Quaternion();
+
             ReadVector4(vec);
 
             return vec;
@@ -611,7 +622,8 @@ namespace Marathon.IO
         /// Returns an offset from the dictionary.
         /// </summary>
         /// <param name="name">Name of dictionary entry.</param>
-        public virtual long ReadOffsetPosition(string name) => _OffsetDictionary[name];
+        public virtual long ReadOffsetPosition(string name)
+            => _OffsetDictionary[name];
 
         /// <summary>
         /// Writes data to a previously set dictionary entry.
@@ -746,13 +758,15 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a null byte at the current position.
         /// </summary>
-        public void WriteNull() => OutStream.WriteByte(0);
+        public void WriteNull()
+            => OutStream.WriteByte(0);
 
         /// <summary>
         /// Writes a series of null bytes at the current position.
         /// </summary>
         /// <param name="count">Number of null bytes.</param>
-        public void WriteNulls(uint count) => Write(new byte[count]);
+        public void WriteNulls(uint count)
+            => Write(new byte[count]);
 
         /// <summary>
         /// Writes a null-terminated UTF-8 string at the current position.
@@ -780,6 +794,21 @@ namespace Marathon.IO
         }
 
         /// <summary>
+        /// Writes a string padded with null characters.
+        /// </summary>
+        public void WriteNullPaddedString(string text, int length)
+        {
+            if (text.Length < length)
+            {
+                throw new ArgumentOutOfRangeException("text", $"The string was longer than {length} characters.");
+            }
+            else
+            {
+                Write(text.PadRight(length, '\0'));
+            }
+        }
+
+        /// <summary>
         /// Fixes padding in the stream.
         /// </summary>
         /// <param name="amount">Padding count.</param>
@@ -799,13 +828,15 @@ namespace Marathon.IO
         /// Writes the specified signature to the stream.
         /// </summary>
         /// <param name="signature">File signature.</param>
-        public void WriteSignature(string signature) => Write(_Encoding.GetBytes(signature));
+        public void WriteSignature(string signature)
+            => Write(_Encoding.GetBytes(signature));
 
         /// <summary>
         /// Writes the type from the current position.
         /// </summary>
         /// <param name="data">Object data.</param>
-        public void WriteByType<T>(object data) => WriteByType(typeof(T), data);
+        public void WriteByType<T>(object data)
+            => WriteByType(typeof(T), data);
 
         /// <summary>
         /// Gets the type from the current position.
@@ -859,6 +890,12 @@ namespace Marathon.IO
 
             return true;
         }
+
+        /// <summary>
+        /// Writes a Half to the current position.
+        /// </summary>
+        public void WriteHalf(Half value)
+            => Write(value.value);
 
         /// <summary>
         /// Writes a Boolean value with Int32 alignment to the stream.
@@ -918,7 +955,8 @@ namespace Marathon.IO
         /// <summary>
         /// Writes a string to the current position.
         /// </summary>
-        public override void Write(string value) => Write(_Encoding.GetBytes(value));
+        public override void Write(string value)
+            => Write(_Encoding.GetBytes(value));
 
         /// <summary>
         /// Writes an Int16 to the current position.
@@ -1071,19 +1109,16 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Writes a Half to the current position.
-        /// </summary>
-        public void Write(Half value) => Write(value.value);
-
-        /// <summary>
         /// Writes a Single to the current position.
         /// </summary>
-        public override unsafe void Write(float value) => Write(*(uint*)&value);
+        public override unsafe void Write(float value)
+            => Write(*(uint*)&value);
 
         /// <summary>
         /// Writes a Double to the current position.
         /// </summary>
-        public override unsafe void Write(double value) => Write(*(ulong*)&value);
+        public override unsafe void Write(double value)
+            => Write(*(ulong*)&value);
 
         /// <summary>
         /// Writes a Vector2 to the current position.

@@ -68,6 +68,9 @@ namespace Marathon.IO.Formats.Archives
             /// </summary>
             public int UnknownInt32_2;
 
+            /// <summary>
+            /// Size of the struct in bytes.
+            /// </summary>
             public const uint SizeOf = 24;
 
             public WADHDataEntry(ExtendedBinaryReader reader, uint firstFileOffset)
@@ -101,7 +104,7 @@ namespace Marathon.IO.Formats.Archives
 
         public WADHArchive() { }
 
-        public WADHArchive(string file, bool storeInMemory = true) : base(file, storeInMemory) { }
+        public WADHArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
 
         public override void Load(Stream stream)
         {
@@ -177,7 +180,7 @@ namespace Marathon.IO.Formats.Archives
                     };
 
                     // Load the data into memory if requested.
-                    fileEntry.Data = StoreInMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
+                    fileEntry.Data = ArchiveStreamMode == ArchiveStreamMode.CopyToMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
 
                     // Add the U8ArchiveFile to the current entries.
                     entries.Data.Add(fileEntry);

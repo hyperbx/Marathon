@@ -25,7 +25,7 @@
 
 using System.Linq;
 using System.Windows.Forms;
-using Marathon.Toolkit.Components;
+using Marathon.Components;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace Marathon.Toolkit.Forms
@@ -38,9 +38,7 @@ namespace Marathon.Toolkit.Forms
 
             // Populate list with open documents.
             foreach (DockContent document in Application.OpenForms.OfType<DockContent>())
-            {
                 ListViewDark_Windows.Items.Add(new ListViewItem(document.Text) { Tag = document });
-            }
 
             ListViewDark_Windows.MouseDoubleClick += (mouseDoubleClickSender, mouseDoubleClickEventArgs) =>
             {
@@ -81,22 +79,41 @@ namespace Marathon.Toolkit.Forms
 
                     if (ListViewDark_Windows.SelectedItems.Count < 2)
                     {
-                        menu.Items.Add(new ToolStripMenuItem("Focus",
-                                                             Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)),
-                                                             delegate { FocusSelectedDocument(); }));
+                        menu.Items.Add
+                        (
+                            new ToolStripMenuItem
+                            (
+                                "Focus",
+                                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Placeholder)),
+
+                                delegate
+                                {
+                                    FocusSelectedDocument();
+                                }
+                            )
+                        );
                     }
 
-                    menu.Items.Add(new ToolStripMenuItem("Close", Resources.LoadBitmapResource(nameof(Properties.Resources.Placeholder)), delegate
-                    {
-                        foreach (ListViewItem window in ListViewDark_Windows.SelectedItems)
-                        {
-                            // Close the selected document.
-                            ((DockContent)window.Tag).Close();
+                    menu.Items.Add
+                    (
+                        new ToolStripMenuItem
+                        (
+                            "Close",
+                            Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.Placeholder)),
+                            
+                            delegate
+                            {
+                                foreach (ListViewItem window in ListViewDark_Windows.SelectedItems)
+                                {
+                                    // Close the selected document.
+                                    ((DockContent)window.Tag).Close();
 
-                            // Remove the selected item.
-                            window.Remove();
-                        }
-                    }));
+                                    // Remove the selected item.
+                                    window.Remove();
+                                }
+                            }
+                        )
+                    );
 
                     menu.Show(Cursor.Position);
 

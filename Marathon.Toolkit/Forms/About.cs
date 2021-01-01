@@ -27,6 +27,7 @@ using System;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Marathon.Components;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -39,6 +40,7 @@ namespace Marathon.Toolkit.Forms
             // Set the version text.
             Label_Version.Text = Program.GetFriendlyVersion();
 
+            // Add all contributors to the list.
             TreeView_Contributors.Nodes.AddRange(Resources.ParseContributorsToTreeNodeArray());
         }
 
@@ -48,7 +50,7 @@ namespace Marathon.Toolkit.Forms
         private void Label_Version_Click(object sender, EventArgs e)
         {
             // Navigate to the commit page.
-            Process.Start($"{Properties.Resources.URL_GitHubCommit}/{Program.CommitID}");
+            Process.Start($"{Marathon.Properties.Resources.URL_GitHubCommit}/{Program.CommitID}");
         }
 
         /// <summary>
@@ -56,10 +58,10 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void Label_License_Click(object sender, EventArgs e)
         {
-            MarathonMessageBox.Show(Properties.Resources.About_License);
+            MarathonMessageBox.Show(Marathon.Properties.Resources.About_License);
 
             // Navigate to the license page.
-            Process.Start(Properties.Resources.URL_GitHubLicense);
+            Process.Start(Marathon.Properties.Resources.URL_GitHubLicense);
         }
 
         /// <summary>

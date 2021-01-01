@@ -269,9 +269,12 @@ namespace Marathon.IO.Formats.Miscellaneous
 
                 XElement PsiBehaviourElem = new XElement("PsiBehaviour", obj.PsiBehaviour);
 
-                objElem.Add(NameAttr, ModelElem, HavokElem, TimeEventElem, MaterialAnimElem, LuaElem, UnknownUInt1Elem, UnknownString1Elem, CollisionElem, UnknownUInt2Elem,
-                            RigidityElem, DamageElem, UnknownFloat1Elem, PotencyElem, UnknownUInt3Elem, HealthElem, DebrisLifetimeBaseElem, DebrisLifetimeModifierElem,
-                            UnknownUInt4Elem, BreakObjectElem, ExplosionElem, ParticleElem, SoundElem, PsiBehaviourElem);
+                objElem.Add
+                (
+                    NameAttr, ModelElem, HavokElem, TimeEventElem, MaterialAnimElem, LuaElem, UnknownUInt1Elem, UnknownString1Elem, CollisionElem, UnknownUInt2Elem,
+                    RigidityElem, DamageElem, UnknownFloat1Elem, PotencyElem, UnknownUInt3Elem, HealthElem, DebrisLifetimeBaseElem, DebrisLifetimeModifierElem,
+                    UnknownUInt4Elem, BreakObjectElem, ExplosionElem, ParticleElem, SoundElem, PsiBehaviourElem
+                );
 
                 rootElem.Add(objElem);
             }

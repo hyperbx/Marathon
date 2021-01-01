@@ -29,9 +29,10 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using Marathon.Toolkit.Controls;
-using Marathon.IO.Formats.Archives;
 using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Components;
+using Marathon.IO.Formats.Archives;
+using Marathon.IO.Formats.Text;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -97,7 +98,7 @@ namespace Marathon.Toolkit.Forms
 
                             exploreArchive.Activated += delegate
                             {
-                                new ArchiveExplorer(new U8Archive(File, true, true, false)).Show(DockParent, InheritanceRibbon);
+                                new ArchiveExplorer(new U8Archive(File, true, true, ArchiveStreamMode.IndexOnly)).Show(DockParent, InheritanceRibbon);
 
                                 Close();
                             };
@@ -145,6 +146,24 @@ namespace Marathon.Toolkit.Forms
                     };
 
                     FlowLayoutPanel_Tasks.Controls.AddRange(new[] { commonPackage, collisionMesh, saveData });
+
+                    break;
+                }
+
+                case ".mst":
+                {
+                    new TextEditor(new MessageTable(File)).Show(DockParent, InheritanceRibbon);
+
+                    Close();
+
+                    break;
+                }
+
+                case ".pkg":
+                {
+                    new AssetAuthor().Show(DockParent, InheritanceRibbon);
+
+                    Close();
 
                     break;
                 }

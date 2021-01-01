@@ -26,6 +26,7 @@
 using System;
 using System.Text;
 using System.Windows.Forms;
+using Marathon.Components;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -51,7 +52,7 @@ namespace Marathon.Toolkit.Forms
 
             _Exception = ex;
 
-            RichTextBoxLocked_Error.Text = BuildExceptionLog();
+            MarathonRichTextBox_Error.Text = BuildExceptionLog();
         }
 
         /// <summary>
@@ -96,9 +97,14 @@ namespace Marathon.Toolkit.Forms
         {
             if (!_Reported)
             {
-                DialogResult closeWarning = MarathonMessageBox.Show("Are you sure you want to exit without reporting this?\n" +
-                                                                    "Submitting issues can help contributors fix problems faster...",
-                                                                    "Exit without reporting?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                DialogResult closeWarning = MarathonMessageBox.Show
+                (
+                    "Are you sure you want to exit without reporting this?\n" +
+                    "Submitting issues can help contributors fix problems faster...",
+                    "Exit without reporting?",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
 
                 if (closeWarning == DialogResult.No)
                     e.Cancel = true;
@@ -108,17 +114,20 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Exits the application upon clicking.
         /// </summary>
-        private void ButtonFlat_Close_Click(object sender, EventArgs e) => Close();
+        private void ButtonDark_Close_Click(object sender, EventArgs e) => Close();
 
         /// <summary>
         /// Launches the GitHub issues page with the required fields filled out.
         /// </summary>
-        private void ButtonFlat_GitHub_Click(object sender, EventArgs e)
+        private void ButtonDark_GitHub_Click(object sender, EventArgs e)
         {
             // Generate source and message issue.
-            Program.InvokeFeedback("[" + (string.IsNullOrEmpty(_ECC_Source) ? "Marathon.Toolkit" : _ECC_Source) + "] " +
-                                    (string.IsNullOrEmpty(_ECC_Message) ? string.Empty : $"'{_ECC_Message}'"),
-                                    BuildExceptionLog(true));
+            Program.InvokeFeedback
+            (
+                "[" + (string.IsNullOrEmpty(_ECC_Source) ? "Marathon.Toolkit" : _ECC_Source) + "] " +
+                (string.IsNullOrEmpty(_ECC_Message) ? string.Empty : $"'{_ECC_Message}'"),
+                BuildExceptionLog(true)
+            );
 
             _Reported = true;
         }
@@ -126,7 +135,7 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Copies the exception log to the clipboard.
         /// </summary>
-        private void ButtonFlat_Copy_Click(object sender, EventArgs e)
+        private void ButtonDark_Copy_Click(object sender, EventArgs e)
             => Clipboard.SetText(BuildExceptionLog(true)); // Use markdown anyway, in case people can't read.
     }
 }

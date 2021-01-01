@@ -75,6 +75,10 @@ namespace Marathon.IO.Formats.Archives
         public const string Signature = "strm",
                             Extension = ".wiiu.stream";
 
+        public BoomArchive() { }
+
+        public BoomArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
+
         public override void Load(Stream stream)
         {
             ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
@@ -91,7 +95,7 @@ namespace Marathon.IO.Formats.Archives
                 var dataEntry = new BoomDataEntry(reader);
 
                 // Get data bytes.
-                byte[] data = StoreInMemory ? FetchFileData(stream, dataEntry) : new byte[] { 0x00 };
+                byte[] data = ArchiveStreamMode == ArchiveStreamMode.CopyToMemory ? FetchFileData(stream, dataEntry) : new byte[] { 0x00 };
 
                 // Add data entry to entries.
                 Data.Add(new ArchiveFile(dataEntry.Name, data));

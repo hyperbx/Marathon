@@ -30,7 +30,7 @@ namespace Marathon.Toolkit.Forms
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Windows));
             this.Panel_ListViewDark_Windows_Border = new System.Windows.Forms.Panel();
-            this.ListViewDark_Windows = new Marathon.Toolkit.Components.ListViewDark();
+            this.ListViewDark_Windows = new Marathon.Components.ListViewDark();
             this.Column_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Column_Space = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Panel_ListViewDark_Windows_Border.SuspendLayout();
@@ -53,8 +53,9 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Windows.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListViewDark_Windows.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.ListViewDark_Windows.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ListViewDark_Windows.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListViewDark_Windows.CentreColumnText = false;
             this.ListViewDark_Windows.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Column_Name,
             this.Column_Space});
@@ -85,7 +86,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(378, 394);
             this.Controls.Add(this.Panel_ListViewDark_Windows_Border);
             this.DoubleBuffered = true;

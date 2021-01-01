@@ -42,17 +42,39 @@ namespace Marathon.IO.Formats.Archives
     /// </summary>
     public class U8Archive : Archive
     {
+        /// <summary>
+        /// Sets the compression level for repacking.
+        /// </summary>
+        public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Optimal;
+
+        /// <summary>
+        /// Use the Zlib-compressed variant of U8 (used for SONIC THE HEDGEHOG).
+        /// </summary>
+        public static bool Zlib { get; set; } = true;
+
+        /// <summary>
+        /// Endianness toggle (big-endian for most use cases; Sonic Heroes PS2 uses little-endian).
+        /// </summary>
+        public static bool BigEndian { get; set; } = true;
+
+        /// <summary>
+        /// Determines what type the node is.
+        /// </summary>
         public enum U8DataType
         {
-            File = 0,
-            Directory = 1
+            File,
+            Directory
         }
 
+        /// <summary>
+        /// Struct representing U8 entry nodes.
+        /// </summary>
         public struct U8DataEntry
         {
             /// <summary>
             /// Various properties of this entry.
             /// </summary>
+            /// 
             /// <remarks>
             /// First byte is the U8 data type (0 == File, 1 == Directory).
             /// 
@@ -63,8 +85,19 @@ namespace Marathon.IO.Formats.Archives
             public uint Flags;
 
             /// <summary>
+            /// Mask used for extracting the data type - see <see cref="U8DataType"/> for the types.
+            /// </summary>
+            public const uint TypeMask = 0xFF000000;
+
+            /// <summary>
+            /// Mask used for extracting the offset to the name of this node.
+            /// </summary>
+            public const uint NameOffsetMask = 0x00FFFFFF;
+
+            /// <summary>
             /// Data pertaining to this entry.
             /// </summary>
+            /// 
             /// <remarks>
             /// For files, this is an offset to the file's data.
             /// 
@@ -76,6 +109,7 @@ namespace Marathon.IO.Formats.Archives
             /// <summary>
             /// Size of the data this entry contains.
             /// </summary>
+            /// 
             /// <remarks>
             /// For files, this is the compressed size of the file's data.
             /// 
@@ -90,6 +124,7 @@ namespace Marathon.IO.Formats.Archives
             /// The uncompressed size of the file represented by this
             /// entry, if this entry represents a file.
             /// </summary>
+            /// 
             /// <remarks>
             /// For files, this is the uncompressed size of the file's data.
             /// 
@@ -101,28 +136,42 @@ namespace Marathon.IO.Formats.Archives
             /// </remarks>
             public uint UncompressedSize;
 
-            public const uint TypeMask = 0xFF000000;
-            public const uint NameOffsetMask = 0x00FFFFFF;
-
             /// <summary>
-            /// The size of the struct.
+            /// The size of this struct.
             /// </summary>
+            /// 
+            /// <remarks>
+            /// Zlib-compressed U8 has an extra UInt32, hence the extra four bytes.
+            /// </remarks>
             public static uint SizeOf = (uint)(Zlib ? 16 : 12);
 
-            public U8DataType Type => (U8DataType)((Flags & TypeMask) >> 24);
-            public uint NameOffset => Flags & NameOffsetMask;
+            /// <summary>
+            /// This node's data type.
+            /// </summary>
+            public U8DataType Type
+                => (U8DataType)((Flags & TypeMask) >> 24);
+
+            /// <summary>
+            /// The offset to the name of this node.
+            /// </summary>
+            public uint NameOffset
+                => Flags & NameOffsetMask;
 
             public U8DataEntry(ExtendedBinaryReader reader)
             {
                 Flags            = reader.ReadUInt32();
                 Data             = reader.ReadUInt32();
                 Size             = reader.ReadUInt32();
-                UncompressedSize = Zlib ? reader.ReadUInt32() : 0;
+                UncompressedSize = Zlib ? reader.ReadUInt32() : 0; // This only exists for Zlib-compressed U8.
             }
         }
 
         public class U8ArchiveFile : ArchiveFile
         {
+            public U8ArchiveFile() { }
+
+            public U8ArchiveFile(ArchiveFile file, bool keepOffset = true) : base(file, keepOffset) { }
+
             public override byte[] Decompress(Stream stream, ArchiveFile file)
             {
                 // Create ExtendedBinaryReader.
@@ -171,36 +220,19 @@ namespace Marathon.IO.Formats.Archives
 
         public const string Extension = ".arc";
 
-        /// <summary>
-        /// Sets the compression level for repacking.
-        /// </summary>
-        public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Optimal;
-
-        /// <summary>
-        /// Use the Sonic Team Zlib-compressed variant of Nintendo U8.
-        /// </summary>
-        public static bool Zlib { get; set; } = true;
-
-        /// <summary>
-        /// Endianness flag, since there are little-endian variants of Nintendo U8, for whatever reason.
-        /// </summary>
-        public static bool BigEndian { get; set; } = true;
-
         public U8Archive() { }
 
-        public U8Archive(string file, bool zlib = true, bool bigEndian = true, bool storeInMemory = true) : base(storeInMemory)
+        public U8Archive(string file, bool zlib = true, bool bigEndian = true, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode)
         {
             Zlib = zlib;
             BigEndian = bigEndian;
-
-            Load(file);
         }
 
         /// <summary>
         /// Reloads the archive with the same properties.
         /// </summary>
         public override Archive Reload()
-            => new U8Archive(Location, Zlib, BigEndian, StoreInMemory);
+            => new U8Archive(Location, Zlib, BigEndian, ArchiveStreamMode);
 
         public override void Load(Stream stream)
         {
@@ -283,7 +315,7 @@ namespace Marathon.IO.Formats.Archives
                     };
 
                     // Load the data into memory if requested.
-                    fileEntry.Data = StoreInMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
+                    fileEntry.Data = ArchiveStreamMode == ArchiveStreamMode.CopyToMemory ? fileEntry.Decompress(stream, fileEntry) : new byte[] { 0x00 };
 
                     // Add the U8ArchiveFile to the current entries.
                     entries.Data.Add(fileEntry);
@@ -316,17 +348,17 @@ namespace Marathon.IO.Formats.Archives
             writer.AddOffset("EntriesLength");
             writer.AddOffset("DataOffset");
 
-            // Write unknown values.
+            /* Write unknown values.
 
-            // (We have to set at least one of these to something non-zero for compatibillity
-            // with HedgeArcPack, which unfortunately has no other real way of telling if a
-            // given archive is a standard U8 archive, or a Zlib U8 archive.)
+               (We have to set at least one of these to something non-zero for compatibillity
+               with HedgeArcPack, which unfortunately has no other real way of telling if a
+               given archive is a standard U8 archive, or a Zlib U8 archive.)
 
-            // (There's nothing special about these constants; they can be anything as long as at
-            // least one of them is non-zero. I just picked these because arctool uses them too lol.)
+               (There's nothing special about these constants; they can be anything as long as at
+               least one of them is non-zero. I just picked these because arctool uses them too lol.)
 
-            // TODO: Figure out what these values are.
-            // The third uint here seems like it's in little endian??
+               TODO: Figure out what these values are.
+               The third uint here seems like it's in little endian?? */
             if (Zlib)
             {
                 writer.Write(0xE4f91200U);

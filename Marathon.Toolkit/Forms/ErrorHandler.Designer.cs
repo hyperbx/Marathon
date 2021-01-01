@@ -31,11 +31,11 @@ namespace Marathon.Toolkit.Forms
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorHandler));
             this.Label_Title = new System.Windows.Forms.Label();
             this.Panel_RichTextBox_Container = new System.Windows.Forms.Panel();
-            this.RichTextBoxLocked_Error = new Marathon.Toolkit.Components.RichTextBoxLocked();
+            this.MarathonRichTextBox_Error = new Marathon.Components.MarathonRichTextBox();
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
-            this.ButtonFlat_GitHub = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Close = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Copy = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonDark_GitHub = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Close = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Copy = new Marathon.Components.ButtonDark();
             this.Panel_RichTextBox_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
@@ -56,31 +56,36 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Panel_RichTextBox_Container.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Panel_RichTextBox_Container.Controls.Add(this.RichTextBoxLocked_Error);
+            this.Panel_RichTextBox_Container.Controls.Add(this.MarathonRichTextBox_Error);
             this.Panel_RichTextBox_Container.Location = new System.Drawing.Point(12, 49);
             this.Panel_RichTextBox_Container.Name = "Panel_RichTextBox_Container";
             this.Panel_RichTextBox_Container.Size = new System.Drawing.Size(920, 406);
             this.Panel_RichTextBox_Container.TabIndex = 3;
             // 
-            // RichTextBoxLocked_Error
+            // MarathonRichTextBox_Error
             // 
-            this.RichTextBoxLocked_Error.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.RichTextBoxLocked_Error.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.RichTextBoxLocked_Error.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.RichTextBoxLocked_Error.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RichTextBoxLocked_Error.ForeColor = System.Drawing.SystemColors.Window;
-            this.RichTextBoxLocked_Error.Location = new System.Drawing.Point(0, 0);
-            this.RichTextBoxLocked_Error.Name = "RichTextBoxLocked_Error";
-            this.RichTextBoxLocked_Error.ReadOnly = true;
-            this.RichTextBoxLocked_Error.Size = new System.Drawing.Size(918, 404);
-            this.RichTextBoxLocked_Error.TabIndex = 2;
-            this.RichTextBoxLocked_Error.TabStop = false;
-            this.RichTextBoxLocked_Error.Text = "";
+            this.MarathonRichTextBox_Error.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.MarathonRichTextBox_Error.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.MarathonRichTextBox_Error.ContentPadding = new System.Windows.Forms.Padding(0);
+            this.MarathonRichTextBox_Error.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.MarathonRichTextBox_Error.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MarathonRichTextBox_Error.ForeColor = System.Drawing.SystemColors.Window;
+            this.MarathonRichTextBox_Error.Location = new System.Drawing.Point(0, 0);
+            this.MarathonRichTextBox_Error.LockInput = false;
+            this.MarathonRichTextBox_Error.Name = "MarathonRichTextBox_Error";
+            this.MarathonRichTextBox_Error.ReadOnly = true;
+            this.MarathonRichTextBox_Error.Size = new System.Drawing.Size(918, 404);
+            this.MarathonRichTextBox_Error.TabIndex = 2;
+            this.MarathonRichTextBox_Error.TabStop = false;
+            this.MarathonRichTextBox_Error.Text = "";
+            this.MarathonRichTextBox_Error.Transparent = false;
+            this.MarathonRichTextBox_Error.WordWrap = false;
+            this.MarathonRichTextBox_Error.WordWrapToContentPadding = false;
             // 
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Toolkit_Small_Colour;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.PictureBox_Logo.Location = new System.Drawing.Point(881, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -88,60 +93,66 @@ namespace Marathon.Toolkit.Forms
             this.PictureBox_Logo.TabIndex = 4;
             this.PictureBox_Logo.TabStop = false;
             // 
-            // ButtonFlat_GitHub
+            // ButtonDark_GitHub
             // 
-            this.ButtonFlat_GitHub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_GitHub.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(218)))), ((int)(((byte)(241)))));
-            this.ButtonFlat_GitHub.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_GitHub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_GitHub.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_GitHub.Location = new System.Drawing.Point(674, 466);
-            this.ButtonFlat_GitHub.Name = "ButtonFlat_GitHub";
-            this.ButtonFlat_GitHub.Size = new System.Drawing.Size(124, 23);
-            this.ButtonFlat_GitHub.TabIndex = 6;
-            this.ButtonFlat_GitHub.Text = "Report to GitHub";
-            this.ButtonFlat_GitHub.UseVisualStyleBackColor = false;
-            this.ButtonFlat_GitHub.Click += new System.EventHandler(this.ButtonFlat_GitHub_Click);
+            this.ButtonDark_GitHub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonDark_GitHub.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ButtonDark_GitHub.Checked = false;
+            this.ButtonDark_GitHub.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_GitHub.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_GitHub.ForeColor = System.Drawing.SystemColors.Control;
+            this.ButtonDark_GitHub.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_GitHub.Location = new System.Drawing.Point(674, 466);
+            this.ButtonDark_GitHub.Name = "ButtonDark_GitHub";
+            this.ButtonDark_GitHub.Size = new System.Drawing.Size(124, 23);
+            this.ButtonDark_GitHub.TabIndex = 6;
+            this.ButtonDark_GitHub.Text = "Report to GitHub";
+            this.ButtonDark_GitHub.UseVisualStyleBackColor = false;
+            this.ButtonDark_GitHub.Click += new System.EventHandler(this.ButtonDark_GitHub_Click);
             // 
-            // ButtonFlat_Close
+            // ButtonDark_Close
             // 
-            this.ButtonFlat_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_Close.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_Close.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Close.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Close.Location = new System.Drawing.Point(808, 466);
-            this.ButtonFlat_Close.Name = "ButtonFlat_Close";
-            this.ButtonFlat_Close.Size = new System.Drawing.Size(124, 23);
-            this.ButtonFlat_Close.TabIndex = 5;
-            this.ButtonFlat_Close.Text = "Ignore and Close";
-            this.ButtonFlat_Close.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Close.Click += new System.EventHandler(this.ButtonFlat_Close_Click);
+            this.ButtonDark_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonDark_Close.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ButtonDark_Close.Checked = false;
+            this.ButtonDark_Close.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Close.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Close.ForeColor = System.Drawing.SystemColors.Control;
+            this.ButtonDark_Close.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Close.Location = new System.Drawing.Point(808, 466);
+            this.ButtonDark_Close.Name = "ButtonDark_Close";
+            this.ButtonDark_Close.Size = new System.Drawing.Size(124, 23);
+            this.ButtonDark_Close.TabIndex = 5;
+            this.ButtonDark_Close.Text = "Ignore and Close";
+            this.ButtonDark_Close.UseVisualStyleBackColor = false;
+            this.ButtonDark_Close.Click += new System.EventHandler(this.ButtonDark_Close_Click);
             // 
-            // ButtonFlat_Copy
+            // ButtonDark_Copy
             // 
-            this.ButtonFlat_Copy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_Copy.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_Copy.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Copy.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Copy.Location = new System.Drawing.Point(540, 466);
-            this.ButtonFlat_Copy.Name = "ButtonFlat_Copy";
-            this.ButtonFlat_Copy.Size = new System.Drawing.Size(124, 23);
-            this.ButtonFlat_Copy.TabIndex = 7;
-            this.ButtonFlat_Copy.Text = "Copy to Clipboard";
-            this.ButtonFlat_Copy.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Copy.Click += new System.EventHandler(this.ButtonFlat_Copy_Click);
+            this.ButtonDark_Copy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonDark_Copy.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ButtonDark_Copy.Checked = false;
+            this.ButtonDark_Copy.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Copy.ForeColor = System.Drawing.SystemColors.Control;
+            this.ButtonDark_Copy.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Copy.Location = new System.Drawing.Point(540, 466);
+            this.ButtonDark_Copy.Name = "ButtonDark_Copy";
+            this.ButtonDark_Copy.Size = new System.Drawing.Size(124, 23);
+            this.ButtonDark_Copy.TabIndex = 7;
+            this.ButtonDark_Copy.Text = "Copy to Clipboard";
+            this.ButtonDark_Copy.UseVisualStyleBackColor = false;
+            this.ButtonDark_Copy.Click += new System.EventHandler(this.ButtonDark_Copy_Click);
             // 
             // ErrorHandler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.ClientSize = new System.Drawing.Size(944, 501);
-            this.Controls.Add(this.ButtonFlat_Copy);
-            this.Controls.Add(this.ButtonFlat_GitHub);
-            this.Controls.Add(this.ButtonFlat_Close);
+            this.Controls.Add(this.ButtonDark_Copy);
+            this.Controls.Add(this.ButtonDark_GitHub);
+            this.Controls.Add(this.ButtonDark_Close);
             this.Controls.Add(this.Panel_RichTextBox_Container);
             this.Controls.Add(this.Label_Title);
             this.Controls.Add(this.PictureBox_Logo);
@@ -168,9 +179,9 @@ namespace Marathon.Toolkit.Forms
         private System.Windows.Forms.Label Label_Title;
         private System.Windows.Forms.Panel Panel_RichTextBox_Container;
         private System.Windows.Forms.PictureBox PictureBox_Logo;
-        private Components.ButtonFlat ButtonFlat_Close;
-        private Components.ButtonFlat ButtonFlat_GitHub;
-        private Components.ButtonFlat ButtonFlat_Copy;
-        private Components.RichTextBoxLocked RichTextBoxLocked_Error;
+        private Components.ButtonDark ButtonDark_Close;
+        private Components.ButtonDark ButtonDark_GitHub;
+        private Components.ButtonDark ButtonDark_Copy;
+        private Components.MarathonRichTextBox MarathonRichTextBox_Error;
     }
 }

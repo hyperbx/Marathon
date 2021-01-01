@@ -73,7 +73,8 @@ namespace Marathon.IO.Formats.Textures
             /// </summary>
             public byte[] Data;
 
-            public MatrixType Type => (MatrixType)Signature;
+            public MatrixType Type
+                => (MatrixType)Signature;
         }
 
         public const string Extension = ".ddm";

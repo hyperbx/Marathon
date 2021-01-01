@@ -41,10 +41,12 @@ namespace Marathon.IO.Formats.Particles
         public class Particle
         {
             public string Name, FileName;
+
             public uint Unknown1, Unknown2; // TODO: Figure out what these are, probably flags?
         }
 
-        public const string Signature = "BTEP", Extension = ".peb";
+        public const string Signature = "BTEP",
+                            Extension = ".peb";
 
         public List<Particle> Particles = new List<Particle>();
         public string Name;
@@ -147,6 +149,7 @@ namespace Marathon.IO.Formats.Particles
                     Unknown1 = uint.Parse(particleElem.Element("Unknown1").Value),
                     Unknown2 = uint.Parse(particleElem.Element("Unknown2").Value)
                 };
+
                 Particles.Add(particle);
             }
         }

@@ -38,8 +38,11 @@ namespace Marathon.IO.Formats.Particles
     {
         public class Particle
         {
-            public string Name1, Name2, FileName; // TODO: not sure what Name2 actually is - sometimes it's the same as Name1, other times it's not, sometimes it's empty.
-            public uint Unknown;                  // TODO: Unknown - flags?
+            public string Name1,
+                          Name2, // TODO: not sure what this actually is - sometimes it's the same as Name1, other times it's not, sometimes it's empty.
+                          FileName;
+            
+            public uint Unknown; // TODO: Unknown - flags?
         }
 
         public const string Extension = ".plc";

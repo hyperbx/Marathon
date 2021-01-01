@@ -40,16 +40,19 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class Entry
         {
             public string Name;
+
             public List<Parameter> Parameters = new List<Parameter>();
         }
 
         public class Parameter
         {
             public string Name;
+
             public uint Type;
         }
 
         public string Name;
+
         public List<Entry> Entries = new List<Entry>();
 
         public override void Load(Stream fileStream)

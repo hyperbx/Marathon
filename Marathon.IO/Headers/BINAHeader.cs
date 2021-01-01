@@ -155,7 +155,7 @@ namespace Marathon.IO.Headers
 
             // TODO: Unknown - possibly a flag?
             writer.WriteNulls(2);
-            writer.Write((IsFooterMagicPresent) ? (ushort)1 : (ushort)0);
+            writer.Write(IsFooterMagicPresent ? (ushort)1 : (ushort)0);
 
             string versionString = Version.ToString();
 

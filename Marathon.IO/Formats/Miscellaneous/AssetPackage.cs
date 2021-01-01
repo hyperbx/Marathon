@@ -41,6 +41,7 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class TypeEntry
         {
             public string TypeName;
+
             public List<FileEntry> Files = new List<FileEntry>();
         }
 
@@ -130,7 +131,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             writer.Write(Types.Count);
             writer.AddOffset("typeEntriesPos");
 
-            // Wrtie Type Data.
+            // Write Type Data.
             writer.FillInOffset("typeEntriesPos", true);
             for (int i = 0; i < Types.Count; i++)
             {
@@ -194,12 +195,16 @@ namespace Marathon.IO.Formats.Miscellaneous
             foreach (XElement typeElem in xml.Root.Elements("Type"))
             {
                 // Create Type Entry with the Name set to the value of the Name Attribute Node.
-                TypeEntry typeEntry = new TypeEntry { TypeName = typeElem.Attribute("Name").Value };
+                TypeEntry typeEntry = new TypeEntry
+                {
+                    TypeName = typeElem.Attribute("Name").Value
+                };
 
                 // Loop through the File Nodes in this Type Node and create a File Entry for each.
                 foreach (XElement fileElem in typeElem.Elements("File"))
                 {
-                    FileEntry fileEntry = new FileEntry {
+                    FileEntry fileEntry = new FileEntry
+                    {
                         FriendlyName = fileElem.Attribute("FriendlyName").Value,
                         FilePath = fileElem.Value
                     };

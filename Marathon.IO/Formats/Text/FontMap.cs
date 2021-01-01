@@ -57,7 +57,6 @@ namespace Marathon.IO.Formats.Text
 
         public override void Load(Stream stream)
         {
-            // Header
             BINAReader reader = new BINAReader(stream);
             reader.ReadHeader();
 

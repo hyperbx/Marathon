@@ -34,15 +34,15 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer = new ComponentFactory.Krypton.Toolkit.KryptonTreeView();
             this.ImageList_Keys = new System.Windows.Forms.ImageList(this.components);
             this.SplitContainer_WebBrowser = new System.Windows.Forms.SplitContainer();
-            this.ButtonFlat_DirectoryTree = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Clipboard = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Up = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Forward = new Marathon.Toolkit.Components.ButtonFlat();
-            this.ButtonFlat_Back = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonDark_DirectoryTree = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Clipboard = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Up = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Forward = new Marathon.Components.ButtonDark();
+            this.ButtonDark_Back = new Marathon.Components.ButtonDark();
             this.TextBox_Address = new System.Windows.Forms.TextBox();
             this.KryptonSplitContainer_Explorer = new ComponentFactory.Krypton.Toolkit.KryptonSplitContainer();
             this.ToolTip_Information = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SplitContainer_WebBrowser)).BeginInit();
             this.SplitContainer_WebBrowser.Panel1.SuspendLayout();
             this.SplitContainer_WebBrowser.Panel2.SuspendLayout();
@@ -55,10 +55,9 @@ namespace Marathon.Toolkit.Forms
             this.KryptonSplitContainer_Explorer.SuspendLayout();
             this.SuspendLayout();
             // 
-            // KryptonRibbon_MarathonForm
+            // KryptonRibbon_MarathonDockContent
             // 
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
-            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(969, 142);
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
             // 
             // WebBrowser_Explorer
             // 
@@ -66,7 +65,7 @@ namespace Marathon.Toolkit.Forms
             this.WebBrowser_Explorer.Location = new System.Drawing.Point(0, 0);
             this.WebBrowser_Explorer.MinimumSize = new System.Drawing.Size(23, 23);
             this.WebBrowser_Explorer.Name = "WebBrowser_Explorer";
-            this.WebBrowser_Explorer.Size = new System.Drawing.Size(783, 547);
+            this.WebBrowser_Explorer.Size = new System.Drawing.Size(1078, 655);
             this.WebBrowser_Explorer.TabIndex = 0;
             this.WebBrowser_Explorer.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WebBrowser_Explorer_Navigated);
             // 
@@ -78,7 +77,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer.Location = new System.Drawing.Point(0, 0);
             this.KryptonTreeView_Explorer.Name = "KryptonTreeView_Explorer";
             this.KryptonTreeView_Explorer.SelectedImageIndex = 0;
-            this.KryptonTreeView_Explorer.Size = new System.Drawing.Size(182, 547);
+            this.KryptonTreeView_Explorer.Size = new System.Drawing.Size(182, 655);
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Back.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(63)))), ((int)(((byte)(70)))));
@@ -86,7 +85,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonTreeView_Explorer.StateCheckedNormal.Node.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Right)));
-            this.KryptonTreeView_Explorer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.KryptonTreeView_Explorer.StateCommon.Back.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.KryptonTreeView_Explorer.StateCommon.Border.Draw = ComponentFactory.Krypton.Toolkit.InheritBool.False;
             this.KryptonTreeView_Explorer.StateCommon.Border.DrawBorders = ((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders)((((ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Top | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Bottom) 
             | ComponentFactory.Krypton.Toolkit.PaletteDrawBorders.Left) 
@@ -117,114 +116,124 @@ namespace Marathon.Toolkit.Forms
             // 
             // SplitContainer_WebBrowser.Panel1
             // 
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_DirectoryTree);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Clipboard);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Up);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Forward);
-            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonFlat_Back);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonDark_DirectoryTree);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonDark_Clipboard);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonDark_Up);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonDark_Forward);
+            this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.ButtonDark_Back);
             this.SplitContainer_WebBrowser.Panel1.Controls.Add(this.TextBox_Address);
             this.SplitContainer_WebBrowser.Panel1MinSize = 24;
             // 
             // SplitContainer_WebBrowser.Panel2
             // 
             this.SplitContainer_WebBrowser.Panel2.Controls.Add(this.KryptonSplitContainer_Explorer);
-            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(969, 573);
+            this.SplitContainer_WebBrowser.Size = new System.Drawing.Size(1264, 681);
             this.SplitContainer_WebBrowser.SplitterDistance = 25;
             this.SplitContainer_WebBrowser.SplitterWidth = 1;
             this.SplitContainer_WebBrowser.TabIndex = 0;
             // 
-            // ButtonFlat_DirectoryTree
+            // ButtonDark_DirectoryTree
             // 
-            this.ButtonFlat_DirectoryTree.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_DirectoryTree.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_DirectoryTree_Enabled;
-            this.ButtonFlat_DirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ButtonFlat_DirectoryTree.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_DirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_DirectoryTree.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_DirectoryTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_DirectoryTree.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_DirectoryTree.Location = new System.Drawing.Point(55, 1);
-            this.ButtonFlat_DirectoryTree.Name = "ButtonFlat_DirectoryTree";
-            this.ButtonFlat_DirectoryTree.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_DirectoryTree.TabIndex = 13;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_DirectoryTree, "Hide directory tree");
-            this.ButtonFlat_DirectoryTree.UseVisualStyleBackColor = false;
-            this.ButtonFlat_DirectoryTree.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
+            this.ButtonDark_DirectoryTree.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonDark_DirectoryTree.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_DirectoryTree_Enabled;
+            this.ButtonDark_DirectoryTree.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ButtonDark_DirectoryTree.Checked = false;
+            this.ButtonDark_DirectoryTree.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_DirectoryTree.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonDark_DirectoryTree.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.ButtonDark_DirectoryTree.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_DirectoryTree.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonDark_DirectoryTree.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_DirectoryTree.Location = new System.Drawing.Point(55, 1);
+            this.ButtonDark_DirectoryTree.Name = "ButtonDark_DirectoryTree";
+            this.ButtonDark_DirectoryTree.Size = new System.Drawing.Size(24, 24);
+            this.ButtonDark_DirectoryTree.TabIndex = 13;
+            this.ToolTip_Information.SetToolTip(this.ButtonDark_DirectoryTree, "Hide directory tree");
+            this.ButtonDark_DirectoryTree.UseVisualStyleBackColor = false;
+            this.ButtonDark_DirectoryTree.Click += new System.EventHandler(this.ButtonDark_Navigation_Click_Group);
             // 
-            // ButtonFlat_Clipboard
+            // ButtonDark_Clipboard
             // 
-            this.ButtonFlat_Clipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_Clipboard.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Clipboard.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Clipboard_Enabled;
-            this.ButtonFlat_Clipboard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ButtonFlat_Clipboard.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Clipboard.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_Clipboard.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_Clipboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Clipboard.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Clipboard.Location = new System.Drawing.Point(944, 1);
-            this.ButtonFlat_Clipboard.Name = "ButtonFlat_Clipboard";
-            this.ButtonFlat_Clipboard.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_Clipboard.TabIndex = 11;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_Clipboard, "Copy current address to clipboard");
-            this.ButtonFlat_Clipboard.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Clipboard.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
+            this.ButtonDark_Clipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonDark_Clipboard.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonDark_Clipboard.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Clipboard_Enabled;
+            this.ButtonDark_Clipboard.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ButtonDark_Clipboard.Checked = false;
+            this.ButtonDark_Clipboard.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Clipboard.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonDark_Clipboard.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.ButtonDark_Clipboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Clipboard.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonDark_Clipboard.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Clipboard.Location = new System.Drawing.Point(1239, 1);
+            this.ButtonDark_Clipboard.Name = "ButtonDark_Clipboard";
+            this.ButtonDark_Clipboard.Size = new System.Drawing.Size(24, 24);
+            this.ButtonDark_Clipboard.TabIndex = 11;
+            this.ToolTip_Information.SetToolTip(this.ButtonDark_Clipboard, "Copy current address to clipboard");
+            this.ButtonDark_Clipboard.UseVisualStyleBackColor = false;
+            this.ButtonDark_Clipboard.Click += new System.EventHandler(this.ButtonDark_Navigation_Click_Group);
             // 
-            // ButtonFlat_Up
+            // ButtonDark_Up
             // 
-            this.ButtonFlat_Up.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Up.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Up_Enabled;
-            this.ButtonFlat_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ButtonFlat_Up.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Up.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_Up.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Up.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Up.Location = new System.Drawing.Point(82, 1);
-            this.ButtonFlat_Up.Name = "ButtonFlat_Up";
-            this.ButtonFlat_Up.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_Up.TabIndex = 10;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_Up, "Up");
-            this.ButtonFlat_Up.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Up.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
+            this.ButtonDark_Up.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonDark_Up.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Up_Enabled;
+            this.ButtonDark_Up.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ButtonDark_Up.Checked = false;
+            this.ButtonDark_Up.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Up.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonDark_Up.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.ButtonDark_Up.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Up.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonDark_Up.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Up.Location = new System.Drawing.Point(82, 1);
+            this.ButtonDark_Up.Name = "ButtonDark_Up";
+            this.ButtonDark_Up.Size = new System.Drawing.Size(24, 24);
+            this.ButtonDark_Up.TabIndex = 10;
+            this.ToolTip_Information.SetToolTip(this.ButtonDark_Up, "Up");
+            this.ButtonDark_Up.UseVisualStyleBackColor = false;
+            this.ButtonDark_Up.Click += new System.EventHandler(this.ButtonDark_Navigation_Click_Group);
             // 
-            // ButtonFlat_Forward
+            // ButtonDark_Forward
             // 
-            this.ButtonFlat_Forward.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Forward.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ButtonFlat_Forward.BackgroundImage")));
-            this.ButtonFlat_Forward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ButtonFlat_Forward.Enabled = false;
-            this.ButtonFlat_Forward.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Forward.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_Forward.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_Forward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Forward.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Forward.Location = new System.Drawing.Point(28, 1);
-            this.ButtonFlat_Forward.Name = "ButtonFlat_Forward";
-            this.ButtonFlat_Forward.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_Forward.TabIndex = 9;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_Forward, "Forward");
-            this.ButtonFlat_Forward.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Forward.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
+            this.ButtonDark_Forward.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonDark_Forward.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Forward_Disabled;
+            this.ButtonDark_Forward.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ButtonDark_Forward.Checked = false;
+            this.ButtonDark_Forward.Enabled = false;
+            this.ButtonDark_Forward.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Forward.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonDark_Forward.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.ButtonDark_Forward.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Forward.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonDark_Forward.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Forward.Location = new System.Drawing.Point(28, 1);
+            this.ButtonDark_Forward.Name = "ButtonDark_Forward";
+            this.ButtonDark_Forward.Size = new System.Drawing.Size(24, 24);
+            this.ButtonDark_Forward.TabIndex = 9;
+            this.ToolTip_Information.SetToolTip(this.ButtonDark_Forward, "Forward");
+            this.ButtonDark_Forward.UseVisualStyleBackColor = false;
+            this.ButtonDark_Forward.Click += new System.EventHandler(this.ButtonDark_Navigation_Click_Group);
             // 
-            // ButtonFlat_Back
+            // ButtonDark_Back
             // 
-            this.ButtonFlat_Back.BackColor = System.Drawing.Color.Transparent;
-            this.ButtonFlat_Back.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ButtonFlat_Back.BackgroundImage")));
-            this.ButtonFlat_Back.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ButtonFlat_Back.Enabled = false;
-            this.ButtonFlat_Back.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Back.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ButtonFlat_Back.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ControlDark;
-            this.ButtonFlat_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Back.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Back.Location = new System.Drawing.Point(1, 1);
-            this.ButtonFlat_Back.Name = "ButtonFlat_Back";
-            this.ButtonFlat_Back.Size = new System.Drawing.Size(24, 24);
-            this.ButtonFlat_Back.TabIndex = 8;
-            this.ToolTip_Information.SetToolTip(this.ButtonFlat_Back, "Back");
-            this.ButtonFlat_Back.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Back.Click += new System.EventHandler(this.ButtonFlat_Navigation_Click_Group);
+            this.ButtonDark_Back.BackColor = System.Drawing.Color.Transparent;
+            this.ButtonDark_Back.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.MarathonExplorer_Back_Disabled;
+            this.ButtonDark_Back.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ButtonDark_Back.Checked = false;
+            this.ButtonDark_Back.Enabled = false;
+            this.ButtonDark_Back.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Back.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ButtonDark_Back.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            this.ButtonDark_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Back.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.ButtonDark_Back.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Back.Location = new System.Drawing.Point(1, 1);
+            this.ButtonDark_Back.Name = "ButtonDark_Back";
+            this.ButtonDark_Back.Size = new System.Drawing.Size(24, 24);
+            this.ButtonDark_Back.TabIndex = 8;
+            this.ToolTip_Information.SetToolTip(this.ButtonDark_Back, "Back");
+            this.ButtonDark_Back.UseVisualStyleBackColor = false;
+            this.ButtonDark_Back.Click += new System.EventHandler(this.ButtonDark_Navigation_Click_Group);
             // 
             // TextBox_Address
             // 
@@ -236,7 +245,7 @@ namespace Marathon.Toolkit.Forms
             this.TextBox_Address.ForeColor = System.Drawing.SystemColors.Control;
             this.TextBox_Address.Location = new System.Drawing.Point(107, 1);
             this.TextBox_Address.Name = "TextBox_Address";
-            this.TextBox_Address.Size = new System.Drawing.Size(836, 24);
+            this.TextBox_Address.Size = new System.Drawing.Size(1131, 24);
             this.TextBox_Address.TabIndex = 12;
             this.TextBox_Address.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextBox_Address_KeyDown);
             // 
@@ -256,7 +265,7 @@ namespace Marathon.Toolkit.Forms
             // KryptonSplitContainer_Explorer.Panel2
             // 
             this.KryptonSplitContainer_Explorer.Panel2.Controls.Add(this.WebBrowser_Explorer);
-            this.KryptonSplitContainer_Explorer.Size = new System.Drawing.Size(969, 547);
+            this.KryptonSplitContainer_Explorer.Size = new System.Drawing.Size(1264, 655);
             this.KryptonSplitContainer_Explorer.SplitterDistance = 182;
             this.KryptonSplitContainer_Explorer.SplitterWidth = 4;
             this.KryptonSplitContainer_Explorer.TabIndex = 1;
@@ -270,17 +279,16 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(969, 573);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.SplitContainer_WebBrowser);
-            this.DoubleBuffered = true;
             this.Margin = new System.Windows.Forms.Padding(0);
             this.Name = "MarathonExplorer";
             this.Text = "Marathon Explorer";
             this.UseRibbon = false;
             this.Controls.SetChildIndex(this.SplitContainer_WebBrowser, 0);
-            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             this.SplitContainer_WebBrowser.Panel1.ResumeLayout(false);
             this.SplitContainer_WebBrowser.Panel1.PerformLayout();
             this.SplitContainer_WebBrowser.Panel2.ResumeLayout(false);
@@ -301,13 +309,13 @@ namespace Marathon.Toolkit.Forms
 
         private System.Windows.Forms.WebBrowser WebBrowser_Explorer;
         private System.Windows.Forms.SplitContainer SplitContainer_WebBrowser;
-        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Up;
-        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Forward;
-        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Back;
-        private Marathon.Toolkit.Components.ButtonFlat ButtonFlat_Clipboard;
+        private Marathon.Components.ButtonDark ButtonDark_Up;
+        private Marathon.Components.ButtonDark ButtonDark_Forward;
+        private Marathon.Components.ButtonDark ButtonDark_Back;
+        private Marathon.Components.ButtonDark ButtonDark_Clipboard;
         private System.Windows.Forms.ToolTip ToolTip_Information;
         private System.Windows.Forms.TextBox TextBox_Address;
-        private Components.ButtonFlat ButtonFlat_DirectoryTree;
+        private Components.ButtonDark ButtonDark_DirectoryTree;
         private System.Windows.Forms.ImageList ImageList_Keys;
         private ComponentFactory.Krypton.Toolkit.KryptonTreeView KryptonTreeView_Explorer;
         private ComponentFactory.Krypton.Toolkit.KryptonSplitContainer KryptonSplitContainer_Explorer;

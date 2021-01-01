@@ -28,26 +28,26 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
+            this.MenuStripDark_Main = new Marathon.Components.MenuStripDark();
             this.MenuStripDark_Main_Tools = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_Help = new System.Windows.Forms.ToolStripMenuItem();
-            this.ButtonFlat_Convert = new Marathon.Toolkit.Components.ButtonFlat();
+            this.ButtonDark_Convert = new Marathon.Components.ButtonDark();
             this.PictureBox_FileDropIndicator = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             this.MenuStripDark_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).BeginInit();
             this.SuspendLayout();
             // 
-            // KryptonRibbon_MarathonForm
+            // KryptonRibbon_MarathonDockContent
             // 
-            this.KryptonRibbon_MarathonForm.Size = new System.Drawing.Size(320, 142);
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
             // 
             // MenuStripDark_Main
             // 
             this.MenuStripDark_Main.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MenuStripDark_Main.AutoSize = false;
-            this.MenuStripDark_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.MenuStripDark_Main.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.MenuStripDark_Main.Dock = System.Windows.Forms.DockStyle.None;
             this.MenuStripDark_Main.ForeColor = System.Drawing.SystemColors.Control;
             this.MenuStripDark_Main.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -71,21 +71,23 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_Help.Size = new System.Drawing.Size(44, 20);
             this.MenuStripDark_Main_Help.Text = "Help";
             // 
-            // ButtonFlat_Convert
+            // ButtonDark_Convert
             // 
-            this.ButtonFlat_Convert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.ButtonDark_Convert.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFlat_Convert.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ButtonFlat_Convert.FlatAppearance.BorderSize = 0;
-            this.ButtonFlat_Convert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonFlat_Convert.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.ButtonFlat_Convert.Location = new System.Drawing.Point(12, 436);
-            this.ButtonFlat_Convert.Name = "ButtonFlat_Convert";
-            this.ButtonFlat_Convert.Size = new System.Drawing.Size(296, 23);
-            this.ButtonFlat_Convert.TabIndex = 1;
-            this.ButtonFlat_Convert.Text = "Convert";
-            this.ButtonFlat_Convert.UseVisualStyleBackColor = false;
-            this.ButtonFlat_Convert.Visible = false;
+            this.ButtonDark_Convert.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ButtonDark_Convert.Checked = false;
+            this.ButtonDark_Convert.FlatAppearance.BorderSize = 0;
+            this.ButtonDark_Convert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDark_Convert.ForeColor = System.Drawing.SystemColors.Control;
+            this.ButtonDark_Convert.FormBackColour = System.Drawing.Color.Empty;
+            this.ButtonDark_Convert.Location = new System.Drawing.Point(12, 436);
+            this.ButtonDark_Convert.Name = "ButtonDark_Convert";
+            this.ButtonDark_Convert.Size = new System.Drawing.Size(296, 23);
+            this.ButtonDark_Convert.TabIndex = 1;
+            this.ButtonDark_Convert.Text = "Convert";
+            this.ButtonDark_Convert.UseVisualStyleBackColor = false;
+            this.ButtonDark_Convert.Visible = false;
             // 
             // PictureBox_FileDropIndicator
             // 
@@ -107,12 +109,11 @@ namespace Marathon.Toolkit.Forms
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(37)))), ((int)(((byte)(38)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(320, 471);
             this.Controls.Add(this.PictureBox_FileDropIndicator);
-            this.Controls.Add(this.ButtonFlat_Convert);
+            this.Controls.Add(this.ButtonDark_Convert);
             this.Controls.Add(this.MenuStripDark_Main);
-            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.MinimumSize = new System.Drawing.Size(252, 382);
             this.Name = "FileConverter";
@@ -121,10 +122,10 @@ namespace Marathon.Toolkit.Forms
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.FileConverter_DragEnter);
             this.Controls.SetChildIndex(this.MenuStripDark_Main, 0);
-            this.Controls.SetChildIndex(this.ButtonFlat_Convert, 0);
+            this.Controls.SetChildIndex(this.ButtonDark_Convert, 0);
             this.Controls.SetChildIndex(this.PictureBox_FileDropIndicator, 0);
-            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_FileDropIndicator)).EndInit();
@@ -138,7 +139,7 @@ namespace Marathon.Toolkit.Forms
         private Components.MenuStripDark MenuStripDark_Main;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Tools;
         private System.Windows.Forms.ToolStripMenuItem MenuStripDark_Main_Help;
-        private Components.ButtonFlat ButtonFlat_Convert;
+        private Components.ButtonDark ButtonDark_Convert;
         private System.Windows.Forms.PictureBox PictureBox_FileDropIndicator;
     }
 }

@@ -36,7 +36,8 @@ namespace Marathon.IO.Formats
     /// </summary>
     public static class BINA
     {
-        public static Encoding Encoding => Encoding.GetEncoding("shift-jis");
+        public static Encoding Encoding
+            => Encoding.GetEncoding("shift-jis");
 
         public enum OffsetTypes
         {
@@ -51,11 +52,14 @@ namespace Marathon.IO.Formats
     /// </summary>
     public class BINAReader : ExtendedBinaryReader
     {
-        public BINAReader(Stream input, uint offset = 0) : base(input, BINA.Encoding) => Offset = offset;
+        public BINAReader(Stream input, uint offset = 0) : base(input, BINA.Encoding)
+            => Offset = offset;
 
-        public BINAReader(Stream input, Encoding encoding, uint offset = 0) : base(input, encoding) => Offset = offset;
+        public BINAReader(Stream input, Encoding encoding, uint offset = 0) : base(input, encoding)
+            => Offset = offset;
 
-        public BINAHeader ReadHeader() => new BINAv1Header(this);
+        public BINAHeader ReadHeader()
+            => new BINAv1Header(this);
 
         public List<uint> ReadFooter(uint finalTableLength)
         {
@@ -109,7 +113,8 @@ namespace Marathon.IO.Formats
 
             public StringTableEntry() { }
 
-            public StringTableEntry(string data) => Data = data;
+            public StringTableEntry(string data)
+                => Data = data;
         }
 
         protected List<StringTableEntry> _StringTableEntries = new List<StringTableEntry>();
@@ -135,6 +140,7 @@ namespace Marathon.IO.Formats
         public uint WriteStringTable()
         {
             FixPadding();
+
             uint stringTablePos = (uint)BaseStream.Position;
 
             foreach (var tableEntry in _StringTableEntries)
@@ -148,6 +154,7 @@ namespace Marathon.IO.Formats
             }
 
             FixPadding();
+
             return stringTablePos;
         }
 
@@ -175,6 +182,7 @@ namespace Marathon.IO.Formats
             bool isBigEndian = IsBigEndian;
             uint footerStartPos = (uint)BaseStream.Position;
             uint lastOffsetPos = Offset;
+
             IsBigEndian = true;
 
             // Writes the offset table...
@@ -195,17 +203,21 @@ namespace Marathon.IO.Formats
             }
 
             FixPadding(4);
+
             IsBigEndian = isBigEndian;
+
             return footerStartPos;
         }
 
         public void AddString(string offsetName, string str, bool writeNulls = true, uint offsetLength = 4)
         {
-            if (string.IsNullOrEmpty(offsetName)) return;
+            if (string.IsNullOrEmpty(offsetName))
+                return;
 
             if (string.IsNullOrEmpty(str) && writeNulls)
             {
                 WriteNulls(offsetLength);
+
                 return;
             }
 

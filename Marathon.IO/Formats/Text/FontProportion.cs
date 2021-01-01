@@ -41,7 +41,8 @@ namespace Marathon.IO.Formats.Text
 
             public sbyte Margin;
 
-            public Character(byte width) => Width = width;
+            public Character(byte width)
+                => Width = width;
         }
 
         public const string Signature = "PRFI", Extension = ".pfi";
@@ -52,7 +53,6 @@ namespace Marathon.IO.Formats.Text
 
         public override void Load(Stream stream)
         {
-            // Header
             ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
 
             string signature = reader.ReadSignature(4);

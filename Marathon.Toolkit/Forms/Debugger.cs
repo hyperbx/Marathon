@@ -24,19 +24,31 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using Marathon.Toolkit.Controls;
+using Marathon.Components;
+using Marathon.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class Debugger : MarathonDockContent
     {
+        class File
+        {
+            public string Name { get; set; }
+            public string Type { get; set; }
+            public long Size { get; set; }
+        }
+
         public Debugger()
         {
             InitializeComponent();
 
             ImportSettings();
+
+            PopulateMarathonListViewSample();
         }
 
         /// <summary>
@@ -59,6 +71,38 @@ namespace Marathon.Toolkit.Forms
             // }
         }
 
+        private void PopulateMarathonListViewSample()
+        {
+            List<File> fileList = new List<File>();
+
+            for (int i = 0; i < 2; i++)
+            {
+                File test = new File
+                {
+                    Name = Path.GetRandomFileName(),
+                    Type = "Lua Bytecode",
+                    Size = new Random(i).Next(1, 100000)
+                };
+
+                File aaaa = new File
+                {
+                    Name = $"Test #{i}.lub",
+                    Type = "Something Else",
+                    Size = new Random(i).Next(1, 100000)
+                };
+
+                fileList.Add(test);
+                fileList.Add(aaaa);
+            }
+
+            olvColumn3.AspectToStringConverter = delegate (object rowObject)
+            {
+                return StringHelper.ByteLengthToDecimalString((long)rowObject);
+            };
+
+            MarathonListView_Sample.ListView.SetObjects(fileList);
+        }
+
         /// <summary>
         /// Hides the node highlight upon clicking.
         /// </summary>
@@ -76,15 +120,9 @@ namespace Marathon.Toolkit.Forms
         }
 
         /// <summary>
-        /// Opens the DirectX window.
+        /// Create a new MarathonMessageBox instance to sample.
         /// </summary>
-        private void ButtonFlat_DirectX_Click(object sender, EventArgs e)
-            => new ModelViewer().Show(DockPanel);
-
-        /// <summary>
-        /// Opens the ribbon testing window.
-        /// </summary>
-        private void ButtonFlat_Ribbon_Click(object sender, EventArgs e)
-            => new RibbonTests().Show(DockPanel);
+        private void ButtonDark_MarathonMessageBox_Sample_Click(object sender, EventArgs e)
+            => MarathonMessageBox.Show("Test", string.Empty, MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
     }
 }

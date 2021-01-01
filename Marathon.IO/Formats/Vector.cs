@@ -30,39 +30,34 @@ namespace Marathon.IO.Formats
     [Serializable]
     public struct Vector2
     {
-        // Variables/Constants
         public float X, Y;
 
-        // Constructors
         public Vector2(float x, float y)
         {
             X = x;
             Y = y;
         }
 
-        // Methods
         public override string ToString()
-        {
-            return $"({X}, {Y})";
-        }
+            => $"({X}, {Y})";
 
-        public static Vector2 operator +(Vector2 v1, Vector2 v2) =>
-            new Vector2(v1.X + v2.X, v1.Y + v2.Y);
+        public static Vector2 operator +(Vector2 v1, Vector2 v2)
+            => new Vector2(v1.X + v2.X, v1.Y + v2.Y);
 
-        public static Vector2 operator -(Vector2 v1, Vector2 v2) =>
-            new Vector2(v1.X - v2.X, v1.Y - v2.Y);
+        public static Vector2 operator -(Vector2 v1, Vector2 v2)
+            => new Vector2(v1.X - v2.X, v1.Y - v2.Y);
 
-        public static Vector2 operator *(Vector2 v1, Vector2 v2) =>
-            new Vector2(v1.X * v2.X, v1.Y * v2.Y);
+        public static Vector2 operator *(Vector2 v1, Vector2 v2)
+            => new Vector2(v1.X * v2.X, v1.Y * v2.Y);
 
-        public static Vector2 operator *(Vector2 v1, float m) =>
-            new Vector2(v1.X * m, v1.Y * m);
+        public static Vector2 operator *(Vector2 v1, float m)
+            => new Vector2(v1.X * m, v1.Y * m);
 
-        public static Vector2 operator /(Vector2 v1, Vector2 v2) =>
-            new Vector2(v1.X / v2.X, v1.Y / v2.Y);
+        public static Vector2 operator /(Vector2 v1, Vector2 v2)
+            => new Vector2(v1.X / v2.X, v1.Y / v2.Y);
 
-        public static Vector2 operator /(Vector2 v1, float m) =>
-            new Vector2(v1.X / m, v1.Y / m);
+        public static Vector2 operator /(Vector2 v1, float m)
+            => new Vector2(v1.X / m, v1.Y / m);
     }
 
     /// <summary>
@@ -87,33 +82,38 @@ namespace Marathon.IO.Formats
             Z = z;
         }
 
-        public override string ToString() => $"({X}, {Y}, {Z})";
+        public override string ToString()
+            => $"({X}, {Y}, {Z})";
 
-        public static Vector3 operator +(Vector3 v1, Vector3 v2) =>
-            new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        public static Vector3 operator +(Vector3 v1, Vector3 v2)
+            => new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
 
-        public static Vector3 operator -(Vector3 v1, Vector3 v2) =>
-            new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+        public static Vector3 operator -(Vector3 v1, Vector3 v2)
+            => new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 
-        public static Vector3 operator *(Vector3 v1, Vector3 v2) =>
-            new Vector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
+        public static Vector3 operator *(Vector3 v1, Vector3 v2)
+            => new Vector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
 
-        public static Vector3 operator *(Vector3 v1, float m) =>
-            new Vector3(v1.X * m, v1.Y * m, v1.Z * m);
+        public static Vector3 operator *(Vector3 v1, float m)
+            => new Vector3(v1.X * m, v1.Y * m, v1.Z * m);
 
-        public static Vector3 operator /(Vector3 v1, Vector3 v2) =>
-            new Vector3(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
+        public static Vector3 operator /(Vector3 v1, Vector3 v2)
+            => new Vector3(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
 
-        public static Vector3 operator /(Vector3 v1, float m) =>
-            new Vector3(v1.X / m, v1.Y / m, v1.Z / m);
+        public static Vector3 operator /(Vector3 v1, float m)
+            => new Vector3(v1.X / m, v1.Y / m, v1.Z / m);
     }
 
     [Serializable]
     public class Vector4
     {
-        public float X = 0, Y = 0, Z = 0, W = 0;
+        public float X = 0,
+                     Y = 0,
+                     Z = 0,
+                     W = 0;
 
         public Vector4() { }
+
         public Vector4(float x, float y)
         {
             X = x;
@@ -138,6 +138,7 @@ namespace Marathon.IO.Formats
             W = w;
         }
 
-        public override string ToString() => $"({X}, {Y}, {Z}, {W})";
+        public override string ToString()
+            => $"({X}, {Y}, {Z}, {W})";
     }
 }

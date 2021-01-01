@@ -65,7 +65,7 @@ namespace Marathon.Toolkit.Forms
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Corner_Transparent;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Toolkit_Corner_Transparent;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.PictureBox_Logo.Location = new System.Drawing.Point(233, 14);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
@@ -91,7 +91,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Contributors.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.TreeView_Contributors.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.TreeView_Contributors.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.TreeView_Contributors.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TreeView_Contributors.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.TreeView_Contributors.ForeColor = System.Drawing.SystemColors.Control;
@@ -124,7 +124,7 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
             this.ClientSize = new System.Drawing.Size(536, 256);
             this.Controls.Add(this.Label_License);
             this.Controls.Add(this.Label_Version);

@@ -206,7 +206,12 @@ namespace Marathon.IO.Formats.Miscellaneous
                 XElement ParticleListElem = new XElement("ParticleList", @event.ParticleList);
                 XElement SubtitleMSTElem = new XElement("SubtitleMST", @event.SubtitleMST);
 
-                eventElem.Add(NameElem, FolderElem, EventLengthElem, Position, Rotation, TerrainElem, SceneLuaElem, SceneBankElem, ParticleListElem, SubtitleMSTElem);
+                eventElem.Add
+                (
+                    NameElem, FolderElem, EventLengthElem, Position,
+                    Rotation, TerrainElem, SceneLuaElem, SceneBankElem,
+                    ParticleListElem, SubtitleMSTElem
+                );
 
                 rootElem.Add(eventElem);
             }

@@ -40,10 +40,15 @@ namespace Marathon.IO.Formats.Text
         public class SubImage
         {
             public string Placeholder;
-            public ushort X, Y, Width, Height;
+
+            public ushort X,
+                          Y,
+                          Width,
+                          Height;
         }
 
-        public const string Signature = "FNTP", Extension = ".pft";
+        public const string Signature = "FNTP",
+                            Extension = ".pft";
 
         public string Texture;
 
@@ -51,7 +56,6 @@ namespace Marathon.IO.Formats.Text
 
         public override void Load(Stream stream)
         {
-            // Header
             BINAReader reader = new BINAReader(stream);
             reader.ReadHeader();
 
@@ -96,7 +100,6 @@ namespace Marathon.IO.Formats.Text
 
         public override void Save(Stream stream)
         {
-            // Header
             BINAv1Header header = new BINAv1Header();
             BINAWriter writer = new BINAWriter(stream, header);
             writer.WriteSignature(Signature);
@@ -123,7 +126,6 @@ namespace Marathon.IO.Formats.Text
 
         public void ExportXML(string filePath)
         {
-            // Header
             XElement rootElem = new XElement("PFT");
 
             // Texture

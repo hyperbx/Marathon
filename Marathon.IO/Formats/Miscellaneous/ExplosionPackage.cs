@@ -16,20 +16,24 @@ namespace Marathon.IO.Formats.Miscellaneous
         public class Entry
         {
             public string EntryName;
+
             public uint UnknownUInt32_1; // Setting this to 1 allowed a BombBox explosion to take enemies out, 0 & 2 didn't.
-            public float Radius; // The radius that this explosion affects
-            public float UnknownFloat_1; // Nearly always the same as Radius, barring a few exceptions.
-            public float UnknownFloat_2;
-            public float UnknownFloat_3;
-            public float UnknownFloat_4;
-            public float Force; //Not too sure, but increasing this value seemed to affect something to do with how the explosion affects other physics objects?
-            public uint Damage; // How much damage this explosion causes.
-            public uint Behaviour; // How things should react to this explosion? Has a lot of different values, 46 made every explosion stun enemies like a FlashBox and be unable to damage the player.
-            public string ParticleFile;
-            public string ParticleName;
-            public string SceneBank;
-            public string SoundName;
-            public string LightName;
+
+            public float Radius,         // The radius that this explosion affects
+                         UnknownFloat_1, // Nearly always the same as Radius, barring a few exceptions.
+                         UnknownFloat_2,
+                         UnknownFloat_3,
+                         UnknownFloat_4,
+                         Force;          // Not too sure, but increasing this value seemed to affect something to do with how the explosion affects other physics objects?
+            
+            public uint Damage,          // How much damage this explosion causes.
+                        Behaviour;       // How things should react to this explosion? Has a lot of different values, 46 made every explosion stun enemies like a FlashBox and be unable to damage the player.
+            
+            public string ParticleFile,
+                          ParticleName,
+                          SceneBank,
+                          SoundName,
+                          LightName;
         }
 
         public List<Entry> Entries = new List<Entry>();
@@ -157,7 +161,13 @@ namespace Marathon.IO.Formats.Miscellaneous
 
                 XElement LightElem = new XElement("Light", explosion.LightName);
 
-                explosionElem.Add(NameAttr, UInt1Elem, Float1Elem, Float2Elem, Float3Elem, Float4Elem, Float5Elem, Float6Elem, UInt2Elem, UInt3Elem, ParticleElem, SoundElem, LightElem);
+                explosionElem.Add
+                (
+                    NameAttr, UInt1Elem, Float1Elem, Float2Elem, Float3Elem,
+                    Float4Elem, Float5Elem, Float6Elem, UInt2Elem, UInt3Elem,
+                    ParticleElem, SoundElem, LightElem
+                );
+                
                 rootElem.Add(explosionElem);
             }
 

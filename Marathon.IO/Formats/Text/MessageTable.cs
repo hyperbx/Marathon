@@ -50,14 +50,19 @@ namespace Marathon.IO.Formats.Text
         public string Name;
         public List<Message> Entries = new List<Message>();
 
+        public MessageTable() { }
+
+        public MessageTable(string filePath)
+            => Load(filePath);
+
         public override void Load(Stream fileStream)
         {
-            // BINA Header
             BINAReader reader = new BINAReader(fileStream);
             reader.ReadHeader();
 
             string signature = reader.ReadSignature(4);
-            if (signature != Signature) throw new InvalidSignatureException(Signature, signature);
+            if (signature != Signature)
+                throw new InvalidSignatureException(Signature, signature);
 
             // Store offsets for the string table.
             uint stringTableOffset = reader.ReadUInt32(); // Location of the table of internal string names (including the name) in this file.

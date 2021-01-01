@@ -46,14 +46,15 @@
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Krypton.Ribbon, Version=5.500.2006.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Krypton.Ribbon.dll</HintPath>
+    <Reference Include="Krypton.Ribbon">
+      <HintPath>..\Marathon.Components\Libraries\Krypton.Ribbon.dll</HintPath>
     </Reference>
-    <Reference Include="Krypton.Toolkit, Version=5.500.2006.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Krypton.Toolkit.dll</HintPath>
+    <Reference Include="Krypton.Toolkit">
+      <HintPath>..\Marathon.Components\Libraries\Krypton.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -71,107 +72,29 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\MarathonMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
-      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\BulkRenamer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\BulkRenamer.Designer.cs">
       <DependentUpon>BulkRenamer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Components\Flat\ButtonFlat.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Flat\ButtonFlat.Designer.cs">
-      <DependentUpon>ButtonFlat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ContextMenuStripDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ContextMenuStripDark.Designer.cs">
-      <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\LabelDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\LabelDark.Designer.cs">
-      <DependentUpon>LabelDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ListViewDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ListViewDark.Designer.cs">
-      <DependentUpon>ListViewDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\MenuStripDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\MenuStripDark.Designer.cs">
-      <DependentUpon>MenuStripDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Controls\Miscellaneous\MarathonDockContent.cs">
+    <Compile Include="Forms\IO\AssetAuthor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\Miscellaneous\MarathonDockContent.Designer.cs">
-      <DependentUpon>MarathonDockContent.cs</DependentUpon>
+    <Compile Include="Forms\IO\AssetAuthor.Designer.cs">
+      <DependentUpon>AssetAuthor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Components\Miscellaneous\RichTextBoxLocked.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Forms\IO\TextEditor.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Components\Miscellaneous\RichTextBoxLocked.Designer.cs">
-      <DependentUpon>RichTextBoxLocked.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Flat\TabControlFlat.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Flat\TabControlFlat.Designer.cs">
-      <DependentUpon>TabControlFlat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\TextBoxDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\TextBoxDark.Designer.cs">
-      <DependentUpon>TextBoxDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ToolStripDark.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Forms\Components\Dark\ToolStripDark.Designer.cs">
-      <DependentUpon>ToolStripDark.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Controls\Options\OptionsFieldBooleanType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Controls\Options\OptionsFieldBooleanType.Designer.cs">
-      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Controls\Options\OptionsFieldStringType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Controls\Options\OptionsFieldStringType.Designer.cs">
-      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Controls\Miscellaneous\TaskDashboardOption.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\Controls\Miscellaneous\TaskDashboardOption.Designer.cs">
-      <DependentUpon>TaskDashboardOption.cs</DependentUpon>
+    <Compile Include="Forms\IO\TextEditor.Designer.cs">
+      <DependentUpon>TextEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Options.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\RibbonTests.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\RibbonTests.Designer.cs">
-      <DependentUpon>RibbonTests.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Windows.cs">
       <SubType>Form</SubType>
@@ -191,12 +114,6 @@
     <Compile Include="Forms\TaskDashboard.Designer.cs">
       <DependentUpon>TaskDashboard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\IO\ModelViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\IO\ModelViewer.Designer.cs">
-      <DependentUpon>ModelViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\IO\SaveEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,9 +132,6 @@
     <Compile Include="Forms\FileConverter.Designer.cs">
       <DependentUpon>FileConverter.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\GraphicsHelper.cs" />
-    <Compile Include="Helpers\ConsoleWriter.cs" />
-    <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Forms\ErrorHandler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -229,11 +143,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Resources.cs" />
     <Compile Include="Helpers\TreeViewExtensions.cs" />
     <Compile Include="Forms\About.cs">
@@ -242,7 +151,6 @@
     <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="Renderers\DarkProfessionalColourTable.cs" />
     <Compile Include="Forms\IO\ArchiveExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -255,8 +163,6 @@
     <Compile Include="Forms\IO\MarathonExplorer.Designer.cs">
       <DependentUpon>MarathonExplorer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\OpenFolderDialog.cs" />
-    <Compile Include="Dialogs\ShellProvider.cs" />
     <Compile Include="Forms\Workspace.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,32 +171,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
-      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BulkRenamer.resx">
       <DependentUpon>BulkRenamer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Components\Flat\TabControlFlat.resx">
-      <DependentUpon>TabControlFlat.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\IO\AssetAuthor.resx">
+      <DependentUpon>AssetAuthor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\Miscellaneous\MarathonDockContent.resx">
-      <DependentUpon>MarathonDockContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\Options\OptionsFieldBooleanType.resx">
-      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\Options\OptionsFieldStringType.resx">
-      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\Miscellaneous\TaskDashboardOption.resx">
-      <DependentUpon>TaskDashboardOption.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\IO\TextEditor.resx">
+      <DependentUpon>TextEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\RibbonTests.resx">
-      <DependentUpon>RibbonTests.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Windows.resx">
       <DependentUpon>Windows.cs</DependentUpon>
@@ -310,16 +201,8 @@
     <EmbeddedResource Include="Forms\TaskDashboard.resx">
       <DependentUpon>TaskDashboard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\IO\ModelViewer.resx">
-      <DependentUpon>ModelViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\IO\SaveEditor.resx">
       <DependentUpon>SaveEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\IO\ArchiveExplorer.resx">
       <DependentUpon>ArchiveExplorer.cs</DependentUpon>
@@ -333,92 +216,32 @@
     <EmbeddedResource Include="Forms\Workspace.resx">
       <DependentUpon>Workspace.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Libraries\Krypton.Ribbon.dll" />
-    <Content Include="Libraries\Krypton.Toolkit.dll" />
-    <Content Include="Resources\Contributors.xml" />
-    <Content Include="Resources\Icons\Icon.ico" />
-    <Content Include="Resources\Images\Buttons\Enabled\Ribbon_SelectAll_Enabled.png" />
-    <Content Include="Resources\Images\Buttons\Ribbon_ExpandDown.png" />
-    <Content Include="Resources\Images\Buttons\Ribbon_ExpandUp.png" />
-    <Content Include="Resources\Images\Buttons\TabControlFlat_Close.png" />
-    <None Include="Resources\Images\Tasks\Task_Checked.png" />
-    <None Include="Resources\Images\Formats\Format_File_Pending.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_NewItem.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_CopyPath.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Cut.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Cut.png" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Folder.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_SelectNone.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_SelectAll.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_InvertSelection.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Paste.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Export.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Delete.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Copy.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Undo.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Save.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Rename.png" />
-    <None Include="Resources\Images\Tasks\Ribbon\Task_Ribbon_Refresh.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_OpenFolder.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_OpenFile.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_OpenDialog.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Open.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_NewFolder.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_NewFileCollection.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_NewFile.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_New.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Invalid.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Information.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Home.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Feature.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Export.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Exit.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Copy.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Archive.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_AddFile.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Settings.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Save.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Rename.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_RemoveFile.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Paste.png" />
-    <None Include="Resources\Images\Tasks\Strip\Task_Strip_Output.png" />
-    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Back_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Clipboard_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_DirectoryTree_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Forward_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\MarathonExplorer_Up_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Disabled\MarathonExplorer_Forward_Disabled.png" />
-    <None Include="Resources\Images\Buttons\Disabled\MarathonExplorer_Back_Disabled.png" />
-    <None Include="Resources\Images\Logos\Logo_Small_Dark.png" />
-    <None Include="Resources\Images\Logos\Logo_Corner_Transparent.png" />
-    <None Include="Resources\Images\Logos\Logo_Full_Colour.png" />
-    <None Include="Resources\Images\Logos\Logo_Medium_Colour.png" />
-    <None Include="Resources\Images\Formats\Format_Folder.png" />
-    <None Include="Resources\Images\Formats\Format_File.png" />
-    <Content Include="Resources\FileTypes.xml" />
-    <None Include="Resources\Images\Miscellaneous\Placeholder.png" />
-    <None Include="Resources\Images\Miscellaneous\FileConverter_FileDrop.png" />
-    <None Include="Resources\Images\Miscellaneous\Feedback_Question.png" />
-    <None Include="Resources\Images\Miscellaneous\Feedback_Warning.png" />
-    <None Include="Resources\Images\Miscellaneous\Feedback_Error.png" />
-    <None Include="Resources\Images\Miscellaneous\Feedback_Information.png" />
-    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Restore_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Close_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Maximise_Enabled.png" />
-    <None Include="Resources\Images\Buttons\Enabled\UserControlForm_Minimise_Enabled.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Marathon.Components\Marathon.Components.csproj">
+      <Project>{6f18d9c8-7f6f-4f60-a997-0c1c4cc997b5}</Project>
+      <Name>Marathon.Components</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marathon.Helpers\Marathon.Helpers.csproj">
+      <Project>{a5593070-f17e-4d3e-a57d-77c72be8a993}</Project>
+      <Name>Marathon.Helpers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
       <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
       <Name>Marathon.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marathon.Modding\Marathon.Modding.csproj">
+      <Project>{3803e6b1-e1c6-4fdb-af6d-1bb487487b83}</Project>
+      <Name>Marathon.Modding</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marathon.Resources\Marathon.Resources.csproj">
+      <Project>{c736af24-67e5-4e80-83b0-c6a8a93602e5}</Project>
+      <Name>Marathon.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -437,9 +260,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
-    <PackageReference Include="ObjectListView">
-      <Version>2.7.1.5</Version>
-    </PackageReference>
     <PackageReference Include="Veldrid">
       <Version>4.8.0</Version>
     </PackageReference>
@@ -448,11 +268,15 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Icons\Icon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.Optimisation.exe" --bitmap-cache $(ProjectDir)</PreBuildEvent>
+    <PreBuildEvent>"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --bitmap-cache $(ProjectDir)
+"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --update-resources "$(SolutionDir)Marathon.Resources" $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)Marathon.Optimisation\bin\$(ConfigurationName)\Marathon.Optimisation.exe" --bitmap-cache /dotNet $(ProjectDir)</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --bitmap-cache /dotNet $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

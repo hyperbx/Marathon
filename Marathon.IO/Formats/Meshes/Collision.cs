@@ -40,6 +40,7 @@ namespace Marathon.IO.Formats.Meshes
         public class Face
         {
             public ushort Vertex1, Vertex2, Vertex3;
+
             public uint Flags;
         }
 
@@ -167,7 +168,8 @@ namespace Marathon.IO.Formats.Meshes
                         string temp = line.Substring(line.LastIndexOf("_at_") + 4);
                         flags = (uint)Convert.ToInt32(temp, 16);
                     }
-                    else { flags = 0; }
+                    else
+                        flags = 0;
                 }
 
                 if (line.StartsWith("f "))

@@ -38,7 +38,7 @@ namespace Marathon.IO.Helpers
         protected bool _leaveOpen = true;       // If true, don't close _baseStream on Dispose.
         protected bool _isDisposed = false;
 
-        // Adler-32 checksum.
+        // Adler-32 checksum stuff.
         protected const uint A32Mod = 65521;
         protected uint _s1 = 1;
         protected uint _s2 = 0;
@@ -46,7 +46,7 @@ namespace Marathon.IO.Helpers
         // Number of bytes processed.
         protected long _bytesProcessed = 0;
 
-        // Implies mode == Compress
+        // Implies mode is Compress.
         public ZlibStream(Stream stream, CompressionLevel compressionLevel, bool leaveOpen)
         {
             if (stream == null)
@@ -66,10 +66,10 @@ namespace Marathon.IO.Helpers
             _deflateStream = new DeflateStream(stream, compressionLevel, true);
         }
 
-        // Implies mode == Compress
+        // Implies mode is Compress.
         public ZlibStream(Stream stream, CompressionLevel compressionLevel) : this(stream, compressionLevel, false) { }
 
-        // Implies compressionLevel == Optimal
+        // Implies compressionLevel is Optimal.
         public ZlibStream(Stream stream, CompressionMode mode, bool leaveOpen)
         {
             if (stream == null)
@@ -95,26 +95,32 @@ namespace Marathon.IO.Helpers
                 WriteZlibHeader(CompressionLevel.Optimal);
             else
             {
-                // Verify the zlib header.
-                // Reference: https://tools.ietf.org/html/rfc1950
-                // Two bytes: CMF FLG
-                // CMF: Compression method
-                //      bits 0-3 = CM: compression method (8 for Deflate)
-                //      bits 4-7 = CINFO: window size (7 for 2^(7+8) == 2^15 == 32 KB)
-                //      zlib is *always* 0x78. (Deflate, 32 KB)
-                // FLG: Flags
-                //      bits 0-4 = FCHECK: check bits for CMF and FLG
-                //      bit    5 = FDICT: preset dictionary
-                //      bits 6-7 = FLEVEL: compression level
-                // FCHECK must be set such that when CMF/FLG is viewed as
-                // a 16-bit BE unsigned int, CMFFLG % 31 == 0.
+                /* Verify the zlib header.
+                   
+                   Reference: https://tools.ietf.org/html/rfc1950
+
+                   Two bytes: CMF FLG
+
+                   CMF: Compression method
+                        bits 0-3 = CM: compression method (8 for Deflate)
+                        bits 4-7 = CINFO: window size (7 for 2^(7+8) == 2^15 == 32 KB)
+                        zlib is *always* 0x78. (Deflate, 32 KB)
+
+                   FLG: Flags
+                        bits 0-4 = FCHECK: check bits for CMF and FLG
+                        bit    5 = FDICT: preset dictionary
+                        bits 6-7 = FLEVEL: compression level
+
+                   FCHECK must be set such that when CMF/FLG is viewed as a 16-bit BE unsigned int, CMFFLG % 31 == 0. */
                 byte[] zlibHeader = new byte[2];
                 _stream.Read(zlibHeader, 0, zlibHeader.Length);
 
                 // Check CMF.
                 if (zlibHeader[0] != 0x78)
+                {
                     // Not Deflate with 32 KB window.
                     throw new Exception("zlib header has an incorrect CMF byte.");
+                }
 
                 // Check FCHECK.
                 if (BitConverter.IsLittleEndian)
@@ -126,7 +132,7 @@ namespace Marathon.IO.Helpers
                 if (CMFFLG % 31 != 0) throw new Exception("zlib header has an incorrect checksum.");
             }
 
-            // TODO: Adler-32 checksum handling. (Check GzipStream?)
+            // TODO: Adler-32 checksum handling. (Check GZipStream?)
             _deflateStream = new DeflateStream(stream, mode, true);
         }
 
@@ -140,15 +146,14 @@ namespace Marathon.IO.Helpers
                 {
                     if (_bytesProcessed <= 0)
                     {
-                        // Special case: Zero-length file needs "\x03\x00" in order to
-                        // not be misdetected as uncompressed.
+                        // Special case: zero-length file needs "\x03\x00" in order to not be misdetected as uncompressed.
                         byte[] b_extra03 = new byte[] { 0x03, 0x00 };
                         ProcessAdler32(b_extra03, 0, b_extra03.Length);
                         _stream.Write(b_extra03, 0, b_extra03.Length);
                     }
 
                     // Write the Adler-32 checksum.
-                    uint adler32 = unchecked((uint)((_s2 << 16) | _s1));
+                    uint adler32 = unchecked((_s2 << 16) | _s1);
                     byte[] b_adler32 = BitConverter.GetBytes(adler32);
 
                     if (BitConverter.IsLittleEndian)
@@ -163,7 +168,7 @@ namespace Marathon.IO.Helpers
             }
         }
 
-        // Implies compressionLevel == Optimal
+        // Implies compressionLevel is Optimal.
         public ZlibStream(Stream stream, CompressionMode mode) : this(stream, mode, false) { }
 
         /// <summary>
@@ -172,32 +177,26 @@ namespace Marathon.IO.Helpers
         /// <param name="compressionLevel">Compression level.</param>
         protected void WriteZlibHeader(CompressionLevel compressionLevel)
         {
-            // NOTE: There doesn't appear to be a "maximum" compression option.
-            // This would be zlib level 9, or byte 0xDA.
-            // Also, "Optimal" is level 6; zlib default is level 5.
-            // References:
-            // - https://stackoverflow.com/questions/9050260/what-does-a-zlib-header-look-like
-            // - https://stackoverflow.com/a/17176881
+            /* NOTE: There doesn't appear to be a "maximum" compression option.
+                     This would be zlib level 9, or byte 0xDA.
+                     Also, "Optimal" is level 6; zlib default is level 5.
+
+               References:
+               - https://stackoverflow.com/questions/9050260/what-does-a-zlib-header-look-like
+               - https://stackoverflow.com/a/17176881 */
             byte[] zlibHeader = new byte[] { 0x78, 0x00 };
 
-            switch (compressionLevel)
+            zlibHeader[1] = compressionLevel switch
             {
-                default:
-                case CompressionLevel.NoCompression:    // zlib level 0
-                case CompressionLevel.Fastest:          // zlib level 1
-                    zlibHeader[1] = 0x01;
-                    break;
-
-                case CompressionLevel.Optimal:          // zlib level 6
-                    zlibHeader[1] = 0x9C;
-                    break;
-            }
+                CompressionLevel.Optimal => 0x9C,
+                _ => 0x01,
+            };
 
             _stream.Write(zlibHeader, 0, zlibHeader.Length);
         }
 
-        /** The following properties are from the reference source for DeflateStream. **/
-        /** https://referencesource.microsoft.com/#system/sys/System/IO/compression/DeflateStream.cs **/
+        /* The following properties are from the reference source for DeflateStream.
+           https://referencesource.microsoft.com/#system/sys/System/IO/compression/DeflateStream.cs */
 
         private void ValidateParameters(byte[] array, int offset, int count)
         {
@@ -238,7 +237,7 @@ namespace Marathon.IO.Helpers
             {
                 if (_stream == null) return false;
 
-                return (_mode == CompressionMode.Decompress && _stream.CanRead);
+                return _mode == CompressionMode.Decompress && _stream.CanRead;
             }
         }
 
@@ -248,7 +247,7 @@ namespace Marathon.IO.Helpers
             {
                 if (_stream == null) return false;
 
-                return (_mode == CompressionMode.Compress && _stream.CanWrite);
+                return _mode == CompressionMode.Compress && _stream.CanWrite;
             }
         }
 
@@ -265,7 +264,8 @@ namespace Marathon.IO.Helpers
             set => throw new NotSupportedException("ZlibStream does not support setting the stream position.");
         }
 
-        public override void Flush() => EnsureNotDisposed();
+        public override void Flush()
+            => EnsureNotDisposed();
 
         public override long Seek(long offset, SeekOrigin origin)
             => throw new NotSupportedException("ZlibStream does not support seeking.");
@@ -298,8 +298,11 @@ namespace Marathon.IO.Helpers
 
             // TODO: If we reach the end of the stream, verify the Adler-32 checksum.
             int bytesRead = _deflateStream.Read(buffer, offset, count);
+
             ProcessAdler32(buffer, offset, bytesRead);
+
             _bytesProcessed += bytesRead;
+
             return bytesRead;
         }
 
@@ -310,7 +313,9 @@ namespace Marathon.IO.Helpers
             EnsureNotDisposed();
 
             ProcessAdler32(buffer, offset, count);
+
             _deflateStream.Write(buffer, offset, count);
+
             _bytesProcessed += count;
         }
     }

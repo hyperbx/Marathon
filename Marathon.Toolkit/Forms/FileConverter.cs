@@ -25,18 +25,20 @@
 
 using System;
 using System.Windows.Forms;
-using Marathon.Toolkit.Controls;
+using Marathon.Components;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class FileConverter : MarathonDockContent
     {
-        public FileConverter() => InitializeComponent();
+        public FileConverter()
+            => InitializeComponent();
 
         /// <summary>
         /// Changes the cursor if data is present.
         /// </summary>
-        private void FileConverter_DragEnter(object sender, DragEventArgs e) => e.Effect = e.AllowedEffect;
+        private void FileConverter_DragEnter(object sender, DragEventArgs e)
+            => e.Effect = e.AllowedEffect;
 
         /// <summary>
         /// Gets the file dropped onto the window.

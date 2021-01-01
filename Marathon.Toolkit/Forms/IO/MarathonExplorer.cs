@@ -29,9 +29,8 @@ using System.Web;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
+using Marathon.Components;
 using Marathon.Toolkit.Helpers;
-using Marathon.Toolkit.Controls;
-using Marathon.Toolkit.Components;
 
 namespace Marathon.Toolkit.Forms
 {
@@ -66,11 +65,11 @@ namespace Marathon.Toolkit.Forms
             set
             {
                 if (_HideDirectoryTree = KryptonSplitContainer_Explorer.Panel1Collapsed = value)
-                    ToolTip_Information.SetToolTip(ButtonFlat_DirectoryTree, "Show directory tree");
+                    ToolTip_Information.SetToolTip(ButtonDark_DirectoryTree, "Show directory tree");
                 else
                 {
                     RefreshNodes();
-                    ToolTip_Information.SetToolTip(ButtonFlat_DirectoryTree, "Hide directory tree");
+                    ToolTip_Information.SetToolTip(ButtonDark_DirectoryTree, "Hide directory tree");
                 }
             }
         }
@@ -105,12 +104,15 @@ namespace Marathon.Toolkit.Forms
                     if (directory.Exists)
                     {
                         // Create parent directory node...
-                        KryptonTreeView_Explorer.Nodes.Add(new TreeNode
-                        {
-                            Text = "..",
-                            Tag = "..",
-                            ImageKey = "Folder"
-                        });
+                        KryptonTreeView_Explorer.Nodes.Add
+                        (
+                            new TreeNode
+                            {
+                                Text = "..",
+                                Tag = "..",
+                                ImageKey = "Folder"
+                            }
+                        );
 
                         GetDirectories(directory.GetDirectories());
                     }
@@ -215,19 +217,29 @@ namespace Marathon.Toolkit.Forms
             // Sets the state of the navigation button by sender.
             static void SetNavigationButtonState(object sender, Bitmap enabled, Bitmap disabled, bool state)
             {
-                if (((ButtonFlat)sender).Enabled = state)
-                    ((ButtonFlat)sender).BackgroundImage = enabled;
+                if (((ButtonDark)sender).Enabled = state)
+                    ((ButtonDark)sender).BackgroundImage = enabled;
                 else
-                    ((ButtonFlat)sender).BackgroundImage = disabled;
+                    ((ButtonDark)sender).BackgroundImage = disabled;
             }
 
             // Sets the back button's Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_Back, Resources.LoadBitmapResource(nameof(Properties.Resources.MarathonExplorer_Back_Enabled)),
-                                     Resources.LoadBitmapResource(nameof(Properties.Resources.MarathonExplorer_Back_Disabled)), WebBrowser_Explorer.CanGoBack);
+            SetNavigationButtonState
+            (
+                ButtonDark_Back,
+                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.MarathonExplorer_Back_Enabled)),
+                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.MarathonExplorer_Back_Disabled)),
+                WebBrowser_Explorer.CanGoBack
+            );
 
             // Sets the forward button's Enabled state depending on history length.
-            SetNavigationButtonState(ButtonFlat_Forward, Resources.LoadBitmapResource(nameof(Properties.Resources.MarathonExplorer_Forward_Enabled)),
-                                     Resources.LoadBitmapResource(nameof(Properties.Resources.MarathonExplorer_Forward_Disabled)), WebBrowser_Explorer.CanGoForward);
+            SetNavigationButtonState
+            (
+                ButtonDark_Forward,
+                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.MarathonExplorer_Forward_Enabled)),
+                Cache.LoadBitmapResource(nameof(Marathon.Properties.Resources.MarathonExplorer_Forward_Disabled)),
+                WebBrowser_Explorer.CanGoForward
+            );
 
             // Update current directory.
             CurrentAddress = e.Url.ToString();
@@ -236,7 +248,8 @@ namespace Marathon.Toolkit.Forms
             if (Directory.Exists(CurrentAddress))
             {
                 // Watch the current directory.
-                FileSystemWatcher fileSystemWatcher = new FileSystemWatcher {
+                FileSystemWatcher fileSystemWatcher = new FileSystemWatcher
+                {
                     Path = CurrentAddress,
                     NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName,
                     EnableRaisingEvents = true,
@@ -295,8 +308,15 @@ namespace Marathon.Toolkit.Forms
             if (e.KeyCode == Keys.Enter)
             {
                 if (!ChangeDirectoryOnValidation(((TextBox)sender).Text))
-                    MarathonMessageBox.Show($"Marathon can't find '{((TextBox)sender).Text}' - check the spelling and try again.",
-                                            string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    MarathonMessageBox.Show
+                    (
+                        $"Marathon can't find '{((TextBox)sender).Text}' - check the spelling and try again.",
+                        string.Empty,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
         }
 
@@ -345,31 +365,32 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Navigates to the parent directory of the CurrentAddress property.
         /// </summary>
-        private void GoUp() => ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, "..")));
+        private void GoUp()
+            => ChangeDirectoryOnValidation(Path.GetFullPath(Path.Combine(CurrentAddress, "..")));
 
         /// <summary>
         /// Navigation buttons for the WebBrowser control.
         /// </summary>
-        private void ButtonFlat_Navigation_Click_Group(object sender, EventArgs e)
+        private void ButtonDark_Navigation_Click_Group(object sender, EventArgs e)
         {
             // Navigate back a directory...
-            if (sender.Equals(ButtonFlat_Back))
+            if (sender.Equals(ButtonDark_Back))
                 WebBrowser_Explorer.GoBack();
 
             // Navigate forward a directory...
-            else if (sender.Equals(ButtonFlat_Forward))
+            else if (sender.Equals(ButtonDark_Forward))
                 WebBrowser_Explorer.GoForward();
 
             // Inverts the current mode for the ShowDirectoryTree property.
-            else if (sender.Equals(ButtonFlat_DirectoryTree))
+            else if (sender.Equals(ButtonDark_DirectoryTree))
                 HideDirectoryTree = !HideDirectoryTree;
 
             // Set the clipboard to the current address.
-            else if (sender.Equals(ButtonFlat_Clipboard))
+            else if (sender.Equals(ButtonDark_Clipboard))
                 Clipboard.SetText(CurrentAddress);
 
             // Navigate to the parent directory...
-            else if (sender.Equals(ButtonFlat_Up))
+            else if (sender.Equals(ButtonDark_Up))
                 GoUp();
         }
 
@@ -378,10 +399,5 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void KryptonTreeView_Explorer_AfterExpand(object sender, TreeViewEventArgs e)
             => GetDirectories(((DirectoryInfo)e.Node.Tag).GetDirectories(), e.Node);
-
-        private void kryptonRibbonGroupButton1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

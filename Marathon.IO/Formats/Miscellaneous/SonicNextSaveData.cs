@@ -80,7 +80,7 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// <para>Fixed file base for the SonicNextSaveData.bin format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for save data.</para>
     /// </summary>
-    public class SonicNextSaveData : FixedFileBase
+    public class SonicNextSaveData : FileBase
     {
         /// <summary>
         /// Information stored for each episode.
@@ -179,6 +179,11 @@ namespace Marathon.IO.Formats.Miscellaneous
         public Upgrade Upgrades = new Upgrade();
         public System Settings = new System();
 
+        public SonicNextSaveData()
+        {
+            FileWriteMode = FileWriteMode.Fixed;
+        }
+
         public override void Load(Stream stream)
         {
             ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
@@ -188,7 +193,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                     silver = new Episode(),
                     last   = new Episode();
 
-            reader.ReadUInt32(); // Skip what appears to be padding.
+            reader.JumpAhead(4); // Skip what appears to be padding.
 
             // Define life count.
             sonic.Lives  = reader.ReadInt32();

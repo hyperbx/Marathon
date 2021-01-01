@@ -30,44 +30,54 @@ using System.Windows.Forms;
 using System.Collections.Specialized;
 using ComponentFactory.Krypton.Ribbon;
 using ComponentFactory.Krypton.Toolkit;
-using Marathon.Toolkit.Dialogs;
 using WeifenLuo.WinFormsUI.Docking;
+using Marathon.Modding;
+using Marathon.Components;
+using Marathon.Components.Helpers;
 
 namespace Marathon.Toolkit.Forms
 {
     public partial class Workspace : KryptonForm
     {
-        /// <summary>
-        /// An array of KryptonRibbonTabs representing the default ribbon upon launch.
-        /// </summary>
-        public static KryptonRibbonTab[] DefaultRibbonTabs;
-
-        /// <summary>
-        /// An array of KryptonContextMenuItemBases representing the default ribbon file menu upon launch.
-        /// </summary>
-        public static KryptonContextMenuItemBase[] DefaultRibbonAppButtonMenu;
-
         public Workspace()
         {
             InitializeComponent();
 
-            // Adds the extended information to the extra property.
-            Text += Program.GetExtendedInformation(string.Empty, true);
+            // Adds the extended information to the status label.
+            ToolStripStatusLabel_Version.Text = Program.GetExtendedInformation(string.Empty, false);
+
+            // Self-explanatory.
+            RestoreSettings();
+            BackupRibbon();
+            LoadRecentDocuments();
+        }
+
+        /// <summary>
+        /// Updates the status label with the input text.
+        /// </summary>
+        /// <param name="status">Current status.</param>
+        public void UpdateStatus(string status)
+            => ToolStripStatusLabel_Status.Text = status;
+
+        /// <summary>
+        /// Restores previously saved settings.
+        /// </summary>
+        private void RestoreSettings()
+        {
 #if DEBUG
             // Displays the debug tab on the ribbon.
-            KryptonRibbonTab_Developer.Visible = true;
+            KryptonRibbonGroup_Marathon_Developer.Visible = true;
 #endif
             // Set window properties from settings.
-            Width = Properties.Settings.Default.WindowWidth;
-            Height = Properties.Settings.Default.WindowHeight;
-            WindowState = Properties.Settings.Default.WindowState;
+            Width = Marathon.Properties.Settings.Default.Workspace_WindowWidth;
+            Height = Marathon.Properties.Settings.Default.Workspace_WindowHeight;
+            WindowState = Marathon.Properties.Settings.Default.Workspace_WindowState;
 
             // Set dock panel float window size based on user set form size.
             DockPanel_Workspace.DefaultFloatWindowSize = Size;
 
-            // Self-explanatory.
-            BackupRibbon();
-            LoadRecentDocuments();
+            // Set ribbon minimised state.
+            KryptonRibbon_Workspace.MinimizedMode = Marathon.Properties.Settings.Default.Workspace_RibbonCollapsed;
         }
 
         /// <summary>
@@ -76,8 +86,8 @@ namespace Marathon.Toolkit.Forms
         private void BackupRibbon()
         {
             // Store the original ribbon for when there are no open documents.
-            DefaultRibbonTabs = KryptonRibbon_Workspace.RibbonTabs.ToArray();
-            DefaultRibbonAppButtonMenu = KryptonRibbon_Workspace.RibbonAppButton.AppButtonMenuItems.ToArray();
+            RibbonHelper.DefaultRibbonTabs = KryptonRibbon_Workspace.RibbonTabs.ToArray();
+            RibbonHelper.DefaultRibbonAppButtonMenu = KryptonRibbon_Workspace.RibbonAppButton.AppButtonMenuItems.ToArray();
         }
 
         /// <summary>
@@ -86,7 +96,7 @@ namespace Marathon.Toolkit.Forms
         private void AddRecentDocument(string path)
         {
             // Store collection for easier reference.
-            StringCollection cmnCollection = Properties.Settings.Default.RecentDocuments;
+            StringCollection cmnCollection = Marathon.Properties.Settings.Default.Workspace_RecentDocuments;
 
             // Add the file to the collection.
             {
@@ -107,13 +117,18 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void LoadRecentDocuments()
         {
-            /* Initialise the string collection if null - for whatever reason, .NET doesn't do this
-               by default, despite it being one of the main options for .NET Settings. */
-            if (Properties.Settings.Default.RecentDocuments == null)
-                Properties.Settings.Default.RecentDocuments = new StringCollection();
+            // Initialise the string collection if null.
+            if (Marathon.Properties.Settings.Default.Workspace_RecentDocuments == null)
+            {
+                /* For whatever reason, .NET doesn't do this by default,
+                   despite it being one of the main options for .NET Settings. */
+                Marathon.Properties.Settings.Default.Workspace_RecentDocuments = new StringCollection();
+
+                return;
+            }
 
             // Store collection for easier reference.
-            StringCollection cmnCollection = Properties.Settings.Default.RecentDocuments;
+            StringCollection cmnCollection = Marathon.Properties.Settings.Default.Workspace_RecentDocuments;
 
             // Clear the recent documents list.
             KryptonRibbon_Workspace.RibbonAppButton.AppButtonRecentDocs.Clear();
@@ -184,7 +199,8 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Displays the About form upon clicking.
         /// </summary>
-        private void ButtonSpecAppMenu_AboutMarathon_Click(object sender, EventArgs e) => new About().ShowDialog();
+        private void ButtonSpecAppMenu_AboutMarathon_Click(object sender, EventArgs e)
+            => new About().ShowDialog();
 
         /// <summary>
         /// Prompts the user to create a new file.
@@ -194,7 +210,7 @@ namespace Marathon.Toolkit.Forms
             SaveFileDialog saveDialog = new SaveFileDialog
             {
                 Title = "New...",
-                Filter = Resources.ParseFileTypesToFilter(Properties.Resources.FileTypes),
+                Filter = Resources.ParseFileTypesToFilter(Marathon.Properties.Resources.FileTypes),
                 InitialDirectory = ActiveMarathonExplorerAddress()
             };
 
@@ -210,7 +226,7 @@ namespace Marathon.Toolkit.Forms
             OpenFileDialog fileDialog = new OpenFileDialog
             {
                 Title = "Please select a file...",
-                Filter = Resources.ParseFileTypesToFilter(Properties.Resources.FileTypes),
+                Filter = Resources.ParseFileTypesToFilter(Marathon.Properties.Resources.FileTypes),
                 InitialDirectory = ActiveMarathonExplorerAddress()
             };
 
@@ -250,8 +266,8 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Displays the Windows form upon clicking.
         /// </summary>
-        private void PendingParent_Windows_Click(object sender, EventArgs e)
-            => new Windows().Show();
+        private void KryptonContextMenuItem_File_Windows_Click(object sender, EventArgs e)
+            => new Windows().ShowDialog();
 
         /// <summary>
         /// Displays the Options form upon clicking.
@@ -262,7 +278,8 @@ namespace Marathon.Toolkit.Forms
         /// <summary>
         /// Exits the application upon clicking.
         /// </summary>
-        private void ButtonSpecAppMenu_ExitMarathon_Click(object sender, EventArgs e) => Application.Exit();
+        private void ButtonSpecAppMenu_ExitMarathon_Click(object sender, EventArgs e)
+            => Application.Exit();
 
         /// <summary>
         /// Displays the File Converter form upon clicking.
@@ -316,15 +333,15 @@ namespace Marathon.Toolkit.Forms
         private void KryptonRibbonGroup_Developer_Tools_Click_Group(object sender, EventArgs e)
         {
             // Displays the Debugger form upon clicking.
-            if (sender == KryptonRibbonGroupButton_Developer_Tools_Debugger)
+            if (sender == KryptonRibbonGroupButton_Marathon_Developer_Debugger)
             {
                 new Debugger().Show(DockPanel_Workspace, KryptonRibbon_Workspace);
             }
 
             // Resets Marathon's settings upon clicking.
-            else if (sender == KryptonRibbonGroupButton_Developer_Tools_ResetSettings)
+            else if (sender == KryptonRibbonGroupButton_Marathon_Developer_ResetSettings)
             {
-                Properties.Settings.Default.Reset();
+                Marathon.Properties.Settings.Default.Reset();
             }
         }
 
@@ -340,10 +357,10 @@ namespace Marathon.Toolkit.Forms
             }
 
             // Save the last used window state.
-            Properties.Settings.Default.WindowState = WindowState;
+            Marathon.Properties.Settings.Default.Workspace_WindowState = WindowState;
 
             // Save all modified settings.
-            Properties.Settings.Default.Save();
+            Marathon.Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -352,8 +369,8 @@ namespace Marathon.Toolkit.Forms
         private void Workspace_ResizeEnd(object sender, EventArgs e)
         {
             // Save the last used window size.
-            Properties.Settings.Default.WindowWidth = Width;
-            Properties.Settings.Default.WindowHeight = Height;
+            Marathon.Properties.Settings.Default.Workspace_WindowWidth = Width;
+            Marathon.Properties.Settings.Default.Workspace_WindowHeight = Height;
 
             // Set dock panel float window size based on current form size.
             DockPanel_Workspace.DefaultFloatWindowSize = Size;
@@ -365,47 +382,26 @@ namespace Marathon.Toolkit.Forms
         private void DockPanel_Workspace_ContentRemoved(object sender, DockContentEventArgs e)
         {
             // No documents are open, so the ribbon should be reset to default.
-            if (DockPanel_Workspace.Contents.Count == 0 && !IsRibbonDefault(KryptonRibbon_Workspace))
-                SetupRibbon(KryptonRibbon_Workspace, DefaultRibbonTabs, null);
+            if (DockPanel_Workspace.Contents.Count == 0 && !RibbonHelper.IsRibbonDefault(KryptonRibbon_Workspace))
+                RibbonHelper.SetupRibbon(KryptonRibbon_Workspace, RibbonHelper.DefaultRibbonTabs, null);
         }
 
         /// <summary>
-        /// Returns whether the ribbon is already default or not.
+        /// Opens the Mod Manager.
         /// </summary>
-        public static bool IsRibbonDefault(KryptonRibbon ribbon)
-        {
-            // Something must've really messed up if we made it here.
-            if (ribbon == null)
-                return false;
-
-            return ribbon.RibbonTabs.ToArray().SequenceEqual(DefaultRibbonTabs) &&
-                   ribbon.RibbonAppButton.AppButtonMenuItems.ToArray().SequenceEqual(DefaultRibbonAppButtonMenu);
-        }
+        private void KryptonRibbonGroupButton_Home_Organise_ModManager_Click(object sender, EventArgs e)
+            => new Manager().Show(DockPanel_Workspace, KryptonRibbon_Workspace);
 
         /// <summary>
-        /// Sets up the ribbon's controls based on input.
+        /// Save the ribbon's minimised state.
         /// </summary>
-        public static void SetupRibbon(KryptonRibbon ribbon,
-                                       KryptonRibbonTab[] tabs,
-                                       KryptonContextMenuItemBase[] appButtonMenu)
-        {
-            if (ribbon != null)
-            {
-                // Clear the requested ribbon controls.
-                ribbon.RibbonTabs.Clear();
-                ribbon.RibbonAppButton.AppButtonMenuItems.Clear();
+        private void KryptonRibbon_Workspace_MinimizedModeChanged(object sender, EventArgs e)
+            => Marathon.Properties.Settings.Default.Workspace_RibbonCollapsed = KryptonRibbon_Workspace.MinimizedMode;
 
-                // Add the requested ribbon tabs.
-                if (tabs != null)
-                    ribbon.RibbonTabs.AddRange(tabs);
-
-                // Keeping defaults so we don't have to create them every time.
-                ribbon.RibbonAppButton.AppButtonMenuItems.AddRange(DefaultRibbonAppButtonMenu);
-
-                // Add the requested ribbon app button menu items.
-                if (appButtonMenu != null)
-                    ribbon.RibbonAppButton.AppButtonMenuItems.AddRange(appButtonMenu);
-            }
-        }
+        /// <summary>
+        /// Opens the output tool window.
+        /// </summary>
+        private void KryptonContextMenuItem_File_Output_Click(object sender, EventArgs e)
+            => new Output().Show(DockPanel_Workspace, DockState.DockBottom);
     }
 }

@@ -31,21 +31,21 @@ namespace Marathon.Toolkit.Forms
             this.PictureBox_Logo = new System.Windows.Forms.PictureBox();
             this.Label_Title = new System.Windows.Forms.Label();
             this.FlowLayoutPanel_Options = new System.Windows.Forms.FlowLayoutPanel();
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).BeginInit();
             this.SuspendLayout();
             // 
-            // KryptonRibbon_MarathonForm
+            // KryptonRibbon_MarathonDockContent
             // 
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonShowRecentDocs = false;
-            this.KryptonRibbon_MarathonForm.RibbonAppButton.AppButtonVisible = false;
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonVisible = false;
             // 
             // PictureBox_Logo
             // 
             this.PictureBox_Logo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Logo_Small_Dark;
+            this.PictureBox_Logo.BackgroundImage = global::Marathon.Toolkit.Properties.Resources.Toolkit_Small_Colour;
             this.PictureBox_Logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.PictureBox_Logo.Location = new System.Drawing.Point(862, 0);
+            this.PictureBox_Logo.Location = new System.Drawing.Point(1209, 0);
             this.PictureBox_Logo.Name = "PictureBox_Logo";
             this.PictureBox_Logo.Size = new System.Drawing.Size(51, 50);
             this.PictureBox_Logo.TabIndex = 7;
@@ -71,7 +71,7 @@ namespace Marathon.Toolkit.Forms
             this.FlowLayoutPanel_Options.Location = new System.Drawing.Point(0, 49);
             this.FlowLayoutPanel_Options.Name = "FlowLayoutPanel_Options";
             this.FlowLayoutPanel_Options.Padding = new System.Windows.Forms.Padding(25, 5, 0, 0);
-            this.FlowLayoutPanel_Options.Size = new System.Drawing.Size(917, 431);
+            this.FlowLayoutPanel_Options.Size = new System.Drawing.Size(1264, 632);
             this.FlowLayoutPanel_Options.TabIndex = 9;
             this.FlowLayoutPanel_Options.WrapContents = false;
             // 
@@ -79,8 +79,8 @@ namespace Marathon.Toolkit.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.ClientSize = new System.Drawing.Size(917, 480);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.FlowLayoutPanel_Options);
             this.Controls.Add(this.PictureBox_Logo);
             this.Controls.Add(this.Label_Title);
@@ -92,8 +92,8 @@ namespace Marathon.Toolkit.Forms
             this.Controls.SetChildIndex(this.Label_Title, 0);
             this.Controls.SetChildIndex(this.PictureBox_Logo, 0);
             this.Controls.SetChildIndex(this.FlowLayoutPanel_Options, 0);
-            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonForm, 0);
-            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonForm)).EndInit();
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Logo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

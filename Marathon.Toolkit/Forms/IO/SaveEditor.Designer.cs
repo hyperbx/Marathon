@@ -28,9 +28,8 @@ namespace Marathon.Toolkit.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SaveEditor));
             this.GroupBox_Episode = new System.Windows.Forms.GroupBox();
-            this.ListViewDark_Information = new Marathon.Toolkit.Components.ListViewDark();
+            this.ListViewDark_Information = new Marathon.Components.ListViewDark();
             this.NumericUpDown_Episode_Minute = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.NumericUpDown_Episode_Hour = new System.Windows.Forms.NumericUpDown();
@@ -50,6 +49,7 @@ namespace Marathon.Toolkit.Forms
             this.ComboBox_Episode = new System.Windows.Forms.ComboBox();
             this.GroupBox_Upgrades = new System.Windows.Forms.GroupBox();
             this.Panel_UpgradesContainer = new System.Windows.Forms.Panel();
+            this.ListViewDark_Upgrades = new Marathon.Components.ListViewDark();
             this.GroupBox_System = new System.Windows.Forms.GroupBox();
             this.CheckBox_Subtitles = new System.Windows.Forms.CheckBox();
             this.NumericUpDown_System_Effect = new System.Windows.Forms.NumericUpDown();
@@ -61,13 +61,13 @@ namespace Marathon.Toolkit.Forms
             this.SplitContainer_Left = new System.Windows.Forms.SplitContainer();
             this.SplitContainer_Right = new System.Windows.Forms.SplitContainer();
             this.SplitContainer_RightHorizontal = new System.Windows.Forms.SplitContainer();
-            this.MenuStripDark_Main = new Marathon.Toolkit.Components.MenuStripDark();
+            this.MenuStripDark_Main = new Marathon.Components.MenuStripDark();
             this.MenuStripDark_Main_File = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_Save = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripDark_Main_File_ToolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.MenuStripDark_Main_File_Close = new System.Windows.Forms.ToolStripMenuItem();
-            this.ListViewDark_Upgrades = new Marathon.Toolkit.Components.ListViewDark();
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             this.GroupBox_Episode.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Minute)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Hour)).BeginInit();
@@ -98,6 +98,11 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main.SuspendLayout();
             this.SuspendLayout();
             // 
+            // KryptonRibbon_MarathonDockContent
+            // 
+            this.KryptonRibbon_MarathonDockContent.RibbonAppButton.AppButtonShowRecentDocs = false;
+            this.KryptonRibbon_MarathonDockContent.Size = new System.Drawing.Size(1264, 114);
+            // 
             // GroupBox_Episode
             // 
             this.GroupBox_Episode.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -124,7 +129,7 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_Episode.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_Episode.Location = new System.Drawing.Point(16, 3);
             this.GroupBox_Episode.Name = "GroupBox_Episode";
-            this.GroupBox_Episode.Size = new System.Drawing.Size(259, 477);
+            this.GroupBox_Episode.Size = new System.Drawing.Size(405, 639);
             this.GroupBox_Episode.TabIndex = 0;
             this.GroupBox_Episode.TabStop = false;
             this.GroupBox_Episode.Text = "Episode Information";
@@ -136,6 +141,7 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ListViewDark_Information.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.ListViewDark_Information.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListViewDark_Information.CentreColumnText = false;
             this.ListViewDark_Information.ForeColor = System.Drawing.SystemColors.Control;
             this.ListViewDark_Information.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.ListViewDark_Information.HideSelection = false;
@@ -143,7 +149,7 @@ namespace Marathon.Toolkit.Forms
             this.ListViewDark_Information.Location = new System.Drawing.Point(12, 299);
             this.ListViewDark_Information.Name = "ListViewDark_Information";
             this.ListViewDark_Information.OwnerDraw = true;
-            this.ListViewDark_Information.Size = new System.Drawing.Size(236, 164);
+            this.ListViewDark_Information.Size = new System.Drawing.Size(382, 326);
             this.ListViewDark_Information.TabIndex = 19;
             this.ListViewDark_Information.UseCompatibleStateImageBehavior = false;
             this.ListViewDark_Information.View = System.Windows.Forms.View.List;
@@ -162,7 +168,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Minute.Name = "NumericUpDown_Episode_Minute";
-            this.NumericUpDown_Episode_Minute.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Minute.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Minute.TabIndex = 17;
             // 
             // label7
@@ -188,7 +194,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Hour.Name = "NumericUpDown_Episode_Hour";
-            this.NumericUpDown_Episode_Hour.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Hour.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Hour.TabIndex = 15;
             // 
             // label6
@@ -214,7 +220,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Day.Name = "NumericUpDown_Episode_Day";
-            this.NumericUpDown_Episode_Day.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Day.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Day.TabIndex = 13;
             // 
             // label5
@@ -240,7 +246,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Month.Name = "NumericUpDown_Episode_Month";
-            this.NumericUpDown_Episode_Month.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Month.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Month.TabIndex = 11;
             // 
             // label4
@@ -266,7 +272,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Year.Name = "NumericUpDown_Episode_Year";
-            this.NumericUpDown_Episode_Year.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Year.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Year.TabIndex = 9;
             // 
             // label3
@@ -292,7 +298,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Progress.Name = "NumericUpDown_Episode_Progress";
-            this.NumericUpDown_Episode_Progress.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Progress.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Progress.TabIndex = 7;
             // 
             // label2
@@ -318,7 +324,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Rings.Name = "NumericUpDown_Episode_Rings";
-            this.NumericUpDown_Episode_Rings.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Rings.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Rings.TabIndex = 5;
             // 
             // label1
@@ -344,7 +350,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_Episode_Lives.Name = "NumericUpDown_Episode_Lives";
-            this.NumericUpDown_Episode_Lives.Size = new System.Drawing.Size(176, 23);
+            this.NumericUpDown_Episode_Lives.Size = new System.Drawing.Size(322, 23);
             this.NumericUpDown_Episode_Lives.TabIndex = 3;
             this.NumericUpDown_Episode_Lives.ValueChanged += new System.EventHandler(this.NumericUpDown_Episode_Lives_ValueChanged);
             // 
@@ -371,7 +377,7 @@ namespace Marathon.Toolkit.Forms
             "Last Episode"});
             this.ComboBox_Episode.Location = new System.Drawing.Point(12, 23);
             this.ComboBox_Episode.Name = "ComboBox_Episode";
-            this.ComboBox_Episode.Size = new System.Drawing.Size(236, 23);
+            this.ComboBox_Episode.Size = new System.Drawing.Size(382, 23);
             this.ComboBox_Episode.TabIndex = 0;
             this.ComboBox_Episode.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Episode_SelectedIndexChanged);
             // 
@@ -384,7 +390,7 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_Upgrades.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_Upgrades.Location = new System.Drawing.Point(7, 3);
             this.GroupBox_Upgrades.Name = "GroupBox_Upgrades";
-            this.GroupBox_Upgrades.Size = new System.Drawing.Size(260, 477);
+            this.GroupBox_Upgrades.Size = new System.Drawing.Size(405, 639);
             this.GroupBox_Upgrades.TabIndex = 1;
             this.GroupBox_Upgrades.TabStop = false;
             this.GroupBox_Upgrades.Text = "Upgrades";
@@ -397,8 +403,26 @@ namespace Marathon.Toolkit.Forms
             this.Panel_UpgradesContainer.Controls.Add(this.ListViewDark_Upgrades);
             this.Panel_UpgradesContainer.Location = new System.Drawing.Point(6, 21);
             this.Panel_UpgradesContainer.Name = "Panel_UpgradesContainer";
-            this.Panel_UpgradesContainer.Size = new System.Drawing.Size(248, 450);
+            this.Panel_UpgradesContainer.Size = new System.Drawing.Size(393, 612);
             this.Panel_UpgradesContainer.TabIndex = 20;
+            // 
+            // ListViewDark_Upgrades
+            // 
+            this.ListViewDark_Upgrades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
+            this.ListViewDark_Upgrades.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ListViewDark_Upgrades.CentreColumnText = false;
+            this.ListViewDark_Upgrades.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ListViewDark_Upgrades.ForeColor = System.Drawing.SystemColors.Control;
+            this.ListViewDark_Upgrades.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.ListViewDark_Upgrades.HideSelection = false;
+            this.ListViewDark_Upgrades.LabelEdit = true;
+            this.ListViewDark_Upgrades.Location = new System.Drawing.Point(0, 0);
+            this.ListViewDark_Upgrades.Name = "ListViewDark_Upgrades";
+            this.ListViewDark_Upgrades.OwnerDraw = true;
+            this.ListViewDark_Upgrades.Size = new System.Drawing.Size(393, 612);
+            this.ListViewDark_Upgrades.TabIndex = 20;
+            this.ListViewDark_Upgrades.UseCompatibleStateImageBehavior = false;
+            this.ListViewDark_Upgrades.View = System.Windows.Forms.View.List;
             // 
             // GroupBox_System
             // 
@@ -413,7 +437,7 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_System.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_System.Location = new System.Drawing.Point(2, 3);
             this.GroupBox_System.Name = "GroupBox_System";
-            this.GroupBox_System.Size = new System.Drawing.Size(256, 121);
+            this.GroupBox_System.Size = new System.Drawing.Size(403, 121);
             this.GroupBox_System.TabIndex = 2;
             this.GroupBox_System.TabStop = false;
             this.GroupBox_System.Text = "System Settings";
@@ -448,7 +472,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_System_Effect.Name = "NumericUpDown_System_Effect";
-            this.NumericUpDown_System_Effect.Size = new System.Drawing.Size(144, 23);
+            this.NumericUpDown_System_Effect.Size = new System.Drawing.Size(291, 23);
             this.NumericUpDown_System_Effect.TabIndex = 5;
             // 
             // label14
@@ -480,7 +504,7 @@ namespace Marathon.Toolkit.Forms
             0,
             0});
             this.NumericUpDown_System_Music.Name = "NumericUpDown_System_Music";
-            this.NumericUpDown_System_Music.Size = new System.Drawing.Size(144, 23);
+            this.NumericUpDown_System_Music.Size = new System.Drawing.Size(291, 23);
             this.NumericUpDown_System_Music.TabIndex = 3;
             // 
             // label15
@@ -501,7 +525,7 @@ namespace Marathon.Toolkit.Forms
             this.GroupBox_Mission.ForeColor = System.Drawing.SystemColors.Control;
             this.GroupBox_Mission.Location = new System.Drawing.Point(2, 3);
             this.GroupBox_Mission.Name = "GroupBox_Mission";
-            this.GroupBox_Mission.Size = new System.Drawing.Size(256, 347);
+            this.GroupBox_Mission.Size = new System.Drawing.Size(403, 509);
             this.GroupBox_Mission.TabIndex = 3;
             this.GroupBox_Mission.TabStop = false;
             this.GroupBox_Mission.Text = "Mission Information";
@@ -516,7 +540,7 @@ namespace Marathon.Toolkit.Forms
             this.TreeView_Missions.LabelEdit = true;
             this.TreeView_Missions.Location = new System.Drawing.Point(3, 19);
             this.TreeView_Missions.Name = "TreeView_Missions";
-            this.TreeView_Missions.Size = new System.Drawing.Size(250, 325);
+            this.TreeView_Missions.Size = new System.Drawing.Size(397, 487);
             this.TreeView_Missions.TabIndex = 3;
             // 
             // SplitContainer_Left
@@ -535,8 +559,8 @@ namespace Marathon.Toolkit.Forms
             // SplitContainer_Left.Panel2
             // 
             this.SplitContainer_Left.Panel2.Controls.Add(this.SplitContainer_Right);
-            this.SplitContainer_Left.Size = new System.Drawing.Size(831, 493);
-            this.SplitContainer_Left.SplitterDistance = 278;
+            this.SplitContainer_Left.Size = new System.Drawing.Size(1269, 655);
+            this.SplitContainer_Left.SplitterDistance = 424;
             this.SplitContainer_Left.TabIndex = 20;
             // 
             // SplitContainer_Right
@@ -553,8 +577,8 @@ namespace Marathon.Toolkit.Forms
             // SplitContainer_Right.Panel2
             // 
             this.SplitContainer_Right.Panel2.Controls.Add(this.SplitContainer_RightHorizontal);
-            this.SplitContainer_Right.Size = new System.Drawing.Size(549, 493);
-            this.SplitContainer_Right.SplitterDistance = 274;
+            this.SplitContainer_Right.Size = new System.Drawing.Size(841, 655);
+            this.SplitContainer_Right.SplitterDistance = 419;
             this.SplitContainer_Right.TabIndex = 0;
             // 
             // SplitContainer_RightHorizontal
@@ -574,7 +598,7 @@ namespace Marathon.Toolkit.Forms
             // SplitContainer_RightHorizontal.Panel2
             // 
             this.SplitContainer_RightHorizontal.Panel2.Controls.Add(this.GroupBox_Mission);
-            this.SplitContainer_RightHorizontal.Size = new System.Drawing.Size(271, 493);
+            this.SplitContainer_RightHorizontal.Size = new System.Drawing.Size(418, 655);
             this.SplitContainer_RightHorizontal.SplitterDistance = 126;
             this.SplitContainer_RightHorizontal.TabIndex = 0;
             // 
@@ -590,7 +614,7 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File});
             this.MenuStripDark_Main.Location = new System.Drawing.Point(-4, 0);
             this.MenuStripDark_Main.Name = "MenuStripDark_Main";
-            this.MenuStripDark_Main.Size = new System.Drawing.Size(831, 24);
+            this.MenuStripDark_Main.Size = new System.Drawing.Size(1269, 24);
             this.MenuStripDark_Main.TabIndex = 4;
             // 
             // MenuStripDark_Main_File
@@ -637,36 +661,21 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main_File_Close.Text = "Close";
             this.MenuStripDark_Main_File_Close.Click += new System.EventHandler(this.MenuStripDark_Main_File_Close_Click);
             // 
-            // ListViewDark_Upgrades
-            // 
-            this.ListViewDark_Upgrades.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ListViewDark_Upgrades.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ListViewDark_Upgrades.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ListViewDark_Upgrades.ForeColor = System.Drawing.SystemColors.Control;
-            this.ListViewDark_Upgrades.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.ListViewDark_Upgrades.HideSelection = false;
-            this.ListViewDark_Upgrades.LabelEdit = true;
-            this.ListViewDark_Upgrades.Location = new System.Drawing.Point(0, 0);
-            this.ListViewDark_Upgrades.Name = "ListViewDark_Upgrades";
-            this.ListViewDark_Upgrades.OwnerDraw = true;
-            this.ListViewDark_Upgrades.Size = new System.Drawing.Size(248, 450);
-            this.ListViewDark_Upgrades.TabIndex = 20;
-            this.ListViewDark_Upgrades.UseCompatibleStateImageBehavior = false;
-            this.ListViewDark_Upgrades.View = System.Windows.Forms.View.List;
-            // 
             // SaveEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
-            this.ClientSize = new System.Drawing.Size(826, 519);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(25)))), ((int)(((byte)(25)))));
+            this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.MenuStripDark_Main);
             this.Controls.Add(this.SplitContainer_Left);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Name = "SaveEditor";
             this.Text = "Save Editor";
+            this.Controls.SetChildIndex(this.SplitContainer_Left, 0);
+            this.Controls.SetChildIndex(this.MenuStripDark_Main, 0);
+            this.Controls.SetChildIndex(this.KryptonRibbon_MarathonDockContent, 0);
+            ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).EndInit();
             this.GroupBox_Episode.ResumeLayout(false);
             this.GroupBox_Episode.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpDown_Episode_Minute)).EndInit();
@@ -699,6 +708,7 @@ namespace Marathon.Toolkit.Forms
             this.MenuStripDark_Main.ResumeLayout(false);
             this.MenuStripDark_Main.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

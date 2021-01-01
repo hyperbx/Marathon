@@ -26,8 +26,7 @@
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using Marathon.Toolkit.Controls;
-using Marathon.Toolkit.Components;
+using Marathon.Components;
 using Marathon.IO.Formats.Miscellaneous;
 
 namespace Marathon.Toolkit.Forms
@@ -88,11 +87,17 @@ namespace Marathon.Toolkit.Forms
                          missionScoreNode = new TreeNode(mission.Score.ToString()),
                          missionRingsNode = new TreeNode(mission.Rings.ToString());
 
-                missionNode.Nodes.AddRange(new[] { missionFlagNode,
-                                                   missionRankNode,
-                                                   missionTimeNode,
-                                                   missionScoreNode,
-                                                   missionRingsNode });
+                missionNode.Nodes.AddRange
+                (
+                    new[]
+                    {
+                        missionFlagNode,
+                        missionRankNode,
+                        missionTimeNode,
+                        missionScoreNode,
+                        missionRingsNode
+                    }
+                );
 
                 TreeView_Missions.Nodes.Add(missionNode);
             }
@@ -104,8 +109,10 @@ namespace Marathon.Toolkit.Forms
             LifeCountClampWarningShown = false;
 
             // Allow double-clicking to edit items.
-            ListViewDark_Information.MouseDoubleClick += (sender, e) => ((ListViewDark)sender).GetItemAt(e.X, e.Y).BeginEdit();
+            ListViewDark_Information.MouseDoubleClick += (sender, e) =>
+                ((ListViewDark)sender).GetItemAt(e.X, e.Y).BeginEdit();
 
+            // Update the cache after editing labels.
             ListViewDark_Information.AfterLabelEdit += delegate { UpdateCache(); };
         }
 
@@ -145,6 +152,7 @@ namespace Marathon.Toolkit.Forms
                 case 0:
                 {
                     SetByEpisodeIndex(0);
+
                     break;
                 }
 
@@ -152,6 +160,7 @@ namespace Marathon.Toolkit.Forms
                 case 1:
                 {
                     SetByEpisodeIndex(1);
+
                     break;
                 }
 
@@ -159,6 +168,7 @@ namespace Marathon.Toolkit.Forms
                 case 2:
                 {
                     SetByEpisodeIndex(2);
+
                     break;
                 }
 
@@ -166,6 +176,7 @@ namespace Marathon.Toolkit.Forms
                 case 3:
                 {
                     SetByEpisodeIndex(3);
+
                     break;
                 }
             }
@@ -174,6 +185,7 @@ namespace Marathon.Toolkit.Forms
         private void MenuStripDark_Main_File_Save_Click(object sender, EventArgs e)
         {
             UpdateCache();
+
             SonicNextSaveData.Save(_LoadedFile);
         }
 
@@ -189,6 +201,7 @@ namespace Marathon.Toolkit.Forms
             if (saveSaveData.ShowDialog() == DialogResult.OK)
             {
                 UpdateCache();
+
                 SonicNextSaveData.Save(saveSaveData.FileName);
             }
         }
@@ -219,7 +232,8 @@ namespace Marathon.Toolkit.Forms
                 SonicNextSaveData.Episodes[CurrentEpisodeIndex].Information[i].Name = ListViewDark_Information.Items[i].Text;
 
             // Define location entry.
-            SonicNextSaveData.Episodes[CurrentEpisodeIndex].Location = ListViewDark_Information.Items.Cast<ListViewItem>().Where(x => (string)x.Tag == "Location").Single().Text;
+            SonicNextSaveData.Episodes[CurrentEpisodeIndex].Location =
+                ListViewDark_Information.Items.Cast<ListViewItem>().Where(x => (string)x.Tag == "Location").Single().Text;
         }
 
         private void MenuStripDark_Main_File_Close_Click(object sender, EventArgs e) => Close();
@@ -229,6 +243,7 @@ namespace Marathon.Toolkit.Forms
             if (NumericUpDown_Episode_Lives.Value == 100 && !LifeCountClampWarningShown)
             {
                 MarathonMessageBox.Show("Life count may surpass 99, but it will clamp back to 99 upon saving your game.", "Life Count Clamping");
+
                 LifeCountClampWarningShown = true;
             }
         }
