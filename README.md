@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-    <img src="https://github.com/HyperBE32/Marathon/blob/marathon-master/Marathon.Toolkit/Resources/Images/Logos/Logo_Medium_Colour.png?raw=true" />
+    <img src="https://raw.githubusercontent.com/HyperBE32/Marathon/marathon-master/Marathon.Resources/Resources/Images/Logos/Toolkit_Medium_Colour.png" />
 </p>
 
 <h1 align="center">Marathon</h1>
