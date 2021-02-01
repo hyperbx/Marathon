@@ -1,3 +1,0 @@
-﻿Formats under the Set-in-Stone namespace are for use with features that require backwards-compatible formats.
-
-For example; the Sonic '06 Mod Manager non-standard INI format which doesn't parse correctly with any conventional INI parser, so it requires manual parsing.

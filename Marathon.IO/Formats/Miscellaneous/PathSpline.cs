@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,9 +36,24 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     ///
     /// Old MaxScripts created by Paraxade0 were heavily used in the writing of this class.
-    ///
     public class PathSpline : FileBase
     {
+        // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
+
+        public PathSpline() { }
+
+        public PathSpline(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                // TODO: add importing.
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class PathEntry
         {
             public uint Flag1, Flag2, NodeNumber;
@@ -54,7 +69,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
         public class SplineEntry
         {
-            public List<VertexEntry> Verticies = new List<VertexEntry>();
+            public List<VertexEntry> Vertices = new List<VertexEntry>();
         }
 
         public class VertexEntry
@@ -67,8 +82,6 @@ namespace Marathon.IO.Formats.Miscellaneous
         public const string Extension = ".path";
 
         public List<PathEntry> Paths = new List<PathEntry>();
-
-        // TODO: Exporting and Importing, Testing to understand what the flags and Invec/Outvec Positions effect, So Basically Everything.
 
         public override void Load(Stream stream)
         {
@@ -118,7 +131,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                             OutvecPosition = reader.ReadVector3()
                         };
 
-                        spline.Verticies.Add(vertex);
+                        spline.Vertices.Add(vertex);
                     }
                     path.Splines.Add(spline);
                 }
@@ -177,7 +190,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             {
                 writer.FillInOffset($"Path{i}Offset", true);
                 writer.AddOffset($"Path{i}SplineOffset");
-                writer.Write(Paths[i].Splines[0].Verticies.Count);
+                writer.Write(Paths[i].Splines[0].Vertices.Count);
                 writer.Write(Paths[i].Flag2);
             }
 
@@ -186,12 +199,12 @@ namespace Marathon.IO.Formats.Miscellaneous
                 writer.FillInOffset($"Path{i}SplineOffset", true);
                 for(int s = 0; s < Paths[i].Splines.Count; s++)
                 {
-                    for(int v = 0; v < Paths[i].Splines[s].Verticies.Count; v++)
+                    for(int v = 0; v < Paths[i].Splines[s].Vertices.Count; v++)
                     {
-                        writer.Write(Paths[i].Splines[s].Verticies[v].Flag);
-                        writer.Write(Paths[i].Splines[s].Verticies[v].Position);
-                        writer.Write(Paths[i].Splines[s].Verticies[v].InvecPosition);
-                        writer.Write(Paths[i].Splines[s].Verticies[v].OutvecPosition);
+                        writer.Write(Paths[i].Splines[s].Vertices[v].Flag);
+                        writer.Write(Paths[i].Splines[s].Vertices[v].Position);
+                        writer.Write(Paths[i].Splines[s].Vertices[v].InvecPosition);
+                        writer.Write(Paths[i].Splines[s].Vertices[v].OutvecPosition);
                     }
                 }
             }

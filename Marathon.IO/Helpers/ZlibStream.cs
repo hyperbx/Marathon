@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 GerbilSoft
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 GerbilSoft
+ * Copyright (c) 2021 HyperBE32
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -134,6 +134,52 @@ namespace Marathon.IO.Helpers
 
             // TODO: Adler-32 checksum handling. (Check GZipStream?)
             _deflateStream = new DeflateStream(stream, mode, true);
+        }
+
+        /// <summary>
+        /// Compresses an array of bytes.
+        /// </summary>
+        /// <param name="data">Data to compress.</param>
+        public static byte[] Compress(byte[] data)
+        {
+            // Compress the data.
+            using (var compressedStream = new MemoryStream(data))
+            {
+                using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Compress))
+                {
+                    using (var resultStream = new MemoryStream())
+                    {
+                        // Copy compressed data to result.
+                        zipStream.CopyTo(resultStream);
+
+                        // Return compressed data.
+                        return resultStream.ToArray();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Decompresses an array of zlib data.
+        /// </summary>
+        /// <param name="data">Compressed zlib data.</param>
+        public static byte[] Decompress(byte[] compressedData)
+        {
+            // Decompress the Zlib-compressed data.
+            using (var compressedStream = new MemoryStream(compressedData))
+            {
+                using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
+                {
+                    using (var resultStream = new MemoryStream())
+                    {
+                        // Copy decompressed data to result.
+                        zipStream.CopyTo(resultStream);
+
+                        // Return decompressed data.
+                        return resultStream.ToArray();
+                    }
+                }
+            }
         }
 
         protected override void Dispose(bool disposing)

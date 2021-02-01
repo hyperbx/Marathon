@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,13 +35,27 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class FontProportion : FileBase
     {
-        public class Character
+        public FontProportion() { }
+
+        public FontProportion(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                // TODO: add importing.
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class ProportionCharacter
         {
             public byte Width;
 
             public sbyte Margin;
 
-            public Character(byte width)
+            public ProportionCharacter(byte width)
                 => Width = width;
         }
 
@@ -49,7 +63,7 @@ namespace Marathon.IO.Formats.Text
 
         public ushort Padding, Height;
 
-        List<Character> Entries = new List<Character>();
+        List<ProportionCharacter> Entries = new List<ProportionCharacter>();
 
         public override void Load(Stream stream)
         {
@@ -73,7 +87,7 @@ namespace Marathon.IO.Formats.Text
 
             while (buffer != 0x00)
             {
-                Entries.Add(new Character(buffer));
+                Entries.Add(new ProportionCharacter(buffer));
 
                 buffer = reader.ReadByte();
             }

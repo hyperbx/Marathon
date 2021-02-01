@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,8 @@
  * SOFTWARE.
  */
 
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Collections.Generic;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Miscellaneous
@@ -36,6 +35,22 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class KynapseBigFile : FileBase
     {
+        public KynapseBigFile() { }
+
+        public KynapseBigFile(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    // ImportXML(file); // TODO: add XML reading/writing.
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public struct KynapseParameter
         {
             public byte NameLength;

@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,16 +39,48 @@ namespace Marathon.IO.Formats.Meshes
     {
         // TODO: Comment code and test on more than one file
 
-        public class Reflection
+        public ReflectionZone() { }
+
+        public ReflectionZone(string file)
         {
-            public float Z_Rotation, Length, Y_Rotation, Height;
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class ReflectionArea
+        {
+            public float Z_Rotation;
+
+            public float Length;
+
+            public float Y_Rotation;
+
+            public float Height;
 
             public List<Vector3> Vertices = new List<Vector3>();
+
+            public ReflectionArea() { }
+
+            public ReflectionArea(ExtendedBinaryReader reader)
+            {
+                Z_Rotation = reader.ReadSingle();
+                Length     = reader.ReadSingle();
+                Y_Rotation = reader.ReadSingle();
+                Height     = reader.ReadSingle();
+            }
         }
 
         public const string Extension = ".rab";
 
-        public List<Reflection> Reflections = new List<Reflection>();
+        public List<ReflectionArea> Reflections = new List<ReflectionArea>();
 
         public override void Load(Stream stream)
         {
@@ -64,16 +96,7 @@ namespace Marathon.IO.Formats.Meshes
 
             for (int i = 0; i < reflectionTableCount; i++)
             {
-                Reflections.Add
-                (
-                    new Reflection
-                    {
-                        Z_Rotation = reader.ReadSingle(),
-                        Length = reader.ReadSingle(),
-                        Y_Rotation = reader.ReadSingle(),
-                        Height = reader.ReadSingle()
-                    }
-                );
+                Reflections.Add(new ReflectionArea(reader));
             }
 
             reader.JumpTo(entryTableOffset, true);
@@ -186,7 +209,7 @@ namespace Marathon.IO.Formats.Meshes
             // Reflections
             foreach (XElement reflectionElem in xml.Root.Elements("Reflection"))
             {
-                Reflection entry = new Reflection();
+                ReflectionArea entry = new ReflectionArea();
 
                 // Position
                 foreach (XElement positionElem in reflectionElem.Elements("Position"))

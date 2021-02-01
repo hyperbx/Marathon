@@ -3,7 +3,7 @@
  * MIT License
  * 
  * Copyright (c) 2018 Radfordhound
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -65,9 +65,9 @@ namespace Marathon.IO
         /// Jumps to a position in the stream.
         /// </summary>
         /// <param name="position">Position to jump to.</param>
-        /// <param name="absolute">Jumps to the specified position and adds the offset size.</param>
-        public void JumpTo(long position, bool absolute = false)
-            => BaseStream.Position = absolute ? position + Offset : position;
+        /// <param name="additive">Jumps to the specified position and adds the offset size.</param>
+        public void JumpTo(long position, bool additive = false)
+            => BaseStream.Position = additive ? position + Offset : position;
 
         /// <summary>
         /// Jumps ahead in the stream by the specified amount of bytes.

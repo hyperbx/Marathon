@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,15 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using Marathon.Helpers;
 using Marathon.Components.Helpers;
+using Transitions;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Marathon.Components
 {
     public partial class MarathonProgressBar : UserControl
     {
-        private bool AnimationFlag = false;
-
         /// <summary>
         /// Initialiser for ProgressColour.
         /// </summary>
@@ -51,7 +53,7 @@ namespace Marathon.Components
 
             set
             {
-                _ProgressColour = value;
+                _ProgressColour = Panel_Progress.BackColor = value;
 
                 // Refresh the control to update in real-time.
                 Refresh();
@@ -67,58 +69,27 @@ namespace Marathon.Components
         public MarathonProgressBar()
         {
             InitializeComponent();
-
-            if (!DesignHelper.RunningInDesigner())
-            {
-                // Start animation timer.
-                Timer_Animation.Start();
-            }
         }
 
-        /// <summary>
-        /// Sets the animation flag upon tick.
-        /// </summary>
-        private void Timer_Animation_Tick(object sender, EventArgs e)
+        protected override void OnCreateControl()
         {
-            // Set animation flag.
-            AnimationFlag = true;
+            Transition barScroll = new Transition(new TransitionType_EaseInEaseOut(2000));
+            barScroll.add(Panel_Progress, "Left", Width);
 
-            // Refresh the control to update in real-time.
-            Refresh();
+            Transition barScroll2 = new Transition(new TransitionType_EaseInEaseOut(1));
+            barScroll2.add(Panel_Progress, "Left", Width * -1);
+
+            Transition.runLoopingChain(barScroll, barScroll2);
+
+            base.OnCreateControl();
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            // Calculated progress rectangle.
-            RectangleF progress = new RectangleF(0, 0, Progress * (Width / 100), Height);
-
-            // Draw progress rectangle.
-            e.Graphics.FillRectangle(new SolidBrush(ProgressColour), progress);
-
-            if (AnimationFlag)
+            if (!DesignHelper.RunningInDesigner())
             {
-                // X axis.
-                int x = 0;
+                // Progress * (Width / 100)
 
-                // Frame timer.
-                Timer frames = new Timer
-                {
-                    Interval = 5
-                };
-
-                // Start frame timer.
-                frames.Start();
-
-                frames.Tick += delegate
-                {
-                    // Move X axis.
-                    x++;
-
-                    // Draw progress rectangle highlight.
-                    e.Graphics.FillRectangle(new SolidBrush(ProgressColour.ChangeBrightness(100)), new RectangleF(x, 0, progress.Width, progress.Height));
-                };
-
-                AnimationFlag = false;
             }
 
             base.OnPaint(e);

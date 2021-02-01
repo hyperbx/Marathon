@@ -19,11 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Components", "Mara
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Resources", "Marathon.Resources\Marathon.Resources.csproj", "{C736AF24-67E5-4E80-83B0-C6A8A93602E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Modding", "Marathon.Modding\Marathon.Modding.csproj", "{3803E6B1-E1C6-4FDB-AF6D-1BB487487B83}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1A6867A4-1C1D-4A89-9656-D34B312865A9} = {1A6867A4-1C1D-4A89-9656-D34B312865A9}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Helpers", "Marathon.Helpers\Marathon.Helpers.csproj", "{A5593070-F17E-4D3E-A57D-77C72BE8A993}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Build", "Marathon.Build\Marathon.Build.csproj", "{1A6867A4-1C1D-4A89-9656-D34B312865A9}"
@@ -54,10 +49,6 @@ Global
 		{C736AF24-67E5-4E80-83B0-C6A8A93602E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C736AF24-67E5-4E80-83B0-C6A8A93602E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C736AF24-67E5-4E80-83B0-C6A8A93602E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3803E6B1-E1C6-4FDB-AF6D-1BB487487B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3803E6B1-E1C6-4FDB-AF6D-1BB487487B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3803E6B1-E1C6-4FDB-AF6D-1BB487487B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3803E6B1-E1C6-4FDB-AF6D-1BB487487B83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5593070-F17E-4D3E-A57D-77C72BE8A993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A5593070-F17E-4D3E-A57D-77C72BE8A993}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5593070-F17E-4D3E-A57D-77C72BE8A993}.Release|Any CPU.ActiveCfg = Release|Any CPU

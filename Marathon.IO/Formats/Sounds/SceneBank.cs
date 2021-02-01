@@ -2,9 +2,9 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Radfordhound
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Radfordhound
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,10 @@
  */
 
 using System.IO;
-using System.Linq;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
 using Marathon.IO.Exceptions;
-using System;
 
 namespace Marathon.IO.Formats.Sounds
 {
@@ -44,7 +42,23 @@ namespace Marathon.IO.Formats.Sounds
         /* TODO: Experiment with the Unknown values in the Cue entries and see what they do.
                  Also try messing with the Unknown value in the Header and see if it affects anything. */
 
-        public class Cue
+        public SceneBank() { }
+
+        public SceneBank(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class SoundCue
         {
             public string Name;                            // Name of this Cue in the Scene Bank
 
@@ -61,7 +75,7 @@ namespace Marathon.IO.Formats.Sounds
 
         public string Name;
 
-        public List<Cue> Cues = new List<Cue>();
+        public List<SoundCue> Cues = new List<SoundCue>();
 
         public override void Load(Stream fileStream)
         {
@@ -88,7 +102,7 @@ namespace Marathon.IO.Formats.Sounds
 
             for (int i = 0; i < cueCount; i++)
             {
-                Cue cue = new Cue() { Name = new string(reader.ReadChars(32)) };
+                SoundCue cue = new SoundCue() { Name = new string(reader.ReadChars(32)) };
 
                 uint cueType  = reader.ReadUInt32();
                 uint cueIndex = reader.ReadUInt32();
@@ -217,7 +231,7 @@ namespace Marathon.IO.Formats.Sounds
             rootElem.Add(sbkNameAttr);
 
             // Cue elements.
-            foreach (Cue cue in Cues)
+            foreach (SoundCue cue in Cues)
             {
                 XElement cueElem = new XElement("Cue");
 
@@ -247,7 +261,7 @@ namespace Marathon.IO.Formats.Sounds
             // Loop through cue nodes.
             foreach (XElement cueElem in xml.Root.Elements("Cue"))
             {
-                Cue cue = new Cue()
+                SoundCue cue = new SoundCue()
                 {
                     Name            = cueElem.Element("Name").Value.PadRight(32, '\0'),
                     Category        = uint.Parse(cueElem.Element("Category").Value),

@@ -149,7 +149,7 @@ namespace Marathon.Toolkit.Forms
             this.MarathonListView_Sample.ListView.SelectedItemColour = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
             this.MarathonListView_Sample.ListView.ShowGroups = false;
             this.MarathonListView_Sample.ListView.ShowItemToolTips = true;
-            this.MarathonListView_Sample.ListView.Size = new System.Drawing.Size(400, 516);
+            this.MarathonListView_Sample.ListView.Size = new System.Drawing.Size(400, 934);
             this.MarathonListView_Sample.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.MarathonListView_Sample.ListView.TabIndex = 0;
             this.MarathonListView_Sample.ListView.UseCompatibleStateImageBehavior = false;
@@ -231,14 +231,12 @@ namespace Marathon.Toolkit.Forms
             // 
             // marathonProgressBar1
             // 
-            this.marathonProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.marathonProgressBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.marathonProgressBar1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.marathonProgressBar1.ForeColor = System.Drawing.SystemColors.Control;
             this.marathonProgressBar1.Location = new System.Drawing.Point(5, 34);
             this.marathonProgressBar1.Name = "marathonProgressBar1";
-            this.marathonProgressBar1.Progress = 50;
+            this.marathonProgressBar1.Progress = 25;
             this.marathonProgressBar1.ProgressColour = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(176)))), ((int)(((byte)(37)))));
             this.marathonProgressBar1.Size = new System.Drawing.Size(807, 50);
             this.marathonProgressBar1.TabIndex = 10;

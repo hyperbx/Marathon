@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Marathon")]
-[assembly: AssemblyCopyright("Copyright © HyperBE32 and Contributors, 2020.")]
+[assembly: AssemblyCopyright("Copyright © HyperBE32 and Contributors, 2021.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

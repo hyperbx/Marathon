@@ -2,9 +2,9 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Radfordhound
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Radfordhound
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,21 +38,39 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class AssetPackage : FileBase
     {
-        public class TypeEntry
-        {
-            public string TypeName;
+        public AssetPackage() { }
 
-            public List<FileEntry> Files = new List<FileEntry>();
+        public AssetPackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
         }
 
-        public class FileEntry
+        public class AssetType
         {
-            public string FriendlyName, FilePath;
+            public string Name { get; set; }
+
+            public List<AssetFile> Files = new List<AssetFile>();
+        }
+
+        public class AssetFile
+        {
+            public string Name { get; set; }
+
+            public string File { get; set; }
         }
 
         public const string Extension = ".pkg";
 
-        public List<TypeEntry> Types = new List<TypeEntry>();
+        public List<AssetType> Types = new List<AssetType>();
 
         public override void Load(Stream stream)
         {
@@ -69,37 +87,40 @@ namespace Marathon.IO.Formats.Miscellaneous
 
             // Read Types.
             reader.JumpTo(typeEntriesPos, true);
+
             for (int i = 0; i < typeCount; i++)
             {
-                TypeEntry type = new TypeEntry();
+                AssetType type = new AssetType();
 
                 // Store offsets for later.
-                uint namePos = reader.ReadUInt32();
+                uint namePos       = reader.ReadUInt32();
                 uint typeFileCount = reader.ReadUInt32();
-                uint filesPos = reader.ReadUInt32();
+                uint filesPos      = reader.ReadUInt32();
 
                 // Store position in file.
                 long position = reader.BaseStream.Position;
 
                 // Jump to namePos and read null terminated string for type name.
                 reader.JumpTo(namePos, true);
-                type.TypeName = reader.ReadNullTerminatedString();
+                type.Name = reader.ReadNullTerminatedString();
 
                 reader.JumpTo(filesPos, true);
 
                 // Read objects within this type.
                 for (int f = 0; f < typeFileCount; f++)
                 {
-                    FileEntry file = new FileEntry();
+                    AssetFile file = new AssetFile();
                     uint friendlyNamePos = reader.ReadUInt32();
                     uint filePathPos = reader.ReadUInt32();
 
                     // Jump to offsets and read strings for the file name and path.
                     long iteratorPosition = reader.BaseStream.Position;
+
                     reader.JumpTo(friendlyNamePos, true);
-                    file.FriendlyName = reader.ReadNullTerminatedString();
+                    file.Name = reader.ReadNullTerminatedString();
+
                     reader.JumpTo(filePathPos, true);
-                    file.FilePath = reader.ReadNullTerminatedString();
+                    file.File = reader.ReadNullTerminatedString();
 
                     // Save file entry and return to the previously stored position.
                     type.Files.Add(file);
@@ -116,8 +137,10 @@ namespace Marathon.IO.Formats.Miscellaneous
             BINAv1Header header = new BINAv1Header();
             BINAWriter writer = new BINAWriter(stream, header);
 
-            // Calculate what we should set the File Count to in the finalised file.
+            // Storage for calculated file count.
             uint filesCount = 0;
+
+            // Calculate what we should set the file count to.
             for (int i = 0; i < Types.Count; i++)
             {
                 for (int c = 0; c < Types[i].Files.Count; c++)
@@ -125,31 +148,46 @@ namespace Marathon.IO.Formats.Miscellaneous
                     filesCount++;
                 }
             }
+
+            // Write file count.
             writer.Write(filesCount);
 
+            // Store offset for file entries.
             writer.AddOffset("fileEntriesPos");
+
+            // Write type count.
             writer.Write(Types.Count);
+
+            // Store offset for type entries.
             writer.AddOffset("typeEntriesPos");
 
-            // Write Type Data.
+            // Fill in types offset just before we write the type data.
             writer.FillInOffset("typeEntriesPos", true);
+
+            // Write type data.
             for (int i = 0; i < Types.Count; i++)
             {
-                writer.AddString($"typeName{i}", Types[i].TypeName);
+                writer.AddString($"typeName{i}", Types[i].Name);
                 writer.Write(Types[i].Files.Count);
                 writer.AddOffset($"typeFilesOffset{i}");
             }
 
-            // Write File Data.
+            // Fill in files offset just before we write the file data.
             writer.FillInOffset("fileEntriesPos", true);
+
+            // Storage for number of files written.
             int objectNum = 0;
+
+            // Write file data.
             for (int i = 0; i < Types.Count; i++)
             {
                 writer.FillInOffset($"typeFilesOffset{i}", true);
+
                 for (int f = 0; f < Types[i].Files.Count; f++)
                 {
-                    writer.AddString($"friendlyName{objectNum}", Types[i].Files[f].FriendlyName);
-                    writer.AddString($"filePath{objectNum}", Types[i].Files[f].FilePath);
+                    writer.AddString($"friendlyName{objectNum}", Types[i].Files[f].Name);
+                    writer.AddString($"filePath{objectNum}", Types[i].Files[f].File);
+
                     objectNum++;
                 }
             }
@@ -165,15 +203,15 @@ namespace Marathon.IO.Formats.Miscellaneous
 
             for (int i = 0; i < Types.Count; i++)
             {
-                // Type Node.
+                // Type node.
                 XElement typeElem = new XElement("Type");
-                typeElem.Add(new XAttribute("Name", Types[i].TypeName));
+                typeElem.Add(new XAttribute("Name", Types[i].Name));
 
-                // File Nodes.
+                // File nodes.
                 for (int f = 0; f < Types[i].Files.Count; f++)
                 {
-                    XElement fileElem = new XElement("File", Types[i].Files[f].FilePath);
-                    fileElem.Add(new XAttribute("FriendlyName", Types[i].Files[f].FriendlyName));
+                    XElement fileElem = new XElement("File", Types[i].Files[f].File);
+                    fileElem.Add(new XAttribute("Name", Types[i].Files[f].Name));
                     typeElem.Add(fileElem);
                 }
 
@@ -195,18 +233,18 @@ namespace Marathon.IO.Formats.Miscellaneous
             foreach (XElement typeElem in xml.Root.Elements("Type"))
             {
                 // Create Type Entry with the Name set to the value of the Name Attribute Node.
-                TypeEntry typeEntry = new TypeEntry
+                AssetType typeEntry = new AssetType
                 {
-                    TypeName = typeElem.Attribute("Name").Value
+                    Name = typeElem.Attribute("Name").Value
                 };
 
                 // Loop through the File Nodes in this Type Node and create a File Entry for each.
                 foreach (XElement fileElem in typeElem.Elements("File"))
                 {
-                    FileEntry fileEntry = new FileEntry
+                    AssetFile fileEntry = new AssetFile
                     {
-                        FriendlyName = fileElem.Attribute("FriendlyName").Value,
-                        FilePath = fileElem.Value
+                        Name = fileElem.Attribute("Name").Value,
+                        File = fileElem.Value
                     };
 
                     typeEntry.Files.Add(fileEntry);

@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
+using Assimp;
+using Assimp.Configs;
 
 namespace Marathon.IO.Formats.Meshes
 {
@@ -37,17 +39,78 @@ namespace Marathon.IO.Formats.Meshes
     /// </summary>
     public class Collision : FileBase
     {
-        public class Face
-        {
-            public ushort Vertex1, Vertex2, Vertex3;
+        public Collision() { }
 
+        public Collision(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".fbx":
+                case ".obj":
+                    ImportAssimp(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Collision flags as enumerators.
+        /// TODO: needs more research before use.
+        /// </summary>
+        [Flags]
+        public enum CollisionFlag : uint
+        {
+            /* Sound Flags */
+            Concrete  = 0,
+            Concrete4 = 4,
+            Concrete7 = 7,
+            ConcreteB = 0xB,
+            ConcreteC = 0xC,
+            ConcreteD = 0xD,
+            ConcreteF = 0xF,
+
+            Pool      = 1,
+            Wood      = 2,
+            Metal     = 3,
+            Grass     = 5,
+            Sand      = 6,
+            Snow      = 8,
+            Dirt      = 9,
+            Glass     = 0xA,
+            MetalEcho = 0xE,
+
+            /* Collision Types */
+            Wall    = 0x10000,
+            NoStand = 0x40000,
+
+            Water         = 0x80000,
+            Water40000000 = 0x40000000,
+
+            Death            = 0x100000,
+            PlayerOnly       = 0x200000,
+            CameraOnly       = 0x4000000,
+            Tentative        = 0x10000000,
+            HazardousCorners = 0x20000000,
+            HazardousTerrain = 0x28000000,
+            HazardousWater   = 0x60000000,
+            Climbable        = 0x80000000
+        }
+
+        /// <summary>
+        /// Standard face type, but with collision flags.
+        /// </summary>
+        public class CollisionFace : Face
+        {
             public uint Flags;
         }
 
         public const string Extension = ".bin";
 
         public List<Vector3> Vertices = new List<Vector3>();
-        public List<Face> Faces = new List<Face>();
+        public List<CollisionFace> Faces = new List<CollisionFace>();
 
         public override void Load(Stream fileStream)
         {
@@ -67,16 +130,16 @@ namespace Marathon.IO.Formats.Meshes
 
             for (int i = 0; i < faceCount; i++)
             {
-                Face face = new Face
+                CollisionFace face = new CollisionFace
                 {
-                    Vertex1 = reader.ReadUInt16(),
-                    Vertex2 = reader.ReadUInt16(),
-                    Vertex3 = reader.ReadUInt16()
+                    VertexA = reader.ReadUInt16(),
+                    VertexB = reader.ReadUInt16(),
+                    VertexC = reader.ReadUInt16()
                 };
 
-                reader.JumpAhead(2);
+                reader.JumpAhead(2); // Could probably use reader.FixPadding(); here?
 
-                face.Flags = reader.ReadUInt32();
+                face.Flags = reader.ReadUInt32(); // Could probably do with finding a way to read each Nibble (half byte) individually.
 
                 Faces.Add(face);
             }
@@ -89,7 +152,7 @@ namespace Marathon.IO.Formats.Meshes
 
             writer.AddOffset("unknownUInt32_1");
 
-            writer.Write(0); // Ignore MOPP code offset.
+            writer.WriteNulls(4); // Ignore MOPP code offset.
 
             writer.FillInOffset("unknownUInt32_1", true);
 
@@ -107,11 +170,11 @@ namespace Marathon.IO.Formats.Meshes
 
             for (int i = 0; i < Faces.Count; i++)
             {
-                writer.Write(Faces[i].Vertex1);
-                writer.Write(Faces[i].Vertex2);
-                writer.Write(Faces[i].Vertex3);
-                writer.WriteNulls(2);
-                writer.Write(Faces[i].Flags);
+                writer.Write(Faces[i].VertexA);
+                writer.Write(Faces[i].VertexB);
+                writer.Write(Faces[i].VertexC);
+                writer.WriteNulls(2);           // Could probably use writer.FixPadding(); here?
+                writer.Write((uint)Faces[i].Flags);
             }
 
             writer.FinishWrite(header);
@@ -128,59 +191,49 @@ namespace Marathon.IO.Formats.Meshes
                 foreach (Vector3 vertex in Vertices)
                     obj.WriteLine($"v {vertex.X} {vertex.Y} {vertex.Z}");
 
-                foreach (Face face in Faces)
+                foreach (CollisionFace face in Faces)
                 {
-                    obj.WriteLine($"g {Path.GetFileNameWithoutExtension(filepath)}_{face.Flags}");
-                    obj.WriteLine($"f {face.Vertex1 + 1} {face.Vertex2 + 1} {face.Vertex3 + 1}");
+                    obj.WriteLine($"g {Path.GetFileNameWithoutExtension(filepath)}@{face.Flags.ToString("x")}");
+                    obj.WriteLine($"f {face.VertexA + 1} {face.VertexB + 1} {face.VertexC + 1}");
                 }
             }
         }
 
         /// <summary>
-        /// Imports the vertices and faces from the OBJ format.
-        /// This could do with being rewritten with a proper model handling approach.
+        /// Imports data from an Assimp compatible format
         /// </summary>
-        public void ImportOBJ(string filepath)
+        /// <param name="filepath"></param>
+        public void ImportAssimp(string filepath)
         {
-            string[] obj = File.ReadAllLines(filepath);
-            uint flags = 0;
-            foreach (string line in obj)
+            // Setup Assimp Scene.
+            AssimpContext assimpImporter = new AssimpContext();
+            KeepSceneHierarchyConfig config = new KeepSceneHierarchyConfig(true);
+            assimpImporter.SetConfig(config);
+            Scene assimpModel = assimpImporter.ImportFile(filepath, PostProcessSteps.PreTransformVertices);
+
+            foreach(Mesh assimpMesh in assimpModel.Meshes)
             {
-                if (line.StartsWith("v "))
-                {
-                    string[] split = line.Split(' ');
-                    Vector3 vertex = new Vector3();
-                    vertex.X = float.Parse(split[2]);
-                    vertex.Y = float.Parse(split[3]);
-                    vertex.Z = float.Parse(split[4]);
-                    Vertices.Add(vertex);
-                }
+                // Mesh Tag
+                uint meshNameTag = 0u;
+                if (assimpMesh.Name.Contains("@")) { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name.Substring(assimpMesh.Name.LastIndexOf('@') + 1), 16); }
 
-                if (line.StartsWith("g "))
+                // Faces.
+                foreach (Assimp.Face assimpFace in assimpMesh.Faces)
                 {
-                    if (line.Contains("@"))
+                    CollisionFace face = new CollisionFace
                     {
-                        string temp = line.Substring(line.LastIndexOf('@') + 1);
-                        flags = (uint)Convert.ToInt32(temp, 16);
-                    }
-                    else if (line.Contains("_at_"))
-                    {
-                        string temp = line.Substring(line.LastIndexOf("_at_") + 4);
-                        flags = (uint)Convert.ToInt32(temp, 16);
-                    }
-                    else
-                        flags = 0;
-                }
-
-                if (line.StartsWith("f "))
-                {
-                    Face face = new Face();
-                    string[] split = line.Split(' ');
-                    if (split[1].Contains("/")) { face.Vertex1 = (ushort)(float.Parse(split[1].Substring(0, split[1].IndexOf('/'))) - 1f); }
-                    if (split[2].Contains("/")) { face.Vertex2 = (ushort)(float.Parse(split[2].Substring(0, split[2].IndexOf('/'))) - 1f); }
-                    if (split[3].Contains("/")) { face.Vertex3 = (ushort)(float.Parse(split[3].Substring(0, split[3].IndexOf('/'))) - 1f); }
-                    face.Flags = flags;
+                        VertexA = (ushort)(assimpFace.Indices[0] + Vertices.Count),
+                        VertexB = (ushort)(assimpFace.Indices[1] + Vertices.Count),
+                        VertexC = (ushort)(assimpFace.Indices[2] + Vertices.Count),
+                        Flags   = meshNameTag
+                    };
                     Faces.Add(face);
+                }
+
+                // Verticies.
+                foreach(Vector3D assimpVertex in assimpMesh.Vertices)
+                {
+                    Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
                 }
             }
         }

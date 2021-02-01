@@ -1,4 +1,29 @@
-﻿using System.IO;
+﻿// ExplosionPackage.cs is licensed under the MIT License:
+/* 
+ * MIT License
+ * 
+ * Copyright (c) 2021 Knuxfan24
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+using System.IO;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO.Headers;
@@ -13,7 +38,23 @@ namespace Marathon.IO.Formats.Miscellaneous
     {
         // TODO: Understand the unknowns, clean up code.
 
-        public class Entry
+        public ExplosionPackage() { }
+
+        public ExplosionPackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class Explosion
         {
             public string EntryName;
 
@@ -25,10 +66,10 @@ namespace Marathon.IO.Formats.Miscellaneous
                          UnknownFloat_3,
                          UnknownFloat_4,
                          Force;          // Not too sure, but increasing this value seemed to affect something to do with how the explosion affects other physics objects?
-            
+
             public uint Damage,          // How much damage this explosion causes.
                         Behaviour;       // How things should react to this explosion? Has a lot of different values, 46 made every explosion stun enemies like a FlashBox and be unable to damage the player.
-            
+
             public string ParticleFile,
                           ParticleName,
                           SceneBank,
@@ -36,7 +77,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                           LightName;
         }
 
-        public List<Entry> Entries = new List<Entry>();
+        public List<Explosion> Entries = new List<Explosion>();
 
         public override void Load(Stream stream)
         {
@@ -54,7 +95,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
             while (reader.BaseStream.Position < offsetTableLength)
             {
-                Entry explosion = new Entry();
+                Explosion explosion = new Explosion();
 
                 uint nameOffset = reader.ReadUInt32();
                 explosion.UnknownUInt32_1 = reader.ReadUInt32();
@@ -137,7 +178,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             XElement rootElem = new XElement("Explosion");
 
             // Explosion elements.
-            foreach (Entry explosion in Entries)
+            foreach (Explosion explosion in Entries)
             {
                 XElement explosionElem = new XElement("Explosion");
                 XAttribute NameAttr = new XAttribute("ObjectName", explosion.EntryName);
@@ -185,7 +226,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             foreach (XElement explosionElem in xml.Root.Elements("Explosion"))
             {
                 // Read explosion values.
-                Entry entry = new Entry
+                Explosion entry = new Explosion
                 {
                     EntryName = explosionElem.Attribute("ObjectName").Value,
                     UnknownUInt32_1 = uint.Parse(explosionElem.Element("UnknownUInt32_1").Value),

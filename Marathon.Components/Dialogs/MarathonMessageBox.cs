@@ -2,7 +2,7 @@
 /*
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,7 +83,7 @@ namespace Marathon.Components
                 {
                     ButtonDark_3.Text = "OK";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.OK;
+                    ButtonDark_3.Tag = DialogResult.OK;
 
                     AcceptButton = ButtonDark_3;
 
@@ -94,11 +94,11 @@ namespace Marathon.Components
                 {
                     ButtonDark_2.Text = "OK";
                     ButtonDark_2.Visible = true;
-                    ButtonDark_2.Tag = MessageState.OK;
+                    ButtonDark_2.Tag = DialogResult.OK;
 
                     ButtonDark_3.Text = "Cancel";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.Cancel;
+                    ButtonDark_3.Tag = DialogResult.Cancel;
 
                     AcceptButton = ButtonDark_2;
                     CancelButton = ButtonDark_3;
@@ -110,11 +110,11 @@ namespace Marathon.Components
                 {
                     ButtonDark_2.Text = "Yes";
                     ButtonDark_2.Visible = true;
-                    ButtonDark_2.Tag = MessageState.Yes;
+                    ButtonDark_2.Tag = DialogResult.Yes;
 
                     ButtonDark_3.Text = "No";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.No;
+                    ButtonDark_3.Tag = DialogResult.No;
 
                     AcceptButton = ButtonDark_2;
                     CancelButton = ButtonDark_3;
@@ -126,15 +126,15 @@ namespace Marathon.Components
                 {
                     ButtonDark_1.Text = "Yes";
                     ButtonDark_1.Visible = true;
-                    ButtonDark_1.Tag = MessageState.Yes;
+                    ButtonDark_1.Tag = DialogResult.Yes;
 
                     ButtonDark_2.Text = "No";
                     ButtonDark_2.Visible = true;
-                    ButtonDark_2.Tag = MessageState.No;
+                    ButtonDark_2.Tag = DialogResult.No;
 
                     ButtonDark_3.Text = "Cancel";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.Cancel;
+                    ButtonDark_3.Tag = DialogResult.Cancel;
 
                     AcceptButton = ButtonDark_1;
                     CancelButton = ButtonDark_3;
@@ -146,11 +146,11 @@ namespace Marathon.Components
                 {
                     ButtonDark_2.Text = "Retry";
                     ButtonDark_2.Visible = true;
-                    ButtonDark_2.Tag = MessageState.Retry;
+                    ButtonDark_2.Tag = DialogResult.Retry;
 
                     ButtonDark_3.Text = "Cancel";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.Cancel;
+                    ButtonDark_3.Tag = DialogResult.Cancel;
 
                     AcceptButton = ButtonDark_2;
                     CancelButton = ButtonDark_3;
@@ -162,15 +162,15 @@ namespace Marathon.Components
                 {
                     ButtonDark_1.Text = "Abort";
                     ButtonDark_1.Visible = true;
-                    ButtonDark_1.Tag = MessageState.Abort;
+                    ButtonDark_1.Tag = DialogResult.Abort;
 
                     ButtonDark_2.Text = "Retry";
                     ButtonDark_2.Visible = true;
-                    ButtonDark_2.Tag = MessageState.Retry;
+                    ButtonDark_2.Tag = DialogResult.Retry;
 
                     ButtonDark_3.Text = "Ignore";
                     ButtonDark_3.Visible = true;
-                    ButtonDark_3.Tag = MessageState.Ignore;
+                    ButtonDark_3.Tag = DialogResult.Ignore;
 
                     AcceptButton = ButtonDark_2;
                     CancelButton = ButtonDark_3;
@@ -234,7 +234,7 @@ namespace Marathon.Components
         /// </summary>
         private void Button_Click_Group(object sender, EventArgs e)
         {
-            MarathonMessageBox.State = (MessageState)((Button)sender).Tag;
+            MarathonMessageBox.Result = (DialogResult)((Button)sender).Tag;
 
             Close();
         }
@@ -247,28 +247,14 @@ namespace Marathon.Components
     }
 
     /// <summary>
-    /// Message states as enumerators.
-    /// </summary>
-    public enum MessageState
-    {
-        Yes,
-        No,
-        Cancel,
-        Abort,
-        Retry,
-        Ignore,
-        OK
-    }
-
-    /// <summary>
     /// A custom message box class with the intent of mimicking the standard WINAPI message box with a dark theme.
     /// </summary>
     public class MarathonMessageBox
     {
         /// <summary>
-        /// Message receiver for the final message box state.
+        /// Message receiver for the final message box result.
         /// </summary>
-        public static MessageState State;
+        public static DialogResult Result;
 
         /// <summary>
         /// Displays the message box with the specified text, caption, buttons and icon.
@@ -299,17 +285,7 @@ namespace Marathon.Components
                 messenger.ShowDialog();
             }
 
-            return State switch
-            {
-                MessageState.OK     => DialogResult.OK,
-                MessageState.Yes    => DialogResult.Yes,
-                MessageState.No     => DialogResult.No,
-                MessageState.Abort  => DialogResult.Abort,
-                MessageState.Retry  => DialogResult.Retry,
-                MessageState.Ignore => DialogResult.Ignore,
-                MessageState.Cancel => DialogResult.Cancel,
-                _                   => DialogResult.OK
-            };
+            return Result;
         }
     }
 }

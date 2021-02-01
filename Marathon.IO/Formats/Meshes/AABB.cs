@@ -1,8 +1,8 @@
-﻿// Marathon is licensed under the MIT License:
+﻿// AABB.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,42 +23,20 @@
  * SOFTWARE.
  */
 
-namespace Marathon.Modding
+namespace Marathon.IO.Formats.Meshes
 {
-    public enum PlatformType
+    public class AABB
     {
-        Xbox,
-        PlayStation,
-        Any
-    }
+        public Vector3 Minimum { get; set; }
 
-    public class Platform
-    {
-        /// <summary>
-        /// Gets the platform type enumerator from a verbose string.
-        /// </summary>
-        /// <param name="key">INI result.</param>
-        public static PlatformType GetPlatformTypeByVerboseKey(string key)
+        public Vector3 Maximum { get; set; }
+
+        public AABB() { }
+
+        public AABB(Vector3 min, Vector3 max)
         {
-            switch (key)
-            {
-                case "Xbox 360":
-                {
-                    return PlatformType.Xbox;
-                }
-
-                case "PlayStation 3":
-                {
-                    return PlatformType.PlayStation;
-                }
-
-                case "All Systems":
-                {
-                    return PlatformType.Any;
-                }
-            }
-
-            return PlatformType.Any;
+            Minimum = min;
+            Maximum = max;
         }
     }
 }

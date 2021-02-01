@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * Copyright (c) 2018 Radfordhound
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy

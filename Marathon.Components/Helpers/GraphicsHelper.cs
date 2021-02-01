@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,88 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using Marathon.IO.Helpers;
 
 namespace Marathon.Components.Helpers
 {
     public static class GraphicsHelper
     {
+        /// <summary>
+        /// <para>Draws a rounded rectangle.</para>
+        /// <para><see href="https://stackoverflow.com/a/33853557">Learn more...</see></para>
+        /// </summary>
+        public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, Rectangle bounds, int cornerRadius)
+        {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+
+            if (pen == null)
+                throw new ArgumentNullException("pen");
+
+            using (GraphicsPath path = RoundedRectangle(bounds, cornerRadius))
+            {
+                graphics.DrawPath(pen, path);
+            }
+        }
+
+        /// <summary>
+        /// <para>Draws a rounded rectangle.</para>
+        /// <para><see href="https://stackoverflow.com/a/33853557">Learn more...</see></para>
+        /// </summary>
+        public static void FillRoundedRectangle(this Graphics graphics, Brush brush, Rectangle bounds, int cornerRadius)
+        {
+            if (graphics == null)
+                throw new ArgumentNullException("graphics");
+
+            if (brush == null)
+                throw new ArgumentNullException("brush");
+
+            using (GraphicsPath path = RoundedRectangle(bounds, cornerRadius))
+            {
+                graphics.FillPath(brush, path);
+            }
+        }
+
+        /// <summary>
+        /// <para>Creates a rounded rectangle as a graphics path.</para>
+        /// <para><see href="https://stackoverflow.com/a/33853557">Learn more...</see></para>
+        /// </summary>
+        /// <param name="bounds">Rectangle base.</param>
+        /// <param name="radius">Corner radius.</param>
+        public static GraphicsPath RoundedRectangle(Rectangle bounds, int radius)
+        {
+            int diameter = radius * 2;
+            Size size = new Size(diameter, diameter);
+            Rectangle arc = new Rectangle(bounds.Location, size);
+            GraphicsPath path = new GraphicsPath();
+
+            if (radius == 0)
+            {
+                path.AddRectangle(bounds);
+                return path;
+            }
+
+            // Top-left arc.  
+            path.AddArc(arc, 180, 90);
+
+            // Top-right arc.  
+            arc.X = bounds.Right - diameter;
+            path.AddArc(arc, 270, 90);
+
+            // Bottom-right arc.  
+            arc.Y = bounds.Bottom - diameter;
+            path.AddArc(arc, 0, 90);
+
+            // Bottom-left arc.
+            arc.X = bounds.Left;
+            path.AddArc(arc, 90, 90);
+
+            path.CloseFigure();
+
+            return path;
+        }
+
         /// <summary>
         /// Inflates a rectangle and returns it.
         /// </summary>

@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,23 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class PictureFont : FileBase
     {
-        public class SubImage
+        public PictureFont() { }
+
+        public PictureFont(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class Picture
         {
             public string Placeholder;
 
@@ -52,7 +68,7 @@ namespace Marathon.IO.Formats.Text
 
         public string Texture;
 
-        public List<SubImage> Entries = new List<SubImage>();
+        public List<Picture> Entries = new List<Picture>();
 
         public override void Load(Stream stream)
         {
@@ -80,7 +96,7 @@ namespace Marathon.IO.Formats.Text
             {
                 uint placeholderEntry = reader.ReadUInt32();
 
-                SubImage fontPicture = new SubImage
+                Picture fontPicture = new Picture
                 {
                     X = reader.ReadUInt16(),
                     Y = reader.ReadUInt16(),
@@ -162,7 +178,7 @@ namespace Marathon.IO.Formats.Text
                 // Placeholders
                 foreach (XElement pictureElem in textureElem.Elements("Picture"))
                 {
-                    SubImage entry = new SubImage();
+                    Picture entry = new Picture();
                     ushort.TryParse(pictureElem.Attribute("X").Value, out entry.X);
                     ushort.TryParse(pictureElem.Attribute("Y").Value, out entry.Y);
                     ushort.TryParse(pictureElem.Attribute("Width").Value, out entry.Width);

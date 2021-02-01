@@ -1,9 +1,9 @@
-﻿// ShotParameter.cs is licensed under the MIT License:
+﻿// ProjectilePackage.cs is licensed under the MIT License:
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,10 +35,25 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// <para>File base for the ShotParameter.bin format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for projectile properties.</para>
     /// </summary>
-    public class ShotParameter : FileBase
+    public class ProjectilePackage : FileBase
     {
-        // TODO: XML Importing, Code Cleanup, Figure this shit out.
-        public class Entry
+        public ProjectilePackage() { }
+
+        public ProjectilePackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class ShotParameter
         {
             public string Name,
                           Model,
@@ -53,7 +68,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                           Particle2,
                           ParticleBank3,
                           Particle3,
-                          UnknownString_3; // Either empty or MisFired stuff
+                          UnknownString_3; // Either empty or misfired stuff.
 
             public uint UnknownUInt32_1,
                         UnknownUInt32_2,
@@ -72,7 +87,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
         public const string Extension = ".bin";
 
-        public List<Entry> Entries = new List<Entry>();
+        public List<ShotParameter> Entries = new List<ShotParameter>();
 
         public override void Load(Stream stream)
         {
@@ -92,7 +107,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             while (reader.BaseStream.Position < offsetTableLength)
             {
                 // 26 chunks?
-                Entry entry = new Entry();
+                ShotParameter entry = new ShotParameter();
                 uint NameOffset = reader.ReadUInt32();
                 uint ModelOffset = reader.ReadUInt32();
                 uint UnknownString_1Offset = reader.ReadUInt32();
@@ -221,7 +236,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             XElement rootElem = new XElement("ShotParameter");
 
             // Object elements.
-            foreach (Entry entry in Entries)
+            foreach (ShotParameter entry in Entries)
             {
                 XElement objElem    = new XElement("Parameter");
                 XAttribute NameAttr = new XAttribute("Name", entry.Name);
@@ -289,7 +304,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             foreach (XElement objectElem in xml.Root.Elements("Parameter"))
             {
                 // Read object values.
-                Entry @object = new Entry
+                ShotParameter @object = new ShotParameter
                 {
                     Name  = objectElem.Attribute("Name").Value,
                     Model = objectElem.Element("Model").Value,

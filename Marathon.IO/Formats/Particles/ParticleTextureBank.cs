@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,23 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleTextureBank : FileBase
     {
-        public class Particle
+        public ParticleTextureBank() { }
+
+        public ParticleTextureBank(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class ParticleBankEntry
         {
             public string Name, FileName;
 
@@ -48,7 +64,7 @@ namespace Marathon.IO.Formats.Particles
         public const string Signature = "BTEP",
                             Extension = ".peb";
 
-        public List<Particle> Particles = new List<Particle>();
+        public List<ParticleBankEntry> Particles = new List<ParticleBankEntry>();
         public string Name;
 
         public override void Load(Stream fileStream)
@@ -69,7 +85,7 @@ namespace Marathon.IO.Formats.Particles
 
             for(int i = 0; i < particleCount; i++)
             {
-                Particle particle = new Particle()
+                ParticleBankEntry particle = new ParticleBankEntry()
                 {
                     Name = new string(reader.ReadChars(32)),
                     FileName = new string(reader.ReadChars(128)),
@@ -115,7 +131,7 @@ namespace Marathon.IO.Formats.Particles
             rootElem.Add(nameElem);
 
             // Particles elements.
-            foreach (Particle particle in Particles)
+            foreach (ParticleBankEntry particle in Particles)
             {
                 XElement particleElem         = new XElement("Particle");
                 XElement particleNameElem     = new XElement("Name", particle.Name.Replace("\0", ""));
@@ -142,7 +158,7 @@ namespace Marathon.IO.Formats.Particles
             // Loop through particle nodes.
             foreach (XElement particleElem in xml.Root.Elements("Particle"))
             {
-                Particle particle = new Particle
+                ParticleBankEntry particle = new ParticleBankEntry
                 {
                     Name = particleElem.Element("Name").Value.PadRight(32, '\0'),
                     FileName = particleElem.Element("FileName").Value.PadRight(128, '\0'),

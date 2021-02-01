@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,14 +35,28 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class FontMap : FileBase
     {
-        public class Character
+        public FontMap() { }
+
+        public FontMap(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                // TODO: add importing.
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class MapCharacter
         {
             public byte Unicode,
                         Row;
 
             public short UnknownUInt16_1;
 
-            public Character(byte unicode, byte row)
+            public MapCharacter(byte unicode, byte row)
             {
                 Unicode = unicode;
                 Row = row;
@@ -53,7 +67,7 @@ namespace Marathon.IO.Formats.Text
 
         public string Texture;
 
-        public List<Character> Entries = new List<Character>();
+        public List<MapCharacter> Entries = new List<MapCharacter>();
 
         public override void Load(Stream stream)
         {
@@ -91,7 +105,7 @@ namespace Marathon.IO.Formats.Text
                 // TODO: Unknown - possibly a flag?
                 ushort UnknownUInt16_2 = reader.ReadUInt16();
 
-                Entries.Add(new Character((byte)(unicodeCharacter - 0x20), rowNumber));
+                Entries.Add(new MapCharacter((byte)(unicodeCharacter - 0x20), rowNumber));
             }
         }
     }

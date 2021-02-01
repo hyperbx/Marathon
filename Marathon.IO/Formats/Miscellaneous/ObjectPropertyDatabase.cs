@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,23 +37,39 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class ObjectPropertyDatabase : FileBase
     {
-        public class Entry
-        {
-            public string Name;
+        public ObjectPropertyDatabase() { }
 
-            public List<Parameter> Parameters = new List<Parameter>();
+        public ObjectPropertyDatabase(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
         }
 
-        public class Parameter
+        public class ObjectProperty
         {
-            public string Name;
+            public string Name { get; set; }
 
-            public uint Type;
+            public List<ObjectParameter> Parameters = new List<ObjectParameter>();
+        }
+
+        public class ObjectParameter
+        {
+            public string Name { get; set; }
+
+            public uint Type { get; set; }
         }
 
         public string Name;
 
-        public List<Entry> Entries = new List<Entry>();
+        public List<ObjectProperty> Entries = new List<ObjectProperty>();
 
         public override void Load(Stream fileStream)
         {
@@ -69,7 +85,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             // Get objects.
             for(int i = 0; i < objectCount; i++)
             {
-                Entry entry = new Entry();
+                ObjectProperty entry = new ObjectProperty();
                 uint objectNameOffset = reader.ReadUInt32();
                 uint parameterCount = reader.ReadUInt32();
                 uint parameterOffset = reader.ReadUInt32();
@@ -87,7 +103,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 {
                     reader.JumpTo(parameterOffset + (p * 0x18), true);
 
-                    Parameter parameter = new Parameter()
+                    ObjectParameter parameter = new ObjectParameter()
                     {
                         Name = new string(reader.ReadChars(16)),
                         Type = reader.ReadUInt32()
@@ -158,14 +174,14 @@ namespace Marathon.IO.Formats.Miscellaneous
             rootElem.Add(propNameAttr);
 
             // Object elements.
-            foreach (Entry entry in Entries)
+            foreach (ObjectProperty entry in Entries)
             {
                 XElement objElem = new XElement("Object");
                 XAttribute objNameAttr = new XAttribute("Name", entry.Name.Replace("\0", ""));
                 objElem.Add(objNameAttr);
 
                 // Parameter Elements.
-                foreach(Parameter parameter in entry.Parameters)
+                foreach(ObjectParameter parameter in entry.Parameters)
                 {
                     XElement paramElem = new XElement("Parameter", parameter.Name.Replace("\0", ""));
                     XAttribute paramTypeElem = new XAttribute("Type", parameter.Type);
@@ -190,7 +206,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             // Loop through object nodes.
             foreach (XElement objElem in xml.Root.Elements("Object"))
             {
-                Entry entry = new Entry
+                ObjectProperty entry = new ObjectProperty
                 {
                     Name = objElem.Attribute("Name").Value
                 };
@@ -198,7 +214,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                 // Loop through object's parameter nodes.
                 foreach (XElement paramElem in objElem.Elements("Parameter"))
                 {
-                    Parameter parameter = new Parameter
+                    ObjectParameter parameter = new ObjectParameter
                     {
                         Name = paramElem.Value.PadRight(16, '\0'),
                         Type = uint.Parse(paramElem.Attribute("Type").Value)

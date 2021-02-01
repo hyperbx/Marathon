@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -82,6 +82,25 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class SonicNextSaveData : FileBase
     {
+        public SonicNextSaveData()
+        {
+            FileWriteMode = FileWriteMode.Fixed;
+        }
+
+        public SonicNextSaveData(string file)
+        {
+            FileWriteMode = FileWriteMode.Fixed;
+
+            switch (Path.GetExtension(file))
+            {
+                // TODO: add importing.
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         /// <summary>
         /// Information stored for each episode.
         /// </summary>
@@ -133,7 +152,7 @@ namespace Marathon.IO.Formats.Miscellaneous
         /// </summary>
         public class Upgrade
         {
-                        // Sonic's upgrades.
+            // Sonic's upgrades.
             public bool equip_lightdash,
                         equip_sliding,
                         equip_boundjump,
@@ -146,13 +165,13 @@ namespace Marathon.IO.Formats.Miscellaneous
                         equip_gem_yellow,
                         equip_gem_purple,
                         equip_gem_super,
-                        
+
                         // Shadow's upgrades.
                         equip_shadow_lightdash,
                         equip_shadow_boost_lv1,
                         equip_shadow_boost_lv2,
                         equip_shadow_boost_lv3,
-                        
+
                         // Silver's upgrades.
                         equip_silver_holdsmash,
                         equip_silver_catch_all,
@@ -178,11 +197,6 @@ namespace Marathon.IO.Formats.Miscellaneous
         public List<Mission> Missions = new List<Mission>();
         public Upgrade Upgrades = new Upgrade();
         public System Settings = new System();
-
-        public SonicNextSaveData()
-        {
-            FileWriteMode = FileWriteMode.Fixed;
-        }
 
         public override void Load(Stream stream)
         {

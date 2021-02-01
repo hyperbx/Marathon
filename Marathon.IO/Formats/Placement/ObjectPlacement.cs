@@ -2,9 +2,9 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Radfordhound
- * Copyright (c) 2020 Knuxfan24
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 Radfordhound
+ * Copyright (c) 2021 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,6 +41,22 @@ namespace Marathon.IO.Formats.Placement
     /// </summary>
     public class ObjectPlacement : FileBase
     {
+        public ObjectPlacement() { }
+
+        public ObjectPlacement(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class SetObject
         {
             public int ID;             // For convenience when writing XMLs.
@@ -49,21 +65,21 @@ namespace Marathon.IO.Formats.Placement
                           Type;        // Object type.
 
             public bool StartInactive; // Whether this object is always visible or has to be spawned by a Group.
-            
+
             public float DrawDistance; // Maximum object draw distance.
 
             public Vector3 Position = new Vector3();       // Position of the object.
             public Quaternion Rotation = new Quaternion(); // Quaternion rotation of the object.
-            
+
             public List<SetParameter> Parameters = new List<SetParameter>(); // Object parameters.
         }
 
         public class SetParameter
         {
             public object Data;        // Parameter data.
-            
+
             public Type DataType;      // Data type of this parameter.
-            
+
             public uint StringPadding; // TODO: Unknown - figure out if there's a pattern with these four bytes and replicate it properly.
         }
 

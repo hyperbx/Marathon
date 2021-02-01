@@ -2,8 +2,8 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 HyperBE32
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,23 @@ namespace Marathon.IO.Formats.Miscellaneous
     /// </summary>
     public class PathPackage : FileBase
     {
-        public class ObjectEntry
+        public PathPackage() { }
+
+        public PathPackage(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    // ImportXML(file); // TODO: add XML reading/writing.
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class PathObject
         {
             public string Name;
 
@@ -45,7 +61,7 @@ namespace Marathon.IO.Formats.Miscellaneous
 
         public const string Extension = ".bin";
 
-        public List<ObjectEntry> Entries = new List<ObjectEntry>();
+        public List<PathObject> Entries = new List<PathObject>();
 
         public override void Load(Stream stream)
         {
@@ -62,7 +78,7 @@ namespace Marathon.IO.Formats.Miscellaneous
             reader.JumpTo(startPosition);
 
             // Create new node.
-            ObjectEntry @object = new ObjectEntry();
+            PathObject @object = new PathObject();
 
             // Read stream until we've reached the end of the offset table.
             while (reader.BaseStream.Position != offsetTableLength - 4 + 0x20)
@@ -80,7 +96,7 @@ namespace Marathon.IO.Formats.Miscellaneous
                     Entries.Add(@object);
 
                     // Create new node for the next entry.
-                    @object = new ObjectEntry();
+                    @object = new PathObject();
                 }
                 else
                 {

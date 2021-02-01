@@ -28,20 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.Timer_Animation = new System.Windows.Forms.Timer(this.components);
+            this.Panel_Progress = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // Timer_Animation
+            // Panel_Progress
             // 
-            this.Timer_Animation.Enabled = true;
-            this.Timer_Animation.Interval = 2000;
-            this.Timer_Animation.Tick += new System.EventHandler(this.Timer_Animation_Tick);
+            this.Panel_Progress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.Panel_Progress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(176)))), ((int)(((byte)(37)))));
+            this.Panel_Progress.Location = new System.Drawing.Point(0, 0);
+            this.Panel_Progress.Name = "Panel_Progress";
+            this.Panel_Progress.Size = new System.Drawing.Size(150, 50);
+            this.Panel_Progress.TabIndex = 0;
             // 
             // MarathonProgressBar
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.Controls.Add(this.Panel_Progress);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.SystemColors.Control;
             this.Name = "MarathonProgressBar";
@@ -52,6 +57,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer Timer_Animation;
+        private System.Windows.Forms.Panel Panel_Progress;
     }
 }

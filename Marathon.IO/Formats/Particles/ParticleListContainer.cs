@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,19 +36,35 @@ namespace Marathon.IO.Formats.Particles
     /// </summary>
     public class ParticleListContainer : FileBase
     {
-        public class Particle
+        public ParticleListContainer() { }
+
+        public ParticleListContainer(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
+        public class ParticleListEntry
         {
             public string Name1,
                           Name2, // TODO: not sure what this actually is - sometimes it's the same as Name1, other times it's not, sometimes it's empty.
                           FileName;
-            
+
             public uint Unknown; // TODO: Unknown - flags?
         }
 
         public const string Extension = ".plc";
 
         public string Name;
-        public List<Particle> Particles = new List<Particle>();
+        public List<ParticleListEntry> Particles = new List<ParticleListEntry>();
         
         public override void Load(Stream fileStream)
         {
@@ -66,7 +82,7 @@ namespace Marathon.IO.Formats.Particles
 
             for(int i = 0; i < EntryCount; i++)
             {
-                Particle particle = new Particle();
+                ParticleListEntry particle = new ParticleListEntry();
 
                 uint particleName1Offset    = reader.ReadUInt32();
                 uint particleName2Offset    = reader.ReadUInt32();
@@ -122,7 +138,7 @@ namespace Marathon.IO.Formats.Particles
             rootElem.Add(nameElem);
 
             // Particles elements.
-            foreach (Particle particle in Particles)
+            foreach (ParticleListEntry particle in Particles)
             {
                 XElement particleElem         = new XElement("Particle");
                 XElement particleName1Elem1   = new XElement("Name1", particle.Name1);
@@ -149,7 +165,7 @@ namespace Marathon.IO.Formats.Particles
             // Loop through particle nodes.
             foreach (XElement particleElem in xml.Root.Elements("Particle"))
             {
-                Particle particle = new Particle
+                ParticleListEntry particle = new ParticleListEntry
                 {
                     Name1 = particleElem.Element("Name1").Value,
                     Name2 = particleElem.Element("Name2").Value,

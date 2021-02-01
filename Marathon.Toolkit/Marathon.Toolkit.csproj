@@ -235,10 +235,6 @@
       <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
       <Name>Marathon.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Marathon.Modding\Marathon.Modding.csproj">
-      <Project>{3803e6b1-e1c6-4fdb-af6d-1bb487487b83}</Project>
-      <Name>Marathon.Modding</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Marathon.Resources\Marathon.Resources.csproj">
       <Project>{c736af24-67e5-4e80-83b0-c6a8a93602e5}</Project>
       <Name>Marathon.Resources</Name>

@@ -47,7 +47,6 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbonGroup_Marathon_Organise = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
             this.KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
             this.KryptonRibbonGroup_Marathon_Developer = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroup();
             this.KryptonRibbonGroupTriple_Marathon_Developer_Debugger_ResetSettings = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupTriple();
             this.KryptonRibbonGroupButton_Marathon_Developer_Debugger = new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton();
@@ -85,6 +84,7 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbon_Workspace.RibbonAppButton.AppButtonToolTipTitle = "Marathon";
             this.KryptonRibbon_Workspace.RibbonTabs.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonTab[] {
             this.KryptonRibbonTab_Marathon});
+            this.KryptonRibbon_Workspace.SelectedContext = null;
             this.KryptonRibbon_Workspace.SelectedTab = this.KryptonRibbonTab_Marathon;
             this.KryptonRibbon_Workspace.Size = new System.Drawing.Size(1264, 115);
             this.KryptonRibbon_Workspace.TabIndex = 5;
@@ -180,8 +180,7 @@ namespace Marathon.Toolkit.Forms
             // KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer
             // 
             this.KryptonRibbonGroupTriple_Marathon_Organise_BulkRenamer.Items.AddRange(new ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupItem[] {
-            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer,
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager});
+            this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer});
             // 
             // KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer
             // 
@@ -191,14 +190,6 @@ namespace Marathon.Toolkit.Forms
             this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.TextLine1 = "Bulk";
             this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.TextLine2 = "Renamer";
             this.KryptonRibbonGroupButton_Marathon_Organise_BulkRenamer.Click += new System.EventHandler(this.KryptonRibbonGroupButton_Home_Organise_BulkRenamer_Click);
-            // 
-            // KryptonRibbonGroupButton_Marathon_Organise_ModManager
-            // 
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.ImageLarge = global::Marathon.Toolkit.Properties.Resources.Manager_Small_Colour;
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.KeyTip = "MMM";
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.TextLine1 = "Mod";
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.TextLine2 = "Manager";
-            this.KryptonRibbonGroupButton_Marathon_Organise_ModManager.Click += new System.EventHandler(this.KryptonRibbonGroupButton_Home_Organise_ModManager_Click);
             // 
             // KryptonRibbonGroup_Marathon_Developer
             // 
@@ -515,7 +506,6 @@ namespace Marathon.Toolkit.Forms
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_ExitMarathon;
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_MarathonOptions;
         private ComponentFactory.Krypton.Ribbon.ButtonSpecAppMenu ButtonSpecAppMenu_AboutMarathon;
-        private ComponentFactory.Krypton.Ribbon.KryptonRibbonGroupButton KryptonRibbonGroupButton_Marathon_Organise_ModManager;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuItem KryptonContextMenuItem_File_Windows;
         private ComponentFactory.Krypton.Toolkit.KryptonContextMenuSeparator KryptonContextMenuSeparator_File_2;
         private System.Windows.Forms.ToolStripStatusLabel ToolStripStatusLabel_Status;

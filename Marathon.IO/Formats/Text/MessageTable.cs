@@ -3,7 +3,7 @@
  * MIT License
  * 
  * Copyright (c) 2019 GerbilSoft
- * Copyright (c) 2020 Knuxfan24
+ * Copyright (c) 2021 Knuxfan24
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,22 @@ namespace Marathon.IO.Formats.Text
     /// </summary>
     public class MessageTable : FileBase
     {
+        public MessageTable() { }
+
+        public MessageTable(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                case ".xml":
+                    ImportXML(file);
+                    break;
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public class Message
         {
             public string Name,        // Friendly name pertaining to this message.
@@ -45,15 +61,11 @@ namespace Marathon.IO.Formats.Text
                           Placeholder; // Placeholder data pertaining to this message.
         }
 
-        public const string Signature = "WTXT", Extension = ".mst";
+        public const string Signature = "WTXT",
+                            Extension = ".mst";
 
         public string Name;
         public List<Message> Entries = new List<Message>();
-
-        public MessageTable() { }
-
-        public MessageTable(string filePath)
-            => Load(filePath);
 
         public override void Load(Stream fileStream)
         {

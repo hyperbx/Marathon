@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,20 @@ namespace Marathon.IO.Formats.Textures
     /// </summary>
     public class DirectDrawMatrix : FileBase
     {
+        public DirectDrawMatrix() { }
+
+        public DirectDrawMatrix(string file)
+        {
+            switch (Path.GetExtension(file))
+            {
+                // TODO: add importing.
+
+                default:
+                    Load(file);
+                    break;
+            }
+        }
+
         public enum MatrixType
         {
             Root    = 0x204D4444, // DDM 

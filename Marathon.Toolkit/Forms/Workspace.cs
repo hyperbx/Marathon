@@ -2,7 +2,7 @@
 /* 
  * MIT License
  * 
- * Copyright (c) 2020 HyperBE32
+ * Copyright (c) 2021 HyperBE32
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,6 @@ using System.Collections.Specialized;
 using ComponentFactory.Krypton.Ribbon;
 using ComponentFactory.Krypton.Toolkit;
 using WeifenLuo.WinFormsUI.Docking;
-using Marathon.Modding;
 using Marathon.Components;
 using Marathon.Components.Helpers;
 
@@ -385,12 +384,6 @@ namespace Marathon.Toolkit.Forms
             if (DockPanel_Workspace.Contents.Count == 0 && !RibbonHelper.IsRibbonDefault(KryptonRibbon_Workspace))
                 RibbonHelper.SetupRibbon(KryptonRibbon_Workspace, RibbonHelper.DefaultRibbonTabs, null);
         }
-
-        /// <summary>
-        /// Opens the Mod Manager.
-        /// </summary>
-        private void KryptonRibbonGroupButton_Home_Organise_ModManager_Click(object sender, EventArgs e)
-            => new Manager().Show(DockPanel_Workspace, KryptonRibbon_Workspace);
 
         /// <summary>
         /// Save the ribbon's minimised state.
