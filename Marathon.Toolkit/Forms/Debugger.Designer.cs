@@ -37,6 +37,7 @@ namespace Marathon.Toolkit.Forms
             this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.CheckBoxDark_Sample = new Marathon.Components.CheckBoxDark();
             this.GroupContainer_Samples = new Marathon.Components.GroupContainer();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.marathonProgressBar1 = new Marathon.Components.MarathonProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.KryptonRibbon_MarathonDockContent)).BeginInit();
             this.GroupContainer_Settings.WorkingArea.SuspendLayout();
@@ -149,7 +150,7 @@ namespace Marathon.Toolkit.Forms
             this.MarathonListView_Sample.ListView.SelectedItemColour = System.Drawing.Color.FromArgb(((int)(((byte)(98)))), ((int)(((byte)(98)))), ((int)(((byte)(98)))));
             this.MarathonListView_Sample.ListView.ShowGroups = false;
             this.MarathonListView_Sample.ListView.ShowItemToolTips = true;
-            this.MarathonListView_Sample.ListView.Size = new System.Drawing.Size(400, 934);
+            this.MarathonListView_Sample.ListView.Size = new System.Drawing.Size(400, 542);
             this.MarathonListView_Sample.ListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.MarathonListView_Sample.ListView.TabIndex = 0;
             this.MarathonListView_Sample.ListView.UseCompatibleStateImageBehavior = false;
@@ -220,6 +221,7 @@ namespace Marathon.Toolkit.Forms
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupContainer_Samples.WorkingArea.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.GroupContainer_Samples.WorkingArea.Controls.Add(this.progressBar1);
             this.GroupContainer_Samples.WorkingArea.Controls.Add(this.marathonProgressBar1);
             this.GroupContainer_Samples.WorkingArea.Controls.Add(this.MarathonListView_Sample);
             this.GroupContainer_Samples.WorkingArea.Controls.Add(this.CheckBoxDark_Sample);
@@ -229,12 +231,28 @@ namespace Marathon.Toolkit.Forms
             this.GroupContainer_Samples.WorkingArea.Size = new System.Drawing.Size(968, 631);
             this.GroupContainer_Samples.WorkingArea.TabIndex = 0;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(5, 61);
+            this.progressBar1.MarqueeAnimationSpeed = 5;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(807, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBar1.TabIndex = 11;
+            // 
             // marathonProgressBar1
             // 
+            this.marathonProgressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.marathonProgressBar1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.marathonProgressBar1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.marathonProgressBar1.ForeColor = System.Drawing.SystemColors.Control;
             this.marathonProgressBar1.Location = new System.Drawing.Point(5, 34);
+            this.marathonProgressBar1.Marquee = true;
+            this.marathonProgressBar1.MarqueeSpeed = ((ulong)(2000ul));
+            this.marathonProgressBar1.MarqueeWidth = 128;
             this.marathonProgressBar1.Name = "marathonProgressBar1";
             this.marathonProgressBar1.Progress = 25;
             this.marathonProgressBar1.ProgressColour = System.Drawing.Color.FromArgb(((int)(((byte)(6)))), ((int)(((byte)(176)))), ((int)(((byte)(37)))));
@@ -277,5 +295,6 @@ namespace Marathon.Toolkit.Forms
         private Components.CheckBoxDark CheckBoxDark_Sample;
         private Components.GroupContainer GroupContainer_Samples;
         private Components.MarathonProgressBar marathonProgressBar1;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

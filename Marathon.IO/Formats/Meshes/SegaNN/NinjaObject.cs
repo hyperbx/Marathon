@@ -154,7 +154,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
     public class NinjaObjectNode
     {
-        public uint Type { get; set; }
+        public NinjaNodeType Type { get; set; }
 
         public ushort Matrix { get; set; }
 
@@ -182,7 +182,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
         public NinjaObjectNode(ExtendedBinaryReader reader)
         {
-            Type = reader.ReadUInt32();  // This node's type.
+            Type = (NinjaNodeType)reader.ReadUInt32();  // This node's type.
             Matrix = reader.ReadUInt16();  // This node's matrix reference, set to FFFF for NIL.
             Parent = reader.ReadUInt16();  // This node's parent reference, set to FFFF for NIL.
             Child = reader.ReadUInt16();  // This node's child reference, set to FFFF for NIL.
@@ -207,7 +207,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
     public class NinjaSubObject
     {
-        public uint Type { get; set; }
+        public NinjaSubObjectType Type { get; set; }
 
         public List<NinjaSubObjectMeshSet> MeshSets = new List<NinjaSubObjectMeshSet>();
 
@@ -215,7 +215,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
         public NinjaSubObject(ExtendedBinaryReader reader)
         {
-            Type = reader.ReadUInt32(); // This sub object's type.
+            Type = (NinjaSubObjectType)reader.ReadUInt32(); // This sub object's type.
             uint MeshSetCount = reader.ReadUInt32();
             uint MeshSetOffset = reader.ReadUInt32();
             uint SubObjectTextureCount = reader.ReadUInt32();

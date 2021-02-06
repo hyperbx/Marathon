@@ -53,6 +53,10 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             Format            = reader.ReadUInt32();
             uint IndexNumber  = reader.ReadUInt32();
             uint StripCount   = reader.ReadUInt32();
+            if (StripCount != 1)
+            {
+                System.Console.WriteLine($"StripCount in a Primitive in this XNO was {StripCount} rather than 1!");
+            }
             uint LengthOffset = reader.ReadUInt32();
             uint IndexPointer = reader.ReadUInt32();
             uint IndexBuffer  = reader.ReadUInt32(); // Always 0?

@@ -23,16 +23,12 @@
  * SOFTWARE.
  */
 
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Marathon.Helpers;
-using Marathon.Components.Helpers;
-using Transitions;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using WinFormAnimation;
+using System;
 
 namespace Marathon.Components
 {
@@ -61,37 +57,89 @@ namespace Marathon.Components
         }
 
         /// <summary>
+        /// Use marquee appearance for uncertain progress.
+        /// </summary>
+        [Category("Appearance"), Browsable(true), Description("Use marquee appearance for uncertain progress.")]
+        public bool Marquee { get; set; } = false;
+
+        /// <summary>
+        /// The speed of the marquee animation in milliseconds.
+        /// </summary>
+        [Category("Behavior"), Browsable(true), Description("The speed of the marquee animation in milliseconds.")]
+        public ulong MarqueeSpeed { get; set; } = 2000;
+
+
+        /// <summary>
+        /// The width of the marquee bar.
+        /// </summary>
+        [Category("Appearance"), Browsable(true), Description("The width of the marquee bar.")]
+        public int MarqueeWidth { get; set; } = 128;
+
+        /// <summary>
         /// The value of the current progress.
         /// </summary>
         [Category("Behavior"), Browsable(true), Description("The value of the current progress.")]
-        public int Progress { get; set; }
+        public int Progress { get; set; } = 0;
 
         public MarathonProgressBar()
         {
             InitializeComponent();
         }
 
-        protected override void OnCreateControl()
+        /// <summary>
+        /// Creates the marquee animator and plays.
+        /// </summary>
+        private void StartMarquee()
         {
-            Transition barScroll = new Transition(new TransitionType_EaseInEaseOut(2000));
-            barScroll.add(Panel_Progress, "Left", Width);
+            new Animator
+            (
+                new Path
+                (
+                    Width * -1,
+                    Width,
+                    MarqueeSpeed
+                ),
 
-            Transition barScroll2 = new Transition(new TransitionType_EaseInEaseOut(1));
-            barScroll2.add(Panel_Progress, "Left", Width * -1);
-
-            Transition.runLoopingChain(barScroll, barScroll2);
-
-            base.OnCreateControl();
+                FPSLimiterKnownValues.LimitSixty
+            )
+            {
+                Repeat = true
+            }
+            .Play(Panel_Progress, "Left");
         }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected override void OnCreateControl()
         {
             if (!DesignHelper.RunningInDesigner())
             {
                 // Progress * (Width / 100)
 
+                if (Marquee)
+                {
+                    // Bar has a reason to be displayed.
+                    Panel_Progress.Visible = true;
+
+                    // Set marquee bar width.
+                    Panel_Progress.Width = MarqueeWidth;
+
+                    // Create marquee animator.
+                    StartMarquee();
+                }
             }
 
+            base.OnCreateControl();
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            // Update marquee animator.
+            StartMarquee();
+
+            base.OnResize(e);
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
             base.OnPaint(e);
         }
     }

@@ -579,6 +579,19 @@ namespace Marathon.IO
         }
 
         /// <summary>
+        /// Returns a list of offsets written by the writer.
+        /// </summary>
+        public List<uint> GetOffsets()
+        {
+            List<uint> Offsets = new List<uint>();
+            foreach (var value in _OffsetDictionary)
+            {
+                Offsets.Add(value.Value);
+            }
+            return Offsets;
+        }
+
+        /// <summary>
         /// Adds an offset to the dictionary and overwrites any duplicates.
         /// </summary>
         /// <param name="name">Name of dictionary entry.</param>

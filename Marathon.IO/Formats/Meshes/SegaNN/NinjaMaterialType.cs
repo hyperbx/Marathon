@@ -31,7 +31,11 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
     [Flags]
     public enum NinjaMaterialType
     {
+        // 2 and 3 are educated guesses.
+        // 0 might mean no textures at all?
         NND_MATTYPE_TEXTURE     = 1,
+        NND_MATTYPE_TEXTURE2    = 2,
+        NND_MATTYPE_TEXTURE3    = 3,
         NND_MATTYPE_TEXTURE4    = 4,
         NND_MATTYPE_TEXMATTYPE2 = 16
     }

@@ -25,6 +25,8 @@
  * SOFTWARE.
  */
 
+using System.Collections.Generic;
+
 namespace Marathon.IO.Formats.Meshes.SegaNN
 {
     public class NinjaTexture

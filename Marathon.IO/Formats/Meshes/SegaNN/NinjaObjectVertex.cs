@@ -73,7 +73,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             Description_Format = (NinjaObjectVertexType)reader.ReadUInt32(); // The format of this vertex.
             Description_FVF = (NinjaObjectVertexDirect3DType)reader.ReadUInt32();
 
-            uint VertexDataSize = reader.ReadUInt32(); // How many bytes each bit of data for this vertex takes up.
+            Description_Stride = reader.ReadUInt32(); // How many bytes each bit of data for this vertex takes up.
             uint VertexDataCount = reader.ReadUInt32(); // How many bits of data make up this vertex.
             uint VertexDataOffset = reader.ReadUInt32(); // The offset to this vertex's data.
             uint BoneMatrixCount = reader.ReadUInt32(); // How any nodes makde up this vertex's bone matrix.
@@ -90,7 +90,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                 reader.JumpTo(VertexDataOffset, true);
                 for (int v = 0; v < VertexDataCount; v++)
                 {
-                    long vertexPosition = reader.BaseStream.Position + VertexDataSize;
+                    long vertexPosition = reader.BaseStream.Position + Description_Stride;
                     NinjaObjectVertexXenon _NinjaObjectVertexXB = new NinjaObjectVertexXenon();
 
                     // Position

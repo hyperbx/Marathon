@@ -25,95 +25,23 @@
  * SOFTWARE.
  */
 
+using System.Collections.Generic;
+
 namespace Marathon.IO.Formats.Meshes.SegaNN
 {
     public class NinjaObjectMaterial
     {
         public NinjaMaterialType Type { get; set; }
 
-        /* ---------- NNS_MATERIAL_DESC Values ---------- */
-
         public uint Description_Flag { get; set; }
 
         public uint Description_UserDefined { get; set; }
 
-        /* ---------- NNS_MATERIAL_COLOR Values ---------- */
+        public NinjaObjectMaterialColour Colour { get; set; }
 
-        public Vector4 Colour_Diffuse { get; set; }
+        public NinjaObjectMaterialLogic Logic { get; set; }
 
-        public Vector4 Colour_Ambient { get; set; }
-
-        public Vector4 Colour_Specular { get; set; }
-
-        public Vector4 Colour_Emissive { get; set; }
-
-        public float Colour_Power { get; set; }
-
-        public uint Colour_Reserved_0 { get; set; }
-
-        public uint Colour_Reserved_1 { get; set; }
-
-        public uint Colour_Reserved_2 { get; set; }
-
-        /* ---------- NNS_MATERIAL_LOGIC Values ---------- */
-
-        public bool Logic_BlendEnable { get; set; }
-
-        public uint Logic_SRCBlend { get; set; } // TODO: Figure out what SRC means.
-
-        public uint Logic_DSTBlend { get; set; } // TODO: Figure out what DST means.
-
-        public uint Logic_BlendFactor { get; set; }
-
-        public NinjaMaterialBlendType Logic_BlendOP { get; set; } // TODO: Figure out what the OP part means. Blend Operation?
-
-        public NinjaMaterialLogicType Logic_LogicOP { get; set; } // TODO: Figure out what the OP part means. Logic Operation?
-
-        public bool Logic_AlphaEnable { get; set; }
-
-        public NinjaMaterialAlphaCompareType Logic_AlphaFunction { get; set; }
-
-        public uint Logic_AlphaRef { get; set; } // TODO: Figure out what the Ref part means. Alpha Reflectivity?
-
-        public bool Logic_ZCompEnable { get; set; } // TODO: Figure out what the ZComp part means. Z-Compensation?
-
-        public NinjaMaterialAlphaCompareType Logic_ZFunction { get; set; }
-
-        public bool Logic_ZUpdateEnable { get; set; }
-
-        public uint Logic_Reserved_0 { get; set; }
-
-        public uint Logic_Reserved_1 { get; set; }
-
-        public uint Logic_Reserved_2 { get; set; }
-
-        public uint Logic_Reserved_3 { get; set; }
-
-        /* ---------- NNS_MATERIAL_TEXMAP2_DESC Values ---------- */
-
-        public uint Texture_Type { get; set; }
-
-        public uint Texture_ID { get; set; }
-
-        public Vector2 Texture_Offset { get; set; }
-
-        public float Texture_Blend { get; set; }
-
-        public float Texture_InfoOffset { get; set; }
-
-        public uint Texture_MinFilter { get; set; } // TODO: Find out what the Min part means. All set to NND_MIN_LINEAR_MIPMAP_NEAREST in the XTO.
-
-        public uint Texture_MagFilter { get; set; } // TODO: Find out what the Mag part means. All set to NND_MAG_LINEAR in the XTO.
-
-        public float Texture_MipMapBias { get; set; }
-
-        public uint Texture_MaxMipMapLevel { get; set; }
-
-        public uint Texture_Reserved_0 { get; set; }
-
-        public uint Texture_Reserved_1 { get; set; }
-
-        public uint Texture_Reserved_2 { get; set; }
+        public List<NinjaObjectMaterialTexture> Textures = new List<NinjaObjectMaterialTexture>();
 
         public NinjaObjectMaterial(ExtendedBinaryReader reader)
         {
@@ -138,12 +66,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             {
                 // Jump to this material's colour data.
                 reader.JumpTo(MaterialColourOffset, true);
-
-                Colour_Diffuse  = reader.ReadVector4(); // The diffuse value for this material.
-                Colour_Ambient  = reader.ReadVector4(); // The ambient value for this material.
-                Colour_Specular = reader.ReadVector4(); // The specular value for this material.
-                Colour_Emissive = reader.ReadVector4(); // The diffuse value for this material.
-                Colour_Power    = reader.ReadSingle();  // How much the other values are affected? 
+                Colour = new NinjaObjectMaterialColour(reader);
             }
 
             // NNS_MATERIAL_LOGIC chunk.
@@ -151,19 +74,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             {
                 // Jump to this material's logic data.
                 reader.JumpTo(MaterialLogicOffset, true);
-
-                Logic_BlendEnable   = reader.ReadBoolean32(); // Whether this material can do blending?
-                Logic_SRCBlend      = reader.ReadUInt32();
-                Logic_DSTBlend      = reader.ReadUInt32();
-                Logic_BlendFactor   = reader.ReadUInt32();    // Something to do with how much this material blends by?
-                Logic_BlendOP       = (NinjaMaterialBlendType)reader.ReadUInt32();
-                Logic_LogicOP       = (NinjaMaterialLogicType)reader.ReadUInt32();
-                Logic_AlphaEnable   = reader.ReadBoolean32(); // Whether this material supports alpha tranparency?
-                Logic_AlphaFunction = (NinjaMaterialAlphaCompareType)reader.ReadUInt32();
-                Logic_AlphaRef      = reader.ReadUInt32();    // How reflective the alpha channel is maybe?
-                Logic_ZCompEnable   = reader.ReadBoolean32();
-                Logic_ZFunction     = (NinjaMaterialAlphaCompareType)reader.ReadUInt32();
-                Logic_ZUpdateEnable = reader.ReadBoolean32();
+                Logic = new NinjaObjectMaterialLogic(reader);
             }
 
             // NNS_MATERIAL_TEXMAP2_DESC chunk.
@@ -171,20 +82,142 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             {
                 // Jump to this material's logic data.
                 reader.JumpTo(MaterialTextureDescriptionOffset, true);
-
-                Texture_Type           = reader.ReadUInt32();
-                Texture_ID             = reader.ReadUInt32();  // Which texture in the _NinjaTextureFileList this material should use.
-                Texture_Offset         = reader.ReadVector2();
-                Texture_Blend          = reader.ReadSingle();
-                Texture_InfoOffset     = reader.ReadUInt32();  // This is always null in '06's XNOs.
-                Texture_MinFilter      = reader.ReadUInt32();
-                Texture_MagFilter      = reader.ReadUInt32();
-                Texture_MipMapBias     = reader.ReadSingle();
-                Texture_MaxMipMapLevel = reader.ReadUInt32();  // The highest level mipmap this material is allowed to use?
+                int count = 0;
+                if (Type.HasFlag(NinjaMaterialType.NND_MATTYPE_TEXTURE)) { count = 1; }
+                if (Type.HasFlag(NinjaMaterialType.NND_MATTYPE_TEXTURE2)) { count = 2; }
+                if (Type.HasFlag(NinjaMaterialType.NND_MATTYPE_TEXTURE3)) { count = 3; }
+                if (Type.HasFlag(NinjaMaterialType.NND_MATTYPE_TEXTURE4)) { count = 4; }
+                for (int i = 0; i < count; i++)
+                {
+                    Textures.Add(new NinjaObjectMaterialTexture(reader));
+                }
             }
 
             // Jump back to the saved position to read the next node.
             reader.JumpTo(position);
+        }
+    }
+
+    /* ---------- NNS_MATERIAL_COLOR Values ---------- */
+    public class NinjaObjectMaterialColour
+    {
+        public Vector4 Diffuse { get; set; }
+
+        public Vector4 Ambient { get; set; }
+
+        public Vector4 Specular { get; set; }
+
+        public Vector4 Emissive { get; set; }
+
+        public float Power { get; set; }
+
+        public uint Reserved_0 { get; set; }
+
+        public uint Reserved_1 { get; set; }
+
+        public uint Reserved_2 { get; set; }
+
+        public NinjaObjectMaterialColour(ExtendedBinaryReader reader)
+        {
+            Diffuse  = reader.ReadVector4(); // The diffuse value for this material.
+            Ambient  = reader.ReadVector4(); // The ambient value for this material.
+            Specular = reader.ReadVector4(); // The specular value for this material.
+            Emissive = reader.ReadVector4(); // The diffuse value for this material.
+            Power    = reader.ReadSingle();  // How much the other values are affected?
+        }
+    }
+
+    /* ---------- NNS_MATERIAL_LOGIC Values ---------- */
+    public class NinjaObjectMaterialLogic
+    {
+        public bool BlendEnable { get; set; }
+
+        public uint SRCBlend { get; set; } // TODO: Figure out what SRC means.
+
+        public uint DSTBlend { get; set; } // TODO: Figure out what DST means.
+
+        public uint BlendFactor { get; set; }
+
+        public NinjaMaterialBlendType BlendOP { get; set; } // TODO: Figure out what the OP part means. Blend Operation?
+
+        public NinjaMaterialLogicType LogicOP { get; set; } // TODO: Figure out what the OP part means. Logic Operation?
+
+        public bool AlphaEnable { get; set; }
+
+        public NinjaMaterialAlphaCompareType AlphaFunction { get; set; }
+
+        public uint AlphaRef { get; set; } // TODO: Figure out what the Ref part means. Alpha Reflectivity?
+
+        public bool ZCompEnable { get; set; } // TODO: Figure out what the ZComp part means. Z-Compensation?
+
+        public NinjaMaterialAlphaCompareType ZFunction { get; set; }
+
+        public bool ZUpdateEnable { get; set; }
+
+        public uint Reserved_0 { get; set; }
+
+        public uint Reserved_1 { get; set; }
+
+        public uint Reserved_2 { get; set; }
+
+        public uint Reserved_3 { get; set; }
+
+        public NinjaObjectMaterialLogic(ExtendedBinaryReader reader)
+        {
+            BlendEnable   = reader.ReadBoolean32(); // Whether this material can do blending?
+            SRCBlend      = reader.ReadUInt32();
+            DSTBlend      = reader.ReadUInt32();
+            BlendFactor   = reader.ReadUInt32();    // Something to do with how much this material blends by?
+            BlendOP       = (NinjaMaterialBlendType)reader.ReadUInt32();
+            LogicOP       = (NinjaMaterialLogicType)reader.ReadUInt32();
+            AlphaEnable   = reader.ReadBoolean32(); // Whether this material supports alpha tranparency?
+            AlphaFunction = (NinjaMaterialAlphaCompareType)reader.ReadUInt32();
+            AlphaRef      = reader.ReadUInt32();    // How reflective the alpha channel is maybe?
+            ZCompEnable   = reader.ReadBoolean32();
+            ZFunction     = (NinjaMaterialAlphaCompareType)reader.ReadUInt32();
+            ZUpdateEnable = reader.ReadBoolean32();
+        }
+    }
+
+    /* ---------- NNS_MATERIAL_TEXMAP2_DESC Values ---------- */
+    public class NinjaObjectMaterialTexture
+    {
+        public uint Type { get; set; }
+
+        public uint ID { get; set; }
+
+        public Vector2 Offset { get; set; }
+
+        public float Blend { get; set; }
+
+        public float InfoOffset { get; set; }
+
+        public NinjaTextureFilterType MinFilter { get; set; }
+
+        public NinjaTextureFilterSetting MagFilter { get; set; }
+
+        public float MipMapBias { get; set; }
+
+        public uint MaxMipMapLevel { get; set; }
+
+        public uint Reserved_0 { get; set; }
+
+        public uint Reserved_1 { get; set; }
+
+        public uint Reserved_2 { get; set; }
+
+        public NinjaObjectMaterialTexture(ExtendedBinaryReader reader)
+        {
+            Type           = reader.ReadUInt32();
+            ID             = reader.ReadUInt32();  // Which texture in the _NinjaTextureFileList this material should use.
+            Offset         = reader.ReadVector2();
+            Blend          = reader.ReadSingle();
+            InfoOffset     = reader.ReadUInt32();  // This is always null in '06's XNOs.
+            MinFilter      = (NinjaTextureFilterType)reader.ReadUInt16();  
+            MagFilter      = (NinjaTextureFilterSetting)reader.ReadUInt16();
+            MipMapBias     = reader.ReadSingle();
+            MaxMipMapLevel = reader.ReadUInt32();  // The highest level mipmap this material is allowed to use?
+            reader.FixPadding(0x10);
         }
     }
 }
