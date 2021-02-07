@@ -253,6 +253,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
         {
             // TODO: everything.
             // Main difficulty (to me) will be sizes and offsets (especially the NOF0 chunk), as XNO uses offsets to an EARLIER part of the file quite a lot.
+
             ExtendedBinaryWriter writer = new ExtendedBinaryWriter(fileStream) { Offset = 0x20 };
 
             // NXIF Chunk
@@ -269,9 +270,11 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
             writer.Write(NodeCount);
             writer.Write(0x20);
+
             long NXIFSizePosition = writer.BaseStream.Position;
             writer.Write("SIZE"); // The complete size of all of the "data chunks" in the file combined, including padding. TODO: Figure out how to write this
             writer.AddOffset("NOF0Offset");
+
             long NOF0SizePosition = writer.BaseStream.Position;
             writer.Write("SIZE"); //Size of the NOF0 chunk, including its header and, optionally, the padding at the end of the chunk. TODO: Figure out how to write this
             writer.Write(1);
@@ -309,6 +312,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     writer.FillInOffset($"Texture{i}NameOffset", true, false);
                     writer.WriteNullTerminatedString(Textures[i].Name);
                 }
+
                 writer.FixPadding(0x10);
 
                 // Calculate chunk size.
@@ -375,6 +379,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     writer.FillInOffset($"EffectTechniques{i}NameOffset", true, false);
                     writer.WriteNullTerminatedString(Effects.EffectTechniques[i].Name);
                 }
+
                 writer.FixPadding(0x10);
 
                 // Calculate chunk size.
@@ -413,6 +418,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     writer.FillInOffset($"Node{i}NameOffset", true, false);
                     writer.WriteNullTerminatedString(Nodes.Names[i]);
                 }
+
                 writer.FixPadding(0x10);
 
                 // Calculate chunk size.
@@ -443,17 +449,19 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     writer.Write(node.Transform);
                     writer.Write(node.Rotation);
                     writer.Write(node.Scale);
+
                     foreach (float value in node.InvinitMatrix)
                     {
                         writer.Write(value);
                     }
+
                     writer.Write(node.Center);
                     writer.Write(node.Radius);
                     writer.Write(node.UserDefined);
                     writer.Write(node.BoundingBox);
                 }
 
-                // Material Colours (will write more data than the original XNOs as some are able to reuse Material Colours.)
+                // Material Colours (will write more data than the original XNOs as some are able to reuse Material Colours).
                 for (int i = 0; i < Object.Materials.Count; i++)
                 {
                     writer.Write(Object.Materials[i].Colour.Diffuse);
@@ -464,7 +472,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     writer.FixPadding(0x10);
                 }
 
-                // Material Logic (will write more data than the original XNOs as some are able to reuse Material Logics.)
+                // Material Logic (will write more data than the original XNOs as some are able to reuse Material Logics).
                 for (int i = 0; i < Object.Materials.Count; i++)
                 {
                     writer.WriteBoolean32(Object.Materials[i].Logic.BlendEnable);
@@ -525,6 +533,7 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                     {
                         writer.Write(BoneMatrix);
                     }
+
                     writer.Write((uint)vertexDesc.Description_Format);
                     writer.Write((uint)vertexDesc.Description_FVF);
                     writer.Write(vertexDesc.Description_Stride);
@@ -548,22 +557,17 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
                 // Primitive Lengths and Indices
                 foreach (NinjaPrimitive prim in Object.Primitives)
                 {
-                    writer.Write((ushort)prim.SList_Indices.Count);
+                    writer.Write((ushort)prim.Indices.Count);
                     writer.FixPadding(0x4);
-                    foreach(ushort index in prim.SList_Indices)
+
+                    foreach(ushort index in prim.Indices)
                     {
                         writer.Write(index);
                     }
+
                     writer.FixPadding(0x4);
                 }
-
-
             }
-
-
-
-
-
 
             /*if (Object != null)
             {

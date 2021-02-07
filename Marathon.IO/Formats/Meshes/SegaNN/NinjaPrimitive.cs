@@ -37,11 +37,13 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
 
         public uint Format { get; set; } // TODO: set up primitive member enum class.
 
-        public List<ushort> SList_Indices = new List<ushort>();
+        public List<ushort> Indices = new List<ushort>();
+
+        public List<ushort> Strips = new List<ushort>();
 
         public NinjaPrimitive(ExtendedBinaryReader reader)
         {
-            Type = (NinjaPrimitiveType)reader.ReadUInt32(); // This primitive's type.
+            Type = (NinjaPrimitiveType)reader.ReadUInt32();      // This primitive's type.
             uint PrimitiveStripListOffset = reader.ReadUInt32(); // The offset to this primitive's NNS_PRIMTYPE_DX_STRIPLIST chunk.
 
             long position = reader.BaseStream.Position; // Save position so we can use it to jump back and read the next primitive after we've read all the data for this one.
@@ -50,34 +52,62 @@ namespace Marathon.IO.Formats.Meshes.SegaNN
             // Jump to this primitive's strip list chunk.
             reader.JumpTo(PrimitiveStripListOffset, true);
 
-            Format            = reader.ReadUInt32();
-            uint IndexNumber  = reader.ReadUInt32();
-            uint StripCount   = reader.ReadUInt32();
-            if (StripCount != 1)
-            {
-                System.Console.WriteLine($"StripCount in a Primitive in this XNO was {StripCount} rather than 1!");
-            }
-            uint LengthOffset = reader.ReadUInt32();
-            uint IndexPointer = reader.ReadUInt32();
-            uint IndexBuffer  = reader.ReadUInt32(); // Always 0?
+            Format                 = reader.ReadUInt32();
+            uint IndexNumber       = reader.ReadUInt32();
+            uint StripCount        = reader.ReadUInt32();
+            uint StripLengthOffset = reader.ReadUInt32();
+            uint IndexPointer      = reader.ReadUInt32();
+            uint IndexBuffer       = reader.ReadUInt32(); // Always 0?
 
             // Jump to this primitive's length offset.
-            reader.JumpTo(LengthOffset, true);
+            reader.JumpTo(StripLengthOffset, true);
 
-            ushort Length = reader.ReadUInt16();
+            // Read strip lengths.
+            for (int i = 0; i < StripCount; i++)
+            {
+                Strips.Add(reader.ReadUInt16());
+            }
 
             // Jump to this primitive's index offset.
             reader.JumpTo(IndexPointer, true);
 
-            /* TODO: Figure out if I should be using IndexNumber or Length for this, the XTO always has SLIST_INDEX_NUM and the value in SLIST_LENPTR be the same, but other ones don't.
-                     Loop through based on amount of entries in this primitive's Strip List and save them into the SList_Index in the _NinjaObjectPrimitive. */
-            for (int p = 0; p < IndexNumber; p++)
+            // Read strip indices.
+            for (int i = 0; i < IndexNumber; i++)
             {
-                SList_Indices.Add(reader.ReadUInt16());
+                Indices.Add(reader.ReadUInt16());
             }
 
             // Jump back to the saved position to read the next node.
             reader.JumpTo(position);
+        }
+
+        /// <summary>
+        /// Returns a nested list of triangle strips.
+        /// </summary>
+        public List<List<int>> GetCoupledStrips()
+        {
+            List<List<int>> coupledStrips = new List<List<int>>();
+            int lastIndex = 0;
+
+            // Iterate through strip lengths.
+            foreach (int stripLength in Strips)
+            {
+                List<int> strip = new List<int>();
+
+                // Gather strip indices to create a singular strip.
+                for (int i = 0; i < stripLength; i++)
+                {
+                    strip.Add(Indices[lastIndex]);
+
+                    // Increment last index for relative calculation.
+                    lastIndex++;
+                }
+
+                // Add strip to coupled list.
+                coupledStrips.Add(strip);
+            }
+
+            return coupledStrips;
         }
     }
 }
