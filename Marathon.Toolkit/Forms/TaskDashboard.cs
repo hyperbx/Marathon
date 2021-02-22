@@ -98,7 +98,7 @@ namespace Marathon.Toolkit.Forms
 
                             exploreArchive.Activated += delegate
                             {
-                                new ArchiveExplorer(new U8Archive(File, true, true, ArchiveStreamMode.IndexOnly)).Show(DockParent, InheritanceRibbon);
+                                new ArchiveExplorer(new U8Archive(File, ArchiveStreamMode.IndexOnly)).Show(DockParent, InheritanceRibbon);
 
                                 Close();
                             };

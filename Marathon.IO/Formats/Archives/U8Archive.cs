@@ -36,26 +36,18 @@ using Marathon.IO.Exceptions;
 namespace Marathon.IO.Formats.Archives
 {
     /// <summary>
-    /// <para>File base for the U8 format.</para>
-    /// <para>Used in more than a few games licensed by Nintendo for storing game data.</para>
-    /// <para>Also supported is Sonic Team's modified variant used in SONIC THE HEDGEHOG to support Zlib compression.</para>
+    /// File base for the U8 archive format used for SONIC THE HEDGEHOG specifically.
     /// </summary>
     public class U8Archive : Archive
     {
-        /// <summary>
-        /// Sets the compression level for repacking.
-        /// </summary>
-        public CompressionLevel CompressionLevel { get; set; } = CompressionLevel.Optimal;
+        public U8Archive() { }
 
-        /// <summary>
-        /// Use the Zlib-compressed variant of U8 (used for SONIC THE HEDGEHOG).
-        /// </summary>
-        public static bool Zlib { get; set; } = true;
+        /// <param name="file">Path to the archive.</param>
+        public U8Archive(string file) : base(file) { }
 
-        /// <summary>
-        /// Endianness toggle (big-endian for most use cases; Sonic Heroes PS2 uses little-endian).
-        /// </summary>
-        public static bool BigEndian { get; set; } = true;
+        /// <param name="file">Path to the archive.</param>
+        /// <param name="archiveMode">Determines how the archive is loaded.</param>
+        public U8Archive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
 
         /// <summary>
         /// Determines what type the node is.
@@ -139,11 +131,7 @@ namespace Marathon.IO.Formats.Archives
             /// <summary>
             /// The size of this struct.
             /// </summary>
-            /// 
-            /// <remarks>
-            /// Zlib-compressed U8 has an extra UInt32, hence the extra four bytes.
-            /// </remarks>
-            public static uint SizeOf = (uint)(Zlib ? 16 : 12);
+            public static uint SizeOf = 16;
 
             /// <summary>
             /// This node's data type.
@@ -162,26 +150,26 @@ namespace Marathon.IO.Formats.Archives
                 Flags            = reader.ReadUInt32();
                 Data             = reader.ReadUInt32();
                 Size             = reader.ReadUInt32();
-                UncompressedSize = Zlib ? reader.ReadUInt32() : 0; // This only exists for Zlib-compressed U8.
+                UncompressedSize = reader.ReadUInt32();
             }
         }
 
         public class U8ArchiveFile : ArchiveFile
         {
-            public U8ArchiveFile() { }
-
-            public U8ArchiveFile(ArchiveFile file, bool keepOffset = true) : base(file, keepOffset) { }
-
             public override byte[] Decompress(Stream stream, ArchiveFile file)
             {
+                // File is already uncompressed.
+                if (file.Data != null && file.Data.Length != 0)
+                    return file.Data;
+
                 // Create ExtendedBinaryReader.
-                ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, BigEndian);
+                ExtendedBinaryReader reader = new ExtendedBinaryReader(stream, true);
 
                 // Jump to the file's data.
                 reader.JumpTo(file.Offset);
 
-                // Decompress if compressed.
-                if (Zlib && file.Length != 0)
+                // File is compressed.
+                if (file.Length != 0 && file.UncompressedSize != 0)
                 {
                     // Read the file's Zlib-compressed data.
                     byte[] compressedData = reader.ReadBytes((int)file.Length);
@@ -203,16 +191,12 @@ namespace Marathon.IO.Formats.Archives
                     }
                 }
 
-                // File is not compressed or is Nintendo U8.
-                else if (file.UncompressedSize != 0)
+                // File is not compressed.
+                else
                 {
                     // Read the file's uncompressed data.
-                    return Zlib ? reader.ReadBytes((int)file.UncompressedSize) : reader.ReadBytes((int)file.Length);
+                    return reader.ReadBytes((int)file.Length);
                 }
-
-                // File is already uncompressed.
-                else
-                    return file.Data;
             }
         }
 
@@ -220,24 +204,16 @@ namespace Marathon.IO.Formats.Archives
 
         public const string Extension = ".arc";
 
-        public U8Archive() { }
-
-        public U8Archive(string file, bool zlib = true, bool bigEndian = true, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode)
-        {
-            Zlib = zlib;
-            BigEndian = bigEndian;
-        }
-
         /// <summary>
         /// Reloads the archive with the same properties.
         /// </summary>
         public override Archive Reload()
-            => new U8Archive(Location, Zlib, BigEndian, ArchiveStreamMode);
+            => new U8Archive(Location, ArchiveStreamMode);
 
         public override void Load(Stream stream)
         {
             // Create ExtendedBinaryReader.
-            var reader = new ExtendedBinaryReader(stream, BigEndian);
+            var reader = new ExtendedBinaryReader(stream, true);
 
             // Read archive signature.
             uint signature = reader.ReadUInt32();
@@ -338,7 +314,7 @@ namespace Marathon.IO.Formats.Archives
             // Search for "sort" here for more info: http://wiki.tockdom.com/wiki/U8_(File_Format)
 
             // Create ExtendedBinaryWriter.
-            var writer = new ExtendedBinaryWriter(stream, BigEndian);
+            var writer = new ExtendedBinaryWriter(stream, true);
 
             // Write archive signature.
             writer.Write(Signature);
@@ -359,15 +335,17 @@ namespace Marathon.IO.Formats.Archives
 
                TODO: Figure out what these values are.
                The third uint here seems like it's in little endian?? */
-            if (Zlib)
+            if (CompressionLevel != CompressionLevel.NoCompression)
             {
-                writer.Write(0xE4f91200U);
+                writer.Write(0xE4F91200U);
                 writer.Write(0x00000402U);
                 writer.WriteNulls(8);
             }
             else
             {
-                writer.WriteNulls(16);
+                writer.WriteNulls(8);
+                writer.Write(0xD03D6D01U);
+                writer.Write(0x00006301U);
             }
 
             // Fill in the offset for where the table starts.
@@ -411,7 +389,7 @@ namespace Marathon.IO.Formats.Archives
                 writer.Write(((uint)u8EntryType << 24) | strTableLen);
 
                 // Increase string table length.
-                strTableLen += (uint)Encoding.UTF8.GetByteCount(dataEntry.Name) + 1;
+                strTableLen += string.IsNullOrEmpty(dataEntry.Name) ? 1 : (uint)Encoding.UTF8.GetByteCount(dataEntry.Name) + 1;
 
                 // Write directory entries.
                 if (dataEntry.IsDirectory)
@@ -445,8 +423,7 @@ namespace Marathon.IO.Formats.Archives
                     }
 
                     // TODO: Figure out what this is; it's only present in '06 archives.
-                    if (Zlib)
-                        writer.WriteNulls(4);
+                    writer.WriteNulls(4);
 
                     // Write directory contents recursively.
                     foreach (var childEntry in dirEntry.Data)
@@ -462,8 +439,7 @@ namespace Marathon.IO.Formats.Archives
                        size for later when we write the file's data. */
                     writer.AddOffset($"Data_{globalEntryIndex}");
 
-                    // Write compressed and uncompressed sizes for decompression.
-                    if (Zlib)
+                    if (CompressionLevel != CompressionLevel.NoCompression)
                     {
                         // Write the file's compressed size.
                         writer.AddOffset($"CompressedSize_{globalEntryIndex}");
@@ -471,12 +447,13 @@ namespace Marathon.IO.Formats.Archives
                         // Write the file's uncompressed size.
                         writer.Write(fileEntry.UncompressedSize);
                     }
-
-                    // Nintendo U8 doesn't store compressed size.
                     else
                     {
                         // Write the file's uncompressed size.
-                        writer.Write(fileEntry.Length);
+                        writer.Write(fileEntry.UncompressedSize);
+
+                        // Write zero to prevent decompression checks.
+                        writer.Write(0);
                     }
 
                     // Increase global entry index.
@@ -490,12 +467,20 @@ namespace Marathon.IO.Formats.Archives
             void WriteEntryNames(ArchiveData dataEntry)
             {
                 // Write entry name.
-                writer.WriteNullTerminatedString(dataEntry.Name);
+                if (!string.IsNullOrEmpty(dataEntry.Name))
+                {
+                    writer.WriteNullTerminatedString(dataEntry.Name);
+                }
+                else
+                {
+                    writer.WriteNull();
+                }
 
                 // Recurse through directory entry contents.
                 if (dataEntry.IsDirectory)
                 {
                     var dirEntry = (ArchiveDirectory)dataEntry;
+
                     foreach (var childEntry in dirEntry.Data)
                         WriteEntryNames(childEntry);
                 }
@@ -525,7 +510,7 @@ namespace Marathon.IO.Formats.Archives
                     byte[] data;
 
                     // Compress the file's data.
-                    if (Zlib)
+                    if (CompressionLevel != CompressionLevel.NoCompression)
                     {
                         using (var compressedStream = new MemoryStream())
                         {
@@ -543,7 +528,7 @@ namespace Marathon.IO.Formats.Archives
                         }
                     }
 
-                    // Nintendo U8 doesn't use compression.
+                    // Don't use compression.
                     else
                     {
                         data = fileEntry.Data;
@@ -555,8 +540,8 @@ namespace Marathon.IO.Formats.Archives
                     // Fill-in file data offset and compressed size.
                     writer.FillInOffset($"Data_{globalEntryIndex}");
 
-                    // Nintendo U8 doesn't store compressed size.
-                    if (Zlib)
+                    // Fill in compressed size.
+                    if (CompressionLevel != CompressionLevel.NoCompression)
                         writer.FillInOffset($"CompressedSize_{globalEntryIndex}", (uint)data.Length);
 
                     // Write the file's data.

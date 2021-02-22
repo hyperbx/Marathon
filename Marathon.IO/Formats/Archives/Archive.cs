@@ -28,6 +28,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using Marathon.Helpers;
+using System.IO.Compression;
 
 namespace Marathon.IO.Formats.Archives
 {
@@ -52,16 +53,15 @@ namespace Marathon.IO.Formats.Archives
     /// </summary>
     public class Archive : FileBase
     {
-        public ArchiveStreamMode ArchiveStreamMode { get; set; } = ArchiveStreamMode.CopyToMemory;
-
-        public List<ArchiveData> Data = new List<ArchiveData>();
-
         public Archive() { }
 
-        public Archive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file)
+        public Archive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory)
         {
             // Set archive loading mode.
             ArchiveStreamMode = archiveMode;
+
+            // Load the archive.
+            Load(file);
         }
 
         public Archive(Archive arc, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory)
@@ -72,6 +72,12 @@ namespace Marathon.IO.Formats.Archives
             // Set archive loading mode.
             ArchiveStreamMode = archiveMode;
         }
+
+        public CompressionLevel CompressionLevel { get; set; }
+
+        public ArchiveStreamMode ArchiveStreamMode { get; set; }
+
+        public List<ArchiveData> Data = new List<ArchiveData>();
 
         /// <summary>
         /// Reloads the archive with virtual instructions from an inherited class.
@@ -296,6 +302,9 @@ namespace Marathon.IO.Formats.Archives
             // Add each file from the current directory.
             foreach (string filePath in Directory.GetFiles(directoryPath))
             {
+                // Write file being read to the console.
+                Console.WriteLine($"Reading: {filePath}");
+
                 ArchiveFile file;
 
                 if (ArchiveStreamMode == ArchiveStreamMode.CopyToMemory)

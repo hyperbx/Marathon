@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.IO.Compression;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Archives
@@ -35,6 +36,15 @@ namespace Marathon.IO.Formats.Archives
     /// </summary>
     public class BoomArchive : Archive
     {
+        public BoomArchive() { }
+
+        /// <param name="file">Path to the archive.</param>
+        public BoomArchive(string file) : base(file) { }
+
+        /// <param name="file">Path to the archive.</param>
+        /// <param name="archiveMode">Determines how the archive is loaded.</param>
+        public BoomArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
+
         public struct BoomDataEntry
         {
             /// <summary>
@@ -74,10 +84,6 @@ namespace Marathon.IO.Formats.Archives
 
         public const string Signature = "strm",
                             Extension = ".wiiu.stream";
-
-        public BoomArchive() { }
-
-        public BoomArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
 
         public override void Load(Stream stream)
         {

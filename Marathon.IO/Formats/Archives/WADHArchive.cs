@@ -26,6 +26,7 @@
  */
 
 using System.IO;
+using System.IO.Compression;
 using Marathon.IO.Exceptions;
 
 namespace Marathon.IO.Formats.Archives
@@ -36,6 +37,15 @@ namespace Marathon.IO.Formats.Archives
     /// </summary>
     public class WADHArchive : Archive
     {
+        public WADHArchive() { }
+
+        /// <param name="file">Path to the archive.</param>
+        public WADHArchive(string file) : base(file) { }
+
+        /// <param name="file">Path to the archive.</param>
+        /// <param name="archiveMode">Determines how the archive is loaded.</param>
+        public WADHArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
+
         public struct WADHDataEntry
         {
             /// <summary>
@@ -101,10 +111,6 @@ namespace Marathon.IO.Formats.Archives
 
         public const string Signature = "WADH",
                             Extension = ".wad";
-
-        public WADHArchive() { }
-
-        public WADHArchive(string file, ArchiveStreamMode archiveMode = ArchiveStreamMode.CopyToMemory) : base(file, archiveMode) { }
 
         public override void Load(Stream stream)
         {
