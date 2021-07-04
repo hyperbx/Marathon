@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Marathon.Helpers;
+using Newtonsoft.Json;
 
 namespace Marathon.IO
 {
@@ -134,20 +134,36 @@ namespace Marathon.IO
         public virtual void Save(Stream stream) => throw new NotImplementedException();
 
         /// <summary>
-        /// Prepares file path for JSON serialisation.
-        /// </summary>
-        public virtual void JsonSerialise() => JsonSerialise($"{Location}.json");
-
-        /// <summary>
         /// Serialises object data to the JSON format.
         /// </summary>
         /// <param name="filePath">Path to write JSON.</param>
         public virtual void JsonSerialise(string filePath) => throw new NotImplementedException();
 
         /// <summary>
+        /// Prepares file path for JSON serialisation.
+        /// </summary>
+        public void JsonSerialise(object data) => JsonSerialise($"{Location}.json", data);
+
+        /// <summary>
+        /// Serialises object data to the JSON format at the specified location with the input data.
+        /// </summary>
+        /// <param name="filePath">Path to write JSON.</param>
+        /// <param name="data">Data to serialise.</param>
+        public void JsonSerialise(string filePath, object data)
+            => File.WriteAllText(filePath, JsonConvert.SerializeObject(data, Formatting.Indented));
+
+        /// <summary>
         /// Deserialises object data from the JSON format.
         /// </summary>
         /// <param name="filePath">Path to read JSON.</param>
         public virtual void JsonDeserialise(string filePath) => throw new NotImplementedException();
+
+        /// <summary>
+        /// Deserialises object data from the JSON format.
+        /// </summary>
+        /// <param name="filePath">Path to read JSON.</param>
+        /// <param name="T">Generic type for deserialisation rules.</param>
+        public T JsonDeserialise<T>(string filePath)
+            => JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
     }
 }

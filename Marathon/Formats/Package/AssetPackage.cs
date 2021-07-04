@@ -36,7 +36,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise(file);
+                    JsonDeserialise<List<AssetType>>(file);
                     break;
 
                 default:
@@ -166,16 +166,6 @@ namespace Marathon.Formats.Package
 
             // Write the footer.
             writer.FinishWrite();
-        }
-
-        public override void JsonSerialise(string filePath)
-        {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Types, Formatting.Indented));
-        }
-
-        public override void JsonDeserialise(string filePath)
-        {
-            Types.AddRange(JsonConvert.DeserializeObject<List<AssetType>>(File.ReadAllText(filePath)));
         }
     }
 }

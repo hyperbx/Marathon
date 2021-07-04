@@ -33,7 +33,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise(file);
+                    JsonDeserialise<List<PathObject>>(file);
                     break;
 
                 default:
@@ -104,16 +104,6 @@ namespace Marathon.Formats.Package
             writer.WriteNulls(4);
             writer.FixPadding(0x10);
             writer.FinishWrite();
-        }
-
-        public override void JsonSerialise(string filePath)
-        {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(PathObjects, Formatting.Indented));
-        }
-
-        public override void JsonDeserialise(string filePath)
-        {
-            PathObjects.AddRange(JsonConvert.DeserializeObject<List<PathObject>>(File.ReadAllText(filePath)));
         }
     }
 }

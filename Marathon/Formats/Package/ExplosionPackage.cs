@@ -68,12 +68,12 @@ namespace Marathon.Formats.Package
         public string ParticleName { get; set; }
 
         /// <summary>
-        /// The internal path to the <see cref="SoundBank"/> (*.sbk) used for the explosion.
+        /// The internal path to the <see cref="Audio.SoundBank"/> (*.sbk) used for the explosion.
         /// </summary>
         public string SoundBank { get; set; }
 
         /// <summary>
-        /// The name of the sound in the <see cref="SoundBank"/> to use for the explosion.
+        /// The name of the sound in the <see cref="Audio.SoundBank"/> to use for the explosion.
         /// </summary>
         public string SoundName { get; set; }
 
@@ -98,7 +98,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise(file);
+                    JsonDeserialise<List<Explosion>>(file);
                     break;
 
                 default:
@@ -188,16 +188,6 @@ namespace Marathon.Formats.Package
             // Write the footer.
             writer.WriteNulls(4);
             writer.FinishWrite();
-        }
-
-        public override void JsonSerialise(string filePath)
-        {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Explosions, Formatting.Indented));
-        }
-
-        public override void JsonDeserialise(string filePath)
-        {
-            Explosions.AddRange(JsonConvert.DeserializeObject<List<Explosion>>(File.ReadAllText(filePath)));
         }
     }
 }

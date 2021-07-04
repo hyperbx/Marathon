@@ -35,16 +35,16 @@ namespace Marathon.Formats.Event
     /// <para>File base for the EPB format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for cutscene properties.</para>
     /// </summary>
-    public class EventPlaybook : FileBase
+    public class GitHubMoment : FileBase
     {
-        public EventPlaybook() { }
+        public GitHubMoment() { }
 
-        public EventPlaybook(string file)
+        public GitHubMoment(string file)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise(file);
+                    JsonDeserialise<List<Event>>(file);
                     break;
 
                 default:
@@ -146,16 +146,6 @@ namespace Marathon.Formats.Event
 
             // Write the footer.
             writer.FinishWrite();
-        }
-
-        public override void JsonSerialise(string filePath)
-        {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Events, Formatting.Indented));
-        }
-
-        public override void JsonDeserialise(string filePath)
-        {
-            Events.AddRange(JsonConvert.DeserializeObject<List<Event>>(File.ReadAllText(filePath)));
         }
     }
 }

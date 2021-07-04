@@ -23,7 +23,7 @@ namespace Marathon.Formats.Package
         public string HavokName { get; set; }
 
         /// <summary>
-        /// The internal path to the <see cref="TimeEvent"/> (*.tev) for the object.
+        /// The internal path to the <see cref="Event.TimeEvent"/> (*.tev) for the object.
         /// </summary>
         public string TimeEvent { get; set; }
 
@@ -127,12 +127,12 @@ namespace Marathon.Formats.Package
         public string ParticleName { get; set; }
 
         /// <summary>
-        /// The internal path to the <see cref="SoundBank"/> (*.sbk) used when this object breaks.
+        /// The internal path to the <see cref="Audio.SoundBank"/> (*.sbk) used when this object breaks.
         /// </summary>
         public string SoundBank { get; set; }
 
         /// <summary>
-        /// The name of the sound in the <see cref="SoundBank"/> to use when this object breaks.
+        /// The name of the sound in the <see cref="Audio.SoundBank"/> to use when this object breaks.
         /// </summary>
         public string SoundName { get; set; }
 
@@ -160,7 +160,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise(file);
+                    JsonDeserialise<List<CommonObject>>(file);
                     break;
 
                 default:
@@ -171,7 +171,7 @@ namespace Marathon.Formats.Package
 
         public const string Extension = ".bin";
 
-        public List<CommonObject> Entries = new();
+        public List<CommonObject> Objects = new();
 
         public override void Load(Stream stream)
         {
@@ -241,7 +241,7 @@ namespace Marathon.Formats.Package
                 reader.JumpTo(position);
 
                 // Save object entry into the Entries list.
-                Entries.Add(@object);
+                Objects.Add(@object);
             }
         }
 
@@ -250,49 +250,39 @@ namespace Marathon.Formats.Package
             BINAWriter writer = new(stream);
 
             // Write the objects.
-            for (int i = 0; i < Entries.Count; i++)
+            for (int i = 0; i < Objects.Count; i++)
             {
-                writer.AddString($"object{i}Name", Entries[i].PropName);
-                writer.AddString($"object{i}ModelName", Entries[i].ModelName);
-                writer.AddString($"object{i}HKXName", Entries[i].HavokName);
-                writer.AddString($"object{i}TimeEvent", Entries[i].TimeEvent);
-                writer.AddString($"object{i}MaterialAnimation", Entries[i].MaterialAnimation);
-                writer.AddString($"object{i}LuaScript", Entries[i].LuaScript);
-                writer.Write(Entries[i].UnknownUInt32_1);
-                writer.AddString($"object{i}UnknownString1", Entries[i].UnknownString_1);
-                writer.Write(Entries[i].Collision);
-                writer.Write(Entries[i].UnknownUInt32_2);
-                writer.Write(Entries[i].Rigidity);
-                writer.Write(Entries[i].EnemyDamage);
-                writer.Write(Entries[i].UnknownFloat_1);
-                writer.Write(Entries[i].Potency);
-                writer.Write(Entries[i].UnknownUInt32_3);
-                writer.Write(Entries[i].Health);
-                writer.Write(Entries[i].DebrisLifetimeBase);
-                writer.Write(Entries[i].DebrisLifetimeModifier);
-                writer.Write(Entries[i].UnknownUInt32_4);
-                writer.AddString($"object{i}BreakObject", Entries[i].BreakObject);
-                writer.AddString($"object{i}Explosion", Entries[i].Explosion);
-                writer.AddString($"object{i}ParticleFile", Entries[i].ParticleFile);
-                writer.AddString($"object{i}ParticleName", Entries[i].ParticleName);
-                writer.AddString($"object{i}SceneBank", Entries[i].SoundBank);
-                writer.AddString($"object{i}SoundName", Entries[i].SoundName);
-                writer.Write(Entries[i].PsiBehaviour);
+                writer.AddString($"object{i}Name", Objects[i].PropName);
+                writer.AddString($"object{i}ModelName", Objects[i].ModelName);
+                writer.AddString($"object{i}HKXName", Objects[i].HavokName);
+                writer.AddString($"object{i}TimeEvent", Objects[i].TimeEvent);
+                writer.AddString($"object{i}MaterialAnimation", Objects[i].MaterialAnimation);
+                writer.AddString($"object{i}LuaScript", Objects[i].LuaScript);
+                writer.Write(Objects[i].UnknownUInt32_1);
+                writer.AddString($"object{i}UnknownString1", Objects[i].UnknownString_1);
+                writer.Write(Objects[i].Collision);
+                writer.Write(Objects[i].UnknownUInt32_2);
+                writer.Write(Objects[i].Rigidity);
+                writer.Write(Objects[i].EnemyDamage);
+                writer.Write(Objects[i].UnknownFloat_1);
+                writer.Write(Objects[i].Potency);
+                writer.Write(Objects[i].UnknownUInt32_3);
+                writer.Write(Objects[i].Health);
+                writer.Write(Objects[i].DebrisLifetimeBase);
+                writer.Write(Objects[i].DebrisLifetimeModifier);
+                writer.Write(Objects[i].UnknownUInt32_4);
+                writer.AddString($"object{i}BreakObject", Objects[i].BreakObject);
+                writer.AddString($"object{i}Explosion", Objects[i].Explosion);
+                writer.AddString($"object{i}ParticleFile", Objects[i].ParticleFile);
+                writer.AddString($"object{i}ParticleName", Objects[i].ParticleName);
+                writer.AddString($"object{i}SceneBank", Objects[i].SoundBank);
+                writer.AddString($"object{i}SoundName", Objects[i].SoundName);
+                writer.Write(Objects[i].PsiBehaviour);
             }
 
             // Write the footer.
             writer.WriteNulls(4);
             writer.FinishWrite();
-        }
-
-        public override void JsonSerialise(string filePath)
-        {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Entries, Formatting.Indented));
-        }
-
-        public override void JsonDeserialise(string filePath)
-        {
-            Entries.AddRange(JsonConvert.DeserializeObject<List<CommonObject>>(File.ReadAllText(filePath)));
         }
     }
 }
