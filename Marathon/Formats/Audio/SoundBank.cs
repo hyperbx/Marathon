@@ -107,11 +107,11 @@ namespace Marathon.Formats.Audio
                     long pos = reader.BaseStream.Position;
 
                     reader.JumpTo(streamOffset, true);
-                    reader.JumpAhead(4 * streams);                  // Jump ahead to the right offset for our Cue's XMA.
-                    reader.JumpTo(reader.ReadUInt32(), true);
-                    cue.Stream = reader.ReadNullTerminatedString(); // Read the XMA's name for this Cue.
+                    reader.JumpAhead(4 * streams); // Jump ahead to the right offset for our Cue's XMA.
 
-                    reader.JumpTo(pos);                             // Jump back to where we were.
+                    cue.Stream = reader.ReadNullTerminatedString(false, reader.ReadUInt32(), true); // Read the XMA's name for this Cue.
+
+                    reader.JumpTo(pos); // Jump back to where we were.
 
                     streams++;
                 }

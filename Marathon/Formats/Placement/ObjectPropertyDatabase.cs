@@ -110,7 +110,7 @@ namespace Marathon.Formats.Placement
 
             writer.WriteNulls(12);
 
-            writer.Write(string.Concat(Data.Name.Take(32)).PadRight(32, '\0'));
+            writer.WriteNullPaddedString(string.Concat(Data.Name.Take(32)), 32);
             writer.Write(Data.Objects.Count);
 
             writer.AddOffset("offsetTable");
@@ -139,7 +139,7 @@ namespace Marathon.Formats.Placement
                     writer.FillInOffset($"object{i}ParameterOffset", true);
                     for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                     {
-                        writer.Write(string.Concat(Data.Objects[i].Parameters[p].Name.Take(16)).PadRight(16, '\0'));
+                        writer.WriteNullPaddedString(string.Concat(Data.Objects[i].Parameters[p].Name.Take(16)), 16);
                         writer.Write(Data.Objects[i].Parameters[p].Type);
                         writer.Write(p);
                     }

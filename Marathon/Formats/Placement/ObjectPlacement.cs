@@ -241,7 +241,7 @@ namespace Marathon.Formats.Placement
             writer.WriteNulls(0x0C);
 
             // Write the name, but default to 'test' because Sonic Team.
-            writer.Write(string.Concat(Data.Name == null ? "test".Take(32) : Data.Name.Take(32)).PadRight(32, '\0'));
+            writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(32) : Data.Name.Take(32)), 32);
 
             // Basic Data Table.
             writer.Write(Data.Objects.Count);
