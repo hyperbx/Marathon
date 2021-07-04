@@ -45,9 +45,16 @@ namespace Marathon.Formats.Event
             }
         }
 
-        public string XNM;
+        public class FormatData
+        {
+            public string Animation;
 
-        public List<TimedEvent> Events = new();
+            public List<TimedEvent> Events = new();
+
+            public override string ToString() => Animation;
+        }
+
+        public FormatData Data = new();
 
         public const string Signature = ".TEV",
                             Extension = ".tev";
@@ -63,9 +70,8 @@ namespace Marathon.Formats.Event
 
             long position = reader.BaseStream.Position; // Save position so we can jump back.
 
-            reader.JumpTo(XNMOffset, true);          // Jump to XNMOffset.
-            XNM = reader.ReadNullTerminatedString(); // Read XNM associated with this time event file.
-            reader.JumpTo(position);                 // Return to previous position.
+            Data.Animation = reader.ReadNullTerminatedString(false, XNMOffset, true); // Read XNM associated with this time event file.
+            reader.JumpTo(position);                                                  // Return to previous position.
 
             uint EntryCount       = reader.ReadUInt32();
             uint EventTableOffset = reader.ReadUInt32(); // Offset to the table of entries in this time event file.
@@ -111,7 +117,7 @@ namespace Marathon.Formats.Event
                 reader.JumpTo(position);
 
                 // Save event entry into the Entries list.
-                Events.Add(entry);
+                Data.Events.Add(entry);
             }
         }
 
@@ -121,25 +127,25 @@ namespace Marathon.Formats.Event
 
             writer.WriteSignature(Signature);
             writer.WriteNulls(4);
-            writer.AddString("XNMOffset", XNM);
-            writer.Write(Events.Count);
+            writer.AddString("XNMOffset", Data.Animation);
+            writer.Write(Data.Events.Count);
             writer.AddOffset("EntriesOffset");
 
             // Write the event entries.
             writer.FillInOffset("EntriesOffset", true);
-            for (int i = 0; i < Events.Count; i++)
+            for (int i = 0; i < Data.Events.Count; i++)
             {
                 writer.WriteNulls(4);
-                writer.AddString($"TargetNode{i}", Events[i].TargetNode);
-                writer.AddString($"ParticleBank{i}", Events[i].ParticleBank);
-                writer.AddString($"Particle{i}", Events[i].Particle);
-                writer.Write(Events[i].UnknownSingle_1);
-                writer.Write(Events[i].UnknownSingle_2);
+                writer.AddString($"TargetNode{i}", Data.Events[i].TargetNode);
+                writer.AddString($"ParticleBank{i}", Data.Events[i].ParticleBank);
+                writer.AddString($"Particle{i}", Data.Events[i].Particle);
+                writer.Write(Data.Events[i].UnknownSingle_1);
+                writer.Write(Data.Events[i].UnknownSingle_2);
                 writer.WriteNulls(1);
-                writer.Write(Events[i].UnknownBoolean_1);
+                writer.Write(Data.Events[i].UnknownBoolean_1);
                 writer.WriteNulls(2);
-                writer.Write(Events[i].ParticlePosition);
-                writer.Write(Events[i].UnknownVector3_1);
+                writer.Write(Data.Events[i].ParticlePosition);
+                writer.Write(Data.Events[i].UnknownVector3_1);
             }
 
             // Write the footer.
@@ -148,12 +154,12 @@ namespace Marathon.Formats.Event
 
         public override void JsonSerialise(string filePath)
         {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Events, Formatting.Indented));
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(Data, Formatting.Indented));
         }
 
         public override void JsonDeserialise(string filePath)
         {
-            Events.AddRange(JsonConvert.DeserializeObject<List<TimedEvent>>(File.ReadAllText(filePath)));
+            Data = JsonConvert.DeserializeObject<FormatData>(File.ReadAllText(filePath));
         }
     }
 }

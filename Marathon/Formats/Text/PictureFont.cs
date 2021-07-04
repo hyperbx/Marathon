@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO;
+using Newtonsoft.Json;
 
 namespace Marathon.Formats.Text
 {
@@ -50,8 +50,8 @@ namespace Marathon.Formats.Text
         {
             switch (Path.GetExtension(file))
             {
-                case ".xml":
-                    ImportXML(file);
+                case ".json":
+                    JsonDeserialise(file);
                     break;
 
                 default:
@@ -63,9 +63,16 @@ namespace Marathon.Formats.Text
         public const string Signature = "FNTP",
                             Extension = ".pft";
 
-        public string Texture;
+        public class FormatData
+        {
+            public string Texture;
 
-        public List<Picture> Entries = new List<Picture>();
+            public List<Picture> Entries = new();
+
+            public override string ToString() => Texture;
+        }
+
+        public FormatData Data = new();
 
         public override void Load(Stream stream)
         {
@@ -79,8 +86,7 @@ namespace Marathon.Formats.Text
             reader.JumpTo(reader.ReadUInt32(), true);
             long position = reader.BaseStream.Position;
 
-            reader.JumpTo(texturePos, true);
-            Texture = reader.ReadNullTerminatedString();
+            Data.Texture = reader.ReadNullTerminatedString(false, texturePos, true);
 
             reader.JumpTo(position, false);
             for (uint i = 0; i < placeholderEntries; i++)
@@ -101,81 +107,42 @@ namespace Marathon.Formats.Text
                 fontPicture.Name = reader.ReadNullTerminatedString();
                 reader.JumpTo(position, false);
 
-                Entries.Add(fontPicture);
+                Data.Entries.Add(fontPicture);
             }
         }
 
         public override void Save(Stream stream)
         {
-            BINAHeader header = new();
             BINAWriter writer = new(stream);
 
             writer.WriteSignature(Signature);
 
-            writer.AddString("textureName", Texture);
+            writer.AddString("textureName", Data.Texture);
 
-            writer.Write((uint)Entries.Count);
+            writer.Write((uint)Data.Entries.Count);
             writer.AddOffset("placeholderEntriesPos");
             writer.FillInOffset("placeholderEntriesPos", true);
 
-            for (int i = 0; i < Entries.Count; i++)
+            for (int i = 0; i < Data.Entries.Count; i++)
             {
-                writer.AddString($"placeholderName{i}", Entries[i].Name);
-                writer.Write(Entries[i].X);
-                writer.Write(Entries[i].Y);
-                writer.Write(Entries[i].Width);
-                writer.Write(Entries[i].Height);
+                writer.AddString($"placeholderName{i}", Data.Entries[i].Name);
+                writer.Write(Data.Entries[i].X);
+                writer.Write(Data.Entries[i].Y);
+                writer.Write(Data.Entries[i].Width);
+                writer.Write(Data.Entries[i].Height);
             }
 
             writer.FinishWrite();
         }
 
-        public void ExportXML(string filePath)
+        public override void JsonSerialise(string filePath)
         {
-            XElement rootElem = new("PFT");
-
-            XElement typeElem = new("Texture");
-            typeElem.Add(new XAttribute("File", Texture));
-
-            for (int i = 0; i < Entries.Count; i++)
-            {
-                XElement pictureElem = new("Picture", Entries[i].Name);
-                pictureElem.Add(new XAttribute("X", Entries[i].X));
-                pictureElem.Add(new XAttribute("Y", Entries[i].Y));
-                pictureElem.Add(new XAttribute("Width", Entries[i].Width));
-                pictureElem.Add(new XAttribute("Height", Entries[i].Height));
-
-                typeElem.Add(pictureElem);
-            }
-
-            rootElem.Add(typeElem);
-
-            XDocument xml = new(rootElem);
-            xml.Save(filePath);
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(Data, Formatting.Indented));
         }
 
-        public void ImportXML(string filePath)
+        public override void JsonDeserialise(string filePath)
         {
-            XDocument xml = XDocument.Load(filePath);
-
-            foreach (XElement textureElem in xml.Root.Elements("Texture"))
-            {
-                Texture = textureElem.Attribute("File").Value;
-
-                foreach (XElement pictureElem in textureElem.Elements("Picture"))
-                {
-                    Picture entry = new()
-                    {
-                        Name = pictureElem.Value,
-                        X = ushort.Parse(pictureElem.Attribute("X").Value),
-                        Y = ushort.Parse(pictureElem.Attribute("Y").Value),
-                        Width = ushort.Parse(pictureElem.Attribute("Width").Value),
-                        Height = ushort.Parse(pictureElem.Attribute("Height").Value)
-                    };
-
-                    Entries.Add(entry);
-                }
-            }
+            Data = JsonConvert.DeserializeObject<FormatData>(File.ReadAllText(filePath));
         }
     }
 }
