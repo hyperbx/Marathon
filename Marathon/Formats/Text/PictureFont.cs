@@ -63,9 +63,16 @@ namespace Marathon.Formats.Text
         public const string Signature = "FNTP",
                             Extension = ".pft";
 
-        public string Texture;
+        public class FormatData
+        {
+            public string Texture;
 
-        public List<Picture> Entries = new List<Picture>();
+            public List<Picture> Entries = new();
+
+            public override string ToString() => Texture;
+        }
+
+        public FormatData Data = new();
 
         public override void Load(Stream stream)
         {
@@ -79,8 +86,7 @@ namespace Marathon.Formats.Text
             reader.JumpTo(reader.ReadUInt32(), true);
             long position = reader.BaseStream.Position;
 
-            reader.JumpTo(texturePos, true);
-            Texture = reader.ReadNullTerminatedString();
+            Data.Texture = reader.ReadNullTerminatedString(false, texturePos, true);
 
             reader.JumpTo(position, false);
             for (uint i = 0; i < placeholderEntries; i++)
@@ -101,7 +107,7 @@ namespace Marathon.Formats.Text
                 fontPicture.Name = reader.ReadNullTerminatedString();
                 reader.JumpTo(position, false);
 
-                Entries.Add(fontPicture);
+                Data.Entries.Add(fontPicture);
             }
         }
 
@@ -111,19 +117,19 @@ namespace Marathon.Formats.Text
 
             writer.WriteSignature(Signature);
 
-            writer.AddString("textureName", Texture);
+            writer.AddString("textureName", Data.Texture);
 
-            writer.Write((uint)Entries.Count);
+            writer.Write((uint)Data.Entries.Count);
             writer.AddOffset("placeholderEntriesPos");
             writer.FillInOffset("placeholderEntriesPos", true);
 
-            for (int i = 0; i < Entries.Count; i++)
+            for (int i = 0; i < Data.Entries.Count; i++)
             {
-                writer.AddString($"placeholderName{i}", Entries[i].Name);
-                writer.Write(Entries[i].X);
-                writer.Write(Entries[i].Y);
-                writer.Write(Entries[i].Width);
-                writer.Write(Entries[i].Height);
+                writer.AddString($"placeholderName{i}", Data.Entries[i].Name);
+                writer.Write(Data.Entries[i].X);
+                writer.Write(Data.Entries[i].Y);
+                writer.Write(Data.Entries[i].Width);
+                writer.Write(Data.Entries[i].Height);
             }
 
             writer.FinishWrite();
@@ -131,13 +137,12 @@ namespace Marathon.Formats.Text
 
         public override void JsonSerialise(string filePath)
         {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Entries, Formatting.Indented));
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(Data, Formatting.Indented));
         }
 
         public override void JsonDeserialise(string filePath)
         {
-            // TODO, Find a way to read the Texture File.
-            Entries.AddRange(JsonConvert.DeserializeObject<List<Picture>>(File.ReadAllText(filePath)));
+            Data = JsonConvert.DeserializeObject<FormatData>(File.ReadAllText(filePath));
         }
     }
 }

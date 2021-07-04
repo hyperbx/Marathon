@@ -64,11 +64,11 @@ namespace Marathon.Formats.Event
 
             reader.ReadSignature(4, Signature);
 
-            uint UnknownUInt32_1 = reader.ReadUInt32(); // TODO: Figure out what this controls, as nulling it out broke all in game scenes.
-            uint EventCount = reader.ReadUInt32(); // Number of Events in the Playbook.
+            uint UnknownUInt32_1  = reader.ReadUInt32(); // TODO: Figure out what this controls, as nulling it out broke all in game scenes.
+            uint EventCount       = reader.ReadUInt32(); // Number of Events in the Playbook.
             uint EventTableOffset = reader.ReadUInt32(); // Offset to this table of Events in the Playbook.
 
-            // Jump to the Event Table's Offset for safety's sake, should always be ox30 really.
+            // Jump to the Event Table's Offset for safety's sake, should always be 0x30 really.
             reader.JumpTo(EventTableOffset, true);
 
             // Loop through based on EventCount.

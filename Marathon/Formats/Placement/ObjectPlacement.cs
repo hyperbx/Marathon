@@ -54,9 +54,9 @@ namespace Marathon.Formats.Placement
 
         public ObjectPlacement(string file)
         {
-            switch (StringHelper.GetFullExtension(file))
+            switch (Path.GetExtension(file))
             {
-                case ".objects.json":
+                case ".json":
                     JsonDeserialise(file);
                     break;
 
@@ -66,19 +66,25 @@ namespace Marathon.Formats.Placement
             }
         }
 
-        public string Name;
+        public class FormatData
+        {
+            public string Name { get; set; }
 
-        public List<SetObject> Objects = new();
+            public List<SetObject> Objects = new();
 
-        public List<SetGroup> Groups = new();
+            public List<SetGroup> Groups = new();
+
+            public override string ToString() => Name;
+        }
+
+        public FormatData Data = new();
 
         public override void Load(Stream fileStream)
         {
-            // Header.
-            BINAReader reader = new BINAReader(fileStream);
+            BINAReader reader = new(fileStream);
 
             reader.JumpAhead(0x0C); // Always 0. Padding?
-            Name = new string(reader.ReadChars(32)).Replace("\0", ""); // Usually test, but not always.
+            Data.Name = new string(reader.ReadChars(32)).Replace("\0", ""); // Usually test, but not always.
 
             // Basic Data Table.
             uint objectCount       = reader.ReadUInt32();
@@ -111,16 +117,10 @@ namespace Marathon.Formats.Placement
 
                 // Read this object's name and type.
                 if (objectNameOffset != 0)
-                {
-                    reader.JumpTo(objectNameOffset, true);
-                    setObject.Name = reader.ReadNullTerminatedString();
-                }
+                    setObject.Name = reader.ReadNullTerminatedString(false, objectNameOffset, true);
 
                 if (objectTypeOffset != 0)
-                {
-                    reader.JumpTo(objectTypeOffset, true);
-                    setObject.Type = reader.ReadNullTerminatedString();
-                }
+                    setObject.Type = reader.ReadNullTerminatedString(false, objectTypeOffset, true);
 
                 // Parameters.
                 if (parameterCount != 0)
@@ -129,7 +129,7 @@ namespace Marathon.Formats.Placement
                     for (int p = 0; p < parameterCount; p++)
                     {
                         // Initialise new SetParameter.
-                        SetParameter setParameter = new SetParameter();
+                        SetParameter setParameter = new();
 
                         uint parameterType = reader.ReadUInt32(); // This parameter's data type.
                         switch (parameterType)
@@ -197,7 +197,7 @@ namespace Marathon.Formats.Placement
                 }
 
                 // Add this object to the list of objects then jump back to the previously saved position.
-                Objects.Add(setObject);
+                Data.Objects.Add(setObject);
                 reader.JumpTo(position);
             }
 
@@ -206,7 +206,7 @@ namespace Marathon.Formats.Placement
             for (int i = 0; i < groupCount; i++)
             {
                 // Initialise new SetGroup.
-                SetGroup setGroup = new SetGroup();
+                SetGroup setGroup = new();
 
                 // Store offsets for this group and the amount of objects within it.
                 uint groupNameOffset       = reader.ReadUInt32();
@@ -218,80 +218,74 @@ namespace Marathon.Formats.Placement
 
                 // Read this group's name and type.
                 if (groupNameOffset != 0)
-                {
-                    reader.JumpTo(groupNameOffset, true);
-                    setGroup.Name = reader.ReadNullTerminatedString();
-                }
+                    setGroup.Name = reader.ReadNullTerminatedString(false, groupNameOffset, true);
+
                 if (groupFunctionOffset != 0)
-                {
-                    reader.JumpTo(groupFunctionOffset, true);
-                    setGroup.Function = reader.ReadNullTerminatedString();
-                }
+                    setGroup.Function = reader.ReadNullTerminatedString(false, groupFunctionOffset, true);
 
                 // Read this group's object list
                 reader.JumpTo(groupObjectListOffset, true);
                 for (int o = 0; o < groupObjectCount; o++)
-                {
                     setGroup.Objects.Add(reader.ReadUInt64());
-                }
 
                 // Add this group to the list of groups then jump back to the previously saved position.
-                Groups.Add(setGroup);
+                Data.Groups.Add(setGroup);
                 reader.JumpTo(position);
             }
         }
 
         public override void Save(Stream fileStream)
         {
-            // Header.
-            BINAWriter writer = new BINAWriter(fileStream);
+            BINAWriter writer = new(fileStream);
 
             writer.WriteNulls(0x0C);
 
             // Write the name, but default to 'test' because Sonic Team.
-            writer.Write(string.Concat(Name == null ? "test".Take(32) : Name.Take(32)).PadRight(32, '\0'));
+            writer.Write(string.Concat(Data.Name == null ? "test".Take(32) : Data.Name.Take(32)).PadRight(32, '\0'));
 
             // Basic Data Table.
-            writer.Write(Objects.Count);
+            writer.Write(Data.Objects.Count);
             writer.AddOffset("objectTableOffset");
-            writer.Write(Groups.Count);
+            writer.Write(Data.Groups.Count);
             writer.AddOffset("groupTableOffset");
 
             // Objects.
             writer.FillInOffset("objectTableOffset", true);
-            for (int i = 0; i < Objects.Count; i++)
+            for (int i = 0; i < Data.Objects.Count; i++)
             {
-                writer.AddString($"object{i}Name", Objects[i].Name);
-                writer.AddString($"object{i}Type", Objects[i].Type);
+                writer.AddString($"object{i}Name", Data.Objects[i].Name);
+                writer.AddString($"object{i}Type", Data.Objects[i].Type);
 
                 writer.Write((byte)0x40);
                 writer.WriteNulls(0x02);
-                writer.Write(Objects[i].StartInactive);
+                writer.Write(Data.Objects[i].StartInactive);
                 writer.WriteNulls(0x0C);
 
-                writer.Write(Objects[i].Position);
-                writer.Write(Objects[i].DrawDistance);
-                writer.Write(Objects[i].Rotation);
+                writer.Write(Data.Objects[i].Position);
+                writer.Write(Data.Objects[i].DrawDistance);
+                writer.Write(Data.Objects[i].Rotation);
 
-                writer.Write(Objects[i].Parameters.Count);
+                writer.Write(Data.Objects[i].Parameters.Count);
                 writer.AddOffset($"object{i}Offsets");
             }
 
             // Object Parameters.
-            for (int i = 0; i < Objects.Count; i++)
+            for (int i = 0; i < Data.Objects.Count; i++)
             {
                 // Skip this loop if this object has no parameters.
-                if (Objects[i].Parameters.Count == 0) { continue; }
+                if (Data.Objects[i].Parameters.Count == 0)
+                    continue;
+
                 writer.FillInOffset($"object{i}Offsets", true);
 
-                for (int p = 0; p < Objects[i].Parameters.Count; p++)
+                for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                 {
-                    switch(Objects[i].Parameters[p].DataType.ToString())
+                    switch(Data.Objects[i].Parameters[p].DataType.ToString())
                     {
                         case "System.Boolean":
                         {
                             writer.Write(0u);
-                            writer.WriteBoolean32((bool)Objects[i].Parameters[p].Data);
+                            writer.WriteBoolean32((bool)Data.Objects[i].Parameters[p].Data);
                             writer.WriteNulls(0x0C);
                             break;
                         }
@@ -299,7 +293,7 @@ namespace Marathon.Formats.Placement
                         case "System.Int32":
                         {
                             writer.Write(1u);
-                            writer.Write(Convert.ToInt32(Objects[i].Parameters[p].Data));
+                            writer.Write(Convert.ToInt32(Data.Objects[i].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
                         }
@@ -307,7 +301,7 @@ namespace Marathon.Formats.Placement
                         case "System.Single":
                         {
                             writer.Write(2u);
-                            writer.Write(Convert.ToSingle(Objects[i].Parameters[p].Data));
+                            writer.Write(Convert.ToSingle(Data.Objects[i].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
                         }
@@ -317,25 +311,25 @@ namespace Marathon.Formats.Placement
                             writer.Write(3u);
                                                                 
                             // If the parameter's string is empty, add an offset to a Dud Entry because SETs work that way. Because Sonic Team.
-                            if (Objects[i].Parameters[p].Data.ToString() == "")
+                            if (Data.Objects[i].Parameters[p].Data.ToString() == "")
                             {
                                 writer.AddOffset($"object{i}Parameter{p}DudString");
                             }
                             else
                             {
-                                writer.AddString($"object{i}Parameter{p}String", Objects[i].Parameters[p].Data.ToString());
+                                writer.AddString($"object{i}Parameter{p}String", Data.Objects[i].Parameters[p].Data.ToString());
                             }
 
                             writer.Write(1u);
                             writer.Write(0u);
-                            writer.Write(Objects[i].Parameters[p].Data.ToString().Length + 1);
+                            writer.Write(Data.Objects[i].Parameters[p].Data.ToString().Length + 1);
                             break;
                         }
 
                         case "System.Numerics.Vector3":
                         {
                             writer.Write(4u);
-                            writer.Write(VectorHelper.ParseVector3(Objects[i].Parameters[p].Data));
+                            writer.Write(VectorHelper.ParseVector3(Data.Objects[i].Parameters[p].Data));
                             writer.WriteNulls(0x04);
                             break;
                         }
@@ -343,61 +337,61 @@ namespace Marathon.Formats.Placement
                         case "System.UInt32":
                         {
                             writer.Write(6u);
-                            writer.Write(Convert.ToUInt32(Objects[i].Parameters[p].Data));
+                            writer.Write(Convert.ToUInt32(Data.Objects[i].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
                         }
 
                         default:
-                            throw new Exception($"Got invalid data type {Objects[i].Parameters[p].DataType.ToString()} in Object Parameter at position {writer.BaseStream.Position}...");
+                            throw new Exception($"Got invalid data type {Data.Objects[i].Parameters[p].DataType.ToString()} in Object Parameter at position {writer.BaseStream.Position}...");
                     }
                 }
             }
 
             // Groups
-            if (Groups.Count != 0)
+            if (Data.Groups.Count != 0)
             {
                 writer.FillInOffset("groupTableOffset", true);
-                for (int i = 0; i < Groups.Count; i++)
+                for (int i = 0; i < Data.Groups.Count; i++)
                 {
-                    writer.AddString($"group{i}Name", Groups[i].Name);
+                    writer.AddString($"group{i}Name", Data.Groups[i].Name);
 
                     // If the group doesn't have a function, add an offset to a Dud Entry because SETs work that way. Because Sonic Team.
-                    if (Groups[i].Function == "")
+                    if (Data.Groups[i].Function == "")
                     {
                         writer.AddOffset($"group{i}DudFunction");
                     }
                     else
                     {
-                        writer.AddString($"group{i}Function", Groups[i].Function);
+                        writer.AddString($"group{i}Function", Data.Groups[i].Function);
                     }
 
-                    writer.Write(Groups[i].Objects.Count);
+                    writer.Write(Data.Groups[i].Objects.Count);
                     writer.AddOffset($"group{i}ObjectList");
                 }
 
-                for (int i = 0; i < Groups.Count; i++)
+                for (int i = 0; i < Data.Groups.Count; i++)
                 {
                     // Skip this loop if this group has no objects associated with it (because that can happen apparently?)
-                    if (Groups[i].Objects.Count == 0)
+                    if (Data.Groups[i].Objects.Count == 0)
                         continue;
 
                     writer.FillInOffset($"group{i}ObjectList", true);
 
-                    foreach (ulong ObjectID in Groups[i].Objects)
+                    foreach (ulong ObjectID in Data.Groups[i].Objects)
                         writer.Write(ObjectID);
                 }
             }
 
             // Dud Strings.
             // Objects.
-            for (int i = 0; i < Objects.Count; i++)
+            for (int i = 0; i < Data.Objects.Count; i++)
             {
-                for (int p = 0; p < Objects[i].Parameters.Count; p++)
+                for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                 {
-                    if (Objects[i].Parameters[p].DataType.ToString() == "System.String")
+                    if (Data.Objects[i].Parameters[p].DataType.ToString() == "System.String")
                     {
-                        if (Objects[i].Parameters[p].Data.ToString() == "")
+                        if (Data.Objects[i].Parameters[p].Data.ToString() == "")
                         {
                             writer.FillInOffset($"object{i}Parameter{p}DudString", true);
                             writer.WriteNulls(0x4);
@@ -407,9 +401,9 @@ namespace Marathon.Formats.Placement
             }
 
             // Groups.
-            for (int i = 0; i < Groups.Count; i++)
+            for (int i = 0; i < Data.Groups.Count; i++)
             {
-                if (Groups[i].Function == "")
+                if (Data.Groups[i].Function == "")
                 {
                     writer.FillInOffset($"group{i}DudFunction", true);
                     writer.WriteNulls(0x4);
@@ -421,18 +415,12 @@ namespace Marathon.Formats.Placement
 
         public override void JsonSerialise(string filePath)
         {
-            File.WriteAllText(StringHelper.ReplaceFilename(filePath, StringHelper.AppendToFileName(filePath, ".objects")), JsonConvert.SerializeObject(Objects, Formatting.Indented));
-            File.WriteAllText(StringHelper.ReplaceFilename(filePath, StringHelper.AppendToFileName(filePath, ".groups")), JsonConvert.SerializeObject(Groups, Formatting.Indented));
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(Data, Formatting.Indented));
         }
 
         public override void JsonDeserialise(string filePath)
         {
-            string groups = $"{StringHelper.RemoveFullExtension(filePath)}.groups.json";
-
-            Objects.AddRange(JsonConvert.DeserializeObject<List<SetObject>>(File.ReadAllText(filePath)));
-
-            if (File.Exists(groups))
-                Groups.AddRange(JsonConvert.DeserializeObject<List<SetGroup>>(File.ReadAllText(groups)));
+            Data = JsonConvert.DeserializeObject<FormatData>(File.ReadAllText(filePath));
         }
     }
 }

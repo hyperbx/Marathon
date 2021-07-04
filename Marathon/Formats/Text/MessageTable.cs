@@ -6,6 +6,26 @@ using Newtonsoft.Json;
 
 namespace Marathon.Formats.Text
 {
+    public class Message
+    {
+        /// <summary>
+        /// Name of this message.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Text of this message.
+        /// </summary>
+        public string Text { get; set; }
+
+        /// <summary>
+        /// Placeholder Data (such as voice lines and button icons) for this message.
+        /// </summary>
+        public string Placeholder { get; set; }
+
+        public override string ToString() => Name;
+    }
+
     /// <summary>
     /// <para>File base for the MST format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://en.wikipedia.org/wiki/UTF-16">UTF-16</a> text with friendly names and placeholder data.</para>
@@ -28,32 +48,17 @@ namespace Marathon.Formats.Text
             }
         }
 
-        public class Message
-        {
-            /// <summary>
-            /// Name of this message.
-            /// </summary>
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Text of this message.
-            /// </summary>
-            public string Text { get; set; }
-
-            /// <summary>
-            /// Placeholder Data (such as voice lines and button icons) for this message.
-            /// </summary>
-            public string Placeholder { get; set; }
-
-            public override string ToString() => Name;
-
-        }
-
         public const string Signature = "WTXT",
                             Extension = ".mst";
 
-        public string Name;
-        public List<Message> Messages = new();
+        public class FormatData
+        {
+            public string Name { get; set; }
+
+            public List<Message> Messages = new();
+        }
+
+        public FormatData Data = new();
 
         public override void Load(Stream fileStream)
         {
@@ -68,7 +73,7 @@ namespace Marathon.Formats.Text
             // Get name of MST.
             long namePos = reader.BaseStream.Position;
             reader.JumpTo(stringTableOffset, true);
-            Name = reader.ReadNullTerminatedString();
+            Data.Name = reader.ReadNullTerminatedString();
             reader.JumpTo(namePos);
 
             for (int i = 0; i < stringCount; i++)
@@ -92,7 +97,7 @@ namespace Marathon.Formats.Text
                     message.Placeholder = reader.ReadNullTerminatedString(false, placeholderOffset, true);
 
                 // Save text entry into the Entries list.
-                Messages.Add(message);
+                Data.Messages.Add(message);
 
                 // Return to the previously stored position.
                 reader.JumpTo(pos);
@@ -104,25 +109,26 @@ namespace Marathon.Formats.Text
             BINAWriter writer = new(fileStream);
 
             writer.WriteSignature(Signature);
-            writer.AddString("Name", Name);
-            writer.Write(Messages.Count);
+            writer.AddString("Name", Data.Name);
+            writer.Write(Data.Messages.Count);
 
             // Write offsets and string table names for each entry in this file.
-            for (int i = 0; i < Messages.Count; i++)
+            for (int i = 0; i < Data.Messages.Count; i++)
             {
-                writer.AddString($"nameOffset{i}", $"{Messages[i].Name}");
+                writer.AddString($"nameOffset{i}", $"{Data.Messages[i].Name}");
                 writer.AddOffset($"textOffset{i}");
-                if (Messages[i].Placeholder != null)
-                    writer.AddString($"placeholderOffset{i}", $"{Messages[i].Placeholder}");
+
+                if (Data.Messages[i].Placeholder != null)
+                    writer.AddString($"placeholderOffset{i}", $"{Data.Messages[i].Placeholder}");
                 else
                     writer.WriteNulls(4);
             }
 
             // Fill text offsets in with the approriate entry's text value.
-            for (int i = 0; i < Messages.Count; i++)
+            for (int i = 0; i < Data.Messages.Count; i++)
             {
                 writer.FillInOffset($"textOffset{i}", true);
-                writer.WriteNullTerminatedStringUTF16(Messages[i].Text);
+                writer.WriteNullTerminatedStringUTF16(Data.Messages[i].Text);
             }
 
             // Write the footer.
@@ -131,13 +137,12 @@ namespace Marathon.Formats.Text
 
         public override void JsonSerialise(string filePath)
         {
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(Messages, Formatting.Indented));
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(Data, Formatting.Indented));
         }
 
         public override void JsonDeserialise(string filePath)
         {
-            Messages.AddRange(JsonConvert.DeserializeObject<List<Message>>(File.ReadAllText(filePath)));
-            Name = Path.GetFileName(filePath).Remove(Path.GetFileName(filePath).IndexOf('.'));
+            Data = JsonConvert.DeserializeObject<FormatData>(File.ReadAllText(filePath));
         }
     }
 }
