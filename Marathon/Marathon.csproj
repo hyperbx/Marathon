@@ -13,10 +13,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Formats\Text\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
