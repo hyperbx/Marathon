@@ -35,11 +35,11 @@ namespace Marathon.Formats.Event
     /// <para>File base for the EPB format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for cutscene properties.</para>
     /// </summary>
-    public class GitHubMoment : FileBase
+    public class EventPlaybook : FileBase
     {
-        public GitHubMoment() { }
+        public EventPlaybook() { }
 
-        public GitHubMoment(string file)
+        public EventPlaybook(string file)
         {
             switch (Path.GetExtension(file))
             {
