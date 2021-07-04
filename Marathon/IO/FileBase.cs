@@ -159,7 +159,7 @@ namespace Marathon.IO
         public virtual void JsonDeserialise(string filePath) => throw new NotImplementedException();
 
         /// <summary>
-        /// Deserialises object data from the JSON format.
+        /// Deserialises object data from the JSON format at the specified location and returns it.
         /// </summary>
         /// <param name="filePath">Path to read JSON.</param>
         /// <param name="T">Generic type for deserialisation rules.</param>
