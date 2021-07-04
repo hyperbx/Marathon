@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6F18D9C8-7F6F-4F60-A997-0C1C4CC997B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Marathon.Components</RootNamespace>
+    <AssemblyName>Marathon.Components</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Krypton.Ribbon, Version=5.500.2006.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Krypton.Ribbon.dll</HintPath>
+    </Reference>
+    <Reference Include="Krypton.Toolkit, Version=5.500.2006.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Krypton.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dark\CheckBoxDark.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dark\CheckBoxDark.Designer.cs">
+      <DependentUpon>CheckBoxDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ComboBoxDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ComboBoxDark.Designer.cs">
+      <DependentUpon>ComboBoxDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ContextMenuStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ContextMenuStripDark.Designer.cs">
+      <DependentUpon>ContextMenuStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\LabelDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\LabelDark.Designer.cs">
+      <DependentUpon>LabelDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ListViewDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ListViewDark.Designer.cs">
+      <DependentUpon>ListViewDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\MenuStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\MenuStripDark.Designer.cs">
+      <DependentUpon>MenuStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ObjectListViewDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ObjectListViewDark.Designer.cs">
+      <DependentUpon>ObjectListViewDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\RadioButtonDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\RadioButtonDark.Designer.cs">
+      <DependentUpon>RadioButtonDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\StatusStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\StatusStripDark.Designer.cs">
+      <DependentUpon>StatusStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\TextBoxDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\TextBoxDark.Designer.cs">
+      <DependentUpon>TextBoxDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ToolStripDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ToolStripDark.Designer.cs">
+      <DependentUpon>ToolStripDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dark\ToolTipDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ToolTipDark.Designer.cs">
+      <DependentUpon>ToolTipDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Design\GroupContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Design\GroupContainer.Designer.cs">
+      <DependentUpon>GroupContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Design\Line.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Design\Line.Designer.cs">
+      <DependentUpon>Line.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\MarathonMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\MarathonMessageBox.designer.cs">
+      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OpenFolderDialog.cs" />
+    <Compile Include="Dialogs\ShellProvider.cs" />
+    <Compile Include="Dark\ButtonDark.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dark\ButtonDark.Designer.cs">
+      <DependentUpon>ButtonDark.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Flat\TabControlFlat.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Flat\TabControlFlat.Designer.cs">
+      <DependentUpon>TabControlFlat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DynamicSizeControlDesigner.cs" />
+    <Compile Include="Helpers\GaussianBlur.cs" />
+    <Compile Include="Helpers\GraphicsHelper.cs" />
+    <Compile Include="Helpers\ListViewHelper.cs" />
+    <Compile Include="Helpers\RibbonHelper.cs" />
+    <Compile Include="Helpers\RichTextBoxExtensions.cs" />
+    <Compile Include="IO\TalkWindow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="IO\TalkWindow.Designer.cs">
+      <DependentUpon>TalkWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonDockContent.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonDockContent.Designer.cs">
+      <DependentUpon>MarathonDockContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonListView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonListView.designer.cs">
+      <DependentUpon>MarathonListView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonProgressBar.Designer.cs">
+      <DependentUpon>MarathonProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonRichTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonRichTextBox.Designer.cs">
+      <DependentUpon>MarathonRichTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonCommandLink.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Miscellaneous\MarathonCommandLink.Designer.cs">
+      <DependentUpon>MarathonCommandLink.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionsFieldBooleanType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\OptionsFieldBooleanType.Designer.cs">
+      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionsFieldStringType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\OptionsFieldStringType.Designer.cs">
+      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Renderers\DarkProfessionalColourTable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dark\CheckBoxDark.resx">
+      <DependentUpon>CheckBoxDark.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Design\GroupContainer.resx">
+      <DependentUpon>GroupContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Design\Line.resx">
+      <DependentUpon>Line.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\MarathonMessageBox.resx">
+      <DependentUpon>MarathonMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Flat\TabControlFlat.resx">
+      <DependentUpon>TabControlFlat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IO\TalkWindow.resx">
+      <DependentUpon>TalkWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Miscellaneous\MarathonDockContent.resx">
+      <DependentUpon>MarathonDockContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Miscellaneous\MarathonCommandLink.resx">
+      <DependentUpon>MarathonCommandLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Miscellaneous\MarathonListView.resx">
+      <DependentUpon>MarathonListView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Miscellaneous\MarathonProgressBar.resx">
+      <DependentUpon>MarathonProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options\OptionsFieldBooleanType.resx">
+      <DependentUpon>OptionsFieldBooleanType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options\OptionsFieldStringType.resx">
+      <DependentUpon>OptionsFieldStringType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libraries\Krypton.Ribbon.dll" />
+    <Content Include="Libraries\Krypton.Toolkit.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DockPanelSuite.ThemeVS2015">
+      <Version>3.0.6</Version>
+    </PackageReference>
+    <PackageReference Include="ObjectListView.Official">
+      <Version>2.9.2-alpha2</Version>
+    </PackageReference>
+    <PackageReference Include="Ookii.Dialogs.WinForms">
+      <Version>1.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="WinFormAnimation">
+      <Version>1.6.0.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Marathon.Helpers\Marathon.Helpers.csproj">
+      <Project>{a5593070-f17e-4d3e-a57d-77c72be8a993}</Project>
+      <Name>Marathon.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marathon.IO\Marathon.IO.csproj">
+      <Project>{fb1b456c-2567-4dee-9ecd-6a68d28f8194}</Project>
+      <Name>Marathon.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Marathon.Resources\Marathon.Resources.csproj">
+      <Project>{c736af24-67e5-4e80-83b0-c6a8a93602e5}</Project>
+      <Name>Marathon.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --bitmap-cache $(ProjectDir)
+"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --update-resources "$(SolutionDir)Marathon.Resources" $(ProjectDir)</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)Marathon.Build\bin\$(ConfigurationName)\Marathon.Build.exe" --bitmap-cache /dotNet $(ProjectDir)</PostBuildEvent>
+  </PropertyGroup>
+</Project>

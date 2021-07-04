@@ -1,0 +1,39 @@
+<html>
+  <head>
+	<title>Asset Package</title>
+	
+	<style>
+		body { background-color: #1E1E1E }
+		
+		html *
+		{
+		   color: #FFFFFF;
+		   font-family: Verdana !important;
+		}
+	</style>
+  </head>
+  
+  <h3>Asset Package</h3>
+  
+  <p>The Asset Package (PKG) format for Sonic '06 defines the friendly names and locations for specific data in the filesystem.</p>
+  
+  <p>After reading the BINA header, we end up at the first four important chunks of bytes.</p>
+  
+  <p style="padding-left: 40px;"><span style="color: red;">00 00 00 00</span> <span style="color: #1569C7;">00 00 00 00</span> <span style="color: #00ff00;">00 00 00 00</span> <span style="color: #E238EC;">00 00 00 00</span></p>
+  <ul>
+	<li><span style="color: red;">This UInt32 is the amount of file entries present in the file.</span><br/>
+	<li><span style="color: #1569C7;">This UInt32 is a pointer (plus 0x20) to the start of the file entries.</span><br/>
+	<li><span style="color: #00ff00;">This UInt32 is the amount of type entries present in the file.</span><br/>
+	<li><span style="color: #E238EC;">This UInt32 is a pointer (plus 0x20) to the start of the type entries.</span>
+  </ul>
+  
+  <p>After receiving this data, we can now start reading the offset table.</p>
+  
+  <p style="padding-left: 40px;"><span style="color: red;">00 00 00 00</span> <span style="color: #1569C7;">00 00 00 00</span> <span style="color: #00ff00;">00 00 00 00</span> 00 00 00 00</p>
+  <ul>
+	<li><span style="color: red;">This UInt32 is a pointer (plus 0x20) to the name of this entry.</span><br/>
+	<li><span style="color: #1569C7;">This UInt32 is the amount of file entries present in this type.</span><br/>
+    <li><span style="color: #00ff00;">This UInt32 is a pointer (plus 0x20) to the start of the file entries for this type.</span><br/>
+	<li>Next entry in the offset table.</span>
+  </ul>
+</html>

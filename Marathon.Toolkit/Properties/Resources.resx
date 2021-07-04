@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="About_License" xml:space="preserve">
+    <value>Sonic the Hedgehog and binary formats respective to SONIC THE HEDGEHOG (2006) are property of SEGA Corporation.
+
+Marathon and its contributors are not affiliated with SEGA Corporation and/or SEGA CS R&amp;D No. 2.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Contributors" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\contributors.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Feedback_Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\feedback_error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\feedback_information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\feedback_question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Feedback_Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\feedback_warning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FileConverter_FileDrop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\fileconverter_filedrop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FileTypes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\filetypes.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="Format_File" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\formats\format_file.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Format_File_Pending" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\formats\format_file_pending.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Format_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\formats\format_folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Manager_Full_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\manager_full_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Manager_Small_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\manager_small_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Back_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\disabled\marathonexplorer_back_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Back_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\marathonexplorer_back_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Clipboard_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\marathonexplorer_clipboard_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_DirectoryTree_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\marathonexplorer_directorytree_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Forward_Disabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\disabled\marathonexplorer_forward_disabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Forward_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\marathonexplorer_forward_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MarathonExplorer_Up_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\marathonexplorer_up_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Placeholder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\placeholder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TabControlFlat_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\tabcontrolflat_close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\task_checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_CopyPath" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_copypath.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Cut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_cut.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Delete" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_DetailsPane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_detailspane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_folder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_InvertSelection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_invertselection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_NewItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_newitem.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_PreviewPane" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_previewpane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_SelectAll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_selectall.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_SelectNone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_selectnone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Ribbon_Undo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\ribbon\task_ribbon_undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_AddFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_addfile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Archive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_archive.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_ClearWindowContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\Images\Tasks\Strip\Task_Strip_ClearWindowContent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_exit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Feature" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_feature.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_home.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Information" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_information.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Invalid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_invalid.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_New" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_new.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_newfile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFileCollection" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_newfilecollection.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_NewFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_newfolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenDialog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_opendialog.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_openfile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_OpenFolder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_openfolder.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Output" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_output.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Paste" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_paste.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_RemoveFile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_removefile.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Rename" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_rename.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_save.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\tasks\strip\task_strip_settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Task_Strip_WordWrap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\Images\Tasks\Strip\Task_Strip_WordWrap.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TextEditor_TalkWindow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\miscellaneous\texteditor_talkwindow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolkit_Corner_Transparent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\toolkit_corner_transparent.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolkit_Full_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\toolkit_full_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolkit_Medium_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\toolkit_medium_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Toolkit_Small_Colour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\logos\toolkit_small_colour.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="URL_GitHubCommit" xml:space="preserve">
+    <value>https://github.com/HyperBE32/Marathon/commit</value>
+  </data>
+  <data name="URL_GitHubIssueNew" xml:space="preserve">
+    <value>https://github.com/HyperBE32/Marathon/issues/new</value>
+  </data>
+  <data name="URL_GitHubLicense" xml:space="preserve">
+    <value>https://github.com/HyperBE32/Marathon/blob/marathon-master/LICENSE</value>
+  </data>
+  <data name="UserControlForm_Close_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\usercontrolform_close_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UserControlForm_Maximise_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\usercontrolform_maximise_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UserControlForm_Minimise_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\usercontrolform_minimise_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UserControlForm_Restore_Enabled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Marathon.Resources\Resources\images\buttons\enabled\usercontrolform_restore_enabled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+</root>
