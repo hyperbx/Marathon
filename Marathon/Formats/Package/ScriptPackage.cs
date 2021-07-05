@@ -159,7 +159,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<ScriptParameter>>(file);
+                    Parameters = JsonDeserialise<List<ScriptParameter>>(file);
                     break;
 
                 default:

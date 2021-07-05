@@ -44,7 +44,7 @@ namespace Marathon.Formats.Event
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<Event>>(file);
+                    Events = JsonDeserialise<List<Event>>(file);
                     break;
 
                 default:

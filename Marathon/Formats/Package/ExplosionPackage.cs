@@ -98,7 +98,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<Explosion>>(file);
+                    Explosions = JsonDeserialise<List<Explosion>>(file);
                     break;
 
                 default:

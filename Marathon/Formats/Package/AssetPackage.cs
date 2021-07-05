@@ -36,7 +36,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<AssetType>>(file);
+                    Types = JsonDeserialise<List<AssetType>>(file);
                     break;
 
                 default:
