@@ -2,7 +2,6 @@
 using System.Numerics;
 using System.Collections.Generic;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Event
 {

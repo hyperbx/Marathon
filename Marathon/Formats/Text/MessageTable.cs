@@ -1,8 +1,6 @@
 ﻿using System.IO;
-using System.Xml.Linq;
 using System.Collections.Generic;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Text
 {

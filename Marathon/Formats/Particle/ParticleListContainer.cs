@@ -1,9 +1,5 @@
-﻿using System;
+﻿using System.IO;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Marathon.IO;
 
 namespace Marathon.Formats.Particle
@@ -53,6 +49,8 @@ namespace Marathon.Formats.Particle
             }
         }
 
+        public const string Extension = ".plc";
+
         public class FormatData
         {
             public string Name { get; set; }
@@ -74,6 +72,7 @@ namespace Marathon.Formats.Particle
             Data.Name = reader.ReadNullTerminatedString(false, NameOffset, true);
             reader.JumpTo(position);
 
+            // Store offsets for the table of entries.
             uint TableOffset     = reader.ReadUInt32(); // Should always be 0x0C
             uint TableEntryCount = reader.ReadUInt32();
 

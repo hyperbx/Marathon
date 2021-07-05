@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Collections.Generic;
 using Marathon.IO;
 using Marathon.Helpers;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Placement
 {
@@ -84,7 +83,7 @@ namespace Marathon.Formats.Placement
             BINAReader reader = new(fileStream);
 
             reader.JumpAhead(0x0C); // Always 0. Padding?
-            Data.Name = new string(reader.ReadChars(32)).Replace("\0", ""); // Usually test, but not always.
+            Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually test, but not always.
 
             // Basic Data Table.
             uint objectCount       = reader.ReadUInt32();
@@ -241,7 +240,7 @@ namespace Marathon.Formats.Placement
             writer.WriteNulls(0x0C);
 
             // Write the name, but default to 'test' because Sonic Team.
-            writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(32) : Data.Name.Take(32)), 32);
+            writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(0x20) : Data.Name.Take(0x20)), 0x20);
 
             // Basic Data Table.
             writer.Write(Data.Objects.Count);
