@@ -4,7 +4,7 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class ParticleList
+    public class Particle
     {
         /// <summary>
         /// Name of this particle.
@@ -31,11 +31,11 @@ namespace Marathon.Formats.Particle
 
         public override string ToString() => ParticleName;
     }
-    public class ParticleListContainer : FileBase
+    public class ParticleContainer : FileBase
     {
-        public ParticleListContainer() { }
+        public ParticleContainer() { }
 
-        public ParticleListContainer(string file)
+        public ParticleContainer(string file)
         {
             switch (Path.GetExtension(file))
             {
@@ -55,7 +55,7 @@ namespace Marathon.Formats.Particle
         {
             public string Name { get; set; }
 
-            public List<ParticleList> Particles = new();
+            public List<Particle> Particles = new();
 
             public override string ToString() => Name;
         }
@@ -81,7 +81,7 @@ namespace Marathon.Formats.Particle
             // Particle Entries.
             for (int i = 0; i < TableEntryCount; i++)
             {
-                ParticleList particle = new();
+                Particle particle = new();
                 uint ParticleNameOffset1 = reader.ReadUInt32();
                 uint ParticleNameOffset2 = reader.ReadUInt32();
                 uint PENameOffset = reader.ReadUInt32();
