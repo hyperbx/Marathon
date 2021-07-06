@@ -52,8 +52,6 @@ namespace Marathon.Formats.Mesh
         {
             switch (Path.GetExtension(file))
             {
-                // TODO: add importing.
-
                 default:
                     base.Load(file);
                     break;

@@ -88,17 +88,30 @@ namespace Marathon.Formats.Package
     {
         public ScriptPackage() { }
 
-        public ScriptPackage(string file)
+        public ScriptPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Parameters = JsonDeserialise<List<ScriptParameter>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Parameters);
+
                     break;
+                }
             }
         }
 

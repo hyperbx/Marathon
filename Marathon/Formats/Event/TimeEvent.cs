@@ -9,9 +9,9 @@ namespace Marathon.Formats.Event
     {
         public string TargetNode { get; set; }
 
-        public string ParticleBank { get; set; }
+        public string ParticleContainer { get; set; }
 
-        public string Particle { get; set; }
+        public string ParticleName { get; set; }
 
         public float UnknownSingle_1 { get; set; }
 
@@ -23,24 +23,37 @@ namespace Marathon.Formats.Event
 
         public Vector3 UnknownVector3_1 { get; set; }
 
-        public override string ToString() => Particle;
+        public override string ToString() => ParticleName;
     }
 
     public class TimeEvent : FileBase
     {
         public TimeEvent() { }
 
-        public TimeEvent(string file)
+        public TimeEvent(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Data = JsonDeserialise<FormatData>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Data);
+
                     break;
+                }
             }
         }
 
@@ -107,10 +120,10 @@ namespace Marathon.Formats.Event
                 entry.TargetNode = reader.ReadNullTerminatedString();
 
                 reader.JumpTo(ParticleBankOffset, true);
-                entry.ParticleBank = reader.ReadNullTerminatedString();
+                entry.ParticleContainer = reader.ReadNullTerminatedString();
 
                 reader.JumpTo(ParticleOffset, true);
-                entry.Particle = reader.ReadNullTerminatedString();
+                entry.ParticleName = reader.ReadNullTerminatedString();
 
                 // Jump back to the saved position to read the next entry..
                 reader.JumpTo(position);
@@ -136,8 +149,8 @@ namespace Marathon.Formats.Event
             {
                 writer.WriteNulls(4);
                 writer.AddString($"TargetNode{i}", Data.Events[i].TargetNode);
-                writer.AddString($"ParticleBank{i}", Data.Events[i].ParticleBank);
-                writer.AddString($"Particle{i}", Data.Events[i].Particle);
+                writer.AddString($"ParticleBank{i}", Data.Events[i].ParticleContainer);
+                writer.AddString($"Particle{i}", Data.Events[i].ParticleName);
                 writer.Write(Data.Events[i].UnknownSingle_1);
                 writer.Write(Data.Events[i].UnknownSingle_2);
                 writer.WriteNulls(1);

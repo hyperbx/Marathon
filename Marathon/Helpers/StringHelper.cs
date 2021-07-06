@@ -9,13 +9,13 @@ namespace Marathon.Helpers
         /// Returns the full extension from the file name (with a dot prefix).
         /// </summary>
         public static string GetFullExtension(string fileName)
-            => Regex.Match(fileName, @"\..*").Value;
+            => Regex.Match(Path.GetFileName(fileName), @"\..*").Value;
 
         /// <summary>
         /// Returns the file name completely extension-less.
         /// </summary>
         public static string RemoveFullExtension(string fileName)
-            => Regex.Replace(fileName, @"\..*", string.Empty);
+            => Regex.Replace(Path.GetFileName(fileName), @"\..*", string.Empty);
 
         /// <summary>
         /// Appends text to the file name before the extension.

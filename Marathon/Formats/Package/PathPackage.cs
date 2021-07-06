@@ -24,7 +24,7 @@ namespace Marathon.Formats.Package
         /// <summary>
         /// TODO: Unknown.
         /// </summary>
-        public string RawText { get; set; }
+        public string Text { get; set; }
 
         /// <summary>
         /// Material animation this object should use.
@@ -42,17 +42,30 @@ namespace Marathon.Formats.Package
     {
         public PathPackage() { }
 
-        public PathPackage(string file)
+        public PathPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     PathObjects = JsonDeserialise<List<PathObject>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(PathObjects);
+
                     break;
+                }
             }
         }
 
@@ -92,7 +105,7 @@ namespace Marathon.Formats.Package
                     entry.Animation = reader.ReadNullTerminatedString(false, XNMOffset, true);
 
                 if (TXTOffset != 0)
-                    entry.RawText = reader.ReadNullTerminatedString(false, TXTOffset, true);
+                    entry.Text = reader.ReadNullTerminatedString(false, TXTOffset, true);
 
                 if (XNVOffset != 0)
                     entry.MaterialAnimation = reader.ReadNullTerminatedString(false, XNVOffset, true);
@@ -111,7 +124,7 @@ namespace Marathon.Formats.Package
                 if (PathObjects[i].Name != null) writer.AddString($"Entry{i}Name", PathObjects[i].Name); else writer.WriteNulls(0x4);
                 if (PathObjects[i].Model != null) writer.AddString($"Entry{i}XNO", PathObjects[i].Model); else writer.WriteNulls(0x4);
                 if (PathObjects[i].Animation != null) writer.AddString($"Entry{i}XNM", PathObjects[i].Animation); else writer.WriteNulls(0x4);
-                if (PathObjects[i].RawText != null) writer.AddString($"Entry{i}TXT", PathObjects[i].RawText); else writer.WriteNulls(0x4);
+                if (PathObjects[i].Text != null) writer.AddString($"Entry{i}TXT", PathObjects[i].Text); else writer.WriteNulls(0x4);
                 if (PathObjects[i].MaterialAnimation != null) writer.AddString($"Entry{i}XNV", PathObjects[i].MaterialAnimation); else writer.WriteNulls(0x4);
             }
 

@@ -30,17 +30,30 @@ namespace Marathon.Formats.Package
     {
         public AssetPackage() { }
 
-        public AssetPackage(string file)
+        public AssetPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Types = JsonDeserialise<List<AssetType>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Types);
+
                     break;
+                }
             }
         }
 

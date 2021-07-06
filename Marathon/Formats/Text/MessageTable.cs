@@ -32,17 +32,30 @@ namespace Marathon.Formats.Text
     {
         public MessageTable() { }
 
-        public MessageTable(string file)
+        public MessageTable(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Data = JsonDeserialise<FormatData>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Data);
+
                     break;
+                }
             }
         }
 
@@ -54,6 +67,8 @@ namespace Marathon.Formats.Text
             public string Name { get; set; }
 
             public List<Message> Messages = new();
+
+            public override string ToString() => Name;
         }
 
         public FormatData Data = new();

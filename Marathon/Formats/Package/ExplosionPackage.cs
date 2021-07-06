@@ -92,17 +92,30 @@ namespace Marathon.Formats.Package
     {
         public ExplosionPackage() { }
 
-        public ExplosionPackage(string file)
+        public ExplosionPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Explosions = JsonDeserialise<List<Explosion>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Explosions);
+
                     break;
+                }
             }
         }
 

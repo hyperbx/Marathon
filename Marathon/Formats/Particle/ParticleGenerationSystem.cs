@@ -44,17 +44,30 @@ namespace Marathon.Formats.Particle
     {
         public ParticleGenerationSystem() { }
 
-        public ParticleGenerationSystem(string file)
+        public ParticleGenerationSystem(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Data = JsonDeserialise<FormatData>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Data);
+
                     break;
+                }
             }
         }
 

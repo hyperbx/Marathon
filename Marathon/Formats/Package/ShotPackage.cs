@@ -74,21 +74,34 @@ namespace Marathon.Formats.Package
     /// <para>File base for the ShotParameter.bin format.</para>
     /// <para>Used in SONIC THE HEDGEHOG for projectile properties.</para>
     /// </summary>
-    public class ProjectilePackage : FileBase
+    public class ShotPackage : FileBase
     {
-        public ProjectilePackage() { }
+        public ShotPackage() { }
 
-        public ProjectilePackage(string file)
+        public ShotPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Parameters = JsonDeserialise<List<ShotParameter>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Parameters);
+
                     break;
+                }
             }
         }
 

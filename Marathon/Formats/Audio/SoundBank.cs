@@ -42,17 +42,30 @@ namespace Marathon.Formats.Audio
     {
         public SoundBank() { }
 
-        public SoundBank(string file)
+        public SoundBank(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Data = JsonDeserialise<FormatData>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
-                    return;
+
+                    if (serialise)
+                        JsonSerialise(Data);
+
+                    break;
+                }
             }
         }
 

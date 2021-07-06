@@ -17,9 +17,9 @@ namespace Marathon.Formats.Event
 
         public string SoundBank { get; set; }
 
-        public string ParticleList { get; set; }
+        public string ParticleContainer { get; set; }
 
-        public string SubtitleMST { get; set; }
+        public string SubtitleMessageTable { get; set; }
 
         public uint EventLength { get; set; }
 
@@ -38,17 +38,30 @@ namespace Marathon.Formats.Event
     {
         public EventPlaybook() { }
 
-        public EventPlaybook(string file)
+        public EventPlaybook(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Events = JsonDeserialise<List<Event>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Events);
+
                     break;
+                }
             }
         }
 
@@ -105,10 +118,10 @@ namespace Marathon.Formats.Event
                     @event.SoundBank = reader.ReadNullTerminatedString(false, sceneBankOffset, true);
 
                 if (particleListOffset != 0)
-                    @event.ParticleList = reader.ReadNullTerminatedString(false, particleListOffset, true);
+                    @event.ParticleContainer = reader.ReadNullTerminatedString(false, particleListOffset, true);
 
                 if (subtitleMSTOffset != 0)
-                    @event.SubtitleMST = reader.ReadNullTerminatedString(false, subtitleMSTOffset, true);
+                    @event.SubtitleMessageTable = reader.ReadNullTerminatedString(false, subtitleMSTOffset, true);
 
                 // Jump back to the saved position to read the next event.
                 reader.JumpTo(position);
@@ -139,8 +152,8 @@ namespace Marathon.Formats.Event
                 writer.AddString($"Event{i}Terrain", Events[i].Terrain);
                 writer.AddString($"Event{i}SceneLua", Events[i].SceneLua);
                 writer.AddString($"Event{i}SceneBank", Events[i].SoundBank);
-                writer.AddString($"Event{i}ParticleList", Events[i].ParticleList);
-                writer.AddString($"Event{i}SubtitleMST", Events[i].SubtitleMST);
+                writer.AddString($"Event{i}ParticleList", Events[i].ParticleContainer);
+                writer.AddString($"Event{i}SubtitleMST", Events[i].SubtitleMessageTable);
             }
 
             // Write the footer.

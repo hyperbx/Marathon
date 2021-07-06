@@ -154,17 +154,30 @@ namespace Marathon.Formats.Package
     {
         public CommonPackage() { }
 
-        public CommonPackage(string file)
+        public CommonPackage(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
                 case ".json":
+                {
                     Objects = JsonDeserialise<List<CommonObject>>(file);
+
+                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
 
                 default:
+                {
                     Load(file);
+
+                    if (serialise)
+                        JsonSerialise(Objects);
+
                     break;
+                }
             }
         }
 

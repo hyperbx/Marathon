@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31423.177
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon", "Marathon\Marathon.csproj", "{A240D10A-776F-4132-B876-F505B003789E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon", "Marathon\Marathon.csproj", "{A240D10A-776F-4132-B876-F505B003789E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.CLI", "Marathon.CLI\Marathon.CLI.csproj", "{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon.CLI", "Marathon.CLI\Marathon.CLI.csproj", "{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.CLI.Tests", "Marathon.CLI.Tests\Marathon.CLI.Tests.csproj", "{C6C9A9F7-DD6C-4375-AF33-3DB3897FB23E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6C9A9F7-DD6C-4375-AF33-3DB3897FB23E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6C9A9F7-DD6C-4375-AF33-3DB3897FB23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6C9A9F7-DD6C-4375-AF33-3DB3897FB23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6C9A9F7-DD6C-4375-AF33-3DB3897FB23E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
