@@ -145,7 +145,7 @@ namespace Marathon.Formats.Audio
             writer.AddOffset("cueIndicesOffset");
             writer.AddOffset("streamsOffset");
 
-            writer.FillInOffset("banksOffset", true);
+            writer.FillOffset("banksOffset", true);
 
             writer.WriteNullPaddedString(Data.Name, 0x40);
             writer.Write(Data.Cues.Count);
@@ -153,7 +153,7 @@ namespace Marathon.Formats.Audio
             writer.Write(streamCueCount);
 
             // Cue Information
-            writer.FillInOffset("cueNamesOffset", true);
+            writer.FillOffset("cueNamesOffset", true);
 
             // Keep track of the entry types and IDs.
             int csbCueID    = 0;
@@ -187,7 +187,7 @@ namespace Marathon.Formats.Audio
             // CSB Cue ID List (if any are present).
             if (csbCueCount != 0)
             {
-                writer.FillInOffset("cueIndicesOffset", true);
+                writer.FillOffset("cueIndicesOffset", true);
 
                 for (int i = 0; i < csbCueCount; i++)
                     writer.Write(i);
@@ -196,7 +196,7 @@ namespace Marathon.Formats.Audio
             // Stream Names (if any are present).
             if (streamCueCount != 0)
             {
-                writer.FillInOffset("streamsOffset", true);
+                writer.FillOffset("streamsOffset", true);
 
                 for (int i = 0; i < Data.Cues.Count; i++)
                 {

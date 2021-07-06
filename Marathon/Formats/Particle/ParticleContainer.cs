@@ -115,7 +115,7 @@ namespace Marathon.Formats.Particle
             writer.AddString("Name", Data.Name);
             writer.AddOffset("TableOffset");
             writer.Write(Data.Particles.Count);
-            writer.FillInOffset("TableOffset", true);
+            writer.FillOffset("TableOffset", true);
 
             // Particle Entries
             for (int i = 0; i < Data.Particles.Count; i++)

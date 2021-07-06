@@ -528,7 +528,7 @@ namespace Marathon.IO
         /// <param name="name">Name of dictionary entry.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {
@@ -555,7 +555,7 @@ namespace Marathon.IO
         /// <param name="value">Value to write at the offset.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, uint value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {
@@ -582,7 +582,7 @@ namespace Marathon.IO
         /// <param name="value">Value to write at the offset.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, ulong value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, ulong value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {

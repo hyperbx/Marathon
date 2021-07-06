@@ -120,7 +120,7 @@ namespace Marathon.Formats.Text
 
             writer.Write((uint)Data.Entries.Count);
             writer.AddOffset("placeholderEntriesPos");
-            writer.FillInOffset("placeholderEntriesPos", true);
+            writer.FillOffset("placeholderEntriesPos", true);
 
             for (int i = 0; i < Data.Entries.Count; i++)
             {

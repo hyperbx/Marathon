@@ -131,7 +131,7 @@ namespace Marathon.Formats.Event
             writer.AddOffset("EntriesOffset");
 
             // Write the event entries.
-            writer.FillInOffset("EntriesOffset", true);
+            writer.FillOffset("EntriesOffset", true);
             for (int i = 0; i < Data.Events.Count; i++)
             {
                 writer.WriteNulls(4);

@@ -87,18 +87,18 @@ namespace Marathon.Formats.Mesh
 
             writer.WriteNulls(4); // Ignore MOPP code offset.
 
-            writer.FillInOffset("unknownUInt32_1", true);
+            writer.FillOffset("unknownUInt32_1", true);
 
             writer.AddOffset("vertexCountOffset");
             writer.AddOffset("faceCountOffset");
 
-            writer.FillInOffset("vertexCountOffset", true);
+            writer.FillOffset("vertexCountOffset", true);
             writer.Write(Data.Vertices.Count);
 
             for (int i = 0; i < Data.Vertices.Count; i++)
                 writer.Write(Data.Vertices[i]);
 
-            writer.FillInOffset("faceCountOffset", true);
+            writer.FillOffset("faceCountOffset", true);
             writer.Write(Data.Faces.Count);
 
             for (int i = 0; i < Data.Faces.Count; i++)

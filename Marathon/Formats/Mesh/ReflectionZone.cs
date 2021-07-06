@@ -93,7 +93,7 @@ namespace Marathon.Formats.Mesh
             writer.Write(Reflections.Count);
             writer.AddOffset("entryTableOffset");
 
-            writer.FillInOffset("reflectionTableOffset", true);
+            writer.FillOffset("reflectionTableOffset", true);
             for (int i = 0; i < Reflections.Count; i++)
             {
                 writer.Write(Reflections[i].Z_Rotation);
@@ -102,7 +102,7 @@ namespace Marathon.Formats.Mesh
                 writer.Write(Reflections[i].Height);
             }
 
-            writer.FillInOffset("entryTableOffset", true);
+            writer.FillOffset("entryTableOffset", true);
             for (int i = 0; i < Reflections.Count; i++)
             {
                 writer.Write(Reflections[i].Vertices.Count);
@@ -112,7 +112,7 @@ namespace Marathon.Formats.Mesh
 
             for (int i = 0; i < Reflections.Count; i++)
             {
-                writer.FillInOffset($"vertexTableOffset_{i}", true);
+                writer.FillOffset($"vertexTableOffset_{i}", true);
 
                 foreach (Vector3 vector in Reflections[i].Vertices)
                     writer.Write(vector);

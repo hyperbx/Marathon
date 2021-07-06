@@ -100,7 +100,7 @@ namespace Marathon.Formats.Particle
             writer.WriteNullPaddedString(Data.Name, 0x20);
             writer.AddOffset("OffsetTable");
 
-            writer.FillInOffset("OffsetTable", true);
+            writer.FillOffset("OffsetTable", true);
 
             // Particle Texture Entries
             for (int i = 0; i < Data.ParticleTextures.Count; i++)

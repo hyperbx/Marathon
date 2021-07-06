@@ -125,7 +125,7 @@ namespace Marathon.Formats.Text
             // Fill text offsets in with the approriate entry's text value.
             for (int i = 0; i < Data.Messages.Count; i++)
             {
-                writer.FillInOffset($"textOffset{i}", true);
+                writer.FillOffset($"textOffset{i}", true);
                 writer.WriteNullTerminatedStringUTF16(Data.Messages[i].Text);
             }
 

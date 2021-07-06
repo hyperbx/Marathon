@@ -250,7 +250,7 @@ namespace Marathon.Formats.Placement
             writer.AddOffset("groupTableOffset");
 
             // Objects.
-            writer.FillInOffset("objectTableOffset", true);
+            writer.FillOffset("objectTableOffset", true);
             for (int i = 0; i < Data.Objects.Count; i++)
             {
                 writer.AddString($"object{i}Name", Data.Objects[i].Name);
@@ -276,7 +276,7 @@ namespace Marathon.Formats.Placement
                 if (Data.Objects[i].Parameters.Count == 0)
                     continue;
 
-                writer.FillInOffset($"object{i}Offsets", true);
+                writer.FillOffset($"object{i}Offsets", true);
 
                 for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                 {
@@ -351,7 +351,7 @@ namespace Marathon.Formats.Placement
             // Groups
             if (Data.Groups.Count != 0)
             {
-                writer.FillInOffset("groupTableOffset", true);
+                writer.FillOffset("groupTableOffset", true);
                 for (int i = 0; i < Data.Groups.Count; i++)
                 {
                     writer.AddString($"group{i}Name", Data.Groups[i].Name);
@@ -376,7 +376,7 @@ namespace Marathon.Formats.Placement
                     if (Data.Groups[i].Objects.Count == 0)
                         continue;
 
-                    writer.FillInOffset($"group{i}ObjectList", true);
+                    writer.FillOffset($"group{i}ObjectList", true);
 
                     foreach (ulong ObjectID in Data.Groups[i].Objects)
                         writer.Write(ObjectID);
@@ -393,7 +393,7 @@ namespace Marathon.Formats.Placement
                     {
                         if (Data.Objects[i].Parameters[p].Data.ToString() == "")
                         {
-                            writer.FillInOffset($"object{i}Parameter{p}DudString", true);
+                            writer.FillOffset($"object{i}Parameter{p}DudString", true);
                             writer.WriteNulls(0x4);
                         }
                     }
@@ -405,7 +405,7 @@ namespace Marathon.Formats.Placement
             {
                 if (Data.Groups[i].Function == "")
                 {
-                    writer.FillInOffset($"group{i}DudFunction", true);
+                    writer.FillOffset($"group{i}DudFunction", true);
                     writer.WriteNulls(0x4);
                 }
             }

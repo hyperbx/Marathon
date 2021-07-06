@@ -128,7 +128,7 @@ namespace Marathon.Formats.Event
             writer.AddOffset("EventTableOffset");
 
             // Write the events.
-            writer.FillInOffset("EventTableOffset", true);
+            writer.FillOffset("EventTableOffset", true);
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.AddString($"Event{i}Name", Events[i].Name);

@@ -158,7 +158,7 @@ namespace Marathon.Formats.Mesh
             writer.Write(Paths.Count); // Node Table Count seems to always be the same as PathTableCount?
 
             // Path Table
-            writer.FillInOffset("PathTableOffset", true);
+            writer.FillOffset("PathTableOffset", true);
             for (int i = 0; i < Paths.Count; i++)
             {
                 writer.AddOffset($"Path{i}Offset");
@@ -168,7 +168,7 @@ namespace Marathon.Formats.Mesh
 
             for (int i = 0; i < Paths.Count; i++)
             {
-                writer.FillInOffset($"Path{i}Offset", true);
+                writer.FillOffset($"Path{i}Offset", true);
                 writer.AddOffset($"Path{i}SplineOffset");
                 writer.Write(Paths[i].Splines[0].Vertices.Count);
                 writer.Write(Paths[i].Flag2);
@@ -176,7 +176,7 @@ namespace Marathon.Formats.Mesh
 
             for (int i = 0; i < Paths.Count; i++)
             {
-                writer.FillInOffset($"Path{i}SplineOffset", true);
+                writer.FillOffset($"Path{i}SplineOffset", true);
                 for (int s = 0; s < Paths[i].Splines.Count; s++)
                 {
                     for (int v = 0; v < Paths[i].Splines[s].Vertices.Count; v++)
@@ -190,7 +190,7 @@ namespace Marathon.Formats.Mesh
             }
 
             // Node Table
-            writer.FillInOffset("NodeTableOffset", true);
+            writer.FillOffset("NodeTableOffset", true);
             for (int i = 0; i < Paths.Count; i++)
             {
                 writer.Write(Paths[i].NodeNumber);

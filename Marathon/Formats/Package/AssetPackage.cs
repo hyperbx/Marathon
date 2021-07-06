@@ -133,7 +133,7 @@ namespace Marathon.Formats.Package
             writer.AddOffset("typeEntriesPos");
 
             // Fill in types offset just before we write the type data.
-            writer.FillInOffset("typeEntriesPos", true);
+            writer.FillOffset("typeEntriesPos", true);
 
             // Write type data.
             for (int i = 0; i < Types.Count; i++)
@@ -144,7 +144,7 @@ namespace Marathon.Formats.Package
             }
 
             // Fill in files offset just before we write the file data.
-            writer.FillInOffset("fileEntriesPos", true);
+            writer.FillOffset("fileEntriesPos", true);
 
             // Storage for number of files written.
             int objectNum = 0;
@@ -152,7 +152,7 @@ namespace Marathon.Formats.Package
             // Write file data.
             for (int i = 0; i < Types.Count; i++)
             {
-                writer.FillInOffset($"typeFilesOffset{i}", true);
+                writer.FillOffset($"typeFilesOffset{i}", true);
 
                 for (int f = 0; f < Types[i].Files.Count; f++)
                 {
