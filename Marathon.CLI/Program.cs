@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
 using Marathon.Formats.Package;
@@ -15,8 +16,10 @@ namespace Marathon.CLI
         {
             Console.WriteLine
             (
-                "Marathon\n" +
-                "Written by Hyper and Knux\n"
+                $"Marathon - Version {Assembly.GetExecutingAssembly().GetName().Version}\n" +
+                "Written by Hyper and Knux\n\n" +
+                "" +
+                "All your formats are belong to us.\n"
             );
 
             if (args.Length > 0)
