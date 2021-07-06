@@ -171,9 +171,9 @@ namespace Marathon.Formats.Package
 
         public List<ScriptParameter> Parameters = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             var begin = reader.BaseStream.Position;
             var firstStringOffset = reader.ReadInt32() + reader.Offset;
@@ -185,9 +185,9 @@ namespace Marathon.Formats.Package
                 Parameters.Add(new ScriptParameter(reader));
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             foreach (var parameter in Parameters)
                 parameter.Write(writer);

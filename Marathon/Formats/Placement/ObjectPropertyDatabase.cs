@@ -56,9 +56,9 @@ namespace Marathon.Formats.Placement
 
         public FormatData Data = new(); 
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.JumpAhead(12); // Skip extra nulls.
 
@@ -103,9 +103,9 @@ namespace Marathon.Formats.Placement
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.WriteNulls(12);
 

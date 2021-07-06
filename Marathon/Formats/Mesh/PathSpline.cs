@@ -147,9 +147,9 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.AddOffset("PathTableOffset");
             writer.Write(Paths.Count);

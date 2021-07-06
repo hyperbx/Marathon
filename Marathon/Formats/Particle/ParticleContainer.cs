@@ -63,9 +63,9 @@ namespace Marathon.Formats.Particle
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             // Get Name.
             uint NameOffset = reader.ReadUInt32();
@@ -107,9 +107,9 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             // Header
             writer.AddString("Name", Data.Name);

@@ -79,9 +79,9 @@ namespace Marathon.Formats.Placement
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.JumpAhead(0x0C); // Always 0. Padding?
             Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually test, but not always.
@@ -234,9 +234,9 @@ namespace Marathon.Formats.Placement
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.WriteNulls(0x0C);
 

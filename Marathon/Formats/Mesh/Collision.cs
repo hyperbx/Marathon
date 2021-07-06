@@ -42,9 +42,9 @@ namespace Marathon.Formats.Mesh
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             uint unknownUInt32_1   = reader.ReadUInt32(); // TODO: Unknown, is apparently an offset?
             uint moppCodeOffset    = reader.ReadUInt32(); // Offset to this file's Havok MOPP Code, which '06 doesn't seem to use?
@@ -79,9 +79,9 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.AddOffset("unknownUInt32_1");
 

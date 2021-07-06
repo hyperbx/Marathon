@@ -57,9 +57,9 @@ namespace Marathon.Formats.Event
 
         public List<Event> Events = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.ReadSignature(4, Signature);
 
@@ -118,9 +118,9 @@ namespace Marathon.Formats.Event
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.WriteSignature(Extension.ToUpper());
             writer.Write(537265920u); // TODO: Unhardcode this once we figure out what it does.

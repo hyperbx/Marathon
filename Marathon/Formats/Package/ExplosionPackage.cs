@@ -159,9 +159,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             // Write the explosion entries.
             for (int i = 0; i < Explosions.Count; i++)

@@ -70,9 +70,9 @@ namespace Marathon.Formats.Audio
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.ReadSignature(4, Signature);
 
@@ -120,9 +120,9 @@ namespace Marathon.Formats.Audio
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             // Determine amount of Cues that use a CSB and amount that use an XMA.
             int csbCueCount    = 0;

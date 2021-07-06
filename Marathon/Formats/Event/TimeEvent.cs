@@ -58,9 +58,9 @@ namespace Marathon.Formats.Event
         public const string Signature = ".TEV",
                             Extension = ".tev";
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.ReadSignature(4, Signature);
 

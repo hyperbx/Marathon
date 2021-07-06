@@ -61,9 +61,9 @@ namespace Marathon.Formats.Particle
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.ReadSignature(4, Signature);
             reader.JumpAhead(0x8); // Always Null.
@@ -89,9 +89,9 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             // Header
             writer.WriteSignature(Signature);

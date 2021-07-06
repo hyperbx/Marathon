@@ -58,9 +58,9 @@ namespace Marathon.Formats.Text
 
         public FormatData Data = new();
 
-        public override void Load(Stream fileStream)
+        public override void Load(Stream stream)
         {
-            BINAReader reader = new(fileStream);
+            BINAReader reader = new(stream);
 
             reader.ReadSignature(4, Signature);
 
@@ -102,9 +102,9 @@ namespace Marathon.Formats.Text
             }
         }
 
-        public override void Save(Stream fileStream)
+        public override void Save(Stream stream)
         {
-            BINAWriter writer = new(fileStream);
+            BINAWriter writer = new(stream);
 
             writer.WriteSignature(Signature);
             writer.AddString("Name", Data.Name);
