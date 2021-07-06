@@ -100,7 +100,7 @@ namespace Marathon.Formats.Particle
         /// <summary>
         /// The shader system to use in sonicnext.pgs
         /// </summary>
-        public string GenerationSystemShader { get; set; }
+        public string Shader { get; set; }
 
         /// <summary>
         /// The ptb file to pull from for the first texture.
@@ -136,80 +136,6 @@ namespace Marathon.Formats.Particle
         /// Literally no clue what this is, length is based on a value before its offset.
         /// </summary>
         public byte[] CompletelyUnknownData { get; set; }
-
-        public ParticleEffectAttributes() { }
-
-        public ParticleEffectAttributes(BinaryReaderEx reader)
-            => Read(reader);
-
-        public void Read(BinaryReaderEx reader)
-        {
-            UnknownUInt32_1 = reader.ReadUInt32();
-            Lifetime  = reader.ReadSingle();
-            Density  = reader.ReadSingle();
-            UnknownFloat_1  = reader.ReadSingle();
-            Duration  = reader.ReadSingle();
-            XSpeed  = reader.ReadSingle();
-            YSpeed  = reader.ReadSingle();
-            ZSpeed  = reader.ReadSingle();
-            UnknownFloat_2  = reader.ReadSingle();
-            UnknownFloat_3  = reader.ReadSingle();
-            Scale = reader.ReadSingle();
-            UnknownFloat_4 = reader.ReadSingle();
-            UnknownFloat_5 = reader.ReadSingle();
-            UnknownFloat_6 = reader.ReadSingle();
-            UnknownUInt32_2 = reader.ReadUInt32();
-            UnknownUInt32_3 = reader.ReadUInt32();
-            UnknownUInt32_4 = reader.ReadUInt32();
-
-            GenerationSystemShader = new string(reader.ReadChars(0x20)).Trim('\0');
-            TextureBank1           = new string(reader.ReadChars(0x20)).Trim('\0');
-            Texture1               = new string(reader.ReadChars(0x20)).Trim('\0');
-            TextureBank2           = new string(reader.ReadChars(0x20)).Trim('\0');
-            Texture2               = new string(reader.ReadChars(0x20)).Trim('\0');
-            TextureBank3           = new string(reader.ReadChars(0x20)).Trim('\0');
-            Texture3               = new string(reader.ReadChars(0x20)).Trim('\0');
-
-            int UnknownLength  = reader.ReadInt32(); // At least I THINK this is the length of the data from the UnknownOffset? Always a multiple of 8 + 4?
-            uint UnknownOffset = reader.ReadUInt32();
-
-            long currentPos = reader.BaseStream.Position;
-
-            reader.JumpTo(UnknownOffset, true);
-            CompletelyUnknownData = reader.ReadBytes(UnknownLength);
-            reader.JumpTo(currentPos);
-        }
-
-        public void Write(BinaryWriterEx writer)
-        {
-            writer.Write(UnknownUInt32_1);
-            writer.Write(Lifetime);
-            writer.Write(Density);
-            writer.Write(UnknownFloat_1);
-            writer.Write(Duration);
-            writer.Write(XSpeed);
-            writer.Write(YSpeed);
-            writer.Write(ZSpeed);
-            writer.Write(UnknownFloat_2);
-            writer.Write(UnknownFloat_3);
-            writer.Write(Scale);
-            writer.Write(UnknownFloat_4);
-            writer.Write(UnknownFloat_5);
-            writer.Write(UnknownFloat_6);
-            writer.Write(UnknownUInt32_2);
-            writer.Write(UnknownUInt32_3);
-            writer.Write(UnknownUInt32_4);
-
-            writer.WriteNullPaddedString(GenerationSystemShader, 0x20);
-            writer.WriteNullPaddedString(TextureBank1, 0x20);
-            writer.WriteNullPaddedString(Texture1, 0x20);
-            writer.WriteNullPaddedString(TextureBank2, 0x20);
-            writer.WriteNullPaddedString(Texture2, 0x20);
-            writer.WriteNullPaddedString(TextureBank3, 0x20);
-            writer.WriteNullPaddedString(Texture3, 0x20);
-
-            writer.Write(CompletelyUnknownData.Length);
-        }
     }
 
     public class ParticleEffectBank : FileBase
@@ -270,7 +196,46 @@ namespace Marathon.Formats.Particle
 
                 reader.JumpTo(effectsOffset, true);
                 for (int e = 0; e < effectCount; e++)
-                    particle.Effects.Add(new ParticleEffectAttributes(reader));
+                {
+                    ParticleEffectAttributes peAttributes = new();
+
+                    peAttributes.UnknownUInt32_1 = reader.ReadUInt32();
+                    peAttributes.Lifetime        = reader.ReadSingle();
+                    peAttributes.Density         = reader.ReadSingle();
+                    peAttributes.UnknownFloat_1  = reader.ReadSingle();
+                    peAttributes.Duration        = reader.ReadSingle();
+                    peAttributes.XSpeed          = reader.ReadSingle();
+                    peAttributes.YSpeed          = reader.ReadSingle();
+                    peAttributes.ZSpeed          = reader.ReadSingle();
+                    peAttributes.UnknownFloat_2  = reader.ReadSingle();
+                    peAttributes.UnknownFloat_3  = reader.ReadSingle();
+                    peAttributes.Scale           = reader.ReadSingle();
+                    peAttributes.UnknownFloat_4  = reader.ReadSingle();
+                    peAttributes.UnknownFloat_5  = reader.ReadSingle();
+                    peAttributes.UnknownFloat_6  = reader.ReadSingle();
+                    peAttributes.UnknownUInt32_2 = reader.ReadUInt32();
+                    peAttributes.UnknownUInt32_3 = reader.ReadUInt32();
+                    peAttributes.UnknownUInt32_4 = reader.ReadUInt32();
+
+                    peAttributes.Shader       = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.TextureBank1 = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.Texture1     = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.TextureBank2 = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.Texture2     = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.TextureBank3 = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.Texture3     = new string(reader.ReadChars(0x20)).Trim('\0');
+
+                    int UnknownLength  = reader.ReadInt32(); // At least I THINK this is the length of the data from the UnknownOffset? Always a multiple of 8 + 4?
+                    uint UnknownOffset = reader.ReadUInt32();
+
+                    long currentPos = reader.BaseStream.Position;
+
+                    reader.JumpTo(UnknownOffset, true);
+                    peAttributes.CompletelyUnknownData = reader.ReadBytes(UnknownLength);
+                    reader.JumpTo(currentPos);
+
+                    particle.Effects.Add(peAttributes);
+                }
 
                 reader.JumpTo(position);
                 Data.Effects.Add(particle);
@@ -302,7 +267,36 @@ namespace Marathon.Formats.Particle
                 writer.FillOffset($"EffectsOffset_{i}", true);
                 for (int e = 0; e < Data.Effects[i].Effects.Count; e++)
                 {
-                    Data.Effects[i].Effects[e].Write(writer);
+                    var currentEffect = Data.Effects[i].Effects[e];
+
+                    writer.Write(currentEffect.UnknownUInt32_1);
+                    writer.Write(currentEffect.Lifetime);
+                    writer.Write(currentEffect.Density);
+                    writer.Write(currentEffect.UnknownFloat_1);
+                    writer.Write(currentEffect.Duration);
+                    writer.Write(currentEffect.XSpeed);
+                    writer.Write(currentEffect.YSpeed);
+                    writer.Write(currentEffect.ZSpeed);
+                    writer.Write(currentEffect.UnknownFloat_2);
+                    writer.Write(currentEffect.UnknownFloat_3);
+                    writer.Write(currentEffect.Scale);
+                    writer.Write(currentEffect.UnknownFloat_4);
+                    writer.Write(currentEffect.UnknownFloat_5);
+                    writer.Write(currentEffect.UnknownFloat_6);
+                    writer.Write(currentEffect.UnknownUInt32_2);
+                    writer.Write(currentEffect.UnknownUInt32_3);
+                    writer.Write(currentEffect.UnknownUInt32_4);
+
+                    writer.WriteNullPaddedString(currentEffect.Shader, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBank1, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.Texture1, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBank2, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.Texture2, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBank3, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.Texture3, 0x20);
+
+                    writer.Write(currentEffect.CompletelyUnknownData.Length);
+
                     writer.AddOffset($"Effects_{i}_UnknownOffset_{e}");
                 }
             }

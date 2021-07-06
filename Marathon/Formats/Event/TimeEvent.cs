@@ -44,6 +44,9 @@ namespace Marathon.Formats.Event
             }
         }
 
+        public const string Signature = ".TEV",
+                            Extension = ".tev";
+
         public class FormatData
         {
             public string Animation;
@@ -54,9 +57,6 @@ namespace Marathon.Formats.Event
         }
 
         public FormatData Data = new();
-
-        public const string Signature = ".TEV",
-                            Extension = ".tev";
 
         public override void Load(Stream stream)
         {

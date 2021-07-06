@@ -66,6 +66,8 @@ namespace Marathon.Formats.Placement
             }
         }
 
+        public const string Extension = ".set";
+
         public class FormatData
         {
             public string Name { get; set; }

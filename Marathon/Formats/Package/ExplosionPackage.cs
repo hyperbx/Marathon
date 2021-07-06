@@ -106,6 +106,8 @@ namespace Marathon.Formats.Package
             }
         }
 
+        public const string Extension = ".bin";
+
         public List<Explosion> Explosions = new();
 
         public override void Load(Stream stream)

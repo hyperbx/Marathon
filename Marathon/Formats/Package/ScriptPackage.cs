@@ -81,71 +81,6 @@ namespace Marathon.Formats.Package
         /// </summary>
         public const uint Size = 0x54;
 
-        public ScriptParameter() { }
-
-        public ScriptParameter(BINAReader reader)
-            => Read(reader);
-
-        public void Read(BINAReader reader)
-        {
-            int nameOffset = reader.ReadInt32();
-
-            State  = reader.ReadInt32();
-            Health = reader.ReadInt32();
-            Score  = reader.ReadInt32();
-
-            UnknownSingle1    = reader.ReadSingle();
-            FoundRangeIn      = reader.ReadSingle();
-            FoundRangeOut     = reader.ReadSingle();
-            UnknownSingle4    = reader.ReadSingle();
-            UnknownSingle5    = reader.ReadSingle();
-            UnknownSingle6    = reader.ReadSingle();
-            UnknownSingle7    = reader.ReadSingle();
-            UnknownSingle8    = reader.ReadSingle();
-            RotationSpeed     = reader.ReadSingle();
-            UnknownSingle10   = reader.ReadSingle();
-            UnknownSingle11   = reader.ReadSingle();
-            UnknownSingle12   = reader.ReadSingle();
-            UnknownSingle13   = reader.ReadSingle();
-            UnknownSingle14   = reader.ReadSingle();
-            UnknownSingle15   = reader.ReadSingle();
-            FoundReactionTime = reader.ReadSingle();
-            UnknownSingle17   = reader.ReadSingle();
-
-            long pos = reader.BaseStream.Position;
-
-            Name = reader.ReadNullTerminatedString(false, nameOffset, true);
-
-            reader.JumpTo(pos);
-        }
-
-        public void Write(BINAWriter writer)
-        {
-            writer.AddString($"StringOffset{writer.BaseStream.Position}", Name);
-
-            writer.Write(State);
-            writer.Write(Health);
-            writer.Write(Score);
-
-            writer.Write(UnknownSingle1);
-            writer.Write(FoundRangeIn);
-            writer.Write(FoundRangeOut);
-            writer.Write(UnknownSingle4);
-            writer.Write(UnknownSingle5);
-            writer.Write(UnknownSingle6);
-            writer.Write(UnknownSingle7);
-            writer.Write(UnknownSingle8);
-            writer.Write(RotationSpeed);
-            writer.Write(UnknownSingle10);
-            writer.Write(UnknownSingle11);
-            writer.Write(UnknownSingle12);
-            writer.Write(UnknownSingle13);
-            writer.Write(UnknownSingle14);
-            writer.Write(UnknownSingle15);
-            writer.Write(FoundReactionTime);
-            writer.Write(UnknownSingle17);
-        }
-
         public override string ToString() => Name;
     }
 
@@ -182,7 +117,41 @@ namespace Marathon.Formats.Package
             reader.JumpTo(begin);
 
             for (int i = 0; i < count; i++)
-                Parameters.Add(new ScriptParameter(reader));
+            {
+                ScriptParameter scriptParameter = new();
+
+                int nameOffset = reader.ReadInt32();
+
+                scriptParameter.State  = reader.ReadInt32();
+                scriptParameter.Health = reader.ReadInt32();
+                scriptParameter.Score  = reader.ReadInt32();
+
+                scriptParameter.UnknownSingle1    = reader.ReadSingle();
+                scriptParameter.FoundRangeIn      = reader.ReadSingle();
+                scriptParameter.FoundRangeOut     = reader.ReadSingle();
+                scriptParameter.UnknownSingle4    = reader.ReadSingle();
+                scriptParameter.UnknownSingle5    = reader.ReadSingle();
+                scriptParameter.UnknownSingle6    = reader.ReadSingle();
+                scriptParameter.UnknownSingle7    = reader.ReadSingle();
+                scriptParameter.UnknownSingle8    = reader.ReadSingle();
+                scriptParameter.RotationSpeed     = reader.ReadSingle();
+                scriptParameter.UnknownSingle10   = reader.ReadSingle();
+                scriptParameter.UnknownSingle11   = reader.ReadSingle();
+                scriptParameter.UnknownSingle12   = reader.ReadSingle();
+                scriptParameter.UnknownSingle13   = reader.ReadSingle();
+                scriptParameter.UnknownSingle14   = reader.ReadSingle();
+                scriptParameter.UnknownSingle15   = reader.ReadSingle();
+                scriptParameter.FoundReactionTime = reader.ReadSingle();
+                scriptParameter.UnknownSingle17   = reader.ReadSingle();
+
+                long pos = reader.BaseStream.Position;
+
+                scriptParameter.Name = reader.ReadNullTerminatedString(false, nameOffset, true);
+
+                reader.JumpTo(pos);
+
+                Parameters.Add(scriptParameter);
+            }
         }
 
         public override void Save(Stream stream)
@@ -190,7 +159,31 @@ namespace Marathon.Formats.Package
             BINAWriter writer = new(stream);
 
             foreach (var parameter in Parameters)
-                parameter.Write(writer);
+            {
+                writer.AddString($"StringOffset{writer.BaseStream.Position}", parameter.Name);
+
+                writer.Write(parameter.State);
+                writer.Write(parameter.Health);
+                writer.Write(parameter.Score);
+
+                writer.Write(parameter.UnknownSingle1);
+                writer.Write(parameter.FoundRangeIn);
+                writer.Write(parameter.FoundRangeOut);
+                writer.Write(parameter.UnknownSingle4);
+                writer.Write(parameter.UnknownSingle5);
+                writer.Write(parameter.UnknownSingle6);
+                writer.Write(parameter.UnknownSingle7);
+                writer.Write(parameter.UnknownSingle8);
+                writer.Write(parameter.RotationSpeed);
+                writer.Write(parameter.UnknownSingle10);
+                writer.Write(parameter.UnknownSingle11);
+                writer.Write(parameter.UnknownSingle12);
+                writer.Write(parameter.UnknownSingle13);
+                writer.Write(parameter.UnknownSingle14);
+                writer.Write(parameter.UnknownSingle15);
+                writer.Write(parameter.FoundReactionTime);
+                writer.Write(parameter.UnknownSingle17);
+            }
 
             writer.WriteNulls(4);
             writer.FinishWrite();
