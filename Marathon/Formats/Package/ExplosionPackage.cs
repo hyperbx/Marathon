@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Package
 {
@@ -98,7 +97,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<Explosion>>(file);
+                    Explosions = JsonDeserialise<List<Explosion>>(file);
                     break;
 
                 default:

@@ -93,7 +93,7 @@ namespace Marathon.IO
 
                 // Check CMF - throw if not Deflate with 32 KB window.
                 if (zlibHeader[0] != 0x78)
-                    throw new Exception("zlib header has an incorrect CMF byte.");
+                    throw new IOException("zlib header has an incorrect CMF byte.");
 
                 // Check FCHECK.
                 if (BitConverter.IsLittleEndian)
@@ -101,7 +101,7 @@ namespace Marathon.IO
 
                 // Checksum error.
                 if (BitConverter.ToUInt16(zlibHeader, 0) % 31 != 0)
-                    throw new Exception("zlib header has an incorrect checksum.");
+                    throw new IOException("zlib header has an incorrect checksum.");
             }
 
             // TODO: Adler-32 checksum handling. (Check GZipStream?)

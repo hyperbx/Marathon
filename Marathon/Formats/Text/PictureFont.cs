@@ -1,7 +1,6 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Text
 {
@@ -51,7 +50,7 @@ namespace Marathon.Formats.Text
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<FormatData>(file);
+                    Data = JsonDeserialise<FormatData>(file);
                     break;
 
                 default:
@@ -121,7 +120,7 @@ namespace Marathon.Formats.Text
 
             writer.Write((uint)Data.Entries.Count);
             writer.AddOffset("placeholderEntriesPos");
-            writer.FillInOffset("placeholderEntriesPos", true);
+            writer.FillOffset("placeholderEntriesPos", true);
 
             for (int i = 0; i < Data.Entries.Count; i++)
             {

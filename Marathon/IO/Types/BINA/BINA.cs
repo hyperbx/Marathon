@@ -116,7 +116,7 @@ namespace Marathon.IO
             {
                 // Fill-in all the offsets that point to this string in the file.
                 foreach (string offsetName in tableEntry.OffsetNames)
-                    FillInOffset(offsetName, (uint)BaseStream.Position, true);
+                    FillOffset(offsetName, (uint)BaseStream.Position, true);
 
                 // Write the string...
                 WriteNullTerminatedString(tableEntry.Data);
@@ -209,10 +209,10 @@ namespace Marathon.IO
                 StringTableEntries.Add(tableEntry);
         }
 
-        public override void FillInOffset(string name, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
-            => base.FillInOffset(name, additive, removeOffset, throwOnMissingOffset);
+        public override void FillOffset(string name, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
+            => base.FillOffset(name, additive, removeOffset, throwOnMissingOffset);
 
-        public override void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
-            => base.FillInOffset(name, value, additive, removeOffset, throwOnMissingOffset);
+        public override void FillOffset(string name, uint value, bool additive = false, bool removeOffset = false, bool throwOnMissingOffset = true)
+            => base.FillOffset(name, value, additive, removeOffset, throwOnMissingOffset);
     }
 }

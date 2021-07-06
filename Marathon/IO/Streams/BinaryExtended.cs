@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
+using Marathon.Exceptions;
 
 namespace Marathon.IO
 {
@@ -13,9 +14,6 @@ namespace Marathon.IO
 
         protected Stream Stream;
         protected byte[] Buffer;
-
-        protected const string Exception_EndOfStream  = "The end of the stream has been reached!",
-                               Exception_StreamClosed = "The stream has been closed!";
 
         protected const int MinimumBufferSize = 16;
 
@@ -71,36 +69,6 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Returns a string at the current position.
-        /// </summary>
-        /// <param name="additive">Adds the specified offset to the position.</param>
-        /// <param name="isNullTerminated">Is the string null-terminated?</param>
-        public string GetString(bool additive = false, bool isNullTerminated = true)
-        {
-            uint offset = additive ? ReadUInt32() + Offset : ReadUInt32();
-
-            return GetString(offset, isNullTerminated);
-        }
-
-        /// <summary>
-        /// Returns a string at the current position.
-        /// </summary>
-        /// <param name="additive">Adds the specified offset to the position.</param>
-        /// <param name="isNullTerminated">Is the string null-terminated?</param>
-        public string GetString(uint offset, bool isNullTerminated = true)
-        {
-            long position = BaseStream.Position;
-
-            BaseStream.Position = offset;
-
-            string str = isNullTerminated ? ReadNullTerminatedString() : ReadString();
-
-            BaseStream.Position = position;
-
-            return str;
-        }
-
-        /// <summary>
         /// Reads the signature at the current position.
         /// </summary>
         /// <param name="length">Signature length.</param>
@@ -111,7 +79,7 @@ namespace Marathon.IO
             string receivedSignature = Encoding.ASCII.GetString(ReadBytes(length));
 
             if (receivedSignature != expectedSignature && throwOnInvalid)
-                throw new Exception($"The signature read from the stream is invalid! Expected {expectedSignature}, got {receivedSignature}...");
+                throw new InvalidSignatureException(expectedSignature, receivedSignature);
         }
 
         /// <summary>
@@ -171,13 +139,10 @@ namespace Marathon.IO
         /// </summary>
         public override byte ReadByte()
         {
-            if (Stream == null)
-                throw new ObjectDisposedException("stream", Exception_StreamClosed);
-
             int @byte = Stream.ReadByte();
 
             if (@byte == -1)
-                throw new EndOfStreamException(Exception_EndOfStream);
+                throw new EndOfStreamException();
 
             return (byte)@byte;
         }
@@ -187,13 +152,10 @@ namespace Marathon.IO
         /// </summary>
         public override sbyte ReadSByte()
         {
-            if (Stream == null)
-                throw new ObjectDisposedException("stream", Exception_StreamClosed);
-
             int @sbyte = Stream.ReadByte();
 
             if (@sbyte == -1)
-                throw new EndOfStreamException(Exception_EndOfStream);
+                throw new EndOfStreamException();
 
             return (sbyte)@sbyte;
         }
@@ -441,15 +403,12 @@ namespace Marathon.IO
         {
             int n, bytesRead = 0;
 
-            if (Stream == null)
-                throw new ObjectDisposedException("stream", Exception_StreamClosed);
-
             if (numBytes == 1)
             {
                 n = Stream.ReadByte();
 
                 if (n == -1)
-                    throw new EndOfStreamException(Exception_EndOfStream);
+                    throw new EndOfStreamException();
 
                 Buffer[0] = (byte)n;
 
@@ -461,7 +420,7 @@ namespace Marathon.IO
                 n = Stream.Read(Buffer, bytesRead, numBytes);
 
                 if (n == 0)
-                    throw new EndOfStreamException(Exception_EndOfStream);
+                    throw new EndOfStreamException();
 
                 bytesRead += n;
                 numBytes -= n;
@@ -488,9 +447,8 @@ namespace Marathon.IO
         public uint Offset = 0;
         public bool IsBigEndian = false;
 
-        protected byte[] Buffer = new byte[BufferSize];
+        protected byte[] Buffer = new byte[16];
         protected Encoding Encoding;
-        protected const uint BufferSize = 16;
         protected Dictionary<string, uint> Offsets = new();
 
         public BinaryWriterEx(Stream output, bool isBigEndian = false) : this(output, Encoding.ASCII, false) => IsBigEndian = isBigEndian;
@@ -570,7 +528,7 @@ namespace Marathon.IO
         /// <param name="name">Name of dictionary entry.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {
@@ -586,7 +544,7 @@ namespace Marathon.IO
             catch
             {
                 if (throwOnMissingOffset)
-                    throw new Exception("The specified offset is not part of the dictionary!");
+                    throw new KeyNotFoundException("The specified offset is not part of the dictionary!");
             }
         }
 
@@ -597,7 +555,7 @@ namespace Marathon.IO
         /// <param name="value">Value to write at the offset.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, uint value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, uint value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {
@@ -613,7 +571,7 @@ namespace Marathon.IO
             catch
             {
                 if (throwOnMissingOffset)
-                    throw new Exception("The specified offset is not part of the dictionary!");
+                    throw new KeyNotFoundException("The specified offset is not part of the dictionary!");
             }
         }
 
@@ -624,7 +582,7 @@ namespace Marathon.IO
         /// <param name="value">Value to write at the offset.</param>
         /// <param name="additive">Adds the specified offset to the position.</param>
         /// <param name="removeOffset">Removes the offset once filled in.</param>
-        public virtual void FillInOffset(string name, ulong value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
+        public virtual void FillOffset(string name, ulong value, bool additive = false, bool removeOffset = true, bool throwOnMissingOffset = true)
         {
             try
             {
@@ -640,7 +598,7 @@ namespace Marathon.IO
             catch
             {
                 if (throwOnMissingOffset)
-                    throw new Exception("The specified offset is not part of the dictionary!");
+                    throw new KeyNotFoundException("The specified offset is not part of the dictionary!");
             }
         }
 

@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Placement
 {
@@ -37,7 +36,7 @@ namespace Marathon.Formats.Placement
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<FormatData>(file);
+                    Data = JsonDeserialise<FormatData>(file);
                     break;
 
                 default:
@@ -63,7 +62,7 @@ namespace Marathon.Formats.Placement
 
             reader.JumpAhead(12); // Skip extra nulls.
 
-            Data.Name = new string(reader.ReadChars(32)).Trim('\0'); // Prop's name.
+            Data.Name = new string(reader.ReadChars(0x20)).Trim('\0'); // Prop's name.
             uint objectCount = reader.ReadUInt32();                  // Amount of objects in this Prop.
             uint offsetTable = reader.ReadUInt32();                  // Position of this Prop's offset table (likely always the same as the data is right after it).
 
@@ -92,7 +91,7 @@ namespace Marathon.Formats.Placement
 
                     ObjectParameter parameter = new()
                     {
-                        Name = new string(reader.ReadChars(16)).Trim('\0'),
+                        Name = new string(reader.ReadChars(0x10)).Trim('\0'),
                         Type = reader.ReadUInt32()
                     };
 
@@ -110,13 +109,13 @@ namespace Marathon.Formats.Placement
 
             writer.WriteNulls(12);
 
-            writer.WriteNullPaddedString(string.Concat(Data.Name.Take(32)), 32);
+            writer.WriteNullPaddedString(string.Concat(Data.Name.Take(0x20)), 0x20);
             writer.Write(Data.Objects.Count);
 
             writer.AddOffset("offsetTable");
 
             // Objects.
-            writer.FillInOffset("offsetTable", true);
+            writer.FillOffset("offsetTable", true);
 
             for (int i = 0; i < Data.Objects.Count; i++)
             {
@@ -136,10 +135,10 @@ namespace Marathon.Formats.Placement
             {
                 if (Data.Objects[i].Parameters.Count != 0)
                 {
-                    writer.FillInOffset($"object{i}ParameterOffset", true);
+                    writer.FillOffset($"object{i}ParameterOffset", true);
                     for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                     {
-                        writer.WriteNullPaddedString(string.Concat(Data.Objects[i].Parameters[p].Name.Take(16)), 16);
+                        writer.WriteNullPaddedString(string.Concat(Data.Objects[i].Parameters[p].Name.Take(0x10)), 0x10);
                         writer.Write(Data.Objects[i].Parameters[p].Type);
                         writer.Write(p);
                     }

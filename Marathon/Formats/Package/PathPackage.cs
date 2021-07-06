@@ -1,21 +1,35 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Package
 {
     public class PathObject
     {
+        /// <summary>
+        /// Name of this object.
+        /// </summary>
         public string Name { get; set; }
 
-        public string XNO { get; set; }
+        /// <summary>
+        /// Model this object should use.
+        /// </summary>
+        public string Model { get; set; }
 
-        public string XNM { get; set; }
+        /// <summary>
+        /// Animation this object should use.
+        /// </summary>
+        public string Animation { get; set; }
 
-        public string TXT { get; set; }
+        /// <summary>
+        /// TODO: Unknown.
+        /// </summary>
+        public string RawText { get; set; }
 
-        public string XNV { get; set; }
+        /// <summary>
+        /// Material animation this object should use.
+        /// </summary>
+        public string MaterialAnimation { get; set; }
 
         public override string ToString() => Name;
     }
@@ -33,7 +47,7 @@ namespace Marathon.Formats.Package
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<PathObject>>(file);
+                    PathObjects = JsonDeserialise<List<PathObject>>(file);
                     break;
 
                 default:
@@ -72,16 +86,16 @@ namespace Marathon.Formats.Package
                     entry.Name = reader.ReadNullTerminatedString(false, EntryNameOffset, true);
 
                 if (XNOOffset != 0)
-                    entry.XNO = reader.ReadNullTerminatedString(false, XNOOffset, true);
+                    entry.Model = reader.ReadNullTerminatedString(false, XNOOffset, true);
 
                 if (XNMOffset != 0)
-                    entry.XNM = reader.ReadNullTerminatedString(false, XNMOffset, true);
+                    entry.Animation = reader.ReadNullTerminatedString(false, XNMOffset, true);
 
                 if (TXTOffset != 0)
-                    entry.TXT = reader.ReadNullTerminatedString(false, TXTOffset, true);
+                    entry.RawText = reader.ReadNullTerminatedString(false, TXTOffset, true);
 
                 if (XNVOffset != 0)
-                    entry.XNV = reader.ReadNullTerminatedString(false, XNVOffset, true);
+                    entry.MaterialAnimation = reader.ReadNullTerminatedString(false, XNVOffset, true);
 
                 // Save entry and jump back to position to read the next entry.
                 PathObjects.Add(entry);
@@ -95,10 +109,10 @@ namespace Marathon.Formats.Package
             for (int i = 0; i < PathObjects.Count; i++)
             {
                 if (PathObjects[i].Name != null) writer.AddString($"Entry{i}Name", PathObjects[i].Name); else writer.WriteNulls(0x4);
-                if (PathObjects[i].XNO != null) writer.AddString($"Entry{i}XNO", PathObjects[i].XNO); else writer.WriteNulls(0x4);
-                if (PathObjects[i].XNM != null) writer.AddString($"Entry{i}XNM", PathObjects[i].XNM); else writer.WriteNulls(0x4);
-                if (PathObjects[i].TXT != null) writer.AddString($"Entry{i}TXT", PathObjects[i].TXT); else writer.WriteNulls(0x4);
-                if (PathObjects[i].XNV != null) writer.AddString($"Entry{i}XNV", PathObjects[i].XNV); else writer.WriteNulls(0x4);
+                if (PathObjects[i].Model != null) writer.AddString($"Entry{i}XNO", PathObjects[i].Model); else writer.WriteNulls(0x4);
+                if (PathObjects[i].Animation != null) writer.AddString($"Entry{i}XNM", PathObjects[i].Animation); else writer.WriteNulls(0x4);
+                if (PathObjects[i].RawText != null) writer.AddString($"Entry{i}TXT", PathObjects[i].RawText); else writer.WriteNulls(0x4);
+                if (PathObjects[i].MaterialAnimation != null) writer.AddString($"Entry{i}XNV", PathObjects[i].MaterialAnimation); else writer.WriteNulls(0x4);
             }
 
             writer.WriteNulls(4);

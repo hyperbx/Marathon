@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Audio
 {
-    public class SoundCue
+    public class Cue
     {
         /// <summary>
         /// Name of this Cue in the Sound Bank
@@ -48,7 +47,7 @@ namespace Marathon.Formats.Audio
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<FormatData>(file);
+                    Data = JsonDeserialise<FormatData>(file);
                     break;
 
                 default:
@@ -64,7 +63,7 @@ namespace Marathon.Formats.Audio
         {
             public string Name { get; set; }
 
-            public List<SoundCue> Cues = new();
+            public List<Cue> Cues = new();
 
             public override string ToString() => Name;
         }
@@ -83,7 +82,7 @@ namespace Marathon.Formats.Audio
             uint cueIndiciesOffset = reader.ReadUInt32(); // Offset to the number list for non-stream indices (set to { 00, 00, 00, 00 } if the file doesn't have any).
             uint streamOffset      = reader.ReadUInt32(); // Offset to the table for XMA names (set to { 00, 00, 00, 00 } if the file doesn't have any).
 
-            Data.Name           = new string(reader.ReadChars(64)).Trim('\0'); // Sound Bank's name.
+            Data.Name           = new string(reader.ReadChars(0x40)).Trim('\0'); // Sound Bank's name.
             uint cueCount       = reader.ReadUInt32();                         // Total Number of Cues in this Sound Bank.
             uint csbCueCount    = reader.ReadUInt32();                         // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
             uint streamCueCount = reader.ReadUInt32();                         // Amount of Cues in this Sound Bank which use XMA files.
@@ -92,7 +91,7 @@ namespace Marathon.Formats.Audio
 
             for (int i = 0; i < cueCount; i++)
             {
-                SoundCue cue = new() { Name = new string(reader.ReadChars(32)).Trim('\0') };
+                Cue cue = new() { Name = new string(reader.ReadChars(0x20)).Trim('\0') };
 
                 uint cueType  = reader.ReadUInt32();
                 uint cueIndex = reader.ReadUInt32();
@@ -146,15 +145,15 @@ namespace Marathon.Formats.Audio
             writer.AddOffset("cueIndicesOffset");
             writer.AddOffset("streamsOffset");
 
-            writer.FillInOffset("banksOffset", true);
+            writer.FillOffset("banksOffset", true);
 
-            writer.WriteNullPaddedString(Data.Name, 64);
+            writer.WriteNullPaddedString(Data.Name, 0x40);
             writer.Write(Data.Cues.Count);
             writer.Write(csbCueCount);
             writer.Write(streamCueCount);
 
             // Cue Information
-            writer.FillInOffset("cueNamesOffset", true);
+            writer.FillOffset("cueNamesOffset", true);
 
             // Keep track of the entry types and IDs.
             int csbCueID    = 0;
@@ -162,7 +161,7 @@ namespace Marathon.Formats.Audio
 
             for (int i = 0; i < Data.Cues.Count; i++)
             {
-                writer.WriteNullPaddedString(Data.Cues[i].Name, 32);
+                writer.WriteNullPaddedString(Data.Cues[i].Name, 0x20);
 
                 // Write a CSB-based entry.
                 if (string.IsNullOrEmpty(Data.Cues[i].Stream))
@@ -188,7 +187,7 @@ namespace Marathon.Formats.Audio
             // CSB Cue ID List (if any are present).
             if (csbCueCount != 0)
             {
-                writer.FillInOffset("cueIndicesOffset", true);
+                writer.FillOffset("cueIndicesOffset", true);
 
                 for (int i = 0; i < csbCueCount; i++)
                     writer.Write(i);
@@ -197,7 +196,7 @@ namespace Marathon.Formats.Audio
             // Stream Names (if any are present).
             if (streamCueCount != 0)
             {
-                writer.FillInOffset("streamsOffset", true);
+                writer.FillOffset("streamsOffset", true);
 
                 for (int i = 0; i < Data.Cues.Count; i++)
                 {

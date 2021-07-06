@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Event
 {
@@ -44,7 +43,7 @@ namespace Marathon.Formats.Event
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<List<Event>>(file);
+                    Events = JsonDeserialise<List<Event>>(file);
                     break;
 
                 default:
@@ -129,7 +128,7 @@ namespace Marathon.Formats.Event
             writer.AddOffset("EventTableOffset");
 
             // Write the events.
-            writer.FillInOffset("EventTableOffset", true);
+            writer.FillOffset("EventTableOffset", true);
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.AddString($"Event{i}Name", Events[i].Name);

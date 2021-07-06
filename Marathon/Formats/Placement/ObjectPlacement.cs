@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Collections.Generic;
-using Marathon.IO;
+using Marathon.Exceptions;
 using Marathon.Helpers;
-using Newtonsoft.Json;
+using Marathon.IO;
 
 namespace Marathon.Formats.Placement
 {
@@ -57,7 +57,7 @@ namespace Marathon.Formats.Placement
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<FormatData>(file);
+                    Data = JsonDeserialise<FormatData>(file);
                     break;
 
                 default:
@@ -84,7 +84,7 @@ namespace Marathon.Formats.Placement
             BINAReader reader = new(fileStream);
 
             reader.JumpAhead(0x0C); // Always 0. Padding?
-            Data.Name = new string(reader.ReadChars(32)).Replace("\0", ""); // Usually test, but not always.
+            Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually test, but not always.
 
             // Basic Data Table.
             uint objectCount       = reader.ReadUInt32();
@@ -189,7 +189,7 @@ namespace Marathon.Formats.Placement
                             }
 
                             default:
-                                throw new Exception($"Got invalid data type {parameterType} in Object Parameter at position {reader.BaseStream.Position - 4}...");
+                                throw new InvalidSetParameterType(parameterType, reader.BaseStream.Position - 4);
                         }
 
                         setObject.Parameters.Add(setParameter);
@@ -241,7 +241,7 @@ namespace Marathon.Formats.Placement
             writer.WriteNulls(0x0C);
 
             // Write the name, but default to 'test' because Sonic Team.
-            writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(32) : Data.Name.Take(32)), 32);
+            writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(0x20) : Data.Name.Take(0x20)), 0x20);
 
             // Basic Data Table.
             writer.Write(Data.Objects.Count);
@@ -250,7 +250,7 @@ namespace Marathon.Formats.Placement
             writer.AddOffset("groupTableOffset");
 
             // Objects.
-            writer.FillInOffset("objectTableOffset", true);
+            writer.FillOffset("objectTableOffset", true);
             for (int i = 0; i < Data.Objects.Count; i++)
             {
                 writer.AddString($"object{i}Name", Data.Objects[i].Name);
@@ -276,7 +276,7 @@ namespace Marathon.Formats.Placement
                 if (Data.Objects[i].Parameters.Count == 0)
                     continue;
 
-                writer.FillInOffset($"object{i}Offsets", true);
+                writer.FillOffset($"object{i}Offsets", true);
 
                 for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                 {
@@ -343,7 +343,7 @@ namespace Marathon.Formats.Placement
                         }
 
                         default:
-                            throw new Exception($"Got invalid data type {Data.Objects[i].Parameters[p].DataType.ToString()} in Object Parameter at position {writer.BaseStream.Position}...");
+                            throw new InvalidSetParameterType(Data.Objects[i].Parameters[p].DataType.ToString(), writer.BaseStream.Position);
                     }
                 }
             }
@@ -351,7 +351,7 @@ namespace Marathon.Formats.Placement
             // Groups
             if (Data.Groups.Count != 0)
             {
-                writer.FillInOffset("groupTableOffset", true);
+                writer.FillOffset("groupTableOffset", true);
                 for (int i = 0; i < Data.Groups.Count; i++)
                 {
                     writer.AddString($"group{i}Name", Data.Groups[i].Name);
@@ -376,7 +376,7 @@ namespace Marathon.Formats.Placement
                     if (Data.Groups[i].Objects.Count == 0)
                         continue;
 
-                    writer.FillInOffset($"group{i}ObjectList", true);
+                    writer.FillOffset($"group{i}ObjectList", true);
 
                     foreach (ulong ObjectID in Data.Groups[i].Objects)
                         writer.Write(ObjectID);
@@ -393,7 +393,7 @@ namespace Marathon.Formats.Placement
                     {
                         if (Data.Objects[i].Parameters[p].Data.ToString() == "")
                         {
-                            writer.FillInOffset($"object{i}Parameter{p}DudString", true);
+                            writer.FillOffset($"object{i}Parameter{p}DudString", true);
                             writer.WriteNulls(0x4);
                         }
                     }
@@ -405,7 +405,7 @@ namespace Marathon.Formats.Placement
             {
                 if (Data.Groups[i].Function == "")
                 {
-                    writer.FillInOffset($"group{i}DudFunction", true);
+                    writer.FillOffset($"group{i}DudFunction", true);
                     writer.WriteNulls(0x4);
                 }
             }

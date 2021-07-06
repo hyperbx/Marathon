@@ -1,12 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
-using System.Collections.Generic;
 using Marathon.IO;
-using Newtonsoft.Json;
 
 namespace Marathon.Formats.Event
 {
-    public class TimedEvent
+    public class AnimationTimer
     {
         public string TargetNode { get; set; }
 
@@ -36,7 +35,7 @@ namespace Marathon.Formats.Event
             switch (Path.GetExtension(file))
             {
                 case ".json":
-                    JsonDeserialise<FormatData>(file);
+                    Data = JsonDeserialise<FormatData>(file);
                     break;
 
                 default:
@@ -49,7 +48,7 @@ namespace Marathon.Formats.Event
         {
             public string Animation;
 
-            public List<TimedEvent> Events = new();
+            public List<AnimationTimer> Events = new();
 
             public override string ToString() => Animation;
         }
@@ -82,7 +81,7 @@ namespace Marathon.Formats.Event
             // Loop through entries
             for (int i = 0; i < EntryCount; i++)
             {
-                TimedEvent entry = new();
+                AnimationTimer entry = new();
 
                 reader.JumpAhead(4); // Always null in official files.
 
@@ -132,7 +131,7 @@ namespace Marathon.Formats.Event
             writer.AddOffset("EntriesOffset");
 
             // Write the event entries.
-            writer.FillInOffset("EntriesOffset", true);
+            writer.FillOffset("EntriesOffset", true);
             for (int i = 0; i < Data.Events.Count; i++)
             {
                 writer.WriteNulls(4);
