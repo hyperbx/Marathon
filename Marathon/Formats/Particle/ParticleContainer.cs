@@ -1,10 +1,10 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class Particle
+    public class ParticleAttributes
     {
         /// <summary>
         /// Name of this particle.
@@ -31,6 +31,7 @@ namespace Marathon.Formats.Particle
 
         public override string ToString() => ParticleName;
     }
+
     public class ParticleContainer : FileBase
     {
         public ParticleContainer() { }
@@ -55,7 +56,7 @@ namespace Marathon.Formats.Particle
         {
             public string Name { get; set; }
 
-            public List<Particle> Particles = new();
+            public List<ParticleAttributes> Particles = new();
 
             public override string ToString() => Name;
         }
@@ -81,7 +82,7 @@ namespace Marathon.Formats.Particle
             // Particle Entries.
             for (int i = 0; i < TableEntryCount; i++)
             {
-                Particle particle = new();
+                ParticleAttributes particle = new();
                 uint ParticleNameOffset1 = reader.ReadUInt32();
                 uint ParticleNameOffset2 = reader.ReadUInt32();
                 uint PENameOffset = reader.ReadUInt32();

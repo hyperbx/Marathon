@@ -93,7 +93,7 @@ namespace Marathon.IO
 
             // The file already exists and we've been told explicitly not to overwrite...
             if (!overwrite && File.Exists(file))
-                throw new Exception("Unable to save the specified file as it already exists...");
+                throw new IOException("Unable to save the specified file as it already exists...");
 
             switch (FileWriteMode)
             {

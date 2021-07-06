@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using Marathon.IO;
 
@@ -15,8 +15,9 @@ namespace Marathon.Formats.Mesh
 
         public uint Flags { get; set; }
 
-        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}>";
+        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @ 0x{Flags:X}";
     }
+
     public class Collision : FileBase
     {
         public Collision() { }

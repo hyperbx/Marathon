@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
 
 namespace Marathon.Formats.Particle
@@ -22,7 +22,7 @@ namespace Marathon.Formats.Particle
         public uint UnknownUInt32_1 { get; set; }
 
         /// <summary>
-        /// Unknown, always the same as UnknownUInt32_2.
+        /// Unknown, always the same as UnknownUInt32_1.
         /// </summary>
         public uint UnknownUInt32_2 { get; set; }
 

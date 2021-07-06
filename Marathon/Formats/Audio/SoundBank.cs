@@ -1,10 +1,10 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using Marathon.IO;
 
 namespace Marathon.Formats.Audio
 {
-    public class SoundCue
+    public class Cue
     {
         /// <summary>
         /// Name of this Cue in the Sound Bank
@@ -63,7 +63,7 @@ namespace Marathon.Formats.Audio
         {
             public string Name { get; set; }
 
-            public List<SoundCue> Cues = new();
+            public List<Cue> Cues = new();
 
             public override string ToString() => Name;
         }
@@ -91,7 +91,7 @@ namespace Marathon.Formats.Audio
 
             for (int i = 0; i < cueCount; i++)
             {
-                SoundCue cue = new() { Name = new string(reader.ReadChars(0x20)).Trim('\0') };
+                Cue cue = new() { Name = new string(reader.ReadChars(0x20)).Trim('\0') };
 
                 uint cueType  = reader.ReadUInt32();
                 uint cueIndex = reader.ReadUInt32();

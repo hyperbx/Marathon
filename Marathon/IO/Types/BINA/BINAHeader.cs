@@ -89,7 +89,7 @@ namespace Marathon.IO
             IsFooterMagicPresent = reader.ReadUInt16() == 1;
             reader.JumpAhead(4);
 
-            reader.ReadSignature(4, Signature);
+            reader.ReadSignature(4, Signature, false);
 
             // TODO: Unknown - possibly additional data length?
             uint UnknownUInt32_2 = reader.ReadUInt32();

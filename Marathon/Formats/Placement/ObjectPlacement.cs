@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Collections.Generic;
-using Marathon.IO;
+using Marathon.Exceptions;
 using Marathon.Helpers;
+using Marathon.IO;
 
 namespace Marathon.Formats.Placement
 {
@@ -188,7 +189,7 @@ namespace Marathon.Formats.Placement
                             }
 
                             default:
-                                throw new Exception($"Got invalid data type {parameterType} in Object Parameter at position {reader.BaseStream.Position - 4}...");
+                                throw new InvalidSetParameterType(parameterType, reader.BaseStream.Position - 4);
                         }
 
                         setObject.Parameters.Add(setParameter);
@@ -342,7 +343,7 @@ namespace Marathon.Formats.Placement
                         }
 
                         default:
-                            throw new Exception($"Got invalid data type {Data.Objects[i].Parameters[p].DataType.ToString()} in Object Parameter at position {writer.BaseStream.Position}...");
+                            throw new InvalidSetParameterType(Data.Objects[i].Parameters[p].DataType.ToString(), writer.BaseStream.Position);
                     }
                 }
             }

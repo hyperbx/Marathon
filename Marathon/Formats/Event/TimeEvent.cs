@@ -1,11 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
-using System.Collections.Generic;
 using Marathon.IO;
 
 namespace Marathon.Formats.Event
 {
-    public class TimedEvent
+    public class AnimationTimer
     {
         public string TargetNode { get; set; }
 
@@ -48,7 +48,7 @@ namespace Marathon.Formats.Event
         {
             public string Animation;
 
-            public List<TimedEvent> Events = new();
+            public List<AnimationTimer> Events = new();
 
             public override string ToString() => Animation;
         }
@@ -81,7 +81,7 @@ namespace Marathon.Formats.Event
             // Loop through entries
             for (int i = 0; i < EntryCount; i++)
             {
-                TimedEvent entry = new();
+                AnimationTimer entry = new();
 
                 reader.JumpAhead(4); // Always null in official files.
 
