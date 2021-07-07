@@ -7,27 +7,27 @@ namespace Marathon.Formats.Audio
     public class Cue
     {
         /// <summary>
-        /// Name of this Cue in the Sound Bank
+        /// Name of this Cue in the Sound Bank.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Uncertain what exactly this affects
+        /// Uncertain what exactly this affects.
         /// </summary>
         public uint Category { get; set; }
 
         /// <summary>
-        /// Unknown - possibly a flag?
+        /// Unknown - possibly a flag, possibly unused?
         /// </summary>
-        public float UnknownSingle_1 { get; set; }
+        public float UnknownSingle { get; set; }
 
         /// <summary>
-        /// Unknown - possibly a flag?
+        /// The distance this sound can be heard from.
         /// </summary>
-        public float UnknownSingle_2 { get; set; }
+        public float Radius { get; set; }
 
         /// <summary>
-        /// XMA this Cue uses, if null, assume it uses a CSB instead
+        /// XMA this Cue uses, if null, assume it uses a CSB instead.
         /// </summary>
         public string Stream { get; set; }
 
@@ -96,9 +96,9 @@ namespace Marathon.Formats.Audio
             uint streamOffset      = reader.ReadUInt32(); // Offset to the table for XMA names (set to { 00, 00, 00, 00 } if the file doesn't have any).
 
             Data.Name           = new string(reader.ReadChars(0x40)).Trim('\0'); // Sound Bank's name.
-            uint cueCount       = reader.ReadUInt32();                         // Total Number of Cues in this Sound Bank.
-            uint csbCueCount    = reader.ReadUInt32();                         // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
-            uint streamCueCount = reader.ReadUInt32();                         // Amount of Cues in this Sound Bank which use XMA files.
+            uint cueCount       = reader.ReadUInt32();                           // Total Number of Cues in this Sound Bank.
+            uint csbCueCount    = reader.ReadUInt32();                           // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
+            uint streamCueCount = reader.ReadUInt32();                           // Amount of Cues in this Sound Bank which use XMA files.
 
             int streams = 0; // Keep track of which stream we're on so we know where to jump to in the XMA string table.
 
@@ -110,8 +110,8 @@ namespace Marathon.Formats.Audio
                 uint cueIndex = reader.ReadUInt32();
 
                 cue.Category        = reader.ReadUInt32();
-                cue.UnknownSingle_1 = reader.ReadSingle();
-                cue.UnknownSingle_2 = reader.ReadSingle();
+                cue.UnknownSingle = reader.ReadSingle();
+                cue.Radius = reader.ReadSingle();
 
                 if (cueType == 1)
                 {
@@ -193,8 +193,8 @@ namespace Marathon.Formats.Audio
                 }
 
                 writer.Write(Data.Cues[i].Category);
-                writer.Write(Data.Cues[i].UnknownSingle_1);
-                writer.Write(Data.Cues[i].UnknownSingle_2);
+                writer.Write(Data.Cues[i].UnknownSingle);
+                writer.Write(Data.Cues[i].Radius);
             }
 
             // CSB Cue ID List (if any are present).

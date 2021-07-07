@@ -77,9 +77,9 @@ namespace Marathon.Formats.Placement
 
             reader.JumpAhead(12); // Skip extra nulls.
 
-            Data.Name = new string(reader.ReadChars(0x20)).Trim('\0'); // Prop's name.
-            uint objectCount = reader.ReadUInt32();                  // Amount of objects in this Prop.
-            uint offsetTable = reader.ReadUInt32();                  // Position of this Prop's offset table (likely always the same as the data is right after it).
+            Data.Name        = new string(reader.ReadChars(0x20)).Trim('\0'); // Prop's name.
+            uint objectCount = reader.ReadUInt32();                           // Amount of objects in this Prop.
+            uint offsetTable = reader.ReadUInt32();                           // Position of this Prop's offset table (likely always the same as the data is right after it).
 
             reader.JumpTo(offsetTable, true); // Should already be at this position, but its good practice to be absolutely sure.
 
@@ -89,8 +89,8 @@ namespace Marathon.Formats.Placement
                 ObjectProperty entry = new();
 
                 uint objectNameOffset = reader.ReadUInt32();
-                uint parameterCount = reader.ReadUInt32();
-                uint parameterOffset = reader.ReadUInt32();
+                uint parameterCount   = reader.ReadUInt32();
+                uint parameterOffset  = reader.ReadUInt32();
 
                 reader.JumpAhead(8); // Always 0.
 
