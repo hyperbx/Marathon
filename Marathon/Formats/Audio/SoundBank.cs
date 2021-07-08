@@ -109,9 +109,9 @@ namespace Marathon.Formats.Audio
                 uint cueType  = reader.ReadUInt32();
                 uint cueIndex = reader.ReadUInt32();
 
-                cue.Category        = reader.ReadUInt32();
+                cue.Category      = reader.ReadUInt32();
                 cue.UnknownSingle = reader.ReadSingle();
-                cue.Radius = reader.ReadSingle();
+                cue.Radius        = reader.ReadSingle();
 
                 if (cueType == 1)
                 {
