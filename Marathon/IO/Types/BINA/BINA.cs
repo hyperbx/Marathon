@@ -9,6 +9,15 @@ namespace Marathon.IO
     /// </summary>
     public static class BINA
     {
+        public static Encoding Encoding
+        {
+            get
+            {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                return Encoding.GetEncoding("shift-jis");
+            }
+        }
+
         public enum OffsetTypes
         {
             SixBit = 0x40,
@@ -22,7 +31,14 @@ namespace Marathon.IO
     /// </summary>
     public class BINAReader : BinaryReaderEx
     {
-        public BINAReader(Stream input, uint offset = 0) : base(input)
+        public BINAReader(Stream input, uint offset = 0) : base(input, BINA.Encoding)
+        {
+            Offset = offset;
+
+            ReadHeader();
+        }
+
+        public BINAReader(Stream input, Encoding encoding, uint offset = 0) : base(input, encoding)
         {
             Offset = offset;
 

@@ -19,7 +19,7 @@ namespace Marathon.CLI
                 $"Marathon - Version {Assembly.GetExecutingAssembly().GetName().Version}\n" +
                 "Written by Hyper and Knux\n\n" +
                 "" +
-                "All your formats are belong to us.\n"
+                "All your '06 formats are belong to us.\n"
             );
 
             if (args.Length > 0)
