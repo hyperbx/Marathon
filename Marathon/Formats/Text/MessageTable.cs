@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Marathon.IO;
 
@@ -19,7 +20,7 @@ namespace Marathon.Formats.Text
         /// <summary>
         /// Placeholder Data (such as voice lines and button icons) for this message.
         /// </summary>
-        public string Placeholder { get; set; }
+        public string[] Placeholders { get; set; }
 
         public override string ToString() => Name;
     }
@@ -107,7 +108,8 @@ namespace Marathon.Formats.Text
 
                 // Not all entries have a placeholder value, entires that lack one have this offset set to zero.
                 if (placeholderOffset != 0)
-                    message.Placeholder = reader.ReadNullTerminatedString(false, placeholderOffset, true);
+                    message.Placeholders = reader.ReadNullTerminatedString(false, placeholderOffset, true).Split(',');
+                    //message.Placeholder = reader.ReadNullTerminatedString(false, placeholderOffset, true);
 
                 // Save text entry into the Entries list.
                 Data.Messages.Add(message);
@@ -131,8 +133,8 @@ namespace Marathon.Formats.Text
                 writer.AddString($"nameOffset{i}", $"{Data.Messages[i].Name}");
                 writer.AddOffset($"textOffset{i}");
 
-                if (Data.Messages[i].Placeholder != null)
-                    writer.AddString($"placeholderOffset{i}", $"{Data.Messages[i].Placeholder}");
+                if (Data.Messages[i].Placeholders != null)
+                    writer.AddString($"placeholderOffset{i}", $"{String.Join(',', Data.Messages[i].Placeholders)}");
                 else
                     writer.WriteNulls(4);
             }
