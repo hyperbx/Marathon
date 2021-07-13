@@ -112,5 +112,36 @@ namespace Marathon.Formats.Mesh
 
             writer.FinishWrite();
         }
+
+        public void ExportOBJ(string filePath)
+        {
+            // Create a SteamWriter.
+            StreamWriter obj = new(filePath);
+
+            // Vertices.
+            foreach (Vector3 vertex in Data.Vertices)
+                obj.WriteLine($"v {vertex.X} {vertex.Y} {vertex.Z}");
+
+            // Faces.
+            // Get all used flags.
+            List<uint> Flags = new();
+
+            foreach (CollisionFace face in Data.Faces)
+                if(!Flags.Contains(face.Flags))
+                    Flags.Add(face.Flags);
+
+            // Write Faces.
+            foreach (uint Flag in Flags)
+            {
+                obj.WriteLine($"\ng {Flag.ToString("x").PadLeft(8, '0')}");
+
+                foreach (CollisionFace face in Data.Faces)
+                    if (face.Flags == Flag)
+                        obj.WriteLine($"f {face.VertexA + 1} {face.VertexB + 1} {face.VertexC + 1}");
+            }
+
+            // Close the StreamWriter.
+            obj.Close();
+        }
     }
 }
