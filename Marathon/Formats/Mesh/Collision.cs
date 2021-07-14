@@ -183,7 +183,7 @@ namespace Marathon.Formats.Mesh
                     Data.Faces.Add(face);
                 }
 
-                // Verticies.
+                // Vertices.
                 foreach (Vector3D assimpVertex in assimpMesh.Vertices)
                     Data.Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
             }
