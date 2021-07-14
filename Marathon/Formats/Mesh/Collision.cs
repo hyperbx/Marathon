@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using Marathon.IO;
+using Assimp;
+using Assimp.Configs;
 
 namespace Marathon.Formats.Mesh
 {
@@ -15,7 +18,7 @@ namespace Marathon.Formats.Mesh
 
         public uint Flags { get; set; }
 
-        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @ 0x{Flags:X}";
+        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @{Flags.ToString("X").PadLeft(8, '0')}";
     }
 
     public class Collision : FileBase
@@ -142,6 +145,48 @@ namespace Marathon.Formats.Mesh
 
             // Close the StreamWriter.
             obj.Close();
+        }
+
+        public void ImportAssimp(string filePath)
+        {
+            // Setup AssimpNet Scene.
+            AssimpContext assimpImporter = new();
+            KeepSceneHierarchyConfig config = new(true);
+            assimpImporter.SetConfig(config);
+            Scene assimpModel = assimpImporter.ImportFile(filePath, PostProcessSteps.PreTransformVertices);
+
+            // Loop through all meshes in the imported file.
+            foreach (Assimp.Mesh assimpMesh in assimpModel.Meshes)
+            {
+                // Mesh Tag.
+                uint meshNameTag = 0u;
+
+                // Try read an @ sign for backwards compatibility.
+                if (assimpMesh.Name.Contains("@"))
+                    meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name.Substring(assimpMesh.Name.LastIndexOf('@') + 1), 16);
+
+                // Try read the mesh name as the tag instead, leave it at 0 if it's not valid.
+                else
+                    try { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name, 16); }
+                    catch { }
+
+                // Faces.
+                foreach (Face assimpFace in assimpMesh.Faces)
+                {
+                    CollisionFace face = new()
+                    {
+                        VertexA = (ushort)(assimpFace.Indices[0] + Data.Vertices.Count),
+                        VertexB = (ushort)(assimpFace.Indices[1] + Data.Vertices.Count),
+                        VertexC = (ushort)(assimpFace.Indices[2] + Data.Vertices.Count),
+                        Flags = meshNameTag
+                    };
+                    Data.Faces.Add(face);
+                }
+
+                // Verticies.
+                foreach (Vector3D assimpVertex in assimpMesh.Vertices)
+                    Data.Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
+            }
         }
     }
 }
