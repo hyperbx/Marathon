@@ -11,7 +11,7 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public string Name { get; set; }
 
-        public List<ParticleEffectAttributes> Effects = new();
+        public List<ParticleEffectAttributes> Effects { get; set; } = new();
 
         public override string ToString() => Name;
     }

@@ -13,7 +13,7 @@ namespace Marathon.Formats.Mesh
 
         public uint NodeNumber { get; set; }
 
-        public List<Spline> Splines = new();
+        public List<Spline> Splines { get; set; } = new();
 
         public Vector3 Position { get; set; }
 
@@ -26,7 +26,7 @@ namespace Marathon.Formats.Mesh
 
     public class Spline
     {
-        public List<SplineData> Vertices = new();
+        public List<SplineData> Vertices { get; set; } = new();
 
         public class SplineData
         {

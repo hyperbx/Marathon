@@ -9,7 +9,7 @@ namespace Marathon.Formats.Placement
     {
         public string Name { get; set; }
 
-        public List<ObjectParameter> Parameters = new();
+        public List<ObjectParameter> Parameters { get; set; } = new();
 
         public override string ToString() => Name;
     }

@@ -15,7 +15,7 @@ namespace Marathon.Formats.Mesh
 
         public float Height { get; set; }
 
-        public List<Vector3> Vertices = new();
+        public List<Vector3> Vertices { get; set; } = new();
 
         public ReflectionArea() { }
 

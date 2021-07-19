@@ -6,32 +6,77 @@ using System.Numerics;
 using Marathon.Exceptions;
 using Marathon.Helpers;
 using Marathon.IO;
+using Newtonsoft.Json;
 
 namespace Marathon.Formats.Placement
 {
     public class SetObject
     {
+        /// <summary>
+        /// The name of this object.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The type of object.
+        /// </summary>
         public string Type { get; set; }
 
+        /// <summary>
+        /// Determines whether the object should be inactive to be initialised later.
+        /// </summary>
         public bool StartInactive { get; set; }
 
+        /// <summary>
+        /// X/Y/Z co-ordinates for where the object should be located.
+        /// </summary>
         public Vector3 Position { get; set; }
 
+        /// <summary>
+        /// The distance the player must be in range for the object to be drawn.
+        /// </summary>
         public float DrawDistance { get; set; }
 
+        /// <summary>
+        /// X/Y/Z/W Quaternion angle for how the object should be rotated.
+        /// </summary>
         public Quaternion Rotation { get; set; }
 
-        public List<SetParameter> Parameters = new();
+        /// <summary>
+        /// The parameters pertaining to the object type.
+        /// </summary>
+        public List<SetParameter> Parameters { get; set; } = new();
+
+        /// <summary>
+        /// Determines whether or not the JSON export should display indices per object.
+        /// </summary>
+        [JsonIgnore]
+        public bool DisplayIndex { get; set; }
+
+        /// <summary>
+        /// This object's index - not required for writing, just for convenience with SET grouping via JSON.
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
+        /// Determines whether or not <see cref="Index"/> should be serialised.
+        /// </summary>
+        /// <returns></returns>
+        public bool ShouldSerializeIndex() => DisplayIndex;
 
         public override string ToString() => Name;
     }
 
     public class SetParameter
     {
+        /// <summary>
+        /// The data pertaining to this parameter.
+        /// </summary>
         public object Data { get; set; }
 
+        /// <summary>
+        /// The data type for <see cref="Data"/>.
+        /// </summary>
         public Type DataType { get; set; }
 
         public override string ToString() => Data.ToString();
@@ -39,11 +84,20 @@ namespace Marathon.Formats.Placement
 
     public class SetGroup
     {
+        /// <summary>
+        /// The name of this group.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The function in Lua called when the group is complete.
+        /// </summary>
         public string Function { get; set; }
 
-        public List<ulong> Objects = new();
+        /// <summary>
+        /// The object indices required to be disposed for this group to be complete.
+        /// </summary>
+        public List<ulong> Objects { get; set; } = new();
 
         public override string ToString() => Name;
     }
@@ -52,7 +106,7 @@ namespace Marathon.Formats.Placement
     {
         public ObjectPlacement() { }
 
-        public ObjectPlacement(string file, bool serialise = false)
+        public ObjectPlacement(string file, bool serialise = false, bool displayIndex = true)
         {
             switch (Path.GetExtension(file))
             {
@@ -69,6 +123,9 @@ namespace Marathon.Formats.Placement
 
                 default:
                 {
+                    // Set index state.
+                    DisplayIndex = displayIndex;
+
                     Load(file);
 
                     if (serialise)
@@ -94,6 +151,11 @@ namespace Marathon.Formats.Placement
 
         public FormatData Data = new();
 
+        /// <summary>
+        /// Determines whether or not the JSON export should display indices per object.
+        /// </summary>
+        public bool DisplayIndex = true;
+
         public override void Load(Stream stream)
         {
             BINAReader reader = new(stream);
@@ -112,7 +174,11 @@ namespace Marathon.Formats.Placement
             for (int i = 0; i < objectCount; i++)
             {
                 // Initialise new SetObject.
-                SetObject setObject = new();
+                SetObject setObject = new()
+                {
+                    Index = i, // Set object ID to the current index.
+                    DisplayIndex = DisplayIndex
+                };
 
                 uint objectNameOffset = reader.ReadUInt32(); // Offset to this object's name.
                 uint objectTypeOffset = reader.ReadUInt32(); // Offset to this object's type.
@@ -268,7 +334,16 @@ namespace Marathon.Formats.Placement
             writer.FillOffset("objectTableOffset", true);
             for (int i = 0; i < Data.Objects.Count; i++)
             {
-                writer.AddString($"object{i}Name", Data.Objects[i].Name);
+                // If the object's name is empty, add an offset to a null entry.
+                if (string.IsNullOrEmpty(Data.Objects[i].Name))
+                {
+                    writer.AddOffset($"object{i}NullName");
+                }
+                else
+                {
+                    writer.AddString($"object{i}Name", Data.Objects[i].Name);
+                }
+
                 writer.AddString($"object{i}Type", Data.Objects[i].Type);
 
                 writer.Write((byte)0x40);
@@ -325,10 +400,10 @@ namespace Marathon.Formats.Placement
                         {
                             writer.Write(3u);
                                                                 
-                            // If the parameter's string is empty, add an offset to a Dud Entry because SETs work that way. Because Sonic Team.
-                            if (Data.Objects[i].Parameters[p].Data.ToString() == "")
+                            // If the parameter's string is empty, add an offset to a null entry.
+                            if (string.IsNullOrEmpty(Data.Objects[i].Parameters[p].Data.ToString()))
                             {
-                                writer.AddOffset($"object{i}Parameter{p}DudString");
+                                writer.AddOffset($"object{i}Parameter{p}NullString");
                             }
                             else
                             {
@@ -371,10 +446,10 @@ namespace Marathon.Formats.Placement
                 {
                     writer.AddString($"group{i}Name", Data.Groups[i].Name);
 
-                    // If the group doesn't have a function, add an offset to a Dud Entry because SETs work that way. Because Sonic Team.
-                    if (Data.Groups[i].Function == "")
+                    // If the group doesn't have a function, add an offset to a null entry.
+                    if (string.IsNullOrEmpty(Data.Groups[i].Function))
                     {
-                        writer.AddOffset($"group{i}DudFunction");
+                        writer.AddOffset($"group{i}NullFunction");
                     }
                     else
                     {
@@ -398,17 +473,21 @@ namespace Marathon.Formats.Placement
                 }
             }
 
-            // Dud Strings.
+            /* ---------- Process null strings ---------- */
+
             // Objects.
             for (int i = 0; i < Data.Objects.Count; i++)
             {
+                if (string.IsNullOrEmpty(Data.Objects[i].Name))
+                    writer.FillOffset($"object{i}NullName", true);
+
                 for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                 {
                     if (Data.Objects[i].Parameters[p].DataType.ToString() == "System.String")
                     {
-                        if (Data.Objects[i].Parameters[p].Data.ToString() == "")
+                        if (string.IsNullOrEmpty(Data.Objects[i].Parameters[p].Data.ToString()))
                         {
-                            writer.FillOffset($"object{i}Parameter{p}DudString", true);
+                            writer.FillOffset($"object{i}Parameter{p}NullString", true);
                             writer.WriteNulls(0x4);
                         }
                     }
@@ -418,9 +497,9 @@ namespace Marathon.Formats.Placement
             // Groups.
             for (int i = 0; i < Data.Groups.Count; i++)
             {
-                if (Data.Groups[i].Function == "")
+                if (string.IsNullOrEmpty(Data.Groups[i].Function))
                 {
-                    writer.FillOffset($"group{i}DudFunction", true);
+                    writer.FillOffset($"group{i}NullFunction", true);
                     writer.WriteNulls(0x4);
                 }
             }

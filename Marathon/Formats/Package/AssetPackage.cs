@@ -8,7 +8,7 @@ namespace Marathon.Formats.Package
     {
         public string Name { get; set; }
 
-        public List<AssetFile> Files = new();
+        public List<AssetFile> Files { get; set; } = new();
 
         public override string ToString() => Name;
     }
