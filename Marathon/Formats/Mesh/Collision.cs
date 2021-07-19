@@ -25,13 +25,30 @@ namespace Marathon.Formats.Mesh
     {
         public Collision() { }
 
-        public Collision(string file)
+        public Collision(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
-                default:
-                    Load(file);
+                case ".obj":
+                {
+                    ImportAssimp(file);
+
+                    // Save extension-less OBJ (exploiting .NET weirdness, because it doesn't omit all extensions).
+                    if (serialise)
+                        Save(Path.GetFileNameWithoutExtension(file));
+
                     break;
+                }
+
+                default:
+                {
+                    Load(file);
+
+                    if (serialise)
+                        ExportOBJ($"{Location}.obj");
+
+                    break;
+                }
             }
         }
 
@@ -130,8 +147,10 @@ namespace Marathon.Formats.Mesh
             List<uint> Flags = new();
 
             foreach (CollisionFace face in Data.Faces)
-                if(!Flags.Contains(face.Flags))
+            {
+                if (!Flags.Contains(face.Flags))
                     Flags.Add(face.Flags);
+            }
 
             // Write Faces.
             foreach (uint Flag in Flags)
@@ -139,8 +158,10 @@ namespace Marathon.Formats.Mesh
                 obj.WriteLine($"\ng {Flag.ToString("x").PadLeft(8, '0')}");
 
                 foreach (CollisionFace face in Data.Faces)
+                {
                     if (face.Flags == Flag)
                         obj.WriteLine($"f {face.VertexA + 1} {face.VertexB + 1} {face.VertexC + 1}");
+                }
             }
 
             // Close the StreamWriter.
@@ -167,8 +188,7 @@ namespace Marathon.Formats.Mesh
 
                 // Try read the mesh name as the tag instead, leave it at 0 if it's not valid.
                 else
-                    try { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name, 16); }
-                    catch { }
+                    try { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name, 16); } catch { }
 
                 // Faces.
                 foreach (Face assimpFace in assimpMesh.Faces)
@@ -180,6 +200,7 @@ namespace Marathon.Formats.Mesh
                         VertexC = (ushort)(assimpFace.Indices[2] + Data.Vertices.Count),
                         Flags = meshNameTag
                     };
+
                     Data.Faces.Add(face);
                 }
 

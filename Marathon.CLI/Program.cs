@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
+using Marathon.Formats.Mesh;
 using Marathon.Formats.Package;
 using Marathon.Formats.Particle;
 using Marathon.Formats.Placement;
@@ -40,38 +41,47 @@ namespace Marathon.CLI
                                 Console.WriteLine
                                 (
                                     "This file is of a generic type, please specify what format it is;\n" +
-                                    "1. Common Package (Common.bin)\n" +
-                                    "2. Explosion Package (Explosion.bin)\n" +
-                                    "3. Path Package (PathObj.bin)\n" +
-                                    "4. Script Package (ScriptParameter.bin)\n" +
-                                    "5. Shot Package (ShotParameter.bin)"
+                                    "1. Collision (collision.bin)\n" +
+                                    "2. Common Package (Common.bin)\n" +
+                                    "3. Explosion Package (Explosion.bin)\n" +
+                                    "4. Path Package (PathObj.bin)\n" +
+                                    "5. Script Package (ScriptParameter.bin)\n" +
+                                    "6. Shot Package (ShotParameter.bin)"
                                 );
 
                                 switch (Console.ReadKey().KeyChar)
                                 {
                                     case '1':
-                                        CommonPackage common = new(arg, true);
+                                        Collision collision = new(arg, true);
                                         break;
 
                                     case '2':
-                                        ExplosionPackage explosion = new(arg, true);
+                                        CommonPackage common = new(arg, true);
                                         break;
 
                                     case '3':
-                                        PathPackage pathObj = new(arg, true);
+                                        ExplosionPackage explosion = new(arg, true);
                                         break;
 
                                     case '4':
-                                        ScriptPackage scriptParameter = new(arg, true);
+                                        PathPackage pathObj = new(arg, true);
                                         break;
 
                                     case '5':
+                                        ScriptPackage scriptParameter = new(arg, true);
+                                        break;
+
+                                    case '6':
                                         ShotPackage shotParameter = new(arg, true);
                                         break;
                                 }
 
                                 break;
                             }
+
+                            case ".bin.obj":
+                                Collision collisionOBJ = new(arg, true);
+                                break;
 
                             case ".sbk":
                             case ".sbk.json":
