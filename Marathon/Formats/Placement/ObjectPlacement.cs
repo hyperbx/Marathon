@@ -61,7 +61,6 @@ namespace Marathon.Formats.Placement
         /// <summary>
         /// Determines whether or not <see cref="Index"/> should be serialised.
         /// </summary>
-        /// <returns></returns>
         public bool ShouldSerializeIndex() => DisplayIndex;
 
         public override string ToString() => Name;
