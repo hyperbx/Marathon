@@ -49,7 +49,7 @@ namespace Marathon.Formats.Particle
             uint UnknownUInt32_2 = reader.ReadUInt32();         // Seemed like the length of the ABDA chunk and the ABDT chunk, but isn't?
             uint Length = reader.ReadUInt32();
             uint UnknownUInt32_3 = reader.ReadUInt32();         // Always zero.
-            uint Timestamp = reader.ReadUInt32();               // Should always be 2006020901 (probably a timestamp - requires match by game executable).
+            uint Version = reader.ReadUInt32();                 // Should always be 2006020901 (probably a timestamp - requires match by game executable).
             uint ABDTCount = reader.ReadUInt32();               // How many ABDT chunks this file contains.
             uint SizeUntilPOF0 = reader.ReadUInt32();           // Includes the header of the ABDA chunk and goes down to the first POF0 chunk.
             uint UnknownUInt32_4 = reader.ReadUInt32();         // Always zero.
