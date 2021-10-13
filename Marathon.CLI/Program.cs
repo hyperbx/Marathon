@@ -123,6 +123,11 @@ namespace Marathon.CLI
                                 ParticleTextureBank ptb = new(arg, true);
                                 break;
 
+                            case ".rab":
+                            case ".rab.json":
+                                ReflectionZone rab = new(arg, true);
+                                break;
+
                             case ".set":
                             case ".set.json":
                                 ObjectPlacement set = new(arg, true, !args.Contains("--no-index"));
