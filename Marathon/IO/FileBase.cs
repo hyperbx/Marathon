@@ -5,9 +5,26 @@ using Newtonsoft.Json;
 namespace Marathon.IO
 {
     /// <summary>
-    /// Determines how files are streamed.
+    /// Determines how files are read.
+    /// <para>This is only necessary for classes inheriting the <see cref="Interfaces.IArchive"/> interface.</para>
     /// </summary>
-    public enum FileWriteMode
+    public enum ReadMode
+    {
+        /// <summary>
+        /// Gets an index of the file's contents.
+        /// </summary>
+        IndexOnly,
+
+        /// <summary>
+        /// Copies the file's contents to memory.
+        /// </summary>
+        CopyToMemory
+    }
+
+    /// <summary>
+    /// Determines how files are written.
+    /// </summary>
+    public enum WriteMode
     {
         /// <summary>
         /// Writes to the file directly.
@@ -31,16 +48,21 @@ namespace Marathon.IO
         public string Location;
 
         /// <summary>
-        /// Determines what mode will be used for the stream.
+        /// Determines what mode will be used for the reader.
         /// </summary>
-        public FileWriteMode FileWriteMode { get; set; } = FileWriteMode.Logical;
+        public virtual ReadMode ReadMode { get; set; } = ReadMode.CopyToMemory;
+
+        /// <summary>
+        /// Determines what mode will be used for the writer.
+        /// </summary>
+        public virtual WriteMode WriteMode { get; set; } = WriteMode.Logical;
 
         public FileBase() { }
 
-        public FileBase(string file, FileWriteMode writeMode = FileWriteMode.Logical)
+        public FileBase(string file, WriteMode writeMode = WriteMode.Logical)
         {
             // Set file writing mode.
-            FileWriteMode = writeMode;
+            WriteMode = writeMode;
 
             // Load the file immediately.
             Load(file);
@@ -95,9 +117,9 @@ namespace Marathon.IO
             if (!overwrite && File.Exists(file))
                 throw new IOException("Unable to save the specified file as it already exists...");
 
-            switch (FileWriteMode)
+            switch (WriteMode)
             {
-                case FileWriteMode.Logical:
+                case WriteMode.Logical:
                 {
                     // Create the file using the stream.
                     using (var fileStream = File.Create(file))
@@ -106,7 +128,7 @@ namespace Marathon.IO
                     break;
                 }
 
-                case FileWriteMode.Fixed:
+                case WriteMode.Fixed:
                 {
                     if (!string.IsNullOrEmpty(Location) && File.Exists(Location))
                     {
