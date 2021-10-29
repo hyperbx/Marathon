@@ -163,6 +163,10 @@ namespace Marathon.CLI
                 Console.WriteLine("- Event Playbook (*.epb)");
                 Console.WriteLine("- Time Event (*.tev)\n");
 
+                Console.WriteLine("Mesh:");
+                Console.WriteLine("- Collision (*.bin)");
+                Console.WriteLine("- Reflection Zone (*.rab)\n");
+
                 Console.WriteLine("Package:");
                 Console.WriteLine("- Asset Package (*.pkg)");
                 Console.WriteLine("- Common Package (Common.bin)");
