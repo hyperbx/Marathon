@@ -79,11 +79,11 @@ namespace Marathon.IO
 
             // TODO: Unknown.
             uint UnknownUInt32_1 = reader.ReadUInt32();
-            if (UnknownUInt32_1 != 0) Console.WriteLine($"WARNING: UnknownUInt32_1 is not zero! ({UnknownUInt32_1})");
+            if (UnknownUInt32_1 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt32_1)} is not zero! ({UnknownUInt32_1})");
 
             // TODO: Unknown - possibly a flag?
             ushort UnknownUInt16_1 = reader.ReadUInt16();
-            if (UnknownUInt16_1 != 0) Console.WriteLine($"WARNING: UnknownUInt16_1 is not zero! ({UnknownUInt16_1})");
+            if (UnknownUInt16_1 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt16_1)} is not zero! ({UnknownUInt16_1})");
 
             // TODO: Unknown - possibly node count?
             IsFooterMagicPresent = reader.ReadUInt16() == 1;
@@ -93,7 +93,7 @@ namespace Marathon.IO
 
             // TODO: Unknown - possibly additional data length?
             uint UnknownUInt32_2 = reader.ReadUInt32();
-            if (UnknownUInt32_2 != 0) Console.WriteLine($"WARNING: UnknownUInt32_2 is not zero! ({UnknownUInt32_2})");
+            if (UnknownUInt32_2 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt32_2)} is not zero! ({UnknownUInt32_2})");
 
             reader.Offset = (uint)reader.BaseStream.Position;
         }
