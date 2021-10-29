@@ -112,22 +112,22 @@ namespace Marathon.IO
         /// Compresses an array of bytes.
         /// </summary>
         /// <param name="data">Data to compress.</param>
-        public static byte[] Compress(byte[] data)
+        public static byte[] Compress(byte[] data, CompressionLevel compressionLevel)
         {
             // Compress the data.
-            using (var compressedStream = new MemoryStream(data))
+            using (var uncompressedStream = new MemoryStream(data))
             {
-                using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Compress))
+                using (var zlibStream = new ZlibStream(uncompressedStream, compressionLevel))
                 {
-                    using (var resultStream = new MemoryStream())
+                    using (var resultStream = new BufferedStream(zlibStream))
                     {
-                        // Copy compressed data to result.
-                        zipStream.CopyTo(resultStream);
-
-                        // Return compressed data.
-                        return resultStream.ToArray();
+                        // Write compressed data to result.
+                        zlibStream.Write(data, 0, data.Length);
                     }
                 }
+
+                // Return compressed data.
+                return uncompressedStream.ToArray();
             }
         }
 
@@ -140,12 +140,12 @@ namespace Marathon.IO
             // Decompress the Zlib-compressed data.
             using (var compressedStream = new MemoryStream(compressedData))
             {
-                using (var zipStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
+                using (var zlibStream = new ZlibStream(compressedStream, CompressionMode.Decompress))
                 {
                     using (var resultStream = new MemoryStream())
                     {
                         // Copy decompressed data to result.
-                        zipStream.CopyTo(resultStream);
+                        zlibStream.CopyTo(resultStream);
 
                         // Return decompressed data.
                         return resultStream.ToArray();
