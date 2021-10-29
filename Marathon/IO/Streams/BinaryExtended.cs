@@ -4,6 +4,8 @@ using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
 using Marathon.Exceptions;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 namespace Marathon.IO
 {
@@ -74,13 +76,22 @@ namespace Marathon.IO
         /// <param name="length">Signature length.</param>
         /// <param name="expectedSignature">The expected result for the signature.</param>
         /// <param name="throwOnInvalid">Throw an exception if the signature is invalid.</param>
-        public void ReadSignature(int length, string expectedSignature, bool throwOnInvalid = true)
+        public void ReadSignature(int length, byte[] expectedSignature, bool throwOnInvalid = true)
         {
-            string receivedSignature = Encoding.ASCII.GetString(ReadBytes(length));
+            byte[] receivedSignature = ReadBytes(length);
 
-            if (receivedSignature != expectedSignature && throwOnInvalid)
-                throw new InvalidSignatureException(expectedSignature, receivedSignature);
+            if (expectedSignature.SequenceEqual(receivedSignature) && throwOnInvalid)
+                throw new InvalidSignatureException(Encoding.ASCII.GetString(expectedSignature), Encoding.ASCII.GetString(receivedSignature));
         }
+
+        /// <summary>
+        /// Reads the signature at the current position as a string.
+        /// </summary>
+        /// <param name="length">Signature length.</param>
+        /// <param name="expectedSignature">The expected result for the signature.</param>
+        /// <param name="throwOnInvalid">Throw an exception if the signature is invalid.</param>
+        public void ReadSignature(int length, string expectedSignature, bool throwOnInvalid = true)
+            => ReadSignature(length, Encoding.ASCII.GetBytes(expectedSignature), throwOnInvalid);
 
         /// <summary>
         /// Reads a null-terminated string at the current position.
