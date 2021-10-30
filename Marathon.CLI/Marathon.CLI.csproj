@@ -7,10 +7,7 @@
     <Authors>Big Endian 32</Authors>
     <Product>Marathon Command Line</Product>
     <ApplicationIcon>Resources\Icon.ico</ApplicationIcon>
-    <Description>Marathon Command Line</Description>
     <Copyright>Copyright ©️ Big Endian 32, 2021.</Copyright>
-    <DebugType>portable</DebugType>
-    <PackageId>$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,12 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Marathon\Marathon.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\Images\Logos\Logo.png">
-      <Pack>True</Pack>
-    </None>
   </ItemGroup>
 
 </Project>
