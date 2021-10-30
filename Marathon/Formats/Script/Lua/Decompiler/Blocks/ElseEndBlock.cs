@@ -20,12 +20,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
             }
             else
             {
-                int result = base.CompareTo(block);
-
-                if (result == 0 && block is ElseEndBlock)
-                    Console.WriteLine("HEY HEY HEY"); // hey
-
-                return result;
+                return base.CompareTo(block);
             }
         }
 

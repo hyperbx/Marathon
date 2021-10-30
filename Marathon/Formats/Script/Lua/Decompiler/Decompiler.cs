@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Blocks;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
@@ -7,8 +8,6 @@ using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
-using System.Collections;
-using System.Linq;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
@@ -20,10 +19,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         private readonly int _params, _vararg;
         private readonly Op.Opcode _tforTarget, _forTarget;
 
-        private static Stack<Branch> backup;
+        private static Stack<Branch> _backup;
 
-        private Registers r;
-        private Block outer;
+        private Registers _r;
+        private Block _outer;
         private List<Block> _blocks;
 
         protected Function _f;
@@ -76,12 +75,12 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public void Decompile()
         {
-            r = new Registers(_registers, _length, DeclarationList, _f);
+            _r = new Registers(_registers, _length, DeclarationList, _f);
 
             FindReverseTargets();
             HandleBranches(true);
 
-            outer = HandleBranches(false);
+            _outer = HandleBranches(false);
 
             ProcessSequence(1, _length);
         }
@@ -96,7 +95,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         {
             HandleInitialDeclarations(@out);
 
-            outer.Write(@out);
+            _outer.Write(@out);
         }
 
         private void HandleInitialDeclarations(Output @out)
@@ -136,7 +135,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             switch (Code.Op(line))
             {
                 case Op.Opcode.MOVE:
-                    operations.AddLast(new RegisterSet(line, A, r.GetExpression(B, line)));
+                    operations.AddLast(new RegisterSet(line, A, _r.GetExpression(B, line)));
                     break;
 
                 case Op.Opcode.LOADK:
@@ -181,7 +180,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                     else
                     {
-                        operations.AddLast(new RegisterSet(line, A, new TableReference(_upvalues.GetExpression(B), r.GetConstantExpression(C, line))));
+                        operations.AddLast(new RegisterSet(line, A, new TableReference(_upvalues.GetExpression(B), _r.GetConstantExpression(C, line))));
                     }
 
                     break;
@@ -192,33 +191,33 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     break;
 
                 case Op.Opcode.GETTABLE:
-                    operations.AddLast(new RegisterSet(line, A, new TableReference(r.GetExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, new TableReference(_r.GetExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.SETUPVAL:
-                    operations.AddLast(new UpvalueSet(line, _upvalues.GetName(B), r.GetExpression(A, line)));
+                    operations.AddLast(new UpvalueSet(line, _upvalues.GetName(B), _r.GetExpression(A, line)));
                     break;
 
                 case Op.Opcode.SETTABUP:
                 {
                     if (A == 0 && (B & 0x100) != 0)
                     {
-                        operations.AddLast(new GlobalSet(line, _f.GetGlobalName(B & 0xFF), r.GetConstantExpression(C, line)));
+                        operations.AddLast(new GlobalSet(line, _f.GetGlobalName(B & 0xFF), _r.GetConstantExpression(C, line)));
                     }
                     else
                     {
-                        operations.AddLast(new TableSet(line, _upvalues.GetExpression(A), r.GetConstantExpression(B, line), r.GetConstantExpression(C, line), true, line));
+                        operations.AddLast(new TableSet(line, _upvalues.GetExpression(A), _r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line), true, line));
                     }
 
                     break;
                 }
 
                 case Op.Opcode.SETGLOBAL:
-                    operations.AddLast(new GlobalSet(line, _f.GetGlobalName(Bx), r.GetExpression(A, line)));
+                    operations.AddLast(new GlobalSet(line, _f.GetGlobalName(Bx), _r.GetExpression(A, line)));
                     break;
 
                 case Op.Opcode.SETTABLE:
-                    operations.AddLast(new TableSet(line, r.GetExpression(A, line), r.GetConstantExpression(B, line), r.GetConstantExpression(C, line), true, line));
+                    operations.AddLast(new TableSet(line, _r.GetExpression(A, line), _r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line), true, line));
                     break;
 
                 case Op.Opcode.NEWTABLE:
@@ -227,58 +226,58 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 case Op.Opcode.SELF:
                 {
-                    // We can later determine : syntax was used by comparing subexpressions with ==
-                    Expression common = r.GetExpression(B, line);
+                    // We can later determine : syntax was used by comparing subexpressions with == operators.
+                    Expression common = _r.GetExpression(B, line);
 
                     operations.AddLast(new RegisterSet(line, A + 1, common));
-                    operations.AddLast(new RegisterSet(line, A, new TableReference(common, r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, new TableReference(common, _r.GetConstantExpression(C, line))));
 
                     break;
                 }
 
                 case Op.Opcode.ADD:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeADD(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeADD(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.SUB:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeSUB(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeSUB(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.MUL:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMUL(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMUL(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.DIV:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeDIV(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeDIV(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.MOD:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMOD(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMOD(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.POW:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakePOW(r.GetConstantExpression(B, line), r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakePOW(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
                     break;
 
                 case Op.Opcode.UNM:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeUNM(r.GetConstantExpression(B, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeUNM(_r.GetConstantExpression(B, line))));
                     break;
 
                 case Op.Opcode.NOT:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeNOT(r.GetConstantExpression(B, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeNOT(_r.GetConstantExpression(B, line))));
                     break;
 
                 case Op.Opcode.LEN:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeLEN(r.GetConstantExpression(B, line))));
+                    operations.AddLast(new RegisterSet(line, A, Expression.MakeLEN(_r.GetConstantExpression(B, line))));
                     break;
 
                 case Op.Opcode.CONCAT:
                 {
-                    Expression value = r.GetExpression(C, line);
+                    Expression value = _r.GetExpression(C, line);
 
                     // Remember that CONCAT is right associative.
                     while (C-- > B)
-                        value = Expression.MakeCONCAT(r.GetExpression(C, line), value);
+                        value = Expression.MakeCONCAT(_r.GetExpression(C, line), value);
 
                     operations.AddLast(new RegisterSet(line, A, value));
 
@@ -298,14 +297,17 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     bool multiple = C >= 3 || C == 0;
 
-                    if (B == 0) B = _registers - A;
-                    if (C == 0) C = _registers - A + 1;
+                    if (B == 0)
+                        B = _registers - A;
 
-                    Expression function = r.GetExpression(A, line);
+                    if (C == 0)
+                        C = _registers - A + 1;
+
+                    Expression function = _r.GetExpression(A, line);
                     Expression[] arguments = new Expression[B - 1];
 
                     for (int register = A + 1; register <= A + B - 1; register++)
-                        arguments[register - A - 1] = r.GetExpression(register, line);
+                        arguments[register - A - 1] = _r.GetExpression(register, line);
 
                     FunctionCall value = new(function, arguments, multiple);
 
@@ -317,7 +319,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     {
                         if (C == 2 && !multiple)
                         {
-                            operations.AddLast(new CallOperation(line, value));
+                            operations.AddLast(new RegisterSet(line, A, value));
                         }
                         else
                         {
@@ -333,11 +335,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     if (B == 0) B = _registers - A;
 
-                    Expression function = r.GetExpression(A, line);
+                    Expression function = _r.GetExpression(A, line);
                     Expression[] arguments = new Expression[B - 1];
 
                     for (int register = A + 1; register <= A + B - 1; register++)
-                        arguments[register - A - 1] = r.GetExpression(register, line);
+                        arguments[register - A - 1] = _r.GetExpression(register, line);
 
                     FunctionCall value = new(function, arguments, true);
 
@@ -355,7 +357,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     Expression[] values = new Expression[B - 1];
 
                     for (int register = A; register <= A + B - 2; register++)
-                        values[register - A] = r.GetExpression(register, line);
+                        values[register - A] = _r.GetExpression(register, line);
 
                     operations.AddLast(new ReturnOperation(line, values));
 
@@ -372,11 +374,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 case Op.Opcode.SETLIST50:
                 case Op.Opcode.SETLISTO:
                 {
-                    Expression table = r.GetValue(A, line);
+                    Expression table = _r.GetValue(A, line);
                     int n = Bx % 32;
 
                     for (int i = 1; i <= n + 1; i++)
-                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant(Bx - n + i), -1), r.GetExpression(A + i, line), false, r.GetUpdated(A + i, line)));
+                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant(Bx - n + i), -1), _r.GetExpression(A + i, line), false, _r.GetUpdated(A + i, line)));
 
                     break;
                 }
@@ -392,10 +394,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     if (B == 0)
                         B = _registers - A - 1;
 
-                    Expression table = r.GetValue(A, line);
+                    Expression table = _r.GetValue(A, line);
 
                     for (int i = 1; i <= B; i++)
-                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant((C - 1) * 50 + i), -1), r.GetExpression(A + i, line), false, r.GetUpdated(A + i, line)));
+                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant((C - 1) * 50 + i), -1), _r.GetExpression(A + i, line), false, _r.GetUpdated(A + i, line)));
 
                     break;
                 }
@@ -460,7 +462,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         private Assignment ProcessOperation(Operation operation, int line, int nextLine, Block block)
         {
             Assignment assign = null;
-            Statement statement = operation.Process(r, block);
+            Statement statement = operation.Process(_r, block);
 
             bool wasMultiple = false;
 
@@ -536,11 +538,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 Block block = blockStack.Peek();
 
-                r.StartLine(line);
+                _r.StartLine(line);
 
                 if (_skip[line])
                 {
-                    List<Declaration> skipNewLocals = r.GetNewLocals(line);
+                    List<Declaration> skipNewLocals = _r.GetNewLocals(line);
 
                     if (skipNewLocals.Count != 0)
                     {
@@ -548,7 +550,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         skipAssign.Declare(skipNewLocals[0].Begin);
 
                         foreach (Declaration decl in skipNewLocals)
-                            skipAssign.AddLast(new VariableTarget(decl), r.GetValue(decl.Register, line));
+                            skipAssign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line));
 
                         blockStack.Peek().AddStatement(skipAssign);
                     }
@@ -557,7 +559,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
 
                 List<Operation> operations = ProcessLine(line);
-                List<Declaration> newLocals = r.GetNewLocals(blockHandler == null ? line : line - 1);
+                List<Declaration> newLocals = _r.GetNewLocals(blockHandler == null ? line : line - 1);
                 Assignment assign = null;
 
                 if (blockHandler == null)
@@ -570,11 +572,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         foreach (Operation operation in operations)
                         {
                             RegisterSet set = (RegisterSet)operation;
-                            operation.Process(r, block);
+                            operation.Process(_r, block);
 
-                            if (r.IsAssignable(set.Register, set.Line))
+                            if (_r.IsAssignable(set.Register, set.Line))
                             {
-                                assign.AddLast(r.GetTarget(set.Register, set.Line), set.Value);
+                                assign.AddLast(_r.GetTarget(set.Register, set.Line), set.Value);
                                 count++;
                             }
                         }
@@ -613,7 +615,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         assign.Declare(newLocals[0].Begin);
 
                         foreach (Declaration decl in newLocals)
-                            assign.AddLast(new VariableTarget(decl), r.GetValue(decl.Register, line + 1));
+                            assign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line + 1));
                     }
                 }
 
@@ -627,7 +629,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                             assign.Declare(newLocals[0].Begin);
 
                             foreach (Declaration decl in newLocals)
-                                assign.AddLast(new VariableTarget(decl), r.GetValue(decl.Register, line));
+                                assign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line));
 
                             blockStack.Peek().AddStatement(assign);
                         }
@@ -648,11 +650,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             switch (Code.Op(line))
             {
                 case Op.Opcode.MOVE:
-                    return r.IsAssignable(Code.A(line), line) && !r.IsLocal(Code.B(line), line);
+                    return _r.IsAssignable(Code.A(line), line) && !_r.IsLocal(Code.B(line), line);
 
                 case Op.Opcode.SETUPVAL:
                 case Op.Opcode.SETGLOBAL:
-                    return !r.IsLocal(Code.A(line), line);
+                    return !_r.IsLocal(Code.A(line), line);
 
                 case Op.Opcode.SETTABLE:
                 {
@@ -664,7 +666,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                     else
                     {
-                        return !r.IsLocal(C, line);
+                        return !_r.IsLocal(C, line);
                     }
                 }
 
@@ -677,10 +679,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         {
             return Code.Op(line) switch
             {
-                Op.Opcode.MOVE => r.GetTarget(Code.A(line), line),
+                Op.Opcode.MOVE => _r.GetTarget(Code.A(line), line),
                 Op.Opcode.SETUPVAL => new UpvalueTarget(_upvalues.GetName(Code.B(line))),
                 Op.Opcode.SETGLOBAL => new GlobalTarget(_f.GetGlobalName(Code.Bx(line))),
-                Op.Opcode.SETTABLE => new TableTarget(r.GetExpression(Code.A(line), previous), r.GetConstantExpression(Code.B(line), previous)),
+                Op.Opcode.SETTABLE => new TableTarget(_r.GetExpression(Code.A(line), previous), _r.GetConstantExpression(Code.B(line), previous)),
                 _ => throw new Exception()
             };
         }
@@ -694,11 +696,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             switch (Code.Op(line))
             {
                 case Op.Opcode.MOVE:
-                    return r.GetValue(B, previous);
+                    return _r.GetValue(B, previous);
 
                 case Op.Opcode.SETUPVAL:
                 case Op.Opcode.SETGLOBAL:
-                    return r.GetExpression(A, previous);
+                    return _r.GetExpression(A, previous);
 
                 case Op.Opcode.SETTABLE:
                 {
@@ -708,7 +710,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                     else
                     {
-                        return r.GetExpression(C, previous);
+                        return _r.GetExpression(C, previous);
                     }
                 }
 
@@ -885,30 +887,30 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                     if (C == 0) throw new Exception();
 
-                                    r.SetInternalLoopVariable(A, tline, line + 1);
-                                    r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                    r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A + 1, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A + 2, tline, line + 1);
 
                                     for (int index = 1; index <= C; index++)
-                                        r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
+                                        _r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
 
                                     _skip[tline] = true;
                                     _skip[tline + 1] = true;
 
-                                    _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, r));
+                                    _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, _r));
                                 }
                                 else if (Code.Op(tline) == _forTarget && !_skip[tline])
                                 {
                                     int A = Code.A(tline);
 
-                                    r.SetInternalLoopVariable(A, tline, line + 1);
-                                    r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                    r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A + 1, tline, line + 1);
+                                    _r.SetInternalLoopVariable(A + 2, tline, line + 1);
 
                                     _skip[tline] = true;
                                     _skip[tline + 1] = true;
 
-                                    _blocks.Add(new ForBlock(_function, line + 1, tline + 1, A, r));
+                                    _blocks.Add(new ForBlock(_function, line + 1, tline + 1, A, _r));
                                 }
                                 else if (Code.sBx(line) == 2 && Code.Op(line + 1) == Op.Opcode.LOADBOOL && Code.C(line + 1) != 0)
                                 {
@@ -957,14 +959,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                             {
                                 reduce = true;
 
-                                _blocks.Add(new ForBlock(_function, line + 1, line + 2 + Code.sBx(line), Code.A(line), r));
+                                _blocks.Add(new ForBlock(_function, line + 1, line + 2 + Code.sBx(line), Code.A(line), _r));
 
                                 _skip[line + 1 + Code.sBx(line)] = true;
 
-                                r.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
-                                r.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
-                                r.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
-                                r.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
+                                _r.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
+                                _r.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
+                                _r.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
+                                _r.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
 
                                 break;
                             }
@@ -983,17 +985,17 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                     A = Code.A(tline),
                                     C = Code.C(tline);
 
-                                r.SetInternalLoopVariable(A, tline, line + 1);
-                                r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                _r.SetInternalLoopVariable(A, tline, line + 1);
+                                _r.SetInternalLoopVariable(A + 1, tline, line + 1);
+                                _r.SetInternalLoopVariable(A + 2, tline, line + 1);
 
                                 for (int index = 1; index <= C; index++)
-                                    r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
+                                    _r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
 
                                 _skip[tline] = true;
                                 _skip[tline + 1] = true;
 
-                                _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, r));
+                                _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, _r));
 
                                 break;
                             }
@@ -1083,9 +1085,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         assignEnd += 2;
                                     }
                                 }
-                                else if (assignEnd - 1 >= 1 && r.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
+                                else if (assignEnd - 1 >= 1 && _r.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
                                 {
-                                    Declaration decl = r.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
+                                    Declaration decl = _r.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
 
                                     if (decl.Begin == assignEnd - 1 && decl.End > assignEnd - 1)
                                         isAssignNode = true;
@@ -1093,7 +1095,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                 if (!compareCorrect && assignEnd - 1 == stack.Peek().Begin && Code.Op(stack.Peek().Begin) == Op.Opcode.LOADBOOL && Code.C(stack.Peek().Begin) != 0)
                                 {
-                                    backup = null;
+                                    _backup = null;
 
                                     int begin = stack.Peek().Begin;
 
@@ -1108,7 +1110,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 }
                                 else if (isAssignNode)
                                 {
-                                    backup = null;
+                                    _backup = null;
 
                                     int target = stack.Peek().SetTarget,
                                         begin = stack.Peek().Begin;
@@ -1120,14 +1122,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 }
                                 else
                                 {
-                                    backup = new Stack<Branch>();
+                                    _backup = new Stack<Branch>();
 
                                     conditions.Push(PopCondition(stack));
 
-                                    backup.Reverse();
+                                    _backup.Reverse();
                                 }
 
-                                backups.Push(backup);
+                                backups.Push(_backup);
                             }
                             while (stack.Count != 0);
 
@@ -1186,7 +1188,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                     if (Code.Op(cond.Begin) == Op.Opcode.JMP && Code.sBx(cond.Begin) == 2 && Code.Op(cond.Begin + 1) == Op.Opcode.LOADBOOL && Code.C(cond.Begin + 1) != 0)
                                         empty = true;
 
-                                    _blocks.Add(new SetBlock(_function, cond, cond.SetTarget, line, cond.Begin, cond.End, empty, r));
+                                    _blocks.Add(new SetBlock(_function, cond, cond.SetTarget, line, cond.Begin, cond.End, empty, _r));
                                 }
                                 else if (Code.Op(cond.Begin) == Op.Opcode.LOADBOOL && Code.C(cond.Begin) != 0)
                                 {
@@ -1204,11 +1206,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                     {
                                         _skip[cond.End - 1] = true;
 
-                                        _blocks.Add(new WhileBlock(_function, cond.Invert(), originalTail, r));
+                                        _blocks.Add(new WhileBlock(_function, cond.Invert(), originalTail, _r));
                                     }
                                     else
                                     {
-                                        _blocks.Add(new RepeatBlock(_function, cond, r));
+                                        _blocks.Add(new RepeatBlock(_function, cond, _r));
                                     }
                                 }
                                 else if (hasTail)
@@ -1228,14 +1230,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         if (isBreakableLoopEnd && loopback2 <= cond.Begin && !isBreak[tail - 1])
                                         {
                                             // Ends with break...
-                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, r));
+                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
                                         }
                                         else
                                         {
                                             _skip[cond.End - 1] = true; // Skip the JMP over the else block.
 
                                             bool emptyElse = tail == cond.End;
-                                            IfThenElseBlock ifthen = new(_function, cond, originalTail, emptyElse, r);
+                                            IfThenElseBlock ifthen = new(_function, cond, originalTail, emptyElse, _r);
 
                                             _blocks.Add(ifthen);
 
@@ -1264,15 +1266,19 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         // TODO: check for 5.2-style if cond then break end
                                         if (loopback >= cond.Begin || existsStatement)
                                         {
-                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, r));
+                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
                                         }
                                         else
                                         {
                                             _skip[cond.End - 1] = true;
 
-                                            _blocks.Add(new WhileBlock(_function, cond, originalTail, r));
+                                            _blocks.Add(new WhileBlock(_function, cond, originalTail, _r));
                                         }
                                     }
+                                }
+                                else
+                                {
+                                    _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
                                 }
                             }
                             while (conditions.Count != 0);
@@ -1323,7 +1329,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
 
             _blocks.Sort();
-            backup = null;
+            _backup = null;
 
             return outer;
         }
@@ -1354,25 +1360,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 Block next = _blocks[i];
 
                 if (next.IsContainer() && enclosing.Contains(next) && next.Contains(line) && !next.LoopRedirectAdjustment)
-                    enclosing = next;
-            }
-
-            return enclosing;
-        }
-
-        private Block EnclosingBlock(Block block)
-        {
-            Block outer = _blocks[0], // Assumes the outer block is first.
-                  enclosing = outer;
-
-            for (int i = 1; i < _blocks.Count; i++)
-            {
-                Block next = _blocks[i];
-
-                if (next == block)
-                    continue;
-
-                if (next.Contains(block) && enclosing.Contains(next))
                     enclosing = next;
             }
 
@@ -1415,8 +1402,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         {
             Branch branch = stack.Pop();
 
-            if (backup != null)
-                backup.Push(branch);
+            if (_backup != null)
+                _backup.Push(branch);
 
             if (branch is TestSetNode)
                 throw new Exception();
@@ -1619,13 +1606,13 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 case Op.Opcode.LEN:
                 case Op.Opcode.CONCAT:
                 case Op.Opcode.CLOSURE:
-                    return r.IsLocal(Code.A(line), line) || Code.A(line) == testRegister;
+                    return _r.IsLocal(Code.A(line), line) || Code.A(line) == testRegister;
 
                 case Op.Opcode.LOADNIL:
                 {
                     for (int register = Code.A(line); register <= Code.B(line); register++)
                     {
-                        if (r.IsLocal(register, line))
+                        if (_r.IsLocal(register, line))
                             return true;
                     }
 
@@ -1648,7 +1635,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     return true;
 
                 case Op.Opcode.SELF:
-                    return r.IsLocal(Code.A(line), line) || r.IsLocal(Code.A(line) + 1, line);
+                    return _r.IsLocal(Code.A(line), line) || _r.IsLocal(Code.A(line) + 1, line);
 
                 case Op.Opcode.EQ:
                 case Op.Opcode.LT:
@@ -1674,7 +1661,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                     for (int register = a; register < a + c - 1; register++)
                     {
-                        if (r.IsLocal(register, line))
+                        if (_r.IsLocal(register, line))
                             return true;
                     }
 
@@ -1691,7 +1678,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                     for (int register = a; register < a + b - 1; register++)
                     {
-                        if (r.IsLocal(register, line))
+                        if (_r.IsLocal(register, line))
                             return true;
                     }
 

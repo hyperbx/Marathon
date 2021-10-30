@@ -110,7 +110,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
                 if (lineBreak)
                 {
                     @out.WriteLine();
-                    @out.Indent();
+                    @out.Dedent();
                 }
 
                 @out.Write("}");

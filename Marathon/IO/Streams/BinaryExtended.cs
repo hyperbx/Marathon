@@ -80,7 +80,7 @@ namespace Marathon.IO
         {
             byte[] receivedSignature = ReadBytes(length);
 
-            if (expectedSignature.SequenceEqual(receivedSignature) && throwOnInvalid)
+            if (!expectedSignature.SequenceEqual(receivedSignature) && throwOnInvalid)
                 throw new InvalidSignatureException(Encoding.ASCII.GetString(expectedSignature), Encoding.ASCII.GetString(receivedSignature));
         }
 

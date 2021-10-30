@@ -8,7 +8,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Statements
         public string Comment;
 
         /// <summary>
-        /// Prints out a sequences of statements on separate lines. Correctly informs the last statement that it is last in a block.
+        /// Prints out a sequences of statements on separate lines.
+        /// <para>Correctly informs the last statement that it is last in a block.</para>
         /// </summary>
         public static void WriteSequence(Output @out, List<Statement> statements)
         {
@@ -33,16 +34,18 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Statements
                 if (nextStatement != null && statement is FunctionCallStatement && nextStatement.BeginsWithParent())
                     @out.Write(";");
 
-                if (!(statement is IfThenElseBlock))
+                if (statement is not IfThenElseBlock)
                     @out.WriteLine();
             }
         }
 
         public abstract void Write(Output @out);
 
-        public virtual void WriteTail(Output @out) => Write(@out);
+        public virtual void WriteTail(Output @out)
+            => Write(@out);
 
-        public void AddComment(string comment) => Comment = comment;
+        public void AddComment(string comment)
+            => Comment = comment;
 
         public virtual bool BeginsWithParent() => false;
     }

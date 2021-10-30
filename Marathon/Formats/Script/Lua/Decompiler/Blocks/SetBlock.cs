@@ -90,10 +90,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
 				return new OperationAnonymousInnerClass(this, target, value);
 			}
-			else
-			{
-				return new OperationAnonymousInnerClass2(this, d);
-			}
+
+			return new OperationAnonymousInnerClass2(this, d);
         }
 
 		private class OperationAnonymousInnerClass : Operation
@@ -168,9 +166,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 				}
 				else
 				{
-					Console.WriteLine($"-- Fail {_outerInstance.Branch.End - 1}");
-					Console.WriteLine(expr);
-					Console.WriteLine(_outerInstance.Target);
+					throw new Exception($"Fail {_outerInstance.Branch.End - 1}: {expr} (target: {_outerInstance.Target})");
 				}
 
 				return null;

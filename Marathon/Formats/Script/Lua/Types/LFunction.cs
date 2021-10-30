@@ -14,7 +14,8 @@
                    NumParams,
                    Vararg;
 
-        public LFunction(BHeader header, int[] code, LLocal[] locals, LObject[] constants, LUpvalue[] upvalues, LFunction[] functions, int maximumStackSize, int numUpvalues, int numParams, int vararg)
+        public LFunction(BHeader header, int[] code, LLocal[] locals, LObject[] constants, LUpvalue[] upvalues, LFunction[] functions,
+            int maximumStackSize, int numUpvalues, int numParams, int vararg)
         {
             Header = header;
             Code = code;

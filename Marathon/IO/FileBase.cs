@@ -40,7 +40,7 @@ namespace Marathon.IO
     /// <summary>
     /// A stream helper for format classes.
     /// </summary>
-    public class FileBase
+    public class FileBase : IDisposable
     {
         /// <summary>
         /// Location of the file loaded.
@@ -187,5 +187,7 @@ namespace Marathon.IO
         /// <param name="T">Generic type for deserialisation rules.</param>
         public T JsonDeserialise<T>(string filePath)
             => JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
+
+        public virtual void Dispose() { }
     }
 }

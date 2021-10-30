@@ -56,12 +56,6 @@ namespace Marathon.Formats.Script.Lua.Types
             return value;
         }
 
-        public override BInteger Parse(BinaryReaderEx reader, BHeader header)
-        {
-            BInteger value = RawParse(reader, header);
-            Console.WriteLine($"Parsed int: {value.AsInt()}");
-
-            return value;
-        }
+        public override BInteger Parse(BinaryReaderEx reader, BHeader header) => RawParse(reader, header);
     }
 }

@@ -32,8 +32,6 @@ namespace Marathon.Formats.Script.Lua.Types
 
         public override LFunction Parse(BinaryReaderEx reader, BHeader header)
         {
-            Console.WriteLine("Parsing function...");
-
             LFunctionParseState s = new();
             ParseMain(reader, header, s);
 
@@ -70,36 +68,23 @@ namespace Marathon.Formats.Script.Lua.Types
 
         public void ParseCode(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
         {
-            Console.WriteLine("Parsing bytecode...");
-
             s.Length = header.Integer.Parse(reader, header).AsInt();
             s.Code = new int[s.Length];
 
             for (int i = 0; i < s.Length; i++)
-            {
                 s.Code[i] = reader.ReadInt32();
-                Console.WriteLine($"Parsed codepoint: {s.Code[i]:X}");
-            }
         }
 
         public void ParseConstants(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
         {
-            Console.WriteLine("Parsing constants list...");
             s.Constants = header.Constant.ParseList(reader, header);
-
-            Console.WriteLine("Parsing functions list...");
             s.Functions = header.Function.ParseList(reader, header);
         }
 
         public virtual void ParseDebug(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
         {
-            Console.WriteLine("Parsing source lines...");
             s.Lines = header.Integer.ParseList(reader, header);
-
-            Console.WriteLine("Parsing locals...");
             s.Locals = header.Local.ParseList(reader, header);
-
-            Console.WriteLine("Parsing upvalues...");
             BList<LString> upvalueNames = header.String.ParseList(reader, header);
 
             for (int i = 0; i < upvalueNames.Length.AsInt(); i++)

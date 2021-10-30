@@ -8,69 +8,60 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
     public abstract class Expression
     {
         public readonly Precedence Precedence;
+
         public static readonly Expression NIL = new ConstantExpression(new Constant(LNil.NIL), -1);
 
-        public static BinaryExpression MakeCONCAT(Expression left, Expression right)
-            => new BinaryExpression("..", left, right, Precedence.CONCAT, Associativity.RIGHT);
+        public static BinaryExpression MakeCONCAT(Expression left, Expression right) => new("..", left, right, Precedence.CONCAT, Associativity.RIGHT);
 
-        public static BinaryExpression MakeADD(Expression left, Expression right)
-            => new BinaryExpression("+", left, right, Precedence.ADD, Associativity.LEFT);
+        public static BinaryExpression MakeADD(Expression left, Expression right) => new("+", left, right, Precedence.ADD, Associativity.LEFT);
 
-        public static BinaryExpression MakeSUB(Expression left, Expression right)
-            => new BinaryExpression("-", left, right, Precedence.ADD, Associativity.LEFT);
+        public static BinaryExpression MakeSUB(Expression left, Expression right) => new("-", left, right, Precedence.ADD, Associativity.LEFT);
 
-        public static BinaryExpression MakeMUL(Expression left, Expression right)
-            => new BinaryExpression("*", left, right, Precedence.MUL, Associativity.LEFT);
+        public static BinaryExpression MakeMUL(Expression left, Expression right) => new("*", left, right, Precedence.MUL, Associativity.LEFT);
 
-        public static BinaryExpression MakeDIV(Expression left, Expression right)
-            => new BinaryExpression("/", left, right, Precedence.MUL, Associativity.LEFT);
+        public static BinaryExpression MakeDIV(Expression left, Expression right) => new("/", left, right, Precedence.MUL, Associativity.LEFT);
 
-        public static BinaryExpression MakeMOD(Expression left, Expression right)
-            => new BinaryExpression("%", left, right, Precedence.MUL, Associativity.LEFT);
+        public static BinaryExpression MakeMOD(Expression left, Expression right) => new("%", left, right, Precedence.MUL, Associativity.LEFT);
 
-        public static UnaryExpression MakeUNM(Expression expression)
-            => new UnaryExpression("-", expression, Precedence.UNARY);
+        public static UnaryExpression MakeUNM(Expression expression) => new("-", expression, Precedence.UNARY);
 
-        public static UnaryExpression MakeNOT(Expression expression)
-            => new UnaryExpression("not ", expression, Precedence.UNARY);
+        public static UnaryExpression MakeNOT(Expression expression) => new("not ", expression, Precedence.UNARY);
 
-        public static UnaryExpression MakeLEN(Expression expression)
-            => new UnaryExpression("#", expression, Precedence.UNARY);
+        public static UnaryExpression MakeLEN(Expression expression) => new("#", expression, Precedence.UNARY);
 
-        public static BinaryExpression MakePOW(Expression left, Expression right)
-            => new BinaryExpression("^", left, right, Precedence.POW, Associativity.RIGHT);
+        public static BinaryExpression MakePOW(Expression left, Expression right) => new("^", left, right, Precedence.POW, Associativity.RIGHT);
 
         /// <summary>
         /// Prints out a sequences of expressions with commas, and optionally handling multiple expressions and return value adjustment.
         /// </summary>
-        public static void WriteSequence(Output @out, List<Expression> exprs, bool lineBreak, bool multiple)
+        public static void WriteSequence(Output @out, List<Expression> expressions, bool lineBreak, bool multiple)
         {
-            int n = exprs.Count,
+            int n = expressions.Count,
                 i = 1;
 
-            foreach (Expression expr in exprs)
+            foreach (Expression expression in expressions)
             {
                 bool last = i == n;
 
-                if (expr.IsMultiple())
+                if (expression.IsMultiple())
                     last = true;
 
                 if (last)
                 {
                     if (multiple)
                     {
-                        expr.WriteMultiple(@out);
+                        expression.WriteMultiple(@out);
                     }
                     else
                     {
-                        expr.Write(@out);
+                        expression.Write(@out);
                     }
 
                     break;
                 }
                 else
                 {
-                    expr.Write(@out);
+                    expression.Write(@out);
 
                     @out.Write(",");
 
@@ -149,7 +140,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 
         public virtual int ClosureUpvalueLine() => throw new Exception();
 
-        public virtual void PrintClosure(Output @out, Target name)
+        public virtual void WriteClosure(Output @out, Target name)
             => throw new Exception();
 
         public virtual string AsName() => throw new Exception();

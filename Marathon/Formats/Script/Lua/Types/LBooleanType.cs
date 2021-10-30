@@ -15,10 +15,7 @@ namespace Marathon.Formats.Script.Lua.Types
             }
             else
             {
-                LBoolean @bool = value == 0 ? LBoolean.LFALSE : LBoolean.LTRUE;
-                Console.WriteLine($"Parsed Boolean: {@bool}");
-
-                return @bool;
+                return value == 0 ? LBoolean.LFALSE : LBoolean.LTRUE;
             }
         }
     }

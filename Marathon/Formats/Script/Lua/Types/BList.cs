@@ -5,6 +5,7 @@ namespace Marathon.Formats.Script.Lua.Types
     public class BList<T> : BObject where T : BObject
     {
         public readonly BInteger Length;
+
         private readonly List<T> _values;
 
         public BList(BInteger length, List<T> values)

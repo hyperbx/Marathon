@@ -7,30 +7,23 @@ namespace Marathon.Formats.Script.Lua.Types
     {
         public override LObject Parse(BinaryReaderEx reader, BHeader header)
         {
-            int type = reader.ReadByte() - 1;
-
-            Console.WriteLine("Parsing constant of type: ");
+            int type = reader.ReadByte();
 
             switch (type)
             {
                 case 0:
-                    Console.Write("nil\n");
                     return LNil.NIL;
 
                 case 1:
-                    Console.Write("Boolean\n");
                     return header.Bool.Parse(reader, header);
 
-                case 2:
-                    Console.Write("number\n");
+                case 3:
                     return header.Number.Parse(reader, header);
 
-                case 3:
-                    Console.Write("string\n");
+                case 4:
                     return header.String.Parse(reader, header);
 
                 default:
-                    Console.Write($"{type} (illegal)\n");
                     throw new Exception();
             }
         }

@@ -18,11 +18,7 @@ namespace Marathon.Formats.Script.Lua.Types
             void Run()
                 => b.Append((char)reader.ReadByte());
 
-            string s = b.ToString();
-
-            Console.WriteLine($"Parsed string: \"{s}\"");
-
-            return new LString(sizeT, s);
+            return new LString(sizeT, b.ToString());
         }
     }
 }

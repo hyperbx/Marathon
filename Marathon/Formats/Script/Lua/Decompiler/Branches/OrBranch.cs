@@ -22,8 +22,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Branches
             return rleft == rright ? rleft : -1;
         }
 
-        public override Expression AsExpression(Registers r)
-            => new BinaryExpression("or", _left.AsExpression(r), _right.AsExpression(r), Precedence.OR, Associativity.NONE);
+        public override Expression AsExpression(Registers r) => new BinaryExpression("or", _left.AsExpression(r), _right.AsExpression(r), Precedence.OR, Associativity.NONE);
 
         public override void UseExpression(Expression expression)
         {

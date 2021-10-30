@@ -15,12 +15,6 @@ namespace Marathon.Formats.Script.Lua.Types
             _integerType = new BIntegerType(sizeTSize);
         }
 
-        public override BSizeT Parse(BinaryReaderEx reader, BHeader header)
-        {
-            BSizeT value = new(_integerType.RawParse(reader, header));
-            Console.WriteLine($"Parsed size_t: {value.AsInt()}");
-
-            return value;
-        }
+        public override BSizeT Parse(BinaryReaderEx reader, BHeader header) => new(_integerType.RawParse(reader, header));
     }
 }

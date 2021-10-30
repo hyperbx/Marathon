@@ -8,6 +8,7 @@ using Marathon.Formats.Mesh;
 using Marathon.Formats.Package;
 using Marathon.Formats.Particle;
 using Marathon.Formats.Placement;
+using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
 
@@ -98,6 +99,10 @@ namespace Marathon.CLI
                                 TimeEvent tev = new(arg, true);
                                 break;
 
+                            case ".lub":
+                                Lua lub = new(arg, true);
+                                break;
+
                             case ".pkg":
                             case ".pkg.json":
                                 AssetPackage pkg = new(arg, true);
@@ -184,6 +189,9 @@ namespace Marathon.CLI
                 Console.WriteLine("Placement:");
                 Console.WriteLine("- Object Placement (*.set)");
                 Console.WriteLine("- Object Property Database (*.prop)\n");
+
+                Console.WriteLine("Script:");
+                Console.WriteLine("- Lua Bytecode (*.lub)\n");
 
                 Console.WriteLine("Text:");
                 Console.WriteLine("- Message Table (*.mst)");

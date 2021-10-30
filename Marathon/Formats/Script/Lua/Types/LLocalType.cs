@@ -12,14 +12,6 @@ namespace Marathon.Formats.Script.Lua.Types
             BInteger start = header.Integer.Parse(reader, header),
                      end = header.Integer.Parse(reader, header);
 
-            Console.WriteLine
-            (
-                $"Parsing local...\n" +
-                $"Name: {name}\n" +
-                $"Start: {start.AsInt()}\n" +
-                $"End: {end.AsInt()}\n"
-            );
-
             return new LLocal(name, start, end);
         }
     }

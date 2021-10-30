@@ -132,7 +132,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Statements
                 }
                 else
                 {
-                    _values[0].PrintClosure(@out, _targets[0]);
+                    _values[0].WriteClosure(@out, _targets[0]);
                 }
 
                 if (Comment != null)

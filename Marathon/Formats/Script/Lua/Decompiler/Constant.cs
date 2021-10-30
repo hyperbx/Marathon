@@ -99,7 +99,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 case 3:
                 {
                     int newlines = 0,
-                        unprintable = 0;
+                        unwritable = 0;
 
                     for (int i = 0; i < _string.Length; i++)
                     {
@@ -111,11 +111,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         }
                         else if ((c <= 31 && c != '\t') || c >= 127)
                         {
-                            unprintable++;
+                            unwritable++;
                         }
                     }
 
-                    if (unprintable == 0 && !_string.Contains("[[") && (newlines > 1 || (newlines == 1 && _string.IndexOf('\n') != _string.Length - 1)))
+                    if (unwritable == 0 && !_string.Contains("[[") && (newlines > 1 || (newlines == 1 && _string.IndexOf('\n') != _string.Length - 1)))
                     {
                         int pipe = 0;
                         string pipeString = "]]";
@@ -224,7 +224,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     break;
                 }
 
-                default: throw new Exception();
+                default:
+                    throw new Exception();
             }
         }
 

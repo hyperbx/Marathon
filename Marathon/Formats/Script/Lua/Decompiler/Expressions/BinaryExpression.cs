@@ -22,27 +22,27 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 
         public override void Write(Output @out)
         {
-            bool _leftGroup = LeftGroup();
-            bool _rightGroup = RightGroup();
+            bool leftGroup = LeftGroup();
+            bool rightGroup = RightGroup();
 
-            if (_leftGroup)
+            if (leftGroup)
                 @out.Write("(");
 
             _left.Write(@out);
 
-            if (_leftGroup)
+            if (leftGroup)
                 @out.Write(")");
 
             @out.Write(" ");
             @out.Write(_op);
             @out.Write(" ");
 
-            if (_rightGroup)
+            if (rightGroup)
                 @out.Write("(");
 
             _right.Write(@out);
 
-            if (_rightGroup)
+            if (rightGroup)
                 @out.Write(")");
         }
 

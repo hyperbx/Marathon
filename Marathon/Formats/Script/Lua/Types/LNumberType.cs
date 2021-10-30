@@ -39,19 +39,17 @@ namespace Marathon.Formats.Script.Lua.Types
                 switch (Size)
                 {
                     case 4:
-                        value = new LFloatNumber(reader.ReadInt32());
+                        value = new LFloatNumber(reader.ReadSingle());
                         break;
 
                     case 8:
-                        value = new LDoubleNumber(reader.ReadInt64());
+                        value = new LDoubleNumber(reader.ReadDouble());
                         break;
                 }
             }
 
             if (value == null)
                 throw new Exception("The input chunk has an unsupported Lua number format");
-
-            Console.WriteLine($"Parsed number: {value}");
 
             return value;
         }

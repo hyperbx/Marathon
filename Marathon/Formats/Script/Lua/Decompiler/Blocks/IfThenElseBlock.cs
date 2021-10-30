@@ -30,10 +30,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
             {
                 return -1;
             }
-            else
-            {
-                return base.CompareTo(block);
-            }
+
+            return base.CompareTo(block);
         }
 
         public override bool Breakable() => false;
@@ -63,9 +61,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
                The jump over the else block is falsely detected as a break. */
             if (_statements.Count == 1 && _statements[0] is Break @break)
             {
-                Break b = @break;
-
-                if (b.Target == _loopback)
+                if (@break.Target == _loopback)
                 {
                     @out.Dedent();
                     return;

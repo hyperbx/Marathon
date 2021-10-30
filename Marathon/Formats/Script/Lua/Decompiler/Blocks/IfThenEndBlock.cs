@@ -18,7 +18,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
         public IfThenEndBlock(LFunction function, Branch branch, Registers r) : this(function, branch, null, r) { }
 
         public IfThenEndBlock(LFunction function, Branch branch, Stack<Branch> stack, Registers r)
-            : base(function, branch.Begin == branch.End ? branch.Begin - 1 : branch.Begin, branch.Begin == branch.End ? branch.Begin - 1 : branch.End)
+            : base(function, (branch.Begin == branch.End) ? branch.Begin - 1 : branch.Begin, (branch.Begin == branch.End) ? branch.Begin - 1 : branch.End)
         {
             _branch = branch;
             _stack = stack;

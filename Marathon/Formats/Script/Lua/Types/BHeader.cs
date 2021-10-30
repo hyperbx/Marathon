@@ -24,7 +24,7 @@ namespace Marathon.Formats.Script.Lua.Types
         public BHeader(BinaryReaderEx reader)
         {
             // Read script signature.
-            reader.ReadSignature(4, Signature, false);
+            reader.ReadSignature(4, Signature);
 
             int versionNumber = reader.ReadByte();
 
@@ -57,16 +57,12 @@ namespace Marathon.Formats.Script.Lua.Types
                 }
             }
 
-            Console.WriteLine($"Version: 0x{versionNumber:X}");
-
             if (Version.HasFormat())
             {
                 int format = reader.ReadByte();
 
                 if (format != 0)
                     throw new Exception($"The input chunk reports a non-standard Lua format: {format}");
-
-                Console.WriteLine($"Chunk format: {format}");
             }
 
             int endianness = reader.ReadByte();
@@ -85,24 +81,13 @@ namespace Marathon.Formats.Script.Lua.Types
                     throw new Exception($"The input chunk reports an invalid endianness: {endianness}");
             }
 
-            Console.WriteLine($"Endianness: {endianness}" + (endianness == 0 ? " (big)" : " (little)"));
-
             int intSize = reader.ReadByte();
-
-            Console.WriteLine($"int size: {intSize}");
-
             Integer = new BIntegerType(intSize);
 
             int sizeTSize = reader.ReadByte();
-
-            Console.WriteLine($"size_t size: {sizeTSize}");
-
             SizeT = new BSizeTType(sizeTSize);
 
             int instructionSize = reader.ReadByte();
-
-            Console.WriteLine($"Instruction size: {instructionSize}");
-
             if (instructionSize != 4)
                 throw new Exception($"The input chunk reports an unsupported instruction size: {instructionSize} bytes");
 
@@ -116,9 +101,6 @@ namespace Marathon.Formats.Script.Lua.Types
             }
 
             int lNumberSize = reader.ReadByte();
-
-            Console.WriteLine($"Number size: {lNumberSize}");
-
             if (Version == Version.LUA50)
             {
                 Number = new LNumberType(lNumberSize, false);
@@ -127,8 +109,6 @@ namespace Marathon.Formats.Script.Lua.Types
             else
             {
                 int lNumberIntegralCode = reader.ReadByte();
-
-                Console.WriteLine($"Number integral code: {lNumberIntegralCode}");
 
                 if (lNumberIntegralCode > 1)
                     throw new Exception($"The input chunk reports an invalid code for lua number integralness: {lNumberIntegralCode}");

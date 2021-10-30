@@ -42,7 +42,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
             PrintMain(@out, d, true);
         }
 
-        public override void PrintClosure(Output @out, Target name)
+        public override void WriteClosure(Output @out, Target name)
         {
             Decompiler d = new(_function);
 
