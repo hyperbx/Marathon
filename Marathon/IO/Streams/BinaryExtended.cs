@@ -94,6 +94,19 @@ namespace Marathon.IO
             => ReadSignature(length, Encoding.ASCII.GetBytes(expectedSignature), throwOnInvalid);
 
         /// <summary>
+        /// Reads the signature at the current position as a UInt32.
+        /// </summary>
+        /// <param name="expectedSignature">The expected result for the signature.</param>
+        /// <param name="throwOnInvalid">Throw an exception if the signature is invalid.</param>
+        public void ReadSignature(uint expectedSignature, bool throwOnInvalid = true)
+        {
+            uint receivedSignature = ReadUInt32();
+
+            if (receivedSignature != expectedSignature && throwOnInvalid)
+                throw new InvalidSignatureException(expectedSignature.ToString("X"), receivedSignature.ToString("X"));
+        }
+
+        /// <summary>
         /// Reads a null-terminated string at the current position.
         /// </summary>
         public string ReadNullTerminatedString(bool isUTF16 = false, long position = -1, bool additive = false)

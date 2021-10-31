@@ -42,10 +42,28 @@ namespace Marathon.IO
     /// </summary>
     public class FileBase : IDisposable
     {
+        public FileBase() { }
+
+        public FileBase(string file, bool saveOnLoad = false, ReadMode readMode = ReadMode.CopyToMemory, WriteMode writeMode = WriteMode.Logical)
+        {
+            // Set file reading mode.
+            ReadMode = readMode;
+
+            // Set file writing mode.
+            WriteMode = writeMode;
+
+            // Load the file.
+            Load(file);
+
+            // Save the file.
+            if (saveOnLoad)
+                Save();
+        }
+
         /// <summary>
         /// Location of the file loaded.
         /// </summary>
-        public string Location;
+        public string Location { get; private set; }
 
         /// <summary>
         /// Determines what mode will be used for the reader.
@@ -57,16 +75,17 @@ namespace Marathon.IO
         /// </summary>
         public virtual WriteMode WriteMode { get; set; } = WriteMode.Logical;
 
-        public FileBase() { }
+        /// <summary>
+        /// The signature of the file.
+        /// </summary>
+        public virtual object Signature { get; }
 
-        public FileBase(string file, WriteMode writeMode = WriteMode.Logical)
-        {
-            // Set file writing mode.
-            WriteMode = writeMode;
+        /// <summary>
+        /// The extension used for the file name.
+        /// </summary>
+        public virtual string Extension { get; }
 
-            // Load the file immediately.
-            Load(file);
-        }
+        public Stream FileStream { get; internal set; }
 
         /// <summary>
         /// Prepares the file for stream reading.
@@ -85,9 +104,11 @@ namespace Marathon.IO
             // Set loaded location.
             Location = file;
 
-            // Open the file and read.
-            using (var fileStream = File.OpenRead(file))
-                Load(fileStream);
+            // Open the file and read without complete handle ownership.
+            FileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+
+            // Call load function.
+            Load(FileStream);
         }
 
         /// <summary>
@@ -188,6 +209,17 @@ namespace Marathon.IO
         public T JsonDeserialise<T>(string filePath)
             => JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
 
-        public virtual void Dispose() { }
+        /// <summary>
+        /// Deserialises object data from the JSON format at the specified location and returns it.
+        /// </summary>
+        /// <param name="filePath">Path to read JSON.</param>
+        /// <param name="T">Generic type for deserialisation rules.</param>
+        public object JsonDeserialise(string filePath, Type type)
+            => JsonConvert.DeserializeObject(File.ReadAllText(filePath), type);
+
+        public virtual void Dispose() 
+        {
+            FileStream?.Dispose();
+        }
     }
 }

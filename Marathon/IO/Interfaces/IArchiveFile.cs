@@ -1,19 +1,21 @@
-﻿namespace Marathon.IO.Interfaces
+﻿using System.IO.Compression;
+
+namespace Marathon.IO.Interfaces
 {
-    public interface IArchiveFile
+    public interface IArchiveFile : IArchiveData
     {
-        public string Name { get; set; }
+        uint Offset { get; set; }
 
-        public string Path { get; set; }
+        uint Length { get; set; }
 
-        public int Offset { get; set; }
+        uint UncompressedSize { get; set; }
 
-        public int CompressedSize { get; set; }
+        byte[] Data { get; set; }
 
-        public int DecompressedSize { get; set; }
+        void Compress(CompressionLevel compressionLevel);
 
-        public bool IsDecompressed { get; set; }
+        void Decompress();
 
-        public byte[] Data { get; set; }
+        bool IsCompressed();
     }
 }

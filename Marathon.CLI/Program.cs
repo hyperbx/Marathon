@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using Marathon.Formats.Archive;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
 using Marathon.Formats.Mesh;
@@ -16,12 +18,13 @@ namespace Marathon.CLI
 {
     class Program
     {
+        private static CompressionLevel _compressionLevel { get; set; } = CompressionLevel.Optimal;
+
         static void Main(string[] args)
         {
             Console.WriteLine
             (
-                $"Marathon - Version {Assembly.GetExecutingAssembly().GetName().Version}\n" +
-                "Written by Hyper and Knux\n\n" +
+                $"Marathon - Version {Assembly.GetExecutingAssembly().GetName().Version}\n\n" +
                 "" +
                 "All your '06 formats are belong to us.\n"
             );
@@ -30,12 +33,39 @@ namespace Marathon.CLI
             {
                 foreach (string arg in args)
                 {
+                    // Set compression level.
+                    switch (arg)
+                    {
+                        case "--no-compression":
+                            _compressionLevel = CompressionLevel.NoCompression;
+                            continue;
+
+                        case "--fast-compression":
+                            _compressionLevel = CompressionLevel.Fastest;
+                            continue;
+
+                        case "--optimal-compression":
+                            _compressionLevel = CompressionLevel.Optimal;
+                            continue;
+                    }
+
+                    if (Directory.Exists(arg))
+                    {
+                        U8Archive arc = new(arg, true, _compressionLevel);
+                        arc.Save(StringHelper.ReplaceFilename(arg, Path.GetFileName(arg) + arc.Extension));
+                    }
+
                     if (File.Exists(arg))
                     {
                         Console.WriteLine($"File: {arg}\n");
 
                         switch (StringHelper.GetFullExtension(arg))
                         {
+                            case ".arc":
+                                U8Archive arc = new(arg, IO.ReadMode.IndexOnly);
+                                arc.Extract(Path.Combine(Path.GetDirectoryName(arg), Path.GetFileNameWithoutExtension(arg)));
+                                break;
+
                             case ".bin":
                             case ".bin.json":
                             {
@@ -159,7 +189,13 @@ namespace Marathon.CLI
             else
             {
                 Console.WriteLine("Arguments:");
-                Console.WriteLine("--no-index - disables index display for serialised SET data.\n");
+                Console.WriteLine("--no-index - disables index display for serialised SET data.");
+                Console.WriteLine("--no-compression - writes U8 Archive files uncompressed.");
+                Console.WriteLine("--fast-compression - writes U8 Archive files using fast Zlib compression.");
+                Console.WriteLine("--optimal-compression - writes U8 Archive files using optimal Zlib compression.\n");
+
+                Console.WriteLine("Archive:");
+                Console.WriteLine("- U8 Archive (*.arc)\n");
 
                 Console.WriteLine("Audio:");
                 Console.WriteLine("- Sound Bank (*.sbk)\n");
