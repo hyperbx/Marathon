@@ -15,7 +15,7 @@ skip_commits:
     - Marathon.Wiki/**
     - LICENSE
     - README.md
-	
+
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -23,10 +23,10 @@ dotnet_csproj:
   assembly_version: '{version}'
   file_version: '{version}'
   informational_version: '$(APPVEYOR_REPO_COMMIT)'
-  
+
 before_build:
 - cmd: nuget restore
-  
+
 build:
   verbosity: minimal
 
