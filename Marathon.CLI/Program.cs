@@ -24,7 +24,7 @@ namespace Marathon.CLI
         {
             Console.WriteLine
             (
-                $"Marathon - Version {Assembly.GetExecutingAssembly().GetName().Version}\n\n" +
+                $"Marathon - Version {Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}\n\n" +
                 "" +
                 "All your '06 formats are belong to us.\n"
             );
