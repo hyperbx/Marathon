@@ -130,7 +130,7 @@ namespace Marathon.CLI
                                 break;
 
                             case ".lub":
-                                Lua lub = new(arg, true);
+                                LuaBinary lub = new(arg, true);
                                 break;
 
                             case ".pkg":

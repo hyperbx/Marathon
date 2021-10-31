@@ -11,11 +11,11 @@ namespace Marathon.Formats.Script.Lua
     /// File base for the *.lub format.
     /// <para>Used in SONIC THE HEDGEHOG for compiled Lua scripts.</para>
     /// </summary>
-    public class Lua : FileBase
+    public class LuaBinary : FileBase
     {
-        public Lua() { }
+        public LuaBinary() { }
 
-        public Lua(string file, bool decompile = false)
+        public LuaBinary(string file, bool decompile = false)
         {
             switch (Path.GetExtension(file))
             {
