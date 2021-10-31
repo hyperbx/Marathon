@@ -4,26 +4,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Package
 {
-    public class AssetType
-    {
-        public string Name { get; set; }
-
-        public List<AssetFile> Files { get; set; } = new();
-
-        public override string ToString() => Name;
-    }
-
-    public class AssetFile
-    {
-        public string Name { get; set; }
-
-        public string File { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the PKG format.</para>
+    /// File base for the *.pkg format.
     /// <para>Used in SONIC THE HEDGEHOG for defining specific assets with friendly names.</para>
     /// </summary>
     public class AssetPackage : FileBase
@@ -57,9 +39,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public const string Extension = ".pkg";
+        public override string Extension { get; } = ".pkg";
 
-        public List<AssetType> Types = new();
+        public List<AssetType> Types { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -179,5 +161,23 @@ namespace Marathon.Formats.Package
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class AssetType
+    {
+        public string Name { get; set; }
+
+        public List<AssetFile> Files { get; set; } = new();
+
+        public override string ToString() => Name;
+    }
+
+    public class AssetFile
+    {
+        public string Name { get; set; }
+
+        public string File { get; set; }
+
+        public override string ToString() => Name;
     }
 }

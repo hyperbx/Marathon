@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class MAB : FileBase // TODO: Identify what 'MAB' is...
+    public class MAB : FileBase // TODO: Identify what *.mab is...
     {
         public MAB() { }
 
@@ -21,8 +20,9 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public const string Signature = "MRAB",
-                            Extension = ".mab";
+        public override string Signature { get; } = "MRAB";
+
+        public override string Extension { get; } = ".mab";
 
         public override void Load(Stream stream)
         {

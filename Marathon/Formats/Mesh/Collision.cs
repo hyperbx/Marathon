@@ -8,19 +8,10 @@ using Assimp.Configs;
 
 namespace Marathon.Formats.Mesh
 {
-    public class CollisionFace
-    {
-        public ushort VertexA { get; set; }
-
-        public ushort VertexB { get; set; }
-
-        public ushort VertexC { get; set; }
-
-        public uint Flags { get; set; }
-
-        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @{Flags.ToString("X").PadLeft(8, '0')}";
-    }
-
+    /// <summary>
+    /// File base for the collision.bin format.
+    /// <para>Used in SONIC THE HEDGEHOG for collision meshes for terrain.</para>
+    /// </summary>
     public class Collision : FileBase
     {
         public Collision() { }
@@ -52,7 +43,7 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public const string Extension = ".bin";
+        public override string Extension { get; } = ".bin";
 
         public class FormatData
         {
@@ -60,7 +51,7 @@ namespace Marathon.Formats.Mesh
             public List<CollisionFace> Faces = new();
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -209,5 +200,18 @@ namespace Marathon.Formats.Mesh
                     Data.Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
             }
         }
+    }
+
+    public class CollisionFace
+    {
+        public ushort VertexA { get; set; }
+
+        public ushort VertexB { get; set; }
+
+        public ushort VertexC { get; set; }
+
+        public uint Flags { get; set; }
+
+        public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @{Flags.ToString("X").PadLeft(8, '0')}";
     }
 }

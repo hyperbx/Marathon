@@ -5,26 +5,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Placement
 {
-    public class ObjectProperty
-    {
-        public string Name { get; set; }
-
-        public List<ObjectParameter> Parameters { get; set; } = new();
-
-        public override string ToString() => Name;
-    }
-
-    public class ObjectParameter
-    {
-        public string Name { get; set; }
-
-        public uint Type { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the PROP format.</para>
+    /// File base for the *.prop format.
     /// <para>Used in SONIC THE HEDGEHOG for defining object properties.</para>
     /// </summary>
     public class ObjectPropertyDatabase : FileBase
@@ -58,18 +40,18 @@ namespace Marathon.Formats.Placement
             }
         }
 
-        public const string Extension = ".prop";
+        public override string Extension { get; } = ".prop";
 
         public class FormatData
         {
             public string Name { get; set; }
 
-            public List<ObjectProperty> Objects = new();
+            public List<ObjectProperty> Objects { get; set; } = new();
 
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new(); 
+        public FormatData Data { get; set; } = new(); 
 
         public override void Load(Stream stream)
         {
@@ -163,5 +145,23 @@ namespace Marathon.Formats.Placement
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class ObjectProperty
+    {
+        public string Name { get; set; }
+
+        public List<ObjectParameter> Parameters { get; set; } = new();
+
+        public override string ToString() => Name;
+    }
+
+    public class ObjectParameter
+    {
+        public string Name { get; set; }
+
+        public uint Type { get; set; }
+
+        public override string ToString() => Name;
     }
 }

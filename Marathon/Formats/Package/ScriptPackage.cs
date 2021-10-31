@@ -4,86 +4,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Package
 {
-    public class ScriptParameter
-    {
-        /// <summary>
-        /// Name of the state.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// <para>0 - Grounded</para>
-        /// <para>1 - Flying (?)</para>
-        /// <para>2 - Flying (?)</para>
-        /// <para>3 - Wall (?)</para>
-        /// <para>4 - Wall (?)</para>
-        /// <para>5 - Idle Attack</para>
-        /// </summary>
-        public int State { get; set; }
-
-        /// <summary>
-        /// Total health points.
-        /// </summary>
-        public int Health { get; set; }
-
-        /// <summary>
-        /// Score given to the player upon dying.
-        /// </summary>
-        public int Score { get; set; }
-
-        public float UnknownSingle1 { get; set; }
-
-        /// <summary>
-        /// The range the player must be in for the enemies to find them.
-        /// </summary>
-        public float FoundRangeIn { get; set; }
-
-        /// <summary>
-        /// TODO: needs more research.
-        /// </summary>
-        public float FoundRangeOut { get; set; }
-
-        public float UnknownSingle4 { get; set; }
-        public float UnknownSingle5 { get; set; }
-        public float UnknownSingle6 { get; set; }
-        public float UnknownSingle7 { get; set; }
-        public float UnknownSingle8 { get; set; }
-
-        /// <summary>
-        /// The speed the enemies rotate at when searching for the player.
-        /// </summary>
-        public float RotationSpeed { get; set; }
-
-        /// <summary>
-        /// Something to do with rotation speed.
-        /// </summary>
-        public float UnknownSingle10 { get; set; }
-
-        /// <summary>
-        /// Something to do with rotation speed.
-        /// </summary>
-        public float UnknownSingle11 { get; set; }
-
-        public float UnknownSingle12 { get; set; }
-        public float UnknownSingle13 { get; set; }
-        public float UnknownSingle14 { get; set; }
-        public float UnknownSingle15 { get; set; }
-
-        /// <summary>
-        /// Total time taken for the enemies to react to the player in the search range.
-        /// </summary>
-        public float FoundReactionTime { get; set; }
-
-        public float UnknownSingle17 { get; set; }
-
-        /// <summary>
-        /// The size of this struct.
-        /// </summary>
-        public const uint Size = 0x54;
-
-        public override string ToString() => Name;
-    }
-
+    /// <summary>
+    /// File base for the ScriptParameter.bin format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining properties for enemy types.</para>
+    /// </summary>
     public class ScriptPackage : FileBase
     {
         public ScriptPackage() { }
@@ -115,9 +39,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public const string Extension = ".bin";
+        public override string Extension { get; } = ".bin";
 
-        public List<ScriptParameter> Parameters = new();
+        public List<ScriptParameter> Parameters { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -201,5 +125,92 @@ namespace Marathon.Formats.Package
             writer.WriteNulls(4);
             writer.FinishWrite();
         }
+    }
+
+    public class ScriptParameter
+    {
+        /// <summary>
+        /// Name of the state.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// <para>0 - Grounded</para>
+        /// <para>1 - Flying (?)</para>
+        /// <para>2 - Flying (?)</para>
+        /// <para>3 - Wall (?)</para>
+        /// <para>4 - Wall (?)</para>
+        /// <para>5 - Idle Attack</para>
+        /// </summary>
+        public int State { get; set; }
+
+        /// <summary>
+        /// Total health points.
+        /// </summary>
+        public int Health { get; set; }
+
+        /// <summary>
+        /// Score given to the player upon dying.
+        /// </summary>
+        public int Score { get; set; }
+
+        public float UnknownSingle1 { get; set; }
+
+        /// <summary>
+        /// The range the player must be in for the enemies to find them.
+        /// </summary>
+        public float FoundRangeIn { get; set; }
+
+        /// <summary>
+        /// TODO: needs more research.
+        /// </summary>
+        public float FoundRangeOut { get; set; }
+
+        public float UnknownSingle4 { get; set; }
+
+        public float UnknownSingle5 { get; set; }
+
+        public float UnknownSingle6 { get; set; }
+
+        public float UnknownSingle7 { get; set; }
+
+        public float UnknownSingle8 { get; set; }
+
+        /// <summary>
+        /// The speed the enemies rotate at when searching for the player.
+        /// </summary>
+        public float RotationSpeed { get; set; }
+
+        /// <summary>
+        /// Something to do with rotation speed.
+        /// </summary>
+        public float UnknownSingle10 { get; set; }
+
+        /// <summary>
+        /// Something to do with rotation speed.
+        /// </summary>
+        public float UnknownSingle11 { get; set; }
+
+        public float UnknownSingle12 { get; set; }
+
+        public float UnknownSingle13 { get; set; }
+
+        public float UnknownSingle14 { get; set; }
+
+        public float UnknownSingle15 { get; set; }
+
+        /// <summary>
+        /// Total time taken for the enemies to react to the player in the search range.
+        /// </summary>
+        public float FoundReactionTime { get; set; }
+
+        public float UnknownSingle17 { get; set; }
+
+        /// <summary>
+        /// The size of this struct.
+        /// </summary>
+        public const uint Size = 0x54;
+
+        public override string ToString() => Name;
     }
 }

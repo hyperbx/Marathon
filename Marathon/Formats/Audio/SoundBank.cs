@@ -4,39 +4,9 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Audio
 {
-    public class Cue
-    {
-        /// <summary>
-        /// Name of this Cue in the Sound Bank.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Uncertain what exactly this affects.
-        /// </summary>
-        public uint Category { get; set; }
-
-        /// <summary>
-        /// Unknown - possibly a flag, possibly unused?
-        /// </summary>
-        public float UnknownSingle { get; set; }
-
-        /// <summary>
-        /// The distance this sound can be heard from.
-        /// </summary>
-        public float Radius { get; set; }
-
-        /// <summary>
-        /// XMA this Cue uses, if null, assume it uses a CSB instead.
-        /// </summary>
-        public string Stream { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the SBK format.</para>
-    /// <para>Used in SONIC THE HEDGEHOG for defining <a href="https://www.criware.com/">CriWare</a> sound effects in <see cref="CueSheetBinary"/> files.</para>
+    /// File base for the *.sbk format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining properties for <a href="https://www.criware.com/">CriWare</a> sound effects in <see cref="CueSheetBinary"/> files.</para>
     /// </summary>
     public class SoundBank : FileBase
     {
@@ -69,8 +39,9 @@ namespace Marathon.Formats.Audio
             }
         }
 
-        public const string Signature = "SBNK",
-                            Extension = ".sbk";
+        public override string Signature { get; } = "SBNK";
+
+        public override string Extension { get; } = ".sbk";
 
         public class FormatData
         {
@@ -81,7 +52,7 @@ namespace Marathon.Formats.Audio
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -221,5 +192,35 @@ namespace Marathon.Formats.Audio
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class Cue
+    {
+        /// <summary>
+        /// Name of this Cue in the Sound Bank.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Uncertain what exactly this affects.
+        /// </summary>
+        public uint Category { get; set; }
+
+        /// <summary>
+        /// Unknown - possibly a flag, possibly unused?
+        /// </summary>
+        public float UnknownSingle { get; set; }
+
+        /// <summary>
+        /// The distance this sound can be heard from.
+        /// </summary>
+        public float Radius { get; set; }
+
+        /// <summary>
+        /// XMA this Cue uses, if null, assume it uses a CSB instead.
+        /// </summary>
+        public string Stream { get; set; }
+
+        public override string ToString() => Name;
     }
 }

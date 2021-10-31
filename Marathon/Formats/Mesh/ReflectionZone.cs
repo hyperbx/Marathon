@@ -8,32 +8,8 @@ using Marathon.Helpers;
 
 namespace Marathon.Formats.Mesh
 {
-    public class ReflectionArea
-    {
-        public float Z_Rotation { get; set; }
-
-        public float Length { get; set; }
-
-        public float Y_Rotation { get; set; }
-
-        public float Height { get; set; }
-
-        [JsonIgnore]
-        public List<Vector3> Vertices { get; set; } = new();
-
-        public ReflectionArea() { }
-
-        public ReflectionArea(BinaryReaderEx reader)
-        {
-            Z_Rotation = reader.ReadSingle();
-            Length     = reader.ReadSingle();
-            Y_Rotation = reader.ReadSingle();
-            Height     = reader.ReadSingle();
-        }
-    }
-
     /// <summary>
-    /// <para>File base for the RAB format.</para>
+    /// File base for the *.rab format.
     /// <para>Used in SONIC THE HEDGEHOG for reflection bounding boxes.</para>
     /// </summary>
     public class ReflectionZone : FileBase
@@ -67,9 +43,9 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public const string Extension = ".rab";
+        public override string Extension { get; } = ".rab";
 
-        public List<ReflectionArea> Reflections = new();
+        public List<ReflectionArea> Reflections { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -176,6 +152,30 @@ namespace Marathon.Formats.Mesh
             }
 
             JsonSerialise(Reflections);
+        }
+    }
+
+    public class ReflectionArea
+    {
+        public float Z_Rotation { get; set; }
+
+        public float Length { get; set; }
+
+        public float Y_Rotation { get; set; }
+
+        public float Height { get; set; }
+
+        [JsonIgnore]
+        public List<Vector3> Vertices { get; set; } = new();
+
+        public ReflectionArea() { }
+
+        public ReflectionArea(BinaryReaderEx reader)
+        {
+            Z_Rotation = reader.ReadSingle();
+            Length = reader.ReadSingle();
+            Y_Rotation = reader.ReadSingle();
+            Height = reader.ReadSingle();
         }
     }
 }

@@ -5,62 +5,19 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Mesh
 {
-    public class PathData
-    {
-        public uint Flag1 { get; set; }
-
-        public uint Flag2 { get; set; }
-
-        public uint NodeNumber { get; set; }
-
-        public List<Spline> Splines { get; set; } = new();
-
-        public Vector3 Position { get; set; }
-
-        public Quaternion Rotation { get; set; }
-
-        public string Name { get; set; }
-
-        public override string ToString() => Name;
-    }
-
-    public class Spline
-    {
-        public List<SplineData> Vertices { get; set; } = new();
-
-        public class SplineData
-        {
-            public uint Flag { get; set; }
-
-            public Vector3 Position { get; set; }
-
-            public Vector3 InPosition { get; set; }
-
-            public Vector3 OutPosition { get; set; }
-        }
-    }
-
     /// <summary>
-    /// <para>File base for the PATH format.</para>
+    /// File base for the *.path format.
     /// <para>Used in SONIC THE HEDGEHOG for splines.</para>
     /// </summary>
     public class PathSpline : FileBase
     {
         public PathSpline() { }
 
-        public PathSpline(string file)
-        {
-            switch (Path.GetExtension(file))
-            {
-                default:
-                    base.Load(file);
-                    break;
-            }
-        }
+        public PathSpline(string file) : base(file) { }
 
-        public const string Extension = ".path";
+        public override string Extension { get; } = ".path";
 
-        public List<PathData> Paths = new();
+        public List<PathData> Paths { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -198,6 +155,41 @@ namespace Marathon.Formats.Mesh
             }
 
             writer.FinishWrite();
+        }
+    }
+
+    public class PathData
+    {
+        public uint Flag1 { get; set; }
+
+        public uint Flag2 { get; set; }
+
+        public uint NodeNumber { get; set; }
+
+        public List<Spline> Splines { get; set; } = new();
+
+        public Vector3 Position { get; set; }
+
+        public Quaternion Rotation { get; set; }
+
+        public string Name { get; set; }
+
+        public override string ToString() => Name;
+    }
+
+    public class Spline
+    {
+        public List<SplineData> Vertices { get; set; } = new();
+
+        public class SplineData
+        {
+            public uint Flag { get; set; }
+
+            public Vector3 Position { get; set; }
+
+            public Vector3 InPosition { get; set; }
+
+            public Vector3 OutPosition { get; set; }
         }
     }
 }

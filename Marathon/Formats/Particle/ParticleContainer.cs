@@ -4,34 +4,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class ParticleAttributes
-    {
-        /// <summary>
-        /// Name of this particle.
-        /// </summary>
-        public string ParticleName { get; set; }
-
-        /// <summary>
-        /// Name of this particle's data in the PEB referenced in File.
-        /// </summary>
-        public string EffectName { get; set; }
-
-        /// <summary>
-        /// Name of the PEB file, if EffectName is not null, for this particle, otherwise, name of MAB file for this particle.
-        /// </summary>
-        public string File { get; set; }
-
-        /// <summary>
-        /// <para>0x0 = File uses a MAB.</para>
-        /// <para>0x1 = Unknown, only used on kdv_scaffold01, file referenced is nowhere to be found.</para>
-        /// <para>0x2 = File uses a PE.</para>
-        /// <para>0x10000 = Unknown, can be combined with the other values for something.</para>
-        /// </summary>
-        public uint Flags { get; set; }
-
-        public override string ToString() => ParticleName;
-    }
-
+    /// <summary>
+    /// File base for the *.plc format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining attributes for particle effects.</para>
+    /// </summary>
     public class ParticleContainer : FileBase
     {
         public ParticleContainer() { }
@@ -63,7 +39,7 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public const string Extension = ".plc";
+        public override string Extension { get; } = ".plc";
 
         public class FormatData
         {
@@ -74,7 +50,7 @@ namespace Marathon.Formats.Particle
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -145,5 +121,33 @@ namespace Marathon.Formats.Particle
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class ParticleAttributes
+    {
+        /// <summary>
+        /// Name of this particle.
+        /// </summary>
+        public string ParticleName { get; set; }
+
+        /// <summary>
+        /// Name of this particle's data in the PEB referenced in File.
+        /// </summary>
+        public string EffectName { get; set; }
+
+        /// <summary>
+        /// Name of the PEB file, if EffectName is not null, for this particle, otherwise, name of MAB file for this particle.
+        /// </summary>
+        public string File { get; set; }
+
+        /// <summary>
+        /// <para>0x0 = File uses a MAB.</para>
+        /// <para>0x1 = Unknown, only used on kdv_scaffold01, file referenced is nowhere to be found.</para>
+        /// <para>0x2 = File uses a PE.</para>
+        /// <para>0x10000 = Unknown, can be combined with the other values for something.</para>
+        /// </summary>
+        public uint Flags { get; set; }
+
+        public override string ToString() => ParticleName;
     }
 }

@@ -7,6 +7,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Script.Lua
 {
+    /// <summary>
+    /// File base for the *.lub format.
+    /// <para>Used in SONIC THE HEDGEHOG for compiled Lua scripts.</para>
+    /// </summary>
     public class Lua : FileBase
     {
         public Lua() { }

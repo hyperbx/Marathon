@@ -10,97 +10,10 @@ using Newtonsoft.Json;
 
 namespace Marathon.Formats.Placement
 {
-    public class SetObject
-    {
-        /// <summary>
-        /// The name of this object.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The type of object.
-        /// </summary>
-        public string Type { get; set; }
-
-        /// <summary>
-        /// Determines whether the object should be inactive to be initialised later.
-        /// </summary>
-        public bool StartInactive { get; set; }
-
-        /// <summary>
-        /// X/Y/Z co-ordinates for where the object should be located.
-        /// </summary>
-        public Vector3 Position { get; set; }
-
-        /// <summary>
-        /// The distance the player must be in range for the object to be drawn.
-        /// </summary>
-        public float DrawDistance { get; set; }
-
-        /// <summary>
-        /// X/Y/Z/W Quaternion angle for how the object should be rotated.
-        /// </summary>
-        public Quaternion Rotation { get; set; }
-
-        /// <summary>
-        /// The parameters pertaining to the object type.
-        /// </summary>
-        public List<SetParameter> Parameters { get; set; } = new();
-
-        /// <summary>
-        /// Determines whether or not the JSON export should display indices per object.
-        /// </summary>
-        [JsonIgnore]
-        public bool DisplayIndex { get; set; }
-
-        /// <summary>
-        /// This object's index - not required for writing, just for convenience with SET grouping via JSON.
-        /// </summary>
-        public int Index { get; set; }
-
-        /// <summary>
-        /// Determines whether or not <see cref="Index"/> should be serialised.
-        /// </summary>
-        public bool ShouldSerializeIndex() => DisplayIndex;
-
-        public override string ToString() => Name;
-    }
-
-    public class SetParameter
-    {
-        /// <summary>
-        /// The data pertaining to this parameter.
-        /// </summary>
-        public object Data { get; set; }
-
-        /// <summary>
-        /// The data type for <see cref="Data"/>.
-        /// </summary>
-        public Type DataType { get; set; }
-
-        public override string ToString() => Data.ToString();
-    }
-
-    public class SetGroup
-    {
-        /// <summary>
-        /// The name of this group.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The function in Lua called when the group is complete.
-        /// </summary>
-        public string Function { get; set; }
-
-        /// <summary>
-        /// The object indices required to be disposed for this group to be complete.
-        /// </summary>
-        public List<ulong> Objects { get; set; } = new();
-
-        public override string ToString() => Name;
-    }
-
+    /// <summary>
+    /// File base for the *.set format.
+    /// <para>Used in SONIC THE HEDGEHOG for object layouts.</para>
+    /// </summary>
     public class ObjectPlacement : FileBase
     {
         public ObjectPlacement() { }
@@ -135,25 +48,25 @@ namespace Marathon.Formats.Placement
             }
         }
 
-        public const string Extension = ".set";
+        public override string Extension { get; } = ".set";
 
         public class FormatData
         {
             public string Name { get; set; }
 
-            public List<SetObject> Objects = new();
+            public List<SetObject> Objects { get; set; } = new();
 
-            public List<SetGroup> Groups = new();
+            public List<SetGroup> Groups { get; set; } = new();
 
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         /// <summary>
         /// Determines whether or not the JSON export should display indices per object.
         /// </summary>
-        public bool DisplayIndex = true;
+        public bool DisplayIndex { get; set; } = true;
 
         public override void Load(Stream stream)
         {
@@ -505,5 +418,96 @@ namespace Marathon.Formats.Placement
 
             writer.FinishWrite();
         }
+    }
+
+    public class SetObject
+    {
+        /// <summary>
+        /// The name of this object.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The type of object.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Determines whether the object should be inactive to be initialised later.
+        /// </summary>
+        public bool StartInactive { get; set; }
+
+        /// <summary>
+        /// X/Y/Z co-ordinates for where the object should be located.
+        /// </summary>
+        public Vector3 Position { get; set; }
+
+        /// <summary>
+        /// The distance the player must be in range for the object to be drawn.
+        /// </summary>
+        public float DrawDistance { get; set; }
+
+        /// <summary>
+        /// X/Y/Z/W Quaternion angle for how the object should be rotated.
+        /// </summary>
+        public Quaternion Rotation { get; set; }
+
+        /// <summary>
+        /// The parameters pertaining to the object type.
+        /// </summary>
+        public List<SetParameter> Parameters { get; set; } = new();
+
+        /// <summary>
+        /// Determines whether or not the JSON export should display indices per object.
+        /// </summary>
+        [JsonIgnore]
+        public bool DisplayIndex { get; set; }
+
+        /// <summary>
+        /// This object's index - not required for writing, just for convenience with SET grouping via JSON.
+        /// </summary>
+        public int Index { get; set; }
+
+        /// <summary>
+        /// Determines whether or not <see cref="Index"/> should be serialised.
+        /// </summary>
+        public bool ShouldSerializeIndex() => DisplayIndex;
+
+        public override string ToString() => Name;
+    }
+
+    public class SetParameter
+    {
+        /// <summary>
+        /// The data pertaining to this parameter.
+        /// </summary>
+        public object Data { get; set; }
+
+        /// <summary>
+        /// The data type for <see cref="Data"/>.
+        /// </summary>
+        public Type DataType { get; set; }
+
+        public override string ToString() => Data.ToString();
+    }
+
+    public class SetGroup
+    {
+        /// <summary>
+        /// The name of this group.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The function in Lua called when the group is complete.
+        /// </summary>
+        public string Function { get; set; }
+
+        /// <summary>
+        /// The object indices required to be disposed for this group to be complete.
+        /// </summary>
+        public List<ulong> Objects { get; set; } = new();
+
+        public override string ToString() => Name;
     }
 }

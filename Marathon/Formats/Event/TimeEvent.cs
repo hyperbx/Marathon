@@ -5,27 +5,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Event
 {
-    public class AnimationTimer
-    {
-        public string TargetNode { get; set; }
-
-        public string ParticleContainer { get; set; }
-
-        public string ParticleName { get; set; }
-
-        public float UnknownSingle_1 { get; set; }
-
-        public float UnknownSingle_2 { get; set; }
-
-        public bool UnknownBoolean_1 { get; set; }
-
-        public Vector3 ParticlePosition { get; set; }
-
-        public Vector3 UnknownVector3_1 { get; set; }
-
-        public override string ToString() => ParticleName;
-    }
-
+    /// <summary>
+    /// File base for the *.tev format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining timed events for objects.</para>
+    /// </summary>
     public class TimeEvent : FileBase
     {
         public TimeEvent() { }
@@ -57,19 +40,20 @@ namespace Marathon.Formats.Event
             }
         }
 
-        public const string Signature = ".TEV",
-                            Extension = ".tev";
+        public string Signature { get; } = ".TEV";
+
+        public string Extension { get; } = ".tev";
 
         public class FormatData
         {
-            public string Animation;
+            public string Animation { get; set; }
 
-            public List<AnimationTimer> Events = new();
+            public List<AnimationTimer> Events { get; set; } = new();
 
             public override string ToString() => Animation;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -163,5 +147,26 @@ namespace Marathon.Formats.Event
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class AnimationTimer
+    {
+        public string TargetNode { get; set; }
+
+        public string ParticleContainer { get; set; }
+
+        public string ParticleName { get; set; }
+
+        public float UnknownSingle_1 { get; set; }
+
+        public float UnknownSingle_2 { get; set; }
+
+        public bool UnknownBoolean_1 { get; set; }
+
+        public Vector3 ParticlePosition { get; set; }
+
+        public Vector3 UnknownVector3_1 { get; set; }
+
+        public override string ToString() => ParticleName;
     }
 }

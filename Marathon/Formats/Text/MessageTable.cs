@@ -5,28 +5,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Text
 {
-    public class Message
-    {
-        /// <summary>
-        /// Name of this message.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Text of this message.
-        /// </summary>
-        public string Text { get; set; }
-
-        /// <summary>
-        /// Placeholder Data (such as voice lines and button icons) for this message.
-        /// </summary>
-        public string[] Placeholders { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the MST format.</para>
+    /// File base for the *.mst format.
     /// <para>Used in SONIC THE HEDGEHOG for storing <a href="https://en.wikipedia.org/wiki/UTF-16">UTF-16</a> text with friendly names and placeholder data.</para>
     /// </summary>
     public class MessageTable : FileBase
@@ -60,19 +40,20 @@ namespace Marathon.Formats.Text
             }
         }
 
-        public const string Signature = "WTXT",
-                            Extension = ".mst";
+        public override string Signature { get; } = "WTXT";
+
+        public override string Extension { get; } = ".mst";
 
         public class FormatData
         {
             public string Name { get; set; }
 
-            public List<Message> Messages = new();
+            public List<Message> Messages { get; set; } = new();
 
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -149,5 +130,25 @@ namespace Marathon.Formats.Text
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class Message
+    {
+        /// <summary>
+        /// Name of this message.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Text of this message.
+        /// </summary>
+        public string Text { get; set; }
+
+        /// <summary>
+        /// Placeholder Data (such as voice lines and button icons) for this message.
+        /// </summary>
+        public string[] Placeholders { get; set; }
+
+        public override string ToString() => Name;
     }
 }

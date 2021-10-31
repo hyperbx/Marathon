@@ -4,88 +4,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Package
 {
-    public class Explosion
-    {
-        /// <summary>
-        /// The name of the explosion.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - setting this to 1 allowed a BombBox explosion to take enemies out, 0 & 2 didn't.
-        /// </summary>
-        public uint UnknownUInt32_1 { get; set; }
-
-        /// <summary>
-        /// The radius that this explosion affects.
-        /// </summary>
-        public float Radius { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - nearly always the same as Radius, barring a few exceptions.
-        /// </summary>
-        public float UnknownFloat_1 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown.
-        /// </summary>
-        public float UnknownFloat_2 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown.
-        /// </summary>
-        public float UnknownFloat_3 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown.
-        /// </summary>
-        public float UnknownFloat_4 { get; set; }
-
-        /// <summary>
-        /// TODO: not too sure, but increasing this value seemed to affect something to do with how the explosion affects other physics objects?
-        /// </summary>
-        public float Force { get; set; }
-
-        /// <summary>
-        /// How much damage this explosion causes.
-        /// </summary>
-        public uint Damage { get; set; }
-
-        /// <summary>
-        /// TODO: how things should react to this explosion? Has a lot of different values, 46 made every explosion stun enemies like a FlashBox and be unable to damage the player.
-        /// </summary>
-        public uint Behaviour { get; set; }
-
-        /// <summary>
-        /// The internal path to the particle file used for the explosion.
-        /// </summary>
-        public string ParticleFile { get; set; }
-
-        /// <summary>
-        /// The name of the particle in the particle file to use for the explosion.
-        /// </summary>
-        public string ParticleName { get; set; }
-
-        /// <summary>
-        /// The internal path to the <see cref="Audio.SoundBank"/> (*.sbk) used for the explosion.
-        /// </summary>
-        public string SoundBank { get; set; }
-
-        /// <summary>
-        /// The name of the sound in the <see cref="Audio.SoundBank"/> to use for the explosion.
-        /// </summary>
-        public string SoundName { get; set; }
-
-        /// <summary>
-        /// The internal path to the light animation (*.xni) used for the explosion.
-        /// </summary>
-        public string LightName { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the Explosion.bin format.</para>
+    /// File base for the Explosion.bin format.
     /// <para>Used in SONIC THE HEDGEHOG for explosion properties.</para>
     /// </summary>
     public class ExplosionPackage : FileBase
@@ -119,9 +39,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public const string Extension = ".bin";
+        public override string Extension { get; } = ".bin";
 
-        public List<Explosion> Explosions = new();
+        public List<Explosion> Explosions { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -203,5 +123,85 @@ namespace Marathon.Formats.Package
             writer.WriteNulls(4);
             writer.FinishWrite();
         }
+    }
+
+    public class Explosion
+    {
+        /// <summary>
+        /// The name of the explosion.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - setting this to 1 allowed a BombBox explosion to take enemies out, 0 & 2 didn't.
+        /// </summary>
+        public uint UnknownUInt32_1 { get; set; }
+
+        /// <summary>
+        /// The radius that this explosion affects.
+        /// </summary>
+        public float Radius { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - nearly always the same as Radius, barring a few exceptions.
+        /// </summary>
+        public float UnknownFloat_1 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown.
+        /// </summary>
+        public float UnknownFloat_2 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown.
+        /// </summary>
+        public float UnknownFloat_3 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown.
+        /// </summary>
+        public float UnknownFloat_4 { get; set; }
+
+        /// <summary>
+        /// TODO: not too sure, but increasing this value seemed to affect something to do with how the explosion affects other physics objects?
+        /// </summary>
+        public float Force { get; set; }
+
+        /// <summary>
+        /// How much damage this explosion causes.
+        /// </summary>
+        public uint Damage { get; set; }
+
+        /// <summary>
+        /// TODO: how things should react to this explosion? Has a lot of different values, 46 made every explosion stun enemies like a FlashBox and be unable to damage the player.
+        /// </summary>
+        public uint Behaviour { get; set; }
+
+        /// <summary>
+        /// The internal path to the particle file used for the explosion.
+        /// </summary>
+        public string ParticleFile { get; set; }
+
+        /// <summary>
+        /// The name of the particle in the particle file to use for the explosion.
+        /// </summary>
+        public string ParticleName { get; set; }
+
+        /// <summary>
+        /// The internal path to the <see cref="Audio.SoundBank"/> (*.sbk) used for the explosion.
+        /// </summary>
+        public string SoundBank { get; set; }
+
+        /// <summary>
+        /// The name of the sound in the <see cref="Audio.SoundBank"/> to use for the explosion.
+        /// </summary>
+        public string SoundName { get; set; }
+
+        /// <summary>
+        /// The internal path to the light animation (*.xni) used for the explosion.
+        /// </summary>
+        public string LightName { get; set; }
+
+        public override string ToString() => Name;
     }
 }

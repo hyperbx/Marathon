@@ -4,31 +4,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class ParticleTexture
-    {
-        /// <summary>
-        /// Name of this particle texture.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Filepath to the texture used by this particle.
-        /// </summary>
-        public string Filepath { get; set; }
-
-        /// <summary>
-        /// Unknown, always the same as UnknownUInt32_2.
-        /// </summary>
-        public uint UnknownUInt32_1 { get; set; }
-
-        /// <summary>
-        /// Unknown, always the same as UnknownUInt32_1.
-        /// </summary>
-        public uint UnknownUInt32_2 { get; set; }
-
-        public override string ToString() => Name;
-    }
-
+    /// <summary>
+    /// File base for the *.ptb format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining textures for particle effects.</para>
+    /// </summary>
     public class ParticleTextureBank : FileBase
     {
         public ParticleTextureBank() { }
@@ -60,19 +39,20 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public const string Signature = "BTEP",
-                            Extension = ".ptb";
+        public override string Signature { get; } = "BTEP";
+
+        public override string Extension { get; } = ".ptb";
 
         public class FormatData
         {
             public string Name { get; set; }
 
-            public List<ParticleTexture> ParticleTextures = new();
+            public List<ParticleTexture> ParticleTextures { get; set; } = new();
 
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -92,7 +72,7 @@ namespace Marathon.Formats.Particle
                 ParticleTexture particle = new()
                 {
                     Name = new string(reader.ReadChars(0x20)).Trim('\0'),
-                    Filepath = new string(reader.ReadChars(0x80)).Trim('\0'),
+                    FilePath = new string(reader.ReadChars(0x80)).Trim('\0'),
                     UnknownUInt32_1 = reader.ReadUInt32(),
                     UnknownUInt32_2 = reader.ReadUInt32()
                 };
@@ -119,7 +99,7 @@ namespace Marathon.Formats.Particle
             for (int i = 0; i < Data.ParticleTextures.Count; i++)
             {
                 writer.WriteNullPaddedString(Data.ParticleTextures[i].Name, 0x20);
-                writer.WriteNullPaddedString(Data.ParticleTextures[i].Filepath, 0x80);
+                writer.WriteNullPaddedString(Data.ParticleTextures[i].FilePath, 0x80);
                 writer.Write(Data.ParticleTextures[i].UnknownUInt32_1);
                 writer.Write(Data.ParticleTextures[i].UnknownUInt32_2);
             }
@@ -127,5 +107,30 @@ namespace Marathon.Formats.Particle
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class ParticleTexture
+    {
+        /// <summary>
+        /// Name of this particle texture.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Filepath to the texture used by this particle.
+        /// </summary>
+        public string FilePath { get; set; }
+
+        /// <summary>
+        /// Unknown, always the same as UnknownUInt32_2.
+        /// </summary>
+        public uint UnknownUInt32_1 { get; set; }
+
+        /// <summary>
+        /// Unknown, always the same as UnknownUInt32_1.
+        /// </summary>
+        public uint UnknownUInt32_2 { get; set; }
+
+        public override string ToString() => Name;
     }
 }

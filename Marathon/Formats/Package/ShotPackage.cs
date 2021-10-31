@@ -4,74 +4,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Package
 {
-    public class ShotParameter
-    {
-        public string Name { get; set; }
-
-        public string Model { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - only used by the Egg Buster missile?
-        /// </summary>
-        public string UnknownString_1 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - only used by the Egg Buster missile?
-        /// </summary>
-        public string UnknownString_2 { get; set; }
-
-        public uint UnknownUInt32_1 { get; set; }
-
-        public float UnknownFloat_1 { get; set; }
-
-        public float UnknownFloat_2 { get; set; }
-
-        public uint UnknownUInt32_2 { get; set; }
-
-        public float UnknownFloat_3 { get; set; }
-
-        public float UnknownFloat_4 { get; set; }
-
-        public float UnknownFloat_5 { get; set; }
-
-        public float UnknownFloat_6 { get; set; }
-
-        public float UnknownFloat_7 { get; set; }
-
-        public uint UnknownUInt32_3 { get; set; }
-
-        public float UnknownFloat_8 { get; set; }
-
-        public float UnknownFloat_9 { get; set; }
-
-        public string Explosion { get; set; }
-
-        public string ParticleBank1 { get; set; }
-
-        public string ParticleName1 { get; set; }
-
-        public string SoundBank { get; set; }
-
-        public string SoundName { get; set; }
-
-        public string ParticleBank2 { get; set; }
-
-        public string ParticleName2 { get; set; }
-
-        public string ParticleBank3 { get; set; }
-
-        public string ParticleName3 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - either empty or misfired stuff.
-        /// </summary>
-        public string UnknownString_3 { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the ShotParameter.bin format.</para>
+    /// File base for the ShotParameter.bin format.
     /// <para>Used in SONIC THE HEDGEHOG for projectile properties.</para>
     /// </summary>
     public class ShotPackage : FileBase
@@ -105,9 +39,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public const string Extension = ".bin";
+        public override string Extension { get; } = ".bin";
 
-        public List<ShotParameter> Parameters = new();
+        public List<ShotParameter> Parameters { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -220,5 +154,71 @@ namespace Marathon.Formats.Package
             writer.WriteNulls(4);
             writer.FinishWrite();
         }
+    }
+
+    public class ShotParameter
+    {
+        public string Name { get; set; }
+
+        public string Model { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - only used by the Egg Buster missile?
+        /// </summary>
+        public string UnknownString_1 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - only used by the Egg Buster missile?
+        /// </summary>
+        public string UnknownString_2 { get; set; }
+
+        public uint UnknownUInt32_1 { get; set; }
+
+        public float UnknownFloat_1 { get; set; }
+
+        public float UnknownFloat_2 { get; set; }
+
+        public uint UnknownUInt32_2 { get; set; }
+
+        public float UnknownFloat_3 { get; set; }
+
+        public float UnknownFloat_4 { get; set; }
+
+        public float UnknownFloat_5 { get; set; }
+
+        public float UnknownFloat_6 { get; set; }
+
+        public float UnknownFloat_7 { get; set; }
+
+        public uint UnknownUInt32_3 { get; set; }
+
+        public float UnknownFloat_8 { get; set; }
+
+        public float UnknownFloat_9 { get; set; }
+
+        public string Explosion { get; set; }
+
+        public string ParticleBank1 { get; set; }
+
+        public string ParticleName1 { get; set; }
+
+        public string SoundBank { get; set; }
+
+        public string SoundName { get; set; }
+
+        public string ParticleBank2 { get; set; }
+
+        public string ParticleName2 { get; set; }
+
+        public string ParticleBank3 { get; set; }
+
+        public string ParticleName3 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - either empty or misfired stuff.
+        /// </summary>
+        public string UnknownString_3 { get; set; }
+
+        public override string ToString() => Name;
     }
 }

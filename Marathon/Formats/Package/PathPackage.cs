@@ -4,38 +4,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Package
 {
-    public class PathObject
-    {
-        /// <summary>
-        /// Name of this object.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Model this object should use.
-        /// </summary>
-        public string Model { get; set; }
-
-        /// <summary>
-        /// Animation this object should use.
-        /// </summary>
-        public string Animation { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown.
-        /// </summary>
-        public string Text { get; set; }
-
-        /// <summary>
-        /// Material animation this object should use.
-        /// </summary>
-        public string MaterialAnimation { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the PathObj.bin format.</para>
+    /// File base for the PathObj.bin format.
     /// <para>Used in SONIC THE HEDGEHOG for defining valid objects for common_path_obj.</para>
     /// </summary>
     public class PathPackage : FileBase
@@ -69,9 +39,9 @@ namespace Marathon.Formats.Package
             }
         }
 
-        public const string Extension = ".bin";
+        public override string Extension { get; } = ".bin";
 
-        public List<PathObject> PathObjects = new();
+        public List<PathObject> PathObjects { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -132,5 +102,35 @@ namespace Marathon.Formats.Package
             writer.FixPadding(0x10);
             writer.FinishWrite();
         }
+    }
+
+    public class PathObject
+    {
+        /// <summary>
+        /// Name of this object.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Model this object should use.
+        /// </summary>
+        public string Model { get; set; }
+
+        /// <summary>
+        /// Animation this object should use.
+        /// </summary>
+        public string Animation { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown.
+        /// </summary>
+        public string Text { get; set; }
+
+        /// <summary>
+        /// Material animation this object should use.
+        /// </summary>
+        public string MaterialAnimation { get; set; }
+
+        public override string ToString() => Name;
     }
 }

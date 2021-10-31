@@ -4,140 +4,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public class ParticleEffect
-    {
-        /// <summary>
-        /// Name of this particle effect.
-        /// </summary>
-        public string Name { get; set; }
-
-        public List<ParticleEffectAttributes> Effects { get; set; } = new();
-
-        public override string ToString() => Name;
-    }
-
-    public class ParticleEffectAttributes
-    {
-        /// <summary>
-        /// TODO: Unknown - flags?
-        /// </summary>
-        public uint UnknownUInt32_1 { get; set; }
-
-        /// <summary>
-        /// How long this particle lasts.
-        /// </summary>
-        public float Lifetime { get; set; }
-
-        /// <summary>
-        /// The amount of particles cast from this effect.
-        /// </summary>
-        public float Density { get; set; }
-
-        /// <summary>
-        /// Potentially unused? Always 0.
-        /// </summary>
-        public float UnknownFloat_1 { get; set; }
-
-        /// <summary>
-        /// How long this effect lasts.
-        /// </summary>
-        public float Duration { get; set; }
-
-        /// <summary>
-        /// How quickly this effect travels along the X Axis.
-        /// </summary>
-        public float XSpeed { get; set; }
-        
-        /// <summary>
-        /// How quickly this effect travels along the Y Axis?
-        /// </summary>
-        public float YSpeed { get; set; }
-
-        /// <summary>
-        /// How quickly this effect travels along the Z Axis.
-        /// </summary>
-        public float ZSpeed { get; set; }
-
-        /// <summary>
-        /// Affects something to do with movement on the Y Axis? (Particle Spread like the one below?)
-        /// </summary>
-        public float UnknownFloat_2 { get; set; }
-
-        /// <summary>
-        /// Something to do with the effect's spread on the Z Axis?
-        /// </summary>
-        public float UnknownFloat_3 { get; set; }
-
-        /// <summary>
-        /// How large this effect is? Might be affected by the flags?
-        /// </summary>
-        public float Scale { get; set; }
-
-        /// <summary>
-        /// Something to do with randomness (radius?)
-        /// </summary>
-        public float UnknownFloat_4 { get; set; }
-
-        public float UnknownFloat_5 { get; set; }
-
-        public float UnknownFloat_6 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - flags?
-        /// </summary>
-        public uint UnknownUInt32_2 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - flags?
-        /// </summary>
-        public uint UnknownUInt32_3 { get; set; }
-
-        /// <summary>
-        /// TODO: Unknown - flags?
-        /// </summary>
-        public uint UnknownUInt32_4 { get; set; }
-
-        /// <summary>
-        /// The shader system to use in sonicnext.pgs
-        /// </summary>
-        public string Shader { get; set; }
-
-        /// <summary>
-        /// The ptb file to pull from for the first texture.
-        /// </summary>
-        public string TextureBank1 { get; set; }
-
-        /// <summary>
-        /// The texture entry to look for for the first texture.
-        /// </summary>
-        public string Texture1 { get; set; }
-
-        /// <summary>
-        /// The ptb file to pull from for the second texture.
-        /// </summary>
-        public string TextureBank2 { get; set; }
-
-        /// <summary>
-        /// The texture entry to look for for the second texture.
-        /// </summary>
-        public string Texture2 { get; set; }
-
-        /// <summary>
-        /// The ptb file to pull from for the third texture.
-        /// </summary>
-        public string TextureBank3 { get; set; }
-
-        /// <summary>
-        /// The texture entry to look for for the third texture.
-        /// </summary>
-        public string Texture3 { get; set; }
-
-        /// <summary>
-        /// Literally no clue what this is, length is based on a value before its offset.
-        /// </summary>
-        public byte[] CompletelyUnknownData { get; set; }
-    }
-
+    /// <summary>
+    /// File base for the *.peb format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining properties for particle effects.</para>
+    /// </summary>
     public class ParticleEffectBank : FileBase
     {
         public ParticleEffectBank() { }
@@ -169,8 +39,9 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public const string Signature = "BEEP",
-                            Extension = ".peb";
+        public override string Signature { get; } = "BEEP";
+
+        public override string Extension { get; } = ".peb";
 
         public class FormatData
         {
@@ -181,7 +52,7 @@ namespace Marathon.Formats.Particle
             public override string ToString() => Name;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -325,5 +196,139 @@ namespace Marathon.Formats.Particle
 
             writer.FinishWrite();
         }
+    }
+
+    public class ParticleEffect
+    {
+        /// <summary>
+        /// Name of this particle effect.
+        /// </summary>
+        public string Name { get; set; }
+
+        public List<ParticleEffectAttributes> Effects { get; set; } = new();
+
+        public override string ToString() => Name;
+    }
+
+    public class ParticleEffectAttributes
+    {
+        /// <summary>
+        /// TODO: Unknown - flags?
+        /// </summary>
+        public uint UnknownUInt32_1 { get; set; }
+
+        /// <summary>
+        /// How long this particle lasts.
+        /// </summary>
+        public float Lifetime { get; set; }
+
+        /// <summary>
+        /// The amount of particles cast from this effect.
+        /// </summary>
+        public float Density { get; set; }
+
+        /// <summary>
+        /// Potentially unused? Always 0.
+        /// </summary>
+        public float UnknownFloat_1 { get; set; }
+
+        /// <summary>
+        /// How long this effect lasts.
+        /// </summary>
+        public float Duration { get; set; }
+
+        /// <summary>
+        /// How quickly this effect travels along the X Axis.
+        /// </summary>
+        public float XSpeed { get; set; }
+
+        /// <summary>
+        /// How quickly this effect travels along the Y Axis?
+        /// </summary>
+        public float YSpeed { get; set; }
+
+        /// <summary>
+        /// How quickly this effect travels along the Z Axis.
+        /// </summary>
+        public float ZSpeed { get; set; }
+
+        /// <summary>
+        /// Affects something to do with movement on the Y Axis? (Particle Spread like the one below?)
+        /// </summary>
+        public float UnknownFloat_2 { get; set; }
+
+        /// <summary>
+        /// Something to do with the effect's spread on the Z Axis?
+        /// </summary>
+        public float UnknownFloat_3 { get; set; }
+
+        /// <summary>
+        /// How large this effect is? Might be affected by the flags?
+        /// </summary>
+        public float Scale { get; set; }
+
+        /// <summary>
+        /// Something to do with randomness (radius?)
+        /// </summary>
+        public float UnknownFloat_4 { get; set; }
+
+        public float UnknownFloat_5 { get; set; }
+
+        public float UnknownFloat_6 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - flags?
+        /// </summary>
+        public uint UnknownUInt32_2 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - flags?
+        /// </summary>
+        public uint UnknownUInt32_3 { get; set; }
+
+        /// <summary>
+        /// TODO: Unknown - flags?
+        /// </summary>
+        public uint UnknownUInt32_4 { get; set; }
+
+        /// <summary>
+        /// The shader system to use in sonicnext.pgs
+        /// </summary>
+        public string Shader { get; set; }
+
+        /// <summary>
+        /// The ptb file to pull from for the first texture.
+        /// </summary>
+        public string TextureBank1 { get; set; }
+
+        /// <summary>
+        /// The texture entry to look for for the first texture.
+        /// </summary>
+        public string Texture1 { get; set; }
+
+        /// <summary>
+        /// The ptb file to pull from for the second texture.
+        /// </summary>
+        public string TextureBank2 { get; set; }
+
+        /// <summary>
+        /// The texture entry to look for for the second texture.
+        /// </summary>
+        public string Texture2 { get; set; }
+
+        /// <summary>
+        /// The ptb file to pull from for the third texture.
+        /// </summary>
+        public string TextureBank3 { get; set; }
+
+        /// <summary>
+        /// The texture entry to look for for the third texture.
+        /// </summary>
+        public string Texture3 { get; set; }
+
+        /// <summary>
+        /// Literally no clue what this is, length is based on a value before its offset.
+        /// </summary>
+        public byte[] CompletelyUnknownData { get; set; }
     }
 }

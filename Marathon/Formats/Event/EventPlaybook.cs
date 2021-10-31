@@ -5,33 +5,8 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Event
 {
-    public class Event
-    {
-        public string Name { get; set; }
-
-        public string Folder { get; set; }
-
-        public string Terrain { get; set; }
-
-        public string SceneLua { get; set; }
-
-        public string SoundBank { get; set; }
-
-        public string ParticleContainer { get; set; }
-
-        public string SubtitleMessageTable { get; set; }
-
-        public uint EventLength { get; set; }
-
-        public Vector3 Position { get; set; }
-
-        public Vector3 Rotation { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     /// <summary>
-    /// <para>File base for the EPB format.</para>
+    /// File base for the *.epb format.
     /// <para>Used in SONIC THE HEDGEHOG for cutscene properties.</para>
     /// </summary>
     public class EventPlaybook : FileBase
@@ -65,10 +40,11 @@ namespace Marathon.Formats.Event
             }
         }
 
-        public const string Signature = ".EPB",
-                            Extension = ".epb";
+        public override string Signature { get; }= ".EPB";
 
-        public List<Event> Events = new();
+        public override string Extension { get; } = ".epb";
+
+        public List<Event> Events { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -159,5 +135,30 @@ namespace Marathon.Formats.Event
             // Write the footer.
             writer.FinishWrite();
         }
+    }
+
+    public class Event
+    {
+        public string Name { get; set; }
+
+        public string Folder { get; set; }
+
+        public string Terrain { get; set; }
+
+        public string SceneLua { get; set; }
+
+        public string SoundBank { get; set; }
+
+        public string ParticleContainer { get; set; }
+
+        public string SubtitleMessageTable { get; set; }
+
+        public uint EventLength { get; set; }
+
+        public Vector3 Position { get; set; }
+
+        public Vector3 Rotation { get; set; }
+
+        public override string ToString() => Name;
     }
 }

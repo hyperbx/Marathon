@@ -5,40 +5,7 @@ using Marathon.IO;
 namespace Marathon.Formats.Text
 {
     /// <summary>
-    /// The data structure pertaining to each entry for the <see cref="PictureFont"/> format.
-    /// </summary>
-    public class Picture
-    {
-        /// <summary>
-        /// The name of the picture.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The X position of the top-left corner of the picture.
-        /// </summary>
-        public ushort X { get; set; }
-
-        /// <summary>
-        /// The Y position of the top-left corner of the picture.
-        /// </summary>
-        public ushort Y { get; set; }
-
-        /// <summary>
-        /// The width of the picture.
-        /// </summary>
-        public ushort Width { get; set; }
-
-        /// <summary>
-        /// The height of the picture.
-        /// </summary>
-        public ushort Height { get; set; }
-
-        public override string ToString() => Name;
-    }
-
-    /// <summary>
-    /// <para>File base for the PFT format.</para>
+    /// File base for the *.pft format.
     /// <para>Used in SONIC THE HEDGEHOG for defining placeholder images for the <see cref="MessageTable"/> format.</para>
     /// </summary>
     public class PictureFont : FileBase
@@ -72,19 +39,20 @@ namespace Marathon.Formats.Text
             }
         }
 
-        public const string Signature = "FNTP",
-                            Extension = ".pft";
+        public override string Signature { get; } = "FNTP";
+
+        public override string Extension { get; } = ".pft";
 
         public class FormatData
         {
             public string Texture;
 
-            public List<Picture> Entries = new();
+            public List<Picture> Entries { get; set; } = new();
 
             public override string ToString() => Texture;
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -146,5 +114,35 @@ namespace Marathon.Formats.Text
 
             writer.FinishWrite();
         }
+    }
+
+    public class Picture
+    {
+        /// <summary>
+        /// The name of the picture.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The X position of the top-left corner of the picture.
+        /// </summary>
+        public ushort X { get; set; }
+
+        /// <summary>
+        /// The Y position of the top-left corner of the picture.
+        /// </summary>
+        public ushort Y { get; set; }
+
+        /// <summary>
+        /// The width of the picture.
+        /// </summary>
+        public ushort Width { get; set; }
+
+        /// <summary>
+        /// The height of the picture.
+        /// </summary>
+        public ushort Height { get; set; }
+
+        public override string ToString() => Name;
     }
 }

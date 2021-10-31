@@ -4,42 +4,10 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Particle
 {
-    public enum BlendMode
-    {
-        Additive,
-        Negation,
-        Opaque = 3
-    }
-
-    public class ParticleMaterial
-    {
-        /// <summary>
-        /// The name of this material.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// The properties assigned to this material.
-        /// <para>Format: Name,%f,%f</para>
-        /// </summary>
-        public string Properties { get; set; }
-
-        /// <summary>
-        /// The blending mode used for this material.
-        /// </summary>
-        public BlendMode Blending { get; set; }
-
-        /// <summary>
-        /// The size of this struct.
-        /// <para>0 = disables all particles</para>
-        /// <para>64 = full struct size</para>
-        /// <para>??? = game crash</para>
-        /// </summary>
-        public const uint Size = 0x64;
-
-        public override string ToString() => Name;
-    }
-
+    /// <summary>
+    /// File base for the *.pgs format.
+    /// <para>Used in SONIC THE HEDGEHOG for defining material types for particle effects.</para>
+    /// </summary>
     public class ParticleGenerationSystem : FileBase
     {
         public ParticleGenerationSystem() { }
@@ -71,19 +39,20 @@ namespace Marathon.Formats.Particle
             }
         }
 
-        public const string Signature = "SGEP",
-                            Extension = ".pgs";
+        public override string Signature { get; } = "SGEP";
+
+        public override string Extension { get; } = ".pgs";
 
         public class FormatData
         {
-            public List<string> Effects = new();
+            public List<string> Effects { get; set; } = new();
 
-            public List<string> Textures = new();
+            public List<string> Textures { get; set; } = new();
 
-            public List<ParticleMaterial> Materials = new();
+            public List<ParticleMaterial> Materials { get; set; } = new();
         }
 
-        public FormatData Data = new();
+        public FormatData Data { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -158,5 +127,41 @@ namespace Marathon.Formats.Particle
 
             writer.FinishWrite();
         }
+    }
+
+    public enum BlendMode
+    {
+        Additive,
+        Negation,
+        Opaque = 3
+    }
+
+    public class ParticleMaterial
+    {
+        /// <summary>
+        /// The name of this material.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The properties assigned to this material.
+        /// <para>Format: Name,%f,%f</para>
+        /// </summary>
+        public string Properties { get; set; }
+
+        /// <summary>
+        /// The blending mode used for this material.
+        /// </summary>
+        public BlendMode Blending { get; set; }
+
+        /// <summary>
+        /// The size of this struct.
+        /// <para>0 = disables all particles</para>
+        /// <para>64 = full struct size</para>
+        /// <para>??? = game crash</para>
+        /// </summary>
+        public const uint Size = 0x64;
+
+        public override string ToString() => Name;
     }
 }
