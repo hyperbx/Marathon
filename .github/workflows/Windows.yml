@@ -1,4 +1,4 @@
-name: Marathon for Windows
+name: Windows
 
 on:
   push:
@@ -16,7 +16,8 @@ jobs:
         configuration: [ Debug, Release ]
         
     steps:
-    - uses: actions/checkout@v2
+    - name: Clone Marathon
+      uses: actions/checkout@v2
 
     - name: Install .NET Core
       uses: actions/setup-dotnet@v1
@@ -30,18 +31,18 @@ jobs:
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
-    - name: Build
+    - name: Build Marathon
       working-directory: ${{github.workspace}}
       run: msbuild /m /p:Configuration=${{matrix.configuration}} ${{env.SOLUTION_FILE}}
       
-    - name: Upload Marathon Artefacts
+    - name: Upload Marathon Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Marathon
         path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net5.0\
         
-    - name: Upload Marathon.CLI Artefacts
+    - name: Upload Marathon.CLI Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Marathon
+        name: Marathon.CLI
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
