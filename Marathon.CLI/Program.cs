@@ -2,7 +2,6 @@
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Reflection;
 using Marathon.Formats.Archive;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
@@ -24,7 +23,7 @@ namespace Marathon.CLI
         {
             Console.WriteLine
             (
-                $"Marathon - Version {Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}\n\n" +
+                $"Marathon - Version {Shared.Version.GetInformationalVersion()}\n\n" +
                 "" +
                 "All your '06 formats are belong to us.\n"
             );

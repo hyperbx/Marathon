@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon", "Marathon\Marath
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon.CLI", "Marathon.CLI\Marathon.CLI.csproj", "{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Marathon.Shared", "Marathon.Shared\Marathon.Shared.shproj", "{DA94BAE1-9D6A-4E00-8DFF-10AF9FD6AAC1}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Marathon.Shared\Marathon.Shared.projitems*{6b6b3325-ef17-4304-87c1-fa2cdca4b6b4}*SharedItemsImports = 5
+		Marathon.Shared\Marathon.Shared.projitems*{da94bae1-9d6a-4e00-8dff-10af9fd6aac1}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
