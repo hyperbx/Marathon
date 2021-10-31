@@ -35,11 +35,7 @@ jobs:
       run: nuget restore ${{env.SOLUTION_FILE}}
       
     - name: Patch Version Information
-      uses: ashley-taylor/regex-property-action@1.2
-      with:
-        value: ${{env.MARATHON_CLI_PROJECT}}
-        regex: "<InformationalVersion>(.+)-(.+)<.+"
-        replacement: "<InformationalVersion>${{env.VERSION}}-${{env.GITHUB_SHA}}</InformationalVersion>"
+      run: ./VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{env.GITHUB_SHA}}
 
     - name: Build Marathon
       working-directory: ${{github.workspace}}
