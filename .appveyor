@@ -24,7 +24,7 @@ build:
 
 after_build:
 - cmd: |
-    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon\bin\%CONFIGURATION%\net5.0\*"
+    7z a Marathon.zip "%APPVEYOR_BUILD_FOLDER%\Marathon\bin\%CONFIGURATION%\net5.0\*"
     7z a Marathon.CLI.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.CLI\bin\%CONFIGURATION%\net5.0\*"
 
 artifacts:

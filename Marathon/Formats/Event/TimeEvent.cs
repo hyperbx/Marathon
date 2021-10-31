@@ -40,9 +40,9 @@ namespace Marathon.Formats.Event
             }
         }
 
-        public string Signature { get; } = ".TEV";
+        public override string Signature { get; } = ".TEV";
 
-        public string Extension { get; } = ".tev";
+        public override string Extension { get; } = ".tev";
 
         public class FormatData
         {
