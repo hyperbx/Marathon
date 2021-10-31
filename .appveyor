@@ -1,8 +1,8 @@
-version: '0.0.1.{build}'
+version: '1.0.4.{build}'
 
 branches:
   only:
-  - marathon-master
+  - master
 
 skip_tags: true
 
@@ -15,12 +15,6 @@ skip_commits:
     - Marathon.Wiki/**
     - LICENSE
     - README.md
-    
-assembly_info:
-  patch: true
-  file: '**\AssemblyInfo.cs'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '$(APPVEYOR_REPO_COMMIT)'
   
 before_build:
 - cmd: nuget restore
@@ -30,11 +24,11 @@ build:
 
 after_build:
 - cmd: |
-    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.IO\bin\%CONFIGURATION%\netstandard2.0\*"
-    7z a Marathon.Toolkit.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.Toolkit\bin\%CONFIGURATION%\*"
+    7z a Marathon.IO.zip "%APPVEYOR_BUILD_FOLDER%\Marathon\bin\%CONFIGURATION%\net5.0\*"
+    7z a Marathon.CLI.zip "%APPVEYOR_BUILD_FOLDER%\Marathon.CLI\bin\%CONFIGURATION%\net5.0\*"
 
 artifacts:
-- path: Marathon.IO.zip
-  name: Marathon.IO
-- path: Marathon.Toolkit.zip
-  name: Marathon.Toolkit
+- path: Marathon.zip
+  name: Marathon
+- path: Marathon.CLI.zip
+  name: Marathon.CLI
