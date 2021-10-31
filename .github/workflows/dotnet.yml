@@ -27,21 +27,21 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: Restore NuGet Packages
-      working-directory: ${{env.GITHUB_WORKSPACE}}
+      working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
     - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: msbuild /m /p:Configuration=${{matrix.configuration}} ${{env.SOLUTION_FILE_PATH}}
+      working-directory: ${{github.workspace}}
+      run: msbuild /m /p:Configuration=${{matrix.configuration}} ${{env.SOLUTION_FILE}}
       
     - name: Upload Marathon Artefacts
       uses: actions/upload-artifact@v2
       with:
         name: Marathon
-        path: ${{env.GITHUB_WORKSPACE}}\Marathon\bin\${{matrix.configuration}}\net5.0\
+        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net5.0\
         
     - name: Upload Marathon.CLI Artefacts
       uses: actions/upload-artifact@v2
       with:
         name: Marathon
-        path: ${{env.GITHUB_WORKSPACE}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
