@@ -550,9 +550,7 @@ namespace Marathon.Formats.Archive
         public override string ToString() => Name;
 
         public void Dispose()
-        {
-            InputStream?.Dispose();
-        }
+            => InputStream?.Dispose();
     }
 
     public class U8ArchiveDirectory : IArchiveDirectory

@@ -218,8 +218,6 @@ namespace Marathon.IO
             => JsonConvert.DeserializeObject(File.ReadAllText(filePath), type);
 
         public virtual void Dispose() 
-        {
-            FileStream?.Dispose();
-        }
+            => FileStream?.Dispose();
     }
 }
