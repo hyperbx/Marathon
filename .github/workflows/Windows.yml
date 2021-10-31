@@ -5,7 +5,10 @@ on:
     branches: [ master ]
     
 env:
+  VERSION: 1.0.0.${{github.run_number}}
   SOLUTION_FILE: Marathon.sln
+  MARATHON_PROJECT: ${{github.workspace}}\Marathon\Marathon.csproj
+  MARATHON_CLI_PROJECT: ${{github.workspace}}\Marathon.CLI\Marathon.CLI.csproj
 
 jobs:
   build:
@@ -31,6 +34,13 @@ jobs:
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
+    - name: Patch Version Information
+      uses: ashley-taylor/regex-property-action@1.2
+      with:
+        value: ${{env.MARATHON_CLI_PROJECT}}
+        regex: "<InformationalVersion>(.+)-(.+)<.+"
+        replacement: "<InformationalVersion>${{env.VERSION}}-${{env.GITHUB_SHA}}</InformationalVersion>"
+
     - name: Build Marathon
       working-directory: ${{github.workspace}}
       run: msbuild /m /p:Configuration=${{matrix.configuration}} ${{env.SOLUTION_FILE}}
