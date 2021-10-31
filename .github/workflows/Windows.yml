@@ -36,8 +36,8 @@ jobs:
       
     - name: Patch Version Information
       run: |
-      dir
-      VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
+        dir
+        VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
 
     - name: Build Marathon
       working-directory: ${{github.workspace}}
