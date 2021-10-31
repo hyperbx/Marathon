@@ -1,0 +1,47 @@
+name: Marathon for Windows
+
+on:
+  push:
+    branches: [ master ]
+    
+env:
+  SOLUTION_FILE: Marathon.sln
+
+jobs:
+  build:
+    name: ${{matrix.configuration}}
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+        
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Install Microsoft Build Engine
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet Packages
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: nuget restore ${{env.SOLUTION_FILE}}
+      
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      run: msbuild /m /p:Configuration=${{matrix.configuration}} ${{env.SOLUTION_FILE_PATH}}
+      
+    - name: Upload Marathon Artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Marathon
+        path: ${{env.GITHUB_WORKSPACE}}\Marathon\bin\${{matrix.configuration}}\net5.0\
+        
+    - name: Upload Marathon.CLI Artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Marathon
+        path: ${{env.GITHUB_WORKSPACE}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
