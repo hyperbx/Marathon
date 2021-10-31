@@ -35,7 +35,7 @@ jobs:
       run: nuget restore ${{env.SOLUTION_FILE}}
       
     - name: Patch Version Information
-      run: ./VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{env.GITHUB_SHA}}
+      run: ./VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
 
     - name: Build Marathon
       working-directory: ${{github.workspace}}
