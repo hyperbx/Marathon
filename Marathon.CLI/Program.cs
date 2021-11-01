@@ -21,6 +21,8 @@ namespace Marathon.CLI
 
         static void Main(string[] args)
         {
+            Console.Title = "Marathon Command Line";
+
             Console.WriteLine
             (
                 $"Marathon - Version {Shared.Version.GetInformationalVersion()}\n\n" +
