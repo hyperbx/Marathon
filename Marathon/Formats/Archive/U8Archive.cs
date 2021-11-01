@@ -367,12 +367,20 @@ namespace Marathon.Formats.Archive
                     // Fill in file data offset.
                     writer.FillOffset($"Data_{globalEntryIndex}");
 
-                    // Fill in compressed size.
                     if (CompressionLevel != CompressionLevel.NoCompression)
+                    {
+                        // Fill in compressed size.
                         writer.FillOffset($"CompressedSize_{globalEntryIndex}", (uint)(dataFilled ? fileEntry.Data.Length : fileEntry.GetCompressedData().Length));
 
-                    // Fill in uncompressed size.
-                    writer.FillOffset($"UncompressedSize_{globalEntryIndex}", fileEntry.UncompressedSize);
+                        // Fill in uncompressed size.
+                        writer.FillOffset($"UncompressedSize_{globalEntryIndex}", fileEntry.UncompressedSize);
+                    }
+                    else
+                    {
+                        /* Fill in uncompressed size as zero, since the compressed
+                           size is used as the actual length here. */
+                        writer.FillOffset($"UncompressedSize_{globalEntryIndex}", 0);
+                    }
 
                     // Write the file's data.
                     writer.Write(dataFilled ? fileEntry.Data : fileEntry.GetCompressedData());
@@ -510,6 +518,9 @@ namespace Marathon.Formats.Archive
 
         public void Decompress()
         {
+            // Jump to file data offset before reading.
+            FileReader.JumpTo(Offset);
+
             if (IsCompressed())
             {
                 // Read the compressed data and decompress with ZlibStream.
@@ -519,7 +530,7 @@ namespace Marathon.Formats.Archive
             else
             {
                 // File is uncompressed, so just read it.
-                Data = FileReader.ReadBytes((int)UncompressedSize);
+                Data = FileReader.ReadBytes((int)Length);
             }
 
             Length = (uint)Data.Length;
@@ -535,7 +546,7 @@ namespace Marathon.Formats.Archive
         }
 
         public bool RequiresDecompression() 
-            => IsCompressed() && Data == null;
+            => IsCompressed() || Data == null;
 
         public void Extract(string location)
         {
