@@ -82,4 +82,4 @@ jobs:
       run: dotnet pack "${{env.MARATHON_PROJECT}}" /p:Configuration=Release
 
     - name: Publish to NuGet
-      run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\BE32.Marathon.${{env.VERSION}}" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}
+      run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\BE32.Marathon.${{env.VERSION}}.nupkg" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}
