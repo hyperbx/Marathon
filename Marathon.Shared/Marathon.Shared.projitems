@@ -11,4 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Logos\CLI.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Logos\Marathon.png" />
+  </ItemGroup>
 </Project>

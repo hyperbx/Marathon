@@ -6,7 +6,7 @@
 
 <h1 align="center">Marathon</h1>
 
-<h3 align="center">A work-in-progress toolkit and library for SONIC THE HEDGEHOG file formats</h3>
+<h3 align="center">A toolkit and library for SONIC THE HEDGEHOG file formats</h3>
 
 <br>
 

@@ -9,6 +9,7 @@ env:
   SOLUTION_FILE: Marathon.sln
   MARATHON_PROJECT: ${{github.workspace}}\Marathon\Marathon.csproj
   MARATHON_CLI_PROJECT: ${{github.workspace}}\Marathon.CLI\Marathon.CLI.csproj
+  NUGET_SOURCE: https://api.nuget.org/v3/index.json
 
 jobs:
   build:
@@ -54,3 +55,31 @@ jobs:
       with:
         name: Marathon.CLI
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
+
+  publish:
+    name: Publish
+    runs-on: windows-latest
+    steps:
+    - name: Clone Marathon
+      uses: actions/checkout@v2
+
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Install Microsoft Build Engine
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet Packages
+      working-directory: ${{github.workspace}}
+      run: nuget restore ${{env.SOLUTION_FILE}}
+      
+    - name: Patch Version Information
+      run: ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}}
+
+    - name: Create NuGet Package
+      run: dotnet pack "${{env.MARATHON_PROJECT}}" /p:Configuration=Release
+
+    - name: Publish to NuGet
+      run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\BE32.Marathon.${{env.VERSION}}" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}

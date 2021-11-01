@@ -7,7 +7,21 @@
     <Authors>Big Endian 32</Authors>
     <Product>Marathon</Product>
     <Copyright>Copyright ©️ Big Endian 32, 2021.</Copyright>
+    <Description>A library for SONIC THE HEDGEHOG (2006) file formats.</Description>
+    <PackageProjectUrl>https://github.com/Big-Endian-32/Marathon</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Big-Endian-32/Marathon</RepositoryUrl>
+    <PackageTags>api;marathon;sonic-the-hedgehog;modding-tools;sonic-06;sonicnext</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>Marathon.png</PackageIcon>
+    <PackageId>BE32.$(AssemblyName)</PackageId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\Marathon.Shared\Resources\Images\Logos\Marathon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AssimpNet" Version="4.1.0" />
