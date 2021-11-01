@@ -108,6 +108,9 @@ namespace Marathon.CLI
                                         break;
                                 }
 
+                                // Pad with two line breaks.
+                                Console.WriteLine('\n');
+
                                 break;
                             }
 
