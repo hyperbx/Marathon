@@ -190,7 +190,7 @@ namespace Marathon.CLI
             else
             {
                 Console.WriteLine("Arguments:");
-                Console.WriteLine("--no-index - disables index display for serialised SET data.");
+                Console.WriteLine("--no-index - disables index display for serialised Object Placement data.");
                 Console.WriteLine("--no-compression - writes U8 Archive files uncompressed.");
                 Console.WriteLine("--fast-compression - writes U8 Archive files using fast Zlib compression.");
                 Console.WriteLine("--optimal-compression - writes U8 Archive files using optimal Zlib compression.\n");
