@@ -85,6 +85,9 @@ namespace Marathon.IO
         /// </summary>
         public virtual string Extension { get; }
 
+        /// <summary>
+        /// The stream used for file reading.
+        /// </summary>
         public Stream FileStream { get; internal set; }
 
         /// <summary>
@@ -138,12 +141,16 @@ namespace Marathon.IO
             if (!overwrite && File.Exists(file))
                 throw new IOException("Unable to save the specified file as it already exists...");
 
+            // Dispose reader stream before writing.
+            if (FileStream != null)
+                FileStream.Dispose();
+
             switch (WriteMode)
             {
                 case WriteMode.Logical:
                 {
                     // Create the file using the stream.
-                    using (var fileStream = File.Create(file))
+                    using (var fileStream = File.OpenWrite(file))
                         Save(fileStream);
 
                     break;
