@@ -142,8 +142,7 @@ namespace Marathon.IO
                 throw new IOException("Unable to save the specified file as it already exists...");
 
             // Dispose reader stream before writing.
-            if (FileStream != null)
-                FileStream.Dispose();
+            FileStream?.Dispose();
 
             switch (WriteMode)
             {
