@@ -60,13 +60,22 @@ namespace Marathon.CLI
                     {
                         Console.WriteLine($"File: {arg}\n");
 
-                        switch (StringHelper.GetFullExtension(arg))
+                        // Get last extension for overwritable formats.
+                        switch (Path.GetExtension(arg))
                         {
                             case ".arc":
                                 U8Archive arc = new(arg, IO.ReadMode.IndexOnly);
                                 arc.Extract(Path.Combine(Path.GetDirectoryName(arg), Path.GetFileNameWithoutExtension(arg)));
                                 break;
 
+                            case ".lub":
+                                LuaBinary lub = new(arg, true);
+                                break;
+                        }
+
+                        // Get full extension for serialisable formats.
+                        switch (StringHelper.GetFullExtension(arg))
+                        {
                             case ".bin":
                             case ".bin.json":
                             {
@@ -131,10 +140,6 @@ namespace Marathon.CLI
                             case ".tev":
                             case ".tev.json":
                                 TimeEvent tev = new(arg, true);
-                                break;
-
-                            case ".lub":
-                                LuaBinary lub = new(arg, true);
                                 break;
 
                             case ".pkg":
