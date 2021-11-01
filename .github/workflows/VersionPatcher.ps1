@@ -2,7 +2,7 @@ param([String]$projectPath, [String]$version, [String]$commitID, [Boolean]$useFu
 
 $project = [System.IO.File]::ReadAllLines($projectPath)
 
-if (!$useFullCommitID)
+if (!$useFullCommitID -and $commitID.Length -ne 0)
 {
     $commitID = $commitID.Substring(0, 7)
 }
