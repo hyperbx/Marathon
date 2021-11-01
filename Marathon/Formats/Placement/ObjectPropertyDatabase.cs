@@ -89,7 +89,7 @@ namespace Marathon.Formats.Placement
                     ObjectParameter parameter = new()
                     {
                         Name = new string(reader.ReadChars(0x10)).Trim('\0'),
-                        Type = reader.ReadUInt32()
+                        Type = (ObjectDataType)reader.ReadUInt32()
                     };
 
                     entry.Parameters.Add(parameter);
@@ -136,7 +136,7 @@ namespace Marathon.Formats.Placement
                     for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
                     {
                         writer.WriteNullPaddedString(string.Concat(Data.Objects[i].Parameters[p].Name.Take(0x10)), 0x10);
-                        writer.Write(Data.Objects[i].Parameters[p].Type);
+                        writer.Write((uint)Data.Objects[i].Parameters[p].Type);
                         writer.Write(p);
                     }
                 }
@@ -160,7 +160,7 @@ namespace Marathon.Formats.Placement
     {
         public string Name { get; set; }
 
-        public uint Type { get; set; }
+        public ObjectDataType Type { get; set; }
 
         public override string ToString() => Name;
     }

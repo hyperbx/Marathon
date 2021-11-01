@@ -72,23 +72,25 @@ namespace Marathon.Formats.Placement
         {
             BINAReader reader = new(stream);
 
-            reader.JumpAhead(0x0C); // Always 0. Padding?
-            Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually test, but not always.
+            reader.JumpAhead(0x0C); // Always zero - maybe padding.
+            Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually 'test', but not always.
 
-            // Basic Data Table.
+            // Read data table information.
             uint objectCount       = reader.ReadUInt32();
             uint objectTableOffset = reader.ReadUInt32();
             uint groupCount        = reader.ReadUInt32();
             uint groupTableOffset  = reader.ReadUInt32();
 
-            // Objects.
+            // Jump to objects.
             reader.JumpTo(objectTableOffset, true);
-            for (int i = 0; i < objectCount; i++)
+
+            // Read objects.
+            for (int o = 0; o < objectCount; o++)
             {
-                // Initialise new SetObject.
+                // Initialise new object.
                 SetObject setObject = new()
                 {
-                    Index = i, // Set object ID to the current index.
+                    Index = o, // Set object ID to the current index.
                     DisplayIndex = DisplayIndex
                 };
 
@@ -121,68 +123,66 @@ namespace Marathon.Formats.Placement
                     reader.JumpTo(parameterOffset, true);
                     for (int p = 0; p < parameterCount; p++)
                     {
-                        // Initialise new SetParameter.
-                        SetParameter setParameter = new();
+                        // Read object data type.
+                        ObjectDataType type = (ObjectDataType)reader.ReadUInt32();
 
-                        uint parameterType = reader.ReadUInt32(); // This parameter's data type.
-                        switch (parameterType)
+                        // Initialise new parameter with the read type.
+                        SetParameter setParameter = new()
                         {
-                            case 0: // Boolean
-                            {
-                                setParameter.DataType = typeof(bool);
-                                setParameter.Data = reader.ReadUInt32() == 1;
+                            Type = type
+                        };
+
+                        switch (type)
+                        {
+                            case ObjectDataType.Boolean:
+                                setParameter.Data = reader.ReadBoolean(4);
                                 reader.JumpAhead(0x0C);
                                 break;
-                            }
 
-                            case 1: // Int32
-                            {
-                                setParameter.DataType = typeof(int);
+                            case ObjectDataType.Int32:
                                 setParameter.Data = reader.ReadInt32();
                                 reader.JumpAhead(0x0C);
                                 break;
-                            }
 
-                            case 2: // Single
-                            {
-                                setParameter.DataType = typeof(float);
+                            case ObjectDataType.Single:
                                 setParameter.Data = reader.ReadSingle();
                                 reader.JumpAhead(0x0C);
                                 break;
-                            }
 
-                            case 3: // String
+                            case ObjectDataType.String:
                             {
-                                setParameter.DataType = typeof(string);
-
                                 uint stringOffset = reader.ReadUInt32();
+
+                                // Store current position.
                                 long stringParameterPosition = reader.BaseStream.Position;
+
+                                // Read null-terminated string.
                                 reader.JumpTo(stringOffset, true);
-                                setParameter.Data = reader.ReadNullTerminatedString();
+                                {
+                                    setParameter.Data = reader.ReadNullTerminatedString();
+                                }
+
+                                // Jump back to previous position.
                                 reader.JumpTo(stringParameterPosition);
 
-                                reader.JumpAhead(0x0C); // Always 1, 0 then the amount of characters minus one in the string?
+                                // Always 1, 0 then the amount of characters minus one in the string?
+                                reader.JumpAhead(0x0C);
+
                                 break;
                             }
 
-                            case 4: // Vector3
-                            {
-                                setParameter.DataType = typeof(Vector3);
+                            case ObjectDataType.Vector3:
                                 setParameter.Data = reader.ReadVector3();
                                 reader.JumpAhead(0x04);
                                 break;
-                            }
 
-                            case 6: // UInt32
-                            {
-                                setParameter.DataType = typeof(uint);
+                            case ObjectDataType.UInt32:
                                 setParameter.Data = reader.ReadUInt32();
                                 reader.JumpAhead(0x0C);
                                 break;
-                            }
 
                             default:
-                                throw new InvalidSetParameterType(parameterType, reader.BaseStream.Position - 4);
+                                throw new InvalidSetParameterType((uint)type, reader.BaseStream.Position - 4);
                         }
 
                         setObject.Parameters.Add(setParameter);
@@ -196,7 +196,7 @@ namespace Marathon.Formats.Placement
 
             // Groups.
             reader.JumpTo(groupTableOffset, true);
-            for (int i = 0; i < groupCount; i++)
+            for (int g = 0; g < groupCount; g++)
             {
                 // Initialise new SetGroup.
                 SetGroup setGroup = new();
@@ -233,185 +233,174 @@ namespace Marathon.Formats.Placement
 
             writer.WriteNulls(0x0C);
 
-            // Write the name, but default to 'test' because Sonic Team.
+            // Write the name, but default to 'test', because Sonic Team.
             writer.WriteNullPaddedString(string.Concat(Data.Name == null ? "test".Take(0x20) : Data.Name.Take(0x20)), 0x20);
 
-            // Basic Data Table.
+            // Write data table information.
             writer.Write(Data.Objects.Count);
             writer.AddOffset("objectTableOffset");
             writer.Write(Data.Groups.Count);
             writer.AddOffset("groupTableOffset");
-
-            // Objects.
             writer.FillOffset("objectTableOffset", true);
-            for (int i = 0; i < Data.Objects.Count; i++)
+
+            // Set up objects.
+            for (int o = 0; o < Data.Objects.Count; o++)
             {
                 // If the object's name is empty, add an offset to a null entry.
-                if (string.IsNullOrEmpty(Data.Objects[i].Name))
+                if (string.IsNullOrEmpty(Data.Objects[o].Name))
                 {
-                    writer.AddOffset($"object{i}NullName");
+                    writer.AddOffset($"object{o}NullName");
                 }
                 else
                 {
-                    writer.AddString($"object{i}Name", Data.Objects[i].Name);
+                    writer.AddString($"object{o}Name", Data.Objects[o].Name);
                 }
 
-                writer.AddString($"object{i}Type", Data.Objects[i].Type);
+                writer.AddString($"object{o}Type", Data.Objects[o].Type);
 
                 writer.Write((byte)0x40);
                 writer.WriteNulls(0x02);
-                writer.Write(Data.Objects[i].StartInactive);
+                writer.Write(Data.Objects[o].StartInactive);
                 writer.WriteNulls(0x0C);
 
-                writer.Write(Data.Objects[i].Position);
-                writer.Write(Data.Objects[i].DrawDistance);
-                writer.Write(Data.Objects[i].Rotation);
+                writer.Write(Data.Objects[o].Position);
+                writer.Write(Data.Objects[o].DrawDistance);
+                writer.Write(Data.Objects[o].Rotation);
 
-                writer.Write(Data.Objects[i].Parameters.Count);
-                writer.AddOffset($"object{i}Offsets");
+                writer.Write(Data.Objects[o].Parameters.Count);
+                writer.AddOffset($"object{o}Offsets");
             }
 
-            // Object Parameters.
-            for (int i = 0; i < Data.Objects.Count; i++)
+            // Set up object parameters.
+            for (int o = 0; o < Data.Objects.Count; o++)
             {
                 // Skip this loop if this object has no parameters.
-                if (Data.Objects[i].Parameters.Count == 0)
+                if (Data.Objects[o].Parameters.Count == 0)
                     continue;
 
-                writer.FillOffset($"object{i}Offsets", true);
+                writer.FillOffset($"object{o}Offsets", true);
 
-                for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
+                for (int p = 0; p < Data.Objects[o].Parameters.Count; p++)
                 {
-                    switch(Data.Objects[i].Parameters[p].DataType.ToString())
+                    ObjectDataType type = Data.Objects[o].Parameters[p].Type;
+
+                    // Write object data type.
+                    writer.Write((uint)type);
+
+                    switch (type)
                     {
-                        case "System.Boolean":
-                        {
-                            writer.Write(0u);
-                            writer.WriteBoolean32((bool)Data.Objects[i].Parameters[p].Data);
+                        case ObjectDataType.Boolean:
+                            writer.WriteBoolean32((bool)Data.Objects[o].Parameters[p].Data);
                             writer.WriteNulls(0x0C);
                             break;
-                        }
 
-                        case "System.Int32":
-                        {
-                            writer.Write(1u);
-                            writer.Write(Convert.ToInt32(Data.Objects[i].Parameters[p].Data));
+                        case ObjectDataType.Int32:
+                            writer.Write(Convert.ToInt32(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
-                        }
 
-                        case "System.Single":
-                        {
-                            writer.Write(2u);
-                            writer.Write(Convert.ToSingle(Data.Objects[i].Parameters[p].Data));
+                        case ObjectDataType.Single:
+                            writer.Write(Convert.ToSingle(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
-                        }
 
-                        case "System.String":
-                        {
-                            writer.Write(3u);
-                                                                
+                        case ObjectDataType.String:
+                        {                
                             // If the parameter's string is empty, add an offset to a null entry.
-                            if (string.IsNullOrEmpty(Data.Objects[i].Parameters[p].Data.ToString()))
+                            if (string.IsNullOrEmpty(Data.Objects[o].Parameters[p].Data.ToString()))
                             {
-                                writer.AddOffset($"object{i}Parameter{p}NullString");
+                                writer.AddOffset($"object{o}Parameter{p}NullString");
                             }
                             else
                             {
-                                writer.AddString($"object{i}Parameter{p}String", Data.Objects[i].Parameters[p].Data.ToString());
+                                writer.AddString($"object{o}Parameter{p}String", Data.Objects[o].Parameters[p].Data.ToString());
                             }
 
                             writer.Write(1u);
                             writer.Write(0u);
-                            writer.Write(Data.Objects[i].Parameters[p].Data.ToString().Length + 1);
+                            writer.Write(Data.Objects[o].Parameters[p].Data.ToString().Length + 1);
+
                             break;
                         }
 
-                        case "System.Numerics.Vector3":
-                        {
-                            writer.Write(4u);
-                            writer.Write(VectorHelper.ParseVector3(Data.Objects[i].Parameters[p].Data));
+                        case ObjectDataType.Vector3:
+                            writer.Write(VectorHelper.ParseVector3(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x04);
                             break;
-                        }
 
-                        case "System.UInt32":
-                        {
-                            writer.Write(6u);
-                            writer.Write(Convert.ToUInt32(Data.Objects[i].Parameters[p].Data));
+                        case ObjectDataType.UInt32:
+                            writer.Write(Convert.ToUInt32(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
-                        }
 
                         default:
-                            throw new InvalidSetParameterType(Data.Objects[i].Parameters[p].DataType.ToString(), writer.BaseStream.Position);
+                            throw new InvalidSetParameterType(Data.Objects[o].Parameters[p].Type.ToString(), writer.BaseStream.Position);
                     }
                 }
             }
 
-            // Groups
+            // Set up groups.
             if (Data.Groups.Count != 0)
             {
                 writer.FillOffset("groupTableOffset", true);
-                for (int i = 0; i < Data.Groups.Count; i++)
+
+                for (int g = 0; g < Data.Groups.Count; g++)
                 {
-                    writer.AddString($"group{i}Name", Data.Groups[i].Name);
+                    writer.AddString($"group{g}Name", Data.Groups[g].Name);
 
                     // If the group doesn't have a function, add an offset to a null entry.
-                    if (string.IsNullOrEmpty(Data.Groups[i].Function))
+                    if (string.IsNullOrEmpty(Data.Groups[g].Function))
                     {
-                        writer.AddOffset($"group{i}NullFunction");
+                        writer.AddOffset($"group{g}NullFunction");
                     }
                     else
                     {
-                        writer.AddString($"group{i}Function", Data.Groups[i].Function);
+                        writer.AddString($"group{g}Function", Data.Groups[g].Function);
                     }
 
-                    writer.Write(Data.Groups[i].Objects.Count);
-                    writer.AddOffset($"group{i}ObjectList");
+                    writer.Write(Data.Groups[g].Objects.Count);
+                    writer.AddOffset($"group{g}ObjectList");
                 }
 
-                for (int i = 0; i < Data.Groups.Count; i++)
+                for (int g = 0; g < Data.Groups.Count; g++)
                 {
-                    // Skip this loop if this group has no objects associated with it (because that can happen apparently?)
-                    if (Data.Groups[i].Objects.Count == 0)
+                    /* Skip this loop if this group has no objects
+                       associated with it (because that can happen apparently) */
+                    if (Data.Groups[g].Objects.Count == 0)
                         continue;
 
-                    writer.FillOffset($"group{i}ObjectList", true);
+                    writer.FillOffset($"group{g}ObjectList", true);
 
-                    foreach (ulong ObjectID in Data.Groups[i].Objects)
+                    foreach (ulong ObjectID in Data.Groups[g].Objects)
                         writer.Write(ObjectID);
                 }
             }
 
-            /* ---------- Process null strings ---------- */
-
-            // Objects.
-            for (int i = 0; i < Data.Objects.Count; i++)
+            // Process null object strings.
+            for (int o = 0; o < Data.Objects.Count; o++)
             {
-                if (string.IsNullOrEmpty(Data.Objects[i].Name))
-                    writer.FillOffset($"object{i}NullName", true);
+                if (string.IsNullOrEmpty(Data.Objects[o].Name))
+                    writer.FillOffset($"object{o}NullName", true);
 
-                for (int p = 0; p < Data.Objects[i].Parameters.Count; p++)
+                for (int p = 0; p < Data.Objects[o].Parameters.Count; p++)
                 {
-                    if (Data.Objects[i].Parameters[p].DataType.ToString() == "System.String")
+                    if (Data.Objects[o].Parameters[p].Type == ObjectDataType.String)
                     {
-                        if (string.IsNullOrEmpty(Data.Objects[i].Parameters[p].Data.ToString()))
+                        if (string.IsNullOrEmpty(Data.Objects[o].Parameters[p].Data.ToString()))
                         {
-                            writer.FillOffset($"object{i}Parameter{p}NullString", true);
+                            writer.FillOffset($"object{o}Parameter{p}NullString", true);
                             writer.WriteNulls(0x4);
                         }
                     }
                 }
             }
 
-            // Groups.
-            for (int i = 0; i < Data.Groups.Count; i++)
+            // Process null group strings.
+            for (int g = 0; g < Data.Groups.Count; g++)
             {
-                if (string.IsNullOrEmpty(Data.Groups[i].Function))
+                if (string.IsNullOrEmpty(Data.Groups[g].Function))
                 {
-                    writer.FillOffset($"group{i}NullFunction", true);
+                    writer.FillOffset($"group{g}NullFunction", true);
                     writer.WriteNulls(0x4);
                 }
             }
@@ -486,7 +475,7 @@ namespace Marathon.Formats.Placement
         /// <summary>
         /// The data type for <see cref="Data"/>.
         /// </summary>
-        public Type DataType { get; set; }
+        public ObjectDataType Type { get; set; }
 
         public override string ToString() => Data.ToString();
     }
