@@ -12,11 +12,11 @@
 
 # Releases
 
-### GitHub
+### GitHub Releases
 This is where [stable builds](https://github.com/HyperBE32/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
 
-### AppVeyor
-While it can be fun to live on the bleeding edge; [AppVeyor builds](https://ci.appveyor.com/project/HyperBE32/Marathon) are published for each new commit, so changes can be unstable.
+### GitHub Actions
+While it can be fun to live on the bleeding edge; [GitHub Actions](https://github.com/Big-Endian-32/Marathon/actions) publishes new builds for each new commit, so changes can be unstable.
 
 # Capabilities
 
