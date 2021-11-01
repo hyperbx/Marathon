@@ -5,7 +5,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Version>1.0.0</Version>
     <Authors>Big Endian 32</Authors>
-    <Product>Marathon</Product>
     <Copyright>Copyright ©️ Big Endian 32, 2021.</Copyright>
     <Description>A library for SONIC THE HEDGEHOG (2006) file formats.</Description>
     <PackageProjectUrl>https://github.com/Big-Endian-32/Marathon</PackageProjectUrl>
