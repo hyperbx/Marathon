@@ -150,7 +150,7 @@ namespace Marathon.IO
                 case WriteMode.Logical:
                 {
                     // Create the file using the stream.
-                    using (var fileStream = File.OpenWrite(file))
+                    using (var fileStream = File.Create(file))
                         Save(fileStream);
 
                     break;
