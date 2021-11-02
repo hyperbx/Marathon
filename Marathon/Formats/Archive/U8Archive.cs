@@ -522,9 +522,6 @@ namespace Marathon.Formats.Archive
 
         public void Decompress()
         {
-            // Jump to file data offset before reading.
-            FileReader.JumpTo(Offset);
-
             if (IsCompressed())
             {
                 // Read the compressed data and decompress with ZlibStream.
@@ -533,6 +530,9 @@ namespace Marathon.Formats.Archive
             }
             else
             {
+                // Jump to file data offset before reading.
+                FileReader.JumpTo(Offset);
+
                 // File is uncompressed, so just read it.
                 Data = FileReader.ReadBytes((int)Length);
             }
