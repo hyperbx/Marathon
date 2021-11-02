@@ -12,11 +12,11 @@ namespace Marathon.Formats.Archive
 {
     public class U8Archive : FileBase, IArchive
     {
-        public U8Archive() { }
+        public U8Archive() : base(true) { }
 
-        public U8Archive(string file, ReadMode readMode = ReadMode.IndexOnly) : base(file, false, readMode) { }
+        public U8Archive(string file, ReadMode readMode = ReadMode.IndexOnly) : base(file, readMode: readMode, leaveOpen: true) { }
 
-        public U8Archive(string path, bool includeSubdirectories = false, CompressionLevel compressionLevel = CompressionLevel.Optimal)
+        public U8Archive(string path, bool includeSubdirectories = false, CompressionLevel compressionLevel = CompressionLevel.Optimal) : base(true)
         {
             Root.Data = GetFilesFromDirectory(path, includeSubdirectories);
             CompressionLevel = compressionLevel;
@@ -27,6 +27,8 @@ namespace Marathon.Formats.Archive
         public U8ArchiveDirectory Root { get; private set; } = new U8ArchiveDirectory();
 
         public CompressionLevel CompressionLevel { get; set; }
+
+        public override bool LeaveOpen { get; set; } = true;
 
         public override object Signature { get; } = 0x55AA382D;
 
@@ -149,10 +151,10 @@ namespace Marathon.Formats.Archive
 
         public override void Save(Stream stream)
         {
-            // TODO: Sort data entries before writing!! This is very important actually
-            // since iirc the game relies on sorting to find U8 entries more quickly.
-            // Not doing this may result in game crashes in some cases!
-            // Search for "sort" here for more info: http://wiki.tockdom.com/wiki/U8_(File_Format)
+            /* TODO: Sort data entries before writing!! This is very important actually
+               since iirc the game relies on sorting to find U8 entries more quickly.
+               Not doing this may result in game crashes in some cases!
+               Search for "sort" here for more info: http://wiki.tockdom.com/wiki/U8_(File_Format) */
 
             // Create ExtendedBinaryWriter.
             var writer = new BinaryWriterEx(stream, true);
@@ -167,12 +169,12 @@ namespace Marathon.Formats.Archive
 
             /* Write unknown values.
              
-               (We have to set at least one of these to something non-zero for compatibillity
+               We have to set at least one of these to something non-zero for compatibillity
                with HedgeArcPack, which unfortunately has no other real way of telling if a
-               given archive is a standard U8 archive, or a Zlib U8 archive.)
+               given archive is a standard U8 archive, or a Zlib U8 archive.
 
-               (There's nothing special about these constants; they can be anything as long as at
-               least one of them is non-zero. I just picked these because arctool uses them too lol.)
+               There's nothing special about these constants; they can be anything as long as at
+               least one of them is non-zero. I just picked these because ArcTool uses them too.
 
                TODO: Figure out what these values are.
                The third uint here seems like it's in little endian?? */
@@ -389,6 +391,8 @@ namespace Marathon.Formats.Archive
                     ++globalEntryIndex;
                 }
             }
+
+            Dispose();
         }
 
         public void Extract(string location)

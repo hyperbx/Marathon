@@ -42,9 +42,13 @@ namespace Marathon.IO
     /// </summary>
     public class FileBase : IDisposable
     {
-        public FileBase() { }
+        public FileBase(bool leaveOpen = false)
+        {
+            // Set stream disposal state.
+            LeaveOpen = leaveOpen;
+        }
 
-        public FileBase(string file, bool saveOnLoad = false, ReadMode readMode = ReadMode.CopyToMemory, WriteMode writeMode = WriteMode.Logical)
+        public FileBase(string file, bool saveOnLoad = false, ReadMode readMode = ReadMode.CopyToMemory, WriteMode writeMode = WriteMode.Logical, bool leaveOpen = false) : this(leaveOpen)
         {
             // Set file reading mode.
             ReadMode = readMode;
@@ -76,6 +80,17 @@ namespace Marathon.IO
         public virtual WriteMode WriteMode { get; set; } = WriteMode.Logical;
 
         /// <summary>
+        /// The stream used for file reading.
+        /// </summary>
+        public Stream FileStream { get; internal set; }
+
+        /// <summary>
+        /// Leaves <see cref="FileStream"/> open after saving.
+        /// <para>If left open, the stream must manually be disposed using the <see cref="Dispose"/> method.</para>
+        /// </summary>
+        public virtual bool LeaveOpen { get; set; } = false;
+
+        /// <summary>
         /// The signature of the file.
         /// </summary>
         public virtual object Signature { get; }
@@ -84,11 +99,6 @@ namespace Marathon.IO
         /// The extension used for the file name.
         /// </summary>
         public virtual string Extension { get; }
-
-        /// <summary>
-        /// The stream used for file reading.
-        /// </summary>
-        public Stream FileStream { get; internal set; }
 
         /// <summary>
         /// Prepares the file for stream reading.
@@ -141,8 +151,9 @@ namespace Marathon.IO
             if (!overwrite && File.Exists(file))
                 throw new IOException("Unable to save the specified file as it already exists...");
 
-            // Dispose reader stream before writing.
-            FileStream?.Dispose();
+            // Dispose the reader stream if requested.
+            if (!LeaveOpen)
+                FileStream?.Dispose();
 
             switch (WriteMode)
             {
