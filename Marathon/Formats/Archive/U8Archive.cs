@@ -570,6 +570,13 @@ namespace Marathon.Formats.Archive
 
     public class U8ArchiveDirectory : IArchiveDirectory
     {
+        public U8ArchiveDirectory() { }
+
+        public U8ArchiveDirectory(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
 
         public string Path { get; set; }
@@ -644,6 +651,58 @@ namespace Marathon.Formats.Archive
 
         public bool DirectoryExists(string name)
             => ArchiveHelper.GetDirectory(this, name) != null;
+
+        /// <summary>
+        /// Recursively creates new subdirectories based on a path.
+        /// </summary>
+        /// <param name="path">Path to create.</param>
+        public U8ArchiveDirectory CreateDirectories(string path)
+        {
+            U8ArchiveDirectory dir = null;
+
+            foreach (string name in path.Split(ArchiveHelper.DirectorySeperators, StringSplitOptions.RemoveEmptyEntries))
+            {
+                // Set based on iteration.
+                List<IArchiveData> data = dir == null ? Data : dir.Data;
+
+                // Navigate to the directory if it exists already.
+                if (data.Exists(t => t.Name == name))
+                {
+                    dir = data.Find(t => t.Name == name) as U8ArchiveDirectory;
+                }
+
+                // Create the first directory, since it doesn't exist.
+                else if (dir == null)
+                {
+                    // Create new directory based on the current split.
+                    U8ArchiveDirectory directory = new(name);
+
+                    // Add this directory to the data.
+                    Data.Add(directory);
+
+                    // Set next iteration to this new directory.
+                    dir = directory;
+                }
+
+                // Create the subdirectories.
+                else
+                {
+                    // Create new subdirectory based on the current split.
+                    U8ArchiveDirectory directory = new(name)
+                    {
+                        Parent = dir
+                    };
+
+                    // Add this directory to the parent data.
+                    dir.Data.Add(directory);
+
+                    // Set next iteration to this new directory.
+                    dir = directory;
+                }
+            }
+
+            return dir;
+        }
 
         public void Extract(string location)
         {
