@@ -658,9 +658,16 @@ namespace Marathon.Formats.Archive
         /// <param name="path">Path to create.</param>
         public U8ArchiveDirectory CreateDirectories(string path)
         {
+            var names = path.Split(ArchiveHelper.DirectorySeperators, StringSplitOptions.RemoveEmptyEntries);
+
+            // Return current directory if path split didn't get any results.
+            if (names.Length == 0)
+                return this;
+
+            // Create directory base.
             U8ArchiveDirectory dir = null;
 
-            foreach (string name in path.Split(ArchiveHelper.DirectorySeperators, StringSplitOptions.RemoveEmptyEntries))
+            foreach (string name in names)
             {
                 // Set based on iteration.
                 List<IArchiveData> data = dir == null ? Data : dir.Data;
