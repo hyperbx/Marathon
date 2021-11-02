@@ -159,7 +159,26 @@ namespace Marathon.IO
             {
                 case WriteMode.Logical:
                 {
-                    // Create the file using the stream.
+                    if (LeaveOpen && file == Location)
+                    {
+                        // Create temporary file location so we can still read from the open stream.
+                        string temp = Path.Combine(Path.GetDirectoryName(Location), $".temp.{Path.GetRandomFileName()}.{Path.GetFileNameWithoutExtension(Location)}{Extension}#");
+
+                        // Create the file from the temporary path.
+                        using (var fileStream = File.Create(temp))
+                            Save(fileStream);
+
+                        /* We can't really keep the stream open if
+                           we're saving to the same file anyway. */
+                        Dispose();
+
+                        // Move temporary file to the final path.
+                        File.Move(temp, file, true);
+
+                        break;
+                    }
+
+                    // Create the file from the input path.
                     using (var fileStream = File.Create(file))
                         Save(fileStream);
 
@@ -234,6 +253,9 @@ namespace Marathon.IO
         public object JsonDeserialise(string filePath, Type type)
             => JsonConvert.DeserializeObject(File.ReadAllText(filePath), type);
 
+        /// <summary>
+        /// Disposes the file reader.
+        /// </summary>
         public virtual void Dispose() 
             => FileStream?.Dispose();
     }
