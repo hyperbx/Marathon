@@ -61,7 +61,7 @@ namespace Marathon.Formats.Particle
             reader.ReadSignature(4, Signature);
             reader.JumpAhead(0x8); // Always Null.
             uint EntryCount = reader.ReadUInt32();
-            Data.Name = new string(reader.ReadChars(0x20)).Trim('\0');
+            Data.Name = reader.ReadNullPaddedString(0x20);
             uint OffsetTable = reader.ReadUInt32();
 
             reader.JumpTo(OffsetTable, true); // Should already be here but just to be safe.
@@ -71,8 +71,8 @@ namespace Marathon.Formats.Particle
             {
                 ParticleTexture particle = new()
                 {
-                    Name = new string(reader.ReadChars(0x20)).Trim('\0'),
-                    FilePath = new string(reader.ReadChars(0x80)).Trim('\0'),
+                    Name = reader.ReadNullPaddedString(0x20),
+                    FilePath = reader.ReadNullPaddedString(0x80),
                     UnknownUInt32_1 = reader.ReadUInt32(),
                     UnknownUInt32_2 = reader.ReadUInt32()
                 };

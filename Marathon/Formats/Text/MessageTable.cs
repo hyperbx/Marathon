@@ -90,7 +90,6 @@ namespace Marathon.Formats.Text
                 // Not all entries have a placeholder value, entires that lack one have this offset set to zero.
                 if (placeholderOffset != 0)
                     message.Placeholders = reader.ReadNullTerminatedString(false, placeholderOffset, true).Split(',');
-                    //message.Placeholder = reader.ReadNullTerminatedString(false, placeholderOffset, true);
 
                 // Save text entry into the Entries list.
                 Data.Messages.Add(message);
@@ -115,9 +114,13 @@ namespace Marathon.Formats.Text
                 writer.AddOffset($"textOffset{i}");
 
                 if (Data.Messages[i].Placeholders != null)
-                    writer.AddString($"placeholderOffset{i}", $"{String.Join(',', Data.Messages[i].Placeholders)}");
+                {
+                    writer.AddString($"placeholderOffset{i}", $"{string.Join(',', Data.Messages[i].Placeholders)}");
+                }
                 else
+                {
                     writer.WriteNulls(4);
+                }
             }
 
             // Fill text offsets in with the approriate entry's text value.

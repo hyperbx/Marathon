@@ -73,7 +73,7 @@ namespace Marathon.Formats.Placement
             BINAReader reader = new(stream);
 
             reader.JumpAhead(0x0C); // Always zero - maybe padding.
-            Data.Name = new string(reader.ReadChars(0x20)).Replace("\0", ""); // Usually 'test', but not always.
+            Data.Name = reader.ReadNullPaddedString(0x20); // Usually 'test', but not always.
 
             // Read data table information.
             uint objectCount       = reader.ReadUInt32();

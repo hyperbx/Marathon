@@ -149,7 +149,7 @@ namespace Marathon.IO
         /// </summary>
         /// <param name="count">Length of the string (including null characters).</param>
         public string ReadNullPaddedString(int count)
-            => new string(ReadChars(count)).Replace("\0", "");
+            => new string(ReadChars(count)).Trim('\0');
 
         /// <summary>
         /// Reads a Boolean from the current position.

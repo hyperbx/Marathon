@@ -62,7 +62,7 @@ namespace Marathon.Formats.Particle
 
             reader.JumpAhead(0x8); // Always Null.
             uint EntryCount = reader.ReadUInt32();
-            Data.Name = new string(reader.ReadChars(0x20)).Trim('\0');
+            Data.Name = reader.ReadNullPaddedString(0x20);
             uint OffsetTable = reader.ReadUInt32();
 
             reader.JumpTo(OffsetTable, true); // Should already be here but just to be safe.
@@ -72,7 +72,7 @@ namespace Marathon.Formats.Particle
             {
                 ParticleEffect particle = new();
 
-                particle.Name = new string(reader.ReadChars(0x40)).Trim('\0');
+                particle.Name = reader.ReadNullPaddedString(0x40);
                 uint effectCount = reader.ReadUInt32();
                 uint effectsOffset = reader.ReadUInt32();
 
@@ -101,13 +101,13 @@ namespace Marathon.Formats.Particle
                     peAttributes.UnknownUInt32_3 = reader.ReadUInt32();
                     peAttributes.UnknownUInt32_4 = reader.ReadUInt32();
 
-                    peAttributes.Shader       = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.TextureBank1 = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.Texture1     = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.TextureBank2 = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.Texture2     = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.TextureBank3 = new string(reader.ReadChars(0x20)).Trim('\0');
-                    peAttributes.Texture3     = new string(reader.ReadChars(0x20)).Trim('\0');
+                    peAttributes.Shader       = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBank1 = reader.ReadNullPaddedString(0x20);
+                    peAttributes.Texture1     = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBank2 = reader.ReadNullPaddedString(0x20);
+                    peAttributes.Texture2     = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBank3 = reader.ReadNullPaddedString(0x20);
+                    peAttributes.Texture3     = reader.ReadNullPaddedString(0x20);
 
                     int UnknownLength  = reader.ReadInt32(); // At least I THINK this is the length of the data from the UnknownOffset? Always a multiple of 8 + 4?
                     uint UnknownOffset = reader.ReadUInt32();

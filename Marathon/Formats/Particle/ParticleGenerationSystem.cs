@@ -71,19 +71,19 @@ namespace Marathon.Formats.Particle
 
             reader.JumpTo(particleEffectBankOffset, true);
             for (int i = 0; i < particleEffectBankCount; i++)
-                Data.Effects.Add(new string(reader.ReadChars(0x20)).Trim('\0'));
+                Data.Effects.Add(reader.ReadNullPaddedString(0x20));
 
             reader.JumpTo(particleTextureBankOffset, true);
             for (int i = 0; i < particleTextureBankCount; i++)
-                Data.Textures.Add(new string(reader.ReadChars(0x20)).Trim('\0'));
+                Data.Textures.Add(reader.ReadNullPaddedString(0x20));
 
             reader.JumpTo(materialOffset, true);
             for (int i = 0; i < materialCount; i++)
             {
                 ParticleMaterial material = new()
                 {
-                    Name = new string(reader.ReadChars(0x20)).Trim('\0'),
-                    Properties = new string(reader.ReadChars(0x40)).Trim('\0'),
+                    Name = reader.ReadNullPaddedString(0x20),
+                    Properties = reader.ReadNullPaddedString(0x40),
                     Blending = (BlendMode)reader.ReadUInt32()
                 };
 

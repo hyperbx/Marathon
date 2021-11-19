@@ -66,16 +66,16 @@ namespace Marathon.Formats.Audio
             uint cueIndiciesOffset = reader.ReadUInt32(); // Offset to the number list for non-stream indices (set to { 00, 00, 00, 00 } if the file doesn't have any).
             uint streamOffset      = reader.ReadUInt32(); // Offset to the table for XMA names (set to { 00, 00, 00, 00 } if the file doesn't have any).
 
-            Data.Name           = new string(reader.ReadChars(0x40)).Trim('\0'); // Sound Bank's name.
-            uint cueCount       = reader.ReadUInt32();                           // Total Number of Cues in this Sound Bank.
-            uint csbCueCount    = reader.ReadUInt32();                           // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
-            uint streamCueCount = reader.ReadUInt32();                           // Amount of Cues in this Sound Bank which use XMA files.
+            Data.Name           = reader.ReadNullPaddedString(0x40); // Sound Bank's name.
+            uint cueCount       = reader.ReadUInt32();               // Total Number of Cues in this Sound Bank.
+            uint csbCueCount    = reader.ReadUInt32();               // Amount of Cues in this Sound Bank which pull their data from a corresponding CSB file.
+            uint streamCueCount = reader.ReadUInt32();               // Amount of Cues in this Sound Bank which use XMA files.
 
             int streams = 0; // Keep track of which stream we're on so we know where to jump to in the XMA string table.
 
             for (int i = 0; i < cueCount; i++)
             {
-                Cue cue = new() { Name = new string(reader.ReadChars(0x20)).Trim('\0') };
+                Cue cue = new() { Name = reader.ReadNullPaddedString(0x20) };
 
                 uint cueType  = reader.ReadUInt32();
                 uint cueIndex = reader.ReadUInt32();
