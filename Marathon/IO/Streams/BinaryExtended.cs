@@ -145,6 +145,13 @@ namespace Marathon.IO
         }
 
         /// <summary>
+        /// Reads a string padded by null characters with a specified length.
+        /// </summary>
+        /// <param name="count">Length of the string (including null characters).</param>
+        public string ReadNullPaddedString(int count)
+            => new string(ReadChars(count)).Replace("\0", "");
+
+        /// <summary>
         /// Reads a Boolean from the current position.
         /// </summary>
         public bool ReadBoolean(int length = 1)
