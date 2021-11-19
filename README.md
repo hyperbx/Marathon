@@ -46,6 +46,8 @@ While it can be fun to live on the bleeding edge; [GitHub Actions](https://githu
 - Placement
     - [Object Placement (`*.set`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Placement/ObjectPlacement.cs) reading and writing    
     - [Object Property Database (`*.prop`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Placement/ObjectPropertyDatabase.cs) reading and writing
+- Save
+    - [Save Data (`SonicNextSaveData.bin`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Save/SonicNextSaveData.cs) reading and writing
 - Script
     - [Lua Binary (`*.lub`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Script/Lua/LuaBinary.cs) reading and writing
 - Text
