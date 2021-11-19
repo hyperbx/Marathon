@@ -107,7 +107,7 @@ namespace Marathon.IO
 
         protected List<StringTableEntry> StringTableEntries = new();
 
-        public BINAWriter(Stream output) : base(output, Header.IsBigEndian) => Header.PrepareWrite(this);
+        public BINAWriter(Stream output) : base(output, BINA.Encoding, Header.IsBigEndian) => Header.PrepareWrite(this);
 
         public BINAWriter(Stream output, Encoding encoding) : base(output, encoding, Header.IsBigEndian) => Header.PrepareWrite(this);
 
