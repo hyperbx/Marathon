@@ -1,17 +1,18 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
-using System.Linq;
-using Marathon.Formats.Archive;
+﻿using Marathon.Formats.Archive;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
 using Marathon.Formats.Mesh;
 using Marathon.Formats.Package;
 using Marathon.Formats.Particle;
 using Marathon.Formats.Placement;
+using Marathon.Formats.Save;
 using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
+using System;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 
 namespace Marathon.CLI
 {
@@ -86,8 +87,9 @@ namespace Marathon.CLI
                                     "2. Common Package (Common.bin)\n" +
                                     "3. Explosion Package (Explosion.bin)\n" +
                                     "4. Path Package (PathObj.bin)\n" +
-                                    "5. Script Package (ScriptParameter.bin)\n" +
-                                    "6. Shot Package (ShotParameter.bin)"
+                                    "5. Save Data (SonicNextSaveData.bin)\n" +
+                                    "6. Script Package (ScriptParameter.bin)\n" +
+                                    "7. Shot Package (ShotParameter.bin)"
                                 );
 
                                 switch (Console.ReadKey().KeyChar)
@@ -109,10 +111,14 @@ namespace Marathon.CLI
                                         break;
 
                                     case '5':
-                                        ScriptPackage scriptParameter = new(arg, true);
+                                        SonicNextSaveData saveData = new(arg, true);
                                         break;
 
                                     case '6':
+                                        ScriptPackage scriptParameter = new(arg, true);
+                                        break;
+
+                                    case '7':
                                         ShotPackage shotParameter = new(arg, true);
                                         break;
                                 }
