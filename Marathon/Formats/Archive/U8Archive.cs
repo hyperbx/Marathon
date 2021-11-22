@@ -398,6 +398,11 @@ namespace Marathon.Formats.Archive
         public void Extract(string location)
             => Root.Extract(location);
 
+        /// <summary>
+        /// Creates an archive structure from a local directory.
+        /// </summary>
+        /// <param name="path">Path to local directory to load.</param>
+        /// <param name="includeSubdirectories">Include subdirectories in iteration.</param>
         public List<IArchiveData> GetFilesFromDirectory(string path, bool includeSubdirectories = false)
         {
             U8ArchiveDirectory dir = new()
