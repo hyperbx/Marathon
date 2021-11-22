@@ -1,5 +1,4 @@
 ﻿using Marathon.Exceptions;
-using System.Linq;
 
 namespace Marathon.IO
 {
