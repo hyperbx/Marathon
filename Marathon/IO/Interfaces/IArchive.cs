@@ -1,6 +1,4 @@
-﻿using System.IO.Compression;
-
-namespace Marathon.IO.Interfaces
+﻿namespace Marathon.IO.Interfaces
 {
     public interface IArchive
     {

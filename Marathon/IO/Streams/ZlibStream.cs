@@ -1,9 +1,4 @@
-﻿using Marathon.Exceptions;
-using System;
-using System.IO;
-using System.IO.Compression;
-
-namespace Marathon.IO
+﻿namespace Marathon.IO
 {
     public class ZlibStream : Stream
     {
