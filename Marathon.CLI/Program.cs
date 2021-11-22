@@ -241,6 +241,9 @@ namespace Marathon.CLI
                 Console.WriteLine("- Object Placement (*.set)");
                 Console.WriteLine("- Object Property Database (*.prop)\n");
 
+                Console.WriteLine("Save:");
+                Console.WriteLine("- Save Data (SonicNextSaveData.bin)\n");
+
                 Console.WriteLine("Script:");
                 Console.WriteLine("- Lua Bytecode (*.lub)\n");
 
