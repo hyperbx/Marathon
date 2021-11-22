@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using Marathon.IO;
-
-namespace Marathon.Formats.Event
+﻿namespace Marathon.Formats.Event
 {
     /// <summary>
     /// File base for the *.epb format.

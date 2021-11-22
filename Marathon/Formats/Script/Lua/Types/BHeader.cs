@@ -1,6 +1,4 @@
-﻿using System;
-using Marathon.Formats.Script.Lua.Decompiler;
-using Marathon.IO;
+﻿using Marathon.Formats.Script.Lua.Decompiler;
 
 namespace Marathon.Formats.Script.Lua.Types
 {

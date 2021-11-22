@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
     public class TableReference : Expression
     {

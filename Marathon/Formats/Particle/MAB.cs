@@ -1,7 +1,4 @@
-﻿using System.IO;
-using Marathon.IO;
-
-namespace Marathon.Formats.Particle
+﻿namespace Marathon.Formats.Particle
 {
     public class MAB : FileBase // TODO: Identify what *.mab is...
     {

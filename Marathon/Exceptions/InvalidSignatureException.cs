@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Marathon.Exceptions
+﻿namespace Marathon.Exceptions
 {
     class InvalidSignatureException : Exception
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
     public class FunctionCall : Expression
     {

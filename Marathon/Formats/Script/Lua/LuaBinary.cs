@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using Marathon.Formats.Script.Lua.Types;
+﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler;
-using Marathon.IO;
 
 namespace Marathon.Formats.Script.Lua
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using Marathon.IO.Interfaces;
+﻿using Marathon.IO.Interfaces;
 
 namespace Marathon.IO
 {

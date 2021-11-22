@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Marathon.IO;
-
-namespace Marathon.Formats.Text
+﻿namespace Marathon.Formats.Text
 {
     /// <summary>
     /// File base for the *.mst format.

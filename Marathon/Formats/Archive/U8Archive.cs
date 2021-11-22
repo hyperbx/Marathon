@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
-using System.Text;
-using Marathon.Helpers;
-using Marathon.IO;
+﻿using Marathon.Helpers;
 using Marathon.IO.Interfaces;
 
 namespace Marathon.Formats.Archive

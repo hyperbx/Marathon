@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Marathon.Formats.Script.Lua.Decompiler.Targets
+﻿namespace Marathon.Formats.Script.Lua.Decompiler.Targets
 {
     public class GlobalTarget : Target
     {

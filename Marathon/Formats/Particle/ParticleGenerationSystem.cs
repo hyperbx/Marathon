@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Marathon.IO;
-
-namespace Marathon.Formats.Particle
+﻿namespace Marathon.Formats.Particle
 {
     /// <summary>
     /// File base for the *.pgs format.

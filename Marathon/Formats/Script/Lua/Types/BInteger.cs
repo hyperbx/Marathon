@@ -1,7 +1,4 @@
-﻿using System;
-using System.Numerics;
-
-namespace Marathon.Formats.Script.Lua.Types
+﻿namespace Marathon.Formats.Script.Lua.Types
 {
     public class BInteger : BObject
     {

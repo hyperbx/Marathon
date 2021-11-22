@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Marathon.Formats.Script.Lua.Types;
+﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks

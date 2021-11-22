@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Marathon.IO;
-
-namespace Marathon.Formats.Package
+﻿namespace Marathon.Formats.Package
 {
     /// <summary>
     /// File base for the *.pkg format.

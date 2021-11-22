@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Marathon.Formats.Script.Lua.Decompiler
+﻿namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Output
     {

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using Marathon.IO;
-
-namespace Marathon.Formats.Audio
+﻿namespace Marathon.Formats.Audio
 {
     /// <summary>
     /// File base for the *.sbk format.

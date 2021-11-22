@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Marathon.Formats.Save
+﻿namespace Marathon.Formats.Save
 {
     public class SonicNextEpisode
     {

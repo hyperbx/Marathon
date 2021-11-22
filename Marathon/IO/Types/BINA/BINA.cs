@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Text;
-using System.Collections.Generic;
-
-namespace Marathon.IO
+﻿namespace Marathon.IO
 {
     /// <summary>
     /// BINA specification definitions.

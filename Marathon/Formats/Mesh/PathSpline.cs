@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using Marathon.IO;
-
-namespace Marathon.Formats.Mesh
+﻿namespace Marathon.Formats.Mesh
 {
     /// <summary>
     /// File base for the *.path format.

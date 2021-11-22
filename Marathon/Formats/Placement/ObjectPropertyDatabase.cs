@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Marathon.IO;
-
-namespace Marathon.Formats.Placement
+﻿namespace Marathon.Formats.Placement
 {
     /// <summary>
     /// File base for the *.prop format.

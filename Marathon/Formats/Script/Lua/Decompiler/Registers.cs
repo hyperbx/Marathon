@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
 
 namespace Marathon.Formats.Script.Lua.Decompiler

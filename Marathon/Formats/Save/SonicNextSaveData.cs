@@ -1,8 +1,4 @@
-﻿using Marathon.IO;
-using System.Collections.Generic;
-using System.IO;
-
-namespace Marathon.Formats.Save
+﻿namespace Marathon.Formats.Save
 {
     public class SonicNextSaveData : FileBase
     {

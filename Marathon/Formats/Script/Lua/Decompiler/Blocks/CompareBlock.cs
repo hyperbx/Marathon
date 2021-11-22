@@ -1,5 +1,4 @@
-﻿using System;
-using Marathon.Formats.Script.Lua.Types;
+﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;

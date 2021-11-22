@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Marathon.Formats.Script.Lua.Types
+﻿namespace Marathon.Formats.Script.Lua.Types
 {
     public class BList<T> : BObject where T : BObject
     {

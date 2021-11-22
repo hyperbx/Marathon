@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Marathon.IO.Interfaces
+﻿namespace Marathon.IO.Interfaces
 {
     public interface IArchiveDirectory : IArchiveData, IEnumerable<IArchiveData>
     {

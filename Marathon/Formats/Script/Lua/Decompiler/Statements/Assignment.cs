@@ -1,6 +1,5 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
-using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Marathon.Formats.Script.Lua.Decompiler.Statements
+﻿namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
     public class Declare : Statement
     {

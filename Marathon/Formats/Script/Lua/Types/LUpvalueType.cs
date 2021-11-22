@@ -1,6 +1,4 @@
-﻿using Marathon.IO;
-
-namespace Marathon.Formats.Script.Lua.Types
+﻿namespace Marathon.Formats.Script.Lua.Types
 {
     public class LUpvalueType : BObjectType<LUpvalue>
     {

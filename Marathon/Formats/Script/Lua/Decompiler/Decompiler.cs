@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Marathon.Formats.Script.Lua.Types;
+﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Blocks;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
 using Marathon.Formats.Script.Lua.Decompiler.Branches;

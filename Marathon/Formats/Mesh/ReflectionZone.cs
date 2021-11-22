@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using Marathon.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using JeremyAnsel.Media.WavefrontObj;
 using Marathon.Helpers;
 

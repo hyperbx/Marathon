@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Numerics;
-using Marathon.IO;
-using Assimp;
+﻿using Assimp;
 using Assimp.Configs;
 
 namespace Marathon.Formats.Mesh

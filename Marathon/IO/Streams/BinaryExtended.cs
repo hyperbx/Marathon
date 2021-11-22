@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Numerics;
-using System.Collections.Generic;
-using Marathon.Exceptions;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Marathon.Exceptions;
 using System.Linq;
 
 namespace Marathon.IO

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using Marathon.Exceptions;
+﻿using Marathon.Exceptions;
 using Marathon.Helpers;
-using Marathon.IO;
 using Newtonsoft.Json;
 
 namespace Marathon.Formats.Placement

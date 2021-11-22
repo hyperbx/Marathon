@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Marathon.IO.Interfaces;
+﻿using Marathon.IO.Interfaces;
 
 namespace Marathon.Helpers
 {
