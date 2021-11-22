@@ -185,11 +185,6 @@ namespace Marathon.IO
         }
 
         /// <summary>
-        /// Reads two bytes from the current position as a half-precision floating point value.
-        /// </summary>
-        public Half ReadHalf() => (Half)ReadUInt16();
-
-        /// <summary>
         /// Reads an Int16 from the current position.
         /// </summary>
         public override unsafe short ReadInt16()
