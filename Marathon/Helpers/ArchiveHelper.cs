@@ -88,6 +88,35 @@ namespace Marathon.Helpers
             => data is IArchiveDirectory;
 
         /// <summary>
+        /// Returns all files from the input directory.
+        /// </summary>
+        /// <param name="files">List of archive nodes to iterate through.</param>
+        /// <param name="includeSubDirectories">Include subdirectories when iterating.</param>
+        public static IEnumerable<IArchiveFile> GetFiles(this IArchiveDirectory dir, bool includeSubDirectories = true)
+        {
+            // List used to store the files to be returned.
+            List<IArchiveFile> list = new();
+
+            foreach (IArchiveData data in dir)
+            {
+                // Iterate through directory to gather further.
+                if (includeSubDirectories && data is IArchiveDirectory subDir)
+                {
+                    list.AddRange(GetFiles(subDir));
+                }
+
+                // Iterate through files and gather them.
+                else if (data is IArchiveFile file)
+                {
+                    file.Path = BuildPath(file);
+                    list.Add(file);
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
         /// Removes the current file.
         /// </summary>
         /// <param name="file">File to remove.</param>
