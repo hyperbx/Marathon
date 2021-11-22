@@ -48,13 +48,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Marathon-${{matrix.configuration}}
-        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net5.0\
+        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\
         
     - name: Upload Marathon.CLI Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net5.0\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\
 
   publish:
     name: Publish
