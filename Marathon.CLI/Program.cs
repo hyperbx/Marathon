@@ -10,6 +10,7 @@ using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
 using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Marathon.CLI
 {
     class Program
     {
-        private static CompressionLevel _compressionLevel { get; set; } = CompressionLevel.Optimal;
+        internal static CompressionLevel _compressionLevel { get; set; } = CompressionLevel.Optimal;
 
         static void Main(string[] args)
         {
@@ -30,6 +31,9 @@ namespace Marathon.CLI
                 "" +
                 "All your '06 formats are belong to us.\n"
             );
+
+            // Force culture info 'en-GB' to prevent errors with values altered by culture-specific differences.
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
 
             if (args.Length > 0)
             {
