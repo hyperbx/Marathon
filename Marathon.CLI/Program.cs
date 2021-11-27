@@ -33,11 +33,13 @@ namespace Marathon.CLI
                 "All your '06 formats are belong to us.\n"
             );
 
+#if !DEBUG
             // Log to file if an unhandled exception occurs.
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
                 File.WriteAllText($"{AssemblyExtensions.GetAssemblyName()}.log", ((Exception)e.ExceptionObject).CreateLog());
             };
+#endif
 
             // Force culture info 'en-GB' to prevent errors with values altered by culture-specific differences.
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
