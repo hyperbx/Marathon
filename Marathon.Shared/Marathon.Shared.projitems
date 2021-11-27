@@ -9,7 +9,8 @@
     <Import_RootNamespace>Marathon.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExceptionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\AssemblyExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Resources\Images\Logos\CLI.png" />

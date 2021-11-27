@@ -9,6 +9,7 @@ using Marathon.Formats.Save;
 using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
+using Marathon.Shared;
 using System;
 using System.Globalization;
 using System.IO;
@@ -27,10 +28,16 @@ namespace Marathon.CLI
 
             Console.WriteLine
             (
-                $"Marathon - Version {Shared.Version.GetInformationalVersion()}\n\n" +
+                $"Marathon - Version {AssemblyExtensions.GetInformationalVersion()}\n\n" +
                 "" +
                 "All your '06 formats are belong to us.\n"
             );
+
+            // Log to file if an unhandled exception occurs.
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                File.WriteAllText($"{AssemblyExtensions.GetAssemblyName()}.log", ((Exception)e.ExceptionObject).CreateLog());
+            };
 
             // Force culture info 'en-GB' to prevent errors with values altered by culture-specific differences.
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
