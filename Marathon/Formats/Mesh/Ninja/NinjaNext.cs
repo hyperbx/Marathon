@@ -14,6 +14,10 @@
 
             public NinjaObject Object { get; set; }
 
+            public NinjaLight Light { get; set; }
+
+            public NinjaCamera Camera { get; set; }
+
             public NinjaMotion Motion { get; set; }
         }
 
@@ -66,8 +70,19 @@
                         Data.Object = new();
                         Data.Object.Read(reader);
                         break;
-                    case "NXMO":
+                    case "NXLI":
+                        Data.Light = new();
+                        Data.Light.Read(reader);
+                        break;
+                    case "NXCA":
+                        Data.Camera = new();
+                        Data.Camera.Read(reader);
+                        break;
                     case "NXMA":
+                    case "NXMC":
+                    case "NXML":
+                    case "NXMM":
+                    case "NXMO":
                         Data.Motion = new();
                         Data.Motion.ChunkID = chunkID;
                         Data.Motion.Read(reader);
@@ -96,6 +111,10 @@
                 dataChunkCount++;
             if (Data.Object != null)
                 dataChunkCount++;
+            if (Data.Light != null)
+                dataChunkCount++;
+            if (Data.Camera != null)
+                dataChunkCount++;
             if (Data.Motion != null)
                 dataChunkCount++;
 
@@ -119,6 +138,10 @@
                 Data.NodeNameList.Write(writer);
             if (Data.Object != null)
                 Data.Object.Write(writer);
+            if (Data.Light != null)
+                Data.Light.Write(writer);
+            if (Data.Camera != null)
+                Data.Camera.Write(writer);
             if (Data.Motion != null)
                 Data.Motion.Write(writer);
 
