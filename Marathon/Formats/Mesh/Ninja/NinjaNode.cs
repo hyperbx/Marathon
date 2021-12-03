@@ -2,15 +2,17 @@
 {
     public class NinjaNode
     {
-        public uint Type { get; set; }
+        public string Name { get; set; }
+
+        public NinjaNext_NodeType Type { get; set; }
 
         public short MatrixIndex { get; set; }
 
-        public short ParentIndex { get; set; }
+        public short ParentIndex { get; set; } = -1;
 
-        public short ChildIndex { get; set; }
+        public short ChildIndex { get; set; } = -1;
 
-        public short SiblingIndex { get; set; }
+        public short SiblingIndex { get; set; } = -1;
 
         public Vector3 Translation { get; set; }
 
@@ -28,9 +30,11 @@
 
         public Vector3 BoundingBox { get; set; }
 
+        public override string ToString() => Name;
+
         public void Read(BinaryReaderEx reader)
         {
-            Type = reader.ReadUInt32();
+            Type = (NinjaNext_NodeType)reader.ReadUInt32();
             MatrixIndex = reader.ReadInt16();
             ParentIndex = reader.ReadInt16();
             ChildIndex = reader.ReadInt16();
@@ -51,7 +55,7 @@
 
         public void Write(BinaryWriterEx writer)
         {
-            writer.Write(Type);
+            writer.Write((uint)Type);
             writer.Write(MatrixIndex);
             writer.Write(ParentIndex);
             writer.Write(ChildIndex);

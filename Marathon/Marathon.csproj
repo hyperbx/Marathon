@@ -23,9 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AssimpNet" Version="4.1.0" />
+    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="JeremyAnsel.Media.WavefrontObj" Version="2.0.19" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NvTriStripDotNet">
+      <HintPath>NvTriStripDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

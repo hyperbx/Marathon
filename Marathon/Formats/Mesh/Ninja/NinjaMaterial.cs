@@ -14,11 +14,11 @@
 
         public uint Reserved2 { get; set; }
         
-        private uint MaterialColourOffset { get; set; }
-
-        private uint MaterialLogicOffset { get; set; }
-
-        private uint MaterialTexMapDescriptionOffset { get; set; }
+        public uint MaterialColourOffset { get; set; }
+        
+        public uint MaterialLogicOffset { get; set; }
+        
+        public uint MaterialTexMapDescriptionOffset { get; set; }
 
         public void Read(BinaryReaderEx reader)
         {
