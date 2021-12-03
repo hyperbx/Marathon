@@ -64,7 +64,7 @@ namespace Marathon.Formats.Mesh.Ninja
                 MotionOffsets.Add($"SubMotion{i}KeyframesOffset", (uint)writer.BaseStream.Position);
                 for (int k = 0; k < SubMotions[i].Keyframes.Count; k++)
                 {
-                    if (SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK))
+                    if (SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_AMBIENT_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SPECULAR_MASK))
                     {
                         writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_VECTOR).Frame);
                         writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_VECTOR).Value);
@@ -104,7 +104,7 @@ namespace Marathon.Formats.Mesh.Ninja
                 writer.Write(SubMotions[i].StartKeyframe);
                 writer.Write(SubMotions[i].EndKeyframe);
                 writer.Write(SubMotions[i].Keyframes.Count);
-                if (SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK))
+                if (SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_AMBIENT_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK) || SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SPECULAR_MASK))
                     writer.Write(16);
                 else if (SubMotions[i].Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_ROTATION_XYZ))
                     writer.Write(8);

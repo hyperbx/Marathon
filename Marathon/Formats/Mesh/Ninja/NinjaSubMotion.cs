@@ -42,7 +42,7 @@ namespace Marathon.Formats.Mesh.Ninja
             reader.JumpTo(KeyFrameOffset, true);
             for (int i = 0; i < KeyFrameCount; i++)
             {
-                if (Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK))
+                if (Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_AMBIENT_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_DIFFUSE_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SPECULAR_MASK))
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_VECTOR Keyframe = new();
                     Keyframe.Read(reader);
