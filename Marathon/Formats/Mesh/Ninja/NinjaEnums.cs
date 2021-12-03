@@ -1,5 +1,6 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    [Flags]
     public enum NinjaNext_MinFilter : uint
     {
         NND_MIN_NEAREST = 0,
@@ -22,6 +23,7 @@
         NND_MIN_ANISOTROPIC8_MIPMAP_LINEAR = 14
     };
 
+    [Flags]
     public enum NinjaNext_MagFilter : uint
     {
         NND_MAG_NEAREST = 0,
@@ -29,6 +31,7 @@
         NND_MAG_ANISOTROPIC = 2
     };
 
+    [Flags]
     public enum NinjaNext_MaterialType : uint
     {
         NND_MATTYPE_TEXTURE = 1,
@@ -38,21 +41,26 @@
         NND_MATTYPE_TEXMATTYPE2 = 16,
     };
 
+    [Flags]
     public enum NinjaNext_BlendMode : uint
     {
         NNE_BLENDMODE_SRCALPHA = 0x302,
         NNE_BLENDMODE_INVSRCALPHA = 0x303
     };
+
+    [Flags]
     public enum NinjaNext_BlendOperation : uint
     {
         NNE_BLENDOP_ADD = 0x8006
     };
 
+    [Flags]
     public enum NinjaNext_LogicOperation : uint
     {
         NNE_LOGICOP_NONE = 0
     };
 
+    [Flags]
     public enum NinjaNext_CMPFunction : uint
     {
         NNE_CMPFUNC_NEVER = 0x200,
@@ -65,6 +73,7 @@
         NNE_CMPFUNC_ALWAYS = 0x207
     };
 
+    [Flags]
     public enum NinjaNext_VertexType : uint
     {
         /* Masks */
@@ -113,6 +122,7 @@
             NND_VTXTYPE_XB_BINORMAL),
     }
 
+    [Flags]
     public enum NinjaNext_FlexibleVertexFormat : uint
     {
         /* Masks */
@@ -153,12 +163,14 @@
         NND_D3DFVF_LASTBETA_D3DCOLOR = 0x8000U
     };
 
+    [Flags]
     public enum NinjaNext_PrimitiveType : uint
     {
         /* Xbox types */
         NND_PRIMTYPE_DX_STRIPLIST = 1
     };
 
+    [Flags]
     public enum NNE_MOTIONTYPE : uint
     {
         /* Masks */
@@ -184,6 +196,7 @@
         NND_MOTIONTYPE_MATERIAL = 16
     };
 
+    [Flags]
     public enum NNE_SMOTTYPE : uint
     {
         /* Masks */
@@ -331,6 +344,7 @@
         NND_SMOTTYPE_MATCLBK_USER = 0x2000000U
     };
 
+    [Flags]
     public enum NNE_SMOTIPTYPE : uint
     {
         /* Masks */

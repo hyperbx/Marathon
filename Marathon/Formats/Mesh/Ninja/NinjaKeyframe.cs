@@ -33,5 +33,35 @@ namespace Marathon.Formats.Mesh.Ninja
                 Value = reader.ReadInt16();
             }
         }
+
+        public class NNS_MOTION_KEY_VECTOR
+        {
+            public float Frame { get; set; }
+
+            public Vector3 Value { get; set; }
+
+            public void Read(BinaryReaderEx reader)
+            {
+                Frame = reader.ReadSingle();
+                Value = reader.ReadVector3();
+            }
+        }
+
+        public class NNS_MOTION_KEY_ROTATE_A16
+        {
+            public short Frame { get; set; }
+
+            public short Value { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
+            public short Value2 { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
+            public short Value3 { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
+
+            public void Read(BinaryReaderEx reader)
+            {
+                Frame = reader.ReadInt16();
+                Value = reader.ReadInt16();
+                Value2 = reader.ReadInt16();
+                Value3 = reader.ReadInt16();
+            }
+        }
     }
 }

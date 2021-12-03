@@ -42,7 +42,20 @@ namespace Marathon.Formats.Mesh.Ninja
             reader.JumpTo(KeyFrameOffset, true);
             for (int i = 0; i < KeyFrameCount; i++)
             {
-                if (Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_FRAME_FLOAT))
+                if (Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_TRANSLATION_MASK) || Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_SCALING_MASK))
+                {
+                    NinjaKeyframe.NNS_MOTION_KEY_VECTOR Keyframe = new();
+                    Keyframe.Read(reader);
+                    Keyframes.Add(Keyframe);
+                }
+                else if (Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_ROTATION_XYZ))
+                {
+                    NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 Keyframe = new();
+                    Keyframe.Read(reader);
+                    Keyframes.Add(Keyframe);
+                }
+                // Generic Handling, these could go tits up.
+                else if(Type.HasFlag(NNE_SMOTTYPE.NND_SMOTTYPE_FRAME_FLOAT))
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_FLOAT Keyframe = new();
                     Keyframe.Read(reader);
@@ -54,6 +67,7 @@ namespace Marathon.Formats.Mesh.Ninja
                     Keyframe.Read(reader);
                     Keyframes.Add(Keyframe);
                 }
+                // All else has failed, give up.
                 else
                 {
                     throw new NotImplementedException();
