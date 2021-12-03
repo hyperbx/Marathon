@@ -67,6 +67,7 @@
                         Data.Object.Read(reader);
                         break;
                     case "NXMO":
+                    case "NXMA":
                         Data.Motion = new();
                         Data.Motion.ChunkID = chunkID;
                         Data.Motion.Read(reader);
