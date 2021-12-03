@@ -126,7 +126,7 @@
         {
             // Chunk Header.
             writer.Write("NXEF");
-            writer.Write("TEMP");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
@@ -183,7 +183,7 @@
             // Alignment.
             writer.FixPadding(0x10);
 
-            // Chunk Size.
+            // Calculate and fill in chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
             writer.BaseStream.Position = HeaderSizePosition - 0x04;

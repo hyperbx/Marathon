@@ -7,7 +7,6 @@
         public float Radius { get; set; }
 
         public List<NinjaMaterial> Materials = new();
-
         public List<NinjaMaterialColours> MaterialColours = new();
         public List<NinjaMaterialLogic> MaterialLogics = new();
         public List<NinjaTextureMap> TextureMaps = new();
@@ -58,7 +57,7 @@
                 Materials.Add(Material);
             }
 
-            // Material Colours Test
+            // Material Colours
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
@@ -69,7 +68,7 @@
             }
             MaterialColours = MaterialColours.Distinct().ToList();
 
-            // Material Logics Test
+            // Material Logics
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
@@ -80,7 +79,7 @@
             }
             MaterialLogics = MaterialLogics.Distinct().ToList();
 
-            // Material Texture Map Descriptions Test
+            // Material Texture Map Descriptions
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
