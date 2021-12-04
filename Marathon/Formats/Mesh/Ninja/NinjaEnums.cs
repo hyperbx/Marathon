@@ -1,4 +1,7 @@
-﻿namespace Marathon.Formats.Mesh.Ninja
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace Marathon.Formats.Mesh.Ninja
 {
     [Flags]
     public enum NinjaNext_MinFilter : uint
@@ -255,6 +258,7 @@
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_SubMotionType : uint
     {
         /* Masks */
@@ -403,6 +407,7 @@
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_SubMotionInterpolationType : uint
     {
         /* Masks */

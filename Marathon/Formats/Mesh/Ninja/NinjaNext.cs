@@ -615,5 +615,99 @@ namespace Marathon.Formats.Mesh.Ninja
 
             Data.Object.SubObjects.Add(subObject);
         }
+
+        public void ImportAssimpAnim(string filePath, NinjaNext model)
+        {
+            // Setup AssimpNet Scene.
+            Console.WriteLine($"Loading {filePath} into Assimp.");
+            AssimpContext assimpImporter = new();
+            KeepSceneHierarchyConfig config = new(true);
+            assimpImporter.SetConfig(config);
+            Scene assimpModel = assimpImporter.ImportFile(filePath, PostProcessSteps.GenerateSmoothNormals | PostProcessSteps.CalculateTangentSpace);
+
+            Data.Motion = new();
+            Data.Motion.ChunkID = "NXMO";
+            Data.Motion.Type = NinjaNext_MotionType.NND_MOTIONTYPE_NODE | NinjaNext_MotionType.NND_MOTIONTYPE_REPEAT | NinjaNext_MotionType.NND_MOTIONTYPE_VERSION2;
+            Data.Motion.StartFrame = 0;
+            Data.Motion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
+            Data.Motion.Framerate = (float)assimpModel.Animations[0].TicksPerSecond;
+
+            foreach (Animation animation in assimpModel.Animations)
+            {
+                foreach (NodeAnimationChannel nodeChannel in animation.NodeAnimationChannels)
+                {
+                    if (model.Data.NodeNameList != null)
+                    {
+                        for (int i = 0; i < model.Data.NodeNameList.NinjaNodeNames.Count; i++)
+                        {
+                            if (model.Data.NodeNameList.NinjaNodeNames[i].Name == nodeChannel.NodeName)
+                            {
+                                if (nodeChannel.HasRotationKeys)
+                                {
+                                    NinjaSubMotion rotationSubMotion = new();
+                                    rotationSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_SINT16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ANGLE_ANGLE16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ;
+                                    rotationSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                    rotationSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
+                                    rotationSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
+                                    rotationSubMotion.ID = i;
+
+                                    for (int a = 0; a < nodeChannel.RotationKeys.Count; a++)
+                                    {
+                                        NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 rotation = new();
+                                        rotation.Frame = (short)nodeChannel.RotationKeys[a].Time;
+                                        rotation.Value1 = (Half)nodeChannel.RotationKeys[a].Value.X;
+                                        rotation.Value2 = (Half)nodeChannel.RotationKeys[a].Value.Y;
+                                        rotation.Value3 = (Half)nodeChannel.RotationKeys[a].Value.Z;
+                                        rotationSubMotion.Keyframes.Add(rotation);
+                                    }
+
+                                    Data.Motion.SubMotions.Add(rotationSubMotion);
+                                }
+
+                                if (nodeChannel.HasPositionKeys)
+                                {
+                                    NinjaSubMotion positionSubMotion = new();
+                                    positionSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_FLOAT | NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK;
+                                    positionSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                    positionSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
+                                    positionSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
+                                    positionSubMotion.ID = i;
+
+                                    for (int a = 0; a < nodeChannel.PositionKeys.Count; a++)
+                                    {
+                                        NinjaKeyframe.NNS_MOTION_KEY_VECTOR position = new();
+                                        position.Frame = (float)nodeChannel.PositionKeys[a].Time;
+                                        position.Value = new(nodeChannel.PositionKeys[a].Value.X, nodeChannel.PositionKeys[a].Value.Y, nodeChannel.PositionKeys[a].Value.Z);
+                                        positionSubMotion.Keyframes.Add(position);
+                                    }
+
+                                    Data.Motion.SubMotions.Add(positionSubMotion);
+                                }
+
+                                //if (nodeChannel.HasScalingKeys)
+                                //{
+                                //    NinjaSubMotion scaleSubMotion = new();
+                                //    scaleSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_FLOAT | NinjaNext_SubMotionType.NND_SMOTTYPE_SCALING_MASK;
+                                //    scaleSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                //    scaleSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
+                                //    scaleSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
+                                //    scaleSubMotion.ID = i;
+
+                                //    for (int a = 0; a < nodeChannel.ScalingKeys.Count; a++)
+                                //    {
+                                //        NinjaKeyframe.NNS_MOTION_KEY_VECTOR scale = new();
+                                //        scale.Frame = (float)nodeChannel.PositionKeys[a].Time;
+                                //        scale.Value = new(nodeChannel.PositionKeys[a].Value.X, nodeChannel.PositionKeys[a].Value.Y, nodeChannel.PositionKeys[a].Value.Z);
+                                //        scaleSubMotion.Keyframes.Add(scale);
+                                //    }
+
+                                //    Data.Motion.SubMotions.Add(scaleSubMotion);
+                                //}
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

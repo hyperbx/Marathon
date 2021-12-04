@@ -74,7 +74,7 @@ namespace Marathon.Formats.Mesh.Ninja
                     else if (SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ))
                     {
                         writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16).Frame);
-                        writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16).Value);
+                        writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16).Value1);
                         writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16).Value2);
                         writer.Write((SubMotions[i].Keyframes[k] as NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16).Value3);
                     }

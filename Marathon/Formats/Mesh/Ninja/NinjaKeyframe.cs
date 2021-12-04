@@ -25,12 +25,12 @@ namespace Marathon.Formats.Mesh.Ninja
         {
             public short Frame { get; set; }
 
-            public short Value { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
+            public Half Value { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
 
             public void Read(BinaryReaderEx reader)
             {
                 Frame = reader.ReadInt16();
-                Value = reader.ReadInt16();
+                Value = reader.ReadHalf();
             }
         }
 
@@ -51,16 +51,16 @@ namespace Marathon.Formats.Mesh.Ninja
         {
             public short Frame { get; set; }
 
-            public short Value { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
-            public short Value2 { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
-            public short Value3 { get; set; } // Might be a half? The XTM has 0.000000F as the value for these?
+            public Half Value1 { get; set; } 
+            public Half Value2 { get; set; }
+            public Half Value3 { get; set; }
 
             public void Read(BinaryReaderEx reader)
             {
                 Frame = reader.ReadInt16();
-                Value = reader.ReadInt16();
-                Value2 = reader.ReadInt16();
-                Value3 = reader.ReadInt16();
+                Value1 = reader.ReadHalf();
+                Value2 = reader.ReadHalf();
+                Value3 = reader.ReadHalf();
             }
         }
     }
