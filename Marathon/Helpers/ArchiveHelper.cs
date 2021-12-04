@@ -200,5 +200,29 @@ namespace Marathon.Helpers
 
             return totalCount;
         }
+
+        /// <summary>
+        /// Gets the total size of items in the directory.
+        /// </summary>
+        /// <param name="useUncompressedSize">Use the uncompressed sizes.</param>
+        /// <param name="includeSubdirectories">Include subdirectories in iteration.</param>
+        public static int GetTotalSize(this IArchiveDirectory self, bool useUncompressedSize = true, bool includeSubdirectories = true)
+        {
+            int totalSize = 0;
+
+            foreach (var item in self)
+            {
+                if (item is IArchiveDirectory dir && includeSubdirectories)
+                {
+                    totalSize += dir.GetTotalSize(useUncompressedSize);
+                }
+                else if (item is IArchiveFile file)
+                {
+                    totalSize += useUncompressedSize ? (int)file.UncompressedSize : (int)file.Length;
+                }
+            }
+
+            return totalSize;
+        }
     }
 }
