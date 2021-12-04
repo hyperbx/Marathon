@@ -680,7 +680,10 @@ namespace Marathon.Formats.Archive
                 else if (dir == null)
                 {
                     // Create new directory based on the current split.
-                    U8ArchiveDirectory directory = new(name);
+                    U8ArchiveDirectory directory = new(name)
+                    {
+                        Parent = this
+                    };
 
                     // Add this directory to the data.
                     Data.Add(directory);
