@@ -31,7 +31,7 @@ namespace Marathon
                     break;
             }
 
-            Console.WriteLine(string.IsNullOrEmpty(caller) ? message : $"[{caller} {message}]");
+            Console.WriteLine(string.IsNullOrEmpty(caller) ? message : $"[{caller}] {message}");
 
             // Restore original console colour.
             Console.ForegroundColor = oldColour;
