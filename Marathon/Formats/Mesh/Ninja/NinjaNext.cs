@@ -16,8 +16,6 @@ namespace Marathon.Formats.Mesh.Ninja
                 JsonSerialise(Data);
         }
 
-
-
         public override string Signature { get; } = "NXIF";
 
         public class FormatData
