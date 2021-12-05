@@ -642,28 +642,6 @@ namespace Marathon.Formats.Mesh.Ninja
                         {
                             if (model.Data.NodeNameList.NinjaNodeNames[i].Name == nodeChannel.NodeName)
                             {
-                                if (nodeChannel.HasRotationKeys)
-                                {
-                                    NinjaSubMotion rotationSubMotion = new();
-                                    rotationSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_SINT16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ANGLE_ANGLE16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ;
-                                    rotationSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
-                                    rotationSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
-                                    rotationSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
-                                    rotationSubMotion.ID = i;
-
-                                    for (int a = 0; a < nodeChannel.RotationKeys.Count; a++)
-                                    {
-                                        NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 rotation = new();
-                                        rotation.Frame = (short)nodeChannel.RotationKeys[a].Time;
-                                        rotation.Value1 = (Half)nodeChannel.RotationKeys[a].Value.X;
-                                        rotation.Value2 = (Half)nodeChannel.RotationKeys[a].Value.Y;
-                                        rotation.Value3 = (Half)nodeChannel.RotationKeys[a].Value.Z;
-                                        rotationSubMotion.Keyframes.Add(rotation);
-                                    }
-
-                                    Data.Motion.SubMotions.Add(rotationSubMotion);
-                                }
-
                                 if (nodeChannel.HasPositionKeys)
                                 {
                                     NinjaSubMotion positionSubMotion = new();
@@ -682,6 +660,28 @@ namespace Marathon.Formats.Mesh.Ninja
                                     }
 
                                     Data.Motion.SubMotions.Add(positionSubMotion);
+                                }
+
+                                if (nodeChannel.HasRotationKeys)
+                                {
+                                    NinjaSubMotion rotationSubMotion = new();
+                                    rotationSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_SINT16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ANGLE_ANGLE16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ;
+                                    rotationSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                    rotationSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
+                                    rotationSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
+                                    rotationSubMotion.ID = i;
+
+                                    for (int a = 0; a < nodeChannel.RotationKeys.Count; a++)
+                                    {
+                                        NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 rotation = new();
+                                        rotation.Frame = (short)nodeChannel.RotationKeys[a].Time;
+                                        rotation.Value1 = (short)(nodeChannel.RotationKeys[a].Value.X * 65536 / 360);
+                                        rotation.Value2 = (short)(nodeChannel.RotationKeys[a].Value.Y * 65536 / 360);
+                                        rotation.Value3 = (short)(nodeChannel.RotationKeys[a].Value.Z * 65536 / 360);
+                                        rotationSubMotion.Keyframes.Add(rotation);
+                                    }
+
+                                    Data.Motion.SubMotions.Add(rotationSubMotion);
                                 }
 
                                 //if (nodeChannel.HasScalingKeys)
