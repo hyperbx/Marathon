@@ -16,6 +16,8 @@ namespace Marathon.Formats.Mesh
             switch (Path.GetExtension(file))
             {
                 case ".obj":
+                case ".fbx":
+                case ".dae":
                 {
                     ImportAssimp(file);
 
@@ -168,13 +170,21 @@ namespace Marathon.Formats.Mesh
                 // Mesh Tag.
                 uint meshNameTag = 0u;
 
+                // Assimp seems to attach Mesh to end of DAE imports, lets check for that instead.
+                // Also seems to have a habit of adding an _ if the name is a number, so factor that in too...
+                string name = assimpMesh.Name;
+                if (name.EndsWith("Mesh"))
+                    name = name.Remove(name.LastIndexOf('M'));
+                if (name.StartsWith('_'))
+                    name = name.Substring(1);
+
                 // Try read an @ sign for backwards compatibility.
-                if (assimpMesh.Name.Contains("@"))
-                    meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name.Substring(assimpMesh.Name.LastIndexOf('@') + 1), 16);
+                if (name.Contains("@"))
+                    try { meshNameTag = (uint)Convert.ToInt32(name.Substring(name.LastIndexOf('@') + 1), 16); } catch { }
 
                 // Try read the mesh name as the tag instead, leave it at 0 if it's not valid.
                 else
-                    try { meshNameTag = (uint)Convert.ToInt32(assimpMesh.Name, 16); } catch { }
+                    try { meshNameTag = (uint)Convert.ToInt32(name, 16); } catch { }
 
                 // Faces.
                 foreach (Face assimpFace in assimpMesh.Faces)
