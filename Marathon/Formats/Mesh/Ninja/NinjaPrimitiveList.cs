@@ -4,7 +4,7 @@
     {
         public NinjaNext_PrimitiveType Type { get; set; }
 
-        public uint Format { get; set; } // rad's are all just ? :(
+        public uint Format { get; set; }
 
         public List<ushort> StripIndices = new();
 

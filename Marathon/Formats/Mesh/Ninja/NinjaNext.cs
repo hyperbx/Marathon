@@ -6,6 +6,18 @@ namespace Marathon.Formats.Mesh.Ninja
 {
     public class NinjaNext : FileBase
     {
+        public NinjaNext() { }
+
+        public NinjaNext(string file, bool serialise = false)
+        {
+            Load(file);
+
+            if (serialise)
+                JsonSerialise(Data);
+        }
+
+
+
         public override string Signature { get; } = "NXIF";
 
         public class FormatData
@@ -104,7 +116,7 @@ namespace Marathon.Formats.Mesh.Ninja
             {
                 for (int i = 0; i < Data.Object.Nodes.Count; i++)
                 {
-                    Data.Object.Nodes[i].Name = Data.NodeNameList.NinjaNodeNames[i].Name;
+                    Data.Object.Nodes[i].Name = Data.NodeNameList.NinjaNodeNames[i];
                 }
             }
         }
@@ -347,7 +359,6 @@ namespace Marathon.Formats.Mesh.Ninja
                 effectFile.FileName = "Billboard03.fx";
 
                 NinjaTechniqueName techniqueName = new();
-                techniqueName.EffectFileIndex = (uint)i;
                 techniqueName.Name = "Billboard03";
 
                 Data.EffectList.NinjaEffectFiles.Add(effectFile);
@@ -359,12 +370,7 @@ namespace Marathon.Formats.Mesh.Ninja
             Console.WriteLine("Creating node name list.");
             Data.NodeNameList = new();
             for(int i = 0; i < Nodes.Count; i++)
-            {
-                NinjaNodeName node = new();
-                node.ID = (uint)i;
-                node.Name = Nodes[i].NodeName;
-                Data.NodeNameList.NinjaNodeNames.Add(node);
-            }
+                Data.NodeNameList.NinjaNodeNames.Add(Nodes[i].NodeName);
 
             // Object.
             Console.WriteLine("Creating object.");
@@ -640,7 +646,7 @@ namespace Marathon.Formats.Mesh.Ninja
                     {
                         for (int i = 0; i < model.Data.NodeNameList.NinjaNodeNames.Count; i++)
                         {
-                            if (model.Data.NodeNameList.NinjaNodeNames[i].Name == nodeChannel.NodeName)
+                            if (model.Data.NodeNameList.NinjaNodeNames[i] == nodeChannel.NodeName)
                             {
                                 if (nodeChannel.HasPositionKeys)
                                 {
@@ -649,7 +655,7 @@ namespace Marathon.Formats.Mesh.Ninja
                                     positionSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
                                     positionSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
                                     positionSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
-                                    positionSubMotion.ID = i;
+                                    positionSubMotion.NodeIndex = i;
 
                                     for (int a = 0; a < nodeChannel.PositionKeys.Count; a++)
                                     {
@@ -669,15 +675,34 @@ namespace Marathon.Formats.Mesh.Ninja
                                     rotationSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
                                     rotationSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
                                     rotationSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
-                                    rotationSubMotion.ID = i;
+                                    rotationSubMotion.NodeIndex = i;
 
                                     for (int a = 0; a < nodeChannel.RotationKeys.Count; a++)
                                     {
+                                        // TODO: Assimp uses Quats, so I THINK I need to do this conversion to Euler?
+                                        float sinr_cosp = 2 * (nodeChannel.RotationKeys[a].Value.W * nodeChannel.RotationKeys[a].Value.X + nodeChannel.RotationKeys[a].Value.Y * nodeChannel.RotationKeys[a].Value.Z);
+                                        float cosr_cosp = 1 - 2 * (nodeChannel.RotationKeys[a].Value.X * nodeChannel.RotationKeys[a].Value.X + nodeChannel.RotationKeys[a].Value.Y * nodeChannel.RotationKeys[a].Value.Y);
+                                        double xAngle = Math.Atan2(sinr_cosp, cosr_cosp);
+
+                                        double yAngle;
+                                        float sinp = 2 * (nodeChannel.RotationKeys[a].Value.W * nodeChannel.RotationKeys[a].Value.Y - nodeChannel.RotationKeys[a].Value.Z * nodeChannel.RotationKeys[a].Value.X);
+                                        if (Math.Abs(sinp) >= 1)
+                                            yAngle = Math.PI / 2 * Math.Sign(sinp); // use 90 degrees if out of range
+                                        else
+                                            yAngle = Math.Asin(sinp);
+
+                                        float siny_cosp = 2 * (nodeChannel.RotationKeys[a].Value.W * nodeChannel.RotationKeys[a].Value.Z + nodeChannel.RotationKeys[a].Value.X * nodeChannel.RotationKeys[a].Value.Y);
+                                        float cosy_cosp = 1 - 2 * (nodeChannel.RotationKeys[a].Value.Y * nodeChannel.RotationKeys[a].Value.Y + nodeChannel.RotationKeys[a].Value.Z * nodeChannel.RotationKeys[a].Value.Z);
+                                        double zAngle =  Math.Atan2(siny_cosp, cosy_cosp);
+
                                         NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 rotation = new();
                                         rotation.Frame = (short)nodeChannel.RotationKeys[a].Time;
-                                        rotation.Value1 = (short)(nodeChannel.RotationKeys[a].Value.X * 65536 / 360);
-                                        rotation.Value2 = (short)(nodeChannel.RotationKeys[a].Value.Y * 65536 / 360);
-                                        rotation.Value3 = (short)(nodeChannel.RotationKeys[a].Value.Z * 65536 / 360);
+                                        rotation.Value1 = (short)(xAngle * 65536 / 360);
+                                        rotation.Value2 = (short)(yAngle * 65536 / 360);
+                                        rotation.Value3 = (short)(zAngle * 65536 / 360);
+                                        //rotation.Value1 = (short)(nodeChannel.RotationKeys[a].Value.X * 65536 / 360);
+                                        //rotation.Value2 = (short)(nodeChannel.RotationKeys[a].Value.Y * 65536 / 360);
+                                        //rotation.Value3 = (short)(nodeChannel.RotationKeys[a].Value.Z * 65536 / 360);
                                         rotationSubMotion.Keyframes.Add(rotation);
                                     }
 

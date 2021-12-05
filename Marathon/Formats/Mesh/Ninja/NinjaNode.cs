@@ -6,7 +6,7 @@
 
         public NinjaNext_NodeType Type { get; set; }
 
-        public short MatrixIndex { get; set; }
+        public short MatrixIndex { get; set; } = -1;
 
         public short ParentIndex { get; set; } = -1;
 

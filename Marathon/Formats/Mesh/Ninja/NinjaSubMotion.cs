@@ -12,7 +12,7 @@ namespace Marathon.Formats.Mesh.Ninja
 
         public NinjaNext_SubMotionInterpolationType InterpolationType { get; set; }
 
-        public int ID { get; set; }
+        public int NodeIndex { get; set; }
 
         public float StartFrame { get; set; }
 
@@ -28,7 +28,7 @@ namespace Marathon.Formats.Mesh.Ninja
         {
             Type = (NinjaNext_SubMotionType)reader.ReadUInt32();
             InterpolationType = (NinjaNext_SubMotionInterpolationType)reader.ReadUInt32();
-            ID = reader.ReadInt32();
+            NodeIndex = reader.ReadInt32();
             StartFrame = reader.ReadSingle();
             EndFrame = reader.ReadSingle();
             StartKeyframe = reader.ReadSingle();

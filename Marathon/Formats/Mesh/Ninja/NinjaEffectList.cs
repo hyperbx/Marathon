@@ -19,8 +19,6 @@
     {
         public uint Type { get; set; }
 
-        public uint EffectFileIndex { get; set; }
-
         public string Name { get; set; }
 
         public override string ToString() => Name;
@@ -93,9 +91,8 @@
                 NinjaTechniqueName TechniqueName = new();
 
                 // Read this Effect Technique's Type and Effect File Index.
-                // TODO: Are the EffectFileIndex values always linear? If so, probably shouldn't be saving them.
                 TechniqueName.Type = reader.ReadUInt32();
-                TechniqueName.EffectFileIndex = reader.ReadUInt32();
+                uint EffectFileIndex = reader.ReadUInt32();
 
                 // Read the offset to this Technique Name's... Well... Name.
                 uint EffectFile_NameOffset = reader.ReadUInt32();
@@ -144,7 +141,7 @@
             for (int i = 0; i < NinjaTechniqueNames.Count; i++)
             {
                 writer.Write(NinjaTechniqueNames[i].Type);
-                writer.Write(NinjaTechniqueNames[i].EffectFileIndex);
+                writer.Write(i);
                 writer.AddOffset($"TechniqueName{i}_NameOffset");
             }
 

@@ -1,19 +1,10 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
-    public class NinjaNodeName
-    {
-        public uint ID { get; set; }
-
-        public string Name { get; set; }
-
-        public override string ToString() => Name;
-    }
-
     public class NinjaNodeNameList
     {
         public uint Type { get; set; }
 
-        public List<NinjaNodeName> NinjaNodeNames = new();
+        public List<string> NinjaNodeNames = new();
 
         public void Read(BinaryReaderEx reader)
         {
@@ -29,16 +20,13 @@
 
             for (int i = 0; i < NodeCount; i++)
             {
-                NinjaNodeName NodeName = new();
-                NodeName.ID = reader.ReadUInt32();
+                uint NodeID = reader.ReadUInt32();
                 uint NodeName_NameOffset = reader.ReadUInt32();
 
                 long pos = reader.BaseStream.Position;
                 reader.JumpTo(NodeName_NameOffset, true);
-                NodeName.Name = reader.ReadNullTerminatedString();
+                NinjaNodeNames.Add(reader.ReadNullTerminatedString());
                 reader.JumpTo(pos);
-
-                NinjaNodeNames.Add(NodeName);
             }
         }
 
@@ -55,7 +43,7 @@
             uint NodeNamesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaNodeNames.Count; i++)
             {
-                writer.Write(NinjaNodeNames[i].ID);
+                writer.Write(i);
                 writer.AddOffset($"NodeName{i}_NameOffset");
             }
 
@@ -70,7 +58,7 @@
             for (int i = 0; i < NinjaNodeNames.Count; i++)
             {
                 writer.FillOffset($"NodeName{i}_NameOffset", true, false);
-                writer.WriteNullTerminatedString(NinjaNodeNames[i].Name);
+                writer.WriteNullTerminatedString(NinjaNodeNames[i]);
             }
 
             // Alignment.

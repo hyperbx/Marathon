@@ -100,7 +100,7 @@ namespace Marathon.Formats.Mesh.Ninja
             {
                 writer.Write((uint)SubMotions[i].Type);
                 writer.Write((uint)SubMotions[i].InterpolationType);
-                writer.Write(SubMotions[i].ID);
+                writer.Write(SubMotions[i].NodeIndex);
                 writer.Write(SubMotions[i].StartFrame);
                 writer.Write(SubMotions[i].EndFrame);
                 writer.Write(SubMotions[i].StartKeyframe);
