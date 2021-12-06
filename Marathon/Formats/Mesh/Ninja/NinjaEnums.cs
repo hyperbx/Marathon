@@ -3,7 +3,10 @@ using Newtonsoft.Json.Converters;
 
 namespace Marathon.Formats.Mesh.Ninja
 {
+    // Taken from a mixture of Rad's research and the Sonic 4 decompilation.
+
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_MinFilter : uint
     {
         NND_MIN_NEAREST = 0,
@@ -27,6 +30,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_MagFilter : uint
     {
         NND_MAG_NEAREST = 0,
@@ -35,6 +39,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_MaterialType : uint
     {
         NND_MATTYPE_TEXTURE = 1,
@@ -45,6 +50,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_BlendMode : uint
     {
         NNE_BLENDMODE_SRCALPHA = 0x302,
@@ -52,18 +58,21 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_BlendOperation : uint
     {
         NNE_BLENDOP_ADD = 0x8006
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_LogicOperation : uint
     {
         NNE_LOGICOP_NONE = 0
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_CMPFunction : uint
     {
         NNE_CMPFUNC_NEVER = 0x200,
@@ -76,8 +85,8 @@ namespace Marathon.Formats.Mesh.Ninja
         NNE_CMPFUNC_ALWAYS = 0x207
     };
 
-    // "Borrowed" from the Sonic 4 decomp.
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_NodeType : uint
     {
         NND_NODETYPE_UNIT_TRANSLATION = 1,
@@ -135,6 +144,7 @@ namespace Marathon.Formats.Mesh.Ninja
     }
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_VertexType : uint
     {
         /* Masks */
@@ -153,6 +163,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_XboxVertexType : uint
     {
         /* Xbox types */
@@ -184,6 +195,7 @@ namespace Marathon.Formats.Mesh.Ninja
     }
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_FlexibleVertexFormat : uint
     {
         /* Masks */
@@ -225,6 +237,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_PrimitiveType : uint
     {
         /* Xbox types */
@@ -232,6 +245,7 @@ namespace Marathon.Formats.Mesh.Ninja
     };
 
     [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_MotionType : uint
     {
         /* Masks */
@@ -261,6 +275,8 @@ namespace Marathon.Formats.Mesh.Ninja
     [JsonConverter(typeof(StringEnumConverter))]
     public enum NinjaNext_SubMotionType : uint
     {
+        // Some of these overlap each other.
+
         /* Masks */
         NND_SMOTTYPE_FRAME_MASK = 3,
         NND_SMOTTYPE_ANGLE_MASK = 28,
@@ -431,5 +447,43 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTIPTYPE_QUAT_LERP = 512,
         NND_SMOTIPTYPE_QUAT_SLERP = 1024,
         NND_SMOTIPTYPE_QUAT_SQUAD = 2048
+    };
+
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum NinjaNext_CameraType : uint
+    {
+        NND_CAMERATYPE_MEMBER_USER = 1,
+        NND_CAMERATYPE_MEMBER_FOVY = 2,
+        NND_CAMERATYPE_MEMBER_ASPECT = 4,
+        NND_CAMERATYPE_MEMBER_ZNEAR = 8,
+        NND_CAMERATYPE_MEMBER_ZFAR = 16,
+        NND_CAMERATYPE_MEMBER_POSITION = 32,
+        NND_CAMERATYPE_MEMBER_TARGET = 64,
+        NND_CAMERATYPE_MEMBER_ROLL = 128,
+        NND_CAMERATYPE_MEMBER_UPVECTOR = 256,
+        NND_CAMERATYPE_MEMBER_UPTARGET = 512,
+        NND_CAMERATYPE_MEMBER_ROTTYPE = 1024,
+        NND_CAMERATYPE_MEMBER_ROTATION = 2048,
+        NND_CAMERATYPE_MEMBER_COMMON = 63,
+        NND_CAMERATYPE_ROTATION = 3135,
+        NND_CAMERATYPE_TARGET_ROLL = 255,
+        NND_CAMERATYPE_TARGET_UPVECTOR = 383,
+        NND_CAMERATYPE_TARGET_UPTARGET = 639
+    };
+
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum NinjaNext_LightType : uint
+    {
+        NND_LIGHTTYPE_STANDARD_GL = 65536,
+        NND_LIGHTTYPE_MASK = 65599,
+        NND_LIGHTTYPE_PARALLEL = 1,
+        NND_LIGHTTYPE_POINT = 2,
+        NND_LIGHTTYPE_TARGET_SPOT = 4,
+        NND_LIGHTTYPE_ROTATION_SPOT = 8,
+        NND_LIGHTTYPE_TARGET_DIRECTIONAL = 16,
+        NND_LIGHTTYPE_ROTATION_DIRECTIONAL = 32,
+        NND_LIGHTTYPE_COMMON_MASK = 63
     };
 }

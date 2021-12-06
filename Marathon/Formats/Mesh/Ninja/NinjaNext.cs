@@ -227,6 +227,7 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.FixPadding(0x10);
         }
 
+        // TODO: Yeet all this when it comes time to merge into the main.
         public class AssimpData
         {
             public string NodeName;
@@ -448,132 +449,136 @@ namespace Marathon.Formats.Mesh.Ninja
             Data.Object.TextureCount = (uint)assimpModel.Materials.Count;
 
             // Vertex Lists
-            //Console.WriteLine("Creating verticies.");
-            //for (int i = 0; i < assimpModel.Meshes.Count; i++)
-            //{
-            //    NinjaVertexList vertexList = new();
-            //    vertexList.Type = NinjaNext_VertexType.NND_VTXTYPE_DX_VERTEXDESC;
-            //    vertexList.Format = NinjaNext_XboxVertexType.NND_VTXTYPE_XB_PW4INCT;
-            //    vertexList.FlexibleVertexFormat = NinjaNext_FlexibleVertexFormat.NND_D3DFVF_XYZB3 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_NORMAL | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEX1 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_LASTBETA_UBYTE4;
-            
-            //    for (int v = 0; v < assimpModel.Meshes[i].Vertices.Count; v++)
-            //    {
-            //        NinjaVertex vertex = new();
-            //        vertex.Position = new(assimpModel.Meshes[i].Vertices[v].X, assimpModel.Meshes[i].Vertices[v].Y, assimpModel.Meshes[i].Vertices[v].Z);
-            //        vertex.Normals = new(assimpModel.Meshes[i].Normals[v].X, assimpModel.Meshes[i].Normals[v].Y, assimpModel.Meshes[i].Normals[v].Z);
+            Console.WriteLine("Creating verticies.");
+            for (int i = 0; i < assimpModel.Meshes.Count; i++)
+            {
+                NinjaVertexList vertexList = new();
+                vertexList.Type = NinjaNext_VertexType.NND_VTXTYPE_DX_VERTEXDESC;
+                //vertexList.Format = NinjaNext_XboxVertexType.NND_VTXTYPE_XB_PW4INCT;
+                //vertexList.FlexibleVertexFormat = NinjaNext_FlexibleVertexFormat.NND_D3DFVF_XYZB3 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_NORMAL | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEX1 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_LASTBETA_UBYTE4;
+                vertexList.Format = NinjaNext_XboxVertexType.NND_VTXTYPE_XB_PNCT;
+                vertexList.FlexibleVertexFormat = NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEXTUREFORMAT4 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_NORMAL | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEX1;
 
-            //        if (assimpModel.Meshes[i].TextureCoordinateChannelCount != 0)
-            //        {
-            //            vertex.TextureCoordinates = new();
-            //            vertex.TextureCoordinates.Add(new(assimpModel.Meshes[i].TextureCoordinateChannels[0][v].X, -assimpModel.Meshes[i].TextureCoordinateChannels[0][v].Y));
-            //        }
+                for (int v = 0; v < assimpModel.Meshes[i].Vertices.Count; v++)
+                {
+                    NinjaVertex vertex = new();
+                    vertex.Position = new(assimpModel.Meshes[i].Vertices[v].X, assimpModel.Meshes[i].Vertices[v].Y, assimpModel.Meshes[i].Vertices[v].Z);
+                    vertex.Normals = new(assimpModel.Meshes[i].Normals[v].X, assimpModel.Meshes[i].Normals[v].Y, assimpModel.Meshes[i].Normals[v].Z);
 
-            //        vertex.VertexColours = new byte[4];
-            //        if (assimpModel.Meshes[i].VertexColorChannelCount != 0)
-            //        {
-            //            vertex.VertexColours[0] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].B * 255);
-            //            vertex.VertexColours[1] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].G * 255);
-            //            vertex.VertexColours[2] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].R * 255);
-            //            vertex.VertexColours[3] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].A * 255);
-            //        }
-            //        else
-            //        {
-            //            vertex.VertexColours[0] = 255;
-            //            vertex.VertexColours[1] = 255;
-            //            vertex.VertexColours[2] = 255;
-            //            vertex.VertexColours[3] = 255;
-            //        }
+                    if (assimpModel.Meshes[i].TextureCoordinateChannelCount != 0)
+                    {
+                        vertex.TextureCoordinates = new();
+                        vertex.TextureCoordinates.Add(new(assimpModel.Meshes[i].TextureCoordinateChannels[0][v].X, -assimpModel.Meshes[i].TextureCoordinateChannels[0][v].Y));
+                    }
 
-            //        for (int i1 = 0; i1 < assimpModel.Meshes[i].Bones.Count; i1++)
-            //        {
-            //            Bone bone = assimpModel.Meshes[i].Bones[i1];
-            //            for (int b = 0; b < bone.VertexWeights.Count; b++)
-            //            {
-            //                if (bone.VertexWeights[b].VertexID == v)
-            //                {
-            //                    if (vertex.MatrixIndices == null)
-            //                    {
-            //                        vertex.MatrixIndices = new byte[4];
-            //                        vertex.MatrixIndices[0] = 0xff;
-            //                        vertex.MatrixIndices[1] = 0xff;
-            //                        vertex.MatrixIndices[2] = 0xff;
-            //                        vertex.MatrixIndices[3] = 0xff;
-            //                    }
-            //                    if (vertex.Weight == null)
-            //                        vertex.Weight = new();
+                    vertex.VertexColours = new byte[4];
+                    if (assimpModel.Meshes[i].VertexColorChannelCount != 0)
+                    {
+                        vertex.VertexColours[0] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].B * 255);
+                        vertex.VertexColours[1] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].G * 255);
+                        vertex.VertexColours[2] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].R * 255);
+                        vertex.VertexColours[3] = (byte)(assimpModel.Meshes[i].VertexColorChannels[0][v].A * 255);
+                    }
+                    else
+                    {
+                        vertex.VertexColours[0] = 255;
+                        vertex.VertexColours[1] = 255;
+                        vertex.VertexColours[2] = 255;
+                        vertex.VertexColours[3] = 255;
+                    }
 
-            //                    if (vertex.MatrixIndices[0] == 0xff)
-            //                    {
-            //                        vertex.MatrixIndices[0] = (byte)bone.VertexWeights[b].VertexID;
-            //                        var currentWeight = vertex.Weight.GetValueOrDefault();
-            //                        vertex.Weight = new(bone.VertexWeights[b].Weight, currentWeight.Y, currentWeight.Z);
-            //                    }
-            //                    else if (vertex.MatrixIndices[1] == 0xff)
-            //                    {
-            //                        vertex.MatrixIndices[1] = (byte)bone.VertexWeights[b].VertexID;
-            //                        var currentWeight = vertex.Weight.GetValueOrDefault();
-            //                        vertex.Weight = new(currentWeight.X, bone.VertexWeights[b].Weight, currentWeight.Z);
-            //                    }
-            //                    else if (vertex.MatrixIndices[2] == 0xff)
-            //                    {
-            //                        vertex.MatrixIndices[2] = (byte)bone.VertexWeights[b].VertexID;
-            //                        var currentWeight = vertex.Weight.GetValueOrDefault();
-            //                        vertex.Weight = new(currentWeight.X, currentWeight.Y, bone.VertexWeights[b].Weight);
-            //                    }
-            //                    else if (vertex.MatrixIndices[3] == 0xff)
-            //                        vertex.MatrixIndices[3] = (byte)bone.VertexWeights[b].VertexID;
+                    for (int i1 = 0; i1 < assimpModel.Meshes[i].Bones.Count; i1++)
+                    {
+                        Bone bone = assimpModel.Meshes[i].Bones[i1];
+                        for (int b = 0; b < bone.VertexWeights.Count; b++)
+                        {
+                            if (bone.VertexWeights[b].VertexID == v)
+                            {
+                                if (vertex.MatrixIndices == null)
+                                {
+                                    vertex.MatrixIndices = new byte[4];
+                                    vertex.MatrixIndices[0] = 0xff;
+                                    vertex.MatrixIndices[1] = 0xff;
+                                    vertex.MatrixIndices[2] = 0xff;
+                                    vertex.MatrixIndices[3] = 0xff;
+                                }
+                                if (vertex.Weight == null)
+                                    vertex.Weight = new();
 
-            //                    if (!vertexList.BoneMatrixIndices.Contains(i1))
-            //                        vertexList.BoneMatrixIndices.Add(i1);
-            //                }
-            //            }
-            //        }
+                                if (vertex.MatrixIndices[0] == 0xff)
+                                {
+                                    vertex.MatrixIndices[0] = (byte)bone.VertexWeights[b].VertexID;
+                                    var currentWeight = vertex.Weight.GetValueOrDefault();
+                                    vertex.Weight = new(bone.VertexWeights[b].Weight, currentWeight.Y, currentWeight.Z);
+                                }
+                                else if (vertex.MatrixIndices[1] == 0xff)
+                                {
+                                    vertex.MatrixIndices[1] = (byte)bone.VertexWeights[b].VertexID;
+                                    var currentWeight = vertex.Weight.GetValueOrDefault();
+                                    vertex.Weight = new(currentWeight.X, bone.VertexWeights[b].Weight, currentWeight.Z);
+                                }
+                                else if (vertex.MatrixIndices[2] == 0xff)
+                                {
+                                    vertex.MatrixIndices[2] = (byte)bone.VertexWeights[b].VertexID;
+                                    var currentWeight = vertex.Weight.GetValueOrDefault();
+                                    vertex.Weight = new(currentWeight.X, currentWeight.Y, bone.VertexWeights[b].Weight);
+                                }
+                                else if (vertex.MatrixIndices[3] == 0xff)
+                                    vertex.MatrixIndices[3] = (byte)bone.VertexWeights[b].VertexID;
 
-            //        if (vertex.MatrixIndices != null)
-            //        {
-            //            if (vertex.MatrixIndices[0] == 0xff)
-            //                vertex.MatrixIndices[0] = 0;
-            //            if (vertex.MatrixIndices[1] == 0xff)
-            //                vertex.MatrixIndices[1] = 0;
-            //            if (vertex.MatrixIndices[2] == 0xff)
-            //                vertex.MatrixIndices[2] = 0;
-            //            if (vertex.MatrixIndices[3] == 0xff)
-            //                vertex.MatrixIndices[3] = 0;
-            //        }
+                                if (!vertexList.BoneMatrixIndices.Contains(i1))
+                                    vertexList.BoneMatrixIndices.Add(i1);
+                            }
+                        }
+                    }
 
-            //        vertexList.Vertices.Add(vertex);
-            //    }
+                    if (vertex.MatrixIndices != null)
+                    {
+                        if (vertex.MatrixIndices[0] == 0xff)
+                            vertex.MatrixIndices[0] = 0;
+                        if (vertex.MatrixIndices[1] == 0xff)
+                            vertex.MatrixIndices[1] = 0;
+                        if (vertex.MatrixIndices[2] == 0xff)
+                            vertex.MatrixIndices[2] = 0;
+                        if (vertex.MatrixIndices[3] == 0xff)
+                            vertex.MatrixIndices[3] = 0;
+                    }
 
-            //    Data.Object.VertexLists.Add(vertexList);
-            //}
+                    vertexList.Vertices.Add(vertex);
+                }
+
+                Data.Object.VertexLists.Add(vertexList);
+            }
 
             // Primitives
-            //Console.WriteLine("Creating triangle strip primitives.");
-            //for (int i = 0; i < assimpModel.Meshes.Count; i++)
-            //{
-            //    // Get Faces.
-            //    List<ushort> Faces = new List<ushort>();
-            //    foreach (var Face in assimpModel.Meshes[i].Faces)
-            //    {
-            //        Faces.Add((ushort)Face.Indices[0]);
-            //        Faces.Add((ushort)Face.Indices[1]);
-            //        Faces.Add((ushort)Face.Indices[2]);
-            //    }
+            Console.WriteLine("Creating triangle strip primitives.");
+            for (int i = 0; i < assimpModel.Meshes.Count; i++)
+            {
+                // Get Faces.
+                List<ushort> Faces = new List<ushort>();
+                foreach (var Face in assimpModel.Meshes[i].Faces)
+                {
+                    Faces.Add((ushort)Face.Indices[0]);
+                    Faces.Add((ushort)Face.Indices[1]);
+                    Faces.Add((ushort)Face.Indices[2]);
+                }
 
-            //    NvStripifier nvStripifier = new NvStripifier();
-            //    nvStripifier.GenerateStrips(Faces.ToArray(), out PrimitiveGroup[] stripList);
+                NvStripifier nvStripifier = new NvStripifier();
+                nvStripifier.GenerateStrips(Faces.ToArray(), out PrimitiveGroup[] stripList);
 
-            //    NinjaPrimitiveList primitiveList = new();
-            //    primitiveList.Type = NinjaNext_PrimitiveType.NND_PRIMTYPE_DX_STRIPLIST;
-            //    primitiveList.Format = 0x00004810;
-            //    primitiveList.StripIndices.Add((ushort)stripList[0].IndexCount);
-            //    foreach(ushort strip in stripList[0].Indices)
-            //    {
-            //        primitiveList.IndexIndices.Add(strip);
-            //    }
+                NinjaPrimitiveList primitiveList = new();
 
-            //    Data.Object.PrimitiveLists.Add(primitiveList);
-            //}
+                primitiveList.Type = NinjaNext_PrimitiveType.NND_PRIMTYPE_DX_STRIPLIST;
+                primitiveList.Format = 0x00004810;
+
+                primitiveList.StripIndices.Add((ushort)stripList[0].IndexCount);
+                foreach (ushort strip in stripList[0].Indices)
+                {
+                    primitiveList.IndexIndices.Add(strip);
+                }
+
+                Data.Object.PrimitiveLists.Add(primitiveList);
+            }
 
             // Nodes.
             Console.WriteLine("Creating nodes.");
@@ -591,10 +596,10 @@ namespace Marathon.Formats.Mesh.Ninja
 
                 node.Translation = new(Nodes[i].Position.X, Nodes[i].Position.Y, Nodes[i].Position.Z);
                 node.Scaling = new(1, 1, 1);
-                //if (Nodes[i].Type == 0)
-                //    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY;
-                //else
-                //    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_TRANSLATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_UNIT_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_UNIT33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY | NinjaNext_NodeType.NND_NODETYPE_BBOX_DATA;
+                if (Nodes[i].Type == 0)
+                    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY;
+                else
+                    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_TRANSLATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_UNIT_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_UNIT33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY | NinjaNext_NodeType.NND_NODETYPE_BBOX_DATA;
 
                 node.InvInitMatrix = new float[16];
                 node.InvInitMatrix[0] = Nodes[i].Transform.A1;
@@ -618,22 +623,22 @@ namespace Marathon.Formats.Mesh.Ninja
             }
 
             // Sub Objects
-            //Console.WriteLine("Creating subobjects.");
-            //NinjaSubObject subObject = new();
-            //subObject.Type = 513;
+            Console.WriteLine("Creating subobjects.");
+            NinjaSubObject subObject = new();
+            subObject.Type = 513;
 
-            //for (int i = 0; i < assimpModel.Meshes.Count; i++)
-            //{
-            //    NinjaMeshSet meshSet = new();
-            //    meshSet.MaterialIndex = i;
-            //    meshSet.PrimitiveListIndex = i;
-            //    meshSet.ShaderIndex = i;
-            //    meshSet.VertexListIndex = i;
-            //    subObject.MeshSets.Add(meshSet);
-            //    subObject.TextureIndices.Add(i);
-            //}
+            for (int i = 0; i < assimpModel.Meshes.Count; i++)
+            {
+                NinjaMeshSet meshSet = new();
+                meshSet.MaterialIndex = i;
+                meshSet.PrimitiveListIndex = i;
+                meshSet.ShaderIndex = i;
+                meshSet.VertexListIndex = i;
+                subObject.MeshSets.Add(meshSet);
+                subObject.TextureIndices.Add(i);
+            }
 
-            //Data.Object.SubObjects.Add(subObject);
+            Data.Object.SubObjects.Add(subObject);
         }
 
         public void ImportAssimpAnim(string filePath, NinjaNext model)
