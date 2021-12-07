@@ -1,4 +1,6 @@
 ﻿global using Marathon.IO;
+global using Newtonsoft.Json;
+global using Newtonsoft.Json.Converters;
 global using System;
 global using System.Collections;
 global using System.Collections.Generic;
@@ -7,8 +9,6 @@ global using System.IO.Compression;
 global using System.Linq;
 global using System.Numerics;
 global using System.Text;
-
-using Newtonsoft.Json;
 
 namespace Marathon.IO
 {
