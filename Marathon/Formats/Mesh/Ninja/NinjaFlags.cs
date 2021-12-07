@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
     /* Taken from a mixture of Rad's research and the Sonic 4 decompilation.
        https://gist.github.com/Radfordhound/5650ef12209da2709a6bf9b705bdd79c */
