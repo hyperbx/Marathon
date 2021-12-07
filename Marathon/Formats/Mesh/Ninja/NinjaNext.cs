@@ -1,8 +1,4 @@
-﻿using Assimp;
-using Assimp.Configs;
-using NvTriStripDotNet;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
     public class NinjaNext : FileBase
     {
