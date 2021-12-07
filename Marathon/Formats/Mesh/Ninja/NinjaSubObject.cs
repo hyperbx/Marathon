@@ -7,9 +7,9 @@
     {
         public uint Type { get; set; }
 
-        public List<NinjaMeshSet> MeshSets = new();
+        public List<NinjaMeshSet> MeshSets { get; set; } = new();
 
-        public List<int> TextureIndices = new();
+        public List<int> TextureIndices { get; set; } = new();
 
         /// <summary>
         /// Reads the sub object from a file.
@@ -18,14 +18,14 @@
         public void Read(BinaryReaderEx reader)
         {
             Type = reader.ReadUInt32();
-            uint MeshSetCount = reader.ReadUInt32();
-            uint MeshSetsOffset = reader.ReadUInt32();
-            uint TextureIndicesCount = reader.ReadUInt32();
-            uint TextureIndicesOffset = reader.ReadUInt32();
+            uint meshSetCount = reader.ReadUInt32();
+            uint meshSetsOffset = reader.ReadUInt32();
+            uint textureIndicesCount = reader.ReadUInt32();
+            uint textureIndicesOffset = reader.ReadUInt32();
 
             // Jump to and save all the mesh sets for this sub object.
-            reader.JumpTo(MeshSetsOffset, true);
-            for (int i = 0; i < MeshSetCount; i++)
+            reader.JumpTo(meshSetsOffset, true);
+            for (int i = 0; i < meshSetCount; i++)
             {
                 NinjaMeshSet meshSet = new()
                 {
@@ -38,12 +38,13 @@
                     PrimitiveListIndex = reader.ReadInt32(),
                     ShaderIndex = reader.ReadInt32()
                 };
+
                 MeshSets.Add(meshSet);
             }
 
             // Jump to and save all the texture indices for this sub object.
-            reader.JumpTo(TextureIndicesOffset, true);
-            for (int i = 0; i < TextureIndicesCount; i++)
+            reader.JumpTo(textureIndicesOffset, true);
+            for (int i = 0; i < textureIndicesCount; i++)
                 TextureIndices.Add(reader.ReadInt32());
         }
 
@@ -55,7 +56,7 @@
         /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void WriteMeshSets(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            // Add an entry for this sub object's Mesh Sets into ObjectOffsets so we know where it is.
+            // Add an entry for this sub object's Mesh Sets into the offset list so we know where it is.
             ObjectOffsets.Add($"SubObject{index}MeshSets", (uint)writer.BaseStream.Position);
 
             // Loop through and write each Mesh Set.
@@ -80,7 +81,7 @@
         /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void WriteTextureIndices(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            // Add an entry for this sub object's texture indices list into ObjectOffsets so we know where it is.
+            // Add an entry for this sub object's texture indices list into the offset list so we know where it is.
             ObjectOffsets.Add($"SubObject{index}TextureIndices", (uint)writer.BaseStream.Position);
 
             // Loop through and write each texture index.
@@ -100,7 +101,7 @@
             writer.Write(Type);
             writer.Write(MeshSets.Count);
 
-            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            // Add an offset to fill in later with the NOF0 chunk.
             writer.AddOffset($"SubObject{index}MeshSets", 0);
 
             // Write the previously saved position for this sub object's Mesh Sets.
@@ -109,7 +110,7 @@
             // Write this sub object's Texture Indices count.
             writer.Write(TextureIndices.Count);
 
-            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            // Add an offset to fill in later with the NOF0 chunk.
             writer.AddOffset($"SubObject{index}TextureIndices", 0);
 
             // Write the previously saved position for this sub object's Texture Indices.

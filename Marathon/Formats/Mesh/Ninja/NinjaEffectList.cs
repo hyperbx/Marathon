@@ -1,41 +1,17 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
     /// <summary>
-    /// Structure of a Ninja Effect File entry.
-    /// </summary>
-    public class NinjaEffectFile
-    {
-        public uint Type { get; set; }
-
-        public string FileName { get; set; }
-
-        public override string ToString() => FileName;
-    }
-
-    /// <summary>
-    /// Structure of a Ninja Technique Name entry.
-    /// </summary>
-    public class NinjaTechniqueName
-    {
-        public uint Type { get; set; }
-
-        public string Name { get; set; }
-
-        public override string ToString() => Name;
-    }
-
-    /// <summary>
     /// Structure of the main Ninja Effect List.
     /// </summary>
     public class NinjaEffectList
     {
         public uint Type { get; set; }
 
-        public List<NinjaEffectFile> NinjaEffectFiles = new();
+        public List<NinjaEffectFile> NinjaEffectFiles { get; set; } = new();
 
-        public List<NinjaTechniqueName> NinjaTechniqueNames = new();
+        public List<NinjaTechniqueName> NinjaTechniqueNames { get; set; } = new();
 
-        public List<short> NinjaTechniqueIndices = new();
+        public List<short> NinjaTechniqueIndices { get; set; } = new();
 
         /// <summary>
         /// Reads the Ninja Effect List from a file.
@@ -95,13 +71,13 @@
                 uint EffectFileIndex = reader.ReadUInt32();
 
                 // Read the offset to this Technique Name's... Well... Name.
-                uint EffectFile_NameOffset = reader.ReadUInt32();
+                uint TechniqueName_NameOffset = reader.ReadUInt32();
 
                 // Store our current position.
                 long pos = reader.BaseStream.Position;
 
                 // Jump to this Technique Name's Name Offset, read it and jump back.
-                reader.JumpTo(EffectFile_NameOffset, true);
+                reader.JumpTo(TechniqueName_NameOffset, true);
                 TechniqueName.Name = reader.ReadNullTerminatedString();
                 reader.JumpTo(pos);
 
@@ -121,14 +97,14 @@
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
-            // Chunk Header.
+            // Write NXEF chunk header.
             writer.Write("NXEF");
             writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
-            // Effect Files.
+            // Write Effect Files.
             uint EffectFilesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaEffectFiles.Count; i++)
             {
@@ -136,7 +112,7 @@
                 writer.AddOffset($"EffectFile{i}_NameOffset");
             }
 
-            // Technique Names.
+            // Write Technique Names.
             uint TechniqueNamesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaTechniqueNames.Count; i++)
             {
@@ -145,36 +121,40 @@
                 writer.AddOffset($"TechniqueName{i}_NameOffset");
             }
 
-            // Technique Indices.
+            // Write technique indices.
             uint TechniqueIndicesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaTechniqueIndices.Count; i++)
                 writer.Write(NinjaTechniqueIndices[i]);
 
+            // Alignment.
             writer.FixPadding();
 
-            // Chunk Data.
+            // Write chunk data.
             writer.FillOffset("dataOffset", true, false);
             writer.Write(Type);
             writer.Write(NinjaEffectFiles.Count);
-            writer.AddOffset($"EffectFiles", 0);
+            writer.AddOffset("EffectFiles", 0);
             writer.Write(EffectFilesOffset);
             writer.Write(NinjaTechniqueNames.Count);
-            writer.AddOffset($"TechniqueNames", 0);
+            writer.AddOffset("TechniqueNames", 0);
             writer.Write(TechniqueNamesOffset);
             writer.Write(NinjaTechniqueIndices.Count);
-            writer.AddOffset($"TechniqueIndices", 0);
+            writer.AddOffset("TechniqueIndices", 0);
             writer.Write(TechniqueIndicesOffset);
 
-            // Chunk String Table.
-            for (int i = 0; i < NinjaEffectFiles.Count; i++)
+            // Write chunk string tables.
             {
-                writer.FillOffset($"EffectFile{i}_NameOffset", true, false);
-                writer.WriteNullTerminatedString(NinjaEffectFiles[i].FileName);
-            }
-            for (int i = 0; i < NinjaTechniqueNames.Count; i++)
-            {
-                writer.FillOffset($"TechniqueName{i}_NameOffset", true, false);
-                writer.WriteNullTerminatedString(NinjaTechniqueNames[i].Name);
+                for (int i = 0; i < NinjaEffectFiles.Count; i++)
+                {
+                    writer.FillOffset($"EffectFile{i}_NameOffset", true, false);
+                    writer.WriteNullTerminatedString(NinjaEffectFiles[i].FileName);
+                }
+
+                for (int i = 0; i < NinjaTechniqueNames.Count; i++)
+                {
+                    writer.FillOffset($"TechniqueName{i}_NameOffset", true, false);
+                    writer.WriteNullTerminatedString(NinjaTechniqueNames[i].Name);
+                }
             }
 
             // Alignment.
@@ -183,9 +163,33 @@
             // Calculate and fill in chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
-            writer.BaseStream.Position = HeaderSizePosition - 0x04;
+            writer.BaseStream.Position = HeaderSizePosition - 4;
             writer.Write(ChunkSize);
             writer.BaseStream.Position = ChunkEndPosition;
         }
+    }
+
+    /// <summary>
+    /// Structure of a Ninja Effect File entry.
+    /// </summary>
+    public class NinjaEffectFile
+    {
+        public uint Type { get; set; }
+
+        public string FileName { get; set; }
+
+        public override string ToString() => FileName;
+    }
+
+    /// <summary>
+    /// Structure of a Ninja Technique Name entry.
+    /// </summary>
+    public class NinjaTechniqueName
+    {
+        public uint Type { get; set; }
+
+        public string Name { get; set; }
+
+        public override string ToString() => Name;
     }
 }

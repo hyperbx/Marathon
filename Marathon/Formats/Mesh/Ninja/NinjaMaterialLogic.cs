@@ -8,25 +8,25 @@
     {
         public bool Blend { get; set; }
 
-        public NinjaNext_BlendMode SRCBlend { get; set; }
+        public BlendMode SRCBlend { get; set; }
 
-        public NinjaNext_BlendMode DSTBlend { get; set; }
+        public BlendMode DSTBlend { get; set; }
 
         public uint BlendFactor { get; set; }
 
-        public NinjaNext_BlendOperation BlendOperation { get; set; }
+        public BlendOperation BlendOperation { get; set; }
 
-        public NinjaNext_LogicOperation LogicOperation { get; set; }
+        public LogicOperation LogicOperation { get; set; }
 
         public bool Alpha { get; set; }
 
-        public NinjaNext_CMPFunction AlphaFunction { get; set; }
+        public CMPFunction AlphaFunction { get; set; }
 
         public uint AlphaRef { get; set; }
 
         public bool ZComparison { get; set; }
 
-        public NinjaNext_CMPFunction ZComparisonFunction { get; set; }
+        public CMPFunction ZComparisonFunction { get; set; }
 
         public bool ZUpdate { get; set; }
 
@@ -38,7 +38,9 @@
 
         public uint Reserved3 { get; set; }
 
-        // This offset is stored by us purely for the writing process.
+        /// <summary>
+        /// This offset is stored by us purely for the writing process.
+        /// </summary>
         public uint Offset { get; set; }
 
         /// <summary>
@@ -48,12 +50,12 @@
         public void Read(BinaryReaderEx reader)
         {
             // Skip over the material's Type.
-            reader.JumpAhead(0x4);
+            reader.JumpAhead(4);
 
             // Jump to the material's main data.
             reader.JumpTo(reader.ReadUInt32(), true);
 
-            // Skip over the material's Flag, User Definied data and Colour offset.
+            // Skip over the material's Flag, User Defined data and Colour offset.
             reader.JumpAhead(0xC);
 
             // Save the offset for the writing process then jump to it.
@@ -61,18 +63,18 @@
             reader.JumpTo(Offset, true);
 
             // Save the logic data for this material.
-            Blend = reader.ReadBoolean(0x04);
-            SRCBlend = (NinjaNext_BlendMode)reader.ReadUInt32();
-            DSTBlend = (NinjaNext_BlendMode)reader.ReadUInt32();
+            Blend = reader.ReadBoolean(4);
+            SRCBlend = (BlendMode)reader.ReadUInt32();
+            DSTBlend = (BlendMode)reader.ReadUInt32();
             BlendFactor = reader.ReadUInt32();
-            BlendOperation = (NinjaNext_BlendOperation)reader.ReadUInt32();
-            LogicOperation = (NinjaNext_LogicOperation)reader.ReadUInt32();
-            Alpha = reader.ReadBoolean(0x04);
-            AlphaFunction = (NinjaNext_CMPFunction)reader.ReadUInt32();
+            BlendOperation = (BlendOperation)reader.ReadUInt32();
+            LogicOperation = (LogicOperation)reader.ReadUInt32();
+            Alpha = reader.ReadBoolean(4);
+            AlphaFunction = (CMPFunction)reader.ReadUInt32();
             AlphaRef = reader.ReadUInt32();
-            ZComparison = reader.ReadBoolean(0x04);
-            ZComparisonFunction = (NinjaNext_CMPFunction)reader.ReadUInt32();
-            ZUpdate = reader.ReadBoolean(0x04);
+            ZComparison = reader.ReadBoolean(4);
+            ZComparisonFunction = (CMPFunction)reader.ReadUInt32();
+            ZUpdate = reader.ReadBoolean(4);
             Reserved0 = reader.ReadUInt32();
             Reserved1 = reader.ReadUInt32();
             Reserved2 = reader.ReadUInt32();
@@ -87,7 +89,7 @@
         /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            // Add an entry for this material logic entry into ObjectOffsets so we know where it is.
+            // Add an entry for this material logic entry into the offset list so we know where it is.
             ObjectOffsets.Add($"LogicOffset{index}", (uint)writer.BaseStream.Position);
 
             // Write the material logic data.
@@ -113,26 +115,25 @@
             writer.Write(Reserved3);
         }
 
-        // Overrides to make it possible to check if two Material Colour entries are the same (by checking their offset).
         public override bool Equals(object obj)
         {
             if (obj is NinjaMaterialLogic)
                 return Equals((NinjaMaterialLogic)obj);
+
             return false;
         }
 
         public bool Equals(NinjaMaterialLogic obj)
         {
-            if (obj == null) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset)) return false;
+            if (obj == null)
+                return false;
+
+            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset))
+                return false;
+
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            int hash = 0;
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Offset);
-            return hash;
-        }
+        public override int GetHashCode() => EqualityComparer<uint>.Default.GetHashCode(Offset);
     }
 }

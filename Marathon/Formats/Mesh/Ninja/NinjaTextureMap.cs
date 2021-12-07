@@ -6,9 +6,11 @@
     /// </summary>
     public class NinjaTextureMap
     {
-        public List<NinjaMaterialTextureMapDescription> NinjaTextureMapDescriptions = new();
+        public List<NinjaMaterialTextureMapDescription> NinjaTextureMapDescriptions { get; set; } = new();
 
-        // This offset is stored by us purely for the writing process.
+        /// <summary>
+        /// This offset is stored by us purely for the writing process.
+        /// </summary>
         public uint Offset { get; set; }
 
         /// <summary>
@@ -18,12 +20,12 @@
         public void Read(BinaryReaderEx reader)
         {
             // Read the material's Type, as it tells us the amount of textures.
-            NinjaNext_MaterialType Type = (NinjaNext_MaterialType)reader.ReadUInt32();
+            MaterialType Type = (MaterialType)reader.ReadUInt32();
 
             // Jump to the material's main data.
             reader.JumpTo(reader.ReadUInt32(), true);
 
-            // Skip over the material's Flag, User Definied data, Colour offset and Logic offset.
+            // Skip over the material's Flag, User Defined data, Colour offset and Logic offset.
             reader.JumpAhead(0x10);
 
             // Save the offset for the writing process then jump to it.
@@ -32,17 +34,17 @@
 
             // Figure out how many textures this texture map list has in it based on the material's Type.
             int textureCount = 0;
-            if (Type.HasFlag(NinjaNext_MaterialType.NND_MATTYPE_TEXTURE))
+            if (Type.HasFlag(MaterialType.NND_MATTYPE_TEXTURE))
                 textureCount = 1;
-            if (Type.HasFlag(NinjaNext_MaterialType.NND_MATTYPE_TEXTURE2))
+            if (Type.HasFlag(MaterialType.NND_MATTYPE_TEXTURE2))
                 textureCount = 2;
-            if (Type.HasFlag(NinjaNext_MaterialType.NND_MATTYPE_TEXTURE3))
+            if (Type.HasFlag(MaterialType.NND_MATTYPE_TEXTURE3))
                 textureCount = 3;
-            if (Type.HasFlag(NinjaNext_MaterialType.NND_MATTYPE_TEXTURE4))
+            if (Type.HasFlag(MaterialType.NND_MATTYPE_TEXTURE4))
                 textureCount = 4;
 
             // Loop through and save each texture map description entry.
-            for (int t = 0; t < textureCount; t++)
+            for (int i = 0; i < textureCount; i++)
             {
                 NinjaMaterialTextureMapDescription TexMapDesc = new()
                 {
@@ -51,14 +53,15 @@
                     Offset = reader.ReadVector2(),
                     Blend = reader.ReadSingle(),
                     TextureInfo = reader.ReadUInt32(),
-                    MinFilter = (NinjaNext_MinFilter)reader.ReadUInt16(),
-                    MagFilter = (NinjaNext_MagFilter)reader.ReadUInt16(),
+                    MinFilter = (MinFilter)reader.ReadUInt16(),
+                    MagFilter = (MagFilter)reader.ReadUInt16(),
                     MipMapBias = reader.ReadSingle(),
                     MaxMipLevel = reader.ReadUInt32(),
                     Reserved0 = reader.ReadUInt32(),
                     Reserved1 = reader.ReadUInt32(),
                     Reserved2 = reader.ReadUInt32()
                 };
+
                 NinjaTextureMapDescriptions.Add(TexMapDesc);
             }
         }
@@ -71,10 +74,10 @@
         /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            // Add an entry for this material texture map list into ObjectOffsets so we know where it is.
+            // Add an entry for this material texture map list into the offset list so we know where it is.
             ObjectOffsets.Add($"TexDescOffset{index}", (uint)writer.BaseStream.Position);
 
-            // Loop through the texture map descriptions in this texture map list and write them.
+            // Loop through the Texture Map descriptions in this texture map list and write them.
             for (int i = 0; i < NinjaTextureMapDescriptions.Count; i++)
             {
                 writer.Write(NinjaTextureMapDescriptions[i].Type);
@@ -92,27 +95,26 @@
             }
         }
 
-        // Overrides to make it possible to check if two Material Colour entries are the same (by checking their offset).
         public override bool Equals(object obj)
         {
             if (obj is NinjaTextureMap)
                 return Equals((NinjaTextureMap)obj);
+
             return false;
         }
 
         public bool Equals(NinjaTextureMap obj)
         {
-            if (obj == null) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset)) return false;
+            if (obj == null)
+                return false;
+
+            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset))
+                return false;
+
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            int hash = 0;
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Offset);
-            return hash;
-        }
+        public override int GetHashCode() => EqualityComparer<uint>.Default.GetHashCode(Offset);
     }
 
     /// <summary>
@@ -130,9 +132,9 @@
 
         public uint TextureInfo { get; set; }
 
-        public NinjaNext_MinFilter MinFilter { get; set; }
+        public MinFilter MinFilter { get; set; }
 
-        public NinjaNext_MagFilter MagFilter { get; set; }
+        public MagFilter MagFilter { get; set; }
 
         public float MipMapBias { get; set; }
 

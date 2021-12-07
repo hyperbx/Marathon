@@ -22,7 +22,9 @@
 
         public uint Reserved2 { get; set; }
 
-        // This offset is stored by us purely for the writing process.
+        /// <summary>
+        /// This offset is stored by us purely for the writing process.
+        /// </summary>
         public uint Offset { get; set; }
 
         /// <summary>
@@ -32,13 +34,13 @@
         public void Read(BinaryReaderEx reader)
         {
             // Skip over the material's Type.
-            reader.JumpAhead(0x4);
+            reader.JumpAhead(4);
             
             // Jump to the material's main data.
             reader.JumpTo(reader.ReadUInt32(), true);
 
-            // Skip over the material's Flag and User Definied data.
-            reader.JumpAhead(0x8);
+            // Skip over the material's Flag and User Defined data.
+            reader.JumpAhead(8);
 
             // Save the offset for the writing process then jump to it.
             Offset = reader.ReadUInt32();
@@ -63,7 +65,7 @@
         /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            // Add an entry for this material colour entry into ObjectOffsets so we know where it is.
+            // Add an entry for this material colour entry into the offset list so we know where it is.
             ObjectOffsets.Add($"ColourOffset{index}", (uint)writer.BaseStream.Position);
 
             // Write the material colour data.
@@ -77,26 +79,25 @@
             writer.Write(Reserved2);
         }
 
-        // Overrides to make it possible to check if two Material Colour entries are the same (by checking their offset).
         public override bool Equals(object obj)
         {
             if (obj is NinjaMaterialColours)
                 return Equals((NinjaMaterialColours)obj);
+
             return false;
         }
 
         public bool Equals(NinjaMaterialColours obj)
         {
-            if (obj == null) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset)) return false;
+            if (obj == null)
+                return false;
+
+            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset))
+                return false;
+
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            int hash = 0;
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Offset);
-            return hash;
-        }
+        public override int GetHashCode() => EqualityComparer<uint>.Default.GetHashCode(Offset);
     }
 }

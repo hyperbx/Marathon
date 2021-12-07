@@ -5,10 +5,13 @@
     /// </summary>
     public class NinjaNode
     {
-        // Not actually part of the Node, used purely so we don't keep having to go back and forth between the Node Name List and the Nodes themselves.
+        /// <summary>
+        /// Not actually part of the Node, used purely so we don't keep having to go back
+        /// and forth between the Node Name List and the Nodes themselves.
+        /// </summary>
         public string Name { get; set; }
 
-        public NinjaNext_NodeType Type { get; set; }
+        public NodeType Type { get; set; }
 
         public short MatrixIndex { get; set; } = -1;
 
@@ -42,7 +45,7 @@
         /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
-            Type = (NinjaNext_NodeType)reader.ReadUInt32();
+            Type = (NodeType)reader.ReadUInt32();
             MatrixIndex = reader.ReadInt16();
             ParentIndex = reader.ReadInt16();
             ChildIndex = reader.ReadInt16();
@@ -76,8 +79,10 @@
             writer.Write(Translation);
             writer.Write(Rotation);
             writer.Write(Scaling);
+
             for (int i = 0; i != InvInitMatrix.Length; i++)
                 writer.Write(InvInitMatrix[i]);
+
             writer.Write(Center);
             writer.Write(Radius);
             writer.Write(UserDefined);

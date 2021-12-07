@@ -5,9 +5,9 @@
     /// </summary>
     public class NinjaMaterial
     {
-        public NinjaNext_MaterialType Type { get; set; }
+        public MaterialType Type { get; set; }
 
-        public NinjaNext_MaterialType Flag { get; set; }
+        public MaterialType Flag { get; set; }
 
         public int UserDefined { get; set; }
 
@@ -17,7 +17,8 @@
 
         public uint Reserved2 { get; set; }
         
-        // These offsets are stored by us purely for the writing process.
+        /* The below offsets are stored by us purely for the writing process. */
+
         public uint MaterialColourOffset { get; set; }
         
         public uint MaterialLogicOffset { get; set; }
@@ -31,11 +32,12 @@
         public void Read(BinaryReaderEx reader)
         {
             // Read this material's type and jump to the main data offset.
-            Type = (NinjaNext_MaterialType)reader.ReadUInt32();
+            Type = (MaterialType)reader.ReadUInt32();
             reader.JumpTo(reader.ReadUInt32(), true);
 
-            // Read this material's flag, user defined and reserved data, as well as the offsets for the approriate Colour, Logic and Texture Map Descriptors.
-            Flag = (NinjaNext_MaterialType)reader.ReadUInt32();
+            /* Read this material's flag, user defined and reserved data, as well as the
+               offsets for the approriate Colour, Logic and Texture Map descriptions. */
+            Flag = (MaterialType)reader.ReadUInt32();
             UserDefined = reader.ReadInt32();
             MaterialColourOffset = reader.ReadUInt32();
             MaterialLogicOffset = reader.ReadUInt32();
@@ -54,44 +56,60 @@
         /// <param name="MaterialColours">The list of Material Colours this object chunk has.</param>
         /// <param name="MaterialLogics">The list of Material Logic Definitions this object chunk has.</param>
         /// <param name="TextureMaps">The list of Material Texture Map Descriptors this object chunk has.</param>
-        public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets, List<NinjaMaterialColours> MaterialColours, List<NinjaMaterialLogic> MaterialLogics, List<NinjaTextureMap> TextureMaps)
+        public void Write
+        (
+            BinaryWriterEx writer,
+            int index,
+            Dictionary<string, uint> ObjectOffsets,
+            List<NinjaMaterialColours> MaterialColours,
+            List<NinjaMaterialLogic> MaterialLogics,
+            List<NinjaTextureMap> TextureMaps
+        )
         {
-            // Add an entry for this material into ObjectOffsets so we know where it is.
+            // Add an entry for this material into the offset list so we know where it is.
             ObjectOffsets.Add($"Material{index}", (uint)writer.BaseStream.Position);
 
             // Write this material's flag and user defined data.
             writer.Write((uint)Flag);
             writer.Write(UserDefined);
 
-            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            // Add an offset to fill in later with the NOF0 chunk.
             writer.AddOffset($"Material{index}ColourOffset", 0);
 
             // Loop through the material colours, if we find one with an offset matching ours, then write its position value.
             for (int i = 0; i < MaterialColours.Count; i++)
+            {
                 if (MaterialColourOffset == MaterialColours[i].Offset)
                     writer.Write(ObjectOffsets[$"ColourOffset{i}"] - writer.Offset);
+            }
 
-            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            // Add an offset to fill in later with the NOF0 chunk.
             writer.AddOffset($"Material{index}LogicOffset", 0);
 
             // Loop through the material logic definitions, if we find one with an offset matching ours, then write its position value.
             for (int i = 0; i < MaterialLogics.Count; i++)
+            {
                 if (MaterialLogicOffset == MaterialLogics[i].Offset)
                     writer.Write(ObjectOffsets[$"LogicOffset{i}"] - writer.Offset);
+            }
 
             // Make sure we actually have textures, if not, write a 0 instead of an offset.
             if (MaterialTexMapDescriptionOffset != 0)
             {
-                // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+                // Add an offset to fill in later with the NOF0 chunk.
                 writer.AddOffset($"Material{index}TexDescOffset", 0);
 
                 // Loop through the texture map Descriptors, if we find one with an offset matching ours, then write its position value.
                 for (int i = 0; i < TextureMaps.Count; i++)
+                {
                     if (MaterialTexMapDescriptionOffset == TextureMaps[i].Offset)
                         writer.Write(ObjectOffsets[$"TexDescOffset{i}"] - writer.Offset);
+                }
             }
             else
+            {
                 writer.Write(0);
+            }
             
             // Write the reserved data.
             writer.Write(Reserved0);

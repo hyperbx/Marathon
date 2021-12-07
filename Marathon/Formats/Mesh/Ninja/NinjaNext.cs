@@ -20,19 +20,19 @@ namespace Marathon.Formats.Mesh.Ninja
 
         public class FormatData
         {
-            public NinjaTextureList TextureList { get; set; }
+            public NinjaTextureList? TextureList { get; set; }
 
-            public NinjaEffectList EffectList { get; set; }
+            public NinjaEffectList? EffectList { get; set; }
 
-            public NinjaNodeNameList NodeNameList { get; set; }
+            public NinjaNodeNameList? NodeNameList { get; set; }
 
-            public NinjaObject Object { get; set; }
+            public NinjaObject? Object { get; set; }
 
-            public NinjaLight Light { get; set; }
+            public NinjaLight? Light { get; set; }
 
-            public NinjaCamera Camera { get; set; }
+            public NinjaCamera? Camera { get; set; }
 
-            public NinjaMotion Motion { get; set; }
+            public NinjaMotion? Motion { get; set; }
         }
 
         public FormatData Data { get; set; } = new();
@@ -41,7 +41,7 @@ namespace Marathon.Formats.Mesh.Ninja
         {
             BinaryReaderEx reader = new(stream);
 
-            // NXIF Chunk.
+            // Read NXIF chunk.
             reader.ReadSignature(4, Signature);
             uint chunkSize = reader.ReadUInt32();
             uint dataChunkCount = reader.ReadUInt32();
@@ -54,18 +54,18 @@ namespace Marathon.Formats.Mesh.Ninja
             // Set the reader's offset to the value set in the NXIF.
             reader.Offset = dataOffset;
 
-            // Data Chunks
+            // Read data chunks.
             for (int i = 0; i < dataChunkCount; i++)
             {
                 // Read the chunk's ID and size.
-                string chunkID = new(reader.ReadChars(0x04));
+                string chunkID = new(reader.ReadChars(4));
                 chunkSize = reader.ReadUInt32();
 
                 // Calculate where the next chunk begins so we can jump to it.
                 long targetPosition = reader.BaseStream.Position + chunkSize;
 
-                // Run the approriate read function for the chunk.
-                // If this chunk isn't currently handled, throw an exception.
+                /* Run the approriate read function for the chunk.
+                   If this chunk isn't currently handled, throw an exception. */
                 switch (chunkID)
                 {
                     case "NXTL":
@@ -111,9 +111,13 @@ namespace Marathon.Formats.Mesh.Ninja
 
             // If this SegaNN file has both an Object Chunk and a Node Name List then fill in the Nodes with their names.
             if (Data.Object != null && Data.NodeNameList != null)
+            {
                 if (Data.Object.Nodes.Count == Data.NodeNameList.NinjaNodeNames.Count)
+                {
                     for (int i = 0; i < Data.Object.Nodes.Count; i++)
                         Data.Object.Nodes[i].Name = Data.NodeNameList.NinjaNodeNames[i];
+                }
+            }
         }
 
         public override void Save(Stream stream)
@@ -121,24 +125,32 @@ namespace Marathon.Formats.Mesh.Ninja
             BinaryWriterEx writer = new(stream);
             writer.Offset = 0x20;
 
-            // Get amount of Data Chunks.
+            // Get amount of data chunks.
             uint dataChunkCount = 0;
-            if (Data.TextureList != null)
-                dataChunkCount++;
-            if (Data.EffectList != null)
-                dataChunkCount++;
-            if (Data.NodeNameList != null)
-                dataChunkCount++;
-            if (Data.Object != null)
-                dataChunkCount++;
-            if (Data.Light != null)
-                dataChunkCount++;
-            if (Data.Camera != null)
-                dataChunkCount++;
-            if (Data.Motion != null)
-                dataChunkCount++;
+            {
+                if (Data.TextureList != null)
+                    dataChunkCount++;
 
-            // NXIF Chunk.
+                if (Data.EffectList != null)
+                    dataChunkCount++;
+
+                if (Data.NodeNameList != null)
+                    dataChunkCount++;
+
+                if (Data.Object != null)
+                    dataChunkCount++;
+
+                if (Data.Light != null)
+                    dataChunkCount++;
+
+                if (Data.Camera != null)
+                    dataChunkCount++;
+
+                if (Data.Motion != null)
+                    dataChunkCount++;
+            }
+
+            // Write NXIF chunk.
             writer.Write(Signature);
             writer.Write(0x18);
             writer.Write(dataChunkCount);
@@ -147,23 +159,16 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.Write("SIZE"); // Temporary value, filled in once we know how long the data is.
             writer.Write("NOF0"); // Temporary value, filled in once we know where the NOF0 chunk is.
             writer.Write("SIZE"); // Temporary value, filled in once we know how long the NOF0 chunk is.
-            writer.Write(0x01);
+            writer.Write(1);
 
             // Write the chunks we have loaded.
-            if (Data.TextureList != null)
-                Data.TextureList.Write(writer);
-            if (Data.EffectList != null)
-                Data.EffectList.Write(writer);
-            if (Data.NodeNameList != null)
-                Data.NodeNameList.Write(writer);
-            if (Data.Object != null)
-                Data.Object.Write(writer);
-            if (Data.Light != null)
-                Data.Light.Write(writer);
-            if (Data.Camera != null)
-                Data.Camera.Write(writer);
-            if (Data.Motion != null)
-                Data.Motion.Write(writer);
+            Data.TextureList?.Write(writer);
+            Data.EffectList?.Write(writer);
+            Data.NodeNameList?.Write(writer);
+            Data.Object?.Write(writer);
+            Data.Light?.Write(writer);
+            Data.Camera?.Write(writer);
+            Data.Motion?.Write(writer);
 
             // Calculate and write the position of the NOF0 chunk.
             uint NOF0Offset = (uint)writer.BaseStream.Position;
@@ -172,7 +177,7 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.Write(NOF0Offset);
             writer.BaseStream.Position = NOF0Offset;
 
-            // NOF0 Chunk
+            // Write NOF0 chunk.
             writer.Write("NOF0");
             writer.Write("SIZE"); // Temporary value, filled in once we know how long the data is.
             long N0F0SizePosition = writer.BaseStream.Position;
@@ -186,7 +191,7 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.FixPadding(0x10);
 
             // Write each offset, taking the writer's offset into account.
-            for(int i = 0; i < Offsets.Count; i++)
+            for (int i = 0; i < Offsets.Count; i++)
                 writer.Write(Offsets[i] - 0x20);
 
             // Alignment.
@@ -195,32 +200,32 @@ namespace Marathon.Formats.Mesh.Ninja
             // Calculate and write the size of the NOF0 chunk.
             long NOF0EndPosition = writer.BaseStream.Position;
             uint NOF0Size = (uint)(NOF0EndPosition - N0F0SizePosition);
-            writer.BaseStream.Position = N0F0SizePosition - 0x04;
+            writer.BaseStream.Position = N0F0SizePosition - 4;
             writer.Write(NOF0Size);
-            writer.BaseStream.Position = DataSizePosition + 0x08;
-            writer.Write(NOF0Size + 0x08);
+            writer.BaseStream.Position = DataSizePosition + 8;
+            writer.Write(NOF0Size + 8);
             writer.BaseStream.Position = NOF0EndPosition;
 
-            // NFN0 Chunk
+            // Write NFN0 chunk.
             writer.Write("NFN0");
             writer.Write("SIZE"); // Temporary value, filled in once we know how long the data is.
             long NFN0SizePosition = writer.BaseStream.Position;
             writer.FixPadding(0x10);
 
-            // Get the stream's file name and write it, aligned to 0x10 bytes.
+            // Get the current file name and write it, aligned to 0x10 bytes.
             writer.WriteNullTerminatedString(Path.GetFileName((stream as FileStream).Name));
             writer.FixPadding(0x10);
 
             // Calculate and write the size of the NFN0 chunk.
             long NFN0EndPosition = writer.BaseStream.Position;
             uint NFN0Size = (uint)(NFN0EndPosition - NFN0SizePosition);
-            writer.BaseStream.Position = NFN0SizePosition - 0x04;
+            writer.BaseStream.Position = NFN0SizePosition - 4;
             writer.Write(NFN0Size);
             writer.BaseStream.Position = NFN0EndPosition;
 
-            // NEND Chunk
+            // Write NEND chunk.
             writer.Write("NEND");
-            writer.Write(0x08);
+            writer.Write(8);
             writer.FixPadding(0x10);
         }
 
@@ -320,8 +325,8 @@ namespace Marathon.Formats.Mesh.Ninja
             for (int i = 0; i < assimpModel.Materials.Count; i++)
             {
                 NinjaTextureFile texture = new();
-                texture.MinFilter = NinjaNext_MinFilter.NND_MIN_LINEAR_MIPMAP_NEAREST;
-                texture.MagFilter = NinjaNext_MagFilter.NND_MAG_LINEAR;
+                texture.MinFilter = MinFilter.NND_MIN_LINEAR_MIPMAP_NEAREST;
+                texture.MagFilter = MagFilter.NND_MAG_LINEAR;
 
                 if (assimpModel.Materials[i].TextureAmbient.FilePath != null)
                     texture.FileName = Path.GetFileName(assimpModel.Materials[i].TextureAmbient.FilePath);
@@ -401,8 +406,8 @@ namespace Marathon.Formats.Mesh.Ninja
             for (int i = 0; i < assimpModel.Materials.Count; i++)
             {
                 NinjaMaterial material = new();
-                material.Type = NinjaNext_MaterialType.NND_MATTYPE_TEXTURE | NinjaNext_MaterialType.NND_MATTYPE_TEXMATTYPE2;
-                material.Flag = (NinjaNext_MaterialType)0x01000030;
+                material.Type = MaterialType.NND_MATTYPE_TEXTURE | MaterialType.NND_MATTYPE_TEXMATTYPE2;
+                material.Flag = (MaterialType)0x01000030;
                 material.MaterialColourOffset = (uint)i;
                 material.MaterialLogicOffset = (uint)i;
                 material.MaterialTexMapDescriptionOffset = (uint)i;
@@ -417,14 +422,14 @@ namespace Marathon.Formats.Mesh.Ninja
 
                 NinjaMaterialLogic logic = new();
                 logic.Blend = true;
-                logic.SRCBlend = NinjaNext_BlendMode.NNE_BLENDMODE_SRCALPHA;
-                logic.DSTBlend = NinjaNext_BlendMode.NNE_BLENDMODE_INVSRCALPHA;
-                logic.BlendOperation = NinjaNext_BlendOperation.NNE_BLENDOP_ADD;
-                logic.LogicOperation = NinjaNext_LogicOperation.NNE_LOGICOP_NONE;
+                logic.SRCBlend = BlendMode.NNE_BLENDMODE_SRCALPHA;
+                logic.DSTBlend = BlendMode.NNE_BLENDMODE_INVSRCALPHA;
+                logic.BlendOperation = BlendOperation.NNE_BLENDOP_ADD;
+                logic.LogicOperation = LogicOperation.NNE_LOGICOP_NONE;
                 logic.Alpha = true;
-                logic.AlphaFunction = NinjaNext_CMPFunction.NNE_CMPFUNC_GREATER;
+                logic.AlphaFunction = CMPFunction.NNE_CMPFUNC_GREATER;
                 logic.ZComparison = true;
-                logic.ZComparisonFunction = NinjaNext_CMPFunction.NNE_CMPFUNC_LESSEQUAL;
+                logic.ZComparisonFunction = CMPFunction.NNE_CMPFUNC_LESSEQUAL;
                 logic.ZUpdate = true;
                 logic.Offset = (uint)i;
 
@@ -433,8 +438,8 @@ namespace Marathon.Formats.Mesh.Ninja
                 NinjaMaterialTextureMapDescription description = new NinjaMaterialTextureMapDescription();
                 description.Blend = 1f;
                 description.Index = i;
-                description.MinFilter = NinjaNext_MinFilter.NND_MIN_LINEAR_MIPMAP_NEAREST;
-                description.MagFilter = NinjaNext_MagFilter.NND_MAG_LINEAR;
+                description.MinFilter = MinFilter.NND_MIN_LINEAR_MIPMAP_NEAREST;
+                description.MagFilter = MagFilter.NND_MAG_LINEAR;
                 description.Type = 0x400c0101;
                 texture.NinjaTextureMapDescriptions.Add(description);
 
@@ -450,11 +455,11 @@ namespace Marathon.Formats.Mesh.Ninja
             for (int i = 0; i < assimpModel.Meshes.Count; i++)
             {
                 NinjaVertexList vertexList = new();
-                vertexList.Type = NinjaNext_VertexType.NND_VTXTYPE_DX_VERTEXDESC;
+                vertexList.Type = VertexType.NND_VTXTYPE_DX_VERTEXDESC;
                 //vertexList.Format = NinjaNext_XboxVertexType.NND_VTXTYPE_XB_PW4INCT;
                 //vertexList.FlexibleVertexFormat = NinjaNext_FlexibleVertexFormat.NND_D3DFVF_XYZB3 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_NORMAL | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEX1 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_LASTBETA_UBYTE4;
-                vertexList.Format = NinjaNext_XboxVertexType.NND_VTXTYPE_XB_PNCT;
-                vertexList.FlexibleVertexFormat = NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEXTUREFORMAT4 | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_NORMAL | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | NinjaNext_FlexibleVertexFormat.NND_D3DFVF_TEX1;
+                vertexList.Format = XboxVertexType.NND_VTXTYPE_XB_PNCT;
+                vertexList.FlexibleVertexFormat = FlexibleVertexFormat.NND_D3DFVF_TEXTUREFORMAT4 | FlexibleVertexFormat.NND_D3DFVF_NORMAL | FlexibleVertexFormat.NND_D3DFVF_DIFFUSE | FlexibleVertexFormat.NND_D3DFVF_TEX1;
 
                 for (int v = 0; v < assimpModel.Meshes[i].Vertices.Count; v++)
                 {
@@ -565,7 +570,7 @@ namespace Marathon.Formats.Mesh.Ninja
 
                 NinjaPrimitiveList primitiveList = new();
 
-                primitiveList.Type = NinjaNext_PrimitiveType.NND_PRIMTYPE_DX_STRIPLIST;
+                primitiveList.Type = PrimitiveType.NND_PRIMTYPE_DX_STRIPLIST;
                 primitiveList.Format = 0x00004810;
 
                 primitiveList.StripIndices.Add((ushort)stripList[0].IndexCount);
@@ -594,9 +599,9 @@ namespace Marathon.Formats.Mesh.Ninja
                 node.Translation = new(Nodes[i].Position.X, Nodes[i].Position.Y, Nodes[i].Position.Z);
                 node.Scaling = new(1, 1, 1);
                 if (Nodes[i].Type == 0)
-                    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY;
+                    node.Type = NodeType.NND_NODETYPE_UNIT_ROTATION | NodeType.NND_NODETYPE_UNIT_SCALING | NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NodeType.NND_NODETYPE_ROTATE_TYPE_XZY;
                 else
-                    node.Type = NinjaNext_NodeType.NND_NODETYPE_UNIT_TRANSLATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_ROTATION | NinjaNext_NodeType.NND_NODETYPE_UNIT_SCALING | NinjaNext_NodeType.NND_NODETYPE_UNIT_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_UNIT33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NinjaNext_NodeType.NND_NODETYPE_ROTATE_TYPE_XZY | NinjaNext_NodeType.NND_NODETYPE_BBOX_DATA;
+                    node.Type = NodeType.NND_NODETYPE_UNIT_TRANSLATION | NodeType.NND_NODETYPE_UNIT_ROTATION | NodeType.NND_NODETYPE_UNIT_SCALING | NodeType.NND_NODETYPE_UNIT_INIT_MATRIX | NodeType.NND_NODETYPE_UNIT33_INIT_MATRIX | NodeType.NND_NODETYPE_ORTHO33_INIT_MATRIX | NodeType.NND_NODETYPE_ROTATE_TYPE_XZY | NodeType.NND_NODETYPE_BBOX_DATA;
 
                 node.InvInitMatrix = new float[16];
                 node.InvInitMatrix[0] = Nodes[i].Transform.A1;
@@ -649,7 +654,7 @@ namespace Marathon.Formats.Mesh.Ninja
 
             Data.Motion = new();
             Data.Motion.ChunkID = "NXMO";
-            Data.Motion.Type = NinjaNext_MotionType.NND_MOTIONTYPE_NODE | NinjaNext_MotionType.NND_MOTIONTYPE_REPEAT | NinjaNext_MotionType.NND_MOTIONTYPE_VERSION2;
+            Data.Motion.Type = MotionType.NND_MOTIONTYPE_NODE | MotionType.NND_MOTIONTYPE_REPEAT | MotionType.NND_MOTIONTYPE_VERSION2;
             Data.Motion.StartFrame = 0;
             Data.Motion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
             Data.Motion.Framerate = (float)assimpModel.Animations[0].TicksPerSecond;
@@ -667,8 +672,8 @@ namespace Marathon.Formats.Mesh.Ninja
                                 if (nodeChannel.HasPositionKeys)
                                 {
                                     NinjaSubMotion positionSubMotion = new();
-                                    positionSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_FLOAT | NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK;
-                                    positionSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                    positionSubMotion.Type = SubMotionType.NND_SMOTTYPE_FRAME_FLOAT | SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK;
+                                    positionSubMotion.InterpolationType = SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
                                     positionSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
                                     positionSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
                                     positionSubMotion.NodeIndex = i;
@@ -687,8 +692,8 @@ namespace Marathon.Formats.Mesh.Ninja
                                 if (nodeChannel.HasRotationKeys)
                                 {
                                     NinjaSubMotion rotationSubMotion = new();
-                                    rotationSubMotion.Type = NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_SINT16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ANGLE_ANGLE16 | NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ;
-                                    rotationSubMotion.InterpolationType = NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | NinjaNext_SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
+                                    rotationSubMotion.Type = SubMotionType.NND_SMOTTYPE_FRAME_SINT16 | SubMotionType.NND_SMOTTYPE_ANGLE_ANGLE16 | SubMotionType.NND_SMOTTYPE_ROTATION_XYZ;
+                                    rotationSubMotion.InterpolationType = SubMotionInterpolationType.NND_SMOTIPTYPE_LINEAR | SubMotionInterpolationType.NND_SMOTIPTYPE_REPEAT;
                                     rotationSubMotion.EndFrame = (float)assimpModel.Animations[0].DurationInTicks;
                                     rotationSubMotion.EndKeyframe = (float)assimpModel.Animations[0].DurationInTicks;
                                     rotationSubMotion.NodeIndex = i;

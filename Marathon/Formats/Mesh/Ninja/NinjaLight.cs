@@ -2,11 +2,11 @@
 {
     /// <summary>
     /// Structure of the main Ninja Light.
-    /// TODO: This is all wild guessing which I'm 100% sure is all sorts of bollocks.
+    /// TODO (Knuxfan24): This is all wild guessing which I'm 100% sure is all sorts of bollocks.
     /// </summary>
     public class NinjaLight
     {
-        public NinjaNext_LightType Type { get; set; }
+        public LightType Type { get; set; }
 
         public uint UnknownUInt32_1 { get; set; }
 
@@ -30,8 +30,8 @@
             // Jump to the actual Ninja Light.
             reader.JumpTo(dataOffset, true);
 
-            // Read the Type(?) of this Camera and the offset to the Light data.
-            Type = (NinjaNext_LightType)reader.ReadUInt32();
+            // Read the Type of this Light and the offset to the Light data.
+            Type = (LightType)reader.ReadUInt32();
             uint LightOffset = reader.ReadUInt32();
 
             // Jump to and read the data for this Light.
@@ -49,14 +49,14 @@
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
-            // Chunk Header.
+            // Write NXLI header.
             writer.Write("NXLI");
-            writer.Write("SIZE");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
-            // Light Data.
+            // Write light data.
             uint LightPosition = (uint)writer.BaseStream.Position;
             writer.Write(UnknownUInt32_1);
             writer.Write(UnknownVector3_1);
@@ -64,7 +64,7 @@
             writer.Write(UnknownVector3_3);
             writer.Write(UnknownFloat_1);
 
-            // Chunk Data.
+            // Write chunk data.
             writer.FillOffset("dataOffset", true);
             writer.Write((uint)Type);
             writer.AddOffset($"LightData", 0);
@@ -73,10 +73,10 @@
             // Alignment.
             writer.FixPadding(0x10);
 
-            // Chunk Size.
+            // Write chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
-            writer.BaseStream.Position = HeaderSizePosition - 0x04;
+            writer.BaseStream.Position = HeaderSizePosition - 4;
             writer.Write(ChunkSize);
             writer.BaseStream.Position = ChunkEndPosition;
         }

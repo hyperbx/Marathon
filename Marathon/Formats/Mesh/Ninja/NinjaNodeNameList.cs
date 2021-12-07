@@ -5,9 +5,9 @@
     /// </summary>
     public class NinjaNodeNameList
     {
-        public uint Type { get; set; }
+        public NodeNameSortType Type { get; set; }
 
-        public List<string> NinjaNodeNames = new();
+        public List<string> NinjaNodeNames { get; set; } = new();
 
         /// <summary>
         /// Reads the Ninja Node Name List from a file.
@@ -22,7 +22,7 @@
             reader.JumpTo(dataOffset, true);
 
             // Read the type of this Node Name List chunk, the amount of node names and the offset to the table of them.
-            Type = reader.ReadUInt32();
+            Type = (NodeNameSortType)reader.ReadUInt32();
             uint NodeCount = reader.ReadUInt32();
             uint NodeListOffset = reader.ReadUInt32();
 
@@ -52,14 +52,14 @@
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
-            // Chunk Header.
+            // Write NXNN header.
             writer.Write("NXNN");
             writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
-            // Node Names.
+            // Write Node Names.
             uint NodeNamesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaNodeNames.Count; i++)
             {
@@ -67,14 +67,14 @@
                 writer.AddOffset($"NodeName{i}_NameOffset");
             }
 
-            // Chunk Data.
+            // Write chunk data.
             writer.FillOffset("dataOffset", true, false);
-            writer.Write(Type);
+            writer.Write((uint)Type);
             writer.Write(NinjaNodeNames.Count);
             writer.AddOffset($"NodeName", 0);
             writer.Write(NodeNamesOffset);
 
-            // Chunk String Table.
+            // Write chunk string table.
             for (int i = 0; i < NinjaNodeNames.Count; i++)
             {
                 writer.FillOffset($"NodeName{i}_NameOffset", true, false);
@@ -84,10 +84,10 @@
             // Alignment.
             writer.FixPadding(0x10);
 
-            // Chunk Size.
+            // Write chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
-            writer.BaseStream.Position = HeaderSizePosition - 0x04;
+            writer.BaseStream.Position = HeaderSizePosition - 4;
             writer.Write(ChunkSize);
             writer.BaseStream.Position = ChunkEndPosition;
         }

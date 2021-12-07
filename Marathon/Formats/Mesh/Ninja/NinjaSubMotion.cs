@@ -5,9 +5,9 @@
     /// </summary>
     public class NinjaSubMotion
     {
-        public NinjaNext_SubMotionType Type { get; set; }
+        public SubMotionType Type { get; set; }
 
-        public NinjaNext_SubMotionInterpolationType InterpolationType { get; set; }
+        public SubMotionInterpolationType InterpolationType { get; set; }
 
         public int NodeIndex { get; set; }
 
@@ -19,7 +19,7 @@
 
         public float EndKeyframe { get; set; }
 
-        public List<object> Keyframes = new();
+        public List<object> Keyframes { get; set; } = new();
 
         /// <summary>
         /// Reads a Ninja Sub Motion entry from a file.
@@ -28,8 +28,8 @@
         public void Read(BinaryReaderEx reader)
         {
             // Read the main data for this Sub Motion.
-            Type = (NinjaNext_SubMotionType)reader.ReadUInt32();
-            InterpolationType = (NinjaNext_SubMotionInterpolationType)reader.ReadUInt32();
+            Type = (SubMotionType)reader.ReadUInt32();
+            InterpolationType = (SubMotionInterpolationType)reader.ReadUInt32();
             NodeIndex = reader.ReadInt32();
             StartFrame = reader.ReadSingle();
             EndFrame = reader.ReadSingle();
@@ -48,27 +48,36 @@
             // Loop through and read the keyframes based on the Type flag.
             for (int i = 0; i < KeyFrameCount; i++)
             {
-                if (Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SCALING_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_AMBIENT_MASK) ||
-                    Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_DIFFUSE_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SPECULAR_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_LIGHT_COLOR_MASK))
+                if
+                (
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK) ||
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_SCALING_MASK)     ||
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_AMBIENT_MASK)     ||
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_DIFFUSE_MASK)     ||
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_SPECULAR_MASK)    ||
+                    Type.HasFlag(SubMotionType.NND_SMOTTYPE_LIGHT_COLOR_MASK)
+                )
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_VECTOR Keyframe = new();
                     Keyframe.Read(reader);
                     Keyframes.Add(Keyframe);
                 }
-                else if (Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_ROTATION_XYZ))
+                else if (Type.HasFlag(SubMotionType.NND_SMOTTYPE_ROTATION_XYZ))
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_ROTATE_A16 Keyframe = new();
                     Keyframe.Read(reader);
                     Keyframes.Add(Keyframe);
                 }
-                // Generic Handling, these could go tits up.
-                else if(Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_FLOAT) && KeyFrameSize == 8)
+
+                /* (Knuxfan24): Generic Handling, these could go tits up. */
+
+                else if (Type.HasFlag(SubMotionType.NND_SMOTTYPE_FRAME_FLOAT) && KeyFrameSize == 8)
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_FLOAT Keyframe = new();
                     Keyframe.Read(reader);
                     Keyframes.Add(Keyframe);
                 }
-                else if(Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_FRAME_SINT16) && KeyFrameSize == 4)
+                else if(Type.HasFlag(SubMotionType.NND_SMOTTYPE_FRAME_SINT16) && KeyFrameSize == 4)
                 {
                     NinjaKeyframe.NNS_MOTION_KEY_SINT16 Keyframe = new();
                     Keyframe.Read(reader);

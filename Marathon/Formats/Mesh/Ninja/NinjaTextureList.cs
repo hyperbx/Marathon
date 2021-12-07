@@ -1,31 +1,11 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
     /// <summary>
-    /// Structure of a Ninja Textue File entry.
-    /// </summary>
-    public class NinjaTextureFile
-    {
-        public uint Type { get; set; }
-
-        public string FileName { get; set; }
-
-        public NinjaNext_MinFilter MinFilter { get; set; }
-
-        public NinjaNext_MagFilter MagFilter { get; set; }
-
-        public uint GlobalIndex { get; set; }
-
-        public uint Bank { get; set; }
-
-        public override string ToString() => FileName;
-    }
-
-    /// <summary>
     /// Structure of the main Ninja Texture List.
     /// </summary>
     public class NinjaTextureList
     {
-        public List<NinjaTextureFile> NinjaTextureFiles = new();
+        public List<NinjaTextureFile> NinjaTextureFiles { get; set; } = new();
 
         /// <summary>
         /// Reads the Ninja Texture List from a file.
@@ -52,18 +32,18 @@
                 // Setup a new texture file entry.
                 NinjaTextureFile TextureFile = new();
 
-                // Read the values and the offset to the filename for this texture.
+                // Read the values and the offset to the file name for this texture.
                 TextureFile.Type = reader.ReadUInt32();
                 uint TextureFile_NameOffset = reader.ReadUInt32();
-                TextureFile.MinFilter = (NinjaNext_MinFilter)reader.ReadUInt16();
-                TextureFile.MagFilter = (NinjaNext_MagFilter)reader.ReadUInt16();
+                TextureFile.MinFilter = (MinFilter)reader.ReadUInt16();
+                TextureFile.MagFilter = (MagFilter)reader.ReadUInt16();
                 TextureFile.GlobalIndex = reader.ReadUInt32();
                 TextureFile.Bank = reader.ReadUInt32();
 
                 // Save our current position so we can jump back after reading.
                 long pos = reader.BaseStream.Position;
 
-                // Jump to the NameOffset, read the name of this texture file then jump back.
+                // Jump to the name offset and read the name of this texture file then jump back.
                 reader.JumpTo(TextureFile_NameOffset, true);
                 TextureFile.FileName = reader.ReadNullTerminatedString();
                 reader.JumpTo(pos);
@@ -79,14 +59,14 @@
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
-            // Chunk Header.
+            // Write NXTL header.
             writer.Write("NXTL");
             writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
             
-            // Texture Files.
+            // Write Texture Files.
             uint texFilesOffset = (uint)writer.BaseStream.Position - writer.Offset;
             for (int i = 0; i < NinjaTextureFiles.Count; i++)
             {
@@ -98,13 +78,13 @@
                 writer.Write(NinjaTextureFiles[i].Bank);
             }
 
-            // Chunk Data.
+            // Write chunk data.
             writer.FillOffset("dataOffset", true, false);
             writer.Write(NinjaTextureFiles.Count);
             writer.AddOffset($"TextureFiles", 0);
             writer.Write(texFilesOffset);
 
-            // Chunk String Table.
+            // Write chunk string table.
             for (int i = 0; i < NinjaTextureFiles.Count; i++)
             {
                 writer.FillOffset($"TextureFile{i}_NameOffset", true, false);
@@ -114,12 +94,42 @@
             // Alignment.
             writer.FixPadding(0x10);
 
-            // Chunk Size.
+            // Write chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
             writer.BaseStream.Position = HeaderSizePosition - 0x04;
             writer.Write(ChunkSize);
             writer.BaseStream.Position = ChunkEndPosition;
         }
+    }
+
+    /// <summary>
+    /// Structure of a Ninja Textue File entry.
+    /// </summary>
+    public class NinjaTextureFile
+    {
+        public uint Type { get; set; }
+
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// The filtering option for combining pixels within one
+        /// mipmap level when the sample footprint is larger than
+        /// a pixel (minification).
+        /// </summary>
+        public MinFilter MinFilter { get; set; }
+
+        /// <summary>
+        /// The filtering operation for combining pixels within one
+        /// mipmap level when the sample footprint is smaller than
+        /// a pixel (magnification).
+        /// </summary>
+        public MagFilter MagFilter { get; set; }
+
+        public uint GlobalIndex { get; set; }
+
+        public uint Bank { get; set; }
+
+        public override string ToString() => FileName;
     }
 }

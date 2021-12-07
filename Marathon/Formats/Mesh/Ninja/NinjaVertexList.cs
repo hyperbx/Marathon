@@ -1,44 +1,19 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
     /// <summary>
-    /// Structure of a Ninja Vertex.
-    /// </summary>
-    public class NinjaVertex
-    {
-        public Vector3? Position;
-
-        public Vector3? Weight;
-
-        public byte[] MatrixIndices;
-
-        public Vector3? Normals;
-
-        public byte[] VertexColours;
-
-        // What the hell is this? Some files do have this, has a flag of 0x10.
-        public byte[] VertexColours2;
-
-        public List<Vector2> TextureCoordinates;
-
-        public Vector3? Tangent;
-
-        public Vector3? Binormals;
-    }
-
-    /// <summary>
     /// Structure of the main Ninja Vertex List.
     /// </summary>
     public class NinjaVertexList
     {
-        public NinjaNext_VertexType Type { get; set; }
+        public VertexType Type { get; set; }
 
-        public NinjaNext_XboxVertexType Format { get; set; }
+        public XboxVertexType Format { get; set; }
 
-        public NinjaNext_FlexibleVertexFormat FlexibleVertexFormat { get; set; }
+        public FlexibleVertexFormat FlexibleVertexFormat { get; set; }
 
-        public List<NinjaVertex> Vertices = new();
+        public List<NinjaVertex> Vertices { get; set; } = new();
 
-        public List<int> BoneMatrixIndices = new();
+        public List<int> BoneMatrixIndices { get; set; } = new();
 
         public uint HDRCommon { get; set; }
 
@@ -53,12 +28,12 @@
         public void Read(BinaryReaderEx reader)
         {
             // Read this Vertex List's type and jump to the main data offset.
-            Type = (NinjaNext_VertexType)reader.ReadUInt32();
+            Type = (VertexType)reader.ReadUInt32();
             reader.JumpTo(reader.ReadUInt32(), true);
 
             // Read the data associated with this Vertex List.
-            Format = (NinjaNext_XboxVertexType)reader.ReadUInt32();
-            FlexibleVertexFormat = (NinjaNext_FlexibleVertexFormat)reader.ReadUInt32();
+            Format = (XboxVertexType)reader.ReadUInt32();
+            FlexibleVertexFormat = (FlexibleVertexFormat)reader.ReadUInt32();
             uint DataSize = reader.ReadUInt32();
             uint VertexCount = reader.ReadUInt32();
             uint VertexListOffset = reader.ReadUInt32();
@@ -75,39 +50,41 @@
                 NinjaVertex Vertex = new();
 
                 // Read different elements depending on the Format flag.
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_POSITION))
-                    Vertex.Position = reader.ReadVector3();
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
-                    Vertex.Weight = reader.ReadVector3();
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
-                    Vertex.MatrixIndices = reader.ReadBytes(0x04);
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_NORMAL))
-                    Vertex.Normals = reader.ReadVector3();
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR))
-                    Vertex.VertexColours = reader.ReadBytes(0x04);
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR2))
-                    Vertex.VertexColours2 = reader.ReadBytes(0x04);
-
-                // I don't know why this works, but it does.
-                for (int t = 0; t < ((uint)Format / (uint)NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TEXCOORD); t++)
                 {
-                    // Actually create the Texture Coordinates list if it doesn't exist already.
-                    if (Vertex.TextureCoordinates == null)
-                        Vertex.TextureCoordinates = new();
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_POSITION))
+                        Vertex.Position = reader.ReadVector3();
 
-                    Vertex.TextureCoordinates.Add(reader.ReadVector2());
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
+                        Vertex.Weight = reader.ReadVector3();
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
+                        Vertex.MatrixIndices = reader.ReadBytes(4);
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_NORMAL))
+                        Vertex.Normals = reader.ReadVector3();
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_COLOR))
+                        Vertex.VertexColours = reader.ReadBytes(4);
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_COLOR2))
+                        Vertex.VertexColours2 = reader.ReadBytes(4);
+
+                    // Knuxfan24: I don't know why this works, but it does.
+                    for (int t = 0; t < ((uint)Format / (uint)XboxVertexType.NND_VTXTYPE_XB_TEXCOORD); t++)
+                    {
+                        // Actually create the Texture Coordinates list if it doesn't exist already.
+                        if (Vertex.TextureCoordinates == null)
+                            Vertex.TextureCoordinates = new();
+
+                        Vertex.TextureCoordinates.Add(reader.ReadVector2());
+                    }
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_TANGENT))
+                        Vertex.Tangent = reader.ReadVector3();
+
+                    if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
+                        Vertex.Binormals = reader.ReadVector3();
                 }
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TANGENT))
-                    Vertex.Tangent = reader.ReadVector3();
-
-                if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
-                    Vertex.Binormals = reader.ReadVector3();
 
                 // Save this vertex.
                 Vertices.Add(Vertex);
@@ -128,34 +105,35 @@
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
             // Calculate the Data Size based on the Format flag.
-            uint DataSize = 0;
+            uint dataSize = 0;
+            {
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_POSITION))
+                    dataSize += 12;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_POSITION))
-                DataSize += 12;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
+                    dataSize += 12;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
-                DataSize += 12;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
+                    dataSize += 4;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
-                DataSize += 4;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_NORMAL))
+                    dataSize += 12;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_NORMAL))
-                DataSize += 12;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_COLOR))
+                    dataSize += 4;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR))
-                DataSize += 4;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_COLOR2))
+                    dataSize += 4;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR2))
-                DataSize += 4;
+                if (Vertices[0].TextureCoordinates != null)
+                    dataSize += (uint)(8 * Vertices[0].TextureCoordinates.Count);
 
-            if (Vertices[0].TextureCoordinates != null)
-                DataSize += (uint)(8 * Vertices[0].TextureCoordinates.Count);
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_TANGENT))
+                    dataSize += 12;
 
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TANGENT))
-                DataSize += 12;
-
-            if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
-                DataSize += 12;
+                if (Format.HasFlag(XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
+                    dataSize += 12;
+            }
 
             // Add an entry for this vertex list's bone matrix indices into ObjectOffsets so we know where it is.
             ObjectOffsets.Add($"VertexList{index}BoneMatrixIndicesOffset", (uint)writer.BaseStream.Position);
@@ -170,7 +148,7 @@
             // Write the data for this vertex list.
             writer.Write((uint)Format);
             writer.Write((uint)FlexibleVertexFormat);
-            writer.Write(DataSize);
+            writer.Write(dataSize);
             writer.Write(Vertices.Count);
             writer.AddOffset($"VertexList{index}Vertices");
             writer.Write(BoneMatrixIndices.Count);
@@ -182,13 +160,14 @@
                 writer.Write(ObjectOffsets[$"VertexList{index}BoneMatrixIndicesOffset"] - writer.Offset);
             }
             else
+            {
                 writer.Write(0);
-
+            }
 
             writer.Write(HDRCommon);
             writer.Write(HDRData);
             writer.Write(HDRLock);
-            writer.WriteNulls(0x8);
+            writer.WriteNulls(8);
         }
 
         /// <summary>
@@ -223,8 +202,10 @@
                     writer.Write(Vertices[i].VertexColours2);
 
                 if (Vertices[i].TextureCoordinates != null)
+                {
                     foreach (Vector2 Coordinate in Vertices[i].TextureCoordinates)
                         writer.Write(Coordinate);
+                }
 
                 if (Vertices[i].Tangent != null)
                     writer.Write((Vector3)Vertices[i].Tangent);
@@ -245,11 +226,38 @@
             // Write this vertex list's type.
             writer.Write((uint)Type);
 
-            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            // Add an offset to fill in later with the NOF0 chunk.
             writer.AddOffset($"VertexList{index}", 0);
 
-            // Write the value in ObjectOffsets of the main data for this vertex list.
+            // Write the value in the offset list of the main data for this vertex list.
             writer.Write(ObjectOffsets[$"VertexList{index}"] - writer.Offset);
         }
+    }
+
+    /// <summary>
+    /// Structure of a Ninja Vertex.
+    /// </summary>
+    public class NinjaVertex
+    {
+        public Vector3? Position { get; set; }
+
+        public Vector3? Weight { get; set; }
+
+        public byte[] MatrixIndices { get; set; }
+
+        public Vector3? Normals { get; set; }
+
+        public byte[] VertexColours { get; set; }
+
+        /// <summary>
+        /// TODO (Knuxfan24): what the hell is this? Some files do have this, has a flag of 0x10.
+        /// </summary>
+        public byte[] VertexColours2 { get; set; }
+
+        public List<Vector2> TextureCoordinates { get; set; }
+
+        public Vector3? Tangent { get; set; }
+
+        public Vector3? Binormals { get; set; }
     }
 }

@@ -3,11 +3,12 @@ using Newtonsoft.Json.Converters;
 
 namespace Marathon.Formats.Mesh.Ninja
 {
-    // Taken from a mixture of Rad's research and the Sonic 4 decompilation.
+    /* Taken from a mixture of Rad's research and the Sonic 4 decompilation.
+       https://gist.github.com/Radfordhound/5650ef12209da2709a6bf9b705bdd79c */
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_MinFilter : uint
+    public enum MinFilter : uint
     {
         NND_MIN_NEAREST = 0,
         NND_MIN_LINEAR = 1,
@@ -27,53 +28,61 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_MIN_ANISOTROPIC8 = 12,
         NND_MIN_ANISOTROPIC8_MIPMAP_NEAREST = 13,
         NND_MIN_ANISOTROPIC8_MIPMAP_LINEAR = 14
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_MagFilter : uint
+    public enum MagFilter : uint
     {
         NND_MAG_NEAREST = 0,
         NND_MAG_LINEAR = 1,
         NND_MAG_ANISOTROPIC = 2
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_MaterialType : uint
+    public enum MaterialType : uint
     {
         NND_MATTYPE_TEXTURE = 1,
         NND_MATTYPE_TEXTURE2 = 2,
         NND_MATTYPE_TEXTURE3 = 3,
         NND_MATTYPE_TEXTURE4 = 4,
         NND_MATTYPE_TEXMATTYPE2 = 16,
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_BlendMode : uint
+    public enum NodeNameSortType : uint
+    {
+        NNE_NODENAME_SORTTYPE_INDEX = 0,
+        NNE_NODENAME_SORTTYPE_NAME = 1
+    }
+
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum BlendMode : uint
     {
         NNE_BLENDMODE_SRCALPHA = 0x302,
         NNE_BLENDMODE_INVSRCALPHA = 0x303
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_BlendOperation : uint
+    public enum BlendOperation : uint
     {
         NNE_BLENDOP_ADD = 0x8006
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_LogicOperation : uint
+    public enum LogicOperation : uint
     {
         NNE_LOGICOP_NONE = 0
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_CMPFunction : uint
+    public enum CMPFunction : uint
     {
         NNE_CMPFUNC_NEVER = 0x200,
         NNE_CMPFUNC_LESS = 0x201,
@@ -83,11 +92,11 @@ namespace Marathon.Formats.Mesh.Ninja
         NNE_CMPFUNC_NOTEQUAL = 0x205,
         NNE_CMPFUNC_GREATEREQUAL = 0x206,
         NNE_CMPFUNC_ALWAYS = 0x207
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_NodeType : uint
+    public enum NodeType : uint
     {
         NND_NODETYPE_UNIT_TRANSLATION = 1,
         NND_NODETYPE_UNIT_ROTATION = 2,
@@ -145,35 +154,36 @@ namespace Marathon.Formats.Mesh.Ninja
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_VertexType : uint
+    public enum VertexType : uint
     {
-        /* Masks */
+        // Masks
         NND_VTXTYPE_PLATFORM_MASK = 0xFFFF,
         NND_VTXTYPE_COMMON_MASK = 0xFF0000,
         NND_VTXTYPE_USER_MASK = 0xFF000000,
 
-        /* Xbox/PC types */
+        // Xbox/PC types
         NND_VTXTYPE_DX_VERTEXDESC = 1,
 
-        /* Common types */
+        // Common types
         NND_VTXTYPE_COMMON_VTXDESC = 0x10000,
         NND_VTXTYPE_COMMON_VTXDESC_MORPH_TARGET = 0x20000,
         NND_VTXTYPE_COMMON_VTXDESC_MORPH_TARGET_NULL = 0x40000,
         NND_VTXTYPE_COMMON_VTXDESC_MORPH_OBJECT = 0x80000
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_XboxVertexType : uint
+    public enum XboxVertexType : uint
     {
-        /* Xbox types */
-        // TODO: Is all of this right?    
+        /* Xbox types
+           TODO: Is all of this right? */
+
         NND_VTXTYPE_XB_POSITION = 0x01U,
         NND_VTXTYPE_XB_NORMAL = 0x02U,
         NND_VTXTYPE_XB_COLOR = 0x08U,
         NND_VTXTYPE_XB_COLOR2 = 0x10U,
-        NND_VTXTYPE_XB_TANGENT = 0x40U, /* TODO: Is this right? Might be 0x100. */
-        NND_VTXTYPE_XB_BINORMAL = 0x100U, /* TODO: Is this right? Might be 0x40. */
+        NND_VTXTYPE_XB_TANGENT = 0x40U,     // TODO: Is this right? Might be 0x100.
+        NND_VTXTYPE_XB_BINORMAL = 0x100U,   // TODO: Is this right? Might be 0x40.
         NND_VTXTYPE_XB_MTX_INDEX4 = 0x400U,
         NND_VTXTYPE_XB_WEIGHT3 = 0x7000U,
         NND_VTXTYPE_XB_TEXCOORD = 0x10000U,
@@ -196,13 +206,13 @@ namespace Marathon.Formats.Mesh.Ninja
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_FlexibleVertexFormat : uint
+    public enum FlexibleVertexFormat : uint
     {
-        /* Masks */
+        // Masks
         NND_D3DFVF_POSITION_MASK = 0x400EU,
         NND_D3DFVF_TEXCOUNT_MASK = 0xf00U,
 
-        /* Types */
+        // Types
         NND_D3DFVF_TEXTUREFORMAT2 = 0,
         NND_D3DFVF_TEXTUREFORMAT3 = 1,
         NND_D3DFVF_TEXTUREFORMAT4 = 2,
@@ -234,28 +244,28 @@ namespace Marathon.Formats.Mesh.Ninja
 
         NND_D3DFVF_LASTBETA_UBYTE4 = 0x1000U,
         NND_D3DFVF_LASTBETA_D3DCOLOR = 0x8000U
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_PrimitiveType : uint
+    public enum PrimitiveType : uint
     {
-        /* Xbox types */
+        // Xbox types
         NND_PRIMTYPE_DX_STRIPLIST = 1
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_MotionType : uint
+    public enum MotionType : uint
     {
-        /* Masks */
+        // Masks
         NND_MOTIONTYPE_CATEGORY_MASK = 31,
         NND_MOTIONTYPE_REPEAT_MASK = 0x1F0040U,
 
-        /* Flags */
+        // Flags
         NND_MOTIONTYPE_VERSION2 = 0x10000000U,
 
-        /* Repeat types */
+        // Repeat types
         NND_MOTIONTYPE_TRIGGER = 64,
         NND_MOTIONTYPE_NOREPEAT = 0x10000U,
         NND_MOTIONTYPE_CONSTREPEAT = 0x20000U,
@@ -263,21 +273,21 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_MOTIONTYPE_MIRROR = 0x80000U,
         NND_MOTIONTYPE_OFFSET = 0x100000U,
 
-        /* Motion types */
+        // Motion types
         NND_MOTIONTYPE_NODE = 1,
         NND_MOTIONTYPE_CAMERA = 2,
         NND_MOTIONTYPE_LIGHT = 4,
         NND_MOTIONTYPE_MORPH = 8,
         NND_MOTIONTYPE_MATERIAL = 16
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_SubMotionType : uint
+    public enum SubMotionType : uint
     {
         // Some of these overlap each other.
 
-        /* Masks */
+        // Masks
         NND_SMOTTYPE_FRAME_MASK = 3,
         NND_SMOTTYPE_ANGLE_MASK = 28,
         NND_SMOTTYPE_TRANSLATION_MASK = 0x700U,
@@ -295,16 +305,16 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTTYPE_UPVECTOR_MASK = 0xE000000U,
         NND_SMOTTYPE_VALUETYPE_MASK = 0xFFFFFF00U,
 
-        /* Frame types */
+        // Frame types
         NND_SMOTTYPE_FRAME_FLOAT = 1,
         NND_SMOTTYPE_FRAME_SINT16 = 2,
 
-        /* Angle types */
+        // Angle types
         NND_SMOTTYPE_ANGLE_RADIAN = 4,
         NND_SMOTTYPE_ANGLE_ANGLE32 = 8,
         NND_SMOTTYPE_ANGLE_ANGLE16 = 16,
 
-        /* Node types */
+        // Node types
         NND_SMOTTYPE_TRANSLATION_X = 0x100U,
         NND_SMOTTYPE_TRANSLATION_Y = 0x200U,
         NND_SMOTTYPE_TRANSLATION_Z = 0x400U,
@@ -333,7 +343,7 @@ namespace Marathon.Formats.Mesh.Ninja
 
         NND_SMOTTYPE_NODEHIDE = 0x100000U,
 
-        /* Camera types */
+        // Camera types
         NND_SMOTTYPE_TARGET_X = 0x40000U,
         NND_SMOTTYPE_TARGET_Y = 0x80000U,
         NND_SMOTTYPE_TARGET_Z = 0x100000U,
@@ -361,7 +371,7 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTTYPE_ZFAR = 0x40000000U,
         NND_SMOTTYPE_ASPECT = 0x80000000U,
 
-        /* Light types */
+        // Light types
         NND_SMOTTYPE_LIGHT_COLOR_R = 0x200000U,
         NND_SMOTTYPE_LIGHT_COLOR_G = 0x400000U,
         NND_SMOTTYPE_LIGHT_COLOR_B = 0x800000U,
@@ -380,10 +390,10 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTTYPE_INNER_RANGE = 0x40000000U,
         NND_SMOTTYPE_OUTER_RANGE = 0x80000000U,
 
-        /* Morph types */
+        // Morph types
         NND_SMOTTYPE_MORPH_WEIGHT = 0x1000000U,
 
-        /* Material types */
+        // Material types
         NND_SMOTTYPE_HIDE = 0x100U,
 
         NND_SMOTTYPE_DIFFUSE_R = 0x200U,
@@ -420,24 +430,24 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTTYPE_OFFSET_UV = (NND_SMOTTYPE_OFFSET_U | NND_SMOTTYPE_OFFSET_V),
 
         NND_SMOTTYPE_MATCLBK_USER = 0x2000000U
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_SubMotionInterpolationType : uint
+    public enum SubMotionInterpolationType : uint
     {
-        /* Masks */
+        // Masks
         NND_SMOTIPTYPE_IP_MASK = 0xE77U,
         NND_SMOTIPTYPE_REPEAT_MASK = 0x1F0000U,
 
-        /* Repeat types */
+        // Repeat types
         NND_SMOTIPTYPE_NOREPEAT = 0x10000U,
         NND_SMOTIPTYPE_CONSTREPEAT = 0x20000U,
         NND_SMOTIPTYPE_REPEAT = 0x40000U,
         NND_SMOTIPTYPE_MIRROR = 0x80000U,
         NND_SMOTIPTYPE_OFFSET = 0x100000U,
 
-        /* Interpolation types */
+        // Interpolation types
         NND_SMOTIPTYPE_SPLINE = 1,
         NND_SMOTIPTYPE_LINEAR = 2,
         NND_SMOTIPTYPE_CONSTANT = 4,
@@ -447,11 +457,11 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_SMOTIPTYPE_QUAT_LERP = 512,
         NND_SMOTIPTYPE_QUAT_SLERP = 1024,
         NND_SMOTIPTYPE_QUAT_SQUAD = 2048
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_CameraType : uint
+    public enum CameraType : uint
     {
         NND_CAMERATYPE_MEMBER_USER = 1,
         NND_CAMERATYPE_MEMBER_FOVY = 2,
@@ -470,11 +480,11 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_CAMERATYPE_TARGET_ROLL = 255,
         NND_CAMERATYPE_TARGET_UPVECTOR = 383,
         NND_CAMERATYPE_TARGET_UPTARGET = 639
-    };
+    }
 
     [Flags]
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum NinjaNext_LightType : uint
+    public enum LightType : uint
     {
         NND_LIGHTTYPE_STANDARD_GL = 65536,
         NND_LIGHTTYPE_MASK = 65599,
@@ -485,5 +495,5 @@ namespace Marathon.Formats.Mesh.Ninja
         NND_LIGHTTYPE_TARGET_DIRECTIONAL = 16,
         NND_LIGHTTYPE_ROTATION_DIRECTIONAL = 32,
         NND_LIGHTTYPE_COMMON_MASK = 63
-    };
+    }
 }

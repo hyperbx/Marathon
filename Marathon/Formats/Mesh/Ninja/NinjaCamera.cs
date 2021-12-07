@@ -2,25 +2,42 @@
 {
     /// <summary>
     /// Structure of the main Ninja Camera.
-    /// TODO: This is all wild guessing which I'm 100% sure is all sorts of bollocks.
+    /// TODO (Knuxfan24): This is all wild guessing which I'm 100% sure is all sorts of bollocks.
     /// </summary>
     public class NinjaCamera
     {
-        public NinjaNext_CameraType Type { get; set; }
+        public CameraType Type { get; set; }
 
-        public uint UnknownUInt32_1 { get; set; } // Always 0.
+        /// <summary>
+        /// TODO: unknown - always 0.
+        /// </summary>
+        public uint UnknownUInt32_1 { get; set; }
 
-        public uint UnknownUInt32_2 { get; set; } // Flags maybe?
+        /// <summary>
+        /// TODO: unknown - flags?
+        /// </summary>
+        public uint UnknownUInt32_2 { get; set; }
 
         public Vector3 UnknownVector3_1 { get; set; }
 
         public Vector3 UnknownVector3_2 { get; set; }
 
-        public float UnknownFloat_1 { get; set; } // Seems like it ends up as NaN a lot? Maybe a coicidence that it's occasionally sensible numbers???
+        /// <summary>
+        /// TODO (Knuxfan24): Seems like it ends up as NaN a lot? Maybe a coincidence that it's occasionally sensible numbers???
+        /// </summary>
+        public float UnknownFloat_1 { get; set; }
 
-        public float UnknownFloat_2 { get; set; } // Seems like it ends up as NaN a lot? Maybe a coicidence that it's occasionally sensible numbers???
+        /// <summary>
+        /// TODO (Knuxfan24): Seems like it ends up as NaN a lot? Maybe a coincidence that it's occasionally sensible numbers???
+        /// </summary>
+        public float UnknownFloat_2 { get; set; }
 
-        public float UnknownFloat_3 { get; set; } // Could be either a float or uint maybe?
+        /// <summary>
+        /// TODO: unknown - could be either a float or uint maybe?
+        /// </summary>
+        public float UnknownFloat_3 { get; set; }
+
+        public float UnknownFloat_4 { get; set; }
 
         /// <summary>
         /// Reads the Ninja Camera from a file.
@@ -34,8 +51,8 @@
             // Jump to the actual Ninja Camera.
             reader.JumpTo(dataOffset, true);
 
-            // Read the Type(?) of this Camera and the offset to the camera data.
-            Type = (NinjaNext_CameraType)reader.ReadUInt32();
+            // Read the Type of this Camera and the offset to the camera data.
+            Type = (CameraType)reader.ReadUInt32();
             uint CameraOffset = reader.ReadUInt32();
 
             // Jump to and read the data for this Camera.
@@ -47,6 +64,7 @@
             UnknownFloat_1 = reader.ReadSingle();
             UnknownFloat_2 = reader.ReadSingle();
             UnknownFloat_3 = reader.ReadSingle();
+            UnknownFloat_4 = reader.ReadSingle();
         }
 
         /// <summary>
@@ -55,14 +73,14 @@
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
-            // Chunk Header.
+            // Write NXCA header.
             writer.Write("NXCA");
-            writer.Write("SIZE");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
-            // Camera Data.
+            // Write camera data.
             uint CameraPosition = (uint)writer.BaseStream.Position;
             writer.Write(UnknownUInt32_1);
             writer.Write(UnknownUInt32_2);
@@ -71,8 +89,9 @@
             writer.Write(UnknownFloat_1);
             writer.Write(UnknownFloat_2);
             writer.Write(UnknownFloat_3);
+            writer.Write(UnknownFloat_4);
 
-            // Chunk Data.
+            // Write chunk data.
             writer.FillOffset("dataOffset", true);
             writer.Write((uint)Type);
             writer.AddOffset($"CameraData", 0);
@@ -81,10 +100,10 @@
             // Alignment.
             writer.FixPadding(0x10);
 
-            // Chunk Size.
+            // Write chunk size.
             long ChunkEndPosition = writer.BaseStream.Position;
             uint ChunkSize = (uint)(ChunkEndPosition - HeaderSizePosition);
-            writer.BaseStream.Position = HeaderSizePosition - 0x04;
+            writer.BaseStream.Position = HeaderSizePosition - 4;
             writer.Write(ChunkSize);
             writer.BaseStream.Position = ChunkEndPosition;
         }
