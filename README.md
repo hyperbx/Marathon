@@ -28,7 +28,8 @@ While it can be fun to live on the bleeding edge; [GitHub Actions](https://githu
     - [Event Playbook (`*.epb`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Event/EventPlaybook.cs) reading and writing
     - [Time Event (`*.tev`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Event/TimeEvent.cs) reading and writing
 - Mesh
-    - [Collision (`collision.bin`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Mesh/Collision.cs) reading and writing    
+    - [Collision (`collision.bin`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Mesh/Collision.cs) reading and writing
+	- [Ninja (`*.xna; *.xnd; *.xne; *.xnf; *.xng; *.xni; *.xnm; *.xno; *.xnv`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Mesh/Ninja/NinjaNext.cs) reading and writing
     - [Path Spline (`*.path`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Mesh/PathSpline.cs) reading and writing
     - [Reflection Zone (`*.rab`)](https://github.com/Big-Endian-32/Marathon/blob/master/Marathon/Formats/Mesh/ReflectionZone.cs) reading and writing
 - Package
