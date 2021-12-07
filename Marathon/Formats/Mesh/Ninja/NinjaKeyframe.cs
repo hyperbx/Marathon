@@ -1,5 +1,8 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Different structures for different keyframe types.
+    /// </summary>
     public class NinjaKeyframe
     {
         /// <summary>

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of a Ninja Object Material's Material Logic.
+    /// This is kept seperate from Materials as multiple materials can use the same logic.
+    /// </summary>
     public class NinjaMaterialLogic
     {
         public bool Blend { get; set; }
@@ -40,15 +38,29 @@ namespace Marathon.Formats.Mesh.Ninja
 
         public uint Reserved3 { get; set; }
 
+        // This offset is stored by us purely for the writing process.
         public uint Offset { get; set; }
 
+        /// <summary>
+        /// Reads a material's logic from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Skip over the material's Type.
             reader.JumpAhead(0x4);
+
+            // Jump to the material's main data.
             reader.JumpTo(reader.ReadUInt32(), true);
+
+            // Skip over the material's Flag, User Definied data and Colour offset.
             reader.JumpAhead(0xC);
+
+            // Save the offset for the writing process then jump to it.
             Offset = reader.ReadUInt32();
             reader.JumpTo(Offset, true);
+
+            // Save the logic data for this material.
             Blend = reader.ReadBoolean(0x04);
             SRCBlend = (NinjaNext_BlendMode)reader.ReadUInt32();
             DSTBlend = (NinjaNext_BlendMode)reader.ReadUInt32();
@@ -67,9 +79,18 @@ namespace Marathon.Formats.Mesh.Ninja
             Reserved3 = reader.ReadUInt32();
         }
 
+        /// <summary>
+        /// Writes this material logic entry to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
+        /// <param name="index">The number of this material logic entry in a linear list.</param>
+        /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
+            // Add an entry for this material logic entry into ObjectOffsets so we know where it is.
             ObjectOffsets.Add($"LogicOffset{index}", (uint)writer.BaseStream.Position);
+
+            // Write the material logic data.
             writer.Write(Blend);
             writer.FixPadding();
             writer.Write((uint)SRCBlend);
@@ -92,53 +113,25 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.Write(Reserved3);
         }
 
+        // Overrides to make it possible to check if two Material Colour entries are the same (by checking their offset).
         public override bool Equals(object obj)
         {
             if (obj is NinjaMaterialLogic)
                 return Equals((NinjaMaterialLogic)obj);
             return false;
         }
+
         public bool Equals(NinjaMaterialLogic obj)
         {
             if (obj == null) return false;
-            if (!EqualityComparer<bool>.Default.Equals(Blend, obj.Blend)) return false;
-            if (!EqualityComparer<NinjaNext_BlendMode>.Default.Equals(SRCBlend, obj.SRCBlend)) return false;
-            if (!EqualityComparer<NinjaNext_BlendMode>.Default.Equals(DSTBlend, obj.DSTBlend)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(BlendFactor, obj.BlendFactor)) return false;
-            if (!EqualityComparer<NinjaNext_BlendOperation>.Default.Equals(BlendOperation, obj.BlendOperation)) return false;
-            if (!EqualityComparer<NinjaNext_LogicOperation>.Default.Equals(LogicOperation, obj.LogicOperation)) return false;
-            if (!EqualityComparer<bool>.Default.Equals(Alpha, obj.Alpha)) return false;
-            if (!EqualityComparer<NinjaNext_CMPFunction>.Default.Equals(AlphaFunction, obj.AlphaFunction)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(AlphaRef, obj.AlphaRef)) return false;
-            if (!EqualityComparer<bool>.Default.Equals(ZComparison, obj.ZComparison)) return false;
-            if (!EqualityComparer<NinjaNext_CMPFunction>.Default.Equals(ZComparisonFunction, obj.ZComparisonFunction)) return false;
-            if (!EqualityComparer<bool>.Default.Equals(ZUpdate, obj.ZUpdate)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Reserved0, obj.Reserved0)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Reserved1, obj.Reserved1)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Reserved2, obj.Reserved2)) return false;
-            if (!EqualityComparer<uint>.Default.Equals(Reserved3, obj.Reserved3)) return false;
+            if (!EqualityComparer<uint>.Default.Equals(Offset, obj.Offset)) return false;
             return true;
         }
 
         public override int GetHashCode()
         {
             int hash = 0;
-            hash ^= EqualityComparer<bool>.Default.GetHashCode(Blend);
-            hash ^= EqualityComparer<NinjaNext_BlendMode>.Default.GetHashCode(SRCBlend);
-            hash ^= EqualityComparer<NinjaNext_BlendMode>.Default.GetHashCode(DSTBlend);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(BlendFactor);
-            hash ^= EqualityComparer<NinjaNext_BlendOperation>.Default.GetHashCode(BlendOperation);
-            hash ^= EqualityComparer<NinjaNext_LogicOperation>.Default.GetHashCode(LogicOperation);
-            hash ^= EqualityComparer<bool>.Default.GetHashCode(Alpha);
-            hash ^= EqualityComparer<NinjaNext_CMPFunction>.Default.GetHashCode(AlphaFunction);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(AlphaRef);
-            hash ^= EqualityComparer<bool>.Default.GetHashCode(ZComparison);
-            hash ^= EqualityComparer<NinjaNext_CMPFunction>.Default.GetHashCode(ZComparisonFunction);
-            hash ^= EqualityComparer<bool>.Default.GetHashCode(ZUpdate);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Reserved0);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Reserved1);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Reserved2);
-            hash ^= EqualityComparer<uint>.Default.GetHashCode(Reserved3);
+            hash ^= EqualityComparer<uint>.Default.GetHashCode(Offset);
             return hash;
         }
     }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
     public class NinjaSubMotion
     {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of a Ninja Object Material's Material Colours.
+    /// This is kept seperate from Materials as multiple materials can use the same colours.
+    /// </summary>
     public class NinjaMaterialColours
     {
         public Vector4 Diffuse { get; set; }
@@ -24,15 +22,29 @@ namespace Marathon.Formats.Mesh.Ninja
 
         public uint Reserved2 { get; set; }
 
+        // This offset is stored by us purely for the writing process.
         public uint Offset { get; set; }
 
+        /// <summary>
+        /// Reads a material's colours from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Skip over the material's Type.
             reader.JumpAhead(0x4);
+            
+            // Jump to the material's main data.
             reader.JumpTo(reader.ReadUInt32(), true);
+
+            // Skip over the material's Flag and User Definied data.
             reader.JumpAhead(0x8);
+
+            // Save the offset for the writing process then jump to it.
             Offset = reader.ReadUInt32();
             reader.JumpTo(Offset, true);
+
+            // Save the colour data for this material.
             Diffuse = reader.ReadVector4();
             Ambient = reader.ReadVector4();
             Specular = reader.ReadVector4();
@@ -43,9 +55,18 @@ namespace Marathon.Formats.Mesh.Ninja
             Reserved2 = reader.ReadUInt32();
         }
 
+        /// <summary>
+        /// Writes this material colour entry to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
+        /// <param name="index">The number of this material colour entry in a linear list.</param>
+        /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
+            // Add an entry for this material colour entry into ObjectOffsets so we know where it is.
             ObjectOffsets.Add($"ColourOffset{index}", (uint)writer.BaseStream.Position);
+
+            // Write the material colour data.
             writer.Write(Diffuse);
             writer.Write(Ambient);
             writer.Write(Specular);
@@ -56,12 +77,14 @@ namespace Marathon.Formats.Mesh.Ninja
             writer.Write(Reserved2);
         }
 
+        // Overrides to make it possible to check if two Material Colour entries are the same (by checking their offset).
         public override bool Equals(object obj)
         {
             if (obj is NinjaMaterialColours)
                 return Equals((NinjaMaterialColours)obj);
             return false;
         }
+
         public bool Equals(NinjaMaterialColours obj)
         {
             if (obj == null) return false;

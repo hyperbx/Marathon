@@ -46,7 +46,7 @@
 
             Format = (NinjaNext_XboxVertexType)reader.ReadUInt32();
             FlexibleVertexFormat = (NinjaNext_FlexibleVertexFormat)reader.ReadUInt32();
-            uint Stride = reader.ReadUInt32(); // Size?
+            uint DataSize = reader.ReadUInt32();
             uint VertexCount = reader.ReadUInt32();
             uint VertexListOffset = reader.ReadUInt32();
             uint BoneCount = reader.ReadUInt32();
@@ -96,26 +96,26 @@
     
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
-            uint Stride = 0;
+            uint DataSize = 0;
 
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_POSITION))
-                Stride += 12;
+                DataSize += 12;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
-                Stride += 12;
+                DataSize += 12;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
-                Stride += 4;
+                DataSize += 4;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_NORMAL))
-                Stride += 12;
+                DataSize += 12;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR))
-                Stride += 4;
+                DataSize += 4;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR2))
-                Stride += 4;
+                DataSize += 4;
             if (Vertices[0].TextureCoordinates != null)
-                Stride += (uint)(8 * Vertices[0].TextureCoordinates.Count);
+                DataSize += (uint)(8 * Vertices[0].TextureCoordinates.Count);
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TANGENT))
-                Stride += 12;
+                DataSize += 12;
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
-                Stride += 12;
+                DataSize += 12;
 
             ObjectOffsets.Add($"VertexList{index}BoneMatrixIndicesOffset", (uint)writer.BaseStream.Position);
             for (int i = 0; i < BoneMatrixIndices.Count; i++)
@@ -124,7 +124,7 @@
             ObjectOffsets.Add($"VertexList{index}", (uint)writer.BaseStream.Position);
             writer.Write((uint)Format);
             writer.Write((uint)FlexibleVertexFormat);
-            writer.Write(Stride);
+            writer.Write(DataSize);
             writer.Write(Vertices.Count);
             writer.AddOffset($"VertexList{index}Vertices");
             writer.Write(BoneMatrixIndices.Count);

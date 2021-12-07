@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Marathon.Formats.Mesh.Ninja
+﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of the main Ninja Motion data.
+    /// </summary>
     public class NinjaMotion
     {
+        // NinjaMotion is used by a lot of things, so we store the Chunk ID so we know what to write back.
         public string ChunkID { get; set; }
 
         public NinjaNext_MotionType Type { get; set; }
@@ -24,12 +22,19 @@ namespace Marathon.Formats.Mesh.Ninja
 
         public uint Reserved1 { get; set; }
 
+        /// <summary>
+        /// Reads the Ninja Motion data from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Read the offset to the actual Ninja Motion data.
             uint dataOffset = reader.ReadUInt32();
 
+            // Jump to the actual Ninja Motion data.
             reader.JumpTo(dataOffset, true);
 
+            // Read all of the data from the Ninja Motion data.
             Type = (NinjaNext_MotionType)reader.ReadUInt32();
             StartFrame = reader.ReadSingle();
             EndFrame = reader.ReadSingle();
@@ -39,7 +44,10 @@ namespace Marathon.Formats.Mesh.Ninja
             Reserved0 = reader.ReadUInt32();
             Reserved1 = reader.ReadUInt32();
 
+            // Jump to the offset for this motion data's sub motions.
             reader.JumpTo(SubMotionsOffset, true);
+
+            // Loop through and read all the sub motions.
             for (int i = 0; i < SubMotionCount; i++)
             {
                 NinjaSubMotion subMotion = new();
@@ -48,20 +56,29 @@ namespace Marathon.Formats.Mesh.Ninja
             }
         }
 
+        /// <summary>
+        /// Write the Ninja Motion data to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
+            // Set up a list of Offsets for earlier points in the chunk.
             Dictionary<string, uint> MotionOffsets = new();
 
             // Chunk Header.
             writer.Write(ChunkID);
-            writer.Write("SIZE");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
+            // Keyframes.
             for (int i = 0; i < SubMotions.Count; i++)
             {
+                // Add an offset to our list so we know where this sub motion's keyframes are.
                 MotionOffsets.Add($"SubMotion{i}KeyframesOffset", (uint)writer.BaseStream.Position);
+
+                // Loop through this sub motions keyframes and write different data depending on the Type flag.
                 for (int k = 0; k < SubMotions[i].Keyframes.Count; k++)
                 {
                     if (SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SCALING_MASK) ||
@@ -90,14 +107,18 @@ namespace Marathon.Formats.Mesh.Ninja
                     }
                     else
                     {
+                        // If none of those flags are found, error out.
                         throw new NotImplementedException();
                     }
                 }
             }
 
+            // Sub Motions.
+            // Add an offset to our list so we know where the sub motions are.
             MotionOffsets.Add($"SubMotionTable", (uint)writer.BaseStream.Position);
             for (int i = 0; i < SubMotions.Count; i++)
             {
+                // Write most of the data for this sub motion.
                 writer.Write((uint)SubMotions[i].Type);
                 writer.Write((uint)SubMotions[i].InterpolationType);
                 writer.Write(SubMotions[i].NodeIndex);
@@ -106,6 +127,9 @@ namespace Marathon.Formats.Mesh.Ninja
                 writer.Write(SubMotions[i].StartKeyframe);
                 writer.Write(SubMotions[i].EndKeyframe);
                 writer.Write(SubMotions[i].Keyframes.Count);
+
+                // Figure out the size value to write based on the flags.
+                // Error out if none of them are found.
                 if (SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK) || SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SCALING_MASK) ||
                     SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_AMBIENT_MASK) || SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_DIFFUSE_MASK) ||
                     SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SPECULAR_MASK) || SubMotions[i].Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_LIGHT_COLOR_MASK))
@@ -118,10 +142,15 @@ namespace Marathon.Formats.Mesh.Ninja
                     writer.Write(4);
                 else
                     throw new NotImplementedException();
+
+                // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
                 writer.AddOffset($"SubMotion{i}KeyframesOffset", 0);
+
+                // Write the previously saved position for this sub motion's keyframes.
                 writer.Write(MotionOffsets[$"SubMotion{i}KeyframesOffset"] - writer.Offset);
             }
 
+            // Chunk Data.
             writer.FillOffset("dataOffset", true);
             writer.Write((uint)Type);
             writer.Write(StartFrame);
