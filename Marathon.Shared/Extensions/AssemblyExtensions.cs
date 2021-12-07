@@ -13,7 +13,6 @@ namespace Marathon.Shared
         /// <summary>
         /// Returns the current assembly name.
         /// </summary>
-        /// <returns></returns>
         public static string GetAssemblyName()
             => Assembly.GetEntryAssembly().GetName().Name;
 
