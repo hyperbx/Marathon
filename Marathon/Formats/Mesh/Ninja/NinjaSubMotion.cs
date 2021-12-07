@@ -1,5 +1,8 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of a Ninja Sub Motion entry.
+    /// </summary>
     public class NinjaSubMotion
     {
         public NinjaNext_SubMotionType Type { get; set; }
@@ -18,8 +21,13 @@
 
         public List<object> Keyframes = new();
 
+        /// <summary>
+        /// Reads a Ninja Sub Motion entry from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Read the main data for this Sub Motion.
             Type = (NinjaNext_SubMotionType)reader.ReadUInt32();
             InterpolationType = (NinjaNext_SubMotionInterpolationType)reader.ReadUInt32();
             NodeIndex = reader.ReadInt32();
@@ -31,9 +39,13 @@
             uint KeyFrameSize = reader.ReadUInt32();
             uint KeyFrameOffset = reader.ReadUInt32();
 
+            // Save our current position so we can jump back afterwards.
             long pos = reader.BaseStream.Position;
 
+            // Jump to the list of Keyframes for this sub motion.
             reader.JumpTo(KeyFrameOffset, true);
+
+            // Loop through and read the keyframes based on the Type flag.
             for (int i = 0; i < KeyFrameCount; i++)
             {
                 if (Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_TRANSLATION_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_SCALING_MASK) || Type.HasFlag(NinjaNext_SubMotionType.NND_SMOTTYPE_AMBIENT_MASK) ||
@@ -62,13 +74,14 @@
                     Keyframe.Read(reader);
                     Keyframes.Add(Keyframe);
                 }
-                // All else has failed, give up.
                 else
                 {
+                    // All else has failed, give up.
                     throw new NotImplementedException();
                 }
             }
 
+            // Jump back to where we were.
             reader.JumpTo(pos);
         }
     }

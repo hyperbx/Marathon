@@ -1,7 +1,11 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of a Ninja Object Node entry.
+    /// </summary>
     public class NinjaNode
     {
+        // Not actually part of the Node, used purely so we don't keep having to go back and forth between the Node Name List and the Nodes themselves.
         public string Name { get; set; }
 
         public NinjaNext_NodeType Type { get; set; }
@@ -32,6 +36,10 @@
 
         public override string ToString() => Name;
 
+        /// <summary>
+        /// Reads a Ninja Object Node from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
             Type = (NinjaNext_NodeType)reader.ReadUInt32();
@@ -43,6 +51,7 @@
             Rotation = reader.ReadVector3();
             Scaling = reader.ReadVector3();
 
+            // Set up and read all the entries for the InvInitMatrix.
             InvInitMatrix = new float[16];
             for(int i = 0; i < InvInitMatrix.Length; i++)
                 InvInitMatrix[i] = reader.ReadSingle();
@@ -53,6 +62,10 @@
             BoundingBox = reader.ReadVector3();
         }
 
+        /// <summary>
+        /// Writes this Ninja Object Node to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
             writer.Write((uint)Type);

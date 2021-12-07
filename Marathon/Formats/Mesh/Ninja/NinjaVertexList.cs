@@ -1,5 +1,8 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of a Ninja Vertex.
+    /// </summary>
     public class NinjaVertex
     {
         public Vector3? Position;
@@ -12,7 +15,8 @@
 
         public byte[] VertexColours;
 
-        public byte[] VertexColours2; //wtf
+        // What the hell is this? Some files do have this, has a flag of 0x10.
+        public byte[] VertexColours2;
 
         public List<Vector2> TextureCoordinates;
 
@@ -21,6 +25,9 @@
         public Vector3? Binormals;
     }
 
+    /// <summary>
+    /// Structure of the main Ninja Vertex List.
+    /// </summary>
     public class NinjaVertexList
     {
         public NinjaNext_VertexType Type { get; set; }
@@ -39,11 +46,17 @@
 
         public uint HDRLock { get; set; }
 
+        /// <summary>
+        /// Reads the Ninja Vertex List from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Read this Vertex List's type and jump to the main data offset.
             Type = (NinjaNext_VertexType)reader.ReadUInt32();
             reader.JumpTo(reader.ReadUInt32(), true);
 
+            // Read the data associated with this Vertex List.
             Format = (NinjaNext_XboxVertexType)reader.ReadUInt32();
             FlexibleVertexFormat = (NinjaNext_FlexibleVertexFormat)reader.ReadUInt32();
             uint DataSize = reader.ReadUInt32();
@@ -55,26 +68,35 @@
             HDRData = reader.ReadUInt32();
             HDRLock = reader.ReadUInt32();
 
+            // Jump to and read all the vertices in this list.
             reader.JumpTo(VertexListOffset, true);
             for (int i = 0; i < VertexCount; i++)
             {
                 NinjaVertex Vertex = new();
 
+                // Read different elements depending on the Format flag.
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_POSITION))
                     Vertex.Position = reader.ReadVector3();
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
                     Vertex.Weight = reader.ReadVector3();
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
                     Vertex.MatrixIndices = reader.ReadBytes(0x04);
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_NORMAL))
                     Vertex.Normals = reader.ReadVector3();
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR))
                     Vertex.VertexColours = reader.ReadBytes(0x04);
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR2))
                     Vertex.VertexColours2 = reader.ReadBytes(0x04);
 
+                // I don't know why this works, but it does.
                 for (int t = 0; t < ((uint)Format / (uint)NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TEXCOORD); t++)
                 {
+                    // Actually create the Texture Coordinates list if it doesn't exist already.
                     if (Vertex.TextureCoordinates == null)
                         Vertex.TextureCoordinates = new();
 
@@ -83,51 +105,77 @@
 
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TANGENT))
                     Vertex.Tangent = reader.ReadVector3();
+
                 if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
                     Vertex.Binormals = reader.ReadVector3();
 
+                // Save this vertex.
                 Vertices.Add(Vertex);
             }
 
+            // Jump to and read the Bone Matrix Indices for this Vertex List.
             reader.JumpTo(BoneMatrixIndicesOffset, true);
             for (int i = 0; i < BoneCount; i++)
                 BoneMatrixIndices.Add(reader.ReadInt32());
         }
-    
+
+        /// <summary>
+        /// Writes this vertex list to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
+        /// <param name="index">The number of this vertex list in a linear list.</param>
+        /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
         public void Write(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
         {
+            // Calculate the Data Size based on the Format flag.
             uint DataSize = 0;
 
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_POSITION))
                 DataSize += 12;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_WEIGHT3))
                 DataSize += 12;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_MTX_INDEX4))
                 DataSize += 4;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_NORMAL))
                 DataSize += 12;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR))
                 DataSize += 4;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_COLOR2))
                 DataSize += 4;
+
             if (Vertices[0].TextureCoordinates != null)
                 DataSize += (uint)(8 * Vertices[0].TextureCoordinates.Count);
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_TANGENT))
                 DataSize += 12;
+
             if (Format.HasFlag(NinjaNext_XboxVertexType.NND_VTXTYPE_XB_BINORMAL))
                 DataSize += 12;
 
+            // Add an entry for this vertex list's bone matrix indices into ObjectOffsets so we know where it is.
             ObjectOffsets.Add($"VertexList{index}BoneMatrixIndicesOffset", (uint)writer.BaseStream.Position);
+
+            // Write this vertex list's Bone Matrix Indices.
             for (int i = 0; i < BoneMatrixIndices.Count; i++)
                 writer.Write(BoneMatrixIndices[i]);
 
+            // Add an entry for this vertex list into ObjectOffsets so we know where it is.
             ObjectOffsets.Add($"VertexList{index}", (uint)writer.BaseStream.Position);
+
+            // Write the data for this vertex list.
             writer.Write((uint)Format);
             writer.Write((uint)FlexibleVertexFormat);
             writer.Write(DataSize);
             writer.Write(Vertices.Count);
             writer.AddOffset($"VertexList{index}Vertices");
             writer.Write(BoneMatrixIndices.Count);
+
+            // Only handle a Bone Matrix Indices offset if we have any, if not, write a 0 and don't add an offset for the NOF0 chunl.
             if (BoneMatrixIndices.Count != 0)
             {
                 writer.AddOffset($"VertexList{index}BoneMatrixIndicesOffset", 0);
@@ -135,46 +183,73 @@
             }
             else
                 writer.Write(0);
+
+
             writer.Write(HDRCommon);
             writer.Write(HDRData);
             writer.Write(HDRLock);
             writer.WriteNulls(0x8);
         }
 
-        public void WritePointer(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
+        /// <summary>
+        /// Writes the vertices for this vertex list to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
+        /// <param name="index">The number of this vertex list in a linear list.</param>
+        public void WriteVertices(BinaryWriterEx writer, int index)
         {
-            writer.Write((uint)Type);
-            writer.AddOffset($"VertexList{index}", 0);
-            writer.Write(ObjectOffsets[$"VertexList{index}"] - writer.Offset);
-        }
-
-        public void WriteVertexList(BinaryWriterEx writer, int index)
-        {
+            // Set this as the location of this vertex table.
             writer.FillOffset($"VertexList{index}Vertices", true, false);
+
+            // Loop through and write the values in each vertex that isn't null.
             for (int i = 0; i < Vertices.Count; i++)
             {
                 if (Vertices[i].Position != null)
                     writer.Write((Vector3)Vertices[i].Position);
+
                 if (Vertices[i].Weight != null)
                     writer.Write((Vector3)Vertices[i].Weight);
+
                 if (Vertices[i].MatrixIndices != null)
                     writer.Write(Vertices[i].MatrixIndices);
+
                 if (Vertices[i].Normals != null)
                     writer.Write((Vector3)Vertices[i].Normals);
+
                 if (Vertices[i].VertexColours != null)
                     writer.Write(Vertices[i].VertexColours);
+
                 if (Vertices[i].VertexColours2 != null)
                     writer.Write(Vertices[i].VertexColours2);
+
                 if (Vertices[i].TextureCoordinates != null)
-                {
-                    foreach (Vector2 coord in Vertices[i].TextureCoordinates)
-                        writer.Write(coord);
-                }
+                    foreach (Vector2 Coordinate in Vertices[i].TextureCoordinates)
+                        writer.Write(Coordinate);
+
                 if (Vertices[i].Tangent != null)
                     writer.Write((Vector3)Vertices[i].Tangent);
+
                 if (Vertices[i].Binormals != null)
                     writer.Write((Vector3)Vertices[i].Binormals);
             }
+        }
+
+        /// <summary>
+        /// Writes the type and pointer for this vertex list to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
+        /// <param name="index">The number of this vertex list in a linear list.</param>
+        /// <param name="ObjectOffsets">The list of offsets this Object chunk uses.</param>
+        public void WritePointer(BinaryWriterEx writer, int index, Dictionary<string, uint> ObjectOffsets)
+        {
+            // Write this vertex list's type.
+            writer.Write((uint)Type);
+
+            // Add an offset to the BinaryWriter so we can fill it in in the NOF0 chunk.
+            writer.AddOffset($"VertexList{index}", 0);
+
+            // Write the value in ObjectOffsets of the main data for this vertex list.
+            writer.Write(ObjectOffsets[$"VertexList{index}"] - writer.Offset);
         }
     }
 }

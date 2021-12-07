@@ -1,5 +1,8 @@
 ﻿namespace Marathon.Formats.Mesh.Ninja
 {
+    /// <summary>
+    /// Structure of the main Ninja Object.
+    /// </summary>
     public class NinjaObject
     {
         public Vector3 Center { get; set; }
@@ -25,12 +28,19 @@
 
         public uint TextureCount { get; set; }
 
+        /// <summary>
+        /// Reads the Ninja Object from a file.
+        /// </summary>
+        /// <param name="reader">The binary reader for this SegaNN file.</param>
         public void Read(BinaryReaderEx reader)
         {
+            // Read the offset to the actual Ninja Object.
             uint dataOffset = reader.ReadUInt32();
 
+            // Jump to the actual Ninja Object.
             reader.JumpTo(dataOffset, true);
 
+            // Read all of the data from the Ninja Object.
             Center = reader.ReadVector3();
             Radius = reader.ReadSingle();
             uint MaterialsCount = reader.ReadUInt32();
@@ -47,7 +57,7 @@
             uint SubObjectsOffset = reader.ReadUInt32();
             TextureCount = reader.ReadUInt32();
 
-            // Materials
+            // Materials.
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
@@ -57,40 +67,43 @@
                 Materials.Add(Material);
             }
 
-            // Material Colours
+            // Material Colours.
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
                 reader.JumpTo(MaterialsOffset + (i * 0x08), true);
-                NinjaMaterialColours test = new();
-                test.Read(reader);
-                MaterialColours.Add(test);
+                NinjaMaterialColours MaterialColours = new();
+                MaterialColours.Read(reader);
+                this.MaterialColours.Add(MaterialColours);
             }
+            // Remove any duplicate Material Colours.
             MaterialColours = MaterialColours.Distinct().ToList();
 
-            // Material Logics
+            // Material Logics.
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
                 reader.JumpTo(MaterialsOffset + (i * 0x08), true);
-                NinjaMaterialLogic test = new();
-                test.Read(reader);
-                MaterialLogics.Add(test);
+                NinjaMaterialLogic MaterialLogic = new();
+                MaterialLogic.Read(reader);
+                MaterialLogics.Add(MaterialLogic);
             }
+            // Remove any duplicate Material Logic entries.
             MaterialLogics = MaterialLogics.Distinct().ToList();
 
-            // Material Texture Map Descriptions
+            // Material Texture Map Descriptions.
             reader.JumpTo(MaterialsOffset, true);
             for (int i = 0; i < MaterialsCount; i++)
             {
                 reader.JumpTo(MaterialsOffset + (i * 0x08), true);
-                NinjaTextureMap test = new();
-                test.Read(reader);
-                TextureMaps.Add(test);
+                NinjaTextureMap TextureMap = new();
+                TextureMap.Read(reader);
+                TextureMaps.Add(TextureMap);
             }
+            // Remove any duplicate Material Texture Map Lists.
             TextureMaps = TextureMaps.Distinct().ToList();
 
-            // Vertex Lists
+            // Vertex Lists.
             reader.JumpTo(VertexListsOffset, true);
             for (int i = 0; i < VertexListCount; i++)
             {
@@ -100,7 +113,7 @@
                 VertexLists.Add(VertexList);
             }
 
-            // Primitive Lists
+            // Primitive Lists.
             reader.JumpTo(PrimitiveListsOffset, true);
             for (int i = 0; i < PrimitiveListCount; i++)
             {
@@ -110,7 +123,7 @@
                 PrimitiveLists.Add(Primitive);
             }
 
-            // Nodes
+            // Nodes.
             reader.JumpTo(NodeListsOffset, true);
             for (int i = 0; i < NodeCount; i++)
             {
@@ -119,7 +132,7 @@
                 Nodes.Add(Node);
             }
 
-            // Sub Objects
+            // Sub Objects.
             reader.JumpTo(SubObjectsOffset, true);
             for (int i = 0; i < SubObjectCount; i++)
             {
@@ -129,84 +142,89 @@
                 SubObjects.Add(SubObject);
             }
         }
-    
+
+        /// <summary>
+        /// Write the Ninja Object to a file.
+        /// </summary>
+        /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)
         {
+            // Set up a list of Offsets for earlier points in the chunk.
             Dictionary<string, uint> ObjectOffsets = new();
 
             // Chunk Header.
             writer.Write("NXOB");
-            writer.Write("TEMP");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             long HeaderSizePosition = writer.BaseStream.Position;
             writer.AddOffset("dataOffset");
             writer.FixPadding(0x10);
 
             // Vertex Table Size and Offset?
             long VertexSizePosition = writer.BaseStream.Position;
-            writer.Write("TEMP");
+            writer.Write("SIZE"); // Temporary entry, is filled in later once we know this chunk's size.
             writer.AddOffset("VertexTable");
             writer.FixPadding(0x10);
 
-            // Nodes
+            // Nodes.
             ObjectOffsets.Add($"NodesPointer", (uint)writer.BaseStream.Position);
             for (int i = 0; i < Nodes.Count; i++)
                 Nodes[i].Write(writer);
 
-            // Material Colours
+            // Material Colours.
             for (int i = 0; i < MaterialColours.Count; i++)
                 MaterialColours[i].Write(writer, i, ObjectOffsets);
 
-            // Material Logics
+            // Material Logics.
             for (int i = 0; i < MaterialLogics.Count; i++)
                 MaterialLogics[i].Write(writer, i, ObjectOffsets);
 
-            // Material Texture Map Descriptions
+            // Material Texture Map Descriptions.
             for (int i = 0; i < TextureMaps.Count; i++)
                 TextureMaps[i].Write(writer, i, ObjectOffsets);
 
-            // Materials
+            // Materials.
             for (int i = 0; i < Materials.Count; i++)
                 Materials[i].Write(writer, i, ObjectOffsets, MaterialColours, MaterialLogics, TextureMaps);
 
-            // Material List
+            // Material List.
             ObjectOffsets.Add($"MaterialsPointer", (uint)writer.BaseStream.Position);
             for (int i = 0; i < Materials.Count; i++)
                 Materials[i].WritePointer(writer, i, ObjectOffsets);
 
-            // Vertex Lists
+            // Vertex Lists.
             for (int i = 0; i < VertexLists.Count; i++)
                 VertexLists[i].Write(writer, i, ObjectOffsets);
 
-            // Vertex List
+            // Vertex List.
             ObjectOffsets.Add($"VerticesPointer", (uint)writer.BaseStream.Position);
             for (int i = 0; i < VertexLists.Count; i++)
                 VertexLists[i].WritePointer(writer, i, ObjectOffsets);
 
-            // Primitive Strip Indices
+            // Primitive Strip and Index Indices.
             for (int i = 0; i < PrimitiveLists.Count; i++)
             {
                 PrimitiveLists[i].WriteStripIndices(writer, i, ObjectOffsets);
                 PrimitiveLists[i].WriteIndexIndices(writer, i, ObjectOffsets);
             }    
 
-            // Primitive Lists
+            // Primitive Lists.
             for (int i = 0; i < PrimitiveLists.Count; i++)
                 PrimitiveLists[i].Write(writer, i, ObjectOffsets);
 
-            // Primitive List
+            // Primitive List.
             ObjectOffsets.Add($"PrimitivesPointer", (uint)writer.BaseStream.Position);
             for (int i = 0; i < PrimitiveLists.Count; i++)
                 PrimitiveLists[i].WritePointer(writer, i, ObjectOffsets);
 
-            // Mesh Sets and Texture Indices
+            // Mesh Sets and Texture Indices.
             for (int i = 0; i < SubObjects.Count; i++)
             {
                 SubObjects[i].WriteMeshSets(writer, i, ObjectOffsets);
                 SubObjects[i].WriteTextureIndices(writer, i, ObjectOffsets);
             }
 
+            // Sub Objects.
             ObjectOffsets.Add($"SubObjectsPointer", (uint)writer.BaseStream.Position);
-            // Sub Objects
             for (int i = 0; i < SubObjects.Count; i++)
                 SubObjects[i].Write(writer, i, ObjectOffsets);
 
@@ -237,7 +255,7 @@
             writer.FillOffset("VertexTable", true, false);
             long VertexTableStart = writer.BaseStream.Position;
             for (int i = 0; i < VertexLists.Count; i++)
-                VertexLists[i].WriteVertexList(writer, i);
+                VertexLists[i].WriteVertices(writer, i);
 
             // Alignment.
             uint VertexTableLength = (uint)(writer.BaseStream.Position - VertexTableStart);

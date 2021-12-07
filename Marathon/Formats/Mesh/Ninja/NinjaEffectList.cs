@@ -116,7 +116,7 @@
         }
 
         /// <summary>
-        /// Write the Ninja Effect List to a file.
+        /// Writes the Ninja Effect List to a file.
         /// </summary>
         /// <param name="writer">The binary writer for this SegaNN file.</param>
         public void Write(BinaryWriterEx writer)

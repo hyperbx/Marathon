@@ -111,12 +111,9 @@ namespace Marathon.Formats.Mesh.Ninja
 
             // If this SegaNN file has both an Object Chunk and a Node Name List then fill in the Nodes with their names.
             if (Data.Object != null && Data.NodeNameList != null)
-            {
-                for (int i = 0; i < Data.Object.Nodes.Count; i++)
-                {
-                    Data.Object.Nodes[i].Name = Data.NodeNameList.NinjaNodeNames[i];
-                }
-            }
+                if (Data.Object.Nodes.Count == Data.NodeNameList.NinjaNodeNames.Count)
+                    for (int i = 0; i < Data.Object.Nodes.Count; i++)
+                        Data.Object.Nodes[i].Name = Data.NodeNameList.NinjaNodeNames[i];
         }
 
         public override void Save(Stream stream)
