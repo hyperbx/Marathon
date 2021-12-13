@@ -61,7 +61,7 @@ Marathon currently doesn't support *every* format, despite the above list alread
 
 ### Cue Sheet Binary (`*.csb`)
 
-The `*.csb` format is part of the closed-source CriWare audio library; ADX. We have some specifications for this format, as well as CPK which contains the actual data, but it's yet to be implemented into Marathon.
+The `*.csb` format is part of the closed-source CriWare audio library; ADX. We have some specifications for this format, as well as the `*.cpk` format which contains the actual data, but it's yet to be implemented into Marathon.
 
 ### Proprietary Sonic Team texture container (`*.ddm`)
 
