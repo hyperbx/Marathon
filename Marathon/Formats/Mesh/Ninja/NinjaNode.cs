@@ -27,7 +27,7 @@
 
         public Vector3 Scaling { get; set; }
 
-        public float[] InvInitMatrix { get; set; }
+        public Matrix4x4 InvInitMatrix { get; set; }
 
         public Vector3 Center { get; set; }
 
@@ -53,12 +53,7 @@
             Translation = reader.ReadVector3();
             Rotation = reader.ReadVector3();
             Scaling = reader.ReadVector3();
-
-            // Set up and read all the entries for the InvInitMatrix.
-            InvInitMatrix = new float[16];
-            for(int i = 0; i < InvInitMatrix.Length; i++)
-                InvInitMatrix[i] = reader.ReadSingle();
-
+            InvInitMatrix = reader.ReadMatrix();
             Center = reader.ReadVector3();
             Radius = reader.ReadSingle();
             UserDefined = reader.ReadUInt32();
@@ -79,10 +74,7 @@
             writer.Write(Translation);
             writer.Write(Rotation);
             writer.Write(Scaling);
-
-            for (int i = 0; i != InvInitMatrix.Length; i++)
-                writer.Write(InvInitMatrix[i]);
-
+            writer.Write(InvInitMatrix);
             writer.Write(Center);
             writer.Write(Radius);
             writer.Write(UserDefined);
