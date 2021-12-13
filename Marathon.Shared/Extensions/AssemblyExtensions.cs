@@ -5,7 +5,7 @@ namespace Marathon.Shared
     public class AssemblyExtensions
     {
         /// <summary>
-        /// Retrieves the assembly informational version from the entry assembly. 
+        /// Returns the assembly informational version from the entry assembly. 
         /// </summary>
         public static string GetInformationalVersion()
             => Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
