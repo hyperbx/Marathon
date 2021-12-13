@@ -59,46 +59,46 @@ While it can be fun to live on the bleeding edge, [GitHub Actions](https://githu
 
 Marathon currently doesn't support *every* format, despite the above list already being pretty large.
 
-### Cue Sheet Binary (`*.csb`)
+### Cue Sheet Binary
 
 The `*.csb` format is part of the closed-source CriWare audio library; ADX. We have some specifications for this format, as well as the `*.cpk` format which contains the actual data, but it's yet to be implemented into Marathon.
 
-### Proprietary Sonic Team texture container (`*.ddm`)
+### Proprietary Sonic Team texture container
 
 The `*.ddm` format is a basic container that stores the names of textures per index and all of the texture data that pertains to them in the DirectDraw Surface format. It was supported by Marathon at one point, but only had a reader that exported the textures in a hacky way.
 
-### DirectDraw Surface (`*.dds`)
+### DirectDraw Surface
 
 The `*.dds` format is for textures - there's no need for Marathon to support this, as there are plenty of image manipulation programs that support it already.
 
-### Font Map (`*.ftm`)
+### Font Map
 
 The `*.ftm` format contains information pertaining to the Shift-JIS encoding standard and defines the characters used in the font textures. This format is a bit of a nightmare, so not much research has been done on it yet.
 
-### DirectX Shader Bytecode (`*.fxo`)
+### DirectX Shader Bytecode
 
 The `*.fxo` format is for compiled DirectX shaders - there's no need for Marathon to support this, as there are already disassemblers and compilers for DirectX that are supported by Xbox 360.
 
-### Havok Collision Data (`*.hkx`)
+### Havok Collision Data
 
 The `*.hkx` format is part of the closed-source Havok physics library. SONIC THE HEDGEHOG uses Havok 3.3.0-b2, which is conveniently a version of Havok that nobody has outside of development studios.
 
-### Kynapse Big File (`*.kbf`)
+### Kynapse Big File
 
 The `*.kbf` format is part of the closed-source Kynapse AI library. This format contains data pertaining to AI behaviour, spatial graphs, `Astar` data, `FindNearest` data, `PathCost` data, path ways and meshes. You can probably see where it gets the name 'big file' from. There has only been minimal research done on this format, as the embedded formats will also have to be researched individually.
 
-### Proprietary CriWare & Sonic Team property format (`*.mab`)
+### Proprietary CriWare and Sonic Team property format
 
-The `*.mab` format was originally believed to be closely related to particles, since the particles that used meshes were always in this format. However, after digging around the event data for cutscenes, it seems it's also used for timing with various elements (e.g. subtitles, models, etc).
+The `*.mab` format was originally believed to be closely related to particles, since the particles that used meshes were always in this format. However, after digging around the event data for cutscenes, it seems it's also used for timing with various elements (e.g. subtitles, models, etc). The internal assertions for this format refer to it as [Acroarts](https://web.archive.org/web/20211030052512/https://www.cri-mw.co.jp/product/cs/acroarts/index.html), which is a development environment from CriWare.
 
-### Motion Base Information (`*.mbi`)
+### Motion Base Information
 
 The `*.mbi` format is a plaintext file containing node definitions for a skeleton. This format hasn't been researched, but the data it represents is all helpfully labelled by whatever internal tool from SEGA exported it.
 
-### Font Proportion (`*.pfi`)
+### Font Proportion
 
 The `*.pfi` format defines the margin and padding per character in a given font map. It was supported by Marathon at one point, but only had a reader and some data wasn't fully researched.
 
-### Ninja Raw (`*.xtm; *.xto; *.xtv`)
+### Ninja Raw
 
 The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their compiled counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the actual compiled Ninja formats, which are supported by Marathon.
