@@ -416,6 +416,34 @@ namespace Marathon.IO
         }
 
         /// <summary>
+        /// Reads a 4x4 Matrix from the current position.
+        /// </summary>
+        public Matrix4x4 ReadMatrix()
+        {
+            Matrix4x4 matrix = new()
+            {
+                M11 = ReadSingle(),
+                M12 = ReadSingle(),
+                M13 = ReadSingle(),
+                M14 = ReadSingle(),
+                M21 = ReadSingle(),
+                M22 = ReadSingle(),
+                M23 = ReadSingle(),
+                M24 = ReadSingle(),
+                M31 = ReadSingle(),
+                M32 = ReadSingle(),
+                M33 = ReadSingle(),
+                M34 = ReadSingle(),
+                M41 = ReadSingle(),
+                M42 = ReadSingle(),
+                M43 = ReadSingle(),
+                M44 = ReadSingle()
+            };
+
+            return matrix;
+        }
+
+        /// <summary>
         /// Fills the stream buffer.
         /// </summary>
         protected override void FillBuffer(int numBytes)
@@ -1145,6 +1173,32 @@ namespace Marathon.IO
             }
 
             Write(Buffer, 0, 16);
+        }
+
+        /// <summary>
+        /// Writes a 4x4 Matrix to the current position.
+        /// </summary>
+        public virtual unsafe void Write(Matrix4x4 matrix)
+        {
+            Write(*(uint*)&matrix.M11);
+            Write(*(uint*)&matrix.M12);
+            Write(*(uint*)&matrix.M13);
+            Write(*(uint*)&matrix.M14);
+
+            Write(*(uint*)&matrix.M21);
+            Write(*(uint*)&matrix.M22);
+            Write(*(uint*)&matrix.M23);
+            Write(*(uint*)&matrix.M24);
+
+            Write(*(uint*)&matrix.M31);
+            Write(*(uint*)&matrix.M32);
+            Write(*(uint*)&matrix.M33);
+            Write(*(uint*)&matrix.M34);
+
+            Write(*(uint*)&matrix.M41);
+            Write(*(uint*)&matrix.M42);
+            Write(*(uint*)&matrix.M43);
+            Write(*(uint*)&matrix.M44);
         }
     }
 }
