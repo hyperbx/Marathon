@@ -59,7 +59,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 DeclarationList = new Declaration[function.NumParams];
 
                 for (int i = 0; i < DeclarationList.Length; i++)
-                    DeclarationList[i] = new Declaration($"_ARG_{i}_", 0, _length - 1);
+                    DeclarationList[i] = new Declaration($"a{i + 1}", 0, _length - 1);
             }
 
             _upvalues = new Upvalues(function.Upvalues);

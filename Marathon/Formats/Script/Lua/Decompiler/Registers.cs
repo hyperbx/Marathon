@@ -126,7 +126,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         public Target GetTarget(int register, int line)
         {
             if (!IsLocal(register, line))
-                _decls[register, line] = new Declaration("_TMP_", 0, 0);
+                _decls[register, line] = new Declaration("i", 0, 0);
 
             return new VariableTarget(_decls[register, line]);
         }
@@ -137,7 +137,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             if (decl == null)
             {
-                decl = new("_FOR_", begin, end);
+                decl = new("i", begin, end);
                 decl.Register = register;
 
                 NewDeclaration(decl, register, begin, end);
@@ -152,7 +152,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             if (decl == null)
             {
-                decl = new($"_FORV_{register}_", begin, end);
+                decl = new($"v{register}", begin, end);
                 decl.Register = register;
 
                 NewDeclaration(decl, register, begin, end);

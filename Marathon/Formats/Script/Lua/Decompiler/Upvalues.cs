@@ -18,7 +18,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             else
             {
                 // TODO: Set error.
-                return $"_UPVALUE_{index}_";
+                return $"v{index}";
             }
         }
 
