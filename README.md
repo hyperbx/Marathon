@@ -59,6 +59,10 @@ While it can be fun to live on the bleeding edge, [GitHub Actions](https://githu
 
 Marathon currently doesn't support *every* format, despite the above list already being pretty large.
 
+### Adaptive Transform Acoustic Coding 3 (ATRAC3)
+
+The `*.at3` format is SONY's proprietary audio format used for the PlayStation 3 version of the game. There are many open-source ways to encode these files.
+
 ### Cue Sheet Binary
 
 The `*.csb` format is part of the closed-source CriWare audio library; ADX. We have some specifications for this format, as well as the `*.cpk` format which contains the actual data, but it's yet to be implemented into Marathon.
@@ -74,6 +78,10 @@ The `*.dds` format is for textures - there's no need for Marathon to support thi
 ### Font Map
 
 The `*.ftm` format contains information pertaining to the Shift-JIS encoding standard and defines the characters used in the font textures. This format is a bit of a nightmare, so not much research has been done on it yet.
+
+### PlayStation 3 Fragment Shader Bytecode
+
+The `*.fpo` format is the compiled fragment shader format for the PlayStation 3 version of the game. Unlike DirectX, each shader technique in this format is split up into separate files, rather than being in a single shader.
 
 ### DirectX Shader Bytecode
 
@@ -95,9 +103,25 @@ The `*.mab` format was originally believed to be closely related to particles, s
 
 The `*.mbi` format is a plaintext file containing node definitions for a skeleton. This format hasn't been researched, but the data it represents is all helpfully labelled by whatever internal tool from SEGA exported it.
 
+### Proprietary SONY video format
+
+The `*.pam` format is SONY's proprietary video format used for the PlayStation 3 version of the game for pre-rendered events. Apparently, this format consists of `*.avi` and `*.at3` data, but the only encoder available is part of the PlayStation 3 SDK and doesn't allow you to embed audio data in the video.
+
 ### Font Proportion
 
 The `*.pfi` format defines the margin and padding per character in a given font map. It was supported by Marathon at one point, but only had a reader and some data wasn't fully researched.
+
+### PlayStation 3 Vertex Shader Bytecode
+
+The `*.vpo` format is the compiled vertex shader format for the PlayStation 3 version of the game. Unlike DirectX, each shader technique in this format is split up into separate files, rather than being in a single shader.
+
+### Windows Media Video
+
+The `*.wmv` format is Microsoft's proprietary Windows Media Video format used for the Xbox 360 version of the game for pre-rendered events. These files can be encoded by pretty much anything, but the audio tracks will need to be kept intact for English and Japanese audio, otherwise the game will either crash or skip the video.
+
+### Xbox Media Audio
+
+The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. You can use Xbox 360 SDK Build 3424 to encode these files properly for use with SONIC THE HEDGEHOG.
 
 ### Ninja Raw
 
