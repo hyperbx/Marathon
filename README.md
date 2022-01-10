@@ -19,12 +19,12 @@ This is where [stable builds](https://github.com/HyperBE32/Marathon/releases) of
 While it can be fun to live on the bleeding edge, [GitHub Actions](https://github.com/Big-Endian-32/Marathon/actions) publishes new builds for each new commit, so changes can be unstable.
 
 ### Pre-requisites
-Marathon ***requires*** .NET 6.0, please install both [x86](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x86-installer) and [x64](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x64-installer) versions of the runtime.
+Marathon works on Windows 7 SP1 and later, but ***requires*** .NET 6.0, please install both [x86](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x86-installer) and [x64](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x64-installer) versions of the runtime.
 
 # Building
 
 ### Windows
-- Windows 7 Service Pack 1 or later
+- Windows 10 version 1909 or higher
 - Visual Studio 2022
 - .NET 6.0 Runtime and SDK
 
