@@ -24,9 +24,9 @@ Marathon works on Windows 7 SP1 and later, but ***requires*** .NET 6.0, please i
 # Building
 
 ### Windows
-- Windows 10 version 1909 or higher
+- Windows 10 (x64) version 1909 or higher
 - Visual Studio 2022
-- .NET 6.0 Runtime and SDK
+- .NET 6.0 runtime and SDK
 
 Clone Marathon and open the solution in Visual Studio 2022 and build for the necessary configuration.
 
