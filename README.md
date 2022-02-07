@@ -139,10 +139,10 @@ The `*.wmv` format is Microsoft's proprietary Windows Media Video format used fo
 
 The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. You can use Xbox 360 SDK Build 3424 to encode these files properly for use with SONIC THE HEDGEHOG.
 
-### Ninja Raw
-
-The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their compiled counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the actual compiled Ninja formats, which are supported by Marathon.
-
 ### Unknown Ninja Chunk
 
 A few `*.xno` files (such as `kdv_obj_cage02.xno`) have a `NXMT` chunk (believed to stand for Ninja Morph Type) that is currently unsupported, preventing these files from being fully read by Marathon.
+
+### Ninja Raw
+
+The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their compiled counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the actual compiled Ninja formats, which are supported by Marathon.
