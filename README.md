@@ -115,6 +115,10 @@ The `*.mab` format was originally believed to be closely related to particles, s
 
 The `*.mbi` format is a plaintext file containing node definitions for a skeleton. This format hasn't been researched, but the data it represents is all helpfully labelled by whatever internal tool from SEGA exported it.
 
+### PlayStation 3 Model Format
+
+Stage models in the PlayStation 3 version of the game are usually split up into a unique `*.mdl` format, while preliminary research has been done on this format a lot of the extra data beyond the simple model construction is unknown.
+
 ### Proprietary SONY video format
 
 The `*.pam` format is SONY's proprietary video format used for the PlayStation 3 version of the game for pre-rendered events. Apparently, this format consists of `*.avi` and `*.at3` data, but the only encoder available is part of the PlayStation 3 SDK and doesn't allow you to embed audio data in the video.
