@@ -29,5 +29,12 @@ namespace Marathon.Helpers
         /// </summary>
         public static string ReplaceFilename(string path, string newFile)
             => Path.Combine(Path.GetDirectoryName(path), Path.GetFileName(newFile));
+
+        /// <summary>
+        /// Parses all line breaks from a string and returns an array of lines.
+        /// </summary>
+        /// <param name="input">String to parse line breaks from.</param>
+        public static string[] ParseLineBreaks(string input)
+			=> input.Split(new[] { '\r', '\n' });
     }
 }
