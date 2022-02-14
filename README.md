@@ -13,7 +13,7 @@
 # Releases
 
 ### GitHub Releases
-This is where [stable builds](https://github.com/HyperBE32/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
+This is where [stable builds](https://github.com/Big-Endian-32/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
 
 ### GitHub Actions
 While it can be fun to live on the bleeding edge, [GitHub Actions](https://github.com/Big-Endian-32/Marathon/actions) publishes new builds for each new commit, so changes can be unstable.
@@ -24,7 +24,7 @@ Marathon works on Windows 7 SP1 and later, but ***requires*** .NET 6.0, please i
 # Building
 
 ### Windows
-- Windows 10 (x64) version 1909 or higher
+- Windows 10 (x64) version 1909 or later
 - Visual Studio 2022
 - .NET 6.0 runtime and SDK
 
@@ -115,9 +115,9 @@ The `*.mab` format was originally believed to be closely related to particles, s
 
 The `*.mbi` format is a plaintext file containing node definitions for a skeleton. This format hasn't been researched, but the data it represents is all helpfully labelled by whatever internal tool from SEGA exported it.
 
-### PlayStation 3 Model Format
+### SOX Model Format
 
-Stage models in the PlayStation 3 version of the game are usually split up into a unique `*.mdl` format, while preliminary research has been done on this format a lot of the extra data beyond the simple model construction is unknown.
+The `*.mdl` format is used by the PlayStation 3 version of the game in place of Ninja models used for terrain. While preliminary research has been done on this format, a lot of the extra data beyond the simple model construction is unknown.
 
 ### Proprietary SONY video format
 
@@ -139,9 +139,9 @@ The `*.wmv` format is Microsoft's proprietary Windows Media Video format used fo
 
 The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. You can use Xbox 360 SDK Build 3424 to encode these files properly for use with SONIC THE HEDGEHOG.
 
-### Unknown Ninja Chunk
+### Ninja Morph Type
 
-A few `*.xno` files (such as `kdv_obj_cage02.xno`) have a `NXMT` chunk (believed to stand for Ninja Morph Type) that is currently unsupported, preventing these files from being fully read by Marathon.
+The Ninja format, particularly for `*.xno` files (such as `kdv_obj_cage02.xno`) have a `NXMT` chunk that is currently unsupported, preventing these files from being fully read by Marathon.
 
 ### Ninja Raw
 
