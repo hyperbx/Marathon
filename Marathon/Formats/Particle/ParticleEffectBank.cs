@@ -1,4 +1,6 @@
-﻿namespace Marathon.Formats.Particle
+﻿using Marathon.Helpers.Converters;
+
+namespace Marathon.Formats.Particle
 {
     /// <summary>
     /// File base for the *.peb format.
@@ -325,6 +327,7 @@
         /// <summary>
         /// Literally no clue what this is, length is based on a value before its offset.
         /// </summary>
+        [JsonConverter(typeof(ByteArrayConverter))]
         public byte[] CompletelyUnknownData { get; set; }
     }
 }
