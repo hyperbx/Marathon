@@ -1,6 +1,6 @@
 ﻿namespace Marathon.Formats.Placement
 {
-	[JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectDataType
     {
         Boolean,
