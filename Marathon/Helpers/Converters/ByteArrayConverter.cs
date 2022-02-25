@@ -18,6 +18,6 @@
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        => serializer.Serialize(writer, BitConverter.ToString((byte[])value).Replace("-", " "));
+            => serializer.Serialize(writer, BitConverter.ToString((byte[])value).Replace("-", " "));
     }
 }
