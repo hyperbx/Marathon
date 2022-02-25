@@ -3,6 +3,21 @@
     public class BinaryHelper
     {
         /// <summary>
+        /// Converts a string of hexadecimal characters to a byte array.
+        /// </summary>
+        /// <param name="hex">Hexadecimal string.</param>
+		public static byte[] StringToByteArray(string hex)
+		{
+			// Remove any spaces in case the string is formatted as such.
+			hex = hex.Replace(" ", "");
+
+			return Enumerable.Range(0, hex.Length)
+					         .Where(x => x % 2 == 0)
+					         .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+					         .ToArray();
+        }
+
+        /// <summary>
         /// Converts byte length to a Windows-like suffix string.
         /// </summary>
         /// <param name="length">Byte length.</param>
