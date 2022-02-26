@@ -1,4 +1,4 @@
-﻿namespace Marathon.Formats.Particle
+﻿namespace Marathon.Formats.Script
 {
     public class MAB : FileBase // TODO: Identify what *.mab is...
     {

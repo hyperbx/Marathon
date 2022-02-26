@@ -1,6 +1,4 @@
-﻿using Marathon.Helpers.Converters;
-
-namespace Marathon.Formats.Particle
+﻿namespace Marathon.Formats.Particle
 {
     /// <summary>
     /// File base for the *.peb format.
@@ -84,17 +82,17 @@ namespace Marathon.Formats.Particle
                     peAttributes.UnknownUInt32_1 = reader.ReadUInt32();
                     peAttributes.Lifetime        = reader.ReadSingle();
                     peAttributes.Density         = reader.ReadSingle();
-                    peAttributes.UnknownFloat_1  = reader.ReadSingle();
+                    peAttributes.UnknownSingle_1 = reader.ReadSingle();
                     peAttributes.Duration        = reader.ReadSingle();
                     peAttributes.XSpeed          = reader.ReadSingle();
                     peAttributes.YSpeed          = reader.ReadSingle();
                     peAttributes.ZSpeed          = reader.ReadSingle();
-                    peAttributes.UnknownFloat_2  = reader.ReadSingle();
-                    peAttributes.UnknownFloat_3  = reader.ReadSingle();
+                    peAttributes.UnknownSingle_2 = reader.ReadSingle();
+                    peAttributes.UnknownSingle_3 = reader.ReadSingle();
                     peAttributes.Scale           = reader.ReadSingle();
-                    peAttributes.UnknownFloat_4  = reader.ReadSingle();
-                    peAttributes.UnknownFloat_5  = reader.ReadSingle();
-                    peAttributes.UnknownFloat_6  = reader.ReadSingle();
+                    peAttributes.UnknownSingle_4 = reader.ReadSingle();
+                    peAttributes.UnknownSingle_5 = reader.ReadSingle();
+                    peAttributes.UnknownSingle_6 = reader.ReadSingle();
                     peAttributes.UnknownUInt32_2 = reader.ReadUInt32();
                     peAttributes.UnknownUInt32_3 = reader.ReadUInt32();
                     peAttributes.UnknownUInt32_4 = reader.ReadUInt32();
@@ -107,16 +105,27 @@ namespace Marathon.Formats.Particle
                     peAttributes.TextureBank3 = reader.ReadNullPaddedString(0x20);
                     peAttributes.Texture3     = reader.ReadNullPaddedString(0x20);
 
-                    int UnknownLength  = reader.ReadInt32(); // At least I THINK this is the length of the data from the UnknownOffset? Always a multiple of 8 + 4?
-                    uint UnknownOffset = reader.ReadUInt32();
+                    int PropertyListLength  = reader.ReadInt32();
+                    uint PropertyListOffset = reader.ReadUInt32();
 
-                    long currentPos = reader.BaseStream.Position;
+                    if (PropertyListOffset != 0)
+                    {
+                        long currentPos = reader.BaseStream.Position;
 
-                    reader.JumpTo(UnknownOffset, true);
-                    peAttributes.CompletelyUnknownData = reader.ReadBytes(UnknownLength);
-                    reader.JumpTo(currentPos);
+                        reader.JumpTo(PropertyListOffset, true);
+                        {
+                            while (reader.BaseStream.Position != (PropertyListOffset + PropertyListLength) + 0x20)
+                            {
+                                var property = new ParticleEffectProperty().Read(reader);
 
-                    particle.Effects.Add(peAttributes);
+                                if (property != null)
+                                    peAttributes.Properties.Add(property);
+                            }
+                        }
+                        reader.JumpTo(currentPos);
+                    }
+
+                    particle.Attributes.Add(peAttributes);
                 }
 
                 reader.JumpTo(position);
@@ -130,7 +139,7 @@ namespace Marathon.Formats.Particle
 
             writer.WriteSignature(Signature);
 
-            writer.WriteNulls(0x8);
+            writer.WriteNulls(0x08);
             writer.Write(Data.Effects.Count);
             writer.WriteNullPaddedString(Data.Name, 0x20);
             writer.AddOffset("OffsetTable");
@@ -140,31 +149,32 @@ namespace Marathon.Formats.Particle
             for (int i = 0; i < Data.Effects.Count; i++)
             {
                 writer.WriteNullPaddedString(Data.Effects[i].Name, 0x40);
-                writer.Write(Data.Effects[i].Effects.Count);
+                writer.Write(Data.Effects[i].Attributes.Count);
                 writer.AddOffset($"EffectsOffset_{i}");
             }
 
             for (int i = 0; i < Data.Effects.Count; i++)
             {
                 writer.FillOffset($"EffectsOffset_{i}", true);
-                for (int e = 0; e < Data.Effects[i].Effects.Count; e++)
+
+                for (int e = 0; e < Data.Effects[i].Attributes.Count; e++)
                 {
-                    var currentEffect = Data.Effects[i].Effects[e];
+                    var currentEffect = Data.Effects[i].Attributes[e];
 
                     writer.Write(currentEffect.UnknownUInt32_1);
                     writer.Write(currentEffect.Lifetime);
                     writer.Write(currentEffect.Density);
-                    writer.Write(currentEffect.UnknownFloat_1);
+                    writer.Write(currentEffect.UnknownSingle_1);
                     writer.Write(currentEffect.Duration);
                     writer.Write(currentEffect.XSpeed);
                     writer.Write(currentEffect.YSpeed);
                     writer.Write(currentEffect.ZSpeed);
-                    writer.Write(currentEffect.UnknownFloat_2);
-                    writer.Write(currentEffect.UnknownFloat_3);
+                    writer.Write(currentEffect.UnknownSingle_2);
+                    writer.Write(currentEffect.UnknownSingle_3);
                     writer.Write(currentEffect.Scale);
-                    writer.Write(currentEffect.UnknownFloat_4);
-                    writer.Write(currentEffect.UnknownFloat_5);
-                    writer.Write(currentEffect.UnknownFloat_6);
+                    writer.Write(currentEffect.UnknownSingle_4);
+                    writer.Write(currentEffect.UnknownSingle_5);
+                    writer.Write(currentEffect.UnknownSingle_6);
                     writer.Write(currentEffect.UnknownUInt32_2);
                     writer.Write(currentEffect.UnknownUInt32_3);
                     writer.Write(currentEffect.UnknownUInt32_4);
@@ -177,18 +187,29 @@ namespace Marathon.Formats.Particle
                     writer.WriteNullPaddedString(currentEffect.TextureBank3, 0x20);
                     writer.WriteNullPaddedString(currentEffect.Texture3, 0x20);
 
-                    writer.Write(currentEffect.CompletelyUnknownData.Length);
+                    int totalProperties = currentEffect.Properties.Sum(x => x.Length());
+                    writer.Write(totalProperties);
 
-                    writer.AddOffset($"Effects_{i}_UnknownOffset_{e}");
+                    if (totalProperties == 0)
+                        writer.Write(0);
+                    else
+                        writer.AddOffset($"Effects_{i}_PropertyListOffset_{e}");
                 }
             }
 
             for (int i = 0; i < Data.Effects.Count; i++)
             {
-                for (int e = 0; e < Data.Effects[i].Effects.Count; e++)
+                for (int e = 0; e < Data.Effects[i].Attributes.Count; e++)
                 {
-                    writer.FillOffset($"Effects_{i}_UnknownOffset_{e}", true);
-                    writer.Write(Data.Effects[i].Effects[e].CompletelyUnknownData);
+                    // Don't write offset if null.
+                    if (Data.Effects[i].Attributes[e].Properties.Sum(x => x.Length()) == 0)
+                        continue;
+
+                    writer.FillOffset($"Effects_{i}_PropertyListOffset_{e}", true);
+
+                    // Write all properties.
+                    foreach (var property in Data.Effects[i].Attributes[e].Properties)
+                        property.Write(writer);
                 }
             }
 
@@ -203,7 +224,7 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public string Name { get; set; }
 
-        public List<ParticleEffectAttributes> Effects { get; set; } = new();
+        public List<ParticleEffectAttributes> Attributes { get; set; } = new();
 
         public override string ToString() => Name;
     }
@@ -228,7 +249,7 @@ namespace Marathon.Formats.Particle
         /// <summary>
         /// Potentially unused? Always 0.
         /// </summary>
-        public float UnknownFloat_1 { get; set; }
+        public float UnknownSingle_1 { get; set; }
 
         /// <summary>
         /// How long this effect lasts.
@@ -253,12 +274,12 @@ namespace Marathon.Formats.Particle
         /// <summary>
         /// Affects something to do with movement on the Y Axis? (Particle Spread like the one below?)
         /// </summary>
-        public float UnknownFloat_2 { get; set; }
+        public float UnknownSingle_2 { get; set; }
 
         /// <summary>
         /// Something to do with the effect's spread on the Z Axis?
         /// </summary>
-        public float UnknownFloat_3 { get; set; }
+        public float UnknownSingle_3 { get; set; }
 
         /// <summary>
         /// How large this effect is? Might be affected by the flags?
@@ -268,11 +289,11 @@ namespace Marathon.Formats.Particle
         /// <summary>
         /// Something to do with randomness (radius?)
         /// </summary>
-        public float UnknownFloat_4 { get; set; }
+        public float UnknownSingle_4 { get; set; }
 
-        public float UnknownFloat_5 { get; set; }
+        public float UnknownSingle_5 { get; set; }
 
-        public float UnknownFloat_6 { get; set; }
+        public float UnknownSingle_6 { get; set; }
 
         /// <summary>
         /// TODO: Unknown - flags?
@@ -295,39 +316,222 @@ namespace Marathon.Formats.Particle
         public string Shader { get; set; }
 
         /// <summary>
-        /// The ptb file to pull from for the first texture.
+        /// The <see cref="ParticleTextureBank"/> file to pull from for the first texture.
         /// </summary>
         public string TextureBank1 { get; set; }
 
         /// <summary>
-        /// The texture entry to look for for the first texture.
+        /// The texture entry to look for as the first texture.
         /// </summary>
         public string Texture1 { get; set; }
 
         /// <summary>
-        /// The ptb file to pull from for the second texture.
+        /// The <see cref="ParticleTextureBank"/> file to pull from for the second texture.
         /// </summary>
         public string TextureBank2 { get; set; }
 
         /// <summary>
-        /// The texture entry to look for for the second texture.
+        /// The texture entry to look for as the second texture.
         /// </summary>
         public string Texture2 { get; set; }
 
         /// <summary>
-        /// The ptb file to pull from for the third texture.
+        /// The <see cref="ParticleTextureBank"/> to pull from for the third texture.
         /// </summary>
         public string TextureBank3 { get; set; }
 
         /// <summary>
-        /// The texture entry to look for for the third texture.
+        /// The texture entry to look for as the third texture.
         /// </summary>
         public string Texture3 { get; set; }
 
         /// <summary>
-        /// Literally no clue what this is, length is based on a value before its offset.
+        /// A collection of properties that affect this particle.
         /// </summary>
-        [JsonConverter(typeof(ByteArrayConverter))]
-        public byte[] CompletelyUnknownData { get; set; }
+        public List<ParticleEffectProperty> Properties { get; set; } = new();
+    }
+
+    public class ParticleEffectProperty
+    {
+        public ParticleEffectPropertyType? Type { get; set; } = null;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? Int32 { get; set; } = null;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public float? Single { get; set; } = null;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Vector3? Vector3 { get; set; } = null;
+
+        public ParticleEffectProperty Read(BinaryReaderEx reader)
+        {
+            Type = (ParticleEffectPropertyType)reader.ReadUInt32();
+
+            if (Type != null)
+            {
+                string currentType = Enum.GetName(Type.Value);
+
+                if (!string.IsNullOrEmpty(currentType))
+                {
+                    if (currentType.StartsWith("Int32"))
+                    {
+                        Int32 = reader.ReadInt32();
+                    }
+                    else if (currentType.StartsWith("Single"))
+                    {
+                        Single = reader.ReadSingle();
+                    }
+                    else if (currentType.StartsWith("Vector3"))
+                    {
+                        Vector3 = reader.ReadVector3();
+                    }
+                }
+                else
+                {
+                    Logger.Log($"Unknown type at 0x{reader.BaseStream.Position:X}: 0x{Type:X}");
+                }
+            }
+
+            return this;
+        }
+
+        public void Write(BinaryWriterEx writer)
+        {
+            writer.Write((uint)Type);
+
+            if (Type != null)
+            {
+                string currentType = Enum.GetName(Type.Value);
+
+                if (!string.IsNullOrEmpty(currentType))
+                {
+                    if (currentType.StartsWith("Int32"))
+                    {
+                        writer.Write(Int32.Value);
+                    }
+                    else if (currentType.StartsWith("Single"))
+                    {
+                        writer.Write(Single.Value);
+                    }
+                    else if (currentType.StartsWith("Vector3"))
+                    {
+                        writer.Write(Vector3.Value);
+                    }
+                }
+                else
+                {
+                    Logger.Log($"Unknown type: 0x{Type:X}");
+                }
+            }
+            else
+            {
+                writer.Write(0);
+            }
+        }
+
+        public int Length()
+        {
+            string currentType = Enum.GetName(Type.Value);
+
+            int length = 4;
+
+            if (!string.IsNullOrEmpty(currentType))
+            {
+                if (currentType.StartsWith("Int32"))
+                {
+                    length += 4;
+                }
+                else if (currentType.StartsWith("Single"))
+                {
+                    length += 4;
+                }
+                else if (currentType.StartsWith("Vector3"))
+                {
+                    length += 12;
+                }
+            }
+            else
+            {
+                Logger.Log($"Unknown type: 0x{Type:X}");
+            }
+
+            return length;
+        }
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum ParticleEffectPropertyType : uint
+    {
+        /* TODO: figure out how these different types
+                 influence the result of the particles. */
+
+        None_00 = 0x00,
+        None_02 = 0x02,
+        None_04 = 0x04,
+        None_0C = 0x0C,
+
+        Int32_03 = 0x03, // TODO: unknown.
+        Int32_0B = 0x0B, // TODO: unknown - keyframe index?
+        Int32_16 = 0x16, // TODO: unknown.
+        Int32_17 = 0x17, // TODO: unknown.
+        Int32_18 = 0x18, // TODO: unknown.
+        Int32_19 = 0x19, // TODO: unknown.
+        Int32_1A = 0x1A, // TODO: unknown.
+        Int32_1B = 0x1B, // TODO: unknown.
+        Int32_1C = 0x1C, // TODO: unknown.
+        Int32_1D = 0x1D, // TODO: unknown.
+        Int32_1E = 0x1E, // TODO: unknown.
+        Int32_1F = 0x1F, // TODO: unknown.
+        Int32_20 = 0x20, // TODO: unknown.
+        Int32_21 = 0x21, // TODO: unknown.
+        Int32_22 = 0x22, // TODO: unknown.
+        Int32_23 = 0x23, // TODO: unknown.
+        Int32_24 = 0x24, // TODO: unknown.
+        Int32_25 = 0x25, // TODO: unknown.
+        Int32_26 = 0x26, // TODO: unknown.
+        Int32_27 = 0x27, // TODO: unknown.
+        Int32_28 = 0x28, // TODO: unknown.
+        Int32_29 = 0x29, // TODO: unknown.
+        Int32_2A = 0x2A, // TODO: unknown.
+        Int32_2B = 0x2B, // TODO: unknown.
+        Int32_2C = 0x2C, // TODO: unknown.
+        Int32_2D = 0x2D, // TODO: unknown.
+        Int32_2E = 0x2E, // TODO: unknown.
+        Int32_2F = 0x2F, // TODO: unknown.
+        Int32_30 = 0x30, // TODO: unknown.
+        Int32_31 = 0x31, // TODO: unknown.
+        Int32_32 = 0x32, // TODO: unknown.
+        Int32_33 = 0x33, // TODO: unknown.
+        Int32_34 = 0x34, // TODO: unknown.
+        Int32_35 = 0x35, // TODO: unknown.
+        Int32_36 = 0x36, // TODO: unknown.
+        Int32_37 = 0x37, // TODO: unknown.
+        Int32_38 = 0x38, // TODO: unknown.
+        Int32_39 = 0x39, // TODO: unknown.
+        Int32_3A = 0x3A, // TODO: unknown.
+        Int32_3B = 0x3B, // TODO: unknown.
+        Int32_3C = 0x3C, // TODO: unknown.
+        Int32_3D = 0x3D, // TODO: unknown.
+        Int32_3E = 0x3E, // TODO: unknown.
+        Int32_3F = 0x3F, // TODO: unknown.
+
+        Single_01     = 0x01, // TODO: unknown - keyframe length?
+        Single_Radius = 0x05,
+        Single_07     = 0x07, // TODO: unknown - radius?
+        Single_09     = 0x09, // TODO: unknown.
+        Single_Red    = 0x0D,
+        Single_Green  = 0x0E,
+        Single_Blue   = 0x0F,
+        Single_10     = 0x10, // TODO: unknown.
+        Single_15     = 0x15, // TODO: unknown.
+
+        Vector3_Scale    = 0x06,
+        Vector3_08       = 0x08, // TODO: unknown.
+        Vector3_Rotation = 0x0A,
+        Vector3_Red      = 0x11,
+        Vector3_Green    = 0x12,
+        Vector3_Blue     = 0x13,
+        Vector3_Alpha    = 0x14
     }
 }
