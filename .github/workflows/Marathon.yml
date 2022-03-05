@@ -5,7 +5,7 @@ on:
     branches: [ master ]
     
 env:
-  VERSION: 1.0.${{github.run_number}}
+  VERSION: 1.0
   PROFILE_WIN_32: win-x86
   PROFILE_WIN_64: win-x64
   PROFILE_LINUX_64: linux-x64
@@ -16,77 +16,103 @@ env:
   NUGET_SOURCE: https://api.nuget.org/v3/index.json
 
 jobs:
+
   build:
+
+    # Use the current configuration as the job name.
     name: ${{matrix.configuration}}
+
+    # Use the 'windows-2022' image for CI.
     runs-on: windows-2022
+
+    # Use the following configurations for building.
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
+        configuration:
+        [
+          Debug,
+          Release
+        ]
         
     steps:
+
+    # Downloads the latest Git repository for Marathon.
     - name: Clone Marathon
       uses: actions/checkout@v2
 
+    # Installs the required SDKs for .NET.
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
 
+    # Restores the NuGet packages from the solution for all projects.
     - name: Restore NuGet Packages
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
+    # Patches the version number using the last 'Windows' workflow run number and the latest 'Marathon' workflow run number.
     - name: Patch Version Number
       run: |
         $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
         echo $version
         echo "VERSION_NUMBER=$version" | Out-File -FilePath ${{github.github_env}} -Encoding utf-8 -Append
 
+    # Patches the assembly information stored in 'Marathon.csproj' and 'Marathon.CLI.csproj' to use the current workflow version.
     - name: Patch Version Information
       run: |
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_CLI_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
 
+    # Builds Marathon with the 'win-x86' publish profile.
     - name: Build Marathon for Windows (x86)
       working-directory: ${{github.workspace}}
       run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_WIN_32}}
 
+    # Builds Marathon with the 'win-x64' publish profile.
     - name: Build Marathon for Windows (x64)
       working-directory: ${{github.workspace}}
       run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_WIN_64}}
 
+    # Builds Marathon with the 'linux-x64' publish profile.
     - name: Build Marathon for Linux
       working-directory: ${{github.workspace}}
       run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_LINUX_64}}
 
+    # Builds Marathon with the 'osx-x64' publish profile.
     - name: Build Marathon for macOS
       working-directory: ${{github.workspace}}
       run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_OSX_64}}
       
+    # Uploads the compiled Marathon artifacts.
     - name: Upload Marathon Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Marathon-${{matrix.configuration}}
         path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\
         
+    # Uploads the compiled Marathon.CLI artifacts for 'win-x86'.
     - name: Upload Marathon.CLI Artifacts for Windows (x86)
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_32}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_32}}\
         
+    # Uploads the compiled Marathon.CLI artifacts for 'win-x64'.
     - name: Upload Marathon.CLI Artifacts for Windows (x64)
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_64}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_64}}\
         
+    # Uploads the compiled Marathon.CLI artifacts for 'linux-x64'.
     - name: Upload Marathon.CLI Artifacts for Linux
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_LINUX_64}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_LINUX_64}}\
         
+    # Uploads the compiled Marathon.CLI artifacts for 'osx-x64'.
     - name: Upload Marathon.CLI Artifacts for macOS
       uses: actions/upload-artifact@v2
       with:
@@ -94,32 +120,44 @@ jobs:
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_OSX_64}}\
 
   publish:
+  
     name: Publish
+
+    # Use the 'windows-2022' image for CI.
     runs-on: windows-2022
+
     steps:
+
+    # Downloads the latest Git repository for Marathon.
     - name: Clone Marathon
       uses: actions/checkout@v2
 
+    # Installs the required SDKs for .NET.
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
 
+    # Restores the NuGet packages from the solution for all projects.
     - name: Restore NuGet Packages
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
+    # Patches the version number using the last 'Windows' workflow run number and the latest 'Marathon' workflow run number.
     - name: Patch Version Number
       run: |
         $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
         echo $version
         echo "VERSION_NUMBER=$version" | Out-File -FilePath ${{github.github_env}} -Encoding utf-8 -Append
 
+    # Patches the assembly information stored in 'Marathon.csproj' to use the current workflow version.
     - name: Patch Version Information
       run: ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}}
 
+    # Builds Marathon and packs it into a NuGet package.
     - name: Create NuGet Package
       run: dotnet pack "${{env.MARATHON_PROJECT}}" /p:Configuration=Release
 
+    # Publishes the compiled package to NuGet.
     - name: Publish to NuGet
       run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\BE32.Marathon.${{env.VERSION}}.nupkg" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}
