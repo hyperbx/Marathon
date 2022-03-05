@@ -39,6 +39,12 @@ jobs:
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
+    - name: Patch Version Number
+      run: |
+        $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
+        echo $version
+        echo "VERSION_NUMBER=$version" | Out-File -FilePath ${{github.github_env}} -Encoding utf-8 -Append
+
     - name: Patch Version Information
       run: |
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
@@ -109,6 +115,12 @@ jobs:
       working-directory: ${{github.workspace}}
       run: nuget restore ${{env.SOLUTION_FILE}}
       
+    - name: Patch Version Number
+      run: |
+        $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
+        echo $version
+        echo "VERSION_NUMBER=$version" | Out-File -FilePath ${{github.github_env}} -Encoding utf-8 -Append
+
     - name: Patch Version Information
       run: ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}}
 
