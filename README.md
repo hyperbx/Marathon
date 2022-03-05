@@ -18,17 +18,8 @@ This is where [stable builds](https://github.com/Big-Endian-32/Marathon/releases
 ### GitHub Actions
 While it can be fun to live on the bleeding edge, [GitHub Actions](https://github.com/Big-Endian-32/Marathon/actions) publishes new builds for each new commit, so changes can be unstable.
 
-### Pre-requisites
-Marathon works on Windows 7 SP1 and later, but ***requires*** .NET 6.0, please install both [x86](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x86-installer) and [x64](https://dotnet.microsoft.com/download/dotnet/thank-you/runtime-6.0.0-windows-x64-installer) versions of the runtime.
-
 # Building
-
-### Windows
-- Windows 10 (x64) version 1909 or later
-- Visual Studio 2022
-- .NET 6.0 runtime and SDK
-
-Clone Marathon and open the solution in Visual Studio 2022 and build for the necessary configuration.
+See the [Building](https://github.com/Big-Endian-32/Marathon/wiki/Building) page on the wiki.
 
 # Capabilities
 
