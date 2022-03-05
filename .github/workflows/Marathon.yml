@@ -1,4 +1,4 @@
-name: Marathon.CLI (Windows)
+name: Marathon
 
 on:
   push:
