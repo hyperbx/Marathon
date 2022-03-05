@@ -51,7 +51,7 @@ jobs:
     - name: Patch Version Number
       run: |
         $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
-        echo "VERSION_RESOLVE=$version" | Out-File -FilePath ${{env.GITHUB_ENV}} -Encoding utf-8 -Append
+        echo "VERSION_RESOLVE=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     # Patches the assembly information stored in 'Marathon.csproj' and 'Marathon.CLI.csproj' to use the current workflow version.
     - name: Patch Version Information
@@ -142,7 +142,7 @@ jobs:
     - name: Patch Version Number
       run: |
         $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
-        echo "VERSION_RESOLVE=$version" | Out-File -FilePath ${{env.GITHUB_ENV}} -Encoding utf-8 -Append
+        echo "VERSION_RESOLVE=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
 
     # Patches the assembly information stored in 'Marathon.csproj' and 'Marathon.CLI.csproj' to use the current workflow version.
     - name: Patch Version Information
