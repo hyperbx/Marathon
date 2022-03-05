@@ -1,0 +1,58 @@
+name: Marathon.CLI (Windows)
+
+on:
+  push:
+    branches: [ master ]
+    
+env:
+  VERSION: 1.0.${{github.run_number}}
+  SOLUTION_FILE: Marathon.sln
+  MARATHON_CLI_PROJECT: ${{github.workspace}}\Marathon.CLI\Marathon.CLI.csproj
+
+jobs:
+  build:
+    name: ${{matrix.configuration}}
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        configuration: [ Debug, Release ]
+        
+    steps:
+    - name: Clone Marathon
+      uses: actions/checkout@v2
+
+    - name: Install .NET SDK
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Install Microsoft Build Engine
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Restore NuGet Packages
+      working-directory: ${{github.workspace}}
+      run: nuget restore ${{env.SOLUTION_FILE}}
+      
+    - name: Patch Version Information
+      run: |
+        ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_CLI_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
+
+    - name: Build Marathon for Windows (x86)
+      working-directory: ${{github.workspace}}
+      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile="Windows (x86)"
+
+    - name: Build Marathon for Windows (x64)
+      working-directory: ${{github.workspace}}
+      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile="Windows (x64)"
+        
+    - name: Upload Marathon.CLI Artifacts for Windows (x86)
+      uses: actions/upload-artifact@v2
+      with:
+        name: Marathon.CLI-${{matrix.configuration}}
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\win-x86\
+        
+    - name: Upload Marathon.CLI Artifacts for Windows (x64)
+      uses: actions/upload-artifact@v2
+      with:
+        name: Marathon.CLI-${{matrix.configuration}}
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\win-x64\

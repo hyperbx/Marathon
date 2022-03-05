@@ -1,4 +1,4 @@
-name: Windows
+name: Marathon (Portable)
 
 on:
   push:
@@ -8,7 +8,6 @@ env:
   VERSION: 1.0.${{github.run_number}}
   SOLUTION_FILE: Marathon.sln
   MARATHON_PROJECT: ${{github.workspace}}\Marathon\Marathon.csproj
-  MARATHON_CLI_PROJECT: ${{github.workspace}}\Marathon.CLI\Marathon.CLI.csproj
   NUGET_SOURCE: https://api.nuget.org/v3/index.json
 
 jobs:
@@ -23,7 +22,7 @@ jobs:
     - name: Clone Marathon
       uses: actions/checkout@v2
 
-    - name: Install .NET Core
+    - name: Install .NET SDK
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
@@ -38,7 +37,6 @@ jobs:
     - name: Patch Version Information
       run: |
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
-        ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_CLI_PROJECT}}" -version ${{env.VERSION}} -commitID ${{github.sha}}
 
     - name: Build Marathon
       working-directory: ${{github.workspace}}
@@ -49,12 +47,6 @@ jobs:
       with:
         name: Marathon-${{matrix.configuration}}
         path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\
-        
-    - name: Upload Marathon.CLI Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: Marathon.CLI-${{matrix.configuration}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\
 
   publish:
     name: Publish
