@@ -28,11 +28,7 @@ jobs:
     # Use the following configurations for building.
     strategy:
       matrix:
-        configuration:
-        [
-          Debug,
-          Release
-        ]
+        configuration: [ Debug, Release ]
         
     steps:
 
