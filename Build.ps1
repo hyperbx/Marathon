@@ -47,13 +47,13 @@ if (![System.String]::IsNullOrEmpty($profile))
 
     dotnet publish /p:Configuration="$config" /p:PublishProfile="$profile"
     
-    if (!$buildAll)
+    if (!$all)
     {
         exit
     }
 }
 
-if ($buildAll)
+if ($all)
 {
     foreach ($line in [System.IO.File]::ReadAllLines($profileData))
     {
