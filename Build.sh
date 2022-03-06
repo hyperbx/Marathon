@@ -1,16 +1,20 @@
 #!/bin/bash
 
 PROFILE_DATA=".profiles"
+CONFIG="Release"
 
 if [ $# -ne 0 ]
 then
-    while getopts achp: option
+    while getopts ac:dhp: option
     do
         case $option in
             a)
                 BUILD_ALL=1
                 ;;
             c)
+                CONFIG="${OPTARG}"
+                ;;
+            d)
                 CLEAN=1
                 ;;
             h)
@@ -20,7 +24,8 @@ then
                 echo ""
                 echo "Usage:"
                 echo "-a - build Marathon with all available profiles."
-                echo "-c - cleans the solution before building Marathon."
+                echo "-c [name] - build Marathon with a specific configuration."
+                echo "-d - cleans the solution before building Marathon."
                 echo "-h - display help."
                 echo "-p [name] - build Marathon with a specific profile."
                 exit
@@ -93,7 +98,7 @@ then
         exit
     fi
 
-    dotnet publish /p:Configuration=Release /p:PublishProfile="${PROFILE}"
+    dotnet publish /p:Configuration="${CONFIG}" /p:PublishProfile="${PROFILE}"
     
     if [ ! $BUILD_ALL ]
     then
@@ -115,15 +120,15 @@ then
             continue
         fi
 
-        dotnet publish /p:Configuration=Release /p:PublishProfile="${PROFILE_CURRENT}"
+        dotnet publish /p:Configuration="${CONFIG}" /p:PublishProfile="${PROFILE_CURRENT}"
     done
 else
     case "${PLATFORM}" in
         "Linux")
-            dotnet publish /p:Configuration=Release /p:PublishProfile="linux-x64"
+            dotnet publish /p:Configuration="${CONFIG}" /p:PublishProfile="linux-x64"
             ;;
         "macOS")
-            dotnet publish /p:Configuration=Release /p:PublishProfile="osx-x64"
+            dotnet publish /p:Configuration="${CONFIG}" /p:PublishProfile="osx-x64"
             ;;
     esac
 fi

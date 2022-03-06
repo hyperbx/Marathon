@@ -1,4 +1,11 @@
-param([Alias("h")][Switch]$help, [Alias("a")][Switch]$all, [Alias("c")][Switch]$clean, [Alias("p")][String]$profile)
+param
+(
+    [Alias("a")][Switch]$all,
+    [Alias("c")][String]$config = "Release",
+    [Alias("d")][Switch]$clean,
+    [Alias("h")][Switch]$help,
+    [Alias("p")][String]$profile
+)
 
 $profileData = ".profiles"
 
@@ -10,7 +17,8 @@ if ($help)
     echo ""
     echo "Usage:"
     echo "-a|-all - build Marathon with all available profiles."
-    echo "-c|-clean - cleans the solution before building Marathon."
+    echo "-c|-config [name] - build Marathon with a specific configuration."
+    echo "-d|-clean - cleans the solution before building Marathon."
     echo "-h|-help - display help."
     echo "-p|-profile [name] - build Marathon with a specific profile."
     exit
@@ -37,7 +45,7 @@ if (![System.String]::IsNullOrEmpty($profile))
         exit
     }
 
-    dotnet publish /p:Configuration=Release /p:PublishProfile="$profile"
+    dotnet publish /p:Configuration="$config" /p:PublishProfile="$profile"
     
     if (!$buildAll)
     {
@@ -55,11 +63,11 @@ if ($buildAll)
             continue
         }
         
-        dotnet publish /p:Configuration=Release /p:PublishProfile="$line"
+        dotnet publish /p:Configuration="$config" /p:PublishProfile="$line"
     }
 }
 else
 {
-    dotnet publish /p:Configuration=Release /p:PublishProfile="win-x86"
-    dotnet publish /p:Configuration=Release /p:PublishProfile="win-x64"
+    dotnet publish /p:Configuration="$config" /p:PublishProfile="win-x86"
+    dotnet publish /p:Configuration="$config" /p:PublishProfile="win-x64"
 }
