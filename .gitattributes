@@ -1,1 +1,2 @@
-.github/workflows/* linguist-vendored
+./* linguist-vendored
+./.github/workflows/* linguist-vendored
