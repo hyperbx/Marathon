@@ -1,26 +1,26 @@
 param
 (
-    [Alias("a")][Switch]$all,
-    [Alias("c")][String]$config = "Release",
-    [Alias("d")][Switch]$clean,
-    [Alias("h")][Switch]$help,
-    [Alias("p")][String]$profile
+    [Alias("a")][Switch]$BuildAll,
+    [Alias("c")][String]$Configuration = "Release",
+    [Alias("d")][Switch]$Clean,
+    [Alias("h")][Switch]$Help,
+    [Alias("p")][String]$Profile
 )
 
 $profileData = ".profiles"
 
-if ($help)
+if ($Help)
 {
     echo "Marathon Build Script"
     echo ""
     echo "All your platforms are belong to us."
     echo ""
     echo "Usage:"
-    echo "-a|-all - build Marathon with all available profiles."
-    echo "-c|-config [name] - build Marathon with a specific configuration."
-    echo "-d|-clean - cleans the solution before building Marathon."
-    echo "-h|-help - display help."
-    echo "-p|-profile [name] - build Marathon with a specific profile."
+    echo "-a|-BuildAll - build Marathon with all available profiles."
+    echo "-c|-Configuration [name] - build Marathon with a specific configuration."
+    echo "-d|-Clean - cleans the solution before building Marathon."
+    echo "-h|-Help - display help."
+    echo "-p|-Profile [name] - build Marathon with a specific profile."
     exit
 }
 
@@ -32,42 +32,42 @@ if (!(Get-Command -Name dotnet -ErrorAction SilentlyContinue))
     exit
 }
 
-if ($clean)
+if ($Clean)
 {
     dotnet clean
 }
 
-if (![System.String]::IsNullOrEmpty($profile))
+if (![System.String]::IsNullOrEmpty($Profile))
 {
-    if ([System.Array]::IndexOf([System.IO.File]::ReadAllLines($profileData), $profile) -eq -1)
+    if ([System.Array]::IndexOf([System.IO.File]::ReadAllLines($profileData), $Profile) -eq -1)
     {
-        echo "No such profile exists: $profile"
+        echo "No such profile exists: $Profile"
         exit
     }
 
-    dotnet publish /p:Configuration="$config" /p:PublishProfile="$profile"
+    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="$Profile"
     
-    if (!$all)
+    if (!$BuildAll)
     {
         exit
     }
 }
 
-if ($all)
+if ($BuildAll)
 {
     foreach ($line in [System.IO.File]::ReadAllLines($profileData))
     {
         # Skip profile if it was already specified and built.
-        if ($line -eq $profile)
+        if ($line -eq $Profile)
         {
             continue
         }
         
-        dotnet publish /p:Configuration="$config" /p:PublishProfile="$line"
+        dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="$line"
     }
 }
 else
 {
-    dotnet publish /p:Configuration="$config" /p:PublishProfile="win-x86"
-    dotnet publish /p:Configuration="$config" /p:PublishProfile="win-x64"
+    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="win-x86"
+    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="win-x64"
 }
