@@ -59,10 +59,10 @@ jobs:
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_PROJECT}}" -version ${{env.VERSION_RESOLVE}} -commitID ${{github.sha}}
         ./.github/workflows/VersionPatcher.ps1 -projectPath "${{env.MARATHON_CLI_PROJECT}}" -version ${{env.VERSION_RESOLVE}} -commitID ${{github.sha}}
 
-    # Builds Marathon with the 'win-x86' publish profile.
-    - name: Build Marathon for Windows (x86)
+    # Builds Marathon using the PowerShell script.
+    - name: Build Marathon
       working-directory: ${{github.workspace}}
-      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_WIN_32}}
+      run: ./Build.ps1 -a -c
       
     # Uploads the compiled Marathon artifacts.
     - name: Upload Marathon Artifacts
@@ -77,11 +77,6 @@ jobs:
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_32}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_32}}\
-
-    # Builds Marathon with the 'win-x64' publish profile.
-    - name: Build Marathon for Windows (x64)
-      working-directory: ${{github.workspace}}
-      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_WIN_64}}
         
     # Uploads the compiled Marathon.CLI artifacts for 'win-x64'.
     - name: Upload Marathon.CLI Artifacts for Windows (x64)
@@ -89,11 +84,6 @@ jobs:
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_64}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_64}}\
-
-    # Builds Marathon with the 'linux-x64' publish profile.
-    - name: Build Marathon for Linux
-      working-directory: ${{github.workspace}}
-      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_LINUX_64}}
         
     # Uploads the compiled Marathon.CLI artifacts for 'linux-x64'.
     - name: Upload Marathon.CLI Artifacts for Linux
@@ -101,11 +91,6 @@ jobs:
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_LINUX_64}}
         path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_LINUX_64}}\
-
-    # Builds Marathon with the 'osx-x64' publish profile.
-    - name: Build Marathon for macOS
-      working-directory: ${{github.workspace}}
-      run: dotnet publish /p:Configuration=${{matrix.configuration}} /p:PublishProfile=${{env.PROFILE_OSX_64}}
         
     # Uploads the compiled Marathon.CLI artifacts for 'osx-x64'.
     - name: Upload Marathon.CLI Artifacts for macOS
