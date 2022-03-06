@@ -69,7 +69,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Marathon-${{matrix.configuration}}
-        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\
+        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\publish\
         
     # Uploads the compiled Marathon.CLI artifacts for 'win-x86'.
     - name: Upload Marathon.CLI Artifacts for Windows (x86)
