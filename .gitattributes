@@ -1,2 +1,2 @@
-* linguist-vendored
-.github/workflows/* linguist-vendored
+*.ps1 linguist-vendored
+*.sh linguist-vendored
