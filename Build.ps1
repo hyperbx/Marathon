@@ -1,5 +1,6 @@
 param
 (
+    [Switch]$Archive,
     [Switch]$BuildAll,
     [String]$CommitID,
     [String]$Configuration = "Release",
@@ -10,7 +11,9 @@ param
     [String]$Version
 )
 
+$work = $pwd
 $profiles = @("win-x86", "win-x64", "linux-x64", "osx-x64")
+$buildPaths = @("Marathon.CLI\bin\Publish\")
 $versionPatcher = ".github\workflows\VersionPatcher.ps1"
 
 if ($Help)
@@ -20,6 +23,7 @@ if ($Help)
     echo "All your platforms are belong to us."
     echo ""
     echo "Usage:"
+    echo "-Archive - archives the build artifacts."
     echo "-BuildAll - build Marathon with all available profiles."
     echo "-CommitID [id] - set the commit ID to use from GitHub for the version number."
     echo "-Configuration [name] - build Marathon with a specific configuration."
@@ -65,6 +69,41 @@ function Build([String]$configuration, [String]$profile)
 
     # Restore default version number.
     PatchVersionInformation "" $false "1.0.0"
+
+    if ($Archive)
+    {
+        foreach ($buildPath in $buildPaths)
+        {
+            foreach ($artifact in [System.IO.Directory]::EnumerateDirectories($buildPath))
+            {
+                # Creates a full path to the artifact using the current build path and profile name.
+                $artifactPath = [System.IO.Path]::Combine([System.IO.Directory]::CreateDirectory([System.IO.Path]::Combine($buildPath, "artifacts")).FullName, $buildPath.Split('\')[0] + "-${profile}")
+
+                # We only want to archive the most recent build.
+                if ([System.IO.Path]::GetFileName($artifact) -ne $profile)
+                {
+                    continue
+                }
+
+                # Enter artifact directory.
+                cd $artifact
+
+                if ($profile.StartsWith("win"))
+                {
+                    # Use *.zip files for Windows.
+                    Compress-Archive -Force * "${artifactPath}.zip"
+                }
+                else
+                {
+                    # Use *.tar.gz files for Linux and macOS.
+                    tar -c -z -f "${artifactPath}.tar.gz" *
+                }
+
+                # Return to working directory.
+                cd $work
+            }
+        }
+    }
 }
 
 if (![System.String]::IsNullOrEmpty($Profile))
