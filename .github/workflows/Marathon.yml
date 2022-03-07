@@ -52,17 +52,11 @@ jobs:
       run: |
         $version = "${{env.VERSION}}." + (45 + ${{github.run_number}})
         echo "VERSION_RESOLVE=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-
-    # Patches the assembly information stored in 'Marathon.csproj' and 'Marathon.CLI.csproj' to use the current workflow version.
-    - name: Patch Version Information
-      run: |
-        ./.github/workflows/VersionPatcher.ps1 -ProjectPath "${{env.MARATHON_PROJECT}}" -Version ${{env.VERSION_RESOLVE}} -CommitID ${{github.sha}}
-        ./.github/workflows/VersionPatcher.ps1 -ProjectPath "${{env.MARATHON_CLI_PROJECT}}" -Version ${{env.VERSION_RESOLVE}} -CommitID ${{github.sha}}
-
+        
     # Builds Marathon using the PowerShell script.
     - name: Build Marathon
       working-directory: ${{github.workspace}}
-      run: ./Build.ps1 -BuildAll -Clean -Configuration ${{matrix.configuration}}
+      run: ./Build.ps1 -BuildAll -Clean -CommitID ${{github.sha}} -Configuration ${{matrix.configuration}} -Version ${{env.VERSION_RESOLVE}}
       
     # Uploads the compiled Marathon artifacts.
     - name: Upload Marathon Artifacts

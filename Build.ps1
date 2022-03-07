@@ -1,13 +1,17 @@
 param
 (
-    [Alias("a")][Switch]$BuildAll,
-    [Alias("c")][String]$Configuration = "Release",
-    [Alias("d")][Switch]$Clean,
-    [Alias("h")][Switch]$Help,
-    [Alias("p")][String]$Profile
+    [Switch]$BuildAll,
+    [String]$CommitID,
+    [String]$Configuration = "Release",
+    [Switch]$Clean,
+    [Switch]$Help,
+    [String]$Profile,
+    [Switch]$UseFullCommitID,
+    [String]$Version
 )
 
-$profileData = ".profiles"
+$profiles = @("win-x86", "win-x64", "linux-x64", "osx-x64")
+$versionPatcher = ".github\workflows\VersionPatcher.ps1"
 
 if ($Help)
 {
@@ -16,11 +20,14 @@ if ($Help)
     echo "All your platforms are belong to us."
     echo ""
     echo "Usage:"
-    echo "-a|-BuildAll - build Marathon with all available profiles."
-    echo "-c|-Configuration [name] - build Marathon with a specific configuration."
-    echo "-d|-Clean - cleans the solution before building Marathon."
-    echo "-h|-Help - display help."
-    echo "-p|-Profile [name] - build Marathon with a specific profile."
+    echo "-BuildAll - build Marathon with all available profiles."
+    echo "-CommitID [id] - set the commit ID to use from GitHub for the version number."
+    echo "-Configuration [name] - build Marathon with a specific configuration."
+    echo "-Clean - cleans the solution before building Marathon."
+    echo "-Help - display help."
+    echo "-Profile [name] - build Marathon with a specific profile."
+    echo "-UseFullCommitID - use the full 40 character commit ID for the version number."
+    echo "-Version [major].[minor].[revision] - set the version number for this build of Marathon."
     exit
 }
 
@@ -37,15 +44,38 @@ if ($Clean)
     dotnet clean
 }
 
+function PatchVersionInformation([String]$commitID, [Boolean]$useFullCommitID, [String]$version)
+{
+    # Patch the version number for all projects.
+    if (![System.String]::IsNullOrEmpty($version))
+    {
+        foreach ($project in [System.IO.Directory]::EnumerateFiles(".", "*.csproj", [System.IO.SearchOption]::AllDirectories))
+        {
+            & "${versionPatcher}" -CommitID $commitID -ProjectPath "${project}" -Version $version
+        }
+    }
+}
+
+function Build([String]$configuration, [String]$profile)
+{
+    # Patch version number before building.
+    PatchVersionInformation $CommitID $UseFullCommitID $Version
+
+    dotnet publish /p:Configuration="${configuration}" /p:PublishProfile="${profile}"
+
+    # Restore default version number.
+    PatchVersionInformation "" $false "1.0.0"
+}
+
 if (![System.String]::IsNullOrEmpty($Profile))
 {
-    if ([System.Array]::IndexOf([System.IO.File]::ReadAllLines($profileData), $Profile) -eq -1)
+    if ([System.Array]::IndexOf($profiles, $Profile) -eq -1)
     {
-        echo "No such profile exists: $Profile"
+        echo "No such profile exists: ${Profile}"
         exit
     }
 
-    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="$Profile"
+    Build $Configuration $Profile
     
     if (!$BuildAll)
     {
@@ -55,19 +85,19 @@ if (![System.String]::IsNullOrEmpty($Profile))
 
 if ($BuildAll)
 {
-    foreach ($line in [System.IO.File]::ReadAllLines($profileData))
+    foreach ($currentProfile in $profiles)
     {
         # Skip profile if it was already specified and built.
-        if ($line -eq $Profile)
+        if ($currentProfile -eq $Profile)
         {
             continue
         }
         
-        dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="$line"
+        Build $Configuration $currentProfile
     }
 }
 else
 {
-    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="win-x86"
-    dotnet publish /p:Configuration="$Configuration" /p:PublishProfile="win-x64"
+    Build $Configuration "win-x86"
+    Build $Configuration "win-x64"
 }

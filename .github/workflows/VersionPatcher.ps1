@@ -1,9 +1,9 @@
 param
 (
-    [String]$ProjectPath,
-    [String]$Version,
     [String]$CommitID,
-    [Switch]$UseFullCommitID
+    [String]$ProjectPath,
+    [Switch]$UseFullCommitID,
+    [String]$Version
 )
 
 $project = [System.IO.File]::ReadAllLines($ProjectPath)
@@ -24,7 +24,14 @@ foreach ($line in $project)
     }
     elseif ($lineSplit[0].Contains("<InformationalVersion"))
     {
-        $lineSplit[1] = "${Version}-${CommitID}</InformationalVersion"
+        if ([System.String]::IsNullOrEmpty($CommitID))
+        {
+            $lineSplit[1] = "${Version}</InformationalVersion"
+        }
+        else
+        {
+            $lineSplit[1] = "${Version}-${CommitID}</InformationalVersion"
+        }
     }
 
     $project[$i] = [System.String]::Join(">", $lineSplit)
