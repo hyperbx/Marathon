@@ -126,7 +126,7 @@ jobs:
     # Patches the assembly information stored in 'Marathon.csproj' and 'Marathon.CLI.csproj' to use the current workflow version.
     - name: Patch Version Information
       run: |
-        ./.github/workflows/VersionPatcher.ps1 -ProjectPath "${{env.MARATHON_PROJECT}}" -Version ${{env.VERSION_RESOLVE}} -CommitID ${{github.sha}}
+        ./.github/workflows/Patch-Version.ps1 -ProjectPath "${{env.MARATHON_PROJECT}}" -Version ${{env.VERSION_RESOLVE}} -CommitID ${{github.sha}}
 
     # Builds Marathon and packs it into a NuGet package.
     - name: Create NuGet Package

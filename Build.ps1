@@ -14,7 +14,7 @@ param
 $work = $pwd
 $profiles = @("win-x86", "win-x64", "linux-x64", "osx-x64")
 $buildPaths = @("Marathon.CLI\bin\Publish\")
-$versionPatcher = ".github\workflows\VersionPatcher.ps1"
+$patchVersion = ".github\workflows\Patch-Version.ps1"
 
 if ($Help)
 {
@@ -43,6 +43,14 @@ if (!(Get-Command -Name dotnet -ErrorAction SilentlyContinue))
     exit
 }
 
+if ([System.String]::IsNullOrEmpty($Version))
+{
+    foreach ($project in [System.IO.Directory]::EnumerateFiles(".", "*.csproj", [System.IO.SearchOption]::AllDirectories))
+    {
+        & "${patchVersion}" -ProjectPath "${project}" -Version "1.0.0"
+    }
+}
+
 if ($Clean)
 {
     dotnet clean
@@ -55,7 +63,7 @@ function PatchVersionInformation([String]$commitID, [Boolean]$useFullCommitID, [
     {
         foreach ($project in [System.IO.Directory]::EnumerateFiles(".", "*.csproj", [System.IO.SearchOption]::AllDirectories))
         {
-            & "${versionPatcher}" -CommitID $commitID -ProjectPath "${project}" -Version $version
+            & "${patchVersion}" -CommitID $commitID -ProjectPath "${project}" -Version $version
         }
     }
 }
