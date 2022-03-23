@@ -83,6 +83,13 @@ namespace Marathon.Formats.Archive
                 reader.JumpTo(stringTableOffset + u8Entry.NameOffset);
                 string name = reader.ReadNullTerminatedString();
 
+                if (!isRoot)
+                {
+                    // Skip this entry.
+                    if (string.IsNullOrEmpty(name))
+                        return u8Entry.Length;
+                }
+
                 switch (u8Entry.Type)
                 {
                     case U8DataType.Directory:
