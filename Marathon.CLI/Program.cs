@@ -6,6 +6,7 @@ using Marathon.Formats.Package;
 using Marathon.Formats.Particle;
 using Marathon.Formats.Placement;
 using Marathon.Formats.Save;
+using Marathon.Formats.Script;
 using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;

@@ -1,4 +1,4 @@
-﻿namespace Marathon.Formats.Script.Lua
+﻿namespace Marathon.Formats.Script
 {
     public enum IndentationType
     {
