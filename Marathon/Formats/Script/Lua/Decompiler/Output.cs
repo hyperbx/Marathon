@@ -2,11 +2,18 @@
 {
     public class Output
     {
+        private IndentationType _indentationType;
         private IOutputProvider _out;
         private int _indentationLevel = 0;
         private int _position = 0;
 
         public Output() => new OutputProviderAnonymousInnerClass(this);
+
+        public Output(IOutputProvider @out, IndentationType indentationType = IndentationType.Spaces)
+        {
+            _out = @out;
+            _indentationType = indentationType;
+        }
 
         private class OutputProviderAnonymousInnerClass : IOutputProvider
         {
@@ -21,13 +28,11 @@
                 => Console.WriteLine();
         }
 
-        public Output(IOutputProvider @out) => _out = @out;
-
         public void Indent()
-            => _indentationLevel += 2;
+            => _indentationLevel += _indentationType == IndentationType.Spaces ? 2 : 1;
 
         public void Dedent()
-            => _indentationLevel -= 2;
+            => _indentationLevel -= _indentationType == IndentationType.Spaces ? 2 : 1;
 
         public int GetIndentationLevel() => _indentationLevel;
 
@@ -41,7 +46,7 @@
             {
                 for (int i = _indentationLevel; i != 0; i--)
                 {
-                    _out.Write(" ");
+                    _out.Write(_indentationType == IndentationType.Spaces ? " " : "\t");
                     _position++;
                 }
             }

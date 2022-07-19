@@ -9,13 +9,16 @@ namespace Marathon.Formats.Script.Lua
     /// </summary>
     public class LuaBinary : FileBase
     {
+        public IndentationType IndentationType { get; set; } = IndentationType.Spaces;
+
         public LuaBinary() { }
 
         public LuaBinary(string file, bool decompile = false)
         {
             switch (Path.GetExtension(file))
             {
-                default:
+                case ".lua":
+                case ".lub":
                 {
                     Load(file);
 
@@ -57,7 +60,7 @@ namespace Marathon.Formats.Script.Lua
                 unlub.Decompile();
 
                 var provider = new OutputProviderString();
-                unlub.Write(new Output(provider));
+                unlub.Write(new Output(provider, IndentationType));
 
                 DecompileCache = provider.ToString();
             }
@@ -71,7 +74,7 @@ namespace Marathon.Formats.Script.Lua
             unlub.Decompile();
 
             using var provider = new OutputProviderStream(stream);
-            unlub.Write(new Output(provider));
+            unlub.Write(new Output(provider, IndentationType));
         }
 
         private class OutputProviderString : IOutputProvider

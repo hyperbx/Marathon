@@ -20,6 +20,8 @@ namespace Marathon.CLI
 {
     class Program
     {
+        internal static IndentationType _indentationType { get; set; } = IndentationType.Spaces;
+
         internal static CompressionLevel _compressionLevel { get; set; } = CompressionLevel.Optimal;
 
         static void Main(string[] args)
@@ -48,6 +50,18 @@ namespace Marathon.CLI
             {
                 foreach (string arg in args)
                 {
+                    // Set indentation type.
+                    switch (arg)
+                    {
+                        case "--indent-spaces":
+                            _indentationType = IndentationType.Spaces;
+                            break;
+
+                        case "--indent-tabs":
+                            _indentationType = IndentationType.Tabs;
+                            break;
+                    }
+
                     // Set compression level.
                     switch (arg)
                     {
@@ -83,7 +97,9 @@ namespace Marathon.CLI
                                 break;
 
                             case ".lub":
-                                LuaBinary lub = new(arg, true);
+                                LuaBinary lub = new(arg);
+                                lub.IndentationType = _indentationType;
+                                lub.Save();
                                 break;
                         }
 
