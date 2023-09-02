@@ -45,7 +45,7 @@
         {
             public SonicNextEpisode[] Episodes { get; set; } = new SonicNextEpisode[EpisodeCount];
 
-            public Dictionary<SonicNextFlags, bool> GlobalFlags { get; set; } = new();
+            public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = new();
 
             public SonicNextTrial[] Trials { get; set; } = new SonicNextTrial[TrialCount];
 
@@ -74,7 +74,7 @@
 
             // Read global flags.
             for (int i = 0; i <= GlobalFlagCount; i++)
-                Data.GlobalFlags.Add((SonicNextFlags)i, reader.ReadBoolean(4));
+                Data.GlobalFlags.Add((SonicNextFlags)i, reader.ReadInt32());
 
             for (int i = 0; i < EpisodeCount; i++)
             {
