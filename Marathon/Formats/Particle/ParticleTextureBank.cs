@@ -67,10 +67,10 @@
             {
                 ParticleTexture particle = new()
                 {
-                    Name = reader.ReadNullPaddedString(0x20),
+                    Name     = reader.ReadNullPaddedString(0x20),
                     FilePath = reader.ReadNullPaddedString(0x80),
-                    UnknownUInt32_1 = reader.ReadUInt32(),
-                    UnknownUInt32_2 = reader.ReadUInt32()
+                    Width    = reader.ReadUInt32(),
+                    Height   = reader.ReadUInt32()
                 };
 
                 // Save particle texture entry into the ParticleTextures list.
@@ -96,8 +96,8 @@
             {
                 writer.WriteNullPaddedString(Data.ParticleTextures[i].Name, 0x20);
                 writer.WriteNullPaddedString(Data.ParticleTextures[i].FilePath, 0x80);
-                writer.Write(Data.ParticleTextures[i].UnknownUInt32_1);
-                writer.Write(Data.ParticleTextures[i].UnknownUInt32_2);
+                writer.Write(Data.ParticleTextures[i].Width);
+                writer.Write(Data.ParticleTextures[i].Height);
             }
 
             // Write the footer.
@@ -117,15 +117,9 @@
         /// </summary>
         public string FilePath { get; set; }
 
-        /// <summary>
-        /// Unknown, always the same as UnknownUInt32_2.
-        /// </summary>
-        public uint UnknownUInt32_1 { get; set; }
+        public uint Width { get; set; }
 
-        /// <summary>
-        /// Unknown, always the same as UnknownUInt32_1.
-        /// </summary>
-        public uint UnknownUInt32_2 { get; set; }
+        public uint Height { get; set; }
 
         public override string ToString() => Name;
     }

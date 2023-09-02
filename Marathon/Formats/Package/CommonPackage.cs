@@ -66,13 +66,13 @@
                 uint luaScriptOffset           = reader.ReadUInt32();
                 @object.UnknownUInt32_1        = reader.ReadUInt32();
                 uint unknownString1Offset      = reader.ReadUInt32();
-                @object.Collision              = reader.ReadUInt32();
-                @object.UnknownUInt32_2        = reader.ReadUInt32();
+                @object.CollisionType          = reader.ReadUInt32();
+                @object.CollisionFlags         = reader.ReadUInt32();
                 @object.Rigidity               = reader.ReadUInt32();
                 @object.EnemyDamage            = reader.ReadUInt32();
                 @object.UnknownFloat_1         = reader.ReadSingle();
                 @object.Potency                = reader.ReadUInt32();
-                @object.UnknownUInt32_3        = reader.ReadUInt32();
+                @object.TargetFlags            = reader.ReadUInt32();
                 @object.Health                 = reader.ReadUInt32();
                 @object.DebrisLifetimeBase     = reader.ReadSingle();
                 @object.DebrisLifetimeModifier = reader.ReadSingle();
@@ -126,13 +126,13 @@
                 writer.AddString($"object{i}LuaScript", Objects[i].LuaScript);
                 writer.Write(Objects[i].UnknownUInt32_1);
                 writer.AddString($"object{i}UnknownString1", Objects[i].UnknownString_1);
-                writer.Write(Objects[i].Collision);
-                writer.Write(Objects[i].UnknownUInt32_2);
+                writer.Write(Objects[i].CollisionType);
+                writer.Write(Objects[i].CollisionFlags);
                 writer.Write(Objects[i].Rigidity);
                 writer.Write(Objects[i].EnemyDamage);
                 writer.Write(Objects[i].UnknownFloat_1);
                 writer.Write(Objects[i].Potency);
-                writer.Write(Objects[i].UnknownUInt32_3);
+                writer.Write(Objects[i].TargetFlags);
                 writer.Write(Objects[i].Health);
                 writer.Write(Objects[i].DebrisLifetimeBase);
                 writer.Write(Objects[i].DebrisLifetimeModifier);
@@ -195,14 +195,14 @@
         public string UnknownString_1 { get; set; }
 
         /// <summary>
-        /// This object's global collision flag.
+        /// The type of collision this object uses globally for the sound effects and behaviour.
         /// </summary>
-        public uint Collision { get; set; }
+        public uint CollisionType { get; set; }
 
         /// <summary>
-        /// TODO: Unknown - seems to screw with this object's physics and the homing attack?
+        /// The flags that determine how the player interacts with the object.
         /// </summary>
-        public uint UnknownUInt32_2 { get; set; }
+        public uint CollisionFlags { get; set; }
 
         /// <summary>
         /// The rigidity of the object.
@@ -229,9 +229,10 @@
         public uint Potency { get; set; }
 
         /// <summary>
-        /// TODO: Unknown.
+        /// The flags that determine how the player targets the object.
+        /// <para>15 = Homing Attack</para>
         /// </summary>
-        public uint UnknownUInt32_3 { get; set; }
+        public uint TargetFlags { get; set; }
 
         /// <summary>
         /// The amount of health this object has.

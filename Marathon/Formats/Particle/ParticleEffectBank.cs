@@ -79,23 +79,23 @@
                 {
                     ParticleEffectAttributes peAttributes = new();
 
-                    peAttributes.UnknownUInt32_1 = reader.ReadUInt32();
-                    peAttributes.Lifetime        = reader.ReadSingle();
-                    peAttributes.Density         = reader.ReadSingle();
-                    peAttributes.UnknownSingle_1 = reader.ReadSingle();
-                    peAttributes.Duration        = reader.ReadSingle();
-                    peAttributes.XSpeed          = reader.ReadSingle();
-                    peAttributes.YSpeed          = reader.ReadSingle();
-                    peAttributes.ZSpeed          = reader.ReadSingle();
-                    peAttributes.UnknownSingle_2 = reader.ReadSingle();
-                    peAttributes.UnknownSingle_3 = reader.ReadSingle();
-                    peAttributes.Scale           = reader.ReadSingle();
-                    peAttributes.UnknownSingle_4 = reader.ReadSingle();
-                    peAttributes.UnknownSingle_5 = reader.ReadSingle();
-                    peAttributes.UnknownSingle_6 = reader.ReadSingle();
-                    peAttributes.UnknownUInt32_2 = reader.ReadUInt32();
-                    peAttributes.UnknownUInt32_3 = reader.ReadUInt32();
-                    peAttributes.UnknownUInt32_4 = reader.ReadUInt32();
+                    peAttributes.UnknownUInt32_1   = reader.ReadUInt32();
+                    peAttributes.Lifetime          = reader.ReadSingle();
+                    peAttributes.Density           = reader.ReadSingle();
+                    peAttributes.UnknownSingle_1   = reader.ReadSingle();
+                    peAttributes.Duration          = reader.ReadSingle();
+                    peAttributes.XSpeed            = reader.ReadSingle();
+                    peAttributes.YSpeed            = reader.ReadSingle();
+                    peAttributes.ZSpeed            = reader.ReadSingle();
+                    peAttributes.YLifetime         = reader.ReadSingle();
+                    peAttributes.YMagnitude        = reader.ReadSingle();
+                    peAttributes.Scale             = reader.ReadSingle();
+                    peAttributes.RandomSpawnRadius = reader.ReadSingle();
+                    peAttributes.UnknownSingle_5   = reader.ReadSingle();
+                    peAttributes.UnknownSingle_6   = reader.ReadSingle();
+                    peAttributes.UnknownUInt32_2   = reader.ReadUInt32();
+                    peAttributes.UnknownUInt32_3   = reader.ReadUInt32();
+                    peAttributes.UnknownUInt32_4   = reader.ReadUInt32();
 
                     peAttributes.Shader       = reader.ReadNullPaddedString(0x20);
                     peAttributes.TextureBank1 = reader.ReadNullPaddedString(0x20);
@@ -169,10 +169,10 @@
                     writer.Write(currentEffect.XSpeed);
                     writer.Write(currentEffect.YSpeed);
                     writer.Write(currentEffect.ZSpeed);
-                    writer.Write(currentEffect.UnknownSingle_2);
-                    writer.Write(currentEffect.UnknownSingle_3);
+                    writer.Write(currentEffect.YLifetime);
+                    writer.Write(currentEffect.YMagnitude);
                     writer.Write(currentEffect.Scale);
-                    writer.Write(currentEffect.UnknownSingle_4);
+                    writer.Write(currentEffect.RandomSpawnRadius);
                     writer.Write(currentEffect.UnknownSingle_5);
                     writer.Write(currentEffect.UnknownSingle_6);
                     writer.Write(currentEffect.UnknownUInt32_2);
@@ -272,14 +272,14 @@
         public float ZSpeed { get; set; }
 
         /// <summary>
-        /// Affects something to do with movement on the Y Axis? (Particle Spread like the one below?)
+        /// Determines the lifetime of particles on the Y axis.
         /// </summary>
-        public float UnknownSingle_2 { get; set; }
+        public float YLifetime { get; set; }
 
         /// <summary>
-        /// Something to do with the effect's spread on the Z Axis?
+        /// Determines the magnitude of the particles on the Y axis.
         /// </summary>
-        public float UnknownSingle_3 { get; set; }
+        public float YMagnitude { get; set; }
 
         /// <summary>
         /// How large this effect is? Might be affected by the flags?
@@ -287,9 +287,9 @@
         public float Scale { get; set; }
 
         /// <summary>
-        /// Something to do with randomness (radius?)
+        /// The radius in which sub-particles can randomly spawn inside.
         /// </summary>
-        public float UnknownSingle_4 { get; set; }
+        public float RandomSpawnRadius { get; set; }
 
         public float UnknownSingle_5 { get; set; }
 

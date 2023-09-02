@@ -64,7 +64,7 @@
                 scriptParameter.FoundRangeOut     = reader.ReadSingle();
                 scriptParameter.UnknownSingle4    = reader.ReadSingle();
                 scriptParameter.UnknownSingle5    = reader.ReadSingle();
-                scriptParameter.UnknownSingle6    = reader.ReadSingle();
+                scriptParameter.MovementSpeed     = reader.ReadSingle();
                 scriptParameter.UnknownSingle7    = reader.ReadSingle();
                 scriptParameter.UnknownSingle8    = reader.ReadSingle();
                 scriptParameter.RotationSpeed     = reader.ReadSingle();
@@ -104,7 +104,7 @@
                 writer.Write(parameter.FoundRangeOut);
                 writer.Write(parameter.UnknownSingle4);
                 writer.Write(parameter.UnknownSingle5);
-                writer.Write(parameter.UnknownSingle6);
+                writer.Write(parameter.MovementSpeed);
                 writer.Write(parameter.UnknownSingle7);
                 writer.Write(parameter.UnknownSingle8);
                 writer.Write(parameter.RotationSpeed);
@@ -166,7 +166,10 @@
 
         public float UnknownSingle5 { get; set; }
 
-        public float UnknownSingle6 { get; set; }
+        /// <summary>
+        /// The speed the enemies move at when roam searching for the player.
+        /// </summary>
+        public float MovementSpeed { get; set; }
 
         public float UnknownSingle7 { get; set; }
 
