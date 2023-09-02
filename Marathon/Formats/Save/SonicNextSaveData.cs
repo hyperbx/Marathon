@@ -139,7 +139,7 @@
 
             // Write global flags.
             for (int i = 0; i <= GlobalFlagCount; i++)
-                writer.WriteBoolean32(Data.GlobalFlags[(SonicNextFlags)i]);
+                writer.Write(Data.GlobalFlags[(SonicNextFlags)i]);
 
             for (int i = 0; i < EpisodeCount; i++)
             {
