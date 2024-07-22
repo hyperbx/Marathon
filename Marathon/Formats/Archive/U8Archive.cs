@@ -132,6 +132,33 @@ namespace Marathon.Formats.Archive
                             FileReader = reader
                         };
 
+                        // Set up a list of strings to get this file's path, adding this file's name.
+                        List<string> path = new() { name };
+
+                        // Set up a variable to determine the full path, using this file's parent.
+                        IArchiveData pathSequence = entries;
+
+                        // Loop until we hit an entry without a parent.
+                        while (pathSequence.Parent != null)
+                        {
+                            // Add this path's name to the list.
+                            path.Add(pathSequence.Name);
+
+                            // Replace this path with its parent.
+                            pathSequence = pathSequence.Parent;
+                        }
+
+                        // Reverse the list of strings to get the proper order.
+                        path.Reverse();
+
+                        // Loop through and remove empty strings from the path.
+                        for (int pathIndex = path.Count - 1; pathIndex >= 0; pathIndex--)
+                            if (path[pathIndex] == "")
+                                path.RemoveAt(pathIndex);
+
+                        // Set this file's path.
+                        file.Path = string.Join('\\', path);
+
                         // Decompress file if requested.
                         if (ReadMode == ReadMode.CopyToMemory)
                             file.Decompress();
