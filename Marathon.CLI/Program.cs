@@ -81,8 +81,9 @@ namespace Marathon.CLI
 
                     if (Directory.Exists(arg))
                     {
-                        U8Archive arc = new(arg, true, _compressionLevel);
-                        arc.Save(StringHelper.ReplaceFilename(arg, Path.GetFileName(arg) + arc.Extension));
+                        U8Archive arc = new();
+                        arc.Import(arg);
+                        arc.Save($@"{arg}.arc", true, _compressionLevel);
                     }
 
                     if (File.Exists(arg))
@@ -93,7 +94,7 @@ namespace Marathon.CLI
                         switch (Path.GetExtension(arg))
                         {
                             case ".arc":
-                                U8Archive arc = new(arg, IO.ReadMode.IndexOnly);
+                                U8Archive arc = new(arg);
                                 arc.Extract(Path.Combine(Path.GetDirectoryName(arg), Path.GetFileNameWithoutExtension(arg)));
                                 break;
 

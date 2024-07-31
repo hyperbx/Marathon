@@ -1,771 +1,553 @@
-﻿using Marathon.Helpers;
-using Marathon.IO.Interfaces;
-
-namespace Marathon.Formats.Archive
+﻿namespace Marathon.Formats.Archive
 {
-    public class U8Archive : FileBase, IArchive
+    public class U8Archive : FileBase
     {
-        public U8Archive() : base(true) { }
-
-        public U8Archive(string file, ReadMode readMode = ReadMode.IndexOnly) : base(file, readMode: readMode, leaveOpen: true) { }
-
-        public U8Archive(string path, bool includeSubdirectories = false, CompressionLevel compressionLevel = CompressionLevel.Optimal) : base(true)
+        // Generic VS stuff to allow creating an object that instantly loads a file.
+        public U8Archive() { }
+        public U8Archive(string filepath, bool sonic06 = true, bool extract = false)
         {
-            Root.Data = GetFilesFromDirectory(path, includeSubdirectories);
-            CompressionLevel = compressionLevel;
+            Load(filepath, sonic06);
+
+            if (extract)
+                Extract($@"{Path.GetDirectoryName(filepath)}\{Path.GetFileNameWithoutExtension(filepath)}");
         }
 
-        IArchiveDirectory IArchive.Root => Root;
-
-        public U8ArchiveDirectory Root { get; private set; } = new U8ArchiveDirectory();
-
-        public CompressionLevel CompressionLevel { get; set; }
-
-        public override bool LeaveOpen { get; set; } = true;
-
-        public override object Signature { get; } = 0x55AA382D;
-
-        public override string Extension { get; } = ".arc";
-
-        public override void Load(Stream stream)
+        // Classes for this format.
+        public class FileNode
         {
-            BinaryReaderEx reader = new(stream, true);
+            /// <summary>
+            /// The name of this node.
+            /// </summary>
+            public string Name { get; set; } = "";
 
-            // Read the signature.
-            reader.ReadSignature((uint)(int)Signature);
+            /// <summary>
+            /// The bytes that make up this node.
+            /// </summary>
+            public byte[] Data { get; set; } = Array.Empty<byte>();
 
-            // Size of each entry in the table.
-            uint entrySize = 16;
-
-            // Offset to the entry table.
-            uint entriesOffset = reader.ReadUInt32();
-
-            // Length of the entry table.
-            uint entriesLength = reader.ReadUInt32();
-
-            // Offset to the data for the first file.
-            uint dataOffset = reader.ReadUInt32();
-
-            // Read U8 root entry.
-            reader.JumpTo(entriesOffset);
-            U8ArchiveFile root = new(reader);
-
-            // Compute string table offset.
-            uint stringTableOffset = entriesOffset + (root.Length * entrySize);
-
-            // Create U8 entries list and add the root entry to it.
-            var u8Entries = new U8ArchiveFile[root.Length];
-            u8Entries[0] = root;
-
-            // Parse U8 child entries.
-            for (uint i = 1; i < root.Length; ++i)
-                u8Entries[i] = new U8ArchiveFile(reader);
-
-            // Parse U8 entries into generic archive data.
-            ParseEntries
-            (
-                0,
-
-                new U8ArchiveDirectory()
-                {
-                    // Use archive data list for recursive.
-                    Data = Root.Data
-                },
-
-                true
-            );
-
-            uint ParseEntries(uint u8EntryIndex, U8ArchiveDirectory entries, bool isRoot = false)
-            {
-                ref U8ArchiveFile u8Entry = ref u8Entries[u8EntryIndex];
-
-                // Read entry name.
-                reader.JumpTo(stringTableOffset + u8Entry.NameOffset);
-                string name = reader.ReadNullTerminatedString();
-
-                if (!isRoot)
-                {
-                    // Skip this entry.
-                    if (string.IsNullOrEmpty(name))
-                        return u8Entry.Length;
-                }
-
-                switch (u8Entry.Type)
-                {
-                    case U8DataType.Directory:
-                    {
-                        var directory = new U8ArchiveDirectory
-                        {
-                            Name = name,
-                            Parent = entries
-                        };
-
-                        // Add directory to the current entries.
-                        entries.Data.Add(directory);
-
-                        // Set root directory.
-                        if (isRoot)
-                            Root = directory;
-
-                        // Use current directory for entry list.
-                        entries = directory;
-
-                        uint u8ChildIndex = ++u8EntryIndex;
-
-                        // Parse current directory's child entries.
-                        while (u8ChildIndex < u8Entry.Length)
-                            u8ChildIndex = ParseEntries(u8ChildIndex, entries);
-
-                        // Return index of the next entry.
-                        return u8Entry.Length;
-                    }
-
-                    case U8DataType.File:
-                    {
-                        var file = new U8ArchiveFile()
-                        {
-                            Name = name,
-                            Parent = entries,
-                            Offset = u8Entry.Offset,
-                            Length = u8Entry.Length,
-                            UncompressedSize = u8Entry.UncompressedSize,
-                            FileReader = reader
-                        };
-
-                        // Set up a list of strings to get this file's path, adding this file's name.
-                        List<string> path = new() { name };
-
-                        // Set up a variable to determine the full path, using this file's parent.
-                        IArchiveData pathSequence = entries;
-
-                        // Loop until we hit an entry without a parent.
-                        while (pathSequence.Parent != null)
-                        {
-                            // Add this path's name to the list.
-                            path.Add(pathSequence.Name);
-
-                            // Replace this path with its parent.
-                            pathSequence = pathSequence.Parent;
-                        }
-
-                        // Reverse the list of strings to get the proper order.
-                        path.Reverse();
-
-                        // Loop through and remove empty strings from the path.
-                        for (int pathIndex = path.Count - 1; pathIndex >= 0; pathIndex--)
-                            if (path[pathIndex] == "")
-                                path.RemoveAt(pathIndex);
-
-                        // Set this file's path.
-                        file.Path = string.Join('\\', path);
-
-                        // Decompress file if requested.
-                        if (ReadMode == ReadMode.CopyToMemory)
-                            file.Decompress();
-
-                        // Add file to the current entries.
-                        entries.Data.Add(file);
-
-                        // Return the index of the next entry.
-                        return ++u8EntryIndex;
-                    }
-
-                    default:
-                        throw new NotSupportedException($"Encountered a U8 entry with an unsupported type ({(uint)u8Entry.Type:X}).");
-                }
-            }
+            public override string ToString() => Name;
         }
 
-        public override void Save(Stream stream)
-        {
-            /* TODO: Sort data entries before writing!! This is very important actually
-               since iirc the game relies on sorting to find U8 entries more quickly.
-               Not doing this may result in game crashes in some cases!
-               Search for "sort" here for more info: http://wiki.tockdom.com/wiki/U8_(File_Format) */
+        // Actual data presented to the end user.
+        public List<FileNode> Data = new();
 
-            // Create ExtendedBinaryWriter.
-            var writer = new BinaryWriterEx(stream, true);
+        // Internal value used for extraction.
+        private static bool isSonic06 = true;
 
-            // Write archive signature.
-            writer.Write((uint)(int)Signature);
-
-            // Store the offset locations for later when we fill out the entries.
-            writer.AddOffset("EntriesOffset");
-            writer.AddOffset("EntriesLength");
-            writer.AddOffset("DataOffset");
-
-            /* Write unknown values.
-             
-               We have to set at least one of these to something non-zero for compatibillity
-               with HedgeArcPack, which unfortunately has no other real way of telling if a
-               given archive is a standard U8 archive, or a Zlib U8 archive.
-
-               There's nothing special about these constants; they can be anything as long as at
-               least one of them is non-zero. I just picked these because ArcTool uses them too.
-
-               TODO: Figure out what these values are.
-               The third uint here seems like it's in little endian?? */
-            if (CompressionLevel != CompressionLevel.NoCompression)
-            {
-                writer.Write(0xE4F91200U);
-                writer.Write(0x00000402U);
-                writer.WriteNulls(8);
-            }
-            else
-            {
-                writer.WriteNulls(8);
-                writer.Write(0xD03D6D01U);
-                writer.Write(0x00006301U);
-            }
-
-            // Fill in the offset for where the table starts.
-            writer.FillOffset("EntriesOffset");
-
-            uint globalEntryIndex = 0, strTableLen = 0;
-            bool hasData = false;
-
-            // Write entries recursively.
-            WriteEntries(Root);
-
-            // Write entry names recursively.
-            WriteEntryNames(Root);
-
-            // Fill-in EntriesLength.
-            writer.FillOffset("EntriesLength", (uint)stream.Position - 0x20);
-
-            // Align the file to an offset divisible by 32.
-            if (hasData)
-                writer.FixPadding(32);
-
-            // Fill-in DataOffset.
-            writer.FillOffset("DataOffset");
-
-            if (hasData)
-            {
-                globalEntryIndex = 0;
-
-                // Write entry data recursively.
-                WriteEntryData(Root);
-            }
-
-            void WriteEntries(IArchiveData dataEntry, uint parentIndex = 0)
-            {
-                // Get U8 entry type.
-                var u8EntryType = dataEntry.IsDirectory() ? U8DataType.Directory : U8DataType.File;
-
-                // Write U8 entry flags.
-                writer.Write(((uint)u8EntryType << 24) | strTableLen);
-
-                // Increase string table length.
-                strTableLen += string.IsNullOrEmpty(dataEntry.Name) ? 1 : (uint)Encoding.UTF8.GetByteCount(dataEntry.Name) + 1;
-
-                if (dataEntry.IsDirectory())
-                {
-                    var dirEntry = (IArchiveDirectory)dataEntry;
-
-                    if (dirEntry.Parent == null)
-                    {
-                        // Root node has no parent.
-                        writer.WriteNulls(4);
-
-                        // Increase global entry index.
-                        ++globalEntryIndex;
-
-                        // Write the number of nodes in the archive.
-                        writer.Write((uint)Root.GetTotalCount() + 1);
-                    }
-                    else
-                    {
-                        // Write parent index.
-                        writer.Write(parentIndex);
-
-                        // Set parent index to the index of the current directory entry.
-                        parentIndex = globalEntryIndex;
-
-                        // Increase global entry index.
-                        ++globalEntryIndex;
-
-                        // Write next directory index.
-                        writer.Write(globalEntryIndex + (uint)dirEntry.GetTotalCount());
-                    }
-
-                    // TODO: Figure out what this is; it's only present in '06 archives.
-                    writer.WriteNulls(4);
-
-                    // Write directory contents recursively.
-                    foreach (var childEntry in dirEntry)
-                        WriteEntries(childEntry, parentIndex);
-                }
-                else
-                {
-                    var fileEntry = (IArchiveFile)dataEntry;
-
-                    /* Store the locations of the data offset and file compressed
-                       size for later when we write the file's data. */
-                    writer.AddOffset($"Data_{globalEntryIndex}");
-
-                    if (CompressionLevel != CompressionLevel.NoCompression)
-                    {
-                        // Write the file's compressed size.
-                        writer.AddOffset($"CompressedSize_{globalEntryIndex}");
-                    }
-                    else
-                    {
-                        // Write the file's uncompressed size.
-                        writer.Write(fileEntry.UncompressedSize);
-                    }
-
-                    // Write the file's uncompressed size.
-                    writer.AddOffset($"UncompressedSize_{globalEntryIndex}");
-
-                    // Increase global entry index.
-                    ++globalEntryIndex;
-
-                    // Indicate that this archive does, in fact, contain actual data.
-                    hasData = true;
-                }
-            }
-
-            void WriteEntryNames(IArchiveData dataEntry)
-            {
-                // Write entry name.
-                if (!string.IsNullOrEmpty(dataEntry.Name))
-                {
-                    writer.WriteNullTerminatedString(dataEntry.Name);
-                }
-                else
-                {
-                    writer.WriteNull();
-                }
-
-                // Recurse through directory entry contents.
-                if (dataEntry.IsDirectory())
-                {
-                    var dirEntry = (IArchiveDirectory)dataEntry;
-
-                    foreach (var childEntry in dirEntry)
-                        WriteEntryNames(childEntry);
-                }
-            }
-
-            void WriteEntryData(IArchiveData dataEntry)
-            {
-                if (dataEntry.IsDirectory())
-                {
-                    var dirEntry = (IArchiveDirectory)dataEntry;
-
-                    // Increase global entry index.
-                    ++globalEntryIndex;
-
-                    // Write entry data recursively.
-                    foreach (var childEntry in dirEntry)
-                        WriteEntryData(childEntry);
-                }
-                else
-                {
-                    var fileEntry = (U8ArchiveFile)dataEntry;
-
-                    bool dataFilled = false;
-                    if (fileEntry.InputStream != null)
-                    {
-                        fileEntry.Data = new byte[fileEntry.InputStream.Length];
-                        fileEntry.InputStream.Read(fileEntry.Data, 0, fileEntry.Data.Length);
-                        fileEntry.InputStream.Dispose();
-                        fileEntry.InputStream = null;
-                        dataFilled = true;
-                    }
-                    
-                    if (CompressionLevel != CompressionLevel.NoCompression && !fileEntry.RequiresDecompression())
-                    {
-                        Logger.Log($"Compressing {fileEntry.Name}...", Interfaces.LogLevel.Utility, null);
-
-                        // Compress the file's data.
-                        fileEntry.Compress(CompressionLevel);
-                        dataFilled = true;
-                    }
-                    else if (CompressionLevel == CompressionLevel.NoCompression && fileEntry.RequiresDecompression())
-                    {
-                        // Decompress the file's data.
-                        fileEntry.Decompress();
-                        dataFilled = true;
-                    }
-
-                    // Align the file to an offset divisible by 32.
-                    writer.FixPadding(32);
-
-                    // Fill in file data offset.
-                    writer.FillOffset($"Data_{globalEntryIndex}");
-
-                    if (CompressionLevel != CompressionLevel.NoCompression)
-                    {
-                        // Fill in compressed size.
-                        writer.FillOffset($"CompressedSize_{globalEntryIndex}", (uint)(dataFilled ? fileEntry.Data.Length : fileEntry.GetCompressedData().Length));
-
-                        // Fill in uncompressed size.
-                        writer.FillOffset($"UncompressedSize_{globalEntryIndex}", fileEntry.UncompressedSize);
-                    }
-                    else
-                    {
-                        /* Fill in uncompressed size as zero, since the compressed
-                           size is used as the actual length here. */
-                        writer.FillOffset($"UncompressedSize_{globalEntryIndex}", 0);
-                    }
-
-                    // Write the file's data.
-                    writer.Write(dataFilled ? fileEntry.Data : fileEntry.GetCompressedData());
-
-                    // Increase global entry index.
-                    ++globalEntryIndex;
-                }
-            }
-
-            Dispose();
-        }
-
-        public void Extract(string location)
-            => Root.Extract(location);
+        // Internal value used for saving.
+        private static int StringTableLength = 0;
 
         /// <summary>
-        /// Creates an archive structure from a local directory.
+        /// Loads and parses this format's file.
         /// </summary>
-        /// <param name="path">Path to local directory to load.</param>
-        /// <param name="includeSubdirectories">Include subdirectories in iteration.</param>
-        public List<IArchiveData> GetFilesFromDirectory(string path, bool includeSubdirectories = false)
+        /// <param name="filepath">The path to the file to load and parse.</param>
+        /// <param name="sonic06">Whether this is a U8 archive from Sonic '06, which modifies the format to support compression.</param>
+        public void Load(string filepath, bool sonic06 = true)
         {
-            U8ArchiveDirectory dir = new()
-            {
-                Name = Path.GetFileName(path)
-            };
+            // Set the internal value used for extracting.
+            isSonic06 = sonic06;
 
-            foreach (string filePath in Directory.EnumerateFiles(path))
+            // Set up a value to store the node length.
+            uint nodeLength = 0x0C;
+            if (sonic06)
+                nodeLength = 0x10;
+
+            // Set up a list of names and a list of final indices.
+            List<string> names = new();
+            List<uint> finalIndices = new();
+
+            // Set up a string to hold the full filepath of each file.
+            string fullPath = "";
+
+            // Set up Marathon's BinaryReader.
+            BinaryReaderEx reader = new(File.OpenRead(filepath), true);
+
+            // Read the Uª8- signature.
+            reader.ReadSignature(0x55AA382D);
+
+            // Read the offset to the root node.
+            uint firstNodeOffset = reader.ReadUInt32();
+
+            // Read the size of the node table.
+            uint nodeTableSize = reader.ReadUInt32();
+
+            // Read the size of the file table (including the string table).
+            uint fileTableOffset = reader.ReadUInt32();
+
+            // Skip four seemingly useless integers.
+            reader.JumpAhead(0x10);
+
+            // Check that this first node is a directory.
+            if (reader.ReadBoolean() != true)
+                throw new Exception($"First node in U8 archive {filepath} doesn't appear to be a root node?");
+
+            // Check that this first node's string offset is 0.
+            if (reader.ReadUInt24() != 0)
+                throw new Exception($"First node in U8 archive {filepath} doesn't appear to be a root node?");
+
+            // Read this root's parent index???
+            uint rootParent = reader.ReadUInt32();
+
+            // Read the count of nodes in this archive (minus 1, as it includes the root node).
+            uint nodeCount = reader.ReadUInt32() - 1;
+
+            // If this U8 archive is a Sonic '06 one, then skip the uncompressed size, as its useless for directories.
+            if (sonic06)
+                reader.JumpAhead(0x04);
+
+            // Calculate the location of the string table.
+            uint stringTableLocation = (uint)(reader.BaseStream.Position + (nodeCount * nodeLength));
+
+            for (int nodeIndex = 0; nodeIndex < nodeCount; nodeIndex++)
             {
-                U8ArchiveFile file = new(filePath)
+                // Check if this node index (minus 1) is present in the final indices list, if so, remove its name from the full path.
+                for (int finalIndex = finalIndices.Count - 1; finalIndex >= 0; finalIndex--)
+                    if (nodeIndex == finalIndices[finalIndex] - 1)
+                        fullPath = fullPath.Remove(fullPath.Length - (names[finalIndex].Length + 1));
+
+                // Read whether or not this node is a directory.
+                bool isDirectory = reader.ReadBoolean();
+
+                // Read the offset to this node's name.
+                uint nameOffset = reader.ReadUInt24();
+
+                // Save our current position so we can jump back after reading the node name.
+                long position = reader.BaseStream.Position;
+
+                // Jump to the string table for this file, plus the offset for this node's name.
+                reader.JumpTo(stringTableLocation + nameOffset);
+
+                // Read this node's name.
+                string nodeName = reader.ReadNullTerminatedString();
+
+                // Jump back for the rest of this node.
+                reader.JumpTo(position);
+
+                // Check if this node is a directory or not.
+                if (isDirectory)
                 {
-                    Parent = dir,
+                    // Read this directory's parent index.
+                    uint parentIndex = reader.ReadUInt32();
+
+                    // Read the index of the first node that ISN'T part of this directory.
+                    uint fistNodeNotPart = reader.ReadUInt32();
+
+                    // Save this directory's name and final index.
+                    names.Add(nodeName);
+                    finalIndices.Add(fistNodeNotPart);
+
+                    // Add this directory's name to the full path.
+                    fullPath += $@"{nodeName}\";
+
+                    // If this U8 archive is a Sonic '06 one, then skip the uncompressed size, as its useless for directories.
+                    if (sonic06)
+                        reader.JumpAhead(0x04);
+                }
+                else
+                {
+                    // Read the offset to this file's data.
+                    uint dataOffset = reader.ReadUInt32();
+
+                    // Read this file's size.
+                    int fileSize = reader.ReadInt32();
+
+                    // If this U8 archive is a Sonic '06 one, then skip the uncompressed size, as we don't need it for reading.
+                    if (sonic06)
+                        reader.JumpAhead(0x04);
+
+                    // Save our current position so we can jump back for the next file.
+                    position = reader.BaseStream.Position;
+
+                    // Jump to this file's offset.
+                    reader.JumpTo(dataOffset);
+
+                    // Create a file node and read its data.
+                    FileNode file = new()
+                    {
+                        Name = fullPath + nodeName,
+                        Data = reader.ReadBytes(fileSize)
+                    };
+
+                    // If this U8 archive is a Sonic '06 one, then decompress the data.
+                    if (sonic06)
+                        file.Data = ZlibStream.Decompress(file.Data);
+
+                    // Save this file.
+                    Data.Add(file);
+
+                    // Jump back for the next file.
+                    reader.JumpTo(position);
+                }
+            }
+
+            // Close Marathon's BinaryReader.
+            reader.Close();
+        }
+
+        /// <summary>
+        /// File nodes used for saving.
+        /// </summary>
+        private class Node
+        {
+            /// <summary>
+            /// The name of this node.
+            /// </summary>
+            public string Name { get; set; } = "";
+
+            /// <summary>
+            /// This node's children, if any.
+            /// </summary>
+            public List<Node>? Children { get; set; }
+
+            /// <summary>
+            /// This node's binary data, if any.
+            /// </summary>
+            public byte[]? Binary { get; set; }
+
+            /// <summary>
+            /// The index of this node.
+            /// </summary>
+            public uint Index { get; set; }
+
+            public override string ToString() => Name;
+        }
+
+        /// <summary>
+        /// Saves this format's file.
+        /// </summary>
+        /// <param name="filepath">The path to save to.</param>
+        /// <param name="sonic06">Whether to save this U8 archive in Sonic '06's modified version.</param>
+        /// <param name="compressionLevel">If we're saving a Sonic '06 U8 archive, what level of compression should be applied to the files?</param>
+        public void Save(string filepath, bool sonic06 = true, CompressionLevel compressionLevel = CompressionLevel.Optimal)
+        {
+            // Sort the data in case any has been appended to the file list.
+            Data = Data.OrderBy(x => x.Name).ToList();
+
+            // Reset the string table length.
+            StringTableLength = 0;
+
+            // Set up the root node.
+            Node root = new() { Name = "Root", Children = new() };
+
+            // Set up a node index value.
+            uint nodeIndex = 1;
+
+            // Loop through each file in this archive.
+            foreach (FileNode file in Data)
+            {
+                // Set a reference to the root node as our parent node.
+                Node parentNode = root;
+
+                // Split this file's path to each individual node.
+                string[] nodeNameSplit = file.Name.Split('\\');
+
+                // Loop through each node name in this filename.
+                for (int nodeNameIndex = 0; nodeNameIndex < nodeNameSplit.Length; nodeNameIndex++)
+                {
+                    // If our parent node doesn't have any children, then initialise its list.
+                    parentNode.Children ??= new();
+
+                    // Get a reference to the node in the parent's child nodes with this node's name.
+                    Node? newParentNode = parentNode.Children.Where(x => x.Name == nodeNameSplit[nodeNameIndex]).FirstOrDefault();
+
+                    // Check if we HAVEN'T found a node mathing this node's name already.
+                    if (newParentNode == null)
+                    {
+                        // Create a new node.
+                        Node newNode = new() { Name = nodeNameSplit[nodeNameIndex], Index = nodeIndex };
+
+                        // Increment the node index.
+                        nodeIndex++;
+
+                        // If this node is the final one, then set its binary data to this file's.
+                        if (nodeNameIndex == nodeNameSplit.Length - 1)
+                            newNode.Binary = file.Data;
+
+                        // Add our new node to the parent's child node list.
+                        parentNode.Children.Add(newNode);
+
+                        // Change the reference to the parent node to our new node.
+                        parentNode = newNode;
+                    }
+
+                    // If we have found a node matching this node's name the change the reference to the parent node to it.
+                    else
+                        parentNode = newParentNode;
+                }
+            }
+
+            // Set up Marathon's BinaryWriter.
+            BinaryWriterEx writer = new(File.Create(filepath), true);
+
+            // Write the Uª8- signature.
+            writer.Write(0x55AA382D);
+
+            // Add an offset for the root node.
+            writer.AddOffset("RootNodeOffset");
+
+            // Add a placeholder for the node and string tables size.
+            writer.Write("SIZE");
+
+            // Add an offset to the file data.
+            writer.AddOffset("FileDataOffset");
+
+            // Write 0x10 reserved bytes.
+            // TODO: Do these impact anything?
+            writer.WriteNulls(0x10);
+
+            // Fill in the offset for the root node.
+            writer.FillOffset("RootNodeOffset");
+
+            // Write each node for this file.
+            WriteNodeTable(writer, root, 0, sonic06, compressionLevel);
+
+            // Write the string table for this file.
+            WriteNodeName(writer, root);
+
+            // Jump back to 0x08.
+            writer.BaseStream.Position = 0x08;
+
+            // Calculate and fill in the length of the node and string tables.
+            writer.Write((uint)(writer.BaseStream.Length - 0x20));
+
+            // Jump back to where we were.
+            writer.BaseStream.Position = writer.BaseStream.Length;
+
+            // Realign to 0x20.
+            writer.FixPadding(0x20);
+
+            // Fill in the offset for the file data.
+            writer.FillOffset("FileDataOffset");
+
+            // Write the files in this archive.
+            WriteNodeBinary(writer, root);
+
+            // Close Marathon's BinaryWriter.
+            writer.Close();
+        }
+
+        /// <summary>
+        /// Writes a node entry for the node table.
+        /// </summary>
+        /// <param name="writer">The BinaryWriterEx we're using.</param>
+        /// <param name="node">The node we're currently writing.</param>
+        /// <param name="parentIndex">The index of this node's parent.</param>
+        /// <param name="sonic06">Whether to save this U8 archive in Sonic '06's modified version.</param>
+        /// <param name="compressionLevel">If we're saving a Sonic '06 U8 archive, what level of compression should be applied to the files?</param>
+        private void WriteNodeTable(BinaryWriterEx writer, Node node, uint parentIndex, bool sonic06, CompressionLevel compressionLevel)
+        {
+            // Check if this node has children and write whether its a directory or not.
+            if (node.Children == null)
+                writer.Write(false);
+            else
+                writer.Write(true);
+
+            // Check if this is the root node.
+            if (node.Name == "Root")
+            {
+                // Write a 0 for the string table offset.
+                writer.WriteInt24(0x00);
+
+                // Increment the length by 1.
+                StringTableLength += 1;
+            }
+
+            // If this is not a root nood.
+            else
+            {
+                // Write the length of the string table for the offset.
+                writer.WriteInt24(StringTableLength);
+
+                // Increment the stirng table length, including the null terminator.
+                StringTableLength += node.Name.Length + 1;
+            }
+
+            // Check if this node has children.
+            if (node.Children != null)
+            {
+                // Check if this node is the root.
+                if (node.Name == "Root")
+                {
+                    // Write 4 nulls, as the root shouldn't have a parent index.
+                    writer.WriteNulls(0x04);
+
+                    // Calculate the amount of nodes in total.
+                    writer.Write(GetNodeChildCount(node, 1));
+                }
+
+                // If this node is not a root.
+                else
+                {
+                    // Write this node's parent index.
+                    writer.Write(parentIndex);
+
+                    // Write the index of the first node not in this node's children.
+                    writer.Write(GetFinalNodeInChildren(node, 0) + 1);
+                }
+            }
+
+            // If this node doesn't have children, assume its a file.
+            else
+            {
+                if (node.Binary == null)
+                    throw new Exception("Node has no children AND no binary data!");
+
+                // Add an offset for this node's data.
+                writer.AddOffset($"FileNode{node.Index}DataOffset");
+
+                // Store the uncompressed size of this node's data.
+                int uncompressed = node.Binary.Length;
+
+                if (sonic06)
+                {
+                    // Compress this node's data.
+                    node.Binary = ZlibStream.Compress(node.Binary, compressionLevel);
+
+                    // Write the compressed size of this node.
+                    writer.Write(node.Binary.Length);
+                }
+
+                // Write the uncompressed size of this node.
+                writer.Write(uncompressed);
+            }
+
+            // If this is a Sonic '06 archive, then make sure the node entry is padded up to 0x10.
+            if (sonic06)
+                writer.FixPadding(0x10);
+
+            // If this node has children, then loop through and write their nodes too.
+            if (node.Children != null)
+                foreach (Node child in node.Children)
+                    WriteNodeTable(writer, child, node.Index, sonic06, compressionLevel);
+        }
+
+        /// <summary>
+        /// Gets the count of child notes in a node.
+        /// </summary>
+        /// <param name="node">The node we're getting the count of children for.</param>
+        /// <param name="childCount">The count of children currently calculated.</param>
+        /// <returns></returns>
+        private int GetNodeChildCount(Node node, int childCount)
+        {
+            // If this node has any children, then loop through each of them and update the child count.
+            if (node.Children != null)
+                foreach (Node childNode in node.Children)
+                    childCount = GetNodeChildCount(childNode, childCount + 1);
+
+            // Return the child count.
+            return childCount;
+        }
+
+        /// <summary>
+        /// Gets the index of the final node in this node's children.
+        /// </summary>
+        /// <param name="node">The node we're getting the index of the final child for.</param>
+        /// <param name="finalIndex">The current final index.</param>
+        /// <returns></returns>
+        private uint GetFinalNodeInChildren(Node node, uint finalIndex)
+        {
+            // If this node has any children, then loop through each of them and update the final index.
+            if (node.Children != null)
+                foreach (Node childNode in node.Children)
+                    finalIndex = GetFinalNodeInChildren(childNode, childNode.Index);
+
+            // Return the final index.
+            return finalIndex;
+        }
+
+        /// <summary>
+        /// Writes the name for a node.
+        /// </summary>
+        /// <param name="writer">The BinaryWriterEx we're using.</param>
+        /// <param name="node">The node we're currently writing the name of.</param>
+        private void WriteNodeName(BinaryWriterEx writer, Node node)
+        {
+            // If this is the root node, then just write a single null.
+            if (node.Name == "Root")
+                writer.WriteNull();
+
+            // If not, then write the node name, including a null terminator.
+            else
+                writer.WriteNullTerminatedString(node.Name);
+
+            // If this node has any children, then loop through and write their names too.
+            if (node.Children != null)
+                foreach (var child in node.Children)
+                    WriteNodeName(writer, child);
+        }
+
+        /// <summary>
+        /// Writes a node's binary data.
+        /// </summary>
+        /// <param name="writer">The BinaryWriterEx we're using.</param>
+        /// <param name="node">The node we're currently writing the data of.</param>
+        private void WriteNodeBinary(BinaryWriterEx writer, Node node)
+        {
+            // Check if this node has any binary data.
+            if (node.Binary != null)
+            {
+                // Fill in the offset for this node.
+                writer.FillOffset($"FileNode{node.Index}DataOffset");
+
+                // Write this node's binary data.
+                writer.Write(node.Binary);
+
+                // Realign to 0x20 bytes.
+                writer.FixPadding(0x20);
+            }
+
+            // If this node has any children, then write their data too.
+            if (node.Children != null)
+                foreach (var child in node.Children)
+                    WriteNodeBinary(writer, child);
+        }
+
+        /// <summary>
+        /// Extracts the files in this format to disc.
+        /// </summary>
+        /// <param name="directory">The directory to extract to.</param>
+        public void Extract(string directory)
+        {
+            // Create the extraction directory.
+            Directory.CreateDirectory(directory);
+
+            // Loop through each node to extract.
+            foreach (FileNode node in Data)
+            {
+                // Get this file's name.
+                string fileName = node.Name;
+
+                // Print the name of the file we're extracting.
+                Console.WriteLine($"Extracting {fileName}.");
+
+                // Create directory paths if needed.
+                if (!Directory.Exists($@"{directory}\{Path.GetDirectoryName(fileName)}"))
+                    Directory.CreateDirectory($@"{directory}\{Path.GetDirectoryName(fileName)}");
+
+                // Extract the file.
+                File.WriteAllBytes($@"{directory}\{fileName}", node.Data);
+            }
+        }
+
+        /// <summary>
+        /// Imports files from a directory into this format.
+        /// </summary>
+        /// <param name="directory">The directory to import.</param>
+        public void Import(string directory)
+        {
+            // Loop through each file in the directory.
+            foreach (string file in Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories))
+            {
+                // Read this file's name (stripping out the directory name in the search) and binary data.
+                FileNode node = new()
+                {
+                    Name = file.Replace($@"{directory}\", ""),
+                    Data = File.ReadAllBytes(file)
                 };
 
-                Logger.Log($"Loading {Path.GetFileName(filePath)}...", Interfaces.LogLevel.Utility, null);
-
-                dir.Add(file);
+                // Save this file.
+                Data.Add(node);
             }
-
-            if (includeSubdirectories)
-            {
-                foreach (string subdirectory in Directory.EnumerateDirectories(path))
-                {
-                    dir.Add
-                    (
-                        new U8ArchiveDirectory()
-                        {
-                            Name = Path.GetFileName(subdirectory),
-                            Parent = dir,
-                            Data = GetFilesFromDirectory(subdirectory, includeSubdirectories)
-                        }
-                    );
-                }
-            }
-
-            return dir.Data;
-        }
-    }
-
-    public enum U8DataType
-    {
-        File,
-        Directory
-    }
-
-    public class U8ArchiveFile : IArchiveFile, IDisposable
-    {
-        public U8ArchiveFile()  { }
-
-        public U8ArchiveFile(BinaryReaderEx reader)
-        {
-            Flags = reader.ReadUInt32();
-            Offset = reader.ReadUInt32();
-            Length = reader.ReadUInt32();
-            UncompressedSize = reader.ReadUInt32();
-            FileReader = reader;
-        }
-
-        public U8ArchiveFile(string file)
-        {
-            Name = System.IO.Path.GetFileName(file);
-            InputStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            UncompressedSize = (uint)InputStream.Length;
-        }
-
-        public string Name { get; set; }
-
-        public string Path { get; set; }
-
-        public IArchiveData Parent { get; set; }
-
-        public uint Offset { get; set; }
-
-        public uint Length { get; set; }
-
-        public uint UncompressedSize { get; set; }
-
-        public byte[] Data { get; set; }
-
-        public Stream InputStream { get; set; }
-
-        public uint Flags { get; set; }
-
-        public U8DataType Type => (U8DataType)((Flags & _typeMask) >> 24);
-
-        public uint NameOffset => Flags & _nameOffsetMask;
-
-        internal BinaryReaderEx FileReader { get; set; }
-
-        internal byte[] CompressedData { get; set; }
-
-        private const uint _typeMask = 0xFF000000;
-
-        private const uint _nameOffsetMask = 0x00FFFFFF;
-
-        public void Compress(CompressionLevel compressionLevel)
-        {
-            UncompressedSize = (uint)Data.Length;
-            Data = ZlibStream.Compress(Data, compressionLevel);
-            Length = (uint)Data.Length;
-        }
-
-        public byte[] GetCompressedData()
-        {
-            if (!RequiresDecompression())
-                return null;
-
-            if (CompressedData != null)
-                return CompressedData;
-
-            if (IsCompressed() && Data != null)
-                return Data;
-
-            // Jump to the file data.
-            FileReader.JumpTo(Offset);
-
-            // Read compressed data.
-            CompressedData = FileReader.ReadBytes((int)Length);
-
-            return CompressedData;
-        }
-
-        public void Decompress()
-        {
-            if (IsCompressed())
-            {
-                // Read the compressed data and decompress with ZlibStream.
-                Data = ZlibStream.Decompress(GetCompressedData());
-                CompressedData = null;
-            }
-            else
-            {
-                // Jump to file data offset before reading.
-                FileReader.JumpTo(Offset);
-
-                // File is uncompressed, so just read it.
-                Data = FileReader.ReadBytes((int)Length);
-            }
-
-            Length = (uint)Data.Length;
-            UncompressedSize = 0;
-        }
-
-        public bool IsCompressed()
-        {
-            /* Compressed files have both a compressed size and an uncompressed size.
-               If a file is uncompressed, the compressed size will represent the length
-               of the uncompressed data and the uncompressed size will be zero. */
-            return Length != 0 && UncompressedSize != 0;
-        }
-
-        public bool RequiresDecompression() 
-            => IsCompressed() || Data == null;
-
-        public void Extract(string location)
-        {
-            if (RequiresDecompression())
-                Decompress();
-
-            Logger.Log($"Extracting {System.IO.Path.GetFileName(location)}...", Interfaces.LogLevel.Utility, null);
-
-            File.WriteAllBytes(location, Data);
-        }
-
-        public override string ToString() => Name;
-
-        public void Dispose()
-            => InputStream?.Dispose();
-    }
-
-    public class U8ArchiveDirectory : IArchiveDirectory
-    {
-        public U8ArchiveDirectory() { }
-
-        public U8ArchiveDirectory(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; set; }
-
-        public string Path { get; set; }
-
-        public List<IArchiveData> Data { get; internal set; } = new();
-
-        public IArchiveData Parent { get; set; }
-
-        public void Add(IArchiveData data, bool overwrite = true)
-        {
-            int existingIdx = -1;
-
-            for (int i = 0; i < Data.Count; i++)
-            {
-                if (Data[i].Name == data.Name)
-                {
-                    existingIdx = i;
-                    break;
-                }
-            }
-
-            if (existingIdx >= 0)
-            {
-                if (!overwrite)
-                    throw new Exception($"{data.Name} already exists");
-
-                Data[existingIdx] = data;
-            }
-            else
-            {
-                Data.Add(data);
-            }
-        }
-
-        public bool Remove(string name, bool isDir)
-        {
-            IArchiveData item = isDir ? ArchiveHelper.GetDirectory(this, name) : ArchiveHelper.GetFile(this, name);
-
-            if (item == null)
-                return false;
-
-            if (item.Parent == this)
-            {
-                Data.Remove(item);
-
-                return true;
-            }
-
-            if (item.Parent is IArchiveDirectory dir)
-            {
-                if (isDir)
-                {
-                    return dir.RemoveDirectory(item.Name);
-                }
-                else
-                {
-                    return dir.RemoveFile(item.Name);
-                }
-            }
-
-            return false;
-        }
-
-        public bool RemoveFile(string name) 
-            => Remove(name, false);
-
-        public bool RemoveDirectory(string name) 
-            => Remove(name, true);
-
-        public bool FileExists(string name)
-            => ArchiveHelper.GetFile(this, name) != null;
-
-        public bool DirectoryExists(string name)
-            => ArchiveHelper.GetDirectory(this, name) != null;
-
-        /// <summary>
-        /// Recursively creates new subdirectories based on a path.
-        /// </summary>
-        /// <param name="path">Path to create.</param>
-        public U8ArchiveDirectory CreateDirectories(string path)
-        {
-            var names = path.Split(ArchiveHelper.DirectorySeperators, StringSplitOptions.RemoveEmptyEntries);
-
-            // Return current directory if path split didn't get any results.
-            if (names.Length == 0)
-                return this;
-
-            // Create directory base.
-            U8ArchiveDirectory dir = null;
-
-            foreach (string name in names)
-            {
-                // Set based on iteration.
-                List<IArchiveData> data = dir == null ? Data : dir.Data;
-
-                // Navigate to the directory if it exists already.
-                if (data.Exists(t => t.Name == name))
-                {
-                    dir = data.Find(t => t.Name == name) as U8ArchiveDirectory;
-                }
-
-                // Create the first directory, since it doesn't exist.
-                else if (dir == null)
-                {
-                    // Create new directory based on the current split.
-                    U8ArchiveDirectory directory = new(name)
-                    {
-                        Parent = this
-                    };
-
-                    // Add this directory to the data.
-                    Data.Add(directory);
-
-                    // Set next iteration to this new directory.
-                    dir = directory;
-                }
-
-                // Create the subdirectories.
-                else
-                {
-                    // Create new subdirectory based on the current split.
-                    U8ArchiveDirectory directory = new(name)
-                    {
-                        Parent = dir
-                    };
-
-                    // Add this directory to the parent data.
-                    dir.Data.Add(directory);
-
-                    // Set next iteration to this new directory.
-                    dir = directory;
-                }
-            }
-
-            return dir;
-        }
-
-        public void Extract(string location)
-        {
-            // Create subdirectory to extract to.
-            Directory.CreateDirectory(location);
-
-            // Extract each archive node.
-            foreach (IArchiveData data in Data)
-                data.Extract(System.IO.Path.Combine(location, data.Name));
-        }
-
-        public override string ToString() => Name;
-
-        public IEnumerator<IArchiveData> GetEnumerator()
-        {
-            return ((IEnumerable<IArchiveData>)Data).GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Data.GetEnumerator();
         }
     }
 }
