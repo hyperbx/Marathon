@@ -1,6 +1,6 @@
 ﻿namespace Marathon.Exceptions
 {
-    class InvalidSignatureException : Exception
+    public class InvalidSignatureException : Exception
     {
         static readonly new string Message = "The signature read from the stream is incorrect! Expected {0}, got {1}...";
 
