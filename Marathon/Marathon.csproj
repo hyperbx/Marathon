@@ -12,7 +12,7 @@
     <PackageTags>api;marathon;sonic-the-hedgehog;modding-tools;sonic-06;sonicnext</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>Marathon.png</PackageIcon>
-    <PackageId>$(AssemblyName)</PackageId>
+    <PackageId>BE32.$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
