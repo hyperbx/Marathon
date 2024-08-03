@@ -134,4 +134,4 @@ jobs:
 
     # Publishes the compiled package to NuGet.
     - name: Publish to NuGet
-      run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\BE32.Marathon.${{env.VERSION_RESOLVE}}.nupkg" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}
+      run: dotnet nuget push "${{github.workspace}}\Marathon\bin\Release\Marathon.${{env.VERSION_RESOLVE}}.nupkg" -k ${{secrets.NUGET_KEY}} -s ${{env.NUGET_SOURCE}}
