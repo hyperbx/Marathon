@@ -39,7 +39,7 @@ if ($Help)
 if (!(Get-Command -Name dotnet -ErrorAction SilentlyContinue))
 {
     echo ".NET SDK is required to build Marathon."
-    echo "You can install the required .NET SDK for Windows from here: https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-6.0.200-windows-x64-installer"
+    echo "You can install the required .NET SDK for Windows from here: https://dotnet.microsoft.com/en-us/download/dotnet/8.0"
     exit
 }
 
