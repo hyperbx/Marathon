@@ -147,6 +147,15 @@
         /// </summary>
         public string[] Placeholders { get; set; }
 
+        public Message() { }
+
+        public Message(string in_name, string in_text, string[] in_placeholders = null)
+        {
+            Name = in_name;
+            Text = in_text;
+            Placeholders = in_placeholders;
+        }
+
         public override string ToString() => Name;
     }
 }
