@@ -14,7 +14,7 @@
             {
                 case ".json":
                 {
-                    Types = JsonDeserialise<List<AssetType>>(file);
+                    Categories = JsonDeserialise<List<AssetCategory>>(file);
 
                     // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
                     if (serialise)
@@ -28,7 +28,7 @@
                     Load(file);
 
                     if (serialise)
-                        JsonSerialise(Types);
+                        JsonSerialise(Categories);
 
                     break;
                 }
@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".pkg";
 
-        public List<AssetType> Types { get; set; } = new();
+        public List<AssetCategory> Categories { get; set; } = new();
 
         public override void Load(Stream stream)
         {
@@ -48,15 +48,15 @@
             uint fileEntriesPos = reader.ReadUInt32();
 
             // Type related header stuff.
-            uint typeCount = reader.ReadUInt32();
-            uint typeEntriesPos = reader.ReadUInt32();
+            uint categoryCount = reader.ReadUInt32();
+            uint categoryEntriesPos = reader.ReadUInt32();
 
-            // Read Types.
-            reader.JumpTo(typeEntriesPos, true);
+            // Read categories.
+            reader.JumpTo(categoryEntriesPos, true);
 
-            for (int i = 0; i < typeCount; i++)
+            for (int i = 0; i < categoryCount; i++)
             {
-                AssetType type = new();
+                AssetCategory category = new();
 
                 // Store offsets for later.
                 uint namePos       = reader.ReadUInt32();
@@ -66,13 +66,13 @@
                 // Store position in file.
                 long position = reader.BaseStream.Position;
 
-                // Jump to namePos and read null terminated string for type name.
+                // Jump to namePos and read null terminated string for category name.
                 reader.JumpTo(namePos, true);
-                type.Name = reader.ReadNullTerminatedString();
+                category.Name = reader.ReadNullTerminatedString();
 
                 reader.JumpTo(filesPos, true);
 
-                // Read objects within this type.
+                // Read objects within this category.
                 for (int f = 0; f < typeFileCount; f++)
                 {
                     AssetFile file = new();
@@ -90,11 +90,11 @@
                     file.File = reader.ReadNullTerminatedString();
 
                     // Save file entry and return to the previously stored position.
-                    type.Files.Add(file);
+                    category.Files.Add(file);
                     reader.JumpTo(iteratorPosition);
                 }
 
-                Types.Add(type);
+                Categories.Add(category);
                 reader.JumpTo(position);
             }
         }
@@ -107,8 +107,8 @@
             uint filesCount = 0;
 
             // Calculate what we should set the file count to.
-            for (int i = 0; i < Types.Count; i++)
-                for (int c = 0; c < Types[i].Files.Count; c++)
+            for (int i = 0; i < Categories.Count; i++)
+                for (int c = 0; c < Categories[i].Files.Count; c++)
                     filesCount++;
 
             // Write file count.
@@ -117,21 +117,21 @@
             // Store offset for file entries.
             writer.AddOffset("fileEntriesPos");
 
-            // Write type count.
-            writer.Write(Types.Count);
+            // Write category count.
+            writer.Write(Categories.Count);
 
-            // Store offset for type entries.
-            writer.AddOffset("typeEntriesPos");
+            // Store offset for category entries.
+            writer.AddOffset("categoryEntriesPos");
 
-            // Fill in types offset just before we write the type data.
-            writer.FillOffset("typeEntriesPos", true);
+            // Fill in types offset just before we write the category data.
+            writer.FillOffset("categoryEntriesPos", true);
 
-            // Write type data.
-            for (int i = 0; i < Types.Count; i++)
+            // Write category data.
+            for (int i = 0; i < Categories.Count; i++)
             {
-                writer.AddString($"typeName{i}", Types[i].Name);
-                writer.Write(Types[i].Files.Count);
-                writer.AddOffset($"typeFilesOffset{i}");
+                writer.AddString($"categoryName{i}", Categories[i].Name);
+                writer.Write(Categories[i].Files.Count);
+                writer.AddOffset($"categoryFilesOffset{i}");
             }
 
             // Fill in files offset just before we write the file data.
@@ -141,14 +141,14 @@
             int objectNum = 0;
 
             // Write file data.
-            for (int i = 0; i < Types.Count; i++)
+            for (int i = 0; i < Categories.Count; i++)
             {
-                writer.FillOffset($"typeFilesOffset{i}", true);
+                writer.FillOffset($"categoryFilesOffset{i}", true);
 
-                for (int f = 0; f < Types[i].Files.Count; f++)
+                for (int f = 0; f < Categories[i].Files.Count; f++)
                 {
-                    writer.AddString($"friendlyName{objectNum}", Types[i].Files[f].Name);
-                    writer.AddString($"filePath{objectNum}", Types[i].Files[f].File);
+                    writer.AddString($"friendlyName{objectNum}", Categories[i].Files[f].Name);
+                    writer.AddString($"filePath{objectNum}", Categories[i].Files[f].File);
 
                     objectNum++;
                 }
@@ -159,7 +159,7 @@
         }
     }
 
-    public class AssetType
+    public class AssetCategory
     {
         public string Name { get; set; }
 
