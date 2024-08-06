@@ -163,7 +163,15 @@
     {
         public string Name { get; set; }
 
-        public List<AssetFile> Files { get; set; } = new();
+        public List<AssetFile> Files { get; set; } = [];
+
+        public AssetCategory() { }
+
+        public AssetCategory(string in_name, List<AssetFile> in_files = null)
+        {
+            Name  = in_name;
+            Files = in_files ?? [];
+        }
 
         public override string ToString() => Name;
     }
@@ -173,6 +181,14 @@
         public string Name { get; set; }
 
         public string File { get; set; }
+
+        public AssetFile() { }
+
+        public AssetFile(string in_name, string in_file)
+        {
+            Name = in_name;
+            File = in_file;
+        }
 
         public override string ToString() => Name;
     }
