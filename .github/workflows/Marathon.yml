@@ -40,7 +40,7 @@ jobs:
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     # Restores the NuGet packages from the solution for all projects.
     - name: Restore NuGet Packages
@@ -63,35 +63,35 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Marathon-${{matrix.configuration}}
-        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net6.0\publish\
+        path: ${{github.workspace}}\Marathon\bin\${{matrix.configuration}}\net8.0\publish\
         
     # Uploads the compiled Marathon.CLI artifacts for 'win-x86'.
     - name: Upload Marathon.CLI Artifacts for Windows (x86)
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_32}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_32}}\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net8.0\${{env.PROFILE_WIN_32}}\
         
     # Uploads the compiled Marathon.CLI artifacts for 'win-x64'.
     - name: Upload Marathon.CLI Artifacts for Windows (x64)
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_WIN_64}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_WIN_64}}\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net8.0\${{env.PROFILE_WIN_64}}\
         
     # Uploads the compiled Marathon.CLI artifacts for 'linux-x64'.
     - name: Upload Marathon.CLI Artifacts for Linux
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_LINUX_64}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_LINUX_64}}\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net8.0\${{env.PROFILE_LINUX_64}}\
         
     # Uploads the compiled Marathon.CLI artifacts for 'osx-x64'.
     - name: Upload Marathon.CLI Artifacts for macOS
       uses: actions/upload-artifact@v2
       with:
         name: Marathon.CLI-${{matrix.configuration}}-${{env.PROFILE_OSX_64}}
-        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net6.0\${{env.PROFILE_OSX_64}}\
+        path: ${{github.workspace}}\Marathon.CLI\bin\${{matrix.configuration}}\net8.0\${{env.PROFILE_OSX_64}}\
 
   publish:
   
@@ -110,7 +110,7 @@ jobs:
     - name: Install .NET SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     # Restores the NuGet packages from the solution for all projects.
     - name: Restore NuGet Packages
