@@ -29,10 +29,10 @@
         }
 
         public void Indent()
-            => _indentationLevel += _indentationType == IndentationType.Spaces ? 2 : 1;
+            => _indentationLevel += _indentationType == IndentationType.Spaces ? 4 : 1;
 
         public void Dedent()
-            => _indentationLevel -= _indentationType == IndentationType.Spaces ? 2 : 1;
+            => _indentationLevel -= _indentationType == IndentationType.Spaces ? 4 : 1;
 
         public int GetIndentationLevel() => _indentationLevel;
 
