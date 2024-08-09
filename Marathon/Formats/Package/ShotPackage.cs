@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".bin";
 
-        public List<ShotParameter> Parameters { get; set; } = new();
+        public List<ShotParameter> Parameters { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -93,14 +93,14 @@
                 entry.UnknownString_1 = reader.ReadNullTerminatedString(false, UnknownString_1Offset, true);
                 entry.UnknownString_2 = reader.ReadNullTerminatedString(false, UnknownString_2Offset, true);
                 entry.Explosion       = reader.ReadNullTerminatedString(false, ExplosionOffset, true);
-                entry.ParticleBank1   = reader.ReadNullTerminatedString(false, ParticleBank1Offset, true);
-                entry.ParticleName1   = reader.ReadNullTerminatedString(false, ParticleName1Offset, true);
+                entry.ParticleBankA   = reader.ReadNullTerminatedString(false, ParticleBank1Offset, true);
+                entry.ParticleNameA   = reader.ReadNullTerminatedString(false, ParticleName1Offset, true);
                 entry.SoundBank       = reader.ReadNullTerminatedString(false, SoundBankOffset, true);
                 entry.SoundName       = reader.ReadNullTerminatedString(false, SoundOffset, true);
-                entry.ParticleBank2   = reader.ReadNullTerminatedString(false, ParticleBank2Offset, true);
-                entry.ParticleName2   = reader.ReadNullTerminatedString(false, ParticleName2Offset, true);
-                entry.ParticleBank3   = reader.ReadNullTerminatedString(false, ParticleBank3Offset, true);
-                entry.ParticleName3   = reader.ReadNullTerminatedString(false, ParticleName3Offset, true);
+                entry.ParticleBankB   = reader.ReadNullTerminatedString(false, ParticleBank2Offset, true);
+                entry.ParticleNameB   = reader.ReadNullTerminatedString(false, ParticleName2Offset, true);
+                entry.ParticleBankC   = reader.ReadNullTerminatedString(false, ParticleBank3Offset, true);
+                entry.ParticleNameC   = reader.ReadNullTerminatedString(false, ParticleName3Offset, true);
                 entry.UnknownString_3 = reader.ReadNullTerminatedString(false, UnknownString_3Offset, true);
 
                 // Jump back to the saved position to read the next object.
@@ -135,14 +135,14 @@
                 writer.Write(Parameters[i].UnknownFloat_8);
                 writer.Write(Parameters[i].UnknownFloat_9);
                 writer.AddString($"entry{i}Explosion", Parameters[i].Explosion);
-                writer.AddString($"entry{i}ParticleBank1", Parameters[i].ParticleBank1);
-                writer.AddString($"entry{i}Particle1", Parameters[i].ParticleName1);
+                writer.AddString($"entry{i}ParticleBank1", Parameters[i].ParticleBankA);
+                writer.AddString($"entry{i}Particle1", Parameters[i].ParticleNameA);
                 writer.AddString($"entry{i}SceneBank", Parameters[i].SoundBank);
                 writer.AddString($"entry{i}Sound", Parameters[i].SoundName);
-                writer.AddString($"entry{i}ParticleBank2", Parameters[i].ParticleBank2);
-                writer.AddString($"entry{i}Particle2", Parameters[i].ParticleName2);
-                writer.AddString($"entry{i}ParticleBank2", Parameters[i].ParticleBank3);
-                writer.AddString($"entry{i}Particle3", Parameters[i].ParticleName3);
+                writer.AddString($"entry{i}ParticleBank2", Parameters[i].ParticleBankB);
+                writer.AddString($"entry{i}Particle2", Parameters[i].ParticleNameB);
+                writer.AddString($"entry{i}ParticleBank2", Parameters[i].ParticleBankC);
+                writer.AddString($"entry{i}Particle3", Parameters[i].ParticleNameC);
                 writer.AddString($"entry{i}UnknownString_3", Parameters[i].UnknownString_3);
             }
 
@@ -194,26 +194,28 @@
 
         public string Explosion { get; set; }
 
-        public string ParticleBank1 { get; set; }
+        public string ParticleBankA { get; set; }
 
-        public string ParticleName1 { get; set; }
+        public string ParticleNameA { get; set; }
 
         public string SoundBank { get; set; }
 
         public string SoundName { get; set; }
 
-        public string ParticleBank2 { get; set; }
+        public string ParticleBankB { get; set; }
 
-        public string ParticleName2 { get; set; }
+        public string ParticleNameB { get; set; }
 
-        public string ParticleBank3 { get; set; }
+        public string ParticleBankC { get; set; }
 
-        public string ParticleName3 { get; set; }
+        public string ParticleNameC { get; set; }
 
         /// <summary>
         /// TODO: Unknown - either empty or misfired stuff.
         /// </summary>
         public string UnknownString_3 { get; set; }
+
+        public ShotParameter() { }
 
         public override string ToString() => Name;
     }

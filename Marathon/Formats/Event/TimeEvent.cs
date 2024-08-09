@@ -43,7 +43,7 @@
         {
             public string Animation { get; set; }
 
-            public List<AnimationTimer> Events { get; set; } = new();
+            public List<AnimationTimer> Events { get; set; } = [];
 
             public override string ToString() => Animation;
         }
@@ -85,12 +85,12 @@
 
                 reader.JumpAhead(1); // Always null in official files. Padding?
 
-                entry.UnknownBoolean_1 = reader.ReadBoolean();
+                entry.UnknownBoolean = reader.ReadBoolean();
 
                 reader.JumpAhead(2); // Always null in official files. Padding?
 
                 entry.ParticlePosition  = reader.ReadVector3();
-                entry.UnknownVector3_1  = reader.ReadVector3();
+                entry.UnknownVector3  = reader.ReadVector3();
 
                 // Store current position to jump back to for the next entry.
                 position = reader.BaseStream.Position;
@@ -133,10 +133,10 @@
                 writer.Write(Data.Events[i].UnknownSingle_1);
                 writer.Write(Data.Events[i].UnknownSingle_2);
                 writer.WriteNulls(1);
-                writer.Write(Data.Events[i].UnknownBoolean_1);
+                writer.Write(Data.Events[i].UnknownBoolean);
                 writer.WriteNulls(2);
                 writer.Write(Data.Events[i].ParticlePosition);
-                writer.Write(Data.Events[i].UnknownVector3_1);
+                writer.Write(Data.Events[i].UnknownVector3);
             }
 
             // Write the footer.
@@ -156,11 +156,13 @@
 
         public float UnknownSingle_2 { get; set; }
 
-        public bool UnknownBoolean_1 { get; set; }
+        public bool UnknownBoolean { get; set; }
 
         public Vector3 ParticlePosition { get; set; }
 
-        public Vector3 UnknownVector3_1 { get; set; }
+        public Vector3 UnknownVector3 { get; set; }
+
+        public AnimationTimer() { }
 
         public override string ToString() => ParticleName;
     }

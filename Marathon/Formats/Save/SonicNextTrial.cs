@@ -27,6 +27,17 @@
         /// </summary>
         public int Rings { get; set; }
 
+        public SonicNextTrial() { }
+
+        public SonicNextTrial(int in_id, SonicNextRank in_rank, int in_time, int in_score, int in_rings)
+        {
+            ID = in_id;
+            Rank = in_rank;
+            Time = in_time;
+            Score = in_score;
+            Rings = in_rings;
+        }
+
         public override string ToString() => ID == -1 ? "Incomplete" : ID.ToString();
     }
 }

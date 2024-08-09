@@ -41,11 +41,11 @@
 
         public class FormatData
         {
-            public List<string> Effects { get; set; } = new();
+            public List<string> Effects { get; set; } = [];
 
-            public List<string> Textures { get; set; } = new();
+            public List<string> Textures { get; set; } = [];
 
-            public List<ParticleMaterial> Materials { get; set; } = new();
+            public List<ParticleMaterial> Materials { get; set; } = [];
         }
 
         public FormatData Data { get; set; } = new();
@@ -60,7 +60,7 @@
             uint particleEffectBankCount   = reader.ReadUInt32();
             uint particleTextureBankCount  = reader.ReadUInt32();
             uint materialCount             = reader.ReadUInt32();
-            uint materialSize              = reader.ReadUInt32(); // Sonic Team moment.
+            uint materialSize              = reader.ReadUInt32();
             uint particleEffectBankOffset  = reader.ReadUInt32();
             uint particleTextureBankOffset = reader.ReadUInt32();
             uint materialOffset            = reader.ReadUInt32();
@@ -80,7 +80,7 @@
                 {
                     Name = reader.ReadNullPaddedString(0x20),
                     Properties = reader.ReadNullPaddedString(0x40),
-                    Blending = (BlendMode)reader.ReadUInt32()
+                    BlendMode = (BlendMode)reader.ReadUInt32()
                 };
 
                 Data.Materials.Add(material);
@@ -118,7 +118,7 @@
             {
                 writer.WriteNullPaddedString(material.Name, 0x20);
                 writer.WriteNullPaddedString(material.Properties, 0x40);
-                writer.Write((uint)material.Blending);
+                writer.Write((uint)material.BlendMode);
             }
 
             writer.FinishWrite();
@@ -148,7 +148,7 @@
         /// <summary>
         /// The blending mode used for this material.
         /// </summary>
-        public BlendMode Blending { get; set; }
+        public BlendMode BlendMode { get; set; }
 
         /// <summary>
         /// The size of this struct.
@@ -157,6 +157,15 @@
         /// <para>??? = game crash</para>
         /// </summary>
         public const uint Size = 0x64;
+
+        public ParticleMaterial() { }
+
+        public ParticleMaterial(string in_name, string in_properties, BlendMode in_blendMode)
+        {
+            Name = in_name;
+            Properties = in_properties;
+            BlendMode = in_blendMode;
+        }
 
         public override string ToString() => Name;
     }

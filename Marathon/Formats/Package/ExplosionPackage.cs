@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".bin";
 
-        public List<Explosion> Explosions { get; set; } = new();
+        public List<Explosion> Explosions { get; set; } = [];
 
         public override void Load(Stream stream)
         {

@@ -41,7 +41,7 @@
         {
             public string Name { get; set; }
 
-            public List<ParticleAttributes> Particles = new();
+            public List<ParticleAttributes> Particles = [];
 
             public override string ToString() => Name;
         }
@@ -143,6 +143,16 @@
         /// <para>0x10000 = Unknown, can be combined with the other values for something.</para>
         /// </summary>
         public uint Flags { get; set; }
+
+        public ParticleAttributes() { }
+
+        public ParticleAttributes(string in_particleName, string in_effectName, string in_file, uint in_flags)
+        {
+            ParticleName = in_particleName;
+            EffectName = in_effectName;
+            File = in_file;
+            Flags = in_flags;
+        }
 
         public override string ToString() => ParticleName;
     }

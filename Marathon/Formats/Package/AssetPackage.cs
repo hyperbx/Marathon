@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".pkg";
 
-        public List<AssetCategory> Categories { get; set; } = new();
+        public List<AssetCategory> Categories { get; set; } = [];
 
         public override void Load(Stream stream)
         {

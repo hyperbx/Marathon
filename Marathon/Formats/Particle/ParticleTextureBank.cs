@@ -43,7 +43,7 @@
         {
             public string Name { get; set; }
 
-            public List<ParticleTexture> ParticleTextures { get; set; } = new();
+            public List<ParticleTexture> ParticleTextures { get; set; } = [];
 
             public override string ToString() => Name;
         }
@@ -68,7 +68,7 @@
                 ParticleTexture particle = new()
                 {
                     Name     = reader.ReadNullPaddedString(0x20),
-                    FilePath = reader.ReadNullPaddedString(0x80),
+                    Path = reader.ReadNullPaddedString(0x80),
                     Width    = reader.ReadUInt32(),
                     Height   = reader.ReadUInt32()
                 };
@@ -95,7 +95,7 @@
             for (int i = 0; i < Data.ParticleTextures.Count; i++)
             {
                 writer.WriteNullPaddedString(Data.ParticleTextures[i].Name, 0x20);
-                writer.WriteNullPaddedString(Data.ParticleTextures[i].FilePath, 0x80);
+                writer.WriteNullPaddedString(Data.ParticleTextures[i].Path, 0x80);
                 writer.Write(Data.ParticleTextures[i].Width);
                 writer.Write(Data.ParticleTextures[i].Height);
             }
@@ -113,13 +113,23 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Filepath to the texture used by this particle.
+        /// Path to the texture used by this particle.
         /// </summary>
-        public string FilePath { get; set; }
+        public string Path { get; set; }
 
         public uint Width { get; set; }
 
         public uint Height { get; set; }
+
+        public ParticleTexture() { }
+
+        public ParticleTexture(string in_name, string in_path, uint in_width, uint in_height)
+        {
+            Name = in_name;
+            Path = in_path;
+            Width = in_width;
+            Height = in_height;
+        }
 
         public override string ToString() => Name;
     }

@@ -45,7 +45,7 @@
         {
             public SonicNextEpisode[] Episodes { get; set; } = new SonicNextEpisode[EpisodeCount];
 
-            public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = new();
+            public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = [];
 
             public SonicNextTrial[] Trials { get; set; } = new SonicNextTrial[TrialCount];
 

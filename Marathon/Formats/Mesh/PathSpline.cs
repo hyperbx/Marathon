@@ -12,7 +12,7 @@
 
         public override string Extension { get; } = ".path";
 
-        public List<PathData> Paths { get; set; } = new();
+        public List<PathData> Paths { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -56,7 +56,7 @@
                     {
                         Spline.SplineData vertex = new()
                         {
-                            Flag = reader.ReadUInt32(),
+                            Flags = reader.ReadUInt32(),
                             Position = reader.ReadVector3(),
                             InPosition = reader.ReadVector3(),
                             OutPosition = reader.ReadVector3()
@@ -79,7 +79,7 @@
             // Loop through based on NodeTableCount.
             for (int i = 0; i < NodeTableCount; i++)
             {
-                Paths[i].NodeNumber = reader.ReadUInt32();    // Unknown, usually the same as the path's number sequentially, but not always.
+                Paths[i].NodeIndex = reader.ReadUInt32();    // Unknown, usually the same as the path's number sequentially, but not always.
                 Paths[i].Position   = reader.ReadVector3();
                 Paths[i].Rotation   = reader.ReadQuaternion();
 
@@ -131,7 +131,7 @@
                 {
                     for (int v = 0; v < Paths[i].Splines[s].Vertices.Count; v++)
                     {
-                        writer.Write(Paths[i].Splines[s].Vertices[v].Flag);
+                        writer.Write(Paths[i].Splines[s].Vertices[v].Flags);
                         writer.Write(Paths[i].Splines[s].Vertices[v].Position);
                         writer.Write(Paths[i].Splines[s].Vertices[v].InPosition);
                         writer.Write(Paths[i].Splines[s].Vertices[v].OutPosition);
@@ -143,7 +143,7 @@
             writer.FillOffset("NodeTableOffset", true);
             for (int i = 0; i < Paths.Count; i++)
             {
-                writer.Write(Paths[i].NodeNumber);
+                writer.Write(Paths[i].NodeIndex);
                 writer.Write(Paths[i].Position);
                 writer.Write(Paths[i].Rotation);
                 writer.AddString($"Path{i}Name", Paths[i].Name);
@@ -159,9 +159,9 @@
 
         public uint Flag2 { get; set; }
 
-        public uint NodeNumber { get; set; }
+        public uint NodeIndex { get; set; }
 
-        public List<Spline> Splines { get; set; } = new();
+        public List<Spline> Splines { get; set; } = [];
 
         public Vector3 Position { get; set; }
 
@@ -169,22 +169,52 @@
 
         public string Name { get; set; }
 
+        public PathData() { }
+
+        public PathData(uint in_flag1, uint in_flag2, uint in_nodeIndex, List<Spline> in_splines, Vector3 in_pos, Quaternion in_rot, string in_name)
+        {
+            Flag1 = in_flag1;
+            Flag2 = in_flag2;
+            NodeIndex = in_nodeIndex;
+            Splines = in_splines;
+            Position = in_pos;
+            Rotation = in_rot;
+            Name = in_name;
+        }
+
         public override string ToString() => Name;
     }
 
     public class Spline
     {
-        public List<SplineData> Vertices { get; set; } = new();
+        public List<SplineData> Vertices { get; set; } = [];
+
+        public Spline() { }
+
+        public Spline(List<SplineData> in_vertices)
+        {
+            Vertices = in_vertices;
+        }
 
         public class SplineData
         {
-            public uint Flag { get; set; }
+            public uint Flags { get; set; }
 
             public Vector3 Position { get; set; }
 
             public Vector3 InPosition { get; set; }
 
             public Vector3 OutPosition { get; set; }
+
+            public SplineData() { }
+
+            public SplineData(uint in_flags, Vector3 in_pos, Vector3 in_inPos, Vector3 in_outPos)
+            {
+                Flags = in_flags;
+                Position = in_pos;
+                InPosition = in_inPos;
+                OutPosition = in_outPos;
+            }
         }
     }
 }

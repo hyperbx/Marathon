@@ -43,7 +43,7 @@
         {
             public string Name { get; set; }
 
-            public List<Message> Messages { get; set; } = new();
+            public List<Message> Messages { get; set; } = [];
 
             public override string ToString() => Name;
         }

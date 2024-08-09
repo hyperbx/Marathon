@@ -41,7 +41,7 @@
         {
             public string Name { get; set; }
 
-            public List<ObjectProperty> Objects { get; set; } = new();
+            public List<ObjectProperty> Objects { get; set; } = [];
 
             public override string ToString() => Name;
         }
@@ -146,7 +146,15 @@
     {
         public string Name { get; set; }
 
-        public List<ObjectParameter> Parameters { get; set; } = new();
+        public List<ObjectParameter> Parameters { get; set; } = [];
+
+        public ObjectProperty() { }
+
+        public ObjectProperty(string in_name, List<ObjectParameter> in_parameters)
+        {
+            Name = in_name;
+            Parameters = in_parameters;
+        }
 
         public override string ToString() => Name;
     }
@@ -156,6 +164,14 @@
         public string Name { get; set; }
 
         public ObjectDataType Type { get; set; }
+
+        public ObjectParameter() { }
+
+        public ObjectParameter(string in_name, ObjectDataType in_type)
+        {
+            Name = in_name;
+            Type = in_type;
+        }
 
         public override string ToString() => Name;
     }

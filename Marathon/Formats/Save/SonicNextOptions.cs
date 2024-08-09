@@ -16,5 +16,14 @@
         /// The volume of the sound effects.
         /// </summary>
         public float Effects { get; set; }
+
+        public SonicNextOptions() { }
+
+        public SonicNextOptions(bool in_isSubtitles, float in_music, float in_effects)
+        {
+            Subtitles = in_isSubtitles;
+            Music = in_music;
+            Effects = in_effects;
+        }
     }
 }

@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".bin";
 
-        public List<ScriptParameter> Parameters { get; set; } = new();
+        public List<ScriptParameter> Parameters { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -59,23 +59,23 @@
                 scriptParameter.Health = reader.ReadInt32();
                 scriptParameter.Score  = reader.ReadInt32();
 
-                scriptParameter.UnknownSingle1    = reader.ReadSingle();
+                scriptParameter.UnknownSingle_1    = reader.ReadSingle();
                 scriptParameter.FoundRangeIn      = reader.ReadSingle();
                 scriptParameter.FoundRangeOut     = reader.ReadSingle();
-                scriptParameter.UnknownSingle4    = reader.ReadSingle();
-                scriptParameter.UnknownSingle5    = reader.ReadSingle();
+                scriptParameter.UnknownSingle_2    = reader.ReadSingle();
+                scriptParameter.UnknownSingle_3    = reader.ReadSingle();
                 scriptParameter.MovementSpeed     = reader.ReadSingle();
-                scriptParameter.UnknownSingle7    = reader.ReadSingle();
-                scriptParameter.UnknownSingle8    = reader.ReadSingle();
+                scriptParameter.UnknownSingle_4    = reader.ReadSingle();
+                scriptParameter.UnknownSingle_5    = reader.ReadSingle();
                 scriptParameter.RotationSpeed     = reader.ReadSingle();
-                scriptParameter.UnknownSingle10   = reader.ReadSingle();
-                scriptParameter.UnknownSingle11   = reader.ReadSingle();
-                scriptParameter.UnknownSingle12   = reader.ReadSingle();
-                scriptParameter.UnknownSingle13   = reader.ReadSingle();
-                scriptParameter.UnknownSingle14   = reader.ReadSingle();
-                scriptParameter.UnknownSingle15   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_6   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_7   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_8   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_9   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_10   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_11   = reader.ReadSingle();
                 scriptParameter.FoundReactionTime = reader.ReadSingle();
-                scriptParameter.UnknownSingle17   = reader.ReadSingle();
+                scriptParameter.UnknownSingle_12   = reader.ReadSingle();
 
                 long pos = reader.BaseStream.Position;
 
@@ -99,23 +99,23 @@
                 writer.Write(parameter.Health);
                 writer.Write(parameter.Score);
 
-                writer.Write(parameter.UnknownSingle1);
+                writer.Write(parameter.UnknownSingle_1);
                 writer.Write(parameter.FoundRangeIn);
                 writer.Write(parameter.FoundRangeOut);
-                writer.Write(parameter.UnknownSingle4);
-                writer.Write(parameter.UnknownSingle5);
+                writer.Write(parameter.UnknownSingle_2);
+                writer.Write(parameter.UnknownSingle_3);
                 writer.Write(parameter.MovementSpeed);
-                writer.Write(parameter.UnknownSingle7);
-                writer.Write(parameter.UnknownSingle8);
+                writer.Write(parameter.UnknownSingle_4);
+                writer.Write(parameter.UnknownSingle_5);
                 writer.Write(parameter.RotationSpeed);
-                writer.Write(parameter.UnknownSingle10);
-                writer.Write(parameter.UnknownSingle11);
-                writer.Write(parameter.UnknownSingle12);
-                writer.Write(parameter.UnknownSingle13);
-                writer.Write(parameter.UnknownSingle14);
-                writer.Write(parameter.UnknownSingle15);
+                writer.Write(parameter.UnknownSingle_6);
+                writer.Write(parameter.UnknownSingle_7);
+                writer.Write(parameter.UnknownSingle_8);
+                writer.Write(parameter.UnknownSingle_9);
+                writer.Write(parameter.UnknownSingle_10);
+                writer.Write(parameter.UnknownSingle_11);
                 writer.Write(parameter.FoundReactionTime);
-                writer.Write(parameter.UnknownSingle17);
+                writer.Write(parameter.UnknownSingle_12);
             }
 
             writer.WriteNulls(4);
@@ -150,7 +150,7 @@
         /// </summary>
         public int Score { get; set; }
 
-        public float UnknownSingle1 { get; set; }
+        public float UnknownSingle_1 { get; set; }
 
         /// <summary>
         /// The range the player must be in for the enemies to find them.
@@ -162,18 +162,18 @@
         /// </summary>
         public float FoundRangeOut { get; set; }
 
-        public float UnknownSingle4 { get; set; }
+        public float UnknownSingle_2 { get; set; }
 
-        public float UnknownSingle5 { get; set; }
+        public float UnknownSingle_3 { get; set; }
 
         /// <summary>
         /// The speed the enemies move at when roam searching for the player.
         /// </summary>
         public float MovementSpeed { get; set; }
 
-        public float UnknownSingle7 { get; set; }
+        public float UnknownSingle_4 { get; set; }
 
-        public float UnknownSingle8 { get; set; }
+        public float UnknownSingle_5 { get; set; }
 
         /// <summary>
         /// The speed the enemies rotate at when searching for the player.
@@ -183,32 +183,34 @@
         /// <summary>
         /// Something to do with rotation speed.
         /// </summary>
-        public float UnknownSingle10 { get; set; }
+        public float UnknownSingle_6 { get; set; }
 
         /// <summary>
         /// Something to do with rotation speed.
         /// </summary>
-        public float UnknownSingle11 { get; set; }
+        public float UnknownSingle_7 { get; set; }
 
-        public float UnknownSingle12 { get; set; }
+        public float UnknownSingle_8 { get; set; }
 
-        public float UnknownSingle13 { get; set; }
+        public float UnknownSingle_9 { get; set; }
 
-        public float UnknownSingle14 { get; set; }
+        public float UnknownSingle_10 { get; set; }
 
-        public float UnknownSingle15 { get; set; }
+        public float UnknownSingle_11 { get; set; }
 
         /// <summary>
         /// Total time taken for the enemies to react to the player in the search range.
         /// </summary>
         public float FoundReactionTime { get; set; }
 
-        public float UnknownSingle17 { get; set; }
+        public float UnknownSingle_12 { get; set; }
 
         /// <summary>
         /// The size of this struct.
         /// </summary>
         public const uint Size = 0x54;
+
+        public ScriptParameter() { }
 
         public override string ToString() => Name;
     }

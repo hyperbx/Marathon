@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".bin";
 
-        public List<CommonObject> Objects { get; set; } = new();
+        public List<CommonObject> Objects { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -70,13 +70,13 @@
                 @object.CollisionFlags         = reader.ReadUInt32();
                 @object.Rigidity               = reader.ReadUInt32();
                 @object.EnemyDamage            = reader.ReadUInt32();
-                @object.UnknownFloat_1         = reader.ReadSingle();
+                @object.UnknownSingle         = reader.ReadSingle();
                 @object.Potency                = reader.ReadUInt32();
                 @object.TargetFlags            = reader.ReadUInt32();
                 @object.Health                 = reader.ReadUInt32();
                 @object.DebrisLifetimeBase     = reader.ReadSingle();
                 @object.DebrisLifetimeModifier = reader.ReadSingle();
-                @object.UnknownUInt32_4        = reader.ReadUInt32();
+                @object.UnknownUInt32_2        = reader.ReadUInt32();
                 uint breakObjectOffset         = reader.ReadUInt32();
                 uint explosionOffset           = reader.ReadUInt32();
                 uint particleFileOffset        = reader.ReadUInt32();
@@ -95,7 +95,7 @@
                 @object.TimeEvent         = reader.ReadNullTerminatedString(false, timeEventOffset, true);
                 @object.MaterialAnimation = reader.ReadNullTerminatedString(false, materialAnimationOffset, true);
                 @object.LuaScript         = reader.ReadNullTerminatedString(false, luaScriptOffset, true);
-                @object.UnknownString_1   = reader.ReadNullTerminatedString(false, unknownString1Offset, true);
+                @object.UnknownString   = reader.ReadNullTerminatedString(false, unknownString1Offset, true);
                 @object.BreakObject       = reader.ReadNullTerminatedString(false, breakObjectOffset, true);
                 @object.Explosion         = reader.ReadNullTerminatedString(false, explosionOffset, true);
                 @object.ParticleFile      = reader.ReadNullTerminatedString(false, particleFileOffset, true);
@@ -125,18 +125,18 @@
                 writer.AddString($"object{i}MaterialAnimation", Objects[i].MaterialAnimation);
                 writer.AddString($"object{i}LuaScript", Objects[i].LuaScript);
                 writer.Write(Objects[i].UnknownUInt32_1);
-                writer.AddString($"object{i}UnknownString1", Objects[i].UnknownString_1);
+                writer.AddString($"object{i}UnknownString1", Objects[i].UnknownString);
                 writer.Write(Objects[i].CollisionType);
                 writer.Write(Objects[i].CollisionFlags);
                 writer.Write(Objects[i].Rigidity);
                 writer.Write(Objects[i].EnemyDamage);
-                writer.Write(Objects[i].UnknownFloat_1);
+                writer.Write(Objects[i].UnknownSingle);
                 writer.Write(Objects[i].Potency);
                 writer.Write(Objects[i].TargetFlags);
                 writer.Write(Objects[i].Health);
                 writer.Write(Objects[i].DebrisLifetimeBase);
                 writer.Write(Objects[i].DebrisLifetimeModifier);
-                writer.Write(Objects[i].UnknownUInt32_4);
+                writer.Write(Objects[i].UnknownUInt32_2);
                 writer.AddString($"object{i}BreakObject", Objects[i].BreakObject);
                 writer.AddString($"object{i}Explosion", Objects[i].Explosion);
                 writer.AddString($"object{i}ParticleFile", Objects[i].ParticleFile);
@@ -192,7 +192,7 @@
         /// <summary>
         /// TODO: Unknown.
         /// </summary>
-        public string UnknownString_1 { get; set; }
+        public string UnknownString { get; set; }
 
         /// <summary>
         /// The type of collision this object uses globally for the sound effects and behaviour.
@@ -221,7 +221,7 @@
         /// <summary>
         /// TODO: Unknown - seems to be something regarding the object breaking from gravity?
         /// </summary>
-        public float UnknownFloat_1 { get; set; }
+        public float UnknownSingle { get; set; }
 
         /// <summary>
         /// The required force an attack needs to be able to damage this object.
@@ -252,7 +252,7 @@
         /// <summary>
         /// TODO: Unknown.
         /// </summary>
-        public uint UnknownUInt32_4 { get; set; }
+        public uint UnknownUInt32_2 { get; set; }
 
         /// <summary>
         /// The object spawned upon breaking this object.
@@ -291,6 +291,8 @@
         /// <para>3 = Super Fast Projectile Launch</para>
         /// </summary>
         public uint PsiBehaviour { get; set; }
+
+        public CommonObject() { }
 
         public override string ToString() => PropName;
     }

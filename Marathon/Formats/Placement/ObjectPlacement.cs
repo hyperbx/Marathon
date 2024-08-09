@@ -48,9 +48,9 @@ namespace Marathon.Formats.Placement
         {
             public string Name { get; set; }
 
-            public List<SetObject> Objects { get; set; } = new();
+            public List<SetObject> Objects { get; set; } = [];
 
-            public List<SetGroup> Groups { get; set; } = new();
+            public List<SetGroup> Groups { get; set; } = [];
 
             public override string ToString() => Name;
         }
@@ -456,6 +456,8 @@ namespace Marathon.Formats.Placement
         /// </summary>
         public bool ShouldSerializeIndex() => DisplayIndex;
 
+        public SetObject() { }
+
         public override string ToString() => Name;
     }
 
@@ -470,6 +472,14 @@ namespace Marathon.Formats.Placement
         /// The data type for <see cref="Data"/>.
         /// </summary>
         public ObjectDataType Type { get; set; }
+
+        public SetParameter() { }
+
+        public SetParameter(object in_data, ObjectDataType in_type)
+        {
+            Data = in_data;
+            Type = in_type;
+        }
 
         public override string ToString() => Data.ToString();
     }
@@ -489,7 +499,16 @@ namespace Marathon.Formats.Placement
         /// <summary>
         /// The object indices required to be disposed for this group to be complete.
         /// </summary>
-        public List<ulong> Objects { get; set; } = new();
+        public List<ulong> Objects { get; set; } = [];
+
+        public SetGroup() { }
+
+        public SetGroup(string in_name, string in_function, List<ulong> in_objects)
+        {
+            Name = in_name;
+            Function = in_function;
+            Objects = in_objects;
+        }
 
         public override string ToString() => Name;
     }

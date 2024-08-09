@@ -44,8 +44,8 @@ namespace Marathon.Formats.Mesh
 
         public class FormatData
         {
-            public List<Vector3> Vertices = new();
-            public List<CollisionFace> Faces = new();
+            public List<Vector3> Vertices = [];
+            public List<CollisionFace> Faces = [];
         }
 
         public FormatData Data { get; set; } = new();
@@ -216,6 +216,16 @@ namespace Marathon.Formats.Mesh
         public ushort VertexC { get; set; }
 
         public uint Flags { get; set; }
+
+        public CollisionFace() { }
+
+        public CollisionFace(ushort in_vertexA, ushort in_vertexB, ushort in_vertexC, uint in_flags)
+        {
+            VertexA = in_vertexA;
+            VertexB = in_vertexB;
+            VertexC = in_vertexC;
+            Flags = in_flags;
+        }
 
         public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @{Flags.ToString("X").PadLeft(8, '0')}";
     }

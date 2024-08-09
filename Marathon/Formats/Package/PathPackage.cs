@@ -37,7 +37,7 @@
 
         public override string Extension { get; } = ".bin";
 
-        public List<PathObject> PathObjects { get; set; } = new();
+        public List<PathObject> PathObjects { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -126,6 +126,17 @@
         /// Material animation this object should use.
         /// </summary>
         public string MaterialAnimation { get; set; }
+
+        public PathObject() { }
+
+        public PathObject(string in_name, string in_model, string in_animation, string in_text, string in_materialAnimation)
+        {
+            Name = in_name;
+            Model = in_model;
+            Animation = in_animation;
+            Text = in_text;
+            MaterialAnimation = in_materialAnimation;
+        }
 
         public override string ToString() => Name;
     }

@@ -39,7 +39,7 @@
 
         public override string Extension { get; } = ".epb";
 
-        public List<Event> Events { get; set; } = new();
+        public List<Event> Events { get; set; } = [];
 
         public override void Load(Stream stream)
         {
@@ -153,6 +153,8 @@
         public Vector3 Position { get; set; }
 
         public Vector3 Rotation { get; set; }
+
+        public Event() { }
 
         public override string ToString() => Name;
     }

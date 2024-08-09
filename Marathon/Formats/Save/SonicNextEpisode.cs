@@ -82,6 +82,8 @@
         /// </summary>
         public string Location { get; set; }
 
+        public SonicNextEpisode() { }
+
         public override string ToString() => Lua;
     }
 }

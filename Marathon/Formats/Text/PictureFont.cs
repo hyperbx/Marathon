@@ -43,7 +43,7 @@
         {
             public string Texture;
 
-            public List<Picture> Entries { get; set; } = new();
+            public List<Picture> Entries { get; set; } = [];
 
             public override string ToString() => Texture;
         }
@@ -138,6 +138,17 @@
         /// The height of the picture.
         /// </summary>
         public ushort Height { get; set; }
+
+        public Picture() { }
+
+        public Picture(string in_name, ushort in_x, ushort in_y, ushort in_width, ushort in_height)
+        {
+            Name = in_name;
+            X = in_x;
+            Y = in_y;
+            Width = in_width;
+            Height = in_height;
+        }
 
         public override string ToString() => Name;
     }

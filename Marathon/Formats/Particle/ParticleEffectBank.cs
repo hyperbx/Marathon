@@ -43,7 +43,7 @@
         {
             public string Name { get; set; }
 
-            public List<ParticleEffect> Effects = new();
+            public List<ParticleEffect> Effects = [];
 
             public override string ToString() => Name;
         }
@@ -224,7 +224,15 @@
         /// </summary>
         public string Name { get; set; }
 
-        public List<ParticleEffectAttributes> Attributes { get; set; } = new();
+        public List<ParticleEffectAttributes> Attributes { get; set; } = [];
+
+        public ParticleEffect() { }
+
+        public ParticleEffect(string in_name, List<ParticleEffectAttributes> in_attributes)
+        {
+            Name = in_name;
+            Attributes = in_attributes;
+        }
 
         public override string ToString() => Name;
     }
@@ -348,7 +356,9 @@
         /// <summary>
         /// A collection of properties that affect this particle.
         /// </summary>
-        public List<ParticleEffectProperty> Properties { get; set; } = new();
+        public List<ParticleEffectProperty> Properties { get; set; } = [];
+
+        public ParticleEffectAttributes() { }
     }
 
     public class ParticleEffectProperty
@@ -363,6 +373,26 @@
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Vector3? Vector3 { get; set; } = null;
+
+        public ParticleEffectProperty() { }
+
+        public ParticleEffectProperty(ParticleEffectPropertyType in_type, int in_int32)
+        {
+            Type = in_type;
+            Int32 = in_int32;
+        }
+
+        public ParticleEffectProperty(ParticleEffectPropertyType in_type, float in_single)
+        {
+            Type = in_type;
+            Single = in_single;
+        }
+
+        public ParticleEffectProperty(ParticleEffectPropertyType in_type, Vector3 in_vector3)
+        {
+            Type = in_type;
+            Vector3 = in_vector3;
+        }
 
         public ParticleEffectProperty Read(BinaryReaderEx reader)
         {

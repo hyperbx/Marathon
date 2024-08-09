@@ -43,7 +43,7 @@
         {
             public string Name { get; set; }
 
-            public List<Cue> Cues = new();
+            public List<Cue> Cues = [];
 
             public override string ToString() => Name;
         }
@@ -216,6 +216,17 @@
         /// XMA this Cue uses, if null, assume it uses a CSB instead.
         /// </summary>
         public string Stream { get; set; }
+
+        public Cue() { }
+
+        public Cue(string in_name, uint in_category, float in_unknownSingle, float in_radius, string in_stream)
+        {
+            Name = in_name;
+            Category = in_category;
+            UnknownSingle = in_unknownSingle;
+            Radius = in_radius;
+            Stream = in_stream;
+        }
 
         public override string ToString() => Name;
     }
