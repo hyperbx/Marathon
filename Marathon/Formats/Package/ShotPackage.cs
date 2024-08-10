@@ -215,8 +215,6 @@
         /// </summary>
         public string UnknownString_3 { get; set; }
 
-        public ShotParameter() { }
-
         public override string ToString() => Name;
     }
 }

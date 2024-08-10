@@ -456,8 +456,6 @@ namespace Marathon.Formats.Placement
         /// </summary>
         public bool ShouldSerializeIndex() => DisplayIndex;
 
-        public SetObject() { }
-
         public override string ToString() => Name;
     }
 

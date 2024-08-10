@@ -357,8 +357,6 @@
         /// A collection of properties that affect this particle.
         /// </summary>
         public List<ParticleEffectProperty> Properties { get; set; } = [];
-
-        public ParticleEffectAttributes() { }
     }
 
     public class ParticleEffectProperty

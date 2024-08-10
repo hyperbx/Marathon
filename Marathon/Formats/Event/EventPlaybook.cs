@@ -154,8 +154,6 @@
 
         public Vector3 Rotation { get; set; }
 
-        public Event() { }
-
         public override string ToString() => Name;
     }
 }

@@ -292,8 +292,6 @@
         /// </summary>
         public uint PsiBehaviour { get; set; }
 
-        public CommonObject() { }
-
         public override string ToString() => PropName;
     }
 }

@@ -195,7 +195,6 @@
             if (string.IsNullOrEmpty(str) && writeNulls)
             {
                 WriteNulls(offsetLength);
-
                 return;
             }
 

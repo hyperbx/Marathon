@@ -210,8 +210,6 @@
         /// </summary>
         public const uint Size = 0x54;
 
-        public ScriptParameter() { }
-
         public override string ToString() => Name;
     }
 }

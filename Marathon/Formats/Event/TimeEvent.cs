@@ -162,8 +162,6 @@
 
         public Vector3 UnknownVector3 { get; set; }
 
-        public AnimationTimer() { }
-
         public override string ToString() => ParticleName;
     }
 }
