@@ -1,4 +1,6 @@
-﻿namespace Marathon.Formats.Package
+﻿using System;
+
+namespace Marathon.Formats.Package
 {
     /// <summary>
     /// File base for the PathObj.bin format.
@@ -43,59 +45,62 @@
         {
             BINAReader reader = new(stream);
 
-            // Read the first entry's name so we can find the string table's position.
+            // Read the first entry's name to get the string table's position.
             uint stringTablePosition = reader.ReadUInt32();
-            reader.JumpBehind(0x4);
+
+            reader.JumpBehind(4);
 
             // Loop through and read entries.
             while (reader.BaseStream.Position < (stringTablePosition - 4) + 0x20)
             {
-                PathObject entry = new();
+                var entry = new PathObject();
                 
                 // Read string offsets.
-                uint EntryNameOffset = reader.ReadUInt32();
-                uint XNOOffset = reader.ReadUInt32();
-                uint XNMOffset = reader.ReadUInt32();
-                uint TXTOffset = reader.ReadUInt32();
-                uint XNVOffset = reader.ReadUInt32();
+                uint nameOffset = reader.ReadUInt32();
+                uint modelOffset = reader.ReadUInt32();
+                uint animOffset = reader.ReadUInt32();
+                uint textOffset = reader.ReadUInt32();
+                uint matAnimOffset = reader.ReadUInt32();
+
                 long position = reader.BaseStream.Position;
 
-                // Read and store all the string values if the offset value wasn't null.
-                if (EntryNameOffset != 0)
-                    entry.Name = reader.ReadNullTerminatedString(false, EntryNameOffset, true);
+                if (nameOffset != 0)
+                    entry.Name = reader.ReadNullTerminatedString(false, nameOffset, true);
 
-                if (XNOOffset != 0)
-                    entry.Model = reader.ReadNullTerminatedString(false, XNOOffset, true);
+                if (modelOffset != 0)
+                    entry.Model = reader.ReadNullTerminatedString(false, modelOffset, true);
 
-                if (XNMOffset != 0)
-                    entry.Animation = reader.ReadNullTerminatedString(false, XNMOffset, true);
+                if (animOffset != 0)
+                    entry.Animation = reader.ReadNullTerminatedString(false, animOffset, true);
 
-                if (TXTOffset != 0)
-                    entry.Text = reader.ReadNullTerminatedString(false, TXTOffset, true);
+                if (textOffset != 0)
+                    entry.Text = reader.ReadNullTerminatedString(false, textOffset, true);
 
-                if (XNVOffset != 0)
-                    entry.MaterialAnimation = reader.ReadNullTerminatedString(false, XNVOffset, true);
+                if (matAnimOffset != 0)
+                    entry.MaterialAnimation = reader.ReadNullTerminatedString(false, matAnimOffset, true);
 
-                // Save entry and jump back to position to read the next entry.
                 PathObjects.Add(entry);
+
                 reader.JumpTo(position);
             }
         }
+
         public override void Save(Stream stream)
         {
             BINAWriter writer = new(stream);
 
             for (int i = 0; i < PathObjects.Count; i++)
             {
-                if (PathObjects[i].Name != null) writer.AddString($"Entry{i}Name", PathObjects[i].Name); else writer.WriteNulls(0x4);
-                if (PathObjects[i].Model != null) writer.AddString($"Entry{i}XNO", PathObjects[i].Model); else writer.WriteNulls(0x4);
-                if (PathObjects[i].Animation != null) writer.AddString($"Entry{i}XNM", PathObjects[i].Animation); else writer.WriteNulls(0x4);
-                if (PathObjects[i].Text != null) writer.AddString($"Entry{i}TXT", PathObjects[i].Text); else writer.WriteNulls(0x4);
-                if (PathObjects[i].MaterialAnimation != null) writer.AddString($"Entry{i}XNV", PathObjects[i].MaterialAnimation); else writer.WriteNulls(0x4);
+                var pathObj = PathObjects[i];
+
+                writer.AddString($"Name{i}", pathObj.Name);
+                writer.AddString($"Model{i}", pathObj.Model);
+                writer.AddString($"Animation{i}", pathObj.Animation);
+                writer.AddString($"Text{i}", pathObj.Text);
+                writer.AddString($"MaterialAnimation{i}", pathObj.MaterialAnimation);
             }
 
             writer.WriteNulls(4);
-            writer.FixPadding(0x10);
             writer.FinishWrite();
         }
     }
