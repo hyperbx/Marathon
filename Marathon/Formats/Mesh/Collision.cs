@@ -1,5 +1,7 @@
 ﻿using Assimp;
 using Assimp.Configs;
+using System.Globalization;
+using System.Xml.Linq;
 
 namespace Marathon.Formats.Mesh
 {
@@ -81,7 +83,7 @@ namespace Marathon.Formats.Mesh
 
                 reader.FixPadding();
 
-                face.Flags = reader.ReadUInt32(); // TODO: Experiment with flags to see what they all do.
+                face.Flags = (CollisionFlag)reader.ReadUInt32(); // TODO: Experiment with flags to see what they all do.
 
                 Data.Faces.Add(face);
             }
@@ -115,7 +117,7 @@ namespace Marathon.Formats.Mesh
                 writer.Write(Data.Faces[i].VertexB);
                 writer.Write(Data.Faces[i].VertexC);
                 writer.FixPadding();
-                writer.Write(Data.Faces[i].Flags);
+                writer.Write((uint)Data.Faces[i].Flags);
             }
 
             writer.FinishWrite();
@@ -124,7 +126,7 @@ namespace Marathon.Formats.Mesh
         public void ExportOBJ(string filePath)
         {
             // Create a SteamWriter.
-            StreamWriter obj = new(filePath);
+            var obj = new StreamWriter(filePath);
 
             // Vertices.
             foreach (Vector3 vertex in Data.Vertices)
@@ -132,22 +134,22 @@ namespace Marathon.Formats.Mesh
 
             // Faces.
             // Get all used flags.
-            List<uint> Flags = new();
+            var flags = new List<CollisionFlag>();
 
             foreach (CollisionFace face in Data.Faces)
             {
-                if (!Flags.Contains(face.Flags))
-                    Flags.Add(face.Flags);
+                if (!flags.Contains(face.Flags))
+                    flags.Add(face.Flags);
             }
 
             // Write Faces.
-            foreach (uint Flag in Flags)
+            foreach (uint flag in flags)
             {
-                obj.WriteLine($"\ng {Flag.ToString("x").PadLeft(8, '0')}");
+                obj.WriteLine($"\ng {flag.ToString("x").PadLeft(8, '0')}");
 
                 foreach (CollisionFace face in Data.Faces)
                 {
-                    if (face.Flags == Flag)
+                    if ((uint)face.Flags == flag)
                         obj.WriteLine($"f {face.VertexA + 1} {face.VertexB + 1} {face.VertexC + 1}");
                 }
             }
@@ -179,12 +181,14 @@ namespace Marathon.Formats.Mesh
                     name = name.Substring(1);
 
                 // Try read an @ sign for backwards compatibility.
-                if (name.Contains("@"))
-                    try { meshNameTag = (uint)Convert.ToInt32(name.Substring(name.LastIndexOf('@') + 1), 16); } catch { }
-
-                // Try read the mesh name as the tag instead, leave it at 0 if it's not valid.
+                if (name.Contains('@'))
+                {
+                    meshNameTag = ParseFlags(name[(name.LastIndexOf('@') + 1)..]);
+                }
                 else
-                    try { meshNameTag = (uint)Convert.ToInt32(name, 16); } catch { }
+                {
+                    meshNameTag = ParseFlags(name);
+                }
 
                 // Faces.
                 foreach (Face assimpFace in assimpMesh.Faces)
@@ -194,7 +198,7 @@ namespace Marathon.Formats.Mesh
                         VertexA = (ushort)(assimpFace.Indices[0] + Data.Vertices.Count),
                         VertexB = (ushort)(assimpFace.Indices[1] + Data.Vertices.Count),
                         VertexC = (ushort)(assimpFace.Indices[2] + Data.Vertices.Count),
-                        Flags = meshNameTag
+                        Flags = (CollisionFlag)meshNameTag
                     };
 
                     Data.Faces.Add(face);
@@ -204,6 +208,14 @@ namespace Marathon.Formats.Mesh
                 foreach (Vector3D assimpVertex in assimpMesh.Vertices)
                     Data.Vertices.Add(new Vector3(assimpVertex.X, assimpVertex.Y, assimpVertex.Z));
             }
+        }
+
+        private uint ParseFlags(string in_str)
+        {
+            if (uint.TryParse(in_str, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var out_flags))
+                return out_flags;
+
+            return 0;
         }
     }
 
@@ -215,11 +227,11 @@ namespace Marathon.Formats.Mesh
 
         public ushort VertexC { get; set; }
 
-        public uint Flags { get; set; }
+        public CollisionFlag Flags { get; set; }
 
         public CollisionFace() { }
 
-        public CollisionFace(ushort in_vertexA, ushort in_vertexB, ushort in_vertexC, uint in_flags)
+        public CollisionFace(ushort in_vertexA, ushort in_vertexB, ushort in_vertexC, CollisionFlag in_flags)
         {
             VertexA = in_vertexA;
             VertexB = in_vertexB;
@@ -228,5 +240,31 @@ namespace Marathon.Formats.Mesh
         }
 
         public override string ToString() => $"<{VertexA}, {VertexB}, {VertexC}> @{Flags.ToString("X").PadLeft(8, '0')}";
+    }
+
+    public enum CollisionFlag : uint
+    {
+        Concrete      = 0x00000000,
+        Water         = 0x00000001,
+        Wood          = 0x00000002,
+        Metal         = 0x00000003,
+        Grass         = 0x00000005,
+        Sand          = 0x00000006,
+        Snow          = 0x00000008,
+        Dirt          = 0x00000009,
+        Glass         = 0x0000000A,
+        MetalEcho     = 0x0000000E,
+        Wall          = 0x00010000,
+        NoStand       = 0x00040000,
+        WaterSurface  = 0x00080000,
+        Death         = 0x00100000,
+        PlayerOnly    = 0x00200000,
+        CameraOnly    = 0x04000000,
+        Tentative     = 0x10000000,
+        CornerDamage  = 0x20000000,
+        Damage        = 0x28000000,
+        WaterSurface2 = 0x40000000,
+        DeadlyWater   = 0x60000000,
+        Climbable     = 0x80000000
     }
 }
