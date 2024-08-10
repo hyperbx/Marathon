@@ -1,7 +1,6 @@
 ﻿using Assimp;
 using Assimp.Configs;
 using System.Globalization;
-using System.Xml.Linq;
 
 namespace Marathon.Formats.Mesh
 {
