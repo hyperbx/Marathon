@@ -1,4 +1,4 @@
-﻿namespace Marathon.Formats.Object
+﻿namespace Marathon.Formats.Placement
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SetDataType

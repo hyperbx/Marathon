@@ -1,7 +1,7 @@
 ﻿using Marathon.Exceptions;
 using Marathon.Helpers;
 
-namespace Marathon.Formats.Object
+namespace Marathon.Formats.Placement
 {
     /// <summary>
     /// File base for the *.set format.

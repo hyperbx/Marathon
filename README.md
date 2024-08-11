@@ -35,9 +35,6 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 	- [Ninja (`*.xna; *.xnd; *.xne; *.xnf; *.xng; *.xni; *.xnm; *.xno; *.xnv`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/Ninja/NinjaNext.cs) reading and writing
     - [Path Spline (`*.path`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/PathSpline.cs) reading and writing
     - [Reflection Zone (`*.rab`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/ReflectionZone.cs) reading and writing
-- Object
-    - [Set Data (`*.set`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/SetData.cs) reading and writing    
-    - [Property Database (`*.prop`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/PropertyDatabase.cs) reading and writing
 - Package
     - [Asset Package (`*.pkg`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/AssetPackage.cs) reading and writing
     - [Common Package (`Common.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/CommonPackage.cs) reading and writing
@@ -50,6 +47,9 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Particle Effect Bank (`*.peb`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleEffectBank.cs) reading and writing
     - [Particle Generation System (`*.pgs`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleGenerationSystem.cs) reading and writing
     - [Particle Texture Bank (`*.ptb`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleTextureBank.cs) reading and writing
+- Placement
+    - [Set Data (`*.set`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/SetData.cs) reading and writing    
+    - [Property Database (`*.prop`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/PropertyDatabase.cs) reading and writing
 - Save
     - [Save Data (`SonicNextSaveData.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Save/SonicNextSaveData.cs) reading and writing
 - Script
