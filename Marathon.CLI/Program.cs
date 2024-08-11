@@ -2,9 +2,9 @@
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
 using Marathon.Formats.Mesh;
+using Marathon.Formats.Object;
 using Marathon.Formats.Package;
 using Marathon.Formats.Particle;
-using Marathon.Formats.Placement;
 using Marathon.Formats.Save;
 using Marathon.Formats.Script;
 using Marathon.Formats.Script.Lua;
@@ -210,12 +210,12 @@ namespace Marathon.CLI
 
                             case ".set":
                             case ".set.json":
-                                ObjectPlacement set = new(arg, true, !args.Contains("--no-index"));
+                                SetData set = new(arg, true, !args.Contains("--no-index"));
                                 break;
 
                             case ".prop":
                             case ".prop.json":
-                                ObjectPropertyDatabase prop = new(arg, true);
+                                PropertyDatabase prop = new(arg, true);
                                 break;
 
                             case string mstEx when mstEx.EndsWith(".mst"):

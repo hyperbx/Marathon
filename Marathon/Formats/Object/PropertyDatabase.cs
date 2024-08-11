@@ -1,14 +1,14 @@
-﻿namespace Marathon.Formats.Placement
+﻿namespace Marathon.Formats.Object
 {
     /// <summary>
     /// File base for the *.prop format.
     /// <para>Used in SONIC THE HEDGEHOG for defining object properties.</para>
     /// </summary>
-    public class ObjectPropertyDatabase : FileBase
+    public class PropertyDatabase : FileBase
     {
-        public ObjectPropertyDatabase() { }
+        public PropertyDatabase() { }
 
-        public ObjectPropertyDatabase(string file, bool serialise = false)
+        public PropertyDatabase(string file, bool serialise = false)
         {
             switch (Path.GetExtension(file))
             {
@@ -84,7 +84,7 @@
                     ObjectParameter parameter = new()
                     {
                         Name = new string(reader.ReadChars(0x10)).Trim('\0'),
-                        Type = (ObjectDataType)reader.ReadUInt32()
+                        Type = (SetDataType)reader.ReadUInt32()
                     };
 
                     entry.Parameters.Add(parameter);
@@ -163,11 +163,11 @@
     {
         public string Name { get; set; }
 
-        public ObjectDataType Type { get; set; }
+        public SetDataType Type { get; set; }
 
         public ObjectParameter() { }
 
-        public ObjectParameter(string in_name, ObjectDataType in_type)
+        public ObjectParameter(string in_name, SetDataType in_type)
         {
             Name = in_name;
             Type = in_type;

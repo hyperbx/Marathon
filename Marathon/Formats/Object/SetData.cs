@@ -1,18 +1,17 @@
 ﻿using Marathon.Exceptions;
 using Marathon.Helpers;
-using Newtonsoft.Json;
 
-namespace Marathon.Formats.Placement
+namespace Marathon.Formats.Object
 {
     /// <summary>
     /// File base for the *.set format.
     /// <para>Used in SONIC THE HEDGEHOG for object layouts.</para>
     /// </summary>
-    public class ObjectPlacement : FileBase
+    public class SetData : FileBase
     {
-        public ObjectPlacement() { }
+        public SetData() { }
 
-        public ObjectPlacement(string file, bool serialise = false, bool displayIndex = true)
+        public SetData(string file, bool serialise = false, bool displayIndex = true)
         {
             switch (Path.GetExtension(file))
             {
@@ -118,7 +117,7 @@ namespace Marathon.Formats.Placement
                     for (int p = 0; p < parameterCount; p++)
                     {
                         // Read object data type.
-                        ObjectDataType type = (ObjectDataType)reader.ReadUInt32();
+                        SetDataType type = (SetDataType)reader.ReadUInt32();
 
                         // Initialise new parameter with the read type.
                         SetParameter setParameter = new()
@@ -128,22 +127,22 @@ namespace Marathon.Formats.Placement
 
                         switch (type)
                         {
-                            case ObjectDataType.Boolean:
+                            case SetDataType.Boolean:
                                 setParameter.Data = reader.ReadBoolean(4);
                                 reader.JumpAhead(0x0C);
                                 break;
 
-                            case ObjectDataType.Int32:
+                            case SetDataType.Int32:
                                 setParameter.Data = reader.ReadInt32();
                                 reader.JumpAhead(0x0C);
                                 break;
 
-                            case ObjectDataType.Single:
+                            case SetDataType.Single:
                                 setParameter.Data = reader.ReadSingle();
                                 reader.JumpAhead(0x0C);
                                 break;
 
-                            case ObjectDataType.String:
+                            case SetDataType.String:
                             {
                                 uint stringOffset = reader.ReadUInt32();
 
@@ -165,12 +164,12 @@ namespace Marathon.Formats.Placement
                                 break;
                             }
 
-                            case ObjectDataType.Vector3:
+                            case SetDataType.Vector3:
                                 setParameter.Data = reader.ReadVector3();
                                 reader.JumpAhead(0x04);
                                 break;
 
-                            case ObjectDataType.UInt32:
+                            case SetDataType.UInt32:
                                 setParameter.Data = reader.ReadUInt32();
                                 reader.JumpAhead(0x0C);
                                 break;
@@ -276,29 +275,29 @@ namespace Marathon.Formats.Placement
 
                 for (int p = 0; p < Data.Objects[o].Parameters.Count; p++)
                 {
-                    ObjectDataType type = Data.Objects[o].Parameters[p].Type;
+                    SetDataType type = Data.Objects[o].Parameters[p].Type;
 
                     // Write object data type.
                     writer.Write((uint)type);
 
                     switch (type)
                     {
-                        case ObjectDataType.Boolean:
+                        case SetDataType.Boolean:
                             writer.WriteBoolean32((bool)Data.Objects[o].Parameters[p].Data);
                             writer.WriteNulls(0x0C);
                             break;
 
-                        case ObjectDataType.Int32:
+                        case SetDataType.Int32:
                             writer.Write(Convert.ToInt32(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
 
-                        case ObjectDataType.Single:
+                        case SetDataType.Single:
                             writer.Write(Convert.ToSingle(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
 
-                        case ObjectDataType.String:
+                        case SetDataType.String:
                         {                
                             // If the parameter's string is empty, add an offset to a null entry.
                             if (string.IsNullOrEmpty(Data.Objects[o].Parameters[p].Data.ToString()))
@@ -317,12 +316,12 @@ namespace Marathon.Formats.Placement
                             break;
                         }
 
-                        case ObjectDataType.Vector3:
+                        case SetDataType.Vector3:
                             writer.Write(VectorHelper.ParseVector3(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x04);
                             break;
 
-                        case ObjectDataType.UInt32:
+                        case SetDataType.UInt32:
                             writer.Write(Convert.ToUInt32(Data.Objects[o].Parameters[p].Data));
                             writer.WriteNulls(0x0C);
                             break;
@@ -378,7 +377,7 @@ namespace Marathon.Formats.Placement
 
                 for (int p = 0; p < Data.Objects[o].Parameters.Count; p++)
                 {
-                    if (Data.Objects[o].Parameters[p].Type == ObjectDataType.String)
+                    if (Data.Objects[o].Parameters[p].Type == SetDataType.String)
                     {
                         if (string.IsNullOrEmpty(Data.Objects[o].Parameters[p].Data.ToString()))
                         {
@@ -469,11 +468,11 @@ namespace Marathon.Formats.Placement
         /// <summary>
         /// The data type for <see cref="Data"/>.
         /// </summary>
-        public ObjectDataType Type { get; set; }
+        public SetDataType Type { get; set; }
 
         public SetParameter() { }
 
-        public SetParameter(object in_data, ObjectDataType in_type)
+        public SetParameter(object in_data, SetDataType in_type)
         {
             Data = in_data;
             Type = in_type;
