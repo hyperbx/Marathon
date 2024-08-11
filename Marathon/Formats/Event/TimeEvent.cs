@@ -80,8 +80,9 @@
                 uint TargetNodeOffset   = reader.ReadUInt32();
                 uint ParticleBankOffset = reader.ReadUInt32();
                 uint ParticleOffset     = reader.ReadUInt32();
-                entry.UnknownSingle_1   = reader.ReadSingle();
-                entry.UnknownSingle_2   = reader.ReadSingle();
+
+                entry.StartTime = reader.ReadSingle();
+                entry.EndTime = reader.ReadSingle();
 
                 reader.JumpAhead(1); // Always null in official files. Padding?
 
@@ -130,8 +131,8 @@
                 writer.AddString($"TargetNode{i}", Data.Events[i].TargetNode);
                 writer.AddString($"ParticleBank{i}", Data.Events[i].ParticleContainer);
                 writer.AddString($"Particle{i}", Data.Events[i].ParticleName);
-                writer.Write(Data.Events[i].UnknownSingle_1);
-                writer.Write(Data.Events[i].UnknownSingle_2);
+                writer.Write(Data.Events[i].StartTime);
+                writer.Write(Data.Events[i].EndTime);
                 writer.WriteNulls(1);
                 writer.Write(Data.Events[i].UnknownBoolean);
                 writer.WriteNulls(2);
@@ -152,9 +153,9 @@
 
         public string ParticleName { get; set; }
 
-        public float UnknownSingle_1 { get; set; }
+        public float StartTime { get; set; }
 
-        public float UnknownSingle_2 { get; set; }
+        public float EndTime { get; set; }
 
         public bool UnknownBoolean { get; set; }
 
