@@ -500,11 +500,11 @@ namespace Marathon.Formats.Placement
 
         public SetGroup() { }
 
-        public SetGroup(string in_name, string in_function, List<ulong> in_objects)
+        public SetGroup(string in_name, string in_function, List<ulong> in_objects = null)
         {
             Name = in_name;
             Function = in_function;
-            Objects = in_objects;
+            Objects = in_objects ?? [];
         }
 
         public override string ToString() => Name;
