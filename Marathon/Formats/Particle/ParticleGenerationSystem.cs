@@ -41,9 +41,9 @@
 
         public class FormatData
         {
-            public List<string> Effects { get; set; } = [];
+            public List<string> EffectBanks { get; set; } = [];
 
-            public List<string> Textures { get; set; } = [];
+            public List<string> TextureBanks { get; set; } = [];
 
             public List<ParticleMaterial> Materials { get; set; } = [];
         }
@@ -67,11 +67,11 @@
 
             reader.JumpTo(particleEffectBankOffset, true);
             for (int i = 0; i < particleEffectBankCount; i++)
-                Data.Effects.Add(reader.ReadNullPaddedString(0x20));
+                Data.EffectBanks.Add(reader.ReadNullPaddedString(0x20));
 
             reader.JumpTo(particleTextureBankOffset, true);
             for (int i = 0; i < particleTextureBankCount; i++)
-                Data.Textures.Add(reader.ReadNullPaddedString(0x20));
+                Data.TextureBanks.Add(reader.ReadNullPaddedString(0x20));
 
             reader.JumpTo(materialOffset, true);
             for (int i = 0; i < materialCount; i++)
@@ -94,8 +94,8 @@
             writer.WriteSignature(Signature);
 
             writer.WriteNulls(0x04);
-            writer.Write(Data.Effects.Count);
-            writer.Write(Data.Textures.Count);
+            writer.Write(Data.EffectBanks.Count);
+            writer.Write(Data.TextureBanks.Count);
             writer.Write(Data.Materials.Count);
             writer.Write(ParticleMaterial.Size);
             writer.AddOffset("particleEffectBankOffset");
@@ -104,12 +104,12 @@
 
             writer.FillOffset("particleEffectBankOffset", true);
 
-            foreach (string effect in Data.Effects)
+            foreach (string effect in Data.EffectBanks)
                 writer.WriteNullPaddedString(effect, 0x20);
 
             writer.FillOffset("particleTextureBankOffset", true);
 
-            foreach (string texture in Data.Textures)
+            foreach (string texture in Data.TextureBanks)
                 writer.WriteNullPaddedString(texture, 0x20);
 
             writer.FillOffset("materialOffset", true);
