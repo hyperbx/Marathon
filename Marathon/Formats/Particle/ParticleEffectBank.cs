@@ -97,13 +97,13 @@
                     peAttributes.UnknownUInt32_3   = reader.ReadUInt32();
                     peAttributes.UnknownUInt32_4   = reader.ReadUInt32();
 
-                    peAttributes.Shader       = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBank1 = reader.ReadNullPaddedString(0x20);
-                    peAttributes.Texture1     = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBank2 = reader.ReadNullPaddedString(0x20);
-                    peAttributes.Texture2     = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBank3 = reader.ReadNullPaddedString(0x20);
-                    peAttributes.Texture3     = reader.ReadNullPaddedString(0x20);
+                    peAttributes.MaterialName       = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBankA = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureNameA     = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBankB = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureNameB     = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureBankC = reader.ReadNullPaddedString(0x20);
+                    peAttributes.TextureNameC     = reader.ReadNullPaddedString(0x20);
 
                     int PropertyListLength  = reader.ReadInt32();
                     uint PropertyListOffset = reader.ReadUInt32();
@@ -179,13 +179,13 @@
                     writer.Write(currentEffect.UnknownUInt32_3);
                     writer.Write(currentEffect.UnknownUInt32_4);
 
-                    writer.WriteNullPaddedString(currentEffect.Shader, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBank1, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.Texture1, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBank2, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.Texture2, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBank3, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.Texture3, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.MaterialName, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBankA, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureNameA, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBankB, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureNameB, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureBankC, 0x20);
+                    writer.WriteNullPaddedString(currentEffect.TextureNameC, 0x20);
 
                     int totalProperties = currentEffect.Properties.Sum(x => x.Length());
                     writer.Write(totalProperties);
@@ -319,39 +319,39 @@
         public uint UnknownUInt32_4 { get; set; }
 
         /// <summary>
-        /// The shader system to use in sonicnext.pgs
+        /// The material to use in sonicnext.pgs.
         /// </summary>
-        public string Shader { get; set; }
+        public string MaterialName { get; set; }
 
         /// <summary>
         /// The <see cref="ParticleTextureBank"/> file to pull from for the first texture.
         /// </summary>
-        public string TextureBank1 { get; set; }
+        public string TextureBankA { get; set; }
 
         /// <summary>
         /// The texture entry to look for as the first texture.
         /// </summary>
-        public string Texture1 { get; set; }
+        public string TextureNameA { get; set; }
 
         /// <summary>
         /// The <see cref="ParticleTextureBank"/> file to pull from for the second texture.
         /// </summary>
-        public string TextureBank2 { get; set; }
+        public string TextureBankB { get; set; }
 
         /// <summary>
         /// The texture entry to look for as the second texture.
         /// </summary>
-        public string Texture2 { get; set; }
+        public string TextureNameB { get; set; }
 
         /// <summary>
         /// The <see cref="ParticleTextureBank"/> to pull from for the third texture.
         /// </summary>
-        public string TextureBank3 { get; set; }
+        public string TextureBankC { get; set; }
 
         /// <summary>
         /// The texture entry to look for as the third texture.
         /// </summary>
-        public string Texture3 { get; set; }
+        public string TextureNameC { get; set; }
 
         /// <summary>
         /// A collection of properties that affect this particle.
