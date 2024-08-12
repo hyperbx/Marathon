@@ -374,22 +374,61 @@
 
         public ParticleEffectProperty() { }
 
+        public ParticleEffectProperty(ParticleEffectPropertyType in_type)
+        {
+            Type = in_type;
+        }
+
         public ParticleEffectProperty(ParticleEffectPropertyType in_type, int in_int32)
         {
+            if (!in_type.ToString().StartsWith("Int32"))
+                throw new ArgumentException("The input type is not an Int32.");
+
             Type = in_type;
             Int32 = in_int32;
         }
 
         public ParticleEffectProperty(ParticleEffectPropertyType in_type, float in_single)
         {
+            if (!in_type.ToString().StartsWith("Single"))
+                throw new ArgumentException("The input type is not a Single.");
+
             Type = in_type;
             Single = in_single;
         }
 
         public ParticleEffectProperty(ParticleEffectPropertyType in_type, Vector3 in_vector3)
         {
+            if (!in_type.ToString().StartsWith("Vector3"))
+                throw new ArgumentException("The input type is not a Vector3.");
+
             Type = in_type;
             Vector3 = in_vector3;
+        }
+
+        public ParticleEffectProperty(ParticleEffectPropertyType in_type, object in_object)
+        {
+            var objType = in_object.GetType();
+            var typeName = in_type.ToString();
+
+            if (objType == typeof(int) && typeName.StartsWith("Int32"))
+            {
+                Int32 = (int)in_object;
+            }
+            else if (objType == typeof(float) && typeName.StartsWith("Single"))
+            {
+                Single = (float)in_object;
+            }
+            else if (objType == typeof(Vector3) && typeName.StartsWith("Vector3"))
+            {
+                Vector3 = (Vector3)in_object;
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid CLR type or property type: {objType.Name} ({typeName}).");
+            }
+
+            Type = in_type;
         }
 
         public ParticleEffectProperty Read(BinaryReaderEx reader)
