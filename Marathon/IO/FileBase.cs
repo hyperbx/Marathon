@@ -197,12 +197,9 @@ namespace Marathon.IO
                 {
                     if (!string.IsNullOrEmpty(Location) && File.Exists(Location))
                     {
-                        // Don't bother copying if it's the same location.
-                        if (file == Location)
-                            return;
-
                         // Copy the fixed file to the new writing location.
-                        File.Copy(Location, file, true);
+                        if (file != Location)
+                            File.Copy(Location, file, true);
                     }
 
                     // Write to a pre-existing file directly.
