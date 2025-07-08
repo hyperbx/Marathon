@@ -1,0 +1,4 @@
+[submodule "Amicitia.IO"]
+	path = Amicitia.IO
+	url = https://github.com/hyperbx/Amicitia.IO.git
+	branch = null-terminated-unicode-fixes

@@ -1,142 +1,132 @@
-﻿using Marathon.IO.Interfaces;
+﻿using Amicitia.IO.Binary;
+using Marathon.Helpers;
+using Marathon.IO.Extensions;
+using System.Text;
+
+// Format research attribution: Radfordhound
 
 namespace Marathon.IO
 {
-    public class BINAHeader : IHeader
+    public class BINAHeader
     {
-        public uint FileSize,         // First UInt32 in the header that defines the overall size of the file.
-                    FinalTableLength; // Second UInt32 in the header that defines the size of the file after the header and before the footer.
+        public const int Size = 0x20;
 
-        // Format version number defined two bytes prior to the signature.
-        public ushort Version;
+        private const byte _endianFlagLittle = 0x4C; // 'L'
+        private const byte _endianFlagBig = 0x42;    // 'B'
 
-        // General flag for endianness set later on.
+        private const string _signature = "BINA";
+
+        public long HeaderOffset;
+        public uint FileSize;
+        public uint OffsetTableOffset;
+        public uint OffsetTableLength;
+        public uint Version;
         public bool IsBigEndian;
+        public bool HasFooterMagic;
 
-        // File signature written near the end of the header for some horrific reason.
-        public const string Signature = "BINA";
-
-        // Endian flags defined one byte prior to the signature.
-        public const char BigEndianFlag    = 'B',
-                          LittleEndianFlag = 'L';
-
-        public uint FinalTableOffset;
-        public bool IsFooterMagicPresent = false;
-
-        public const string FooterMagic = "bvh";
-        public const uint FooterMagic2 = 0x10, PointerLength = 0x20;
-
-        public BINAHeader(ushort version = 1, bool isBigEndian = true)
+        public BINAHeader(uint in_version = 1, bool in_isBigEndian = true)
         {
-            IsBigEndian = isBigEndian;
-            Version = version;
+            Version = in_version;
+            IsBigEndian = in_isBigEndian;
         }
 
-        public BINAHeader(BinaryReaderEx reader)
+        public BINAHeader(BinaryObjectReaderEx in_reader)
         {
             IsBigEndian = true;
-            Read(reader);
+
+            Read(in_reader);
         }
 
-        public virtual void Read(BinaryReaderEx reader)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            long position = reader.BaseStream.Position;
+            HeaderOffset = in_reader.Position;
 
-            // Jump to signature...
-            reader.BaseStream.Position += 0x14;
-            reader.IsBigEndian = false;
+            // Jump to signature.
+            in_reader.JumpAhead(0x14);
 
-            // Get version string and endianness...
-            uint flags = reader.ReadUInt32();
-            string versionString = "xyz"; // Just 3 chars that would fail ushort.TryParse
+            // Get version string and endianness.
+            var flags = in_reader.ReadLittle<uint>();
+            var version = "!!!";
+            
+            IsBigEndian = (byte)((flags & 0xFF000000) >> 24) == _endianFlagBig;
+
+            in_reader.Endianness = IsBigEndian ? Endianness.Big : Endianness.Little;
 
             unsafe
             {
-                // Set endianness flag...
-                reader.IsBigEndian = IsBigEndian = (char)((flags & 0xFF000000) >> 24) == BigEndianFlag;
-
-                /* Quick way to grab the last 3 bytes from the flags UInt32
-                 * (which are chars) and stuff them into a string that we can
-                 * then safely parse into a ushort via ushort.TryParse... */
-                fixed (char* vp = versionString)
+                // Get version string chars.
+                fixed (char* pVersion = version)
                 {
-                    *vp   = (char)((flags & 0xFF0000) >> 16);
-                    vp[1] = (char)((flags & 0xFF00) >> 16);
-                    vp[2] = (char)(flags & 0xFF);
+                    pVersion[0] = (char)((flags & 0xFF0000) >> 16);
+                    pVersion[1] = (char)((flags & 0xFF00) >> 16);
+                    pVersion[2] = (char)(flags & 0xFF);
                 }
             }
 
-            if (!ushort.TryParse(versionString, out Version))
-                Console.WriteLine("WARNING: BINA header version was invalid! ({0})", versionString);
+            if (!uint.TryParse(version, out Version))
+                Logger.Warning($"Unexpected BINA version: {version}");
 
-            // Return to beginning of the header now to read it with the correct endianness...
-            reader.BaseStream.Position = position;
+            // Jump to the beginning of the header to read it with the correct endianness.
+            in_reader.JumpTo(HeaderOffset);
 
-            FileSize = reader.ReadUInt32();
-            FinalTableOffset = reader.ReadUInt32();
-            FinalTableLength = reader.ReadUInt32();
+            FileSize = in_reader.ReadUInt32();
+            OffsetTableOffset = in_reader.ReadUInt32();
+            OffsetTableLength = in_reader.ReadUInt32();
 
-            // TODO: Unknown.
-            uint UnknownUInt32_1 = reader.ReadUInt32();
-            if (UnknownUInt32_1 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt32_1)} is not zero! ({UnknownUInt32_1})");
+            // TODO: unknown.
+            var unkField1 = in_reader.ReadUInt32();
 
-            // TODO: Unknown - possibly a flag?
-            ushort UnknownUInt16_1 = reader.ReadUInt16();
-            if (UnknownUInt16_1 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt16_1)} is not zero! ({UnknownUInt16_1})");
+            if (unkField1 != 0)
+                Logger.Warning($"{nameof(unkField1)} is non-zero: {unkField1}");
 
-            // TODO: Unknown - possibly node count?
-            IsFooterMagicPresent = reader.ReadUInt16() == 1;
-            reader.JumpAhead(4);
+            // TODO: unknown - possibly a flag?
+            var unkField2 = in_reader.ReadUInt16();
 
-            reader.ReadSignature(4, Signature, false);
+            if (unkField2 != 0)
+                Logger.Warning($"{nameof(unkField2)} is non-zero: {unkField2}");
 
-            // TODO: Unknown - possibly additional data length?
-            uint UnknownUInt32_2 = reader.ReadUInt32();
-            if (UnknownUInt32_2 != 0) Console.WriteLine($"WARNING: {nameof(UnknownUInt32_2)} is not zero! ({UnknownUInt32_2})");
+            // TODO: unknown - possibly node count?
+            HasFooterMagic = in_reader.ReadUInt16() == 1;
 
-            reader.Offset = (uint)reader.BaseStream.Position;
+            in_reader.JumpAhead(4);
+
+            if (!in_reader.CheckSignature(_signature, false))
+                Logger.Warning("No BINA signature. Acroarts file?");
+
+            // TODO: unknown - possibly additional data length?
+            var unkField3 = in_reader.ReadUInt32();
+
+            if (unkField3 != 0)
+                Logger.Warning($"{nameof(unkField3)} is non-zero: {unkField3}");
         }
 
-        public virtual void PrepareWrite(BinaryWriterEx writer)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
-            writer.WriteNulls(PointerLength);
-            writer.Offset = PointerLength;
-            writer.IsBigEndian = IsBigEndian;
-        }
+            in_writer.Endianness = IsBigEndian ? Endianness.Big : Endianness.Little;
 
-        public virtual void FinishWrite(BinaryWriterEx writer)
-        {
-            writer.Write(FileSize);
-            writer.Write(FinalTableOffset);
-            writer.Write(FinalTableLength);
+            in_writer.Write(FileSize);
+            in_writer.Write(OffsetTableOffset);
+            in_writer.Write(OffsetTableLength);
 
-            // TODO: Unknown - possibly padding?
-            writer.WriteNulls(4);
+            // TODO: unknown - possibly padding?
+            in_writer.WriteNullBytes(4);
 
-            // TODO: Unknown - possibly a flag?
-            writer.WriteNulls(2);
-            writer.Write(IsFooterMagicPresent ? (ushort)1 : (ushort)0);
+            // TODO: unknown - possibly a flag?
+            in_writer.WriteNullBytes(2);
 
-            string versionString = Version.ToString();
+            in_writer.Write(HasFooterMagic ? (ushort)1 : (ushort)0);
 
-            if (versionString.Length < 3)
-                writer.WriteNulls((uint)(3 - versionString.Length));
+            var version = Version.ToString();
 
-            writer.WriteSignature(versionString);
-            writer.Write(IsBigEndian ? BigEndianFlag : LittleEndianFlag);
-            writer.WriteSignature(Signature);
+            if (version.Length < 3)
+                in_writer.WriteNullBytes(3 - version.Length);
 
-            // TODO: Unknown.
-            writer.WriteNulls(4);
-        }
+            in_writer.WriteStringFixedLength(Encoding.UTF8, version, version.Length);
+            in_writer.Write(IsBigEndian ? _endianFlagBig : _endianFlagLittle);
+            in_writer.WriteStringFixedLength(Encoding.UTF8, _signature, 4);
 
-        public virtual void WriteFooterMagic(BinaryWriterEx writer)
-        {
-            // TODO: Unknown.
-            writer.Write(FooterMagic2);
-
-            writer.WriteNulls(4);
-            writer.WriteNullTerminatedString(FooterMagic);
+            // TODO: unknown.
+            in_writer.WriteNullBytes(4);
         }
     }
 }
