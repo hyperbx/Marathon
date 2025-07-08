@@ -1,10 +1,13 @@
 ﻿using Marathon.IO.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.Helpers
 {
     public static class ArchiveHelper
     {
-        public static char[] DirectorySeperators = new[] { '/', '\\' };
+        private static char[] _dirSeparators = ['/', '\\'];
 
         /// <summary>
         /// Retrieves an item from the input directory.
@@ -13,7 +16,7 @@ namespace Marathon.Helpers
         /// <param name="path">Path to the item (can include subdirectories).</param>
         public static IArchiveData GetItem(this IArchiveDirectory dir, string path)
         {
-            var names = path.Split(DirectorySeperators, StringSplitOptions.RemoveEmptyEntries);
+            var names = path.Split(_dirSeparators, StringSplitOptions.RemoveEmptyEntries);
 
             // Return null if path split didn't get any results.
             if (names.Length == 0)

@@ -17,6 +17,61 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Formats\Archive\**" />
+    <Compile Remove="Formats\Audio\**" />
+    <Compile Remove="Formats\Event\**" />
+    <Compile Remove="Formats\Mesh\**" />
+    <Compile Remove="Formats\Parameter\**" />
+    <Compile Remove="Formats\Particle\**" />
+    <Compile Remove="Formats\Placement\**" />
+    <Compile Remove="Formats\Save\**" />
+    <Compile Remove="Formats\Script\**" />
+    <Compile Remove="Formats\Text\**" />
+    <EmbeddedResource Remove="Formats\Archive\**" />
+    <EmbeddedResource Remove="Formats\Audio\**" />
+    <EmbeddedResource Remove="Formats\Event\**" />
+    <EmbeddedResource Remove="Formats\Mesh\**" />
+    <EmbeddedResource Remove="Formats\Parameter\**" />
+    <EmbeddedResource Remove="Formats\Particle\**" />
+    <EmbeddedResource Remove="Formats\Placement\**" />
+    <EmbeddedResource Remove="Formats\Save\**" />
+    <EmbeddedResource Remove="Formats\Script\**" />
+    <EmbeddedResource Remove="Formats\Text\**" />
+    <None Remove="Formats\Archive\**" />
+    <None Remove="Formats\Audio\**" />
+    <None Remove="Formats\Event\**" />
+    <None Remove="Formats\Mesh\**" />
+    <None Remove="Formats\Parameter\**" />
+    <None Remove="Formats\Particle\**" />
+    <None Remove="Formats\Placement\**" />
+    <None Remove="Formats\Save\**" />
+    <None Remove="Formats\Script\**" />
+    <None Remove="Formats\Text\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Formats\Audio\SoundBank.cs" />
+    <Compile Include="Formats\Event\EventPlaybook.cs" />
+    <Compile Include="Formats\Event\TimeEvent.cs" />
+    <Compile Include="Formats\Mesh\Collision.cs" />
+    <Compile Include="Formats\Mesh\SplinePath.cs" />
+    <Compile Include="Formats\Parameter\ObjectExplosionParameterList.cs" />
+    <Compile Include="Formats\Parameter\ObjectPhysicsParameterList.cs" />
+    <Compile Include="Formats\Parameter\Package.cs" />
+    <Compile Include="Formats\Particle\ParticleGlobalSettings.cs" />
+    <Compile Include="Formats\Placement\PropLibrary.cs" />
+    <Compile Include="Formats\Placement\StageSetDataType.cs" />
+    <Compile Include="Formats\Save\SonicNextEpisode.cs" />
+    <Compile Include="Formats\Save\SonicNextFlags.cs" />
+    <Compile Include="Formats\Save\SonicNextOptions.cs" />
+    <Compile Include="Formats\Save\SonicNextRank.cs" />
+    <Compile Include="Formats\Save\SonicNextSaveData.cs" />
+    <Compile Include="Formats\Save\SonicNextTrial.cs" />
+    <Compile Include="Formats\Text\TextBook.cs" />
+    <Compile Include="Formats\Text\TextFontPicture.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\Marathon.Shared\Resources\Images\Logos\Marathon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

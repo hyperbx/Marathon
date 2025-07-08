@@ -1,23 +1,31 @@
-﻿namespace Marathon.Helpers.Converters
+﻿using Newtonsoft.Json;
+using System;
+
+namespace Marathon.Helpers.Converters
 {
     public class ByteArrayConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType) => objectType == typeof(byte[]);
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override bool CanConvert(Type in_type)
         {
-            if (reader.TokenType == JsonToken.String)
+            return in_type == typeof(byte[]);
+        }
+
+        public override object ReadJson(JsonReader in_reader, Type in_type, object in_existingValue, JsonSerializer in_serialiser)
+        {
+            if (in_reader.TokenType == JsonToken.String)
             {
-                string hex = serializer.Deserialize<string>(reader);
+                string hex = in_serialiser.Deserialize<string>(in_reader);
 
                 if (!string.IsNullOrEmpty(hex))
-                    return BinaryHelper.StringToByteArray(hex);
+                    return BinaryHelper.TransformHexStringToByteArray(hex);
             }
 
             return Array.Empty<byte>();
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            => serializer.Serialize(writer, BitConverter.ToString((byte[])value).Replace("-", " "));
+        public override void WriteJson(JsonWriter in_writer, object in_value, JsonSerializer in_serialiser)
+        {
+            in_serialiser.Serialize(in_writer, BitConverter.ToString((byte[])in_value).Replace("-", " "));
+        }
     }
 }

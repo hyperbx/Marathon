@@ -8,6 +8,6 @@
 
         IArchiveData Parent { get; }
 
-        void Extract(string location);
+        void Extract(string in_path);
     }
 }

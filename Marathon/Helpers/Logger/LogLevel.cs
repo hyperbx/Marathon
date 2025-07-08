@@ -1,17 +1,15 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Marathon.Interfaces
+﻿namespace Marathon.Helpers
 {
     public enum LogLevel
     {
         /// <summary>
-        /// Unimportant logging - usually reserved for debugging.
+        /// None - used for user output.
         /// <para>Colour: White</para>
         /// </summary>
         None,
 
         /// <summary>
-        /// General logging - used for user output.
+        /// Utility - usually reserved for debugging.
         /// <para>Colour: Green</para>
         /// </summary>
         Utility,
@@ -27,10 +25,5 @@ namespace Marathon.Interfaces
         /// <para>Colour: Red</para>
         /// </summary>
         Error
-    }
-
-    public interface ILogger
-    {
-        void Log(string message, LogLevel level, [CallerMemberName] string caller = null);
     }
 }

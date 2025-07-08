@@ -1,4 +1,6 @@
-﻿namespace Marathon.IO.Interfaces
+﻿using System.IO.Compression;
+
+namespace Marathon.IO.Interfaces
 {
     public interface IArchiveFile : IArchiveData
     {
@@ -10,7 +12,7 @@
 
         byte[] Data { get; set; }
 
-        void Compress(CompressionLevel compressionLevel);
+        void Compress(CompressionLevel in_compressionLevel);
 
         void Decompress();
 

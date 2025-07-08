@@ -1,4 +1,6 @@
-﻿namespace Marathon.IO.Interfaces
+﻿using System.IO.Compression;
+
+namespace Marathon.IO.Interfaces
 {
     public interface IArchive
     {
@@ -6,6 +8,6 @@
 
         CompressionLevel CompressionLevel { get; set; }
 
-        void Extract(string location);
+        void Extract(string in_path);
     }
 }
