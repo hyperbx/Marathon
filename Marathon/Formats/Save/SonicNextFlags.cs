@@ -1,4 +1,9 @@
-﻿namespace Marathon.Formats.Save
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum SonicNextFlags
@@ -585,8 +590,7 @@
         set_end_g_sonic_medal_of_royal_silver01     = 5378,
         set_end_g_sonic_medal_of_royal_silver02     = 5379,
 
-        /* Silver medal results.
-           TODO: possibly unused? */
+        // Silver medal results, possibly unused?
         SilverMedal_CollectAll1 = 5409,
         SilverMedal_CollectAll2 = 5410,
         SilverMedal_CollectAll3 = 5411,

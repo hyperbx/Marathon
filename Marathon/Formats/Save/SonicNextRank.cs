@@ -1,4 +1,6 @@
-﻿namespace Marathon.Formats.Save
+﻿// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
     public enum SonicNextRank : int
     {

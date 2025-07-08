@@ -1,4 +1,6 @@
-﻿namespace Marathon.Formats.Save
+﻿// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
     public class SonicNextEpisode
     {
@@ -33,19 +35,19 @@
         public string Terrain { get; set; }
 
         /// <summary>
-        /// The path to this mission's SET data.
+        /// The path to this mission's placement data.
         /// </summary>
-        public string SET { get; set; }
+        public string SetData { get; set; }
 
         /// <summary>
-        /// The path to this mission's PATH data.
+        /// The path to this mission's spline data.
         /// </summary>
-        public string PATH { get; set; }
+        public string PathSpline { get; set; }
 
         /// <summary>
-        /// The path to this mission's MST data containing <see cref="String"/>.
+        /// The path to this mission's message data.
         /// </summary>
-        public string MST { get; set; }
+        public string MessageTable { get; set; }
 
         /// <summary>
         /// The percent of story completion for this episode.
@@ -82,6 +84,9 @@
         /// </summary>
         public string Location { get; set; }
 
-        public override string ToString() => Lua;
+        public override string ToString()
+        {
+            return Lua;
+        }
     }
 }

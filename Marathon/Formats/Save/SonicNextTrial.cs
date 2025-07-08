@@ -1,4 +1,6 @@
-﻿namespace Marathon.Formats.Save
+﻿// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
     public class SonicNextTrial
     {
@@ -38,6 +40,9 @@
             Rings = in_rings;
         }
 
-        public override string ToString() => ID == -1 ? "Incomplete" : ID.ToString();
+        public override string ToString()
+        {
+            return ID == -1 ? "Incomplete" : ID.ToString();
+        }
     }
 }

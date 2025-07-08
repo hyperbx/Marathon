@@ -1,189 +1,165 @@
-﻿namespace Marathon.Formats.Save
+﻿using Amicitia.IO.Binary;
+using Amicitia.IO.Streams;
+using Marathon.IO;
+using Marathon.IO.Extensions;
+using System.Collections.Generic;
+using System.IO;
+
+// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
+    /// <summary>
+    /// Support for SonicNextSaveData.bin; used for storing player progress and game configuration.
+    /// </summary>
     public class SonicNextSaveData : FileBase
     {
+        private const int _episodeCount = 32;
+        private const int _globalFlagCount = 0x27FF;
+        private const int _trialCount = 512;
+
         public SonicNextSaveData() { }
 
-        public SonicNextSaveData(string file, bool serialise = false)
-        {
-            switch (Path.GetExtension(file))
-            {
-                case ".json":
-                {
-                    Data = JsonDeserialise<FormatData>(file);
-
-                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
-                    if (serialise)
-                        Save(Path.GetFileNameWithoutExtension(file));
-
-                    break;
-                }
-
-                default:
-                {
-                    Load(file);
-
-                    if (serialise)
-                        JsonSerialise(Data);
-
-                    break;
-                }
-            }
-        }
-
-        public override string Extension { get; } = ".bin";
+        public SonicNextSaveData(string in_path) : base(in_path) { }
 
         public override WriteMode WriteMode => WriteMode.Fixed;
 
-        internal static int EpisodeCount { get; } = 32;
+        public SonicNextEpisode[] Episodes { get; set; } = new SonicNextEpisode[_episodeCount];
 
-        internal static int GlobalFlagCount { get; } = 0x27FF;
+        public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = [];
 
-        internal static int TrialCount { get; } = 512;
+        public SonicNextTrial[] Trials { get; set; } = new SonicNextTrial[_trialCount];
 
-        public class FormatData
+        public SonicNextOptions Options { get; set; } = new();
+
+        public override void Read(Stream in_stream)
         {
-            public SonicNextEpisode[] Episodes { get; set; } = new SonicNextEpisode[EpisodeCount];
-
-            public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = [];
-
-            public SonicNextTrial[] Trials { get; set; } = new SonicNextTrial[TrialCount];
-
-            public SonicNextOptions Options { get; set; } = new();
-        }
-
-        public FormatData Data { get; set; } = new();
-
-        public override void Load(Stream stream)
-        {
-            BinaryReaderEx reader = new(stream, true);
+            var reader = new BinaryObjectReaderEx(in_stream, StreamOwnership.Retain, Endianness.Big);
 
             // Expected zero.
-            reader.ReadSignature(0);
+            reader.CheckSignature(0);
 
             // Read each episode's lives.
-            for (int i = 0; i < EpisodeCount; i++)
+            for (int i = 0; i < _episodeCount; i++)
             {
-                Data.Episodes[i] = new();
-                Data.Episodes[i].Lives = reader.ReadInt32();
+                Episodes[i] = new()
+                {
+                    Lives = reader.Read<int>()
+                };
             }
 
             // Read each episode's rings.
-            for (int i = 0; i < EpisodeCount; i++)
-                Data.Episodes[i].Rings = reader.ReadInt32();
+            for (int i = 0; i < _episodeCount; i++)
+                Episodes[i].Rings = reader.Read<int>();
 
-            // Read global flags.
-            for (int i = 0; i <= GlobalFlagCount; i++)
-                Data.GlobalFlags.Add((SonicNextFlags)i, reader.ReadInt32());
+            for (int i = 0; i <= _globalFlagCount; i++)
+                GlobalFlags.Add((SonicNextFlags)i, reader.Read<int>());
 
-            for (int i = 0; i < EpisodeCount; i++)
+            for (int i = 0; i < _episodeCount; i++)
             {
-                Data.Episodes[i].Lua = reader.ReadNullPaddedString(0x100);
+                Episodes[i].Lua = reader.ReadString(StringBinaryFormat.FixedLength, 0x100);
 
-                // TODO: unknown data... contains flags!
+                // TODO: unknown, contains flags!
                 reader.JumpAhead(0x80);
 
-                Data.Episodes[i].Objective = reader.ReadNullPaddedString(0x100);
-                Data.Episodes[i].Area      = reader.ReadNullPaddedString(0x100);
-                Data.Episodes[i].Terrain   = reader.ReadNullPaddedString(0x100);
-                Data.Episodes[i].SET       = reader.ReadNullPaddedString(0x100);
-                Data.Episodes[i].PATH      = reader.ReadNullPaddedString(0x100);
+                Episodes[i].Objective  = reader.ReadStringFixedLength(0x100);
+                Episodes[i].Area       = reader.ReadStringFixedLength(0x100);
+                Episodes[i].Terrain    = reader.ReadStringFixedLength(0x100);
+                Episodes[i].SetData    = reader.ReadStringFixedLength(0x100);
+                Episodes[i].PathSpline = reader.ReadStringFixedLength(0x100);
 
-                // TODO: unknown data...
+                // TODO: unknown.
                 reader.JumpAhead(0x500);
 
-                Data.Episodes[i].MST = reader.ReadNullPaddedString(0x100);
+                Episodes[i].MessageTable = reader.ReadStringFixedLength(0x100);
 
-                // TODO: unknown data... contains flags!
+                // TODO: unknown, contains flags!
                 reader.JumpAhead(0x24C);
 
-                Data.Episodes[i].Progress = reader.ReadInt32();
-                Data.Episodes[i].Year     = reader.ReadInt16();
-                Data.Episodes[i].Month    = reader.ReadSByte();
-                Data.Episodes[i].Day      = reader.ReadSByte();
-                Data.Episodes[i].Hour     = reader.ReadSByte();
-                Data.Episodes[i].Minute   = reader.ReadSByte();
-
-                Data.Episodes[i].Location = reader.ReadNullPaddedString(0x42);
+                Episodes[i].Progress = reader.Read<int>();
+                Episodes[i].Year     = reader.Read<short>();
+                Episodes[i].Month    = reader.Read<sbyte>();
+                Episodes[i].Day      = reader.Read<sbyte>();
+                Episodes[i].Hour     = reader.Read<sbyte>();
+                Episodes[i].Minute   = reader.Read<sbyte>();
+                Episodes[i].Location = reader.ReadStringFixedLength(0x42);
             }
 
-            for (int i = 0; i < TrialCount; i++)
+            for (int i = 0; i < _trialCount; i++)
             {
-                Data.Trials[i] = new();
-                Data.Trials[i].ID    = reader.ReadInt32();
-                Data.Trials[i].Rank  = (SonicNextRank)reader.ReadInt32();
-                Data.Trials[i].Time  = reader.ReadInt32();
-                Data.Trials[i].Score = reader.ReadInt32();
-                Data.Trials[i].Rings = reader.ReadInt32();
+                Trials[i] = new()
+                {
+                    ID = reader.Read<int>(),
+                    Rank = (SonicNextRank)reader.Read<int>(),
+                    Time = reader.Read<int>(),
+                    Score = reader.Read<int>(),
+                    Rings = reader.Read<int>()
+                };
             }
 
-            Data.Options.Subtitles = reader.ReadBoolean(4);
-            Data.Options.Music     = reader.ReadSingle();
-            Data.Options.Effects   = reader.ReadSingle();
+            Options.Subtitles = reader.Read<uint>() != 0;
+            Options.Music = reader.Read<float>();
+            Options.Effects = reader.Read<float>();
         }
 
-        public override void Save(Stream stream)
+        public override void Write(Stream in_stream)
         {
-            BinaryWriterEx writer = new(stream, true);
-
-            // 32-bit zero signature.
-            writer.WriteNulls(4);
-
-            // Write each episode's lives.
-            for (int i = 0; i < EpisodeCount; i++)
-                writer.Write(Data.Episodes[i].Lives);
-
-            // Write each episode's rings.
-            for (int i = 0; i < EpisodeCount; i++)
-                writer.Write(Data.Episodes[i].Rings);
-
-            // Write global flags.
-            for (int i = 0; i <= GlobalFlagCount; i++)
-                writer.Write(Data.GlobalFlags[(SonicNextFlags)i]);
-
-            for (int i = 0; i < EpisodeCount; i++)
+            var writer = new BinaryObjectWriterEx(in_stream, StreamOwnership.Retain, Endianness.Big);
+        
+            writer.Write(0);
+        
+            for (int i = 0; i < _episodeCount; i++)
+                writer.Write(Episodes[i].Lives);
+        
+            for (int i = 0; i < _episodeCount; i++)
+                writer.Write(Episodes[i].Rings);
+        
+            for (int i = 0; i <= _globalFlagCount; i++)
+                writer.Write(GlobalFlags[(SonicNextFlags)i]);
+        
+            for (int i = 0; i < _episodeCount; i++)
             {
-                writer.WriteNullPaddedString(Data.Episodes[i].Lua, 0x100);
-
-                // TODO: unknown data... contains flags!
-                writer.BaseStream.Position += 0x80;
-
-                writer.WriteNullPaddedString(Data.Episodes[i].Objective, 0x100);
-                writer.WriteNullPaddedString(Data.Episodes[i].Area, 0x100);
-                writer.WriteNullPaddedString(Data.Episodes[i].Terrain, 0x100);
-                writer.WriteNullPaddedString(Data.Episodes[i].SET, 0x100);
-                writer.WriteNullPaddedString(Data.Episodes[i].PATH, 0x100);
-
-                // TODO: unknown data...
-                writer.BaseStream.Position += 0x500;
-
-                writer.WriteNullPaddedString(Data.Episodes[i].MST, 0x100);
-
-                // TODO: unknown data... contains flags!
-                writer.BaseStream.Position += 0x24C;
-
-                writer.Write(Data.Episodes[i].Progress);
-                writer.Write(Data.Episodes[i].Year);
-                writer.Write(Data.Episodes[i].Month);
-                writer.Write(Data.Episodes[i].Day);
-                writer.Write(Data.Episodes[i].Hour);
-                writer.Write(Data.Episodes[i].Minute);
-
-                writer.WriteNullPaddedString(Data.Episodes[i].Location, 0x42);
+                writer.WriteStringFixedLength(Episodes[i].Lua, 0x100);
+        
+                // TODO: unknown, contains flags!
+                writer.JumpAhead(0x80);
+        
+                writer.WriteStringFixedLength(Episodes[i].Objective, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].Area, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].Terrain, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].SetData, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].PathSpline, 0x100);
+        
+                // TODO: unknown.
+                writer.JumpAhead(0x500);
+        
+                writer.WriteStringFixedLength(Episodes[i].MessageTable, 0x100);
+        
+                // TODO: unknown, contains flags!
+                writer.JumpAhead(0x24C);
+        
+                writer.Write(Episodes[i].Progress);
+                writer.Write(Episodes[i].Year);
+                writer.Write(Episodes[i].Month);
+                writer.Write(Episodes[i].Day);
+                writer.Write(Episodes[i].Hour);
+                writer.Write(Episodes[i].Minute);
+        
+                writer.WriteStringFixedLength(Episodes[i].Location, 0x42);
             }
-
-            for (int i = 0; i < TrialCount; i++)
+        
+            for (int i = 0; i < _trialCount; i++)
             {
-                writer.Write(Data.Trials[i].ID);
-                writer.Write((int)Data.Trials[i].Rank);
-                writer.Write(Data.Trials[i].Time);
-                writer.Write(Data.Trials[i].Score);
-                writer.Write(Data.Trials[i].Rings);
+                writer.Write(Trials[i].ID);
+                writer.Write((int)Trials[i].Rank);
+                writer.Write(Trials[i].Time);
+                writer.Write(Trials[i].Score);
+                writer.Write(Trials[i].Rings);
             }
-
-            writer.WriteBoolean32(Data.Options.Subtitles);
-            writer.Write(Data.Options.Music);
-            writer.Write(Data.Options.Effects);
+        
+            writer.Write(Options.Subtitles ? 1 : 0);
+            writer.Write(Options.Music);
+            writer.Write(Options.Effects);
         }
     }
 }

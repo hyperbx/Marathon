@@ -1,9 +1,11 @@
-﻿namespace Marathon.Formats.Save
+﻿// Format research attribution: Hyper
+
+namespace Marathon.Formats.Save
 {
     public class SonicNextOptions
     {
         /// <summary>
-        /// Determines whether or not subtitles are enabled.
+        /// Determines whether subtitles are enabled.
         /// </summary>
         public bool Subtitles { get; set; }
 
