@@ -10,21 +10,12 @@
 
 <br>
 
-# Releases
-
-### GitHub Releases
-This is where [stable builds](https://github.com/hyperbx/Marathon/releases) of Marathon are published; if you're looking for the most reliable experience.
-
-### GitHub Actions
-While it can be fun to live on the bleeding edge, [GitHub Actions](https://github.com/hyperbx/Marathon/actions) publishes new builds for each new commit, so changes can be unstable.
-
 # Building
 See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on the wiki.
 
 # Capabilities
-
 - Archive
-    - [U8 Archive (`*.arc`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Archive/U8Archive.cs) reading and writing
+    - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Archive/U8Archive.cs) reading and writing
 - Audio
     - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Audio/SoundBank.cs) reading and writing
 - Event
@@ -32,108 +23,89 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Time Event (`*.tev`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Event/TimeEvent.cs) reading and writing
 - Mesh
     - [Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/Collision.cs) reading and writing
-	- [Ninja (`*.xna; *.xnd; *.xne; *.xnf; *.xng; *.xni; *.xnm; *.xno; *.xnv`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/Ninja/NinjaNext.cs) reading and writing
-    - [Path Spline (`*.path`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/PathSpline.cs) reading and writing
-    - [Reflection Zone (`*.rab`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/ReflectionZone.cs) reading and writing
-- Package
-    - [Asset Package (`*.pkg`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/AssetPackage.cs) reading and writing
-    - [Common Package (`Common.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/CommonPackage.cs) reading and writing
-    - [Explosion Package (`Explosion.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/ExplosionPackage.cs) reading and writing
-    - [Path Package (`PathObj.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/PathPackage.cs) reading and writing
-    - [Script Package (`ScriptParameter.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/ScriptPackage.cs) reading and writing
-    - [Shot Package (`ShotParameter.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/ShotPackage.cs) reading and writing
+    - [Ninja (`*.xna; *.xnd; *.xne; *.xnf; *.xng; *.xni; *.xnm; *.xno; *.xnv`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/Ninja/NinjaNext.cs) reading and writing
+    - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/SplinePath.cs) reading and writing
+    - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Mesh/ReflectionArea.cs) reading and writing
+- Parameter
+    - [Enemy Parameter List (`ScriptParameter.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/EnemyParameterList.cs) reading and writing
+    - [Enemy Shot Parameter List (`ShotParameter.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/EnemyShotParameterList.cs) reading and writing
+    - [Object Explosion Parameter List (`Explosion.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/ObjectExplosionParameterList.cs) reading and writing
+    - [Object Physics Parameter List (`Common.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/ObjectPhysicsParameterList.cs) reading and writing
+    - [Package (`*.pkg`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Parameter/Package.cs) reading and writing
+    - [Path Object Parameter List (`PathObj.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Package/PathObjParameterList.cs) reading and writing
 - Particle
     - [Particle Container (`*.plc`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleContainer.cs) reading and writing
     - [Particle Effect Bank (`*.peb`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleEffectBank.cs) reading and writing
-    - [Particle Generation System (`*.pgs`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleGenerationSystem.cs) reading and writing
+    - [Particle Global Settings (`*.pgs`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleGlobalSettings.cs) reading and writing
     - [Particle Texture Bank (`*.ptb`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Particle/ParticleTextureBank.cs) reading and writing
 - Placement
-    - [Set Data (`*.set`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/SetData.cs) reading and writing    
-    - [Property Database (`*.prop`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Object/PropertyDatabase.cs) reading and writing
+    - [Prop Library (`*.prop`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Placement/PropLibrary.cs) reading and writing
+    - [Stage Set (`*.set`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Placement/StageSet.cs) reading and writing    
 - Save
     - [Save Data (`SonicNextSaveData.bin`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Save/SonicNextSaveData.cs) reading and writing
 - Script
     - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Script/Lua/LuaBinary.cs) reading and writing
 - Text
-    - [Message Table (`*.mst`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Text/MessageTable.cs) reading and writing
-    - [Picture Font (`*.pft`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Text/PictureFont.cs) reading and writing
+    - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Text/TextBook.cs) reading and writing
+    - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/master/Marathon/Formats/Text/TextFontPicture.cs) reading and writing
 	
 # Unsupported
 
 Marathon currently doesn't support *every* format, despite the above list already being pretty large.
 
 ### Adaptive Transform Acoustic Coding 3 (ATRAC3)
-
-The `*.at3` format is SONY's proprietary audio format used for the PlayStation 3 version of the game. There are many open-source ways to encode these files.
+The `*.at3` format is Sony's proprietary audio format used for the PlayStation 3 version of the game. There are no plans for Marathon to support this, as there are many open-source ways to create these files.
 
 ### Cue Sheet Binary
-
-The `*.csb` format is part of the closed-source CriWare audio library; ADX. We have some specifications for this format, as well as the `*.cpk` format which contains the actual data, but it's yet to be implemented into Marathon.
+The `*.csb` format is part of CRIWARE's ADX middleware. There are currently no plans for Marathon to support this, as there would be better maintained open-source alternatives that aren't specific to this game.
 
 ### Proprietary Sonic Team texture container
-
-The `*.ddm` format is a basic container that stores the names of textures per index and all of the texture data that pertains to them in the DirectDraw Surface format. It was supported by Marathon at one point, but only had a reader that exported the textures in a hacky way.
+The `*.ddm` format is a basic container that stores the names of textures per index and all of the texture data that pertains to them in the DirectDraw Surface format. It was supported by Marathon at one point, but only had reading capabilities.
 
 ### DirectDraw Surface
+The `*.dds` format is for textures. There are no plans for Marathon to support this, there is plenty of software that can create these files already.
 
-The `*.dds` format is for textures - there's no need for Marathon to support this, as there are plenty of image manipulation programs that support it already.
-
-### Font Map
-
-The `*.ftm` format contains information pertaining to the Shift-JIS encoding standard and defines the characters used in the font textures. This format is a bit of a nightmare, so not much research has been done on it yet.
+### Text Font Map
+The `*.ftm` format contains information about how the characters are mapped to the font textures. This format is a bit of a nightmare, so not much research has been done on it yet.
 
 ### PlayStation 3 Fragment Shader Bytecode
-
-The `*.fpo` format is the compiled fragment shader format for the PlayStation 3 version of the game. Unlike DirectX, each shader technique in this format is split up into separate files, rather than being in a single shader.
+The `*.fpo` format is the compiled fragment shader format for the PlayStation 3 version of the game. There are no plans for Marathon to support this.
 
 ### DirectX Shader Bytecode
+The `*.fxo` format is for compiled DirectX shaders. There are no plans for Marathon to support this, as there are already disassemblers and compilers for DirectX that are supported by the Xbox 360.
 
-The `*.fxo` format is for compiled DirectX shaders - there's no need for Marathon to support this, as there are already disassemblers and compilers for DirectX that are supported by Xbox 360.
-
-### Havok Collision Data
-
-The `*.hkx` format is part of the closed-source Havok physics library. SONIC THE HEDGEHOG uses Havok 3.3.0-b2, which is conveniently a version of Havok that nobody has outside of development studios.
+### Havok Binary
+The `*.hkx` format is part of the Havok physics engine, specifically Havok 3.3.0-b2 for this game. There are no plans for Marathon to support this.
 
 ### Kynapse Big File
+The `*.kbf` format is part of the Kynapse AI middleware. This format contains various data, such as; AI behaviours, spatial graphs, path tracing, path ways, meshes, etc. You can probably see where it gets the name "big file" from. There has only been minimal research done on this format, as the embedded formats will also have to be researched individually. There is not much motivation for Marathon to support this.
 
-The `*.kbf` format is part of the closed-source Kynapse AI library. This format contains data pertaining to AI behaviour, spatial graphs, `Astar` data, `FindNearest` data, `PathCost` data, path ways and meshes. You can probably see where it gets the name 'big file' from. There has only been minimal research done on this format, as the embedded formats will also have to be researched individually.
-
-### Proprietary CriWare and Sonic Team property format
-
-The `*.mab` format was originally believed to be closely related to particles, since the particles that used meshes were always in this format. However, after digging around the event data for cutscenes, it seems it's also used for timing with various elements (e.g. subtitles, models, etc). The internal assertions for this format refer to it as [Acroarts](https://web.archive.org/web/20211030052512/https://www.cri-mw.co.jp/product/cs/acroarts/index.html), which is a development environment from CriWare.
+### Acroarts Binary
+The `*.mab` format is part of CRIWARE's Acroarts middleware. It's used for miscellaneous event data for particle effects and timing with various cutscene elements (e.g. subtitles, models, etc).
 
 ### Motion Base Information
+The `*.mbi` format is a plaintext file format containing node definitions for skeletons. This format hasn't been researched, but the data it stores is all clearly labelled by the internal tool that exported it.
 
-The `*.mbi` format is a plaintext file containing node definitions for a skeleton. This format hasn't been researched, but the data it represents is all helpfully labelled by whatever internal tool from SEGA exported it.
+### SoX Model Format
+The `*.mdl` format is used by the PlayStation 3 version of the game in place of Ninja models used for terrain.
 
-### SOX Model Format
+### Proprietary Sony video format
+The `*.pam` format is Sony's proprietary video format used for the PlayStation 3 version of the game for pre-rendered events. Apparently, this format consists of `*.avi` and `*.at3` data, but the only encoder available is part of the PlayStation 3 SDK and doesn't allow you to embed audio data in the video. There are no plans for Marathon to support this.
 
-The `*.mdl` format is used by the PlayStation 3 version of the game in place of Ninja models used for terrain. While preliminary research has been done on this format, a lot of the extra data beyond the simple model construction is unknown.
-
-### Proprietary SONY video format
-
-The `*.pam` format is SONY's proprietary video format used for the PlayStation 3 version of the game for pre-rendered events. Apparently, this format consists of `*.avi` and `*.at3` data, but the only encoder available is part of the PlayStation 3 SDK and doesn't allow you to embed audio data in the video.
-
-### Font Proportion
-
+### Text Font Proportion
 The `*.pfi` format defines the margin and padding per character in a given font map. It was supported by Marathon at one point, but only had a reader and some data wasn't fully researched.
 
 ### PlayStation 3 Vertex Shader Bytecode
-
-The `*.vpo` format is the compiled vertex shader format for the PlayStation 3 version of the game. Unlike DirectX, each shader technique in this format is split up into separate files, rather than being in a single shader.
+The `*.vpo` format is the compiled vertex shader format for the PlayStation 3 version of the game. There are no plans for Marathon to support this.
 
 ### Windows Media Video
-
-The `*.wmv` format is Microsoft's proprietary Windows Media Video format used for the Xbox 360 version of the game for pre-rendered events. These files can be encoded by pretty much anything, but the audio tracks will need to be kept intact for English and Japanese audio, otherwise the game will either crash or skip the video.
+The `*.wmv` format is Microsoft's proprietary Windows Media Video format used for the Xbox 360 version of the game for pre-rendered events. There are no plans for Marathon to support this, as these files can be encoded by pretty much anything, but the audio tracks will need to be kept intact for English and Japanese audio, otherwise the game will either crash or skip the video.
 
 ### Xbox Media Audio
+The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. There are no plans for Marathon to support this.
 
-The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. You can use Xbox 360 SDK Build 3424 to encode these files properly for use with SONIC THE HEDGEHOG.
-
-### Ninja Morph Type
-
-The Ninja format, particularly for `*.xno` files (such as `kdv_obj_cage02.xno`) have a `NXMT` chunk that is currently unsupported, preventing these files from being fully read by Marathon.
+### Ninja Morph
+The Ninja format, particularly for `*.xno` files (such as `kdv_obj_cage02.xno`) have an `NXMT` chunk that is currently unsupported, preventing these files from being read correctly.
 
 ### Ninja Raw
-
-The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their compiled counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the actual compiled Ninja formats, which are supported by Marathon.
+The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their binary counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the binary Ninja formats, which are supported by Marathon.
