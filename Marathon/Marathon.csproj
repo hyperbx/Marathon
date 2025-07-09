@@ -79,6 +79,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amicitia.IO" Version="1.2.0" />
     <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="JeremyAnsel.Media.WavefrontObj" Version="3.0.56" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -86,10 +87,6 @@
 
   <ItemGroup>
     <Folder Include="Formats\Archive\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Amicitia.IO\src\Amicitia.IO\Amicitia.IO.csproj" />
   </ItemGroup>
 
 </Project>

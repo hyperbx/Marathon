@@ -9,7 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon.CLI", "Marathon.CL
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Marathon.Shared", "Marathon.Shared\Marathon.Shared.shproj", "{DA94BAE1-9D6A-4E00-8DFF-10AF9FD6AAC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amicitia.IO", "Amicitia.IO\src\Amicitia.IO\Amicitia.IO.csproj", "{C434ED82-0407-BA7C-90DB-12DB893F48E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +24,6 @@ Global
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C434ED82-0407-BA7C-90DB-12DB893F48E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C434ED82-0407-BA7C-90DB-12DB893F48E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C434ED82-0407-BA7C-90DB-12DB893F48E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C434ED82-0407-BA7C-90DB-12DB893F48E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
