@@ -67,7 +67,7 @@ namespace Marathon.Formats.Parameter
                 reader.ReadAtOffset(BINAHeader.Size + luaOffset,
                     () => param.Lua = reader.ReadStringNullTerminated());
 
-                param.UnknownField1 = reader.Read<uint>();
+                param.Type = reader.Read<ObjectPhysicsType>();
 
                 var psiGrabNodeOffset = reader.Read<uint>();
 
@@ -194,9 +194,9 @@ namespace Marathon.Formats.Parameter
         public string Lua { get; set; }
 
         /// <summary>
-        /// TODO: unknown, seems to determine how the object breaks?
+        /// The type of object this is.
         /// </summary>
-        public uint UnknownField1 { get; set; }
+        public ObjectPhysicsType Type { get; set; }
 
         /// <summary>
         /// The name of the node to grab using Silver's psychokinesis.
@@ -298,6 +298,23 @@ namespace Marathon.Formats.Parameter
         {
             return Name;
         }
+    }
+
+    public enum ObjectPhysicsType : uint
+    {
+        Single,
+        Multi,
+        Animation,
+        Ragdoll,
+        Multi2,
+        Barricade,
+        Container,
+        CerberusStatue,
+        FallingFoothold,
+        BossStageEwy,
+        ThirdIblisFoothold,
+        FootingTarget,
+        BrokenTower
     }
 
     public enum ObjectPhysicsCollisionType : uint
