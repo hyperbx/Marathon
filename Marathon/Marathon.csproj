@@ -55,6 +55,7 @@
     <Compile Include="Formats\Event\TimeEvent.cs" />
     <Compile Include="Formats\Mesh\Collision.cs" />
     <Compile Include="Formats\Mesh\SplinePath.cs" />
+    <Compile Include="Formats\Parameter\EnemyParameterList.cs" />
     <Compile Include="Formats\Parameter\ObjectExplosionParameterList.cs" />
     <Compile Include="Formats\Parameter\ObjectPhysicsParameterList.cs" />
     <Compile Include="Formats\Parameter\Package.cs" />
