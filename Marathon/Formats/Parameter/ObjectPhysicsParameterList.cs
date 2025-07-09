@@ -69,10 +69,10 @@ namespace Marathon.Formats.Parameter
 
                 param.UnknownField1 = reader.Read<uint>();
 
-                var unkField2Offset = reader.Read<uint>();
+                var psiGrabNodeOffset = reader.Read<uint>();
 
-                reader.ReadAtOffset(BINAHeader.Size + unkField2Offset,
-                    () => param.UnknownField2 = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + psiGrabNodeOffset,
+                    () => param.PsiGrabNode = reader.ReadStringNullTerminated());
 
                 param.CollisionType = (ObjectPhysicsCollisionType)reader.Read<uint>();
                 param.GravityType = (ObjectPhysicsGravityType)reader.Read<uint>();
@@ -134,8 +134,8 @@ namespace Marathon.Formats.Parameter
                 writer.CreateStringField($"Param{i}TimeEvent", Parameters[i].TimeEvent);
                 writer.CreateStringField($"Param{i}MaterialAnimation", Parameters[i].MaterialAnimation);
                 writer.CreateStringField($"Param{i}Lua", Parameters[i].Lua);
-                writer.Write(Parameters[i].UnknownField1);
-                writer.CreateStringField($"Param{i}UnknownField2", Parameters[i].UnknownField2);
+                writer.Write(Parameters[i].Type);
+                writer.CreateStringField($"Param{i}PsiGrabNode", Parameters[i].PsiGrabNode);
                 writer.Write(Parameters[i].CollisionType);
                 writer.Write(Parameters[i].GravityType);
                 writer.Write(Parameters[i].DebrisType);
@@ -199,9 +199,9 @@ namespace Marathon.Formats.Parameter
         public uint UnknownField1 { get; set; }
 
         /// <summary>
-        /// TODO: unknown.
+        /// The name of the node to grab using Silver's psychokinesis.
         /// </summary>
-        public string UnknownField2 { get; set; }
+        public string PsiGrabNode { get; set; }
 
         /// <summary>
         /// The collision type this object uses for the sound effects and behaviour.
