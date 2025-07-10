@@ -1,229 +1,223 @@
-﻿namespace Marathon.Formats.Particle
+﻿using Marathon.Helpers;
+using Marathon.IO;
+using Marathon.IO.Extensions;
+using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+
+// Format research attribution: Knuxfan24, Hyper, GordinRamsay
+
+namespace Marathon.Formats.Particle
 {
     /// <summary>
-    /// File base for the *.peb format.
-    /// <para>Used in SONIC THE HEDGEHOG for defining properties for particle effects.</para>
+    /// Support for *.peb files; used for configuring particle effects.
     /// </summary>
     public class ParticleEffectBank : FileBase
     {
+        private const string _signature  = "BEEP"; // "Particle Effect Effect Bank" (reverse)
+
         public ParticleEffectBank() { }
 
-        public ParticleEffectBank(string file, bool serialise = false)
+        public ParticleEffectBank(string in_path) : base(in_path) { }
+
+        public string Name { get; set; }
+
+        public List<ParticleEffect> Effects { get; set; } = [];
+
+        public ParticleEffect this[string in_name]
         {
-            switch (Path.GetExtension(file))
-            {
-                case ".json":
-                {
-                    Data = JsonDeserialise<FormatData>(file);
-
-                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
-                    if (serialise)
-                        Save(Path.GetFileNameWithoutExtension(file));
-
-                    break;
-                }
-
-                default:
-                {
-                    Load(file);
-
-                    if (serialise)
-                        JsonSerialise(Data);
-
-                    break;
-                }
-            }
+            get => Effects.Find((x) => x.Name == in_name);
         }
 
-        public override string Signature { get; } = "BEEP";
-
-        public override string Extension { get; } = ".peb";
-
-        public class FormatData
+        public override void Read(Stream in_stream)
         {
-            public string Name { get; set; }
+            BINAReader reader = new(in_stream);
 
-            public List<ParticleEffect> Effects = [];
+            reader.CheckSignature(_signature);
 
-            public override string ToString() => Name;
-        }
+            // Always null.
+            reader.JumpAhead(8);
 
-        public FormatData Data { get; set; } = new();
+            var entryCount = reader.Read<uint>();
 
-        public override void Load(Stream stream)
-        {
-            BINAReader reader = new(stream);
+            Name = reader.ReadStringFixedLength(0x20);
 
-            reader.ReadSignature(4, Signature);
+            var entryTableOffset = reader.Read<uint>();
 
-            reader.JumpAhead(0x8); // Always Null.
-            uint EntryCount = reader.ReadUInt32();
-            Data.Name = reader.ReadNullPaddedString(0x20);
-            uint OffsetTable = reader.ReadUInt32();
-
-            reader.JumpTo(OffsetTable, true); // Should already be here but just to be safe.
-
-            // Particle Effect Entries.
-            for (int i = 0; i < EntryCount; i++)
+            for (int i = 0; i < entryCount; i++)
             {
-                ParticleEffect particle = new();
-
-                particle.Name = reader.ReadNullPaddedString(0x40);
-                uint effectCount = reader.ReadUInt32();
-                uint effectsOffset = reader.ReadUInt32();
-
-                long position = reader.BaseStream.Position;
-
-                reader.JumpTo(effectsOffset, true);
-                for (int e = 0; e < effectCount; e++)
+                var effect = new ParticleEffect
                 {
-                    ParticleEffectAttributes peAttributes = new();
+                    Name = reader.ReadStringFixedLength(0x40)
+                };
 
-                    peAttributes.UnknownUInt32_1   = reader.ReadUInt32();
-                    peAttributes.Lifetime          = reader.ReadSingle();
-                    peAttributes.Density           = reader.ReadSingle();
-                    peAttributes.UnknownSingle_1   = reader.ReadSingle();
-                    peAttributes.Duration          = reader.ReadSingle();
-                    peAttributes.XSpeed            = reader.ReadSingle();
-                    peAttributes.YSpeed            = reader.ReadSingle();
-                    peAttributes.ZSpeed            = reader.ReadSingle();
-                    peAttributes.YLifetime         = reader.ReadSingle();
-                    peAttributes.YMagnitude        = reader.ReadSingle();
-                    peAttributes.Scale             = reader.ReadSingle();
-                    peAttributes.RandomSpawnRadius = reader.ReadSingle();
-                    peAttributes.UnknownSingle_5   = reader.ReadSingle();
-                    peAttributes.UnknownSingle_6   = reader.ReadSingle();
-                    peAttributes.UnknownUInt32_2   = reader.ReadUInt32();
-                    peAttributes.UnknownUInt32_3   = reader.ReadUInt32();
-                    peAttributes.UnknownUInt32_4   = reader.ReadUInt32();
+                var effectsCount = reader.Read<uint>();
+                var effectsOffset = reader.Read<uint>();
 
-                    peAttributes.MaterialName       = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBankA = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureNameA     = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBankB = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureNameB     = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureBankC = reader.ReadNullPaddedString(0x20);
-                    peAttributes.TextureNameC     = reader.ReadNullPaddedString(0x20);
+                var pos = reader.Position;
 
-                    int PropertyListLength  = reader.ReadInt32();
-                    uint PropertyListOffset = reader.ReadUInt32();
+                reader.JumpTo(BINAHeader.Size + effectsOffset);
 
-                    if (PropertyListOffset != 0)
+                for (int j = 0; j < effectsCount; j++)
+                {
+                    var attr = new ParticleEffectAttributes
                     {
-                        long currentPos = reader.BaseStream.Position;
+                        UnknownField1 = reader.Read<uint>(),
+                        LifeTime = reader.Read<float>(),
+                        Density = reader.Read<float>(),
+                        UnknownField2 = reader.Read<float>(),
+                        Duration = reader.Read<float>(),
+                        Velocity = reader.Read<Vector3>(),
+                        YLifeTime = reader.Read<float>(),
+                        YMagnitude = reader.Read<float>(),
+                        Scale = reader.Read<float>(),
+                        RandomSpawnRadius = reader.Read<float>(),
+                        UnknownField3 = reader.Read<float>(),
+                        UnknownField4 = reader.Read<float>(),
+                        UnknownField5 = reader.Read<uint>(),
+                        UnknownField6 = reader.Read<uint>(),
+                        UnknownField7 = reader.Read<uint>(),
+                        MaterialName = reader.ReadStringFixedLength(0x20),
+                        TextureBankA = reader.ReadStringFixedLength(0x20),
+                        TextureNameA = reader.ReadStringFixedLength(0x20),
+                        TextureBankB = reader.ReadStringFixedLength(0x20),
+                        TextureNameB = reader.ReadStringFixedLength(0x20),
+                        TextureBankC = reader.ReadStringFixedLength(0x20),
+                        TextureNameC = reader.ReadStringFixedLength(0x20)
+                    };
 
-                        reader.JumpTo(PropertyListOffset, true);
+                    var propertyListCount = reader.Read<uint>();
+                    var propertyListOffset = reader.Read<uint>();
+
+                    if (propertyListOffset != 0)
+                    {
+                        var propertyListPos = reader.Position;
+
+                        reader.JumpTo(BINAHeader.Size + propertyListOffset);
+
+                        while (reader.Position != (propertyListOffset + propertyListCount) + BINAHeader.Size)
                         {
-                            while (reader.BaseStream.Position != (PropertyListOffset + PropertyListLength) + 0x20)
-                            {
-                                var property = new ParticleEffectProperty().Read(reader);
+                            var property = new ParticleEffectProperty().Read(reader);
 
-                                if (property != null)
-                                    peAttributes.Properties.Add(property);
-                            }
+                            if (property != null)
+                                attr.Properties.Add(property);
                         }
-                        reader.JumpTo(currentPos);
+
+                        reader.JumpTo(propertyListPos);
                     }
 
-                    particle.Attributes.Add(peAttributes);
+                    effect.Attributes.Add(attr);
                 }
 
-                reader.JumpTo(position);
-                Data.Effects.Add(particle);
+                reader.JumpTo(pos);
+
+                Effects.Add(effect);
             }
         }
 
-        public override void Save(Stream stream)
+        public override void Write(Stream in_stream)
         {
-            BINAWriter writer = new(stream);
+            var writer = new BINAWriter(in_stream);
 
-            writer.WriteSignature(Signature);
+            writer.WriteSignature(_signature);
+            writer.WriteNullBytes(8);
+            writer.Write(Effects.Count);
+            writer.WriteStringFixedLength(Name, 0x20);
+            writer.CreateNamedField("EntryTableOffset");
+            writer.WriteNamedField("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
 
-            writer.WriteNulls(0x08);
-            writer.Write(Data.Effects.Count);
-            writer.WriteNullPaddedString(Data.Name, 0x20);
-            writer.AddOffset("OffsetTable");
-
-            writer.FillOffset("OffsetTable", true);
-
-            for (int i = 0; i < Data.Effects.Count; i++)
+            for (int i = 0; i < Effects.Count; i++)
             {
-                writer.WriteNullPaddedString(Data.Effects[i].Name, 0x40);
-                writer.Write(Data.Effects[i].Attributes.Count);
-                writer.AddOffset($"EffectsOffset_{i}");
+                writer.WriteStringFixedLength(Effects[i].Name, 0x40);
+                writer.Write(Effects[i].Attributes.Count);
+                writer.CreateNamedField($"EffectsOffset{i}");
             }
 
-            for (int i = 0; i < Data.Effects.Count; i++)
+            for (int i = 0; i < Effects.Count; i++)
             {
-                writer.FillOffset($"EffectsOffset_{i}", true);
+                writer.WriteNamedField($"EffectsOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
-                for (int e = 0; e < Data.Effects[i].Attributes.Count; e++)
+                for (int j = 0; j < Effects[i].Attributes.Count; j++)
                 {
-                    var currentEffect = Data.Effects[i].Attributes[e];
+                    var attr = Effects[i].Attributes[j];
 
-                    writer.Write(currentEffect.UnknownUInt32_1);
-                    writer.Write(currentEffect.Lifetime);
-                    writer.Write(currentEffect.Density);
-                    writer.Write(currentEffect.UnknownSingle_1);
-                    writer.Write(currentEffect.Duration);
-                    writer.Write(currentEffect.XSpeed);
-                    writer.Write(currentEffect.YSpeed);
-                    writer.Write(currentEffect.ZSpeed);
-                    writer.Write(currentEffect.YLifetime);
-                    writer.Write(currentEffect.YMagnitude);
-                    writer.Write(currentEffect.Scale);
-                    writer.Write(currentEffect.RandomSpawnRadius);
-                    writer.Write(currentEffect.UnknownSingle_5);
-                    writer.Write(currentEffect.UnknownSingle_6);
-                    writer.Write(currentEffect.UnknownUInt32_2);
-                    writer.Write(currentEffect.UnknownUInt32_3);
-                    writer.Write(currentEffect.UnknownUInt32_4);
+                    writer.Write(attr.UnknownField1);
+                    writer.Write(attr.LifeTime);
+                    writer.Write(attr.Density);
+                    writer.Write(attr.UnknownField2);
+                    writer.Write(attr.Duration);
+                    writer.Write(attr.Velocity);
+                    writer.Write(attr.YLifeTime);
+                    writer.Write(attr.YMagnitude);
+                    writer.Write(attr.Scale);
+                    writer.Write(attr.RandomSpawnRadius);
+                    writer.Write(attr.UnknownField3);
+                    writer.Write(attr.UnknownField4);
+                    writer.Write(attr.UnknownField5);
+                    writer.Write(attr.UnknownField6);
+                    writer.Write(attr.UnknownField7);
 
-                    writer.WriteNullPaddedString(currentEffect.MaterialName, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBankA, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureNameA, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBankB, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureNameB, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureBankC, 0x20);
-                    writer.WriteNullPaddedString(currentEffect.TextureNameC, 0x20);
+                    writer.WriteStringFixedLength(attr.MaterialName, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureBankA, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureNameA, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureBankB, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureNameB, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureBankC, 0x20);
+                    writer.WriteStringFixedLength(attr.TextureNameC, 0x20);
 
-                    int totalProperties = currentEffect.Properties.Sum(x => x.Length());
-                    writer.Write(totalProperties);
+                    var propertyCount = attr.Properties.Sum(x => x.Length());
 
-                    if (totalProperties == 0)
+                    writer.Write(propertyCount);
+
+                    if (propertyCount == 0)
+                    {
                         writer.Write(0);
+                    }
                     else
-                        writer.AddOffset($"Effects_{i}_PropertyListOffset_{e}");
+                    {
+                        writer.CreateNamedField($"Effects{i}PropertyListOffset{j}");
+                    }
                 }
             }
 
-            for (int i = 0; i < Data.Effects.Count; i++)
+            for (int i = 0; i < Effects.Count; i++)
             {
-                for (int e = 0; e < Data.Effects[i].Attributes.Count; e++)
+                for (int j = 0; j < Effects[i].Attributes.Count; j++)
                 {
-                    // Don't write offset if null.
-                    if (Data.Effects[i].Attributes[e].Properties.Sum(x => x.Length()) == 0)
+                    if (Effects[i].Attributes[j].Properties.Sum(x => x.Length()) == 0)
                         continue;
 
-                    writer.FillOffset($"Effects_{i}_PropertyListOffset_{e}", true);
+                    writer.WriteNamedField($"Effects{i}PropertyListOffset{j}", (uint)writer.Position - BINAHeader.Size);
 
-                    // Write all properties.
-                    foreach (var property in Data.Effects[i].Attributes[e].Properties)
+                    foreach (var property in Effects[i].Attributes[j].Properties)
                         property.Write(writer);
                 }
             }
 
             writer.FinishWrite();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class ParticleEffect
     {
         /// <summary>
-        /// Name of this particle effect.
+        /// The name of this particle effect.
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The attributes of this particle effect.
+        /// </summary>
         public List<ParticleEffectAttributes> Attributes { get; set; } = [];
 
         public ParticleEffect() { }
@@ -234,63 +228,56 @@
             Attributes = in_attributes;
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     public class ParticleEffectAttributes
     {
         /// <summary>
-        /// TODO: Unknown - flags?
+        /// TODO: unknown, flags?
         /// </summary>
-        public uint UnknownUInt32_1 { get; set; }
+        public uint UnknownField1 { get; set; }
 
         /// <summary>
-        /// How long this particle lasts.
+        /// The amount of time this particle persists for.
         /// </summary>
-        public float Lifetime { get; set; }
+        public float LifeTime { get; set; }
 
         /// <summary>
-        /// The amount of particles cast from this effect.
+        /// The amount of particles created from this effect.
         /// </summary>
         public float Density { get; set; }
 
         /// <summary>
-        /// Potentially unused? Always 0.
+        /// TODO: unknown, possibly unused? Always zero.
         /// </summary>
-        public float UnknownSingle_1 { get; set; }
+        public float UnknownField2 { get; set; }
 
         /// <summary>
-        /// How long this effect lasts.
+        /// The amount of time this particle takes to finish.
         /// </summary>
         public float Duration { get; set; }
 
         /// <summary>
-        /// How quickly this effect travels along the X Axis.
+        /// The speed this particle moves at in each direction.
         /// </summary>
-        public float XSpeed { get; set; }
+        public Vector3 Velocity { get; set; }
 
         /// <summary>
-        /// How quickly this effect travels along the Y Axis?
+        /// The amount of time this particle persists for on the Y axis.
         /// </summary>
-        public float YSpeed { get; set; }
+        public float YLifeTime { get; set; }
 
         /// <summary>
-        /// How quickly this effect travels along the Z Axis.
-        /// </summary>
-        public float ZSpeed { get; set; }
-
-        /// <summary>
-        /// Determines the lifetime of particles on the Y axis.
-        /// </summary>
-        public float YLifetime { get; set; }
-
-        /// <summary>
-        /// Determines the magnitude of the particles on the Y axis.
+        /// The speed this particle moves at on the Y axis.
         /// </summary>
         public float YMagnitude { get; set; }
 
         /// <summary>
-        /// How large this effect is? Might be affected by the flags?
+        /// The scale of this particle.
         /// </summary>
         public float Scale { get; set; }
 
@@ -299,62 +286,68 @@
         /// </summary>
         public float RandomSpawnRadius { get; set; }
 
-        public float UnknownSingle_5 { get; set; }
-
-        public float UnknownSingle_6 { get; set; }
-
         /// <summary>
-        /// TODO: Unknown - flags?
+        /// TODO: unknown.
         /// </summary>
-        public uint UnknownUInt32_2 { get; set; }
+        public float UnknownField3 { get; set; }
 
         /// <summary>
-        /// TODO: Unknown - flags?
+        /// TODO: unknown.
         /// </summary>
-        public uint UnknownUInt32_3 { get; set; }
+        public float UnknownField4 { get; set; }
 
         /// <summary>
-        /// TODO: Unknown - flags?
+        /// TODO: unknown, flags?
         /// </summary>
-        public uint UnknownUInt32_4 { get; set; }
+        public uint UnknownField5 { get; set; }
 
         /// <summary>
-        /// The material to use in sonicnext.pgs.
+        /// TODO: unknown, flags?
+        /// </summary>
+        public uint UnknownField6 { get; set; }
+
+        /// <summary>
+        /// TODO: unknown, flags?
+        /// </summary>
+        public uint UnknownField7 { get; set; }
+
+        /// <summary>
+        /// The material this particle references from the global settings file.
         /// </summary>
         public string MaterialName { get; set; }
 
         /// <summary>
-        /// The <see cref="ParticleTextureBank"/> file to pull from for the first texture.
+        /// The location of a particle texture bank for one this particle's textures.
         /// </summary>
         public string TextureBankA { get; set; }
 
         /// <summary>
-        /// The texture entry to look for as the first texture.
+        /// The name of the texture used by this particle from the first particle texture bank.
         /// </summary>
         public string TextureNameA { get; set; }
 
         /// <summary>
-        /// The <see cref="ParticleTextureBank"/> file to pull from for the second texture.
+        /// The location of a particle texture bank for one this particle's textures.
         /// </summary>
         public string TextureBankB { get; set; }
 
         /// <summary>
-        /// The texture entry to look for as the second texture.
+        /// The name of the texture used by this particle from the second particle texture bank.
         /// </summary>
         public string TextureNameB { get; set; }
 
         /// <summary>
-        /// The <see cref="ParticleTextureBank"/> to pull from for the third texture.
+        /// The location of a particle texture bank for one this particle's textures.
         /// </summary>
         public string TextureBankC { get; set; }
 
         /// <summary>
-        /// The texture entry to look for as the third texture.
+        /// The name of the texture used by this particle from the third particle texture bank.
         /// </summary>
         public string TextureNameC { get; set; }
 
         /// <summary>
-        /// A collection of properties that affect this particle.
+        /// The properties of this particle effect.
         /// </summary>
         public List<ParticleEffectProperty> Properties { get; set; } = [];
     }
@@ -431,99 +424,94 @@
             Type = in_type;
         }
 
-        public ParticleEffectProperty Read(BinaryReaderEx reader)
+        public ParticleEffectProperty Read(BinaryObjectReaderEx in_reader)
         {
-            Type = (ParticleEffectPropertyType)reader.ReadUInt32();
+            Type = (ParticleEffectPropertyType)in_reader.ReadUInt32();
 
-            if (Type != null)
+            if (Type == null)
+                return this;
+
+            var typeName = Enum.GetName(Type.Value);
+
+            if (string.IsNullOrEmpty(typeName))
             {
-                string currentType = Enum.GetName(Type.Value);
+                Logger.Log($"Unknown type at 0x{in_reader.Position:X}: 0x{Type:X}");
+                return this;
+            }
 
-                if (!string.IsNullOrEmpty(currentType))
-                {
-                    if (currentType.StartsWith("Int32"))
-                    {
-                        Int32 = reader.ReadInt32();
-                    }
-                    else if (currentType.StartsWith("Single"))
-                    {
-                        Single = reader.ReadSingle();
-                    }
-                    else if (currentType.StartsWith("Vector3"))
-                    {
-                        Vector3 = reader.ReadVector3();
-                    }
-                }
-                else
-                {
-                    Logger.Log($"Unknown type at 0x{reader.BaseStream.Position:X}: 0x{Type:X}");
-                }
+            if (typeName.StartsWith("Int32"))
+            {
+                Int32 = in_reader.Read<int>();
+            }
+            else if (typeName.StartsWith("Single"))
+            {
+                Single = in_reader.Read<float>();
+            }
+            else if (typeName.StartsWith("Vector3"))
+            {
+                Vector3 = in_reader.Read<Vector3>();
             }
 
             return this;
         }
 
-        public void Write(BinaryWriterEx writer)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
-            writer.Write((uint)Type);
+            in_writer.Write((uint)Type);
 
-            if (Type != null)
+            if (Type == null)
             {
-                string currentType = Enum.GetName(Type.Value);
-
-                if (!string.IsNullOrEmpty(currentType))
-                {
-                    if (currentType.StartsWith("Int32"))
-                    {
-                        writer.Write(Int32.Value);
-                    }
-                    else if (currentType.StartsWith("Single"))
-                    {
-                        writer.Write(Single.Value);
-                    }
-                    else if (currentType.StartsWith("Vector3"))
-                    {
-                        writer.Write(Vector3.Value);
-                    }
-                }
-                else
-                {
-                    Logger.Log($"Unknown type: 0x{Type:X}");
-                }
+                in_writer.Write(0);
+                return;
             }
-            else
+
+            var typeName = Enum.GetName(Type.Value);
+
+            if (string.IsNullOrEmpty(typeName))
             {
-                writer.Write(0);
+                Logger.Log($"Unknown type: 0x{Type:X}");
+                return;
+            }
+
+            if (typeName.StartsWith("Int32"))
+            {
+                in_writer.Write(Int32.Value);
+            }
+            else if (typeName.StartsWith("Single"))
+            {
+                in_writer.Write(Single.Value);
+            }
+            else if (typeName.StartsWith("Vector3"))
+            {
+                in_writer.Write(Vector3.Value);
             }
         }
 
         public int Length()
         {
-            string currentType = Enum.GetName(Type.Value);
+            var result = 4;
+            var typeName = Enum.GetName(Type.Value);
 
-            int length = 4;
-
-            if (!string.IsNullOrEmpty(currentType))
-            {
-                if (currentType.StartsWith("Int32"))
-                {
-                    length += 4;
-                }
-                else if (currentType.StartsWith("Single"))
-                {
-                    length += 4;
-                }
-                else if (currentType.StartsWith("Vector3"))
-                {
-                    length += 12;
-                }
-            }
-            else
+            if (string.IsNullOrEmpty(typeName))
             {
                 Logger.Log($"Unknown type: 0x{Type:X}");
+                return result;
             }
 
-            return length;
+            if (typeName.StartsWith("Int32"))
+            {
+                result += 4;
+            }
+            else if (typeName.StartsWith("Single"))
+            {
+                result += 4;
+            }
+            else if (typeName.StartsWith("Vector3"))
+            {
+                result += 12;
+            }
+
+            return result;
         }
     }
 
@@ -539,7 +527,7 @@
         None_0C = 0x0C,
 
         Int32_03 = 0x03, // TODO: unknown.
-        Int32_0B = 0x0B, // TODO: unknown - keyframe index?
+        Int32_0B = 0x0B, // TODO: unknown, keyframe index?
         Int32_16 = 0x16, // TODO: unknown.
         Int32_17 = 0x17, // TODO: unknown.
         Int32_18 = 0x18, // TODO: unknown.
@@ -583,9 +571,9 @@
         Int32_3E = 0x3E, // TODO: unknown.
         Int32_3F = 0x3F, // TODO: unknown.
 
-        Single_01     = 0x01, // TODO: unknown - keyframe length?
+        Single_01     = 0x01, // TODO: unknown, keyframe length?
         Single_Radius = 0x05,
-        Single_07     = 0x07, // TODO: unknown - radius?
+        Single_07     = 0x07, // TODO: unknown, radius?
         Single_09     = 0x09, // TODO: unknown.
         Single_Red    = 0x0D,
         Single_Green  = 0x0E,
