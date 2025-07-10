@@ -25,8 +25,14 @@ namespace Marathon.Formats.Particle
 
         public ParticleEffectBank(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The name of this effect bank.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The effects in this bank.
+        /// </summary>
         public List<ParticleEffect> Effects { get; set; } = [];
 
         public ParticleEffect this[string in_name]
@@ -43,29 +49,29 @@ namespace Marathon.Formats.Particle
             // Always null.
             reader.JumpAhead(8);
 
-            var entryCount = reader.Read<uint>();
+            var effectCount = reader.Read<uint>();
 
             Name = reader.ReadStringFixedLength(0x20);
 
-            var entryTableOffset = reader.Read<uint>();
+            var effectTableOffset = reader.Read<uint>();
 
-            for (int i = 0; i < entryCount; i++)
+            for (int i = 0; i < effectCount; i++)
             {
                 var effect = new ParticleEffect
                 {
                     Name = reader.ReadStringFixedLength(0x40)
                 };
 
-                var effectsCount = reader.Read<uint>();
-                var effectsOffset = reader.Read<uint>();
+                var nodeCount = reader.Read<uint>();
+                var nodeOffset = reader.Read<uint>();
 
                 var pos = reader.Position;
 
-                reader.JumpTo(BINAHeader.Size + effectsOffset);
+                reader.JumpTo(BINAHeader.Size + nodeOffset);
 
-                for (int j = 0; j < effectsCount; j++)
+                for (int j = 0; j < nodeCount; j++)
                 {
-                    var attr = new ParticleEffectAttributes
+                    var node = new ParticleEffectNode
                     {
                         UnknownField1 = reader.Read<uint>(),
                         LifeTime = reader.Read<float>(),
@@ -91,27 +97,27 @@ namespace Marathon.Formats.Particle
                         TextureNameC = reader.ReadStringFixedLength(0x20)
                     };
 
-                    var propertyListCount = reader.Read<uint>();
-                    var propertyListOffset = reader.Read<uint>();
+                    var propertyCount = reader.Read<uint>();
+                    var propertyOffset = reader.Read<uint>();
 
-                    if (propertyListOffset != 0)
+                    if (propertyOffset != 0)
                     {
-                        var propertyListPos = reader.Position;
+                        var propertyPos = reader.Position;
 
-                        reader.JumpTo(BINAHeader.Size + propertyListOffset);
+                        reader.JumpTo(BINAHeader.Size + propertyOffset);
 
-                        while (reader.Position != (propertyListOffset + propertyListCount) + BINAHeader.Size)
+                        while (reader.Position != (propertyOffset + propertyCount) + BINAHeader.Size)
                         {
-                            var property = new ParticleEffectProperty().Read(reader);
+                            var property = new ParticleEffectNodeProperty().Read(reader);
 
                             if (property != null)
-                                attr.Properties.Add(property);
+                                node.Properties.Add(property);
                         }
 
-                        reader.JumpTo(propertyListPos);
+                        reader.JumpTo(propertyPos);
                     }
 
-                    effect.Attributes.Add(attr);
+                    effect.Nodes.Add(node);
                 }
 
                 reader.JumpTo(pos);
@@ -128,49 +134,48 @@ namespace Marathon.Formats.Particle
             writer.WriteNullBytes(8);
             writer.Write(Effects.Count);
             writer.WriteStringFixedLength(Name, 0x20);
-            writer.CreateNamedField("EntryTableOffset");
-            writer.WriteNamedField("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.CreateNamedField("EffectTableOffset");
+            writer.WriteNamedField("EffectTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Effects.Count; i++)
             {
                 writer.WriteStringFixedLength(Effects[i].Name, 0x40);
-                writer.Write(Effects[i].Attributes.Count);
-                writer.CreateNamedField($"EffectsOffset{i}");
+                writer.Write(Effects[i].Nodes.Count);
+                writer.CreateNamedField($"NodeOffset{i}");
             }
 
             for (int i = 0; i < Effects.Count; i++)
             {
-                writer.WriteNamedField($"EffectsOffset{i}", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteNamedField($"NodeOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
-                for (int j = 0; j < Effects[i].Attributes.Count; j++)
+                for (int j = 0; j < Effects[i].Nodes.Count; j++)
                 {
-                    var attr = Effects[i].Attributes[j];
+                    var node = Effects[i].Nodes[j];
 
-                    writer.Write(attr.UnknownField1);
-                    writer.Write(attr.LifeTime);
-                    writer.Write(attr.Density);
-                    writer.Write(attr.UnknownField2);
-                    writer.Write(attr.Duration);
-                    writer.Write(attr.Velocity);
-                    writer.Write(attr.YLifeTime);
-                    writer.Write(attr.YMagnitude);
-                    writer.Write(attr.Scale);
-                    writer.Write(attr.RandomSpawnRadius);
-                    writer.Write(attr.UnknownField3);
-                    writer.Write(attr.UnknownField4);
-                    writer.Write(attr.UnknownField5);
-                    writer.Write(attr.UnknownField6);
-                    writer.Write(attr.UnknownField7);
+                    writer.Write(node.UnknownField1);
+                    writer.Write(node.LifeTime);
+                    writer.Write(node.Density);
+                    writer.Write(node.UnknownField2);
+                    writer.Write(node.Duration);
+                    writer.Write(node.Velocity);
+                    writer.Write(node.YLifeTime);
+                    writer.Write(node.YMagnitude);
+                    writer.Write(node.Scale);
+                    writer.Write(node.RandomSpawnRadius);
+                    writer.Write(node.UnknownField3);
+                    writer.Write(node.UnknownField4);
+                    writer.Write(node.UnknownField5);
+                    writer.Write(node.UnknownField6);
+                    writer.Write(node.UnknownField7);
+                    writer.WriteStringFixedLength(node.MaterialName, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankA, 0x20);
+                    writer.WriteStringFixedLength(node.TextureNameA, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankB, 0x20);
+                    writer.WriteStringFixedLength(node.TextureNameB, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankC, 0x20);
+                    writer.WriteStringFixedLength(node.TextureNameC, 0x20);
 
-                    writer.WriteStringFixedLength(attr.MaterialName, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureBankA, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureNameA, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureBankB, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureNameB, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureBankC, 0x20);
-                    writer.WriteStringFixedLength(attr.TextureNameC, 0x20);
-
-                    var propertyCount = attr.Properties.Sum(x => x.Length());
+                    var propertyCount = node.Properties.Sum(x => x.Length());
 
                     writer.Write(propertyCount);
 
@@ -180,21 +185,21 @@ namespace Marathon.Formats.Particle
                     }
                     else
                     {
-                        writer.CreateNamedField($"Effects{i}PropertyListOffset{j}");
+                        writer.CreateNamedField($"Node{i}PropertyOffset{j}");
                     }
                 }
             }
 
             for (int i = 0; i < Effects.Count; i++)
             {
-                for (int j = 0; j < Effects[i].Attributes.Count; j++)
+                for (int j = 0; j < Effects[i].Nodes.Count; j++)
                 {
-                    if (Effects[i].Attributes[j].Properties.Sum(x => x.Length()) == 0)
+                    if (Effects[i].Nodes[j].Properties.Sum(x => x.Length()) == 0)
                         continue;
 
-                    writer.WriteNamedField($"Effects{i}PropertyListOffset{j}", (uint)writer.Position - BINAHeader.Size);
+                    writer.WriteNamedField($"Node{i}PropertyOffset{j}", (uint)writer.Position - BINAHeader.Size);
 
-                    foreach (var property in Effects[i].Attributes[j].Properties)
+                    foreach (var property in Effects[i].Nodes[j].Properties)
                         property.Write(writer);
                 }
             }
@@ -216,16 +221,16 @@ namespace Marathon.Formats.Particle
         public string Name { get; set; }
 
         /// <summary>
-        /// The attributes of this particle effect.
+        /// The nodes of this particle effect.
         /// </summary>
-        public List<ParticleEffectAttributes> Attributes { get; set; } = [];
+        public List<ParticleEffectNode> Nodes { get; set; } = [];
 
         public ParticleEffect() { }
 
-        public ParticleEffect(string in_name, List<ParticleEffectAttributes> in_attributes)
+        public ParticleEffect(string in_name, List<ParticleEffectNode> in_node)
         {
             Name = in_name;
-            Attributes = in_attributes;
+            Nodes = in_node;
         }
 
         public override string ToString()
@@ -234,7 +239,7 @@ namespace Marathon.Formats.Particle
         }
     }
 
-    public class ParticleEffectAttributes
+    public class ParticleEffectNode
     {
         /// <summary>
         /// TODO: unknown, flags?
@@ -349,12 +354,12 @@ namespace Marathon.Formats.Particle
         /// <summary>
         /// The properties of this particle effect.
         /// </summary>
-        public List<ParticleEffectProperty> Properties { get; set; } = [];
+        public List<ParticleEffectNodeProperty> Properties { get; set; } = [];
     }
 
-    public class ParticleEffectProperty
+    public class ParticleEffectNodeProperty
     {
-        public ParticleEffectPropertyType? Type { get; set; } = null;
+        public ParticleEffectNodePropertyType? Type { get; set; } = null;
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public int? Int32 { get; set; } = null;
@@ -365,14 +370,14 @@ namespace Marathon.Formats.Particle
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Vector3? Vector3 { get; set; } = null;
 
-        public ParticleEffectProperty() { }
+        public ParticleEffectNodeProperty() { }
 
-        public ParticleEffectProperty(ParticleEffectPropertyType in_type)
+        public ParticleEffectNodeProperty(ParticleEffectNodePropertyType in_type)
         {
             Type = in_type;
         }
 
-        public ParticleEffectProperty(ParticleEffectPropertyType in_type, int in_int32)
+        public ParticleEffectNodeProperty(ParticleEffectNodePropertyType in_type, int in_int32)
         {
             if (!in_type.ToString().StartsWith("Int32"))
                 throw new ArgumentException("The input type is not an Int32.");
@@ -381,7 +386,7 @@ namespace Marathon.Formats.Particle
             Int32 = in_int32;
         }
 
-        public ParticleEffectProperty(ParticleEffectPropertyType in_type, float in_single)
+        public ParticleEffectNodeProperty(ParticleEffectNodePropertyType in_type, float in_single)
         {
             if (!in_type.ToString().StartsWith("Single"))
                 throw new ArgumentException("The input type is not a Single.");
@@ -390,7 +395,7 @@ namespace Marathon.Formats.Particle
             Single = in_single;
         }
 
-        public ParticleEffectProperty(ParticleEffectPropertyType in_type, Vector3 in_vector3)
+        public ParticleEffectNodeProperty(ParticleEffectNodePropertyType in_type, Vector3 in_vector3)
         {
             if (!in_type.ToString().StartsWith("Vector3"))
                 throw new ArgumentException("The input type is not a Vector3.");
@@ -399,7 +404,7 @@ namespace Marathon.Formats.Particle
             Vector3 = in_vector3;
         }
 
-        public ParticleEffectProperty(ParticleEffectPropertyType in_type, object in_object)
+        public ParticleEffectNodeProperty(ParticleEffectNodePropertyType in_type, object in_object)
         {
             var objType = in_object.GetType();
             var typeName = in_type.ToString();
@@ -424,9 +429,9 @@ namespace Marathon.Formats.Particle
             Type = in_type;
         }
 
-        public ParticleEffectProperty Read(BinaryObjectReaderEx in_reader)
+        public ParticleEffectNodeProperty Read(BinaryObjectReaderEx in_reader)
         {
-            Type = (ParticleEffectPropertyType)in_reader.ReadUInt32();
+            Type = (ParticleEffectNodePropertyType)in_reader.ReadUInt32();
 
             if (Type == null)
                 return this;
@@ -516,7 +521,7 @@ namespace Marathon.Formats.Particle
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ParticleEffectPropertyType : uint
+    public enum ParticleEffectNodePropertyType : uint
     {
         /* TODO: figure out how these different types
                  influence the result of the particles. */

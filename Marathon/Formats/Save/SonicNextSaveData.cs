@@ -63,25 +63,25 @@ namespace Marathon.Formats.Save
                 reader.JumpAhead(0x80);
 
                 Episodes[i].Objective  = reader.ReadStringFixedLength(0x100);
-                Episodes[i].Area       = reader.ReadStringFixedLength(0x100);
-                Episodes[i].Terrain    = reader.ReadStringFixedLength(0x100);
-                Episodes[i].SetData    = reader.ReadStringFixedLength(0x100);
-                Episodes[i].PathSpline = reader.ReadStringFixedLength(0x100);
+                Episodes[i].Area = reader.ReadStringFixedLength(0x100);
+                Episodes[i].Terrain = reader.ReadStringFixedLength(0x100);
+                Episodes[i].StageSet = reader.ReadStringFixedLength(0x100);
+                Episodes[i].SplinePath = reader.ReadStringFixedLength(0x100);
 
                 // TODO: unknown.
                 reader.JumpAhead(0x500);
 
-                Episodes[i].MessageTable = reader.ReadStringFixedLength(0x100);
+                Episodes[i].TextBook = reader.ReadStringFixedLength(0x100);
 
                 // TODO: unknown, contains flags!
                 reader.JumpAhead(0x24C);
 
                 Episodes[i].Progress = reader.Read<int>();
-                Episodes[i].Year     = reader.Read<short>();
-                Episodes[i].Month    = reader.Read<sbyte>();
-                Episodes[i].Day      = reader.Read<sbyte>();
-                Episodes[i].Hour     = reader.Read<sbyte>();
-                Episodes[i].Minute   = reader.Read<sbyte>();
+                Episodes[i].Year = reader.Read<short>();
+                Episodes[i].Month = reader.Read<sbyte>();
+                Episodes[i].Day = reader.Read<sbyte>();
+                Episodes[i].Hour = reader.Read<sbyte>();
+                Episodes[i].Minute = reader.Read<sbyte>();
                 Episodes[i].Location = reader.ReadStringFixedLength(0x42);
             }
 
@@ -127,13 +127,13 @@ namespace Marathon.Formats.Save
                 writer.WriteStringFixedLength(Episodes[i].Objective, 0x100);
                 writer.WriteStringFixedLength(Episodes[i].Area, 0x100);
                 writer.WriteStringFixedLength(Episodes[i].Terrain, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].SetData, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].PathSpline, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].StageSet, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].SplinePath, 0x100);
         
                 // TODO: unknown.
                 writer.JumpAhead(0x500);
         
-                writer.WriteStringFixedLength(Episodes[i].MessageTable, 0x100);
+                writer.WriteStringFixedLength(Episodes[i].TextBook, 0x100);
         
                 // TODO: unknown, contains flags!
                 writer.JumpAhead(0x24C);

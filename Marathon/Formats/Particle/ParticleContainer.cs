@@ -17,8 +17,14 @@ namespace Marathon.Formats.Particle
 
         public ParticleContainer(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The name of this particle container.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The particles in this container.
+        /// </summary>
         public List<Particle> Particles { get; set; } = [];
 
         public Particle this[string in_name]

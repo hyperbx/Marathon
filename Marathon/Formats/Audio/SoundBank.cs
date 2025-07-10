@@ -9,11 +9,12 @@ using System.IO;
 namespace Marathon.Formats.Audio
 {
     /// <summary>
-    /// Support for *.sbk files; used for defining properties for <a href="https://www.criware.com/">CRIWARE</a> cues in cue sheet binaries (*.csb files).
+    /// Support for *.sbk files; used for defining sounds.
     /// </summary>
     public class SoundBank : FileBase
     {
         private const string _signature = "SBNK"; // "Sound BaNK"
+        private const uint _magic = 0x20060700;
 
         public SoundBank() { }
 
@@ -25,13 +26,13 @@ namespace Marathon.Formats.Audio
         public string Name { get; set; }
 
         /// <summary>
-        /// The sound cues in this bank.
+        /// The sounds in this bank.
         /// </summary>
-        public List<Cue> Cues { get; set; } = [];
+        public List<SoundBankData> Sounds { get; set; } = [];
 
-        public Cue this[string in_name]
+        public SoundBankData this[string in_name]
         {
-            get => Cues.Find((x) => x.Name == in_name);
+            get => Sounds.Find((x) => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)
@@ -40,23 +41,23 @@ namespace Marathon.Formats.Audio
 
             reader.CheckSignature(_signature);
 
-            var unkField1 = reader.Read<uint>();         // TODO: unknown, always seems to be 0x20060700.
-            var nameOffset = reader.Read<uint>();        // Pointer to the sound bank name.
-            var cueTableOffset = reader.Read<uint>();    // Pointer to the first entry in the sound bank.
-            var cueIndicesOffset = reader.Read<uint>();  // Pointer to the index list for non-stream indices (null if none).
-            var streamTableOffset = reader.Read<uint>(); // Pointer to the pointer list for external stream paths (null if none).
+            var magic = reader.Read<uint>();
+            var nameOffset = reader.Read<uint>();
+            var soundTableOffset = reader.Read<uint>();
+            var soundIndicesOffset = reader.Read<uint>();
+            var streamTableOffset = reader.Read<uint>();
 
             Name = reader.ReadStringFixedLength(0x40);
 
-            var cueCount = reader.Read<uint>();       // Total number of cues in this sound bank.
-            var csbCueCount = reader.Read<uint>();    // Total number of cues in this sound bank which pull their data from a corresponding *.csb file.
-            var streamCueCount = reader.Read<uint>(); // Total number of cues in this sound bank which use external streams.
+            var soundCount = reader.Read<uint>();
+            var csbCount = reader.Read<uint>();    // The total number of sounds in this bank that use *.csb streams.
+            var streamCount = reader.Read<uint>(); // The total number of sounds in this bank that use external streams.
 
             var currentStream = 0;
 
-            for (int i = 0; i < cueCount; i++)
+            for (int i = 0; i < soundCount; i++)
             {
-                var cue = new Cue()
+                var sound = new SoundBankData()
                 {
                     Name = reader.ReadStringFixedLength(0x20)
                 };
@@ -64,9 +65,9 @@ namespace Marathon.Formats.Audio
                 var isExternalStream = reader.Read<uint>() != 0;
                 var cueIndex = reader.Read<uint>();
 
-                cue.Category = reader.Read<uint>();
-                cue.UnknownField1 = reader.Read<float>();
-                cue.Radius = reader.Read<float>();
+                sound.Category = reader.Read<uint>();
+                sound.UnknownField1 = reader.Read<float>();
+                sound.Radius = reader.Read<float>();
 
                 if (isExternalStream)
                 {
@@ -78,13 +79,13 @@ namespace Marathon.Formats.Audio
 
                     var streamNameOffset = reader.ReadUInt32();
 
-                    reader.ReadAtOffset(BINAHeader.Size + streamNameOffset, () => cue.Stream = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + streamNameOffset, () => sound.Stream = reader.ReadStringNullTerminated());
                     reader.JumpTo(pos);
 
                     currentStream++;
                 }
 
-                Cues.Add(cue);
+                Sounds.Add(sound);
             }
         }
 
@@ -92,78 +93,82 @@ namespace Marathon.Formats.Audio
         {
             var writer = new BINAWriter(in_stream);
 
-            var csbCueCount = 0;
-            var streamCueCount = 0;
+            var csbCount = 0;
+            var streamCount = 0;
 
-            for (int i = 0; i < Cues.Count; i++)
+            for (int i = 0; i < Sounds.Count; i++)
             {
-                if (string.IsNullOrEmpty(Cues[i].Stream))
-                    csbCueCount++;
+                if (string.IsNullOrEmpty(Sounds[i].Stream))
+                {
+                    csbCount++;
+                }
                 else
-                    streamCueCount++;
+                {
+                    streamCount++;
+                }
             }
         
             writer.WriteSignature(_signature);
-            writer.Write(0x20060700); // TODO: unknown.
+            writer.Write(_magic);
             writer.CreateNamedField("NameOffset");
-            writer.CreateNamedField("CueTableOffset");
-            writer.CreateNamedField("CueIndicesOffset");
+            writer.CreateNamedField("SoundTableOffset");
+            writer.CreateNamedField("SoundIndicesOffset");
             writer.CreateNamedField("StreamTableOffset");
         
             writer.WriteNamedField("NameOffset", (uint)writer.Position - BINAHeader.Size);
         
             writer.WriteStringFixedLength(Name, 0x40);
-            writer.Write(Cues.Count);
-            writer.Write(csbCueCount);
-            writer.Write(streamCueCount);
+            writer.Write(Sounds.Count);
+            writer.Write(csbCount);
+            writer.Write(streamCount);
 
-            writer.WriteNamedField("CueTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteNamedField("SoundTableOffset", (uint)writer.Position - BINAHeader.Size);
 
-            var csbCueID = 0;
-            var streamCueID = 0;
+            var csbSoundID = 0;
+            var streamSoundID = 0;
         
-            for (int i = 0; i < Cues.Count; i++)
+            for (int i = 0; i < Sounds.Count; i++)
             {
-                writer.WriteStringFixedLength(Cues[i].Name, 0x20);
+                writer.WriteStringFixedLength(Sounds[i].Name, 0x20);
 
-                if (string.IsNullOrEmpty(Cues[i].Stream))
+                if (string.IsNullOrEmpty(Sounds[i].Stream))
                 {
                     // Write CSB entry.
                     writer.Write(0);
-                    writer.Write(csbCueID);
-                    csbCueID++;
+                    writer.Write(csbSoundID);
+                    csbSoundID++;
                 }
                 else
                 {
                     // Write external stream entry.
                     writer.Write(1);
-                    writer.Write(streamCueID);
-                    streamCueID++;
+                    writer.Write(streamSoundID);
+                    streamSoundID++;
                 }
         
-                writer.Write(Cues[i].Category);
-                writer.Write(Cues[i].UnknownField1);
-                writer.Write(Cues[i].Radius);
+                writer.Write(Sounds[i].Category);
+                writer.Write(Sounds[i].UnknownField1);
+                writer.Write(Sounds[i].Radius);
             }
 
-            if (csbCueCount != 0)
+            if (csbCount != 0)
             {
-                writer.WriteNamedField("CueIndicesOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteNamedField("SoundIndicesOffset", (uint)writer.Position - BINAHeader.Size);
         
-                for (int i = 0; i < csbCueCount; i++)
+                for (int i = 0; i < csbCount; i++)
                     writer.Write(i);
             }
 
-            if (streamCueCount != 0)
+            if (streamCount != 0)
             {
                 writer.WriteNamedField("StreamTableOffset", (uint)writer.Position - BINAHeader.Size);
         
-                for (int i = 0; i < Cues.Count; i++)
+                for (int i = 0; i < Sounds.Count; i++)
                 {
-                    if (string.IsNullOrEmpty(Cues[i].Stream))
+                    if (string.IsNullOrEmpty(Sounds[i].Stream))
                         continue;
 
-                    writer.CreateStringField($"StreamOffset{i}", Cues[i].Stream);
+                    writer.CreateStringField($"StreamOffset{i}", Sounds[i].Stream);
                 }
             }
 
@@ -176,10 +181,10 @@ namespace Marathon.Formats.Audio
         }
     }
 
-    public class Cue
+    public class SoundBankData
     {
         /// <summary>
-        /// The name of this cue in the sound bank.
+        /// The name of this sound.
         /// </summary>
         public string Name { get; set; }
 
@@ -194,19 +199,19 @@ namespace Marathon.Formats.Audio
         public float UnknownField1 { get; set; }
 
         /// <summary>
-        /// The distance this sound can be heard from.
+        /// The radius at which this sound can be heard from.
         /// </summary>
         public float Radius { get; set; }
 
         /// <summary>
-        /// The name of the XMA this cue uses.
-        /// <para>Leave blank if using audio from a *.csb file.</para>
+        /// The name of the stream this sound uses.
+        /// <para>If using a stream from a *.csb file, leave blank.</para>
         /// </summary>
         public string Stream { get; set; }
 
-        public Cue() { }
+        public SoundBankData() { }
 
-        public Cue(string in_name, uint in_category, float in_unknownField1, float in_radius, string in_stream)
+        public SoundBankData(string in_name, uint in_category, float in_unknownField1, float in_radius, string in_stream)
         {
             Name = in_name;
             Category = in_category;
@@ -215,6 +220,9 @@ namespace Marathon.Formats.Audio
             Stream = in_stream;
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

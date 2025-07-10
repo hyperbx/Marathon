@@ -15,14 +15,18 @@ namespace Marathon.Formats.Event
     public class EventPlaybook : FileBase
     {
         private const string _signature = ".EPB"; // "Event PlayBook"
+        private const uint _magic = 0x20060700;
 
         public EventPlaybook() { }
 
         public EventPlaybook(string in_path) : base(in_path) { }
 
-        public List<Event> Events { get; set; } = [];
+        /// <summary>
+        /// The events in this playbook.
+        /// </summary>
+        public List<EventPlaybookData> Events { get; set; } = [];
 
-        public Event this[string in_name]
+        public EventPlaybookData this[string in_name]
         {
             get => Events.Find((x) => x.Name == in_name);
         }
@@ -33,7 +37,7 @@ namespace Marathon.Formats.Event
 
             reader.CheckSignature(_signature);
 
-            var unkField1 = reader.Read<uint>(); // TODO: unknown, breaks all cutscenes if null.
+            var magic = reader.Read<uint>();
             var eventCount = reader.Read<uint>();
             var eventTableOffset = reader.Read<uint>();
 
@@ -41,7 +45,7 @@ namespace Marathon.Formats.Event
 
             for (int i = 0; i < eventCount; i++)
             {
-                Event @event = new();
+                EventPlaybookData @event = new();
 
                 var nameOffset = reader.Read<uint>();
                 var folderOffset = reader.Read<uint>();
@@ -90,7 +94,7 @@ namespace Marathon.Formats.Event
             var writer = new BINAWriter(in_stream);
 
             writer.WriteSignature(_signature);
-            writer.Write(0x20060700); // TODO: unknown.
+            writer.Write(_magic);
             writer.Write(Events.Count);
             writer.CreateNamedField("EventTableOffset");
             writer.WriteNamedField("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
@@ -113,7 +117,7 @@ namespace Marathon.Formats.Event
         }
     }
 
-    public class Event
+    public class EventPlaybookData
     {
         /// <summary>
         /// The name of this event.

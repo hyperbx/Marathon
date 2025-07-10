@@ -28,7 +28,12 @@ namespace Marathon.Formats.Text
         /// <summary>
         /// The crops for the specified texture.
         /// </summary>
-        public List<Crop> Crops { get; set; } = [];
+        public List<TextFontPictureCrop> Crops { get; set; } = [];
+
+        public TextFontPictureCrop this[string in_name]
+        {
+            get => Crops.Find((x) => x.Name == in_name);
+        }
 
         public override void Read(Stream in_stream)
         {
@@ -49,7 +54,7 @@ namespace Marathon.Formats.Text
             {
                 var nameOffset = reader.Read<uint>();
 
-                var crop = new Crop()
+                var crop = new TextFontPictureCrop()
                 {
                     X = reader.Read<ushort>(),
                     Y = reader.Read<ushort>(),
@@ -92,7 +97,7 @@ namespace Marathon.Formats.Text
         }
     }
 
-    public class Crop
+    public class TextFontPictureCrop
     {
         /// <summary>
         /// The name of this crop.
@@ -119,9 +124,9 @@ namespace Marathon.Formats.Text
         /// </summary>
         public ushort Height { get; set; }
 
-        public Crop() { }
+        public TextFontPictureCrop() { }
 
-        public Crop(string in_name, ushort in_x, ushort in_y, ushort in_width, ushort in_height)
+        public TextFontPictureCrop(string in_name, ushort in_x, ushort in_y, ushort in_width, ushort in_height)
         {
             Name = in_name;
             X = in_x;

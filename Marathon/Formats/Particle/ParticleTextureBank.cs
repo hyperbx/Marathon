@@ -19,8 +19,14 @@ namespace Marathon.Formats.Particle
 
         public ParticleTextureBank(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The name of this texture bank.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The textures in this bank.
+        /// </summary>
         public List<ParticleTexture> Textures { get; set; } = [];
 
         public ParticleTexture this[string in_name]

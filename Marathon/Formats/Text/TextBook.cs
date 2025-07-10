@@ -28,7 +28,12 @@ namespace Marathon.Formats.Text
         /// <summary>
         /// The messages in this text book.
         /// </summary>
-        public List<Message> Messages { get; set; } = [];
+        public List<TextBookMessage> Messages { get; set; } = [];
+
+        public TextBookMessage this[string in_name]
+        {
+            get => Messages.Find((x) => x.Name == in_name);
+        }
 
         public override void Read(Stream in_stream)
         {
@@ -44,7 +49,7 @@ namespace Marathon.Formats.Text
 
             for (int i = 0; i < messageCount; i++)
             {
-                Message message = new();
+                var message = new TextBookMessage();
 
                 var msgNameOffset = reader.Read<uint>();
                 var msgTextOffset = reader.Read<uint>();
@@ -104,7 +109,7 @@ namespace Marathon.Formats.Text
         }
     }
 
-    public class Message
+    public class TextBookMessage
     {
         /// <summary>
         /// The name of this message.
@@ -121,9 +126,9 @@ namespace Marathon.Formats.Text
         /// </summary>
         public string[] Variables { get; set; }
 
-        public Message() { }
+        public TextBookMessage() { }
 
-        public Message(string in_name, string in_text, string[] in_variables = null)
+        public TextBookMessage(string in_name, string in_text, string[] in_variables = null)
         {
             Name = in_name;
             Text = in_text;

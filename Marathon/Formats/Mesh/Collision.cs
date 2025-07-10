@@ -21,8 +21,14 @@ namespace Marathon.Formats.Mesh
 
         public Collision(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The vertices of this collision mesh.
+        /// </summary>
         public List<Vector3> Vertices { get; set; } = [];
 
+        /// <summary>
+        /// The faces of this collision mesh.
+        /// </summary>
         public List<CollisionFace> Faces { get; set; } = [];
 
         public override void Read(Stream in_stream)

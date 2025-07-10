@@ -15,39 +15,39 @@ namespace Marathon.Formats.Save
         public int Rings { get; set; }
 
         /// <summary>
-        /// The path to this mission's Lua script.
+        /// The location of this mission's Lua script.
         /// </summary>
         public string Lua { get; set; }
 
         /// <summary>
-        /// The name of the MST entry for the loading screen text.
+        /// The name of the text book message for the loading screen text.
         /// </summary>
         public string Objective { get; set; }
 
         /// <summary>
-        /// This mission's area code defined in game.lub.
+        /// This mission's area code defined in the main game script ("game.lub").
         /// </summary>
         public string Area { get; set; }
 
         /// <summary>
-        /// The path to this mission's terrain data.
+        /// The location of this mission's terrain data.
         /// </summary>
         public string Terrain { get; set; }
 
         /// <summary>
-        /// The path to this mission's placement data.
+        /// The location of this mission's stage set data.
         /// </summary>
-        public string SetData { get; set; }
+        public string StageSet { get; set; }
 
         /// <summary>
-        /// The path to this mission's spline data.
+        /// The location of this mission's spline data.
         /// </summary>
-        public string PathSpline { get; set; }
+        public string SplinePath { get; set; }
 
         /// <summary>
-        /// The path to this mission's message data.
+        /// The location of this mission's message data.
         /// </summary>
-        public string MessageTable { get; set; }
+        public string TextBook { get; set; }
 
         /// <summary>
         /// The percent of story completion for this episode.
@@ -80,7 +80,7 @@ namespace Marathon.Formats.Save
         public sbyte Minute { get; set; }
 
         /// <summary>
-        /// The name of the MST entry for the location text.
+        /// The name of the text book message for the location text.
         /// </summary>
         public string Location { get; set; }
 

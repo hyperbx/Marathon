@@ -21,10 +21,19 @@ namespace Marathon.Formats.Particle
 
         public ParticleGlobalSettings(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The registered effect banks.
+        /// </summary>
         public List<string> EffectBanks { get; set; } = [];
 
+        /// <summary>
+        /// The registered texture banks.
+        /// </summary>
         public List<string> TextureBanks { get; set; } = [];
 
+        /// <summary>
+        /// The material settings for the particles.
+        /// </summary>
         public List<ParticleMaterial> Materials { get; set; } = [];
 
         public override void Read(Stream in_stream)

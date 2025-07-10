@@ -18,9 +18,12 @@ namespace Marathon.Formats.Mesh
 
         public SplinePath(string in_path) : base(in_path) { }
 
-        public List<Path> Paths { get; set; } = [];
+        /// <summary>
+        /// The defined paths in this file.
+        /// </summary>
+        public List<SplinePathData> Paths { get; set; } = [];
 
-        public Path this[string in_name]
+        public SplinePathData this[string in_name]
         {
             get => Paths.Find((x) => x.Name == in_name);
         }
@@ -36,7 +39,7 @@ namespace Marathon.Formats.Mesh
 
             for (int i = 0; i < pathCount; i++)
             {
-                var path = new Path();
+                var path = new SplinePathData();
 
                 var pathOffset = reader.Read<uint>();
                 var splineCount = reader.Read<uint>();
@@ -56,7 +59,7 @@ namespace Marathon.Formats.Mesh
 
                 for (int j = 0; j < splineCount; j++)
                 {
-                    var spline = new Spline();
+                    var spline = new SplineRoot();
 
                     for (int k = 0; k < vertexCount; k++)
                     {
@@ -152,7 +155,7 @@ namespace Marathon.Formats.Mesh
         }
     }
 
-    public class Path
+    public class SplinePathData
     {
         public float UnknownField1 { get; set; }
 
@@ -160,7 +163,7 @@ namespace Marathon.Formats.Mesh
 
         public uint NodeIndex { get; set; }
 
-        public List<Spline> Splines { get; set; } = [];
+        public List<SplineRoot> Splines { get; set; } = [];
 
         public Vector3 Position { get; set; }
 
@@ -174,13 +177,13 @@ namespace Marathon.Formats.Mesh
         }
     }
 
-    public class Spline
+    public class SplineRoot
     {
         public List<SplineVertex> Vertices { get; set; } = [];
 
-        public Spline() { }
+        public SplineRoot() { }
 
-        public Spline(List<SplineVertex> in_vertices)
+        public SplineRoot(List<SplineVertex> in_vertices)
         {
             Vertices = in_vertices;
         }

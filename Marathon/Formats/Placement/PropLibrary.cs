@@ -18,9 +18,20 @@ namespace Marathon.Formats.Placement
 
         public PropLibrary(string in_path) : base(in_path) { }
 
+        /// <summary>
+        /// The name of this library.
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// The actors in this library.
+        /// </summary>
         public List<Actor> Actors { get; set; } = [];
+
+        public Actor this[string in_name]
+        {
+            get => Actors.Find((x) => x.Name == in_name);
+        }
 
         public override void Read(Stream in_stream)
         {
@@ -52,13 +63,13 @@ namespace Marathon.Formats.Placement
                 {
                     reader.JumpTo(BINAHeader.Size + parameterOffset + (j * 0x18));
 
-                    var parameter = new ActorParameter()
+                    var param = new ActorParameter()
                     {
                         Name = reader.ReadStringFixedLength(0x10),
                         Type = (StageSetDataType)reader.Read<uint>()
                     };
 
-                    actor.Parameters.Add(parameter);
+                    actor.Parameters.Add(param);
                 }
 
                 reader.JumpTo(pos);

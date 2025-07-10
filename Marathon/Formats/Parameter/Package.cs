@@ -55,13 +55,13 @@ namespace Marathon.Formats.Parameter
                     var file = new PackageFile();
 
                     var fileNameOffset = reader.Read<uint>();
-                    var filePathOffset = reader.Read<uint>();
+                    var fileLocationOffset = reader.Read<uint>();
 
                     reader.ReadAtOffset(BINAHeader.Size + fileNameOffset,
                         () => file.Name = reader.ReadStringNullTerminated());
 
-                    reader.ReadAtOffset(BINAHeader.Size + filePathOffset,
-                        () => file.Path = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + fileLocationOffset,
+                        () => file.Location = reader.ReadStringNullTerminated());
 
                     category.Files.Add(file);
                 }
@@ -100,7 +100,7 @@ namespace Marathon.Formats.Parameter
                 for (int j = 0; j < Categories[i].Files.Count; j++)
                 {
                     writer.CreateStringField($"FileName{fileCount}", Categories[i].Files[j].Name);
-                    writer.CreateStringField($"FilePath{fileCount}", Categories[i].Files[j].Path);
+                    writer.CreateStringField($"FileLocation{fileCount}", Categories[i].Files[j].Location);
 
                     fileCount++;
                 }
@@ -149,14 +149,14 @@ namespace Marathon.Formats.Parameter
     {
         public string Name { get; set; }
 
-        public string Path { get; set; }
+        public string Location { get; set; }
 
         public PackageFile() { }
 
         public PackageFile(string in_name, string in_path)
         {
             Name = in_name;
-            Path = in_path;
+            Location = in_path;
         }
 
         public override string ToString()

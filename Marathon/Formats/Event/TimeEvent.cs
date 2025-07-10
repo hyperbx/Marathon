@@ -25,7 +25,10 @@ namespace Marathon.Formats.Event
         /// </summary>
         public string Motion { get; set; }
 
-        public List<EventInfo> Events { get; set; } = [];
+        /// <summary>
+        /// The events in this file.
+        /// </summary>
+        public List<TimeEventData> Events { get; set; } = [];
 
         public override void Read(Stream in_stream)
         {
@@ -45,26 +48,26 @@ namespace Marathon.Formats.Event
 
             for (int i = 0; i < eventCount; i++)
             {
-                var @event = new EventInfo();
+                var data = new TimeEventData();
 
                 // Always null.
                 reader.JumpAhead(4);
 
-                uint targetNodeOffset = reader.Read<uint>();
-                uint resourceFileOffset = reader.Read<uint>();
-                uint resourceNameOffset = reader.Read<uint>();
+                var targetNodeOffset = reader.Read<uint>();
+                var resourceOffset = reader.Read<uint>();
+                var resourceNameOffset = reader.Read<uint>();
 
-                @event.StartTime = reader.Read<float>();
-                @event.EndTime = reader.Read<float>();
-                @event.UnknownField1 = reader.Read<uint>();
-                @event.Position = reader.Read<Vector3>();
-                @event.UnknownField2 = reader.Read<Vector3>();
+                data.StartTime = reader.Read<float>();
+                data.EndTime = reader.Read<float>();
+                data.UnknownField1 = reader.Read<uint>();
+                data.Position = reader.Read<Vector3>();
+                data.UnknownField2 = reader.Read<Vector3>();
 
-                reader.ReadAtOffset(BINAHeader.Size + targetNodeOffset, () => @event.TargetNode = reader.ReadStringNullTerminated());
-                reader.ReadAtOffset(BINAHeader.Size + resourceFileOffset, () => @event.Resource = reader.ReadStringNullTerminated());
-                reader.ReadAtOffset(BINAHeader.Size + resourceNameOffset, () => @event.ResourceName = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + targetNodeOffset, () => data.TargetNode = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + resourceOffset, () => data.Resource = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + resourceNameOffset, () => data.ResourceName = reader.ReadStringNullTerminated());
 
-                Events.Add(@event);
+                Events.Add(data);
             }
         }
 
@@ -83,7 +86,7 @@ namespace Marathon.Formats.Event
             {
                 writer.Write(0);
                 writer.CreateStringField($"TargetNode{i}", Events[i].TargetNode);
-                writer.CreateStringField($"ResourceFile{i}", Events[i].Resource);
+                writer.CreateStringField($"Resource{i}", Events[i].Resource);
                 writer.CreateStringField($"ResourceName{i}", Events[i].ResourceName);
                 writer.Write(Events[i].StartTime);
                 writer.Write(Events[i].EndTime);
@@ -101,7 +104,7 @@ namespace Marathon.Formats.Event
         }
     }
 
-    public class EventInfo
+    public class TimeEventData
     {
         /// <summary>
         /// The name of the node to target.
