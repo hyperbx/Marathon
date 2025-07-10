@@ -1,159 +1,144 @@
-﻿namespace Marathon.Formats.Particle
+﻿using Marathon.IO;
+using Marathon.IO.Extensions;
+using Marathon.IO.Types.BINA;
+using System.Collections.Generic;
+using System.IO;
+
+// Format research attribution: Knuxfan24, Hyper
+
+namespace Marathon.Formats.Particle
 {
     /// <summary>
-    /// File base for the *.plc format.
-    /// <para>Used in SONIC THE HEDGEHOG for defining attributes for particle effects.</para>
+    /// Support for *.plc files; used for defining particle effects.
     /// </summary>
     public class ParticleContainer : FileBase
     {
         public ParticleContainer() { }
 
-        public ParticleContainer(string file, bool serialise = false)
+        public ParticleContainer(string in_path) : base(in_path) { }
+
+        public string Name { get; set; }
+
+        public List<Particle> Particles { get; set; } = [];
+
+        public Particle this[string in_name]
         {
-            switch (Path.GetExtension(file))
+            get => Particles.Find((x) => x.Name == in_name);
+        }
+
+        public override void Read(Stream in_stream)
+        {
+            var reader = new BINAReader(in_stream);
+
+            var nameOffset = reader.Read<uint>();
+
+            reader.ReadAtOffset(BINAHeader.Size + nameOffset,
+                () => Name = reader.ReadStringNullTerminated());
+
+            var particleTableCount = reader.Read<uint>();
+            var particleCount = reader.Read<uint>();
+
+            for (int i = 0; i < particleCount; i++)
             {
-                case ".json":
-                {
-                    Data = JsonDeserialise<FormatData>(file);
+                var particle = new Particle();
 
-                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
-                    if (serialise)
-                        Save(Path.GetFileNameWithoutExtension(file));
+                var particleNameOffset = reader.Read<uint>();
 
-                    break;
-                }
+                reader.ReadAtOffset(BINAHeader.Size + particleNameOffset,
+                    () => particle.Name = reader.ReadStringNullTerminated());
 
-                default:
-                {
-                    Load(file);
+                var effectNameOffset = reader.Read<uint>();
 
-                    if (serialise)
-                        JsonSerialise(Data);
+                reader.ReadAtOffset(BINAHeader.Size + effectNameOffset,
+                    () => particle.EffectBankName = reader.ReadStringNullTerminated());
 
-                    break;
-                }
+                var effectBankOffset = reader.Read<uint>();
+
+                reader.ReadAtOffset(BINAHeader.Size + effectBankOffset,
+                    () => particle.Resource = reader.ReadStringNullTerminated());
+
+                particle.Flags = reader.Read<uint>();
+
+                Particles.Add(particle);
             }
         }
 
-        public override string Extension { get; } = ".plc";
-
-        public class FormatData
+        public override void Write(Stream in_stream)
         {
-            public string Name { get; set; }
+            var writer = new BINAWriter(in_stream);
 
-            public List<ParticleAttributes> Particles = [];
+            writer.CreateStringField("Name", Name);
+            writer.CreateNamedField("ParticleTableOffset");
+            writer.Write(Particles.Count);
+            writer.WriteNamedField("ParticleTableOffset", (uint)writer.Position - BINAHeader.Size);
 
-            public override string ToString() => Name;
-        }
-
-        public FormatData Data { get; set; } = new();
-
-        public override void Load(Stream stream)
-        {
-            BINAReader reader = new(stream);
-
-            // Get Name.
-            uint NameOffset = reader.ReadUInt32();
-            long position = reader.BaseStream.Position;
-            Data.Name = reader.ReadNullTerminatedString(false, NameOffset, true);
-            reader.JumpTo(position);
-
-            // Store offsets for the table of entries.
-            uint TableOffset     = reader.ReadUInt32(); // Should always be 0x0C
-            uint TableEntryCount = reader.ReadUInt32();
-
-            reader.JumpTo(TableOffset, true); // Should already be here but just to be safe.
-
-            // Particle Entries.
-            for (int i = 0; i < TableEntryCount; i++)
+            for (int i = 0; i < Particles.Count; i++)
             {
-                ParticleAttributes particle = new();
-                uint ParticleNameOffset1 = reader.ReadUInt32();
-                uint ParticleNameOffset2 = reader.ReadUInt32();
-                uint PENameOffset = reader.ReadUInt32();
-                particle.Flags = (uint)reader.ReadUInt32();
-                position = reader.BaseStream.Position;
+                writer.CreateStringField($"Particle{i}Name", Particles[i].Name);
 
-                // Check offsets exist before jumping.
-                if (ParticleNameOffset1 != 0)
-                    particle.ParticleName = reader.ReadNullTerminatedString(false, ParticleNameOffset1, true);
-
-                if (ParticleNameOffset2 != 0)
-                    particle.EffectName = reader.ReadNullTerminatedString(false, ParticleNameOffset2, true);
-
-                if (PENameOffset != 0)
-                    particle.File = reader.ReadNullTerminatedString(false, PENameOffset, true);
-
-                // Jump back to the saved position to read the next particle.
-                reader.JumpTo(position);
-
-                // Save particle entry into the Particles list.
-                Data.Particles.Add(particle);
-            }
-        }
-
-        public override void Save(Stream stream)
-        {
-            BINAWriter writer = new(stream);
-
-            // Header
-            writer.AddString("Name", Data.Name);
-            writer.AddOffset("TableOffset");
-            writer.Write(Data.Particles.Count);
-            writer.FillOffset("TableOffset", true);
-
-            // Particle Entries
-            for (int i = 0; i < Data.Particles.Count; i++)
-            {
-                writer.AddString($"particle{i}ParticleName", Data.Particles[i].ParticleName);
-                if (Data.Particles[i].EffectName != null)
-                    writer.AddString($"particle{i}EffectName", Data.Particles[i].EffectName);
+                if (Particles[i].EffectBankName == null)
+                {
+                    writer.Write(0);
+                }
                 else
-                    writer.WriteNulls(0x4);
-                writer.AddString($"particle{i}FileName", Data.Particles[i].File);
-                writer.Write(Data.Particles[i].Flags);
+                {
+                    writer.CreateStringField($"Particle{i}EffectName", Particles[i].EffectBankName);
+                }
+
+                writer.CreateStringField($"Particle{i}EffectBank", Particles[i].Resource);
+                writer.Write(Particles[i].Flags);
             }
 
-            // Write the footer.
             writer.FinishWrite();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 
-    public class ParticleAttributes
+    public class Particle
     {
         /// <summary>
-        /// Name of this particle.
+        /// The name of this particle.
         /// </summary>
-        public string ParticleName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// Name of this particle's data in the PEB referenced in File.
+        /// The name of the effect bank entry this particle uses.
+        /// <para>If null, this particle uses a *.mab file.</para>
         /// </summary>
-        public string EffectName { get; set; }
+        public string EffectBankName { get; set; }
 
         /// <summary>
-        /// Name of the PEB file, if EffectName is not null, for this particle, otherwise, name of MAB file for this particle.
+        /// The location of the resource this particle uses.
+        /// <para>If <see cref="EffectBankName"/> is null, this should be the location of a *.mab file.</para>
         /// </summary>
-        public string File { get; set; }
+        public string Resource { get; set; }
 
         /// <summary>
-        /// <para>0x0 = File uses a MAB.</para>
-        /// <para>0x1 = Unknown, only used on kdv_scaffold01, file referenced is nowhere to be found.</para>
-        /// <para>0x2 = File uses a PE.</para>
-        /// <para>0x10000 = Unknown, can be combined with the other values for something.</para>
+        /// TODO: unknown, bitfield?
+        /// <para>0x00000000 - uses a *.mab file.</para>
+        /// <para>0x00000001 - only used on kdv_scaffold01, the resource referenced does not exist.</para>
+        /// <para>0x00000002 - uses a particle effect bank.</para>
+        /// <para>0x00010000 - unknown, can be combined with the other values for something.</para>
         /// </summary>
         public uint Flags { get; set; }
 
-        public ParticleAttributes() { }
+        public Particle() { }
 
-        public ParticleAttributes(string in_particleName, string in_effectName, string in_file, uint in_flags)
+        public Particle(string in_particleName, string in_effectName, string in_file, uint in_flags)
         {
-            ParticleName = in_particleName;
-            EffectName = in_effectName;
-            File = in_file;
+            Name = in_particleName;
+            EffectBankName = in_effectName;
+            Resource = in_file;
             Flags = in_flags;
         }
 
-        public override string ToString() => ParticleName;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

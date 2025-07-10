@@ -61,6 +61,7 @@
     <Compile Include="Formats\Parameter\ObjectPhysicsParameterList.cs" />
     <Compile Include="Formats\Parameter\Package.cs" />
     <Compile Include="Formats\Parameter\PathObjParameterList.cs" />
+    <Compile Include="Formats\Particle\ParticleContainer.cs" />
     <Compile Include="Formats\Particle\ParticleGlobalSettings.cs" />
     <Compile Include="Formats\Placement\PropLibrary.cs" />
     <Compile Include="Formats\Placement\StageSetDataType.cs" />
