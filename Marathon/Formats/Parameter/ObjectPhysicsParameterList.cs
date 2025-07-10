@@ -76,9 +76,9 @@ namespace Marathon.Formats.Parameter
                 reader.ReadAtOffset(BINAHeader.Size + psiGrabNodeOffset,
                     () => param.PsiGrabNode = reader.ReadStringNullTerminated());
 
-                param.CollisionType = (ObjectPhysicsCollisionType)reader.Read<uint>();
-                param.GravityType = (ObjectPhysicsGravityType)reader.Read<uint>();
-                param.DebrisType = (ObjectPhysicsDebrisType)reader.Read<uint>();
+                param.CollisionType = reader.Read<ObjectPhysicsCollisionType>();
+                param.GravityType = reader.Read<ObjectPhysicsGravityType>();
+                param.DebrisType = reader.Read<ObjectPhysicsDebrisType>();
                 param.EnemyDamage = reader.Read<uint>();
                 param.UnknownField3 = reader.Read<float>();
                 param.UnknownField4 = reader.Read<uint>();
@@ -118,7 +118,7 @@ namespace Marathon.Formats.Parameter
                 reader.ReadAtOffset(BINAHeader.Size + soundNameOffset,
                     () => param.SoundName = reader.ReadStringNullTerminated());
 
-                param.PsiGrabBehaviour = (ObjectPhysicsPsiGrabBehaviour)reader.Read<uint>();
+                param.PsiGrabBehaviour = reader.Read<ObjectPhysicsPsiGrabBehaviour>();
 
                 Parameters.Add(param);
             }
@@ -247,7 +247,7 @@ namespace Marathon.Formats.Parameter
         public uint Health { get; set; }
 
         /// <summary>
-        /// The amount of time the debris from this object lasts before being removed.
+        /// The amount of time this object persists for.
         /// </summary>
         public float LifeTime { get; set; }
 

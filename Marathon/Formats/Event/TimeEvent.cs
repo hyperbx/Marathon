@@ -60,7 +60,7 @@ namespace Marathon.Formats.Event
                 @event.Position = reader.Read<Vector3>();
                 @event.UnknownField2 = reader.Read<Vector3>();
 
-                reader.ReadAtOffset(BINAHeader.Size + targetNodeOffset, () => @event.Target = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + targetNodeOffset, () => @event.TargetNode = reader.ReadStringNullTerminated());
                 reader.ReadAtOffset(BINAHeader.Size + resourceFileOffset, () => @event.Resource = reader.ReadStringNullTerminated());
                 reader.ReadAtOffset(BINAHeader.Size + resourceNameOffset, () => @event.ResourceName = reader.ReadStringNullTerminated());
 
@@ -82,7 +82,7 @@ namespace Marathon.Formats.Event
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.Write(0);
-                writer.CreateStringField($"TargetNode{i}", Events[i].Target);
+                writer.CreateStringField($"TargetNode{i}", Events[i].TargetNode);
                 writer.CreateStringField($"ResourceFile{i}", Events[i].Resource);
                 writer.CreateStringField($"ResourceName{i}", Events[i].ResourceName);
                 writer.Write(Events[i].StartTime);
@@ -104,9 +104,9 @@ namespace Marathon.Formats.Event
     public class EventInfo
     {
         /// <summary>
-        /// The name of the bone to target.
+        /// The name of the node to target.
         /// </summary>
-        public string Target { get; set; }
+        public string TargetNode { get; set; }
 
         /// <summary>
         /// The name of the resource file to load from.

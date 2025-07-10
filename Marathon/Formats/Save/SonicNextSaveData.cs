@@ -90,7 +90,7 @@ namespace Marathon.Formats.Save
                 Trials[i] = new()
                 {
                     ID = reader.Read<int>(),
-                    Rank = (SonicNextRank)reader.Read<int>(),
+                    Rank = reader.Read<SonicNextRank>(),
                     Time = reader.Read<int>(),
                     Score = reader.Read<int>(),
                     Rings = reader.Read<int>()
@@ -151,7 +151,7 @@ namespace Marathon.Formats.Save
             for (int i = 0; i < _trialCount; i++)
             {
                 writer.Write(Trials[i].ID);
-                writer.Write((int)Trials[i].Rank);
+                writer.Write(Trials[i].Rank);
                 writer.Write(Trials[i].Time);
                 writer.Write(Trials[i].Score);
                 writer.Write(Trials[i].Rings);

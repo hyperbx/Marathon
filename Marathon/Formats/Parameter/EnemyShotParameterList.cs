@@ -251,7 +251,7 @@ namespace Marathon.Formats.Parameter
         public string ExplosionName { get; set; }
 
         /// <summary>
-        /// The location of the particle container for one this projectile's particle effects.
+        /// The location of a particle container for one of this projectile's particle effects.
         /// </summary>
         public string ParticleContainerA { get; set; }
 
@@ -271,7 +271,7 @@ namespace Marathon.Formats.Parameter
         public string SoundName { get; set; }
 
         /// <summary>
-        /// The location of the particle container for one this projectile's particle effects.
+        /// The location of a particle container for one of this projectile's particle effects.
         /// </summary>
         public string ParticleContainerB { get; set; }
 
@@ -281,7 +281,7 @@ namespace Marathon.Formats.Parameter
         public string ParticleNameB { get; set; }
 
         /// <summary>
-        /// The location of the particle container for one this projectile's particle effects.
+        /// The location of a particle container for one of this projectile's particle effects.
         /// </summary>
         public string ParticleContainerC { get; set; }
 

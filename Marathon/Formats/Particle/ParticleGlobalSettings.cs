@@ -15,7 +15,7 @@ namespace Marathon.Formats.Particle
     /// </summary>
     public class ParticleGlobalSettings : FileBase
     {
-        private const string _signature = "SGEP"; // "Particle Effect Global Settings" (inverse)
+        private const string _signature = "SGEP"; // "Particle Effect Global Settings" (reverse)
 
         public ParticleGlobalSettings() { }
 
@@ -60,7 +60,7 @@ namespace Marathon.Formats.Particle
                 {
                     Name = reader.ReadStringFixedLength(0x20),
                     Properties = reader.ReadStringFixedLength(0x40),
-                    BlendMode = (ParticleBlendMode)reader.Read<uint>()
+                    BlendMode = reader.Read<ParticleBlendMode>()
                 };
 
                 Materials.Add(material);
@@ -97,7 +97,7 @@ namespace Marathon.Formats.Particle
             {
                 writer.WriteStringFixedLength(material.Name, 0x20);
                 writer.WriteStringFixedLength(material.Properties, 0x40);
-                writer.Write((uint)material.BlendMode);
+                writer.Write(material.BlendMode);
             }
 
             writer.FinishWrite();
