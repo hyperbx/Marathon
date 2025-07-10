@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-    <img src="https://github.com/hyperbx/Marathon/blob/Sonic-'06-Toolkit/logo_small.png" />
+    <img src="https://github.com/hyperbx/Marathon/blob/sonic-06-toolkit/logo_small.png" />
 </p>
 
 <h1 align="center">Sonic '06 Toolkit</h1>
