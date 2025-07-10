@@ -1,136 +1,125 @@
-﻿namespace Marathon.Formats.Particle
+﻿using Marathon.IO;
+using Marathon.IO.Extensions;
+using Marathon.IO.Types.BINA;
+using System.Collections.Generic;
+using System.IO;
+
+// Format research attribution: Knuxfan24, Hyper, GordinRamsay
+
+namespace Marathon.Formats.Particle
 {
     /// <summary>
-    /// File base for the *.ptb format.
-    /// <para>Used in SONIC THE HEDGEHOG for defining textures for particle effects.</para>
+    /// Support for *.ptb files; used for defining textures for particle effects.
     /// </summary>
     public class ParticleTextureBank : FileBase
     {
+        private const string _signature = "BTEP"; // "Particle Effect Texture Bank" (reverse)
+
         public ParticleTextureBank() { }
 
-        public ParticleTextureBank(string file, bool serialise = false)
+        public ParticleTextureBank(string in_path) : base(in_path) { }
+
+        public string Name { get; set; }
+
+        public List<ParticleTexture> Textures { get; set; } = [];
+
+        public ParticleTexture this[string in_name]
         {
-            switch (Path.GetExtension(file))
-            {
-                case ".json":
-                {
-                    Data = JsonDeserialise<FormatData>(file);
-
-                    // Save extension-less JSON (exploiting .NET weirdness, because it doesn't omit all extensions).
-                    if (serialise)
-                        Save(Path.GetFileNameWithoutExtension(file));
-
-                    break;
-                }
-
-                default:
-                {
-                    Load(file);
-
-                    if (serialise)
-                        JsonSerialise(Data);
-
-                    break;
-                }
-            }
+            get => Textures.Find((x) => x.Name == in_name);
         }
 
-        public override string Signature { get; } = "BTEP";
-
-        public override string Extension { get; } = ".ptb";
-
-        public class FormatData
+        public override void Read(Stream in_stream)
         {
-            public string Name { get; set; }
+            BINAReader reader = new(in_stream);
 
-            public List<ParticleTexture> ParticleTextures { get; set; } = [];
+            reader.CheckSignature(_signature);
 
-            public override string ToString() => Name;
-        }
+            // Always null.
+            reader.JumpAhead(8);
 
-        public FormatData Data { get; set; } = new();
+            var entryCount = reader.ReadUInt32();
 
-        public override void Load(Stream stream)
-        {
-            BINAReader reader = new(stream);
+            Name = reader.ReadStringFixedLength(0x20);
 
-            reader.ReadSignature(4, Signature);
-            reader.JumpAhead(0x8); // Always Null.
-            uint EntryCount = reader.ReadUInt32();
-            Data.Name = reader.ReadNullPaddedString(0x20);
-            uint OffsetTable = reader.ReadUInt32();
+            var entryTableOffset = reader.ReadUInt32();
 
-            reader.JumpTo(OffsetTable, true); // Should already be here but just to be safe.
-
-            // Particle Texture Entries.
-            for (int i = 0; i < EntryCount; i++)
+            for (int i = 0; i < entryCount; i++)
             {
-                ParticleTexture particle = new()
+                var texture = new ParticleTexture()
                 {
-                    Name     = reader.ReadNullPaddedString(0x20),
-                    Path = reader.ReadNullPaddedString(0x80),
-                    Width    = reader.ReadUInt32(),
-                    Height   = reader.ReadUInt32()
+                    Name = reader.ReadStringFixedLength(0x20),
+                    Location = reader.ReadStringFixedLength(0x80),
+                    UnknownField1 = reader.Read<uint>(),
+                    UnknownField2 = reader.Read<uint>()
                 };
 
-                // Save particle texture entry into the ParticleTextures list.
-                Data.ParticleTextures.Add(particle);
+                Textures.Add(texture);
             }
         }
 
-        public override void Save(Stream stream)
+        public override void Write(Stream in_stream)
         {
-            BINAWriter writer = new(stream);
+            var writer = new BINAWriter(in_stream);
 
-            // Header
-            writer.WriteSignature(Signature);
-            writer.WriteNulls(0x8);
-            writer.Write(Data.ParticleTextures.Count);
-            writer.WriteNullPaddedString(Data.Name, 0x20);
-            writer.AddOffset("OffsetTable");
+            writer.WriteSignature(_signature);
+            writer.WriteNullBytes(8);
+            writer.Write(Textures.Count);
+            writer.WriteStringFixedLength(Name, 0x20);
+            writer.CreateNamedField("EntryTableOffset");
+            writer.WriteNamedField("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
 
-            writer.FillOffset("OffsetTable", true);
-
-            // Particle Texture Entries
-            for (int i = 0; i < Data.ParticleTextures.Count; i++)
+            for (int i = 0; i < Textures.Count; i++)
             {
-                writer.WriteNullPaddedString(Data.ParticleTextures[i].Name, 0x20);
-                writer.WriteNullPaddedString(Data.ParticleTextures[i].Path, 0x80);
-                writer.Write(Data.ParticleTextures[i].Width);
-                writer.Write(Data.ParticleTextures[i].Height);
+                writer.WriteStringFixedLength(Textures[i].Name, 0x20);
+                writer.WriteStringFixedLength(Textures[i].Location, 0x80);
+                writer.Write(Textures[i].UnknownField1);
+                writer.Write(Textures[i].UnknownField2);
             }
 
-            // Write the footer.
             writer.FinishWrite();
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 
     public class ParticleTexture
     {
         /// <summary>
-        /// Name of this particle texture.
+        /// The name of this particle texture.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Path to the texture used by this particle.
+        /// The location of the texture.
         /// </summary>
-        public string Path { get; set; }
+        public string Location { get; set; }
 
-        public uint Width { get; set; }
+        /// <summary>
+        /// TODO: unknown.
+        /// </summary>
+        public uint UnknownField1 { get; set; }
 
-        public uint Height { get; set; }
+        /// <summary>
+        /// TODO: unknown.
+        /// </summary>
+        public uint UnknownField2 { get; set; }
 
         public ParticleTexture() { }
 
-        public ParticleTexture(string in_name, string in_path, uint in_width, uint in_height)
+        public ParticleTexture(string in_name, string in_location, uint in_unkField1, uint in_unkField2)
         {
             Name = in_name;
-            Path = in_path;
-            Width = in_width;
-            Height = in_height;
+            Location = in_location;
+            UnknownField1 = in_unkField1;
+            UnknownField2 = in_unkField2;
         }
 
-        public override string ToString() => Name;
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="Formats\Particle\ParticleContainer.cs" />
     <Compile Include="Formats\Particle\ParticleEffectBank.cs" />
     <Compile Include="Formats\Particle\ParticleGlobalSettings.cs" />
+    <Compile Include="Formats\Particle\ParticleTextureBank.cs" />
     <Compile Include="Formats\Placement\PropLibrary.cs" />
     <Compile Include="Formats\Placement\StageSetDataType.cs" />
     <Compile Include="Formats\Save\SonicNextEpisode.cs" />
