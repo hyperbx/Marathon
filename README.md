@@ -1,7 +1,7 @@
 <br>
 
 <p align="center">
-    <img src="https://github.com/hyperbx/Marathon/blob/z-old-jul2021/Marathon.Resources/Resources/Images/Logos/Toolkit_Medium_Colour.png" />
+    <img src="https://github.com/hyperbx/Marathon/blob/z-old-2021-07/Marathon.Resources/Resources/Images/Logos/Toolkit_Medium_Colour.png" />
 </p>
 
 <h1 align="center">Marathon</h1>
