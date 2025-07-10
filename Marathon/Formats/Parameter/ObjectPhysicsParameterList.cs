@@ -1,6 +1,8 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
@@ -300,6 +302,7 @@ namespace Marathon.Formats.Parameter
         }
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectPhysicsType : uint
     {
         Single,
@@ -317,6 +320,7 @@ namespace Marathon.Formats.Parameter
         BrokenTower
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectPhysicsCollisionType : uint
     {
         Stone,
@@ -342,6 +346,7 @@ namespace Marathon.Formats.Parameter
         NoFriction = 39
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectPhysicsGravityType : uint
     {
         Normal,
@@ -350,6 +355,7 @@ namespace Marathon.Formats.Parameter
         FixedCancelHoming
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectPhysicsDebrisType : uint
     {
         None,
@@ -358,6 +364,7 @@ namespace Marathon.Formats.Parameter
         NoPlayerCollide
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ObjectPhysicsPsiGrabBehaviour : uint
     {
         None,

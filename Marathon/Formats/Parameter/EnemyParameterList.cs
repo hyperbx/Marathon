@@ -1,7 +1,8 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
@@ -219,6 +220,7 @@ namespace Marathon.Formats.Parameter
         }
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum EnemyBehaviour : uint
     {
         Normal,

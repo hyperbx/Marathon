@@ -1,6 +1,8 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
@@ -102,13 +104,6 @@ namespace Marathon.Formats.Particle
         }
     }
 
-    public enum ParticleBlendMode
-    {
-        Additive,
-        Negation,
-        Opaque = 3
-    }
-
     public class ParticleMaterial
     {
         public const int Size = 0x64;
@@ -142,5 +137,13 @@ namespace Marathon.Formats.Particle
         {
             return Name;
         }
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum ParticleBlendMode
+    {
+        Additive,
+        Negation,
+        Opaque = 3
     }
 }
