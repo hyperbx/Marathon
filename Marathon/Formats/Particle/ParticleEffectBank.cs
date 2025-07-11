@@ -19,6 +19,7 @@ namespace Marathon.Formats.Particle
     /// </summary>
     public class ParticleEffectBank : FileBase
     {
+        private const string _extension = ".peb";  // "Particle Effect Bank"
         private const string _signature  = "BEEP"; // "Particle Effect Effect Bank" (reverse)
 
         public ParticleEffectBank() { }

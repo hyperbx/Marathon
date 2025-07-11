@@ -14,6 +14,7 @@ namespace Marathon.Formats.Event
     /// </summary>
     public class TimeEvent : FileBase
     {
+        private const string _extension = ".tev"; // "Time EVent"
         private const string _signature = ".TEV"; // "Time EVent"
 
         public TimeEvent() { }

@@ -14,6 +14,7 @@ namespace Marathon.Formats.Event
     /// </summary>
     public class EventPlaybook : FileBase
     {
+        private const string _extension = ".epb"; // "Event PlayBook"
         private const string _signature = ".EPB"; // "Event PlayBook"
         private const uint _magic = 0x20060700;
 

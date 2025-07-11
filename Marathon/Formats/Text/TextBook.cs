@@ -14,6 +14,7 @@ namespace Marathon.Formats.Text
     /// </summary>
     public class TextBook : FileBase
     {
+        private const string _extension = ".mst"; // "MeSsage Table" (speculatory)
         private const string _signature = "WTXT"; // "Wide TeXT" (referring to UTF-16)
 
         public TextBook() { }

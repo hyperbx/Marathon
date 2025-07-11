@@ -1,6 +1,5 @@
 ﻿using Amicitia.IO;
 using Amicitia.IO.Binary;
-using System.IO;
 
 namespace Marathon.IO.Extensions
 {
@@ -14,11 +13,6 @@ namespace Marathon.IO.Extensions
         public static void WriteNullBytes(this BinaryObjectWriter in_writer, int in_count)
         {
             in_writer.WriteBytes(new byte[in_count]);
-        }
-
-        public static void WriteInt24(this BinaryObjectWriter in_writer, int in_value)
-        {
-            WriteUInt24(in_writer, (uint)in_value);
         }
 
         public static void WriteUInt24(this BinaryObjectWriter in_writer, uint in_value)
@@ -39,6 +33,11 @@ namespace Marathon.IO.Extensions
             }
 
             in_writer.WriteBytes(buf);
+        }
+
+        public static void WriteInt24(this BinaryObjectWriter in_writer, int in_value)
+        {
+            in_writer.WriteUInt24((uint)in_value);
         }
 
         public static void WriteStringNullTerminated(this BinaryObjectWriter in_writer, string in_str)

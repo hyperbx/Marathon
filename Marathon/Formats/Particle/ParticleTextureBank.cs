@@ -13,6 +13,7 @@ namespace Marathon.Formats.Particle
     /// </summary>
     public class ParticleTextureBank : FileBase
     {
+        private const string _extension = ".ptb"; // "Particle Texture Bank"
         private const string _signature = "BTEP"; // "Particle Effect Texture Bank" (reverse)
 
         public ParticleTextureBank() { }

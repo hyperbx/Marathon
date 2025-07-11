@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marathon.Helpers;
+using System;
 
 namespace Marathon.Exceptions
 {
@@ -11,6 +12,13 @@ namespace Marathon.Exceptions
             if (in_expectedSig.GetType() == typeof(string))
             {
                 msg += $"(expected: {in_expectedSig}, received: {in_receivedSig})";
+            }
+            else if (in_expectedSig.GetType() == typeof(byte[]))
+            {
+                var expectedStr = BinaryHelper.TransformByteArrayToHexString((byte[])in_expectedSig);
+                var receivedStr = BinaryHelper.TransformByteArrayToHexString((byte[])in_receivedSig);
+
+                msg += $"(expected: {expectedStr}, received: {receivedStr})";
             }
             else
             {

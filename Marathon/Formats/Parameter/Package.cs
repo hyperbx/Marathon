@@ -13,6 +13,8 @@ namespace Marathon.Formats.Parameter
     /// </summary>
     public class Package : FileBase
     {
+        private const string _extension = ".pkg"; // "PacKaGe"
+
         public Package() { }
 
         public Package(string in_path) : base(in_path) { }

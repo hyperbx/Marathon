@@ -13,6 +13,7 @@ namespace Marathon.Formats.Audio
     /// </summary>
     public class SoundBank : FileBase
     {
+        private const string _extension = ".sbk"; // "Sound BanK"
         private const string _signature = "SBNK"; // "Sound BaNK"
         private const uint _magic = 0x20060700;
 

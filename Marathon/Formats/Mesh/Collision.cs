@@ -17,6 +17,8 @@ namespace Marathon.Formats.Mesh
     /// </summary>
     public class Collision : FileBase
     {
+        private const string _extension = ".bin"; // "Binary"
+
         public Collision() { }
 
         public Collision(string in_path) : base(in_path) { }

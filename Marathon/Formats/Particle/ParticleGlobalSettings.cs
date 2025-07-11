@@ -15,6 +15,7 @@ namespace Marathon.Formats.Particle
     /// </summary>
     public class ParticleGlobalSettings : FileBase
     {
+        private const string _extension = ".pgs"; // "Particle Global Settings"
         private const string _signature = "SGEP"; // "Particle Effect Global Settings" (reverse)
 
         public ParticleGlobalSettings() { }

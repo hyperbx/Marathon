@@ -13,6 +13,8 @@ namespace Marathon.Formats.Particle
     /// </summary>
     public class ParticleContainer : FileBase
     {
+        private const string _extension = ".plc"; // "ParticLe Container"
+
         public ParticleContainer() { }
 
         public ParticleContainer(string in_path) : base(in_path) { }

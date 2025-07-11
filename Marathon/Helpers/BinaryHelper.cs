@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Marathon.Helpers
 {
     public class BinaryHelper
     {
+        /// <summary>
+        /// Transforms a byte array to a hexadecimal string.
+        /// </summary>
+        /// <param name="in_buffer">The byte array to transform.</param>
+        public static string TransformByteArrayToHexString(byte[] in_buffer)
+        {
+            var result = new StringBuilder();
+
+            foreach (var b in in_buffer)
+                result.Append($"{b:X2} ");
+
+            return result.ToString();
+        }
+
         /// <summary>
         /// Transforms a hexadecimal string (formatted "AA BB CC DD" or "AABBCCDD") to a byte array.
         /// </summary>

@@ -13,6 +13,8 @@ namespace Marathon.Formats.Parameter
     /// </summary>
     public class ObjectExplosionParameterList : FileBase
     {
+        private const string _extension = ".bin"; // "Binary"
+
         public ObjectExplosionParameterList() { }
 
         public ObjectExplosionParameterList(string in_path) : base(in_path) { }

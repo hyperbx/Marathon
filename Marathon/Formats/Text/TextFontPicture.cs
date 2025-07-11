@@ -14,6 +14,7 @@ namespace Marathon.Formats.Text
     /// </summary>
     public class TextFontPicture : FileBase
     {
+        private const string _extension = ".pft"; // "Picture FonT"
         private const string _signature = "FNTP"; // "FoNT Picture"
 
         public TextFontPicture() { }

@@ -13,6 +13,8 @@ namespace Marathon.Formats.Parameter
     /// </summary>
     public class EnemyShotParameterList : FileBase
     {
+        private const string _extension = ".bin"; // "Binary"
+
         public EnemyShotParameterList() { }
 
         public EnemyShotParameterList(string in_path) : base(in_path) { }
