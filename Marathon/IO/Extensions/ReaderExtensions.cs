@@ -1,9 +1,6 @@
-﻿using Amicitia.IO;
-using Amicitia.IO.Binary;
+﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
 using Marathon.Helpers;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 

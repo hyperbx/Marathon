@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
+using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace Marathon.Formats.AI
 
         public KynapseBigFile(string in_path) : base(in_path) { }
 
-        public uint Version { get; set; }
+        public uint Version { get; set; } = 1;
 
         public KynapseObject Root { get; set; }
 
@@ -43,133 +44,264 @@ namespace Marathon.Formats.AI
             writer.WriteObject(Root);
         }
 
-        public class KynapseObject : IBinarySerializable
+        public override void Import(string in_path)
         {
-            public string Name { get; set; }
+            if (!File.Exists(in_path))
+                throw new ArgumentException("The specified file does not exist.");
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public string? Type { get; set; } = null;
+            Root = JsonConvert.DeserializeObject<KynapseObject>(File.ReadAllText(in_path));
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public string? Value { get; set; } = null;
+            var binDirName = Path.GetFileName(FileSystemHelper.TruncateAllExtensions(in_path));
+            var binDir = Path.Combine(Path.GetDirectoryName(in_path), binDirName);
 
-            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public byte[]? Data { get; set; } = null;
-
-            public List<KynapseObject> Properties { get; set; } = [];
-
-            public void Read(BinaryObjectReader in_reader)
+            void WalkBinaries(KynapseObject in_object)
             {
-                var type = in_reader.Read<KynapseDataType>();
-                var length = in_reader.Read<int>();
-
-                if (length != 0 && type != KynapseDataType.Binary)
-                    Name = in_reader.ReadStringFixedLength(length);
-
-                switch (type)
-                {
-                    case KynapseDataType.Object:
-                    {
-                        Type = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
-
-                        var propertyCount = in_reader.Read<uint>();
-
-                        for (int i = 0; i < propertyCount; i++)
-                            Properties.Add(in_reader.ReadObject<KynapseObject>());
-
-                        break;
-                    }
-
-                    case KynapseDataType.Binary:
-                    {
-                        Data = in_reader.ReadBytes(length);
-                        break;
-                    }
-
-                    case KynapseDataType.Property:
-                    {
-                        Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
-                        break;
-                    }
-                }
-            }
-
-            public void Write(BinaryObjectWriter in_writer)
-            {
-                var type = KynapseDataType.Unknown;
-
-                if (Properties.Count > 0)
-                {
-                    type = KynapseDataType.Object;
-                }
-                else if (Data != null && Data.Length > 0)
-                {
-                    type = KynapseDataType.Binary;
-                }
-                else if (!string.IsNullOrEmpty(Value))
-                {
-                    type = KynapseDataType.Property;
-                }
-                else
-                {
-                    throw new AggregateException("Failed to determine object type.");
-                }
-
-                in_writer.Write(type);
-
-                if (type is KynapseDataType.Object or KynapseDataType.Property)
-                {
-                    if (string.IsNullOrEmpty(Name))
-                    {
-                        in_writer.Write(0);
-                    }
-                    else
-                    {
-                        in_writer.Write(Name.Length);
-                        in_writer.WriteStringFixedLength(Name, Name.Length);
-                    }
-                }
-                else if (type == KynapseDataType.Binary)
-                {
-                    in_writer.Write(Data.Length);
-                    in_writer.WriteBytes(Data);
-                }
+                var type = in_object.GetDataType();
 
                 if (type == KynapseDataType.Object)
                 {
-                    if (!string.IsNullOrEmpty(Type))
+                    foreach (var property in in_object.Properties)
+                        WalkBinaries(property);
+                }
+                else if (type == KynapseDataType.Binary && !string.IsNullOrEmpty(in_object.File))
+                {
+                    var binFile = Path.Combine(binDir, in_object.File);
+
+                    if (!File.Exists(binFile))
+                        throw new FileNotFoundException($"Could not find Kynapse binary: {in_object.File}");
+
+                    in_object.Data = File.ReadAllBytes(binFile);
+                }
+            }
+
+            WalkBinaries(Root);
+        }
+
+        public override void Export(string in_path = "")
+        {
+            if (File.Exists(in_path))
+                in_path = FileSystemHelper.TruncateAllExtensions(in_path);
+
+            var dir = Directory.CreateDirectory(in_path);
+            var name = Path.GetFileNameWithoutExtension(dir.FullName);
+
+            void ExportBinaries(KynapseObject in_object, string in_hierarchy)
+            {
+                var type = in_object.GetDataType();
+
+                if (type == KynapseDataType.Object)
+                {
+                    foreach (var property in in_object.Properties)
+                        ExportBinaries(property, property.GetHierarchy());
+                }
+                else if (type == KynapseDataType.Binary)
+                {
+                    var name = in_object?.Value ?? in_object?.Name;
+
+                    if (name == null)
                     {
-                        in_writer.Write(Type.Length);
-                        in_writer.WriteStringFixedLength(Type, Type.Length);
+                        // Usually binary files are named by a previous property.
+                        // This searches for that property so we can inherit the name from it.
+                        if (in_object.Parent != null && in_object.Parent.Properties.Count > 1)
+                        {
+                            var thisIndex = in_object.Parent.Properties.IndexOf(in_object);
+
+                            if (thisIndex > 0)
+                            {
+                                var nameObject = in_object.Parent.Properties[thisIndex - 1];
+
+                                name = nameObject.Value;
+                            }
+                        }
                     }
 
-                    in_writer.Write(Properties.Count);
-                    
-                    foreach (var property in Properties)
-                        property.Write(in_writer);
+                    if (name == null)
+                        name = in_object.Parent?.Value ?? in_object.Parent?.Name;
+
+                    var binDir = Directory.CreateDirectory(Path.Combine(dir.FullName, in_hierarchy));
+                    var binFile = Path.Combine(binDir.FullName, $"{name}.bin");
+
+                    File.WriteAllBytes(binFile, in_object.Data);
+
+                    in_object.File = '.' + FileSystemHelper.ConvertPathToUnix(binFile[dir.FullName.Length..]);
                 }
-                else if (type == KynapseDataType.Property)
+            }
+
+            ExportBinaries(Root, Root.GetHierarchy());
+
+            var json = JsonConvert.SerializeObject(Root, Formatting.Indented);
+
+            File.WriteAllText(Path.Combine(Path.GetDirectoryName(dir.FullName), $"{name}{_extension}.json"), json);
+        }
+    }
+
+    public class KynapseObject : IBinarySerializable
+    {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Name { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Value { get; set; }
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string? File { get; set; } = null;
+
+        [JsonIgnore]
+        public byte[] Data { get; set; }
+
+        [JsonIgnore]
+        public KynapseObject? Parent { get; set; } = null;
+
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<KynapseObject>? Properties { get; set; } = null;
+
+        public void Read(BinaryObjectReader in_reader)
+        {
+            var type = in_reader.Read<KynapseDataType>();
+            var length = in_reader.Read<int>();
+
+            if (length != 0 && type != KynapseDataType.Binary)
+                Name = in_reader.ReadStringFixedLength(length);
+
+            switch (type)
+            {
+                case KynapseDataType.Object:
+                {
+                    Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
+                    Properties = [];
+
+                    var propertyCount = in_reader.Read<uint>();
+
+                    for (int i = 0; i < propertyCount; i++)
+                    {
+                        var @object = in_reader.ReadObject<KynapseObject>();
+
+                        @object.Parent = this;
+
+                        Properties.Add(@object);
+                    }
+
+                    break;
+                }
+
+                case KynapseDataType.Binary:
+                {
+                    Data = in_reader.ReadBytes(length);
+                    Properties = null;
+                    break;
+                }
+
+                case KynapseDataType.Property:
+                {
+                    Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
+                    break;
+                }
+            }
+        }
+
+        public void Write(BinaryObjectWriter in_writer)
+        {
+            var type = GetDataType();
+
+            in_writer.Write(type);
+
+            if (type is KynapseDataType.Object or KynapseDataType.Property)
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    in_writer.Write(0);
+                }
+                else
+                {
+                    in_writer.Write(Name.Length);
+                    in_writer.WriteStringFixedLength(Name, Name.Length);
+                }
+            }
+            else if (type == KynapseDataType.Binary)
+            {
+                in_writer.Write(Data.Length);
+                in_writer.WriteBytes(Data);
+            }
+
+            if (type == KynapseDataType.Object)
+            {
+                if (!string.IsNullOrEmpty(Value))
                 {
                     in_writer.Write(Value.Length);
                     in_writer.WriteStringFixedLength(Value, Value.Length);
                 }
-            }
 
-            public override string ToString()
+                in_writer.Write(Properties.Count);
+
+                foreach (var property in Properties)
+                    property.Write(in_writer);
+            }
+            else if (type == KynapseDataType.Property)
             {
-                if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Type))
-                    return $"{Name} : {Type}";
-
-                return Name ?? Type;
+                in_writer.Write(Value.Length);
+                in_writer.WriteStringFixedLength(Value, Value.Length);
             }
         }
 
-        public enum KynapseDataType : int
+        public KynapseDataType GetDataType()
         {
-            Unknown = -1,
-            Object,
-            Binary,
-            Property
+            KynapseDataType result;
+
+            if (Properties?.Count > 0)
+            {
+                result = KynapseDataType.Object;
+            }
+            else if (Data?.Length > 0 || !string.IsNullOrEmpty(File))
+            {
+                result = KynapseDataType.Binary;
+            }
+            else if (!string.IsNullOrEmpty(Value))
+            {
+                result = KynapseDataType.Property;
+            }
+            else
+            {
+                throw new AggregateException("Failed to determine Kynapse data type.");
+            }
+
+            return result;
         }
+
+        public string GetHierarchy()
+        {
+            var result = new List<string>();
+            var node = Parent;
+
+            while (node != null)
+            {
+                result.Add(node.Name ?? node.Value);
+                node = node.Parent;
+            }
+
+            result.Reverse();
+
+            return string.Join('/', result);
+        }
+
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Value))
+            {
+                var type = GetDataType();
+                var delimiter = type == KynapseDataType.Object ? ":" : "=";
+
+                return $"{Name} {delimiter} {Value}";
+            }
+
+            return Name ?? Value;
+        }
+    }
+
+    public enum KynapseDataType : int
+    {
+        Unknown = -1,
+        Object,
+        Binary,
+        Property
     }
 }
