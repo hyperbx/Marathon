@@ -67,7 +67,9 @@
     <Compile Include="Formats\Particle\ParticleGlobalSettings.cs" />
     <Compile Include="Formats\Particle\ParticleTextureBank.cs" />
     <Compile Include="Formats\Placement\PropLibrary.cs" />
+    <Compile Include="Formats\Placement\StageSet.cs" />
     <Compile Include="Formats\Placement\StageSetDataType.cs" />
+    <Compile Include="Formats\Placement\Templates.cs" />
     <Compile Include="Formats\Save\SonicNextEpisode.cs" />
     <Compile Include="Formats\Save\SonicNextFlags.cs" />
     <Compile Include="Formats\Save\SonicNextOptions.cs" />
@@ -89,6 +91,7 @@
     <PackageReference Include="Amicitia.IO" Version="1.2.0" />
     <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="JeremyAnsel.Media.WavefrontObj" Version="3.0.56" />
+    <PackageReference Include="libHSON" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

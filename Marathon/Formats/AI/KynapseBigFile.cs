@@ -47,7 +47,7 @@ namespace Marathon.Formats.AI
         public override void Import(string in_path)
         {
             if (!File.Exists(in_path))
-                throw new ArgumentException("The specified file does not exist.");
+                throw new FileNotFoundException("The specified file does not exist.");
 
             Root = JsonConvert.DeserializeObject<KynapseObject>(File.ReadAllText(in_path));
 
@@ -79,6 +79,9 @@ namespace Marathon.Formats.AI
 
         public override void Export(string in_path = "")
         {
+            if (string.IsNullOrEmpty(in_path))
+                in_path = Location;
+
             if (File.Exists(in_path))
                 in_path = FileSystemHelper.TruncateAllExtensions(in_path);
 

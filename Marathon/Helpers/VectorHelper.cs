@@ -1,24 +1,50 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace Marathon.Helpers
 {
     public class VectorHelper
     {
-        /// <summary>
-        /// Parses a <see cref="Vector3"/> from a <see cref="JObject"/>.
-        /// <para>If <paramref name="in_data"/> is already a <see cref="Vector3"/>, it'll be returned as is.</para>
-        /// </summary>
-        public static Vector3 ParseVector3(object in_data)
+        public static Vector3 Centre(List<Vector3> in_points)
         {
-            if (in_data.GetType().Equals(typeof(JObject)))
-            {
-                JObject jsonVector3 = (JObject)in_data;
+            if (in_points.Count <= 0)
+                throw new ArgumentException("The point list is empty.");
 
-                return new Vector3(jsonVector3["X"].Value<float>(), jsonVector3["Y"].Value<float>(), jsonVector3["Z"].Value<float>());
+            if (in_points.Count == 1)
+                return in_points[0];
+
+            var sum = Vector3.Zero;
+
+            foreach (var v in in_points)
+                sum += v;
+
+            return sum / in_points.Count;
+        }
+
+        public static Quaternion Average(List<Quaternion> in_quaternions)
+        {
+            if (in_quaternions.Count <= 0)
+                throw new ArgumentException("The quaternion list is empty.");
+
+            if (in_quaternions.Count == 1)
+                return in_quaternions[0];
+
+            var sum = new Quaternion(0, 0, 0, 0);
+
+            foreach (var q in in_quaternions)
+            {
+                if (Quaternion.Dot(q, in_quaternions[0]) < 0.0f)
+                {
+                    sum += -q;
+                }
+                else
+                {
+                    sum += q;
+                }
             }
 
-            return (Vector3)in_data;
+            return Quaternion.Normalize(sum);
         }
     }
 }

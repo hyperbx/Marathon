@@ -6,13 +6,13 @@ using Newtonsoft.Json.Converters;
 namespace Marathon.Formats.Placement
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum StageSetDataType
+    public enum StageSetDataType : uint
     {
         Boolean,
         Int32,
         Single,
         String,
         Vector3,
-        UInt32 = 6
+        Object = 6
     }
 }

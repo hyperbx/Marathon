@@ -71,9 +71,10 @@ namespace Marathon.Formats.Mesh
 
             writer.CreateNamedField("UnknownField1");
 
-            /* Havok MOPP code can only be generated using the
-               SDK, but thankfully it's optional in this game,
-               so we don't write it here. */
+            /* Havok MOPP (memory optimised partial polytope)
+               code can only be generated using the SDK, but
+               thankfully it's optional in this game, so we
+               don't write it here. */
             writer.Write(0);
 
             writer.WriteNamedField("UnknownField1", (uint)writer.Position - BINAHeader.Size);

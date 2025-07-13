@@ -139,16 +139,16 @@ namespace Marathon.Formats.Placement
         public string Name { get; set; }
 
         /// <summary>
-        /// The parameters this actor accepts.
+        /// The parameters for this actor.
         /// </summary>
         public List<ActorParameter> Parameters { get; set; } = [];
 
         public Actor() { }
 
-        public Actor(string in_name, List<ActorParameter> in_parameters)
+        public Actor(string in_name, List<ActorParameter> in_parameters = null)
         {
             Name = in_name;
-            Parameters = in_parameters;
+            Parameters = in_parameters ?? [];
         }
 
         public override string ToString()
@@ -170,6 +170,11 @@ namespace Marathon.Formats.Placement
         public StageSetDataType Type { get; set; }
 
         public ActorParameter() { }
+
+        public ActorParameter(string in_name)
+        {
+            Name = in_name;
+        }
 
         public ActorParameter(string in_name, StageSetDataType in_type)
         {
