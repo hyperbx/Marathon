@@ -64,7 +64,7 @@ namespace Marathon.Formats.Placement
 
             for (int i = 0; i < objectCount; i++)
             {
-                var @object = new StageSetObject(i);
+                var @object = new StageSetObject();
 
                 var objectNameOffset = reader.Read<uint>();
                 var objectTypeOffset = reader.Read<uint>();
@@ -372,7 +372,7 @@ namespace Marathon.Formats.Placement
 
                 objectIDs.Add(hsonObject.Id, i);
 
-                Objects.Add(StageSetObject.FromHsonObject(hsonObject, actor, i));
+                Objects.Add(StageSetObject.FromHsonObject(hsonObject, actor));
             }
 
             // Resolve object IDs.
@@ -461,8 +461,6 @@ namespace Marathon.Formats.Placement
 
     public class StageSetObject
     {
-        private readonly int _index;
-
         /// <summary>
         /// The name of this object.
         /// </summary>
@@ -497,13 +495,6 @@ namespace Marathon.Formats.Placement
         /// The parameters pertaining to the object type.
         /// </summary>
         public List<StageSetObjectParameter> Parameters { get; set; } = [];
-
-        public StageSetObject() { }
-
-        public StageSetObject(int in_index)
-        {
-            _index = in_index;
-        }
 
         public libHSON.Object ToHsonObject(Actor in_actor)
         {
@@ -560,9 +551,9 @@ namespace Marathon.Formats.Placement
             return hsonObject;
         }
 
-        public static StageSetObject FromHsonObject(libHSON.Object in_hsonObject, Actor in_actor, int in_index)
+        public static StageSetObject FromHsonObject(libHSON.Object in_hsonObject, Actor in_actor)
         {
-            var result = new StageSetObject(in_index)
+            var result = new StageSetObject()
             {
                 Name = in_hsonObject.Name,
                 Type = in_hsonObject.Type,
