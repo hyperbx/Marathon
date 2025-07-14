@@ -647,7 +647,7 @@ namespace Marathon.Formats.Placement
 
     public class StageSetObjectGroup
     {
-        private const float _hsonObjectOffsetY = 50.0f;
+        private const float _hsonObjectOffsetY = 20.0f * 100.0f;
 
         /// <summary>
         /// The name of this group.
