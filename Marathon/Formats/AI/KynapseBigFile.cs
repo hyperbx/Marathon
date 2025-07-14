@@ -147,7 +147,7 @@ namespace Marathon.Formats.AI
         public string Value { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string? File { get; set; } = null;
+        public string File { get; set; }
 
         [JsonIgnore]
         public byte[] Data { get; set; }

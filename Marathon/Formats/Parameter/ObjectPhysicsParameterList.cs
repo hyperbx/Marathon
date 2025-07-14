@@ -15,7 +15,7 @@ namespace Marathon.Formats.Parameter
     /// </summary>
     public class ObjectPhysicsParameterList : FileBase
     {
-        private const string _extension = ".bin"; // "Binary"
+        private const string _extension = ".bin"; // "BINary"
 
         public ObjectPhysicsParameterList() { }
 

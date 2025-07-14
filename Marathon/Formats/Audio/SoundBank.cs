@@ -115,14 +115,11 @@ namespace Marathon.Formats.Audio
             writer.CreateNamedField("SoundTableOffset");
             writer.CreateNamedField("SoundIndicesOffset");
             writer.CreateNamedField("StreamTableOffset");
-        
             writer.WriteNamedField("NameOffset", (uint)writer.Position - BINAHeader.Size);
-        
             writer.WriteStringFixedLength(Name, 0x40);
             writer.Write(Sounds.Count);
             writer.Write(csbCount);
             writer.Write(streamCount);
-
             writer.WriteNamedField("SoundTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             var csbSoundID = 0;

@@ -56,10 +56,10 @@ namespace Marathon.Formats.Event
                 @event.Rotation = reader.Read<Vector3>();
                 
                 var terrainOffset = reader.Read<uint>();
-                var sceneLuaOffset = reader.Read<uint>();
+                var sceneParametersOffset = reader.Read<uint>();
                 var sceneBankOffset = reader.Read<uint>();
                 var particleContainerOffset = reader.Read<uint>();
-                var subtitleMessageTableOffset = reader.Read<uint>();
+                var subtitlesOffset = reader.Read<uint>();
 
                 var pos = reader.Position;
 
@@ -72,8 +72,8 @@ namespace Marathon.Formats.Event
                 if (terrainOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + terrainOffset, () => @event.Terrain = reader.ReadStringNullTerminated());
 
-                if (sceneLuaOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + sceneLuaOffset, () => @event.SceneParameters = reader.ReadStringNullTerminated());
+                if (sceneParametersOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + sceneParametersOffset, () => @event.SceneParameters = reader.ReadStringNullTerminated());
 
                 if (sceneBankOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + sceneBankOffset, () => @event.SoundBank = reader.ReadStringNullTerminated());
@@ -81,8 +81,8 @@ namespace Marathon.Formats.Event
                 if (particleContainerOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + particleContainerOffset, () => @event.ParticleContainer = reader.ReadStringNullTerminated());
 
-                if (subtitleMessageTableOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + subtitleMessageTableOffset, () => @event.Subtitles = reader.ReadStringNullTerminated());
+                if (subtitlesOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + subtitlesOffset, () => @event.Subtitles = reader.ReadStringNullTerminated());
 
                 reader.JumpTo(pos);
 

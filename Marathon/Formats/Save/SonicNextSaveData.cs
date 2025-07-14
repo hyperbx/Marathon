@@ -14,7 +14,7 @@ namespace Marathon.Formats.Save
     /// </summary>
     public class SonicNextSaveData : FileBase
     {
-        private const string _extension = ".bin"; // "Binary"
+        private const string _extension = ".bin"; // "BINary"
 
         private const int _episodeCount = 32;
         private const int _globalFlagCount = 0x27FF;

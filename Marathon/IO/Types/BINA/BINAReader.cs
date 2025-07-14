@@ -1,9 +1,7 @@
 ﻿using Amicitia.IO;
 using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
-using Marathon.Extensions;
 using System.IO;
-using System.Text;
 
 namespace Marathon.IO.Types.BINA
 {
@@ -12,7 +10,7 @@ namespace Marathon.IO.Types.BINA
         public BINAHeader Header { get; private set; }
 
         public BINAReader(Stream in_stream, bool in_isBigEndian = true)
-            : base(in_stream, StreamOwnership.Retain, in_isBigEndian ? Endianness.Big : Endianness.Little, Encoding.ShiftJIS)
+            : base(in_stream, StreamOwnership.Retain, in_isBigEndian ? Endianness.Big : Endianness.Little, EncodingFactory.ShiftJIS)
         {
             Header = new BINAHeader(this);
         }
