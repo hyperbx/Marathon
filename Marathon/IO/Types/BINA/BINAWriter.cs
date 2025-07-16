@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
+using Marathon.Extensions;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,7 @@ namespace Marathon.IO.Types.BINA
         public List<StringPoolEntry> StringPoolEntries = [];
 
         public BINAWriter(Stream in_stream, bool in_isBigEndian = true)
-            : base(in_stream, StreamOwnership.Retain, in_isBigEndian ? Endianness.Big : Endianness.Little, EncodingFactory.ShiftJIS)
+            : base(in_stream, StreamOwnership.Retain, in_isBigEndian ? Endianness.Big : Endianness.Little, Encoding.ShiftJIS)
         {
             // Reserve header chunk.
             this.WriteNullBytes(BINAHeader.Size);
