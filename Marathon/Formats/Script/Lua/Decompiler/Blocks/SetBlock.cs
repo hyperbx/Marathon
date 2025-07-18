@@ -1,176 +1,175 @@
-﻿using Marathon.Formats.Script.Lua.Types;
-using Marathon.Formats.Script.Lua.Decompiler.Targets;
-using Marathon.Formats.Script.Lua.Decompiler.Branches;
-using Marathon.Formats.Script.Lua.Decompiler.Statements;
-using Marathon.Formats.Script.Lua.Decompiler.Operations;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using Marathon.Formats.Script.Lua.Decompiler.Operations;
+using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using Marathon.Formats.Script.Lua.Decompiler.Targets;
+using Marathon.Formats.Script.Lua.Types;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
     public class SetBlock : Block
     {
-        public readonly int Target;
-        private Assignment _assign;
-        public readonly Branch Branch;
-        private Registers _r;
-        private bool _empty,
-                     _finalize = false;
+        private Assignment _assignment;
+        private Registers _registers;
+        private bool _isEmpty;
+        private bool _finalize = false;
 
-        public SetBlock(LFunction function, Branch branch, int target, int line, int begin, int end, bool empty, Registers r) : base(function, begin, end)
+        public int Target { get; }
+
+        public Branch Branch { get; }
+
+        public SetBlock(LFunction in_function, Branch in_branch, int in_target, int in_line, int in_begin, int in_end, bool in_isEmpty, Registers in_registers)
+            : base(in_function, in_begin, in_end)
         {
-            _empty = empty;
+            _registers = in_registers;
+            _isEmpty = in_isEmpty;
 
-            if (begin == end)
-				Begin -= 1;
+            Target = in_target;
+            Branch = in_branch;
 
-            Target = target;
-            Branch = branch;
-            _r = r;
+            if (in_begin == in_end)
+                Begin -= 1;
         }
 
-        public override void AddStatement(Statement statement)
+        public override void AddStatement(Statement in_statement)
         {
-			if (!_finalize && statement is Assignment assignment)
-			{
-				_assign = assignment;
-			}
-			else if (statement is BooleanIndicator)
-			{
-				_finalize = true;
-			}
-        }
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
-        {
-            if (_assign != null && _assign.GetFirstTarget() != null)
+            if (!_finalize && in_statement is Assignment out_assignment)
             {
-                Assignment assignOut = new(_assign.GetFirstTarget(), GetValue());
-                assignOut.Write(@out);
+                _assignment = out_assignment;
+            }
+            else if (in_statement is BooleanIndicator)
+            {
+                _finalize = true;
+            }
+        }
+
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
+
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(Output in_output)
+        {
+            if (_assignment != null && _assignment.GetFirstTarget() != null)
+            {
+                var assignment = new Assignment(_assignment.GetFirstTarget(), GetValue());
+
+                assignment.Write(in_output);
             }
             else
             {
-                @out.Write("-- Unhandled set block...");
-                @out.WriteLine();
+                in_output.Write("-- WARNING: unhandled set block!");
+                in_output.WriteLine();
             }
         }
 
-        public override bool Breakable() => false;
-
-        public override bool IsContainer() => false;
-
-        public void UseAssignment(Assignment assign)
+        public override bool Breakable()
         {
-            _assign = assign;
-
-            Branch.UseExpression(assign.GetFirstValue());
+            return false;
         }
 
-        public Expression GetValue() => Branch.AsExpression(_r);
-
-        public override Operation Process(Decompiler d)
+        public override bool IsContainer()
         {
-			if (_empty)
-			{
-				Expression expression = _r.GetExpression(Branch.SetTarget, End);
-				Branch.UseExpression(expression);
-
-				return new RegisterSet(End - 1, Branch.SetTarget, Branch.AsExpression(_r));
-			}
-			else if (_assign != null)
-			{
-				Branch.UseExpression(_assign.GetFirstValue());
-
-				Target target = _assign.GetFirstTarget();
-				Expression value = GetValue();
-
-				return new OperationAnonymousInnerClass(this, target, value);
-			}
-
-			return new OperationAnonymousInnerClass2(this, d);
+            return false;
         }
 
-		private class OperationAnonymousInnerClass : Operation
-		{
-			private readonly SetBlock _outerInstance;
-			private Target _target;
-			private Expression _value;
+        public void UseAssignment(Assignment in_assignment)
+        {
+            _assignment = in_assignment;
 
-			public OperationAnonymousInnerClass(SetBlock outerInstance, Target target, Expression value) : base(outerInstance.End - 1)
-			{
-				_outerInstance = outerInstance;
-				_target = target;
-				_value = value;
-			}
+            Branch.UseExpression(in_assignment.GetFirstValue());
+        }
 
-			public override Statement Process(Registers r, Block block) => new Assignment(_target, _value);
-		}
+        public Expression GetValue()
+        {
+            return Branch.AsExpression(_registers);
+        }
 
-		private class OperationAnonymousInnerClass2 : Operation
-		{
-			private readonly SetBlock _outerInstance;
-			private Decompiler _d;
+        public override Operation Process(Decompiler in_decompiler)
+        {
+            if (_isEmpty)
+            {
+                var expression = _registers.GetExpression(Branch.SetTarget, End);
 
-			public OperationAnonymousInnerClass2(SetBlock outerInstance, Decompiler d) : base(outerInstance.End - 1)
-			{
-				_outerInstance = outerInstance;
-				_d = d;
-			}
+                Branch.UseExpression(expression);
 
-			public override Statement Process(Registers r, Block block)
-			{
-				Expression expr = null;
-				int register = 0;
+                return new RegisterSet(End - 1, Branch.SetTarget, Branch.AsExpression(_registers));
+            }
+            else if (_assignment != null)
+            {
+                Branch.UseExpression(_assignment.GetFirstValue());
 
-				for (; register < r._Registers; register++)
-				{
-					if (r.GetUpdated(register, _outerInstance.Branch.End - 1) == _outerInstance.Branch.End - 1)
-					{
-						expr = r.GetValue(register, _outerInstance.Branch.End);
-						break;
-					}
-				}
+                return new SetBlockAssignmentOperation(this, _assignment.GetFirstTarget(), GetValue());
+            }
 
-				if (_d.Code.Op(_outerInstance.Branch.End - 2) == Op.Opcode.LOADBOOL && _d.Code.C(_outerInstance.Branch.End - 2) != 0)
-				{
-					int target = _d.Code.A(_outerInstance.Branch.End - 2);
+            return new SetBlockOperation(this, in_decompiler);
+        }
+    }
 
-					if (_d.Code.Op(_outerInstance.Branch.End - 3) == Op.Opcode.JMP && _d.Code.sBx(_outerInstance.Branch.End - 3) == 2)
-					{
-						expr = r.GetValue(target, _outerInstance.Branch.End - 2);
-					}
-					else
-					{
-						expr = r.GetValue(target, _outerInstance.Branch.Begin);
-					}
+    file class SetBlockAssignmentOperation(SetBlock in_outerInstance, Target in_target, Expression in_value) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            return new Assignment(in_target, in_value);
+        }
+    }
 
-					_outerInstance.Branch.UseExpression(expr);
+    file class SetBlockOperation(SetBlock in_outerInstance, Decompiler in_decompiler) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            Expression expression = null;
 
-					if (r.IsLocal(target, _outerInstance.Branch.End - 1))
-						return new Assignment(r.GetTarget(target, _outerInstance.Branch.End - 1), _outerInstance.Branch.AsExpression(r));
+            for (int i = 0; i < in_registers.RegisterCount; i++)
+            {
+                if (in_registers.GetUpdated(i, in_outerInstance.Branch.End - 1) == in_outerInstance.Branch.End - 1)
+                {
+                    expression = in_registers.GetValue(i, in_outerInstance.Branch.End);
+                    break;
+                }
+            }
 
-					r.SetValue(target, _outerInstance.Branch.End - 1, _outerInstance.Branch.AsExpression(r));
-				}
-				else if (expr != null && _outerInstance.Target >= 0)
-				{
-					_outerInstance.Branch.UseExpression(expr);
+            if (in_decompiler.Code.Op(in_outerInstance.Branch.End - 2) == Opcode.LOADBOOL && in_decompiler.Code.C(in_outerInstance.Branch.End - 2) != 0)
+            {
+                var target = in_decompiler.Code.A(in_outerInstance.Branch.End - 2);
 
-					if (r.IsLocal(_outerInstance.Target, _outerInstance.Branch.End - 1))
-						return new Assignment(r.GetTarget(_outerInstance.Target, _outerInstance.Branch.End - 1), _outerInstance.Branch.AsExpression(r));
+                if (in_decompiler.Code.Op(in_outerInstance.Branch.End - 3) == Opcode.JMP && in_decompiler.Code.sBx(in_outerInstance.Branch.End - 3) == 2)
+                {
+                    expression = in_registers.GetValue(target, in_outerInstance.Branch.End - 2);
+                }
+                else
+                {
+                    expression = in_registers.GetValue(target, in_outerInstance.Branch.Begin);
+                }
 
-					r.SetValue(_outerInstance.Target, _outerInstance.Branch.End - 1, _outerInstance.Branch.AsExpression(r));
-				}
-				else
-				{
-					throw new Exception($"Fail {_outerInstance.Branch.End - 1}: {expr} (target: {_outerInstance.Target})");
-				}
+                in_outerInstance.Branch.UseExpression(expression);
 
-				return null;
-			}
+                if (in_registers.IsLocal(target, in_outerInstance.Branch.End - 1))
+                    return new Assignment(in_registers.GetTarget(target, in_outerInstance.Branch.End - 1), in_outerInstance.Branch.AsExpression(in_registers));
 
-		}
-	}
+                in_registers.SetValue(target, in_outerInstance.Branch.End - 1, in_outerInstance.Branch.AsExpression(in_registers));
+            }
+            else if (expression != null && in_outerInstance.Target >= 0)
+            {
+                in_outerInstance.Branch.UseExpression(expression);
+
+                if (in_registers.IsLocal(in_outerInstance.Target, in_outerInstance.Branch.End - 1))
+                    return new Assignment(in_registers.GetTarget(in_outerInstance.Target, in_outerInstance.Branch.End - 1), in_outerInstance.Branch.AsExpression(in_registers));
+
+                in_registers.SetValue(in_outerInstance.Target, in_outerInstance.Branch.End - 1, in_outerInstance.Branch.AsExpression(in_registers));
+            }
+            else
+            {
+                throw new Exception($"Fail {in_outerInstance.Branch.End - 1}: {expression} (target: {in_outerInstance.Target})");
+            }
+
+            return null;
+        }
+    }
 }

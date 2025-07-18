@@ -1,20 +1,18 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+using System.Text;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LStringType : BObjectType<LString>
     {
-        protected StringBuilder InitialValue() => new();
-
-        public override LString Parse(BinaryReaderEx reader, BHeader header)
+        public override LString Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
-            BSizeT sizeT = header.SizeT.Parse(reader, header);
-            StringBuilder b = new();
+            var sb = new StringBuilder();
+            var sizeT = in_header.SizeT.Parse(in_reader, in_header);
 
-            sizeT.Iterate(Run);
+            sizeT.Iterate(() => sb.Append((char)in_reader.Read<byte>()));
 
-            void Run()
-                => b.Append((char)reader.ReadByte());
-
-            return new LString(sizeT, b.ToString());
+            return new LString(sizeT, sb.ToString());
         }
     }
 }

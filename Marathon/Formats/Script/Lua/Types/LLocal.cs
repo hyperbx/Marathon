@@ -1,22 +1,16 @@
 ﻿namespace Marathon.Formats.Script.Lua.Types
 {
-    public class LLocal : BObject
+    public class LLocal(LString in_name, BInteger in_start, BInteger in_end) : BObject
     {
-        public readonly LString Name;
-        public readonly int Start, End;
+        public LString Name => in_name;
 
-        /// <summary>
-        /// Used by the decompiler for annotation.
-        /// </summary>
-        public bool ForLoop = false;
+        public int Start => in_start.AsInt();
 
-        public LLocal(LString name, BInteger start, BInteger end)
+        public int End => in_end.AsInt();
+
+        public override string ToString()
         {
-            Name = name;
-            Start = start.AsInt();
-            End = end.AsInt();
+            return Name.Dereference();
         }
-
-        public override string ToString() => Name.Dereference();
     }
 }

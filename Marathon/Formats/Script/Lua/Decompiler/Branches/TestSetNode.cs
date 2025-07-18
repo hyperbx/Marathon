@@ -4,24 +4,37 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
     public class TestSetNode : Branch
     {
-        public readonly int Test;
-        public readonly bool _Invert;
+        public int Register { get; }
 
-        public TestSetNode(int target, int test, bool invert, int line, int begin, int end) : base(line, begin, end)
+        public bool IsInverted { get; }
+
+        public TestSetNode(int in_target, int in_testRegister, bool in_isInverted, int in_line, int in_begin, int in_end) : base(in_line, in_begin, in_end)
         {
-            Test = test;
-            _Invert = invert;
-            SetTarget = target;
+            Register = in_testRegister;
+            IsInverted = in_isInverted;
+            SetTarget = in_target;
         }
 
-        public override Branch Invert() => new TestSetNode(SetTarget, Test, !_Invert, Line, End, Begin);
+        public override Branch Invert()
+        {
+            return new TestSetNode(SetTarget, Register, !IsInverted, Line, End, Begin);
+        }
 
-        public override int GetRegister() => SetTarget;
+        public override int GetRegister()
+        {
+            return SetTarget;
+        }
 
-        public override Expression AsExpression(Registers r) => r.GetExpression(Test, Line);
+        public override Expression AsExpression(Registers in_registers)
+        {
+            return in_registers.GetExpression(Register, Line);
+        }
 
-        public override void UseExpression(Expression expression) { }
+        public override void UseExpression(Expression in_expression) { }
 
-        public override string ToString() => $"TestSetNode[target={SetTarget};test={Test};invert={_Invert};line={Line};begin={Begin};end={End}]";
+        public override string ToString()
+        {
+            return $"TestSetNode[target={SetTarget};test={Register};invert={IsInverted};line={Line};begin={Begin};end={End}]";
+        }
     }
 }

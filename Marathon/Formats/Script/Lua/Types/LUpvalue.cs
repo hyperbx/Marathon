@@ -2,26 +2,33 @@
 {
     public class LUpvalue : BObject
     {
-        public bool InStack;
-        public int Index;
-        public string Name;
+        public string Name { get; set; }
 
-        public override bool Equals(object obj)
+        public bool IsInStack { get; set; }
+
+        public int Index { get; set; }
+
+        public override bool Equals(object in_obj)
         {
-            if (obj is LUpvalue lUpvalue)
+            if (in_obj is LUpvalue out_upvalue)
             {
-                if (!(InStack == lUpvalue.InStack && Index == lUpvalue.Index))
+                if (!(IsInStack == out_upvalue.IsInStack && Index == out_upvalue.Index))
                     return false;
 
-                if (Name == lUpvalue.Name)
+                if (Name == out_upvalue.Name)
                     return true;
 
-                return Name != null && Name.Equals(lUpvalue.Name);
+                return Name != null && Name.Equals(out_upvalue.Name);
             }
             else
             {
                 return false;
             }
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     public interface IOutputProvider
     {
-        void Write(string str);
+        public void Write(string in_str);
 
-        void WriteLine();
+        public void WriteLine();
     }
 }

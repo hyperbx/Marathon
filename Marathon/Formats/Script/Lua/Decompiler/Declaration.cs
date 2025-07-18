@@ -4,32 +4,30 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Declaration
     {
-        public readonly string Name;
-        public readonly int Begin, End;
-        public int Register;
+        public string Name { get; }
 
-        /// <summary>
-        /// Whether this is an invisible for loop book-keeping variable.
-        /// </summary>
-        public bool ForLoop = false;
+        public int Begin { get; }
 
-        /// <summary>
-        /// Whether this is an explicit for loop declared variable.
-        /// </summary>
-        public bool ForLoopExplicit = false;
+        public int End { get; }
 
-        public Declaration(LLocal local)
+        public int Register { get; set; }
+
+        public bool IsForLoop { get; set; } = false;
+
+        public bool IsForLoopExplicit { get; set; } = false;
+
+        public Declaration(LLocal in_local)
         {
-            Name = local.ToString();
-            Begin = local.Start;
-            End = local.End;
+            Name = in_local.ToString();
+            Begin = in_local.Start;
+            End = in_local.End;
         }
 
-        public Declaration(string name, int begin, int end)
+        public Declaration(string in_name, int in_begin, int in_end)
         {
-            Name = name;
-            Begin = begin;
-            End = end;
+            Name = in_name;
+            Begin = in_begin;
+            End = in_end;
         }
     }
 }

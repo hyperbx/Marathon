@@ -1,163 +1,173 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LFunctionType : BObjectType<LFunction>
     {
-        public static readonly LFunctionType TYPE50 = new LFunctionType50();
-        public static readonly LFunctionType TYPE51 = new();
-        public static readonly LFunctionType TYPE52 = new LFunctionType52();
-
-        public class LFunctionParseState
+        public override LFunction Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
-            public LString Name;
+            var state = new LFunctionParseState();
 
-            public int LineBegin,
-                       LineEnd,
-                       LenUpvalues,
-                       LenParameter,
-                       Vararg,
-                       MaximumStackSize,
-                       Length;
-
-            public int[] Code;
-
-            public BList<LObject> Constants;
-            public BList<LFunction> Functions;
-            public BList<BInteger> Lines;
-            public BList<LLocal> Locals;
-            public LUpvalue[] Upvalues;
-        }
-
-        public override LFunction Parse(BinaryReaderEx reader, BHeader header)
-        {
-            LFunctionParseState s = new();
-            ParseMain(reader, header, s);
+            ParseMain(in_reader, in_header, state);
 
             return new LFunction
             (
-                header,
-                s.Code,
-                s.Locals.AsArray(new LLocal[s.Locals.Length.AsInt()]),
-                s.Constants.AsArray(new LObject[s.Constants.Length.AsInt()]),
-                s.Upvalues,
-                s.Functions.AsArray(new LFunction[s.Functions.Length.AsInt()]),
-                s.MaximumStackSize,
-                s.LenUpvalues,
-                s.LenParameter,
-                s.Vararg
+                in_header,
+                state.Code,
+                state.Locals.AsArray(new LLocal[state.Locals.Length.AsInt()]),
+                state.Constants.AsArray(new LObject[state.Constants.Length.AsInt()]),
+                state.Upvalues,
+                state.Functions.AsArray(new LFunction[state.Functions.Length.AsInt()]),
+                state.MaximumStackSize,
+                state.LenUpvalues,
+                state.LenParameter,
+                state.Vararg
             );
         }
 
-        public virtual void ParseMain(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public virtual void ParseMain(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Name = header.String.Parse(reader, header);
-            s.LineBegin = header.Integer.Parse(reader, header).AsInt();
-            s.LineEnd = header.Integer.Parse(reader, header).AsInt();
-            s.LenUpvalues = reader.ReadByte();
-            s.LenParameter = reader.ReadByte();
-            s.Vararg = reader.ReadByte();
-            s.MaximumStackSize = reader.ReadByte();
+            in_state.Name = in_header.String.Parse(in_reader, in_header);
+            in_state.LineBegin = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.LineEnd = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.LenUpvalues = in_reader.Read<byte>();
+            in_state.LenParameter = in_reader.Read<byte>();
+            in_state.Vararg = in_reader.Read<byte>();
+            in_state.MaximumStackSize = in_reader.Read<byte>();
 
-            ParseCode(reader, header, s);
-            ParseConstants(reader, header, s);
-            ParseUpvalues(reader, header, s);
-            ParseDebug(reader, header, s);
+            ParseCode(in_reader, in_header, in_state);
+            ParseConstants(in_reader, in_header, in_state);
+            ParseUpvalues(in_reader, in_header, in_state);
+            ParseDebug(in_reader, in_header, in_state);
         }
 
-        public void ParseCode(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public static void ParseCode(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Length = header.Integer.Parse(reader, header).AsInt();
-            s.Code = new int[s.Length];
+            in_state.Length = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.Code = new int[in_state.Length];
 
-            for (int i = 0; i < s.Length; i++)
-                s.Code[i] = reader.ReadInt32();
+            for (int i = 0; i < in_state.Length; i++)
+                in_state.Code[i] = in_reader.Read<int>();
         }
 
-        public void ParseConstants(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public static void ParseConstants(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Constants = header.Constant.ParseList(reader, header);
-            s.Functions = header.Function.ParseList(reader, header);
+            in_state.Constants = in_header.Constant.ParseList(in_reader, in_header);
+            in_state.Functions = in_header.Function.ParseList(in_reader, in_header);
         }
 
-        public virtual void ParseDebug(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public virtual void ParseDebug(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Lines = header.Integer.ParseList(reader, header);
-            s.Locals = header.Local.ParseList(reader, header);
-            BList<LString> upvalueNames = header.String.ParseList(reader, header);
+            in_state.Lines = in_header.Integer.ParseList(in_reader, in_header);
+            in_state.Locals = in_header.Local.ParseList(in_reader, in_header);
+
+            var upvalueNames = in_header.String.ParseList(in_reader, in_header);
 
             for (int i = 0; i < upvalueNames.Length.AsInt(); i++)
-                s.Upvalues[i].Name = upvalueNames.Get(i).Dereference();
+                in_state.Upvalues[i].Name = upvalueNames.Get(i).Dereference();
         }
 
-        public virtual void ParseUpvalues(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public virtual void ParseUpvalues(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Upvalues = new LUpvalue[s.LenUpvalues];
+            in_state.Upvalues = new LUpvalue[in_state.LenUpvalues];
 
-            for (int i = 0; i < s.LenUpvalues; i++)
-                s.Upvalues[i] = new LUpvalue();
+            for (int i = 0; i < in_state.LenUpvalues; i++)
+                in_state.Upvalues[i] = new();
         }
     }
 
-    class LFunctionType50 : LFunctionType
+    public class LFunctionType50 : LFunctionType
     {
-        public override void ParseMain(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public override void ParseMain(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Name = header.String.Parse(reader, header);
-            s.LineBegin = header.Integer.Parse(reader, header).AsInt();
-            s.LineEnd = 0;
+            in_state.Name = in_header.String.Parse(in_reader, in_header);
+            in_state.LineBegin = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.LineEnd = 0;
 
-            int lenUpvalues = reader.ReadByte();
-            s.Upvalues = new LUpvalue[lenUpvalues];
+            int lenUpvalues = in_reader.Read<byte>();
+            in_state.Upvalues = new LUpvalue[lenUpvalues];
 
             for (int i = 0; i < lenUpvalues; i++)
-                s.Upvalues[i] = new LUpvalue();
+                in_state.Upvalues[i] = new LUpvalue();
 
-            s.LenParameter = reader.ReadByte();
-            s.Vararg = reader.ReadByte();
-            s.MaximumStackSize = reader.ReadByte();
+            in_state.LenParameter = in_reader.Read<byte>();
+            in_state.Vararg = in_reader.Read<byte>();
+            in_state.MaximumStackSize = in_reader.Read<byte>();
 
-            ParseDebug(reader, header, s);
-            ParseConstants(reader, header, s);
-            ParseCode(reader, header, s);
+            ParseDebug(in_reader, in_header, in_state);
+            ParseConstants(in_reader, in_header, in_state);
+            ParseCode(in_reader, in_header, in_state);
         }
 
-        public override void ParseUpvalues(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public override void ParseUpvalues(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            BList<LUpvalue> upvalues = header.Upvalue.ParseList(reader, header);
+            BList<LUpvalue> upvalues = in_header.Upvalue.ParseList(in_reader, in_header);
 
-            s.LenUpvalues = upvalues.Length.AsInt();
-            s.Upvalues = upvalues.AsArray(new LUpvalue[s.LenUpvalues]);
+            in_state.LenUpvalues = upvalues.Length.AsInt();
+            in_state.Upvalues = upvalues.AsArray(new LUpvalue[in_state.LenUpvalues]);
         }
     }
 
-    class LFunctionType52 : LFunctionType
+    public class LFunctionType52 : LFunctionType
     {
-        public override void ParseMain(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public override void ParseMain(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.LineBegin = header.Integer.Parse(reader, header).AsInt();
-            s.LineEnd = header.Integer.Parse(reader, header).AsInt();
-            s.LenParameter = reader.ReadByte();
-            s.Vararg = reader.ReadByte();
-            s.MaximumStackSize = reader.ReadByte();
+            in_state.LineBegin = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.LineEnd = in_header.Integer.Parse(in_reader, in_header).AsInt();
+            in_state.LenParameter = in_reader.Read<byte>();
+            in_state.Vararg = in_reader.Read<byte>();
+            in_state.MaximumStackSize = in_reader.Read<byte>();
 
-            ParseCode(reader, header, s);
-            ParseConstants(reader, header, s);
-            ParseUpvalues(reader, header, s);
-            ParseDebug(reader, header, s);
+            ParseCode(in_reader, in_header, in_state);
+            ParseConstants(in_reader, in_header, in_state);
+            ParseUpvalues(in_reader, in_header, in_state);
+            ParseDebug(in_reader, in_header, in_state);
         }
 
-        public override void ParseDebug(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public override void ParseDebug(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            s.Name = header.String.Parse(reader, header);
+            in_state.Name = in_header.String.Parse(in_reader, in_header);
 
-            ParseDebug(reader, header, s);
+            ParseDebug(in_reader, in_header, in_state);
         }
 
-        public override void ParseUpvalues(BinaryReaderEx reader, BHeader header, LFunctionParseState s)
+        public override void ParseUpvalues(BinaryObjectReaderEx in_reader, BHeader in_header, LFunctionParseState in_state)
         {
-            BList<LUpvalue> upvalues = header.Upvalue.ParseList(reader, header);
+            BList<LUpvalue> upvalues = in_header.Upvalue.ParseList(in_reader, in_header);
 
-            s.LenUpvalues = upvalues.Length.AsInt();
-            s.Upvalues = upvalues.AsArray(new LUpvalue[s.LenUpvalues]);
+            in_state.LenUpvalues = upvalues.Length.AsInt();
+            in_state.Upvalues = upvalues.AsArray(new LUpvalue[in_state.LenUpvalues]);
         }
+    }
+
+    public class LFunctionParseState
+    {
+        public LString Name { get; set; }
+
+        public int LineBegin { get; set; }
+
+        public int LineEnd { get; set; }
+
+        public int LenUpvalues { get; set; }
+
+        public int LenParameter { get; set; }
+
+        public int Vararg { get; set; }
+
+        public int MaximumStackSize { get; set; }
+
+        public int Length { get; set; }
+
+        public int[] Code { get; set; }
+
+        public BList<LObject> Constants { get; set; }
+
+        public BList<LFunction> Functions { get; set; }
+
+        public BList<BInteger> Lines { get; set; }
+
+        public BList<LLocal> Locals { get; set; }
+
+        public LUpvalue[] Upvalues { get; set; }
     }
 }

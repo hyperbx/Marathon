@@ -1,10 +1,13 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+using System;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LBooleanType : BObjectType<LBoolean>
     {
-        public override LBoolean Parse(BinaryReaderEx reader, BHeader header)
+        public override LBoolean Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
-            int value = reader.ReadByte();
+            var value = in_reader.Read<byte>();
 
             if ((value & 0xFFFFFFFE) != 0)
             {
@@ -12,7 +15,7 @@
             }
             else
             {
-                return value == 0 ? LBoolean.LFALSE : LBoolean.LTRUE;
+                return value == 0 ? LBoolean.False : LBoolean.True;
             }
         }
     }

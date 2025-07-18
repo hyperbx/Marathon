@@ -5,149 +5,157 @@ using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using Marathon.Formats.Script.Lua.Version;
+using Marathon.Formats.Script.Lua.Decompiler.Extractors;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Decompiler
     {
-        private readonly int _registers, _length;
+        private readonly int _registerCount;
+        private readonly int _codeLength;
+        private readonly int _paramCount;
+        private readonly int _variadicArgs;
+
         private readonly Upvalues _upvalues;
         private readonly LFunction[] _functions;
-        private readonly int _params, _vararg;
-        private readonly Op.Opcode _tforTarget, _forTarget;
+
+        private readonly Opcode _tforTarget;
+        private readonly Opcode _forTarget;
 
         private static Stack<Branch> _backup;
 
-        private Registers _r;
-        private Block _outer;
+        private Registers _registers;
+        private Block _outerBlock;
         private List<Block> _blocks;
-
-        protected Function _f;
-        protected LFunction _function;
-
-        public readonly Code Code;
-        public readonly Declaration[] DeclarationList;
 
         /// <summary>
         /// When lines are processed out of order, they are noted here so they can be skipped when encountered normally.
         /// </summary>
-        bool[] _skip;
+        private bool[] _skipped;
 
         /// <summary>
-        /// Precalculated array of which lines are the targets of jump instructions that go backwards...
-        /// Such targets must be at the statement/block level in the outputted code (they cannot be mid-expression).
+        /// Precalculated array of which lines are the targets of jump instructions that go backwards.
+        /// <para>Such targets must be at the statement/block level in the output code (they cannot be mid-expression).</para>
         /// </summary>
-        bool[] _reverseTarget;
+        private bool[] _reverseTarget;
+
+        protected Function _function;
+        protected LFunction _lFunction;
+
+        public CodeExtractor Code { get; }
+
+        public Declaration[] DeclarationList { get; }
 
         public Decompiler(LFunction function)
         {
-            _f = new Function(function);
-            _function = function;
-            _registers = function.MaximumStackSize;
-            _length = function.Code.Length;
-            Code = new Code(function);
+            _function = new Function(function);
+            _lFunction = function;
+            _registerCount = function.MaximumStackSize;
+            _codeLength = function.Code.Length;
 
-            if (function.Locals.Length >= function.NumParams)
+            Code = new CodeExtractor(function);
+
+            var i = 0;
+
+            if (function.Locals.Length >= function.ParamCount)
             {
-                DeclarationList = new Declaration[function.Locals.Length];
+                // FIX: reserve space for variadic arg keyword declaration.
+                DeclarationList = new Declaration[function.Locals.Length + function.VariadicArgs];
 
-                for (int i = 0; i < DeclarationList.Length; i++)
+                for (i = 0; i < DeclarationList.Length; i++)
                     DeclarationList[i] = new Declaration(function.Locals[i]);
             }
             else
             {
-                DeclarationList = new Declaration[function.NumParams];
+                // FIX: reserve space for variadic arg keyword declaration.
+                DeclarationList = new Declaration[function.ParamCount + function.VariadicArgs];
 
-                for (int i = 0; i < DeclarationList.Length; i++)
-                    DeclarationList[i] = new Declaration($"a{i + 1}", 0, _length - 1);
+                for (i = 0; i < DeclarationList.Length; i++)
+                    DeclarationList[i] = new Declaration($"a{i + 1}", 0, _codeLength - 1);
             }
+
+            // FIX: create declaration for variadic args keyword.
+            if ((function.VariadicArgs & 1) == 1)
+                DeclarationList[i - 1] = new Declaration("arg", 0, _codeLength - 1);
 
             _upvalues = new Upvalues(function.Upvalues);
             _functions = function.Functions;
-            _params = function.NumParams;
-            _vararg = function.Vararg;
+            _paramCount = function.ParamCount;
+            _variadicArgs = function.VariadicArgs;
             _tforTarget = function.Header.Version.GetTForTarget();
             _forTarget = function.Header.Version.GetForTarget();
         }
 
         public void Decompile()
         {
-            _r = new Registers(_registers, _length, DeclarationList, _f);
+            _registers = new Registers(_registerCount, _codeLength, DeclarationList, _function);
 
             FindReverseTargets();
             HandleBranches(true);
 
-            _outer = HandleBranches(false);
+            _outerBlock = HandleBranches(false);
 
-            ProcessSequence(1, _length);
+            ProcessSequence(1, _codeLength);
         }
 
-        public void Write()
-            => Write(new Output());
-
-        public void Write(IOutputProvider @out)
-            => Write(new Output(@out));
-
-        public void Write(Output @out)
+        private void HandleInitialDeclarations(Output in_output)
         {
-            HandleInitialDeclarations(@out);
+            var declarations = new List<Declaration>(DeclarationList.Length);
 
-            _outer.Write(@out);
-        }
-
-        private void HandleInitialDeclarations(Output @out)
-        {
-            List<Declaration> initdecls = new(DeclarationList.Length);
-
-            for (int i = _params + (_vararg & 1); i < DeclarationList.Length; i++)
+            for (int i = _paramCount + (_variadicArgs & 1); i < DeclarationList.Length; i++)
             {
-                if (DeclarationList[i].Begin == 0)
-                    initdecls.Add(DeclarationList[i]);
+                if (DeclarationList[i].Begin != 0)
+                    continue;
+
+                declarations.Add(DeclarationList[i]);
             }
 
-            if (initdecls.Count > 0)
+            if (declarations.Count > 0)
             {
-                @out.Write("local ");
-                @out.Write(initdecls[0].Name);
+                in_output.Write("local ");
+                in_output.Write(declarations[0].Name);
 
-                for (int i = 1; i < initdecls.Count; i++)
+                for (int i = 1; i < declarations.Count; i++)
                 {
-                    @out.Write(", ");
-                    @out.Write(initdecls[i].Name);
+                    in_output.Write(", ");
+                    in_output.Write(declarations[i].Name);
                 }
 
-                @out.WriteLine();
+                in_output.WriteLine();
             }
         }
 
-        private List<Operation> ProcessLine(int line)
+        private List<Operation> ProcessLine(int in_line)
         {
-            LinkedList<Operation> operations = new();
+            var operations = new LinkedList<Operation>();
+            var A = Code.A(in_line);
+            var C = Code.C(in_line);
+            var B = Code.B(in_line);
+            var Bx = Code.Bx(in_line);
 
-            int A  = Code.A(line),
-                C  = Code.C(line),
-                B  = Code.B(line),
-                Bx = Code.Bx(line);
-
-            switch (Code.Op(line))
+            switch (Code.Op(in_line))
             {
-                case Op.Opcode.MOVE:
-                    operations.AddLast(new RegisterSet(line, A, _r.GetExpression(B, line)));
+                case Opcode.MOVE:
+                    operations.AddLast(new RegisterSet(in_line, A, _registers.GetExpression(B, in_line)));
                     break;
 
-                case Op.Opcode.LOADK:
-                    operations.AddLast(new RegisterSet(line, A, _f.GetConstantExpression(Bx)));
+                case Opcode.LOADK:
+                    operations.AddLast(new RegisterSet(in_line, A, _function.GetConstantExpression(Bx)));
                     break;
 
-                case Op.Opcode.LOADBOOL:
-                    operations.AddLast(new RegisterSet(line, A, new ConstantExpression(new Constant(B != 0 ? LBoolean.LTRUE : LBoolean.LFALSE), -1)));
+                case Opcode.LOADBOOL:
+                    operations.AddLast(new RegisterSet(in_line, A, new ConstantExpression(new Constant(B != 0 ? LBoolean.True : LBoolean.False), -1)));
                     break;
 
-                case Op.Opcode.LOADNIL:
+                case Opcode.LOADNIL:
                 {
                     int maximum;
 
-                    if (_function.Header.Version.UsesOldLoadNilEncoding())
+                    if (_lFunction.Header.Version.UsesOldLoadNilEncoding())
                     {
                         maximum = B;
                     }
@@ -158,369 +166,372 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                     while (A <= maximum)
                     {
-                        operations.AddLast(new RegisterSet(line, A, Expression.NIL));
+                        operations.AddLast(new RegisterSet(in_line, A, Expression.Nil));
                         A++;
                     }
 
                     break;
                 }
 
-                case Op.Opcode.GETUPVAL:
-                    operations.AddLast(new RegisterSet(line, A, _upvalues.GetExpression(B)));
+                case Opcode.GETUPVAL:
+                    operations.AddLast(new RegisterSet(in_line, A, _upvalues.GetExpression(B)));
                     break;
 
-                case Op.Opcode.GETTABUP:
+                case Opcode.GETTABUP:
                 {
                     if (B == 0 && (C & 0x100) != 0)
                     {
-                        operations.AddLast(new RegisterSet(line, A, _f.GetGlobalExpression(C & 0xFF)));
+                        operations.AddLast(new RegisterSet(in_line, A, _function.GetGlobalExpression(C & 0xFF)));
                     }
                     else
                     {
-                        operations.AddLast(new RegisterSet(line, A, new TableReference(_upvalues.GetExpression(B), _r.GetConstantExpression(C, line))));
+                        operations.AddLast(new RegisterSet(in_line, A, new TableReference(_upvalues.GetExpression(B), _registers.GetConstantExpression(C, in_line))));
                     }
 
                     break;
                 }
 
-                case Op.Opcode.GETGLOBAL:
-                    operations.AddLast(new RegisterSet(line, A, _f.GetGlobalExpression(Bx)));
+                case Opcode.GETGLOBAL:
+                    operations.AddLast(new RegisterSet(in_line, A, _function.GetGlobalExpression(Bx)));
                     break;
 
-                case Op.Opcode.GETTABLE:
-                    operations.AddLast(new RegisterSet(line, A, new TableReference(_r.GetExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.GETTABLE:
+                    operations.AddLast(new RegisterSet(in_line, A, new TableReference(_registers.GetExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.SETUPVAL:
-                    operations.AddLast(new UpvalueSet(line, _upvalues.GetName(B), _r.GetExpression(A, line)));
+                case Opcode.SETUPVAL:
+                    operations.AddLast(new UpvalueSet(in_line, _upvalues.GetName(B), _registers.GetExpression(A, in_line)));
                     break;
 
-                case Op.Opcode.SETTABUP:
+                case Opcode.SETTABUP:
                 {
                     if (A == 0 && (B & 0x100) != 0)
                     {
-                        operations.AddLast(new GlobalSet(line, _f.GetGlobalName(B & 0xFF), _r.GetConstantExpression(C, line)));
+                        operations.AddLast(new GlobalSet(in_line, _function.GetGlobalName(B & 0xFF), _registers.GetConstantExpression(C, in_line)));
                     }
                     else
                     {
-                        operations.AddLast(new TableSet(line, _upvalues.GetExpression(A), _r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line), true, line));
+                        operations.AddLast(new TableSet(in_line, _upvalues.GetExpression(A), _registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line), true, in_line));
                     }
 
                     break;
                 }
 
-                case Op.Opcode.SETGLOBAL:
-                    operations.AddLast(new GlobalSet(line, _f.GetGlobalName(Bx), _r.GetExpression(A, line)));
+                case Opcode.SETGLOBAL:
+                    operations.AddLast(new GlobalSet(in_line, _function.GetGlobalName(Bx), _registers.GetExpression(A, in_line)));
                     break;
 
-                case Op.Opcode.SETTABLE:
-                    operations.AddLast(new TableSet(line, _r.GetExpression(A, line), _r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line), true, line));
+                case Opcode.SETTABLE:
+                    operations.AddLast(new TableSet(in_line, _registers.GetExpression(A, in_line), _registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line), true, in_line));
                     break;
 
-                case Op.Opcode.NEWTABLE:
-                    operations.AddLast(new RegisterSet(line, A, new TableLiteral(B, C)));
+                case Opcode.NEWTABLE:
+                    operations.AddLast(new RegisterSet(in_line, A, new TableLiteral(B, C)));
                     break;
 
-                case Op.Opcode.SELF:
+                case Opcode.SELF:
                 {
-                    // We can later determine : syntax was used by comparing subexpressions with == operators.
-                    Expression common = _r.GetExpression(B, line);
+                    // We can later determine ":" syntax was used by comparing sub-expressions with "==" operators.
+                    var common = _registers.GetExpression(B, in_line);
 
-                    operations.AddLast(new RegisterSet(line, A + 1, common));
-                    operations.AddLast(new RegisterSet(line, A, new TableReference(common, _r.GetConstantExpression(C, line))));
+                    operations.AddLast(new RegisterSet(in_line, A + 1, common));
+                    operations.AddLast(new RegisterSet(in_line, A, new TableReference(common, _registers.GetConstantExpression(C, in_line))));
 
                     break;
                 }
 
-                case Op.Opcode.ADD:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeADD(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.ADD:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeAdd(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.SUB:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeSUB(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.SUB:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeSub(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.MUL:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMUL(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.MUL:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeMul(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.DIV:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeDIV(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.DIV:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeDiv(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.MOD:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeMOD(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.MOD:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeMod(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.POW:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakePOW(_r.GetConstantExpression(B, line), _r.GetConstantExpression(C, line))));
+                case Opcode.POW:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakePow(_registers.GetConstantExpression(B, in_line), _registers.GetConstantExpression(C, in_line))));
                     break;
 
-                case Op.Opcode.UNM:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeUNM(_r.GetConstantExpression(B, line))));
+                case Opcode.UNM:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeUnm(_registers.GetConstantExpression(B, in_line))));
                     break;
 
-                case Op.Opcode.NOT:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeNOT(_r.GetConstantExpression(B, line))));
+                case Opcode.NOT:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeNot(_registers.GetConstantExpression(B, in_line))));
                     break;
 
-                case Op.Opcode.LEN:
-                    operations.AddLast(new RegisterSet(line, A, Expression.MakeLEN(_r.GetConstantExpression(B, line))));
+                case Opcode.LEN:
+                    operations.AddLast(new RegisterSet(in_line, A, Expression.MakeLen(_registers.GetConstantExpression(B, in_line))));
                     break;
 
-                case Op.Opcode.CONCAT:
+                case Opcode.CONCAT:
                 {
-                    Expression value = _r.GetExpression(C, line);
+                    Expression value = _registers.GetExpression(C, in_line);
 
                     // Remember that CONCAT is right associative.
                     while (C-- > B)
-                        value = Expression.MakeCONCAT(_r.GetExpression(C, line), value);
+                        value = Expression.MakeConcat(_registers.GetExpression(C, in_line), value);
 
-                    operations.AddLast(new RegisterSet(line, A, value));
+                    operations.AddLast(new RegisterSet(in_line, A, value));
 
                     break;
                 }
 
-                case Op.Opcode.JMP:
-                case Op.Opcode.EQ:
-                case Op.Opcode.LT:
-                case Op.Opcode.LE:
-                case Op.Opcode.TEST:
-                case Op.Opcode.TESTSET:
-                case Op.Opcode.TEST50:
+                case Opcode.JMP:
+                case Opcode.EQ:
+                case Opcode.LT:
+                case Opcode.LE:
+                case Opcode.TEST:
+                case Opcode.TESTSET:
+                case Opcode.TEST50:
                     break;
 
-                case Op.Opcode.CALL:
+                case Opcode.CALL:
                 {
-                    bool multiple = C >= 3 || C == 0;
+                    var isMultiple = C >= 3 || C == 0;
 
                     if (B == 0)
-                        B = _registers - A;
+                        B = _registerCount - A;
 
                     if (C == 0)
-                        C = _registers - A + 1;
+                        C = _registerCount - A + 1;
 
-                    Expression function = _r.GetExpression(A, line);
-                    Expression[] arguments = new Expression[B - 1];
+                    var function = _registers.GetExpression(A, in_line);
+                    var arguments = new Expression[B - 1];
 
                     for (int register = A + 1; register <= A + B - 1; register++)
-                        arguments[register - A - 1] = _r.GetExpression(register, line);
+                        arguments[register - A - 1] = _registers.GetExpression(register, in_line);
 
-                    FunctionCall value = new(function, arguments, multiple);
+                    var value = new FunctionCall(function, arguments, isMultiple);
 
                     if (C == 1)
                     {
-                        operations.AddLast(new CallOperation(line, value));
+                        operations.AddLast(new CallOperation(in_line, value));
                     }
                     else
                     {
-                        if (C == 2 && !multiple)
+                        if (C == 2 && !isMultiple)
                         {
-                            operations.AddLast(new RegisterSet(line, A, value));
+                            operations.AddLast(new RegisterSet(in_line, A, value));
                         }
                         else
                         {
                             for (int register = A; register <= A + C - 2; register++)
-                                operations.AddLast(new RegisterSet(line, register, value));
+                                operations.AddLast(new RegisterSet(in_line, register, value));
                         }
                     }
 
                     break;
                 }
 
-                case Op.Opcode.TAILCALL:
+                case Opcode.TAILCALL:
                 {
-                    if (B == 0) B = _registers - A;
+                    if (B == 0)
+                        B = _registerCount - A;
 
-                    Expression function = _r.GetExpression(A, line);
-                    Expression[] arguments = new Expression[B - 1];
+                    var function = _registers.GetExpression(A, in_line);
+                    var arguments = new Expression[B - 1];
 
                     for (int register = A + 1; register <= A + B - 1; register++)
-                        arguments[register - A - 1] = _r.GetExpression(register, line);
+                        arguments[register - A - 1] = _registers.GetExpression(register, in_line);
 
-                    FunctionCall value = new(function, arguments, true);
+                    var value = new FunctionCall(function, arguments, true);
 
-                    operations.AddLast(new ReturnOperation(line, value));
+                    operations.AddLast(new ReturnOperation(in_line, value));
 
-                    _skip[line + 1] = true;
+                    _skipped[in_line + 1] = true;
 
                     break;
                 }
 
-                case Op.Opcode.RETURN:
+                case Opcode.RETURN:
                 {
-                    if (B == 0) B = _registers - A + 1;
+                    if (B == 0)
+                        B = _registerCount - A + 1;
 
-                    Expression[] values = new Expression[B - 1];
+                    var values = new Expression[B - 1];
 
                     for (int register = A; register <= A + B - 2; register++)
-                        values[register - A] = _r.GetExpression(register, line);
+                        values[register - A] = _registers.GetExpression(register, in_line);
 
-                    operations.AddLast(new ReturnOperation(line, values));
+                    operations.AddLast(new ReturnOperation(in_line, values));
 
                     break;
                 }
 
-                case Op.Opcode.FORLOOP:
-                case Op.Opcode.FORPREP:
-                case Op.Opcode.TFORPREP:
-                case Op.Opcode.TFORCALL:
-                case Op.Opcode.TFORLOOP:
+                case Opcode.FORLOOP:
+                case Opcode.FORPREP:
+                case Opcode.TFORPREP:
+                case Opcode.TFORCALL:
+                case Opcode.TFORLOOP:
                     break;
 
-                case Op.Opcode.SETLIST50:
-                case Op.Opcode.SETLISTO:
+                case Opcode.SETLIST50:
+                case Opcode.SETLISTO:
                 {
-                    Expression table = _r.GetValue(A, line);
-                    int n = Bx % 32;
+                    var table = _registers.GetValue(A, in_line);
+                    var tableCount = Bx % 32;
 
-                    for (int i = 1; i <= n + 1; i++)
-                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant(Bx - n + i), -1), _r.GetExpression(A + i, line), false, _r.GetUpdated(A + i, line)));
+                    for (int i = 1; i <= tableCount + 1; i++)
+                        operations.AddLast(new TableSet(in_line, table, new ConstantExpression(new Constant(Bx - tableCount + i), -1), _registers.GetExpression(A + i, in_line), false, _registers.GetUpdated(A + i, in_line)));
 
                     break;
                 }
 
-                case Op.Opcode.SETLIST:
+                case Opcode.SETLIST:
                 {
                     if (C == 0)
                     {
-                        C = Code.Codepoint(line + 1);
-                        _skip[line + 1] = true;
+                        C = Code.Codepoint(in_line + 1);
+                        _skipped[in_line + 1] = true;
                     }
 
                     if (B == 0)
-                        B = _registers - A - 1;
+                        B = _registerCount - A - 1;
 
-                    Expression table = _r.GetValue(A, line);
+                    var table = _registers.GetValue(A, in_line);
 
                     for (int i = 1; i <= B; i++)
-                        operations.AddLast(new TableSet(line, table, new ConstantExpression(new Constant((C - 1) * 50 + i), -1), _r.GetExpression(A + i, line), false, _r.GetUpdated(A + i, line)));
+                        operations.AddLast(new TableSet(in_line, table, new ConstantExpression(new Constant((C - 1) * 50 + i), -1), _registers.GetExpression(A + i, in_line), false, _registers.GetUpdated(A + i, in_line)));
 
                     break;
                 }
 
-                case Op.Opcode.CLOSE:
+                case Opcode.CLOSE:
                     break;
 
-                case Op.Opcode.CLOSURE:
+                case Opcode.CLOSURE:
                 {
-                    LFunction f = _functions[Bx];
+                    var function = _functions[Bx];
 
-                    operations.AddLast(new RegisterSet(line, A, new ClosureExpression(f, line + 1)));
+                    operations.AddLast(new RegisterSet(in_line, A, new ClosureExpression(function, in_line + 1)));
 
-                    if (_function.Header.Version.UsesInlineUpvalueDeclarations())
+                    if (_lFunction.Header.Version.UsesInlineUpvalueDeclarations())
                     {
                         // Skip upvalue declarations.
-                        for (int i = 0; i < f.NumUpvalues; i++)
-                            _skip[line + 1 + i] = true;
+                        for (int i = 0; i < function.UpvalueCount; i++)
+                            _skipped[in_line + 1 + i] = true;
                     }
 
                     break;
                 }
 
-                case Op.Opcode.VARARG:
+                case Opcode.VARARG:
                 {
-                    bool multiple = B != 2;
+                    var isMultiple = B != 2;
 
                     if (B == 1)
-                        throw new Exception();
+                        throw new NotSupportedException();
 
                     if (B == 0)
-                        B = _registers - A + 1;
+                        B = _registerCount - A + 1;
 
-                    Expression value = new Vararg(B - 1, multiple);
+                    var value = new VariadicArgs(B - 1, isMultiple);
 
                     for (int register = A; register <= A + B - 2; register++)
-                        operations.AddLast(new RegisterSet(line, register, value));
+                        operations.AddLast(new RegisterSet(in_line, register, value));
 
                     break;
                 }
 
                 default:
-                    throw new Exception($"Illegal instruction: {Code.Op(line)}");
+                    throw new Exception($"Illegal instruction: {Code.Op(in_line)}");
             }
 
-            return new List<Operation>(operations);
+            return [.. operations];
         }
 
         private void FindReverseTargets()
         {
-            _reverseTarget = new bool[_length + 1];
+            _reverseTarget = new bool[_codeLength + 1];
 
             Array.Fill(_reverseTarget, false);
 
-            for (int line = 1; line <= _length; line++)
+            for (int line = 1; line <= _codeLength; line++)
             {
-                if (Code.Op(line) == Op.Opcode.JMP && Code.sBx(line) < 0)
+                if (Code.Op(line) == Opcode.JMP && Code.sBx(line) < 0)
                     _reverseTarget[line + 1 + Code.sBx(line)] = true;
             }
         }
 
-        private Assignment ProcessOperation(Operation operation, int line, int nextLine, Block block)
+        private Assignment ProcessOperation(Operation in_operation, int in_line, int in_nextLine, Block in_block)
         {
-            Assignment assign = null;
-            Statement statement = operation.Process(_r, block);
+            var statement = in_operation.Process(_registers, in_block);
+            var wasMultiple = false;
 
-            bool wasMultiple = false;
+            if (statement == null)
+                return null;
 
-            if (statement != null)
+            Assignment assignment = null;
+
+            if (statement is Assignment out_assignment)
             {
-                if (statement is Assignment assignment)
-                {
-                    assign = assignment;
+                assignment = out_assignment;
 
-                    if (!assign.GetFirstValue().IsMultiple())
-                    {
-                        block.AddStatement(statement);
-                    }
-                    else
-                    {
-                        wasMultiple = true;
-                    }
+                if (assignment.GetFirstValue().IsMultiple())
+                {
+                    wasMultiple = true;
                 }
                 else
                 {
-                    block.AddStatement(statement);
-                }
-
-                if (assign != null)
-                {
-                    while (nextLine < block.End && IsMoveIntoTarget(nextLine))
-                    {
-                        Target target = GetMoveIntoTargetTarget(nextLine, line + 1);
-                        Expression value = GetMoveIntoTargetValue(nextLine, line + 1);
-
-                        assign.AddFirst(target, value);
-
-                        _skip[nextLine] = true;
-
-                        nextLine++;
-                    }
-
-                    if (wasMultiple && !assign.GetFirstValue().IsMultiple())
-                        block.AddStatement(statement);
+                    in_block.AddStatement(statement);
                 }
             }
+            else
+            {
+                in_block.AddStatement(statement);
+            }
 
-            return assign;
+            if (assignment != null)
+            {
+                while (in_nextLine < in_block.End && IsMoveIntoTarget(in_nextLine))
+                {
+                    var target = GetMoveIntoTargetTarget(in_nextLine, in_line + 1);
+                    var value = GetMoveIntoTargetValue(in_nextLine, in_line + 1);
+
+                    assignment.AddFirst(target, value);
+
+                    _skipped[in_nextLine] = true;
+
+                    in_nextLine++;
+                }
+
+                if (wasMultiple && !assignment.GetFirstValue().IsMultiple())
+                    in_block.AddStatement(statement);
+            }
+
+            return assignment;
         }
 
-        private void ProcessSequence(int begin, int end)
+        private void ProcessSequence(int in_begin, int in_end)
         {
-            int blockIndex = 1;
+            var blockIndex = 1;
+            var blockStack = new Stack<Block>();
 
-            Stack<Block> blockStack = new();
             blockStack.Push(_blocks[0]);
 
-            _skip = new bool[end + 1];
+            _skipped = new bool[in_end + 1];
 
-            for (int line = begin; line <= end; line++)
+            for (int line = in_begin; line <= in_end; line++)
             {
                 Operation blockHandler = null;
 
                 while (blockStack.Peek().End <= line)
                 {
-                    Block seqBlock = blockStack.Pop();
+                    var seqBlock = blockStack.Pop();
+
                     blockHandler = seqBlock.Process(this);
 
                     if (blockHandler != null)
@@ -533,21 +544,22 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         blockStack.Push(_blocks[blockIndex++]);
                 }
 
-                Block block = blockStack.Peek();
+                var block = blockStack.Peek();
 
-                _r.StartLine(line);
+                _registers.StartLine(line);
 
-                if (_skip[line])
+                if (_skipped[line])
                 {
-                    List<Declaration> skipNewLocals = _r.GetNewLocals(line);
+                    var skipNewLocals = _registers.GetNewLocals(line);
 
                     if (skipNewLocals.Count != 0)
                     {
-                        Assignment skipAssign = new();
+                        var skipAssign = new Assignment();
+
                         skipAssign.Declare(skipNewLocals[0].Begin);
 
-                        foreach (Declaration decl in skipNewLocals)
-                            skipAssign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line));
+                        foreach (var declaration in skipNewLocals)
+                            skipAssign.AddLast(new VariableTarget(declaration), _registers.GetValue(declaration.Register, line));
 
                         blockStack.Peek().AddStatement(skipAssign);
                     }
@@ -555,80 +567,80 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     continue;
                 }
 
-                List<Operation> operations = ProcessLine(line);
-                List<Declaration> newLocals = _r.GetNewLocals(blockHandler == null ? line : line - 1);
-                Assignment assign = null;
+                var operations = ProcessLine(line);
+                var newLocals = _registers.GetNewLocals(blockHandler == null ? line : line - 1);
+
+                Assignment assignment = null;
 
                 if (blockHandler == null)
                 {
-                    if (Code.Op(line) == Op.Opcode.LOADNIL)
+                    if (Code.Op(line) == Opcode.LOADNIL)
                     {
-                        assign = new Assignment();
-                        int count = 0;
+                        assignment = new Assignment();
 
-                        foreach (Operation operation in operations)
+                        var count = 0;
+
+                        foreach (var operation in operations)
                         {
-                            RegisterSet set = (RegisterSet)operation;
-                            operation.Process(_r, block);
+                            var set = (RegisterSet)operation;
 
-                            if (_r.IsAssignable(set.Register, set.Line))
+                            operation.Process(_registers, block);
+
+                            if (_registers.IsAssignable(set.Register, set.Line))
                             {
-                                assign.AddLast(_r.GetTarget(set.Register, set.Line), set.Value);
+                                assignment.AddLast(_registers.GetTarget(set.Register, set.Line), set.Value);
                                 count++;
                             }
                         }
 
                         if (count > 0)
-                            block.AddStatement(assign);
+                            block.AddStatement(assignment);
                     }
-                    else if (Code.Op(line) == Op.Opcode.TFORPREP)
+                    else if (Code.Op(line) == Opcode.TFORPREP)
                     {
                         // Lua 5.0 has no assignments for FORPREP.
                         newLocals.Clear();
                     }
                     else
                     {
-                        foreach (Operation operation in operations)
+                        foreach (var operation in operations)
                         {
-                            Assignment temp = ProcessOperation(operation, line, line + 1, block);
+                            var temp = ProcessOperation(operation, line, line + 1, block);
 
                             if (temp != null)
-                                assign = temp;
+                                assignment = temp;
                         }
 
-                        if (assign != null && assign.GetFirstValue().IsMultiple())
-                            block.AddStatement(assign);
+                        if (assignment != null && assignment.GetFirstValue().IsMultiple())
+                            block.AddStatement(assignment);
                     }
                 }
                 else
                 {
-                    assign = ProcessOperation(blockHandler, line, line, block);
+                    assignment = ProcessOperation(blockHandler, line, line, block);
                 }
 
-                if (assign != null)
+                if (assignment != null && newLocals.Count != 0)
                 {
-                    if (newLocals.Count != 0)
-                    {
-                        assign.Declare(newLocals[0].Begin);
+                    assignment.Declare(newLocals[0].Begin);
 
-                        foreach (Declaration decl in newLocals)
-                            assign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line + 1));
-                    }
+                    foreach (var declaration in newLocals)
+                        assignment.AddLast(new VariableTarget(declaration), _registers.GetValue(declaration.Register, line + 1));
                 }
 
                 if (blockHandler == null)
                 {
-                    if (assign == null && newLocals.Count != 0 && Code.Op(line) != Op.Opcode.FORPREP)
+                    if (assignment == null && newLocals.Count != 0 && Code.Op(line) != Opcode.FORPREP)
                     {
-                        if (Code.Op(line) != Op.Opcode.JMP || Code.Op(line + 1 + Code.sBx(line)) != _tforTarget)
+                        if (Code.Op(line) != Opcode.JMP || Code.Op(line + 1 + Code.sBx(line)) != _tforTarget)
                         {
-                            assign = new Assignment();
-                            assign.Declare(newLocals[0].Begin);
+                            assignment = new Assignment();
+                            assignment.Declare(newLocals[0].Begin);
 
-                            foreach (Declaration decl in newLocals)
-                                assign.AddLast(new VariableTarget(decl), _r.GetValue(decl.Register, line));
+                            foreach (var declaration in newLocals)
+                                assignment.AddLast(new VariableTarget(declaration), _registers.GetValue(declaration.Register, line));
 
-                            blockStack.Peek().AddStatement(assign);
+                            blockStack.Peek().AddStatement(assignment);
                         }
                     }
                 }
@@ -642,28 +654,28 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
         }
 
-        private bool IsMoveIntoTarget(int line)
+        private bool IsMoveIntoTarget(int in_line)
         {
-            switch (Code.Op(line))
+            switch (Code.Op(in_line))
             {
-                case Op.Opcode.MOVE:
-                    return _r.IsAssignable(Code.A(line), line) && !_r.IsLocal(Code.B(line), line);
+                case Opcode.MOVE:
+                    return _registers.IsAssignable(Code.A(in_line), in_line) && !_registers.IsLocal(Code.B(in_line), in_line);
 
-                case Op.Opcode.SETUPVAL:
-                case Op.Opcode.SETGLOBAL:
-                    return !_r.IsLocal(Code.A(line), line);
+                case Opcode.SETUPVAL:
+                case Opcode.SETGLOBAL:
+                    return !_registers.IsLocal(Code.A(in_line), in_line);
 
-                case Op.Opcode.SETTABLE:
+                case Opcode.SETTABLE:
                 {
-                    int C = Code.C(line);
+                    var C = Code.C(in_line);
 
-                    if (_f.IsConstant(C))
+                    if (_function.IsConstant(C))
                     {
                         return false;
                     }
                     else
                     {
-                        return !_r.IsLocal(C, line);
+                        return !_registers.IsLocal(C, in_line);
                     }
                 }
 
@@ -672,42 +684,42 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
         }
 
-        private Target GetMoveIntoTargetTarget(int line, int previous)
+        private Target GetMoveIntoTargetTarget(int in_line, int in_previous)
         {
-            return Code.Op(line) switch
+            return Code.Op(in_line) switch
             {
-                Op.Opcode.MOVE => _r.GetTarget(Code.A(line), line),
-                Op.Opcode.SETUPVAL => new UpvalueTarget(_upvalues.GetName(Code.B(line))),
-                Op.Opcode.SETGLOBAL => new GlobalTarget(_f.GetGlobalName(Code.Bx(line))),
-                Op.Opcode.SETTABLE => new TableTarget(_r.GetExpression(Code.A(line), previous), _r.GetConstantExpression(Code.B(line), previous)),
+                Opcode.MOVE => _registers.GetTarget(Code.A(in_line), in_line),
+                Opcode.SETUPVAL => new UpvalueTarget(_upvalues.GetName(Code.B(in_line))),
+                Opcode.SETGLOBAL => new GlobalTarget(_function.GetGlobalName(Code.Bx(in_line))),
+                Opcode.SETTABLE => new TableTarget(_registers.GetExpression(Code.A(in_line), in_previous), _registers.GetConstantExpression(Code.B(in_line), in_previous)),
                 _ => throw new Exception()
             };
         }
 
-        private Expression GetMoveIntoTargetValue(int line, int previous)
+        private Expression GetMoveIntoTargetValue(int in_line, int in_previous)
         {
-            int A = Code.A(line),
-                B = Code.B(line),
-                C = Code.C(line);
+            var A = Code.A(in_line);
+            var B = Code.B(in_line);
+            var C = Code.C(in_line);
 
-            switch (Code.Op(line))
+            switch (Code.Op(in_line))
             {
-                case Op.Opcode.MOVE:
-                    return _r.GetValue(B, previous);
+                case Opcode.MOVE:
+                    return _registers.GetValue(B, in_previous);
 
-                case Op.Opcode.SETUPVAL:
-                case Op.Opcode.SETGLOBAL:
-                    return _r.GetExpression(A, previous);
+                case Opcode.SETUPVAL:
+                case Opcode.SETGLOBAL:
+                    return _registers.GetExpression(A, in_previous);
 
-                case Op.Opcode.SETTABLE:
+                case Opcode.SETTABLE:
                 {
-                    if (_f.IsConstant(C))
+                    if (_function.IsConstant(C))
                     {
                         throw new Exception();
                     }
                     else
                     {
-                        return _r.GetExpression(C, previous);
+                        return _registers.GetExpression(C, in_previous);
                     }
                 }
 
@@ -716,19 +728,18 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
         }
 
-        private OuterBlock HandleBranches(bool first)
+        private OuterBlock HandleBranches(bool in_isFirst)
         {
-            List<Block> oldBlocks = _blocks = new();
+            var oldBlocks = new List<Block>();
+            var outer = new OuterBlock(_lFunction, _codeLength);
+            var isBreak = new bool[_codeLength + 1];
+            var loopRemoved = new bool[_codeLength + 1];
 
-            OuterBlock outer = new(_function, _length);
-            _blocks.Add(outer);
+            _blocks = [outer];
 
-            bool[] isBreak = new bool[_length + 1],
-                   loopRemoved = new bool[_length + 1];
-
-            if (!first)
+            if (!in_isFirst)
             {
-                foreach (Block block in oldBlocks)
+                foreach (var block in oldBlocks)
                 {
                     if (block is AlwaysLoop)
                         _blocks.Add(block);
@@ -741,112 +752,112 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                 }
 
-                LinkedList<Block> delete = new();
+                var delete = new LinkedList<Block>();
 
-                foreach (Block loop in _blocks)
+                foreach (var loop in _blocks)
                 {
-                    if (loop is AlwaysLoop)
+                    if (loop is not AlwaysLoop)
+                        continue;
+
+                    foreach (var child in _blocks)
                     {
-                        foreach (Block child in _blocks)
+                        if (loop == child)
+                            continue;
+
+                        if (loop.Begin == child.Begin)
                         {
-                            if (loop != child)
+                            if (loop.End < child.End)
                             {
-                                if (loop.Begin == child.Begin)
-                                {
-                                    if (loop.End < child.End)
-                                    {
-                                        delete.AddLast(loop);
+                                delete.AddLast(loop);
 
-                                        loopRemoved[loop.End - 1] = true;
-                                    }
-                                    else
-                                    {
-                                        delete.AddLast(child);
+                                loopRemoved[loop.End - 1] = true;
+                            }
+                            else
+                            {
+                                delete.AddLast(child);
 
-                                        loopRemoved[child.End - 1] = true;
-                                    }
-                                }
+                                loopRemoved[child.End - 1] = true;
                             }
                         }
                     }
                 }
 
-                foreach (Block block in delete)
+                foreach (var block in delete)
                     _blocks.Remove(block);
 
-                _skip = new bool[_length + 1];
+                _skipped = new bool[_codeLength + 1];
 
-                Stack<Branch> stack = new();
+                var stack = new Stack<Branch>();
 
-                bool testset = false;
-                int testsetend = -1;
+                var testSet = false;
+                var testSetEnd = -1;
 
-                for (int line = 1; line <= _length; line++)
+                for (int line = 1; line <= _codeLength; line++)
                 {
-                    if (!_skip[line])
+                    if (!_skipped[line])
                     {
                         bool reduce;
 
-                        void PushCommonNodeToStack(Branch node)
+                        void PushCommonNodeToStack(Branch in_node)
                         {
-                            stack.Push(node);
+                            stack.Push(in_node);
 
-                            _skip[line + 1] = true;
+                            _skipped[line + 1] = true;
 
-                            if (Code.Op(node.End) == Op.Opcode.LOADBOOL)
+                            if (Code.Op(in_node.End) != Opcode.LOADBOOL)
+                                return;
+
+                            if (Code.C(in_node.End) != 0)
                             {
-                                if (Code.C(node.End) != 0)
+                                in_node.IsCompareSet = true;
+                                in_node.SetTarget = Code.A(in_node.End);
+                            }
+                            else if (Code.Op(in_node.End - 1) == Opcode.LOADBOOL)
+                            {
+                                if (Code.C(in_node.End - 1) != 0)
                                 {
-                                    node.IsCompareSet = true;
-                                    node.SetTarget = Code.A(node.End);
-                                }
-                                else if (Code.Op(node.End - 1) == Op.Opcode.LOADBOOL)
-                                {
-                                    if (Code.C(node.End - 1) != 0)
-                                    {
-                                        node.IsCompareSet = true;
-                                        node.SetTarget = Code.A(node.End);
-                                    }
+                                    in_node.IsCompareSet = true;
+                                    in_node.SetTarget = Code.A(in_node.End);
                                 }
                             }
                         }
 
                         switch (Code.Op(line))
                         {
-                            case Op.Opcode.EQ:
+                            case Opcode.EQ:
                                 PushCommonNodeToStack(new EQNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
                                 continue;
 
-                            case Op.Opcode.LT:
+                            case Opcode.LT:
                                 PushCommonNodeToStack(new LTNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
                                 continue;
 
-                            case Op.Opcode.LE:
+                            case Opcode.LE:
                                 PushCommonNodeToStack(new LENode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
                                 continue;
 
-                            case Op.Opcode.TEST:
+                            case Opcode.TEST:
                             {
                                 stack.Push(new TestNode(Code.A(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
 
-                                _skip[line + 1] = true;
+                                _skipped[line + 1] = true;
 
                                 continue;
                             }
 
-                            case Op.Opcode.TESTSET:
+                            case Opcode.TESTSET:
                             {
-                                testset = true;
-                                testsetend = line + 2 + Code.sBx(line + 1);
+                                testSet = true;
+                                testSetEnd = line + 2 + Code.sBx(line + 1);
 
                                 stack.Push(new TestSetNode(Code.A(line), Code.B(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
 
-                                _skip[line + 1] = true;
+                                _skipped[line + 1] = true;
 
                                 continue;
                             }
 
-                            case Op.Opcode.TEST50:
+                            case Opcode.TEST50:
                             {
                                 if (Code.A(line) == Code.B(line))
                                 {
@@ -854,96 +865,96 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 }
                                 else
                                 {
-                                    testset = true;
-                                    testsetend = line + 2 + Code.sBx(line + 1);
+                                    testSet = true;
+                                    testSetEnd = line + 2 + Code.sBx(line + 1);
 
                                     stack.Push(new TestSetNode(Code.A(line), Code.B(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
                                 }
 
-                                _skip[line + 1] = true;
+                                _skipped[line + 1] = true;
 
                                 continue;
                             }
 
-                            case Op.Opcode.JMP:
+                            case Opcode.JMP:
                             {
                                 reduce = true;
 
-                                int tline = line + 1 + Code.sBx(line);
+                                var targetLine = line + 1 + Code.sBx(line);
 
-                                if (tline >= 2 && Code.Op(tline - 1) == Op.Opcode.LOADBOOL && Code.C(tline - 1) != 0)
+                                if (targetLine >= 2 && Code.Op(targetLine - 1) == Opcode.LOADBOOL && Code.C(targetLine - 1) != 0)
                                 {
-                                    stack.Push(new TrueNode(Code.A(tline - 1), false, line, line + 1, tline));
+                                    stack.Push(new TrueNode(Code.A(targetLine - 1), false, line, line + 1, targetLine));
 
-                                    _skip[line + 1] = true;
+                                    _skipped[line + 1] = true;
                                 }
-                                else if (Code.Op(tline) == _tforTarget && !_skip[tline])
+                                else if (Code.Op(targetLine) == _tforTarget && !_skipped[targetLine])
                                 {
-                                    int A = Code.A(tline),
-                                        C = Code.C(tline);
+                                    int A = Code.A(targetLine),
+                                        C = Code.C(targetLine);
 
                                     if (C == 0) throw new Exception();
 
-                                    _r.SetInternalLoopVariable(A, tline, line + 1);
-                                    _r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                    _r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                    _registers.SetInternalLoopVariable(A, targetLine, line + 1);
+                                    _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
+                                    _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
 
                                     for (int index = 1; index <= C; index++)
-                                        _r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
+                                        _registers.SetInternalLoopVariable(A + 2 + index, line, targetLine + 2);
 
-                                    _skip[tline] = true;
-                                    _skip[tline + 1] = true;
+                                    _skipped[targetLine] = true;
+                                    _skipped[targetLine + 1] = true;
 
-                                    _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, _r));
+                                    _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
                                 }
-                                else if (Code.Op(tline) == _forTarget && !_skip[tline])
+                                else if (Code.Op(targetLine) == _forTarget && !_skipped[targetLine])
                                 {
-                                    int A = Code.A(tline);
+                                    int A = Code.A(targetLine);
 
-                                    _r.SetInternalLoopVariable(A, tline, line + 1);
-                                    _r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                    _r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                    _registers.SetInternalLoopVariable(A, targetLine, line + 1);
+                                    _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
+                                    _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
 
-                                    _skip[tline] = true;
-                                    _skip[tline + 1] = true;
+                                    _skipped[targetLine] = true;
+                                    _skipped[targetLine + 1] = true;
 
-                                    _blocks.Add(new ForBlock(_function, line + 1, tline + 1, A, _r));
+                                    _blocks.Add(new ForBlock(_lFunction, line + 1, targetLine + 1, A, _registers));
                                 }
-                                else if (Code.sBx(line) == 2 && Code.Op(line + 1) == Op.Opcode.LOADBOOL && Code.C(line + 1) != 0)
+                                else if (Code.sBx(line) == 2 && Code.Op(line + 1) == Opcode.LOADBOOL && Code.C(line + 1) != 0)
                                 {
                                     // This is the tail of a boolean set with a compare node and assign node.
-                                    _blocks.Add(new BooleanIndicator(_function, line));
+                                    _blocks.Add(new BooleanIndicator(_lFunction, line));
                                 }
-                                else if (Code.Op(tline) == Op.Opcode.JMP && Code.sBx(tline) + tline == line)
+                                else if (Code.Op(targetLine) == Opcode.JMP && Code.sBx(targetLine) + targetLine == line)
                                 {
-                                    if (first)
-                                        _blocks.Add(new AlwaysLoop(_function, line, tline + 1));
+                                    if (in_isFirst)
+                                        _blocks.Add(new AlwaysLoop(_lFunction, line, targetLine + 1));
 
-                                    _skip[tline] = true;
+                                    _skipped[targetLine] = true;
                                 }
                                 else
                                 {
-                                    if (first || loopRemoved[line] || _reverseTarget[line + 1])
+                                    if (in_isFirst || loopRemoved[line] || _reverseTarget[line + 1])
                                     {
-                                        if (tline > line)
+                                        if (targetLine > line)
                                         {
                                             isBreak[line] = true;
 
-                                            _blocks.Add(new Break(_function, line, tline));
+                                            _blocks.Add(new Break(_lFunction, line, targetLine));
                                         }
                                         else
                                         {
-                                            Block enclosing = EnclosingBreakableBlock(line);
+                                            var enclosing = EnclosingBreakableBlock(line);
 
-                                            if (enclosing != null && enclosing.Breakable() && Code.Op(enclosing.End) == Op.Opcode.JMP && Code.sBx(enclosing.End) + enclosing.End + 1 == tline)
+                                            if (enclosing != null && enclosing.Breakable() && Code.Op(enclosing.End) == Opcode.JMP && Code.sBx(enclosing.End) + enclosing.End + 1 == targetLine)
                                             {
                                                 isBreak[line] = true;
 
-                                                _blocks.Add(new Break(_function, line, enclosing.End));
+                                                _blocks.Add(new Break(_lFunction, line, enclosing.End));
                                             }
                                             else
                                             {
-                                                _blocks.Add(new AlwaysLoop(_function, tline, line + 1));
+                                                _blocks.Add(new AlwaysLoop(_lFunction, targetLine, line + 1));
                                             }
                                         }
                                     }
@@ -952,47 +963,45 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 break;
                             }
 
-                            case Op.Opcode.FORPREP:
+                            case Opcode.FORPREP:
                             {
                                 reduce = true;
 
-                                _blocks.Add(new ForBlock(_function, line + 1, line + 2 + Code.sBx(line), Code.A(line), _r));
+                                _blocks.Add(new ForBlock(_lFunction, line + 1, line + 2 + Code.sBx(line), Code.A(line), _registers));
 
-                                _skip[line + 1 + Code.sBx(line)] = true;
+                                _skipped[line + 1 + Code.sBx(line)] = true;
 
-                                _r.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
-                                _r.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
-                                _r.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
-                                _r.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
+                                _registers.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
+                                _registers.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
+                                _registers.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
+                                _registers.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
 
                                 break;
                             }
 
-                            case Op.Opcode.FORLOOP:
-                            {
-                                // Should be skipped by preceding FORPREP.
+                            // Should be skipped by preceding FORPREP.
+                            case Opcode.FORLOOP:
                                 throw new Exception();
-                            }
 
-                            case Op.Opcode.TFORPREP:
+                            case Opcode.TFORPREP:
                             {
                                 reduce = true;
 
-                                int tline = line + 1 + Code.sBx(line),
-                                    A = Code.A(tline),
-                                    C = Code.C(tline);
+                                var targetLine = line + 1 + Code.sBx(line);
+                                var A = Code.A(targetLine);
+                                var C = Code.C(targetLine);
 
-                                _r.SetInternalLoopVariable(A, tline, line + 1);
-                                _r.SetInternalLoopVariable(A + 1, tline, line + 1);
-                                _r.SetInternalLoopVariable(A + 2, tline, line + 1);
+                                _registers.SetInternalLoopVariable(A, targetLine, line + 1);
+                                _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
+                                _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
 
                                 for (int index = 1; index <= C; index++)
-                                    _r.SetInternalLoopVariable(A + 2 + index, line, tline + 2);
+                                    _registers.SetInternalLoopVariable(A + 2 + index, line, targetLine + 2);
 
-                                _skip[tline] = true;
-                                _skip[tline + 1] = true;
+                                _skipped[targetLine] = true;
+                                _skipped[targetLine + 1] = true;
 
-                                _blocks.Add(new TForBlock(_function, line + 1, tline + 2, A, C, _r));
+                                _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
 
                                 break;
                             }
@@ -1002,10 +1011,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 break;
                         }
 
-                        if ((line + 1) <= _length && _reverseTarget[line + 1])
+                        if ((line + 1) <= _codeLength && _reverseTarget[line + 1])
                             reduce = true;
 
-                        if (testset && testsetend == line + 1)
+                        if (testSet && testSetEnd == line + 1)
                             reduce = true;
 
                         if (stack.Count == 0)
@@ -1015,14 +1024,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         {
                             reduce = false;
 
-                            Stack<Branch> conditions = new();
-                            Stack<Stack<Branch>> backups = new();
+                            var conditions = new Stack<Branch>();
+                            var backups = new Stack<Stack<Branch>>();
 
                             do
                             {
-                                bool isAssignNode = stack.Peek() is TestSetNode;
-                                int assignEnd = stack.Peek().End;
-                                bool compareCorrect = false;
+                                var isAssignNode = stack.Peek() is TestSetNode;
+                                var assignEnd = stack.Peek().End;
+                                var compareCorrect = false;
 
                                 if (stack.Peek() is TrueNode)
                                 {
@@ -1040,7 +1049,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 }
                                 else if (stack.Peek().IsCompareSet)
                                 {
-                                    if (Code.Op(stack.Peek().Begin) != Op.Opcode.LOADBOOL || Code.C(stack.Peek().Begin) == 0)
+                                    if (Code.Op(stack.Peek().Begin) != Opcode.LOADBOOL || Code.C(stack.Peek().Begin) == 0)
                                     {
                                         isAssignNode = true;
 
@@ -1056,17 +1065,15 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         compareCorrect = true;
                                     }
                                 }
-                                else if (assignEnd - 3 >= 1 && Code.Op(assignEnd - 2) == Op.Opcode.LOADBOOL && Code.C(assignEnd - 2) != 0 && Code.Op(assignEnd - 3) == Op.Opcode.JMP && Code.sBx(assignEnd - 3) == 2)
+                                else if (assignEnd - 3 >= 1 && Code.Op(assignEnd - 2) == Opcode.LOADBOOL && Code.C(assignEnd - 2) != 0 && Code.Op(assignEnd - 3) == Opcode.JMP && Code.sBx(assignEnd - 3) == 2)
                                 {
-                                    if (stack.Peek() is TestNode)
+                                    if (stack.Peek() is TestNode out_node)
                                     {
-                                        TestNode node = (TestNode)stack.Peek();
-
-                                        if (node.Test == Code.A(assignEnd - 2))
+                                        if (out_node.Register == Code.A(assignEnd - 2))
                                             isAssignNode = true;
                                     }
                                 }
-                                else if (assignEnd - 2 >= 1 && Code.Op(assignEnd - 1) == Op.Opcode.LOADBOOL && Code.C(assignEnd - 1) != 0 && Code.Op(assignEnd - 2) == Op.Opcode.JMP && Code.sBx(assignEnd - 2) == 2)
+                                else if (assignEnd - 2 >= 1 && Code.Op(assignEnd - 1) == Opcode.LOADBOOL && Code.C(assignEnd - 1) != 0 && Code.Op(assignEnd - 2) == Opcode.JMP && Code.sBx(assignEnd - 2) == 2)
                                 {
                                     if (stack.Peek() is TestNode)
                                     {
@@ -1074,7 +1081,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         assignEnd += 1;
                                     }
                                 }
-                                else if (assignEnd - 1 >= 1 && Code.Op(assignEnd) == Op.Opcode.LOADBOOL && Code.C(assignEnd) != 0 && Code.Op(assignEnd - 1) == Op.Opcode.JMP && Code.sBx(assignEnd - 1) == 2)
+                                else if (assignEnd - 1 >= 1 && Code.Op(assignEnd) == Opcode.LOADBOOL && Code.C(assignEnd) != 0 && Code.Op(assignEnd - 1) == Opcode.JMP && Code.sBx(assignEnd - 1) == 2)
                                 {
                                     if (stack.Peek() is TestNode)
                                     {
@@ -1082,23 +1089,22 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                         assignEnd += 2;
                                     }
                                 }
-                                else if (assignEnd - 1 >= 1 && _r.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
+                                else if (assignEnd - 1 >= 1 && _registers.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
                                 {
-                                    Declaration decl = _r.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
+                                    var declaration = _registers.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
 
-                                    if (decl.Begin == assignEnd - 1 && decl.End > assignEnd - 1)
+                                    if (declaration.Begin == assignEnd - 1 && declaration.End > assignEnd - 1)
                                         isAssignNode = true;
                                 }
 
-                                if (!compareCorrect && assignEnd - 1 == stack.Peek().Begin && Code.Op(stack.Peek().Begin) == Op.Opcode.LOADBOOL && Code.C(stack.Peek().Begin) != 0)
+                                if (!compareCorrect && assignEnd - 1 == stack.Peek().Begin && Code.Op(stack.Peek().Begin) == Opcode.LOADBOOL && Code.C(stack.Peek().Begin) != 0)
                                 {
                                     _backup = null;
 
-                                    int begin = stack.Peek().Begin;
+                                    var begin = stack.Peek().Begin;
+                                    var target = Code.A(begin);
 
                                     assignEnd = begin + 2;
-
-                                    int target = Code.A(begin);
 
                                     conditions.Push(PopCompareSetCondition(stack, assignEnd));
                                     conditions.Peek().SetTarget = target;
@@ -1109,8 +1115,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 {
                                     _backup = null;
 
-                                    int target = stack.Peek().SetTarget,
-                                        begin = stack.Peek().Begin;
+                                    var begin = stack.Peek().Begin;
+                                    var target = stack.Peek().SetTarget;
 
                                     conditions.Push(PopSetCondition(stack, assignEnd));
                                     conditions.Peek().SetTarget = target;
@@ -1132,150 +1138,144 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                             do
                             {
-                                Branch cond = conditions.Pop();
-                                Stack<Branch> backup = backups.Pop();
-                                int _breakTarget = BreakTarget(cond.Begin);
-                                bool breakable = _breakTarget >= 1;
+                                var condition = conditions.Pop();
+                                var backup = backups.Pop();
+                                var breakTarget = BreakTarget(condition.Begin);
+                                var isBreakable = breakTarget >= 1;
 
-                                if (breakable && Code.Op(_breakTarget) == Op.Opcode.JMP && _function.Header.Version != Version.LUA50)
-                                    _breakTarget += 1 + Code.sBx(_breakTarget);
+                                if (isBreakable && Code.Op(breakTarget) == Opcode.JMP && _lFunction.Header.Version.Version != LuaVersion.Lua50)
+                                    breakTarget += 1 + Code.sBx(breakTarget);
 
-                                if (breakable && _breakTarget == cond.End)
+                                if (isBreakable && breakTarget == condition.End)
                                 {
-                                    Block immediateEnclosing = EnclosingBlock(cond.Begin);
+                                    var immediateEnclosing = EnclosingBlock(condition.Begin);
 
-                                    for (int iline = Math.Max(cond.End, immediateEnclosing.End - 1); iline >= Math.Max(cond.Begin, immediateEnclosing.Begin); iline--)
+                                    for (int i = Math.Max(condition.End, immediateEnclosing.End - 1); i >= Math.Max(condition.Begin, immediateEnclosing.Begin); i--)
                                     {
-                                        if (Code.Op(iline) == Op.Opcode.JMP && iline + 1 + Code.sBx(iline) == _breakTarget)
+                                        if (Code.Op(i) == Opcode.JMP && i + 1 + Code.sBx(i) == breakTarget)
                                         {
-                                            cond.End = iline;
-
+                                            condition.End = i;
                                             break;
                                         }
                                     }
                                 }
 
                                 // A branch has a tail if the instruction just before the target is JMP.
-                                bool hasTail = cond.End >= 2 && Code.Op(cond.End - 1) == Op.Opcode.JMP;
+                                var hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
 
                                 // This is the target of the tail JMP.
-                                int tail = hasTail ? cond.End + Code.sBx(cond.End - 1) : -1,
-                                    originalTail = tail;
+                                var tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
+                                var originalTail = tail;
 
-                                Block enclosing = EnclosingUnprotectedBlock(cond.Begin);
+                                var enclosing = EnclosingUnprotectedBlock(condition.Begin);
 
                                 // Checking enclosing unprotected block to undo JMP redirects.
                                 if (enclosing != null)
                                 {
-                                    if (enclosing.GetLoopback() == cond.End)
+                                    if (enclosing.GetLoopback() == condition.End)
                                     {
-                                        cond.End = enclosing.End - 1;
-                                        hasTail = cond.End >= 2 && Code.Op(cond.End - 1) == Op.Opcode.JMP;
-                                        tail = hasTail ? cond.End + Code.sBx(cond.End - 1) : -1;
+                                        condition.End = enclosing.End - 1;
+                                        hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
+                                        tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
                                     }
 
                                     if (hasTail && enclosing.GetLoopback() == tail)
                                         tail = enclosing.End - 1;
                                 }
 
-                                if (cond.IsSet)
+                                if (condition.IsSet)
                                 {
-                                    bool empty = cond.Begin == cond.End;
+                                    var isEmpty = condition.Begin == condition.End;
 
-                                    if (Code.Op(cond.Begin) == Op.Opcode.JMP && Code.sBx(cond.Begin) == 2 && Code.Op(cond.Begin + 1) == Op.Opcode.LOADBOOL && Code.C(cond.Begin + 1) != 0)
-                                        empty = true;
+                                    if (Code.Op(condition.Begin) == Opcode.JMP && Code.sBx(condition.Begin) == 2 && Code.Op(condition.Begin + 1) == Opcode.LOADBOOL && Code.C(condition.Begin + 1) != 0)
+                                        isEmpty = true;
 
-                                    _blocks.Add(new SetBlock(_function, cond, cond.SetTarget, line, cond.Begin, cond.End, empty, _r));
+                                    _blocks.Add(new SetBlock(_lFunction, condition, condition.SetTarget, line, condition.Begin, condition.End, isEmpty, _registers));
                                 }
-                                else if (Code.Op(cond.Begin) == Op.Opcode.LOADBOOL && Code.C(cond.Begin) != 0)
+                                else if (Code.Op(condition.Begin) == Opcode.LOADBOOL && Code.C(condition.Begin) != 0)
                                 {
-                                    int begin = cond.Begin,
-                                        target = Code.A(begin);
+                                    var begin = condition.Begin;
+                                    var target = Code.A(begin);
 
                                     if (Code.B(begin) == 0)
-                                        cond = cond.Invert();
+                                        condition = condition.Invert();
 
-                                    _blocks.Add(new CompareBlock(_function, begin, begin + 2, target, cond));
+                                    _blocks.Add(new CompareBlock(_lFunction, begin, begin + 2, target, condition));
                                 }
-                                else if (cond.End < cond.Begin)
+                                else if (condition.End < condition.Begin)
                                 {
-                                    if (isBreak[cond.End - 1])
+                                    if (isBreak[condition.End - 1])
                                     {
-                                        _skip[cond.End - 1] = true;
+                                        _skipped[condition.End - 1] = true;
 
-                                        _blocks.Add(new WhileBlock(_function, cond.Invert(), originalTail, _r));
+                                        _blocks.Add(new WhileBlock(_lFunction, condition.Invert(), originalTail, _registers));
                                     }
                                     else
                                     {
-                                        _blocks.Add(new RepeatBlock(_function, cond, _r));
+                                        _blocks.Add(new RepeatBlock(_lFunction, condition, _registers));
                                     }
                                 }
                                 else if (hasTail)
                                 {
-                                    Op.Opcode endOp = Code.Op(cond.End - 2);
-                                    bool isEndCondJump = endOp == Op.Opcode.EQ || endOp == Op.Opcode.LE || endOp == Op.Opcode.LT || endOp == Op.Opcode.TEST || endOp == Op.Opcode.TESTSET || endOp == Op.Opcode.TEST50;
+                                    var endOpcode = Code.Op(condition.End - 2);
+                                    var isEndCondJump = endOpcode == Opcode.EQ || endOpcode == Opcode.LE || endOpcode == Opcode.LT || endOpcode == Opcode.TEST || endOpcode == Opcode.TESTSET || endOpcode == Opcode.TEST50;
 
-                                    if (tail > cond.End || (tail == cond.End && !isEndCondJump))
+                                    if (tail > condition.End || (tail == condition.End && !isEndCondJump))
                                     {
-                                        Op.Opcode op = Code.Op(tail - 1);
+                                        var opcode = Code.Op(tail - 1);
 
-                                        int sbx = Code.sBx(tail - 1),
-                                            loopback2 = tail + sbx;
+                                        var sBx = Code.sBx(tail - 1);
+                                        var loopback2 = tail + sBx;
+                                        var isBreakableLoopEnd = _lFunction.Header.Version.IsBreakableLoopEnd(opcode);
 
-                                        bool isBreakableLoopEnd = _function.Header.Version.IsBreakableLoopEnd(op);
-
-                                        if (isBreakableLoopEnd && loopback2 <= cond.Begin && !isBreak[tail - 1])
+                                        if (isBreakableLoopEnd && loopback2 <= condition.Begin && !isBreak[tail - 1])
                                         {
-                                            // Ends with break...
-                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
+                                            // Ends with break.
+                                            _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
                                         }
                                         else
                                         {
-                                            _skip[cond.End - 1] = true; // Skip the JMP over the else block.
+                                            // Skip the JMP over the else block.
+                                            _skipped[condition.End - 1] = true;
 
-                                            bool emptyElse = tail == cond.End;
-                                            IfThenElseBlock ifthen = new(_function, cond, originalTail, emptyElse, _r);
+                                            var isEmptyElse = tail == condition.End;
 
-                                            _blocks.Add(ifthen);
+                                            _blocks.Add(new IfThenElseBlock(_lFunction, condition, originalTail, isEmptyElse, _registers));
 
-                                            if (!emptyElse)
-                                            {
-                                                ElseEndBlock elseend = new(_function, cond.End, tail);
-
-                                                _blocks.Add(elseend);
-                                            }
+                                            if (!isEmptyElse)
+                                                _blocks.Add(new ElseEndBlock(_lFunction, condition.End, tail));
                                         }
                                     }
                                     else
                                     {
-                                        int loopback = tail;
-                                        bool existsStatement = false;
+                                        var loopback = tail;
+                                        var statementExists = false;
 
-                                        for (int sl = loopback; sl < cond.Begin; sl++)
+                                        for (int i = loopback; i < condition.Begin; i++)
                                         {
-                                            if (!_skip[sl] && IsStatement(sl))
+                                            if (!_skipped[i] && IsStatement(i))
                                             {
-                                                existsStatement = true;
+                                                statementExists = true;
                                                 break;
                                             }
                                         }
 
-                                        // TODO: check for 5.2-style if cond then break end
-                                        if (loopback >= cond.Begin || existsStatement)
+                                        // TODO: check for 5.2-style "if cond then break end".
+                                        if (loopback >= condition.Begin || statementExists)
                                         {
-                                            _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
+                                            _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
                                         }
                                         else
                                         {
-                                            _skip[cond.End - 1] = true;
+                                            _skipped[condition.End - 1] = true;
 
-                                            _blocks.Add(new WhileBlock(_function, cond, originalTail, _r));
+                                            _blocks.Add(new WhileBlock(_lFunction, condition, originalTail, _registers));
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    _blocks.Add(new IfThenEndBlock(_function, cond, backup, _r));
+                                    _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
                                 }
                             }
                             while (conditions.Count != 0);
@@ -1283,43 +1283,43 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                 }
 
-                // Find variables whose scope isn't controlled by existing blocks...
-                foreach (Declaration decl in DeclarationList)
+                // Find variables whose scope isn't controlled by existing blocks.
+                foreach (var declaration in DeclarationList)
                 {
-                    if (!decl.ForLoop && !decl.ForLoopExplicit)
+                    if (!declaration.IsForLoop && !declaration.IsForLoopExplicit)
                     {
-                        bool needsDoEnd = true;
+                        var needsDoEnd = true;
 
-                        foreach (Block block in _blocks)
+                        foreach (var block in _blocks)
                         {
-                            if (block.Contains(decl.Begin))
+                            if (!block.Contains(declaration.Begin))
+                                continue;
+
+                            if (block.ScopeEnd() == declaration.End)
                             {
-                                if (block.ScopeEnd() == decl.End)
-                                {
-                                    needsDoEnd = false;
-                                    break;
-                                }
+                                needsDoEnd = false;
+                                break;
                             }
                         }
 
                         if (needsDoEnd)
                         {
-                            /* Without accounting for the order of declarations, we might create another do..end block later
-                               that would eliminate the need for this one. But order of decls should fix this. */
-                            _blocks.Add(new DoEndBlock(_function, decl.Begin, decl.End + 1));
+                            /* Without accounting for the order of declarations, we might create another "do end" block
+                               later that would eliminate the need for this one. But order of decls should fix this. */
+                            _blocks.Add(new DoEndBlock(_lFunction, declaration.Begin, declaration.End + 1));
                         }
                     }
                 }
             }
 
-            List<Block> iter = _blocks;
+            var iter = _blocks;
             int iterIndex = 0;
 
             while (iterIndex != iter.Count - 1)
             {
-                Block block = iter[iterIndex + 1];
+                var block = iter[iterIndex + 1];
 
-                if (_skip[block.Begin] && block is Break)
+                if (_skipped[block.Begin] && block is Break)
                     iter.Remove(iter[iterIndex]);
 
                 iterIndex++;
@@ -1331,13 +1331,13 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             return outer;
         }
 
-        private int BreakTarget(int line)
+        private int BreakTarget(int in_line)
         {
-            int targetLine = int.MaxValue;
+            var targetLine = int.MaxValue;
 
-            foreach (Block block in _blocks)
+            foreach (var block in _blocks)
             {
-                if (block.Breakable() && block.Contains(line))
+                if (block.Breakable() && block.Contains(in_line))
                     targetLine = Math.Min(targetLine, block.End);
             }
 
@@ -1347,83 +1347,82 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             return targetLine;
         }
 
-        private Block EnclosingBlock(int line)
+        private Block EnclosingBlock(int in_line)
         {
-            Block outer = _blocks[0], // Assumes the outer block is first.
-                  enclosing = outer;
+            var outer = _blocks[0]; // Assumes the outer block is first.
+            var enclosing = outer;
 
             for (int i = 1; i < _blocks.Count; i++)
             {
-                Block next = _blocks[i];
+                var next = _blocks[i];
 
-                if (next.IsContainer() && enclosing.Contains(next) && next.Contains(line) && !next.LoopRedirectAdjustment)
+                if (next.IsContainer() && enclosing.Contains(next) && next.Contains(in_line) && !next.LoopRedirectAdjustment)
                     enclosing = next;
             }
 
             return enclosing;
         }
 
-        private Block EnclosingBreakableBlock(int line)
+        private Block EnclosingBreakableBlock(int in_line)
         {
-            Block outer = _blocks[0],
-                  enclosing = outer;
+            var outer = _blocks[0];
+            var enclosing = outer;
 
             for (int i = 1; i < _blocks.Count; i++)
             {
-                Block next = _blocks[i];
+                var next = _blocks[i];
 
-                if (enclosing.Contains(next) && next.Contains(line) && next.Breakable() && !next.LoopRedirectAdjustment)
+                if (enclosing.Contains(next) && next.Contains(in_line) && next.Breakable() && !next.LoopRedirectAdjustment)
                     enclosing = next;
             }
 
             return enclosing == outer ? null : enclosing;
         }
 
-        private Block EnclosingUnprotectedBlock(int line)
+        private Block EnclosingUnprotectedBlock(int in_line)
         {
-            Block outer = _blocks[0], // Assumes the outer block is first.
-                  enclosing = outer;
+            var outer = _blocks[0]; // Assumes the outer block is first.
+            var enclosing = outer;
 
             for (int i = 1; i < _blocks.Count; i++)
             {
-                Block next = _blocks[i];
+                var next = _blocks[i];
 
-                if (enclosing.Contains(next) && next.Contains(line) && next.IsUnprotected() && !next.LoopRedirectAdjustment)
+                if (enclosing.Contains(next) && next.Contains(in_line) && next.IsUnprotected() && !next.LoopRedirectAdjustment)
                     enclosing = next;
             }
 
             return enclosing == outer ? null : enclosing;
         }
 
-        public Branch PopCondition(Stack<Branch> stack)
+        public Branch PopCondition(Stack<Branch> in_stack)
         {
-            Branch branch = stack.Pop();
+            var branch = in_stack.Pop();
 
-            if (_backup != null)
-                _backup.Push(branch);
+            _backup?.Push(branch);
 
             if (branch is TestSetNode)
                 throw new Exception();
 
-            int begin = branch.Begin;
+            var begin = branch.Begin;
 
-            if (Code.Op(branch.Begin) == Op.Opcode.JMP)
+            if (Code.Op(branch.Begin) == Opcode.JMP)
                 begin += 1 + Code.sBx(branch.Begin);
 
-            while (stack.Count != 0)
+            while (in_stack.Count != 0)
             {
-                Branch next = stack.Peek();
+                var next = in_stack.Peek();
 
                 if (next is TestSetNode)
                     break;
 
                 if (next.End == begin)
                 {
-                    branch = new OrBranch(PopCondition(stack).Invert(), branch);
+                    branch = new OrBranch(PopCondition(in_stack).Invert(), branch);
                 }
                 else if (next.End == branch.End)
                 {
-                    branch = new AndBranch(PopCondition(stack), branch);
+                    branch = new AndBranch(PopCondition(in_stack), branch);
                 }
                 else
                 {
@@ -1434,45 +1433,40 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             return branch;
         }
 
-        public Branch PopSetCondition(Stack<Branch> stack, int assignEnd)
+        public Branch PopSetCondition(Stack<Branch> in_stack, int in_assignEnd)
         {
-            stack.Push(new AssignNode(assignEnd - 1, assignEnd, assignEnd));
+            in_stack.Push(new AssignNode(in_assignEnd - 1, in_assignEnd, in_assignEnd));
 
             // Invert argument doesn't matter because begin is equal to end.
-            Branch result = PopSetCondition(stack, false, assignEnd);
-
-            return result;
+            return PopSetCondition(in_stack, false, in_assignEnd);
         }
 
-        public Branch PopCompareSetCondition(Stack<Branch> stack, int assignEnd)
+        public Branch PopCompareSetCondition(Stack<Branch> in_stack, int in_assignEnd)
         {
-            Branch top = stack.Pop();
-            bool invert = false;
+            var top = in_stack.Pop();
+            var invert = false;
 
             if (Code.B(top.Begin) == 0)
                 invert = true;
 
-            top.Begin = assignEnd;
-            top.End = assignEnd;
+            top.Begin = in_assignEnd;
+            top.End = in_assignEnd;
 
-            stack.Push(top);
+            in_stack.Push(top);
 
-            Branch rtn = PopSetCondition(stack, invert, assignEnd);
-
-            return rtn;
+            return PopSetCondition(in_stack, invert, in_assignEnd);
         }
 
-        private Branch PopSetCondition(Stack<Branch> stack, bool invert, int assignEnd)
+        private Branch PopSetCondition(Stack<Branch> in_stack, bool in_isInverted, int in_assignEnd)
         {
-            Branch branch = stack.Pop();
+            var branch = in_stack.Pop();
+            var begin = branch.Begin;
+            var end = branch.End;
 
-            int begin = branch.Begin,
-                end = branch.End;
-
-            if (invert)
+            if (in_isInverted)
                 branch = branch.Invert();
 
-            if (Code.Op(begin) == Op.Opcode.LOADBOOL)
+            if (Code.Op(begin) == Opcode.LOADBOOL)
             {
                 if (Code.C(begin) != 0)
                 {
@@ -1484,7 +1478,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
             }
 
-            if (Code.Op(end) == Op.Opcode.LOADBOOL)
+            if (Code.Op(end) == Opcode.LOADBOOL)
             {
                 if (Code.C(end) != 0)
                 {
@@ -1496,46 +1490,47 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
             }
 
-            int target = branch.SetTarget;
+            var target = branch.SetTarget;
 
-            while (stack.Count != 0)
+            while (in_stack.Count != 0)
             {
-                Branch next = stack.Peek();
-                bool ninvert;
-                int nend = next.End;
+                var next = in_stack.Peek();
+                var nextEnd = next.End;
 
-                if (Code.Op(next.End) == Op.Opcode.LOADBOOL)
+                bool isNextBlockInverted;
+
+                if (Code.Op(next.End) == Opcode.LOADBOOL)
                 {
-                    ninvert = Code.B(next.End) != 0;
+                    isNextBlockInverted = Code.B(next.End) != 0;
 
                     if (Code.C(next.End) != 0)
                     {
-                        nend += 2;
+                        nextEnd += 2;
                     }
                     else
                     {
-                        nend += 1;
+                        nextEnd += 1;
                     }
                 }
-                else if (next is TestSetNode testSetNode)
+                else if (next is TestSetNode out_testSetNode)
                 {
-                    ninvert = testSetNode._Invert;
+                    isNextBlockInverted = out_testSetNode.IsInverted;
                 }
-                else if (next is TestNode testNode)
+                else if (next is TestNode out_testNode)
                 {
-                    ninvert = testNode._Invert;
+                    isNextBlockInverted = out_testNode.IsInverted;
                 }
                 else
                 {
-                    ninvert = false;
+                    isNextBlockInverted = false;
 
-                    if (nend >= assignEnd)
+                    if (nextEnd >= in_assignEnd)
                         break;
                 }
 
                 int addr;
 
-                if (ninvert == invert)
+                if (isNextBlockInverted == in_isInverted)
                 {
                     addr = end;
                 }
@@ -1544,28 +1539,28 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     addr = begin;
                 }
 
-                if (addr == nend)
+                if (addr == nextEnd)
                 {
-                    if (addr != nend)
-                        ninvert = !ninvert;
+                    if (addr != nextEnd)
+                        isNextBlockInverted = !isNextBlockInverted;
 
-                    if (ninvert)
+                    if (isNextBlockInverted)
                     {
-                        branch = new OrBranch(PopSetCondition(stack, ninvert, assignEnd), branch);
+                        branch = new OrBranch(PopSetCondition(in_stack, isNextBlockInverted, in_assignEnd), branch);
                     }
                     else
                     {
-                        branch = new AndBranch(PopSetCondition(stack, ninvert, assignEnd), branch);
+                        branch = new AndBranch(PopSetCondition(in_stack, isNextBlockInverted, in_assignEnd), branch);
                     }
 
-                    branch.End = nend;
+                    branch.End = nextEnd;
                 }
                 else
                 {
                     if (branch is not TestSetNode)
                     {
-                        stack.Push(branch);
-                        branch = PopCondition(stack);
+                        in_stack.Push(branch);
+                        branch = PopCondition(in_stack);
                     }
 
                     break;
@@ -1578,104 +1573,107 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             return branch;
         }
 
-        private bool IsStatement(int line) => IsStatement(line, -1);
-
-        private bool IsStatement(int line, int testRegister)
+        private bool IsStatement(int in_line)
         {
-            switch (Code.Op(line))
-            {
-                case Op.Opcode.MOVE:
-                case Op.Opcode.LOADK:
-                case Op.Opcode.LOADBOOL:
-                case Op.Opcode.GETUPVAL:
-                case Op.Opcode.GETTABUP:
-                case Op.Opcode.GETGLOBAL:
-                case Op.Opcode.GETTABLE:
-                case Op.Opcode.NEWTABLE:
-                case Op.Opcode.ADD:
-                case Op.Opcode.SUB:
-                case Op.Opcode.MUL:
-                case Op.Opcode.DIV:
-                case Op.Opcode.MOD:
-                case Op.Opcode.POW:
-                case Op.Opcode.UNM:
-                case Op.Opcode.NOT:
-                case Op.Opcode.LEN:
-                case Op.Opcode.CONCAT:
-                case Op.Opcode.CLOSURE:
-                    return _r.IsLocal(Code.A(line), line) || Code.A(line) == testRegister;
+            return IsStatement(in_line, -1);
+        }
 
-                case Op.Opcode.LOADNIL:
+        private bool IsStatement(int in_line, int in_testRegister)
+        {
+            switch (Code.Op(in_line))
+            {
+                case Opcode.MOVE:
+                case Opcode.LOADK:
+                case Opcode.LOADBOOL:
+                case Opcode.GETUPVAL:
+                case Opcode.GETTABUP:
+                case Opcode.GETGLOBAL:
+                case Opcode.GETTABLE:
+                case Opcode.NEWTABLE:
+                case Opcode.ADD:
+                case Opcode.SUB:
+                case Opcode.MUL:
+                case Opcode.DIV:
+                case Opcode.MOD:
+                case Opcode.POW:
+                case Opcode.UNM:
+                case Opcode.NOT:
+                case Opcode.LEN:
+                case Opcode.CONCAT:
+                case Opcode.CLOSURE:
+                    return _registers.IsLocal(Code.A(in_line), in_line) || Code.A(in_line) == in_testRegister;
+
+                case Opcode.LOADNIL:
                 {
-                    for (int register = Code.A(line); register <= Code.B(line); register++)
+                    for (int register = Code.A(in_line); register <= Code.B(in_line); register++)
                     {
-                        if (_r.IsLocal(register, line))
+                        if (_registers.IsLocal(register, in_line))
                             return true;
                     }
 
                     return false;
                 }
 
-                case Op.Opcode.SETGLOBAL:
-                case Op.Opcode.SETUPVAL:
-                case Op.Opcode.SETTABUP:
-                case Op.Opcode.SETTABLE:
-                case Op.Opcode.JMP:
-                case Op.Opcode.TAILCALL:
-                case Op.Opcode.RETURN:
-                case Op.Opcode.FORLOOP:
-                case Op.Opcode.FORPREP:
-                case Op.Opcode.TFORPREP:
-                case Op.Opcode.TFORCALL:
-                case Op.Opcode.TFORLOOP:
-                case Op.Opcode.CLOSE:
+                case Opcode.SETGLOBAL:
+                case Opcode.SETUPVAL:
+                case Opcode.SETTABUP:
+                case Opcode.SETTABLE:
+                case Opcode.JMP:
+                case Opcode.TAILCALL:
+                case Opcode.RETURN:
+                case Opcode.FORLOOP:
+                case Opcode.FORPREP:
+                case Opcode.TFORPREP:
+                case Opcode.TFORCALL:
+                case Opcode.TFORLOOP:
+                case Opcode.CLOSE:
                     return true;
 
-                case Op.Opcode.SELF:
-                    return _r.IsLocal(Code.A(line), line) || _r.IsLocal(Code.A(line) + 1, line);
+                case Opcode.SELF:
+                    return _registers.IsLocal(Code.A(in_line), in_line) || _registers.IsLocal(Code.A(in_line) + 1, in_line);
 
-                case Op.Opcode.EQ:
-                case Op.Opcode.LT:
-                case Op.Opcode.LE:
-                case Op.Opcode.TEST:
-                case Op.Opcode.TESTSET:
-                case Op.Opcode.TEST50:
-                case Op.Opcode.SETLIST:
-                case Op.Opcode.SETLISTO:
-                case Op.Opcode.SETLIST50:
+                case Opcode.EQ:
+                case Opcode.LT:
+                case Opcode.LE:
+                case Opcode.TEST:
+                case Opcode.TESTSET:
+                case Opcode.TEST50:
+                case Opcode.SETLIST:
+                case Opcode.SETLISTO:
+                case Opcode.SETLIST50:
                     return false;
 
-                case Op.Opcode.CALL:
+                case Opcode.CALL:
                 {
-                    int a = Code.A(line),
-                        c = Code.C(line);
+                    var A = Code.A(in_line);
+                    var C = Code.C(in_line);
 
-                    if (c == 1)
+                    if (C == 1)
                         return true;
 
-                    if (c == 0)
-                        c = _registers - a + 1;
+                    if (C == 0)
+                        C = _registerCount - A + 1;
 
-                    for (int register = a; register < a + c - 1; register++)
+                    for (int register = A; register < A + C - 1; register++)
                     {
-                        if (_r.IsLocal(register, line))
+                        if (_registers.IsLocal(register, in_line))
                             return true;
                     }
 
-                    return c == 2 && a == testRegister;
+                    return C == 2 && A == in_testRegister;
                 }
 
-                case Op.Opcode.VARARG:
+                case Opcode.VARARG:
                 {
-                    int a = Code.A(line),
-                        b = Code.B(line);
+                    var A = Code.A(in_line);
+                    var B = Code.B(in_line);
 
-                    if (b == 0)
-                        b = _registers - a + 1;
+                    if (B == 0)
+                        B = _registerCount - A + 1;
 
-                    for (int register = a; register < a + b - 1; register++)
+                    for (int register = A; register < A + B - 1; register++)
                     {
-                        if (_r.IsLocal(register, line))
+                        if (_registers.IsLocal(register, in_line))
                             return true;
                     }
 
@@ -1683,43 +1681,43 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
 
                 default:
-                    throw new Exception($"Illegal opcode: {Code.Op(line)}");
+                    throw new Exception($"Illegal opcode: {Code.Op(in_line)}");
             }
         }
 
         /// <summary>
-        /// Returns the single register assigned to at the line or -1 if no register or multiple registers is/are assigned to.
+        /// Returns the single register assigned to at the line or -1 if no register or multiple registers is or are assigned to.
         /// </summary>
-        private int GetAssignment(int line)
+        private int GetAssignment(int in_line)
         {
-            switch (Code.Op(line))
+            switch (Code.Op(in_line))
             {
-                case Op.Opcode.MOVE:
-                case Op.Opcode.LOADK:
-                case Op.Opcode.LOADBOOL:
-                case Op.Opcode.GETUPVAL:
-                case Op.Opcode.GETTABUP:
-                case Op.Opcode.GETGLOBAL:
-                case Op.Opcode.GETTABLE:
-                case Op.Opcode.NEWTABLE:
-                case Op.Opcode.ADD:
-                case Op.Opcode.SUB:
-                case Op.Opcode.MUL:
-                case Op.Opcode.DIV:
-                case Op.Opcode.MOD:
-                case Op.Opcode.POW:
-                case Op.Opcode.UNM:
-                case Op.Opcode.NOT:
-                case Op.Opcode.LEN:
-                case Op.Opcode.CONCAT:
-                case Op.Opcode.CLOSURE:
-                    return Code.A(line);
+                case Opcode.MOVE:
+                case Opcode.LOADK:
+                case Opcode.LOADBOOL:
+                case Opcode.GETUPVAL:
+                case Opcode.GETTABUP:
+                case Opcode.GETGLOBAL:
+                case Opcode.GETTABLE:
+                case Opcode.NEWTABLE:
+                case Opcode.ADD:
+                case Opcode.SUB:
+                case Opcode.MUL:
+                case Opcode.DIV:
+                case Opcode.MOD:
+                case Opcode.POW:
+                case Opcode.UNM:
+                case Opcode.NOT:
+                case Opcode.LEN:
+                case Opcode.CONCAT:
+                case Opcode.CLOSURE:
+                    return Code.A(in_line);
 
-                case Op.Opcode.LOADNIL:
+                case Opcode.LOADNIL:
                 {
-                    if (Code.A(line) == Code.B(line))
+                    if (Code.A(in_line) == Code.B(in_line))
                     {
-                        return Code.A(line);
+                        return Code.A(in_line);
                     }
                     else
                     {
@@ -1727,34 +1725,34 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                 }
 
-                case Op.Opcode.SETGLOBAL:
-                case Op.Opcode.SETUPVAL:
-                case Op.Opcode.SETTABUP:
-                case Op.Opcode.SETTABLE:
-                case Op.Opcode.JMP:
-                case Op.Opcode.TAILCALL:
-                case Op.Opcode.RETURN:
-                case Op.Opcode.FORLOOP:
-                case Op.Opcode.FORPREP:
-                case Op.Opcode.TFORCALL:
-                case Op.Opcode.TFORLOOP:
-                case Op.Opcode.CLOSE:
-                case Op.Opcode.SELF:
-                case Op.Opcode.EQ:
-                case Op.Opcode.LT:
-                case Op.Opcode.LE:
-                case Op.Opcode.TEST:
-                case Op.Opcode.TESTSET:
-                case Op.Opcode.SETLIST:
-                case Op.Opcode.SETLIST50:
-                case Op.Opcode.SETLISTO:
+                case Opcode.SETGLOBAL:
+                case Opcode.SETUPVAL:
+                case Opcode.SETTABUP:
+                case Opcode.SETTABLE:
+                case Opcode.JMP:
+                case Opcode.TAILCALL:
+                case Opcode.RETURN:
+                case Opcode.FORLOOP:
+                case Opcode.FORPREP:
+                case Opcode.TFORCALL:
+                case Opcode.TFORLOOP:
+                case Opcode.CLOSE:
+                case Opcode.SELF:
+                case Opcode.EQ:
+                case Opcode.LT:
+                case Opcode.LE:
+                case Opcode.TEST:
+                case Opcode.TESTSET:
+                case Opcode.SETLIST:
+                case Opcode.SETLIST50:
+                case Opcode.SETLISTO:
                     return -1;
 
-                case Op.Opcode.CALL:
+                case Opcode.CALL:
                 {
-                    if (Code.C(line) == 2)
+                    if (Code.C(in_line) == 2)
                     {
-                        return Code.A(line);
+                        return Code.A(in_line);
                     }
                     else
                     {
@@ -1762,11 +1760,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     }
                 }
 
-                case Op.Opcode.VARARG:
+                case Opcode.VARARG:
                 {
-                    if (Code.C(line) == 2)
+                    if (Code.C(in_line) == 2)
                     {
-                        return Code.B(line);
+                        return Code.B(in_line);
                     }
                     else
                     {
@@ -1775,8 +1773,20 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
 
                 default:
-                    throw new Exception($"Illegal opcode: {Code.Op(line)}");
+                    throw new Exception($"Illegal opcode: {Code.Op(in_line)}");
             }
+        }
+
+        public void Write(IOutputProvider in_output)
+        {
+            Write(new Output(in_output));
+        }
+
+        public void Write(Output in_output)
+        {
+            HandleInitialDeclarations(in_output);
+
+            _outerBlock.Write(in_output);
         }
     }
 }

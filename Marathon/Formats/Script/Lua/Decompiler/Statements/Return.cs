@@ -1,43 +1,52 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
     public class Return : Statement
     {
-        private Expression[] _values;
+        private readonly Expression[] _values;
 
-        public Return() => _values = Array.Empty<Expression>();
+        public Return()
+        {
+            _values = [];
+        }
 
-        public Return(Expression value)
+        public Return(Expression in_value)
         {
             _values = new Expression[1];
-            _values[0] = value;
+            _values[0] = in_value;
         }
 
-        public Return(Expression[] values) => _values = values;
-
-        public override void Write(Output @out)
+        public Return(Expression[] in_values)
         {
-            @out.Write("do ");
-            WriteTail(@out);
-            @out.Write(" end");
+            _values = in_values;
         }
 
-        public override void WriteTail(Output @out)
+        public override void Write(Output in_output)
         {
-            @out.Write("return");
+            in_output.Write("do ");
 
-            if (_values.Length > 0)
-            {
-                @out.Write(" ");
+            WriteTail(in_output);
 
-                List<Expression> returns = new(_values.Length);
+            in_output.Write(" end");
+        }
 
-                foreach (Expression value in _values)
-                    returns.Add(value);
+        public override void WriteTail(Output in_output)
+        {
+            in_output.Write("return");
 
-                Expression.WriteSequence(@out, returns, false, true);
-            }
+            if (_values.Length <= 0)
+                return;
+
+            in_output.Write(" ");
+
+            var returns = new List<Expression>(_values.Length);
+
+            foreach (var value in _values)
+                returns.Add(value);
+
+            Expression.WriteSequence(in_output, returns, false, true);
         }
     }
 }

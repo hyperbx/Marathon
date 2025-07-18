@@ -3,12 +3,10 @@ using Marathon.Formats.Script.Lua.Decompiler.Statements;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public abstract class Operation
+    public abstract class Operation(int in_line)
     {
-        public readonly int Line;
+        public int Line => in_line;
 
-        public Operation(int line) => Line = line;
-
-        public abstract Statement Process(Registers r, Block block);
+        public abstract Statement Process(Registers in_registers, Block in_block);
     }
 }

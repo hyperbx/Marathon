@@ -6,16 +6,22 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
     public class ReturnOperation : Operation
     {
-        private Expression[] _values;
+        private readonly Expression[] _values;
 
-        public ReturnOperation(int line, Expression value) : base(line)
+        public ReturnOperation(int in_line, Expression in_value) : base(in_line)
         {
             _values = new Expression[1];
-            _values[0] = value;
+            _values[0] = in_value;
         }
 
-        public ReturnOperation(int line, Expression[] values) : base(line) => _values = values;
+        public ReturnOperation(int in_line, Expression[] in_values) : base(in_line)
+        {
+            _values = in_values;
+        }
 
-        public override Statement Process(Registers r, Block block) => new Return(_values);
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            return new Return(_values);
+        }
     }
 }

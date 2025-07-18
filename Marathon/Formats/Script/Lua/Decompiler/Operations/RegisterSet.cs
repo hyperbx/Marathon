@@ -4,29 +4,20 @@ using Marathon.Formats.Script.Lua.Decompiler.Statements;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public class RegisterSet : Operation
+    public class RegisterSet(int in_line, int in_register, Expression in_value) : Operation(in_line)
     {
-        public readonly int Register;
-        public readonly Expression Value;
+        public int Register => in_register;
 
-        public RegisterSet(int line, int register, Expression value) : base(line)
+        public Expression Value => in_value;
+
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            Register = register;
-            Value = value;
-        }
+            in_registers.SetValue(Register, Line, Value);
 
-        public override Statement Process(Registers r, Block block)
-        {
-            r.SetValue(Register, Line, Value);
-
-            if (r.IsAssignable(Register, Line))
-            {
-                return new Assignment(r.GetTarget(Register, Line), Value);
-            }
-            else
-            {
+            if (!in_registers.IsAssignable(Register, Line))
                 return null;
-            }
+
+            return new Assignment(in_registers.GetTarget(Register, Line), Value);
         }
     }
 }

@@ -2,15 +2,16 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
-    public class FunctionCallStatement : Statement
+    public class FunctionCallStatement(FunctionCall in_call) : Statement
     {
-        private FunctionCall _call;
+        public override void Write(Output in_output)
+        {
+            in_call.Write(in_output);
+        }
 
-        public FunctionCallStatement(FunctionCall call) => _call = call;
-
-        public override void Write(Output @out)
-            => _call.Write(@out);
-
-        public override bool BeginsWithParent() => _call.BeginsWithParent();
+        public override bool BeginsWithParen()
+        {
+            return in_call.BeginsWithParen();
+        }
     }
 }

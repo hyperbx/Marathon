@@ -1,93 +1,103 @@
-﻿using Marathon.Formats.Script.Lua.Types;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
-using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using Marathon.Formats.Script.Lua.Types;
+using Marathon.Formats.Script.Lua.Version;
+using System;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class TForBlock : Block
+    public class TForBlock(LFunction in_function, int in_begin, int in_end, int in_register, int in_length, Registers in_registers) : Block(in_function, in_begin, in_end)
     {
-        private readonly int _register, _length;
-        private readonly Registers _r;
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new(in_end - in_begin + 1);
 
-        public TForBlock(LFunction function, int begin, int end, int register, int length, Registers r) : base(function, begin, end)
+        public override int ScopeEnd()
         {
-            _register = register;
-            _length = length;
-            _r = r;
-            _statements = new List<Statement>(end - begin + 1);
+            return End - 3;
         }
 
-        public override int ScopeEnd() => End - 3;
-
-        public override bool Breakable() => true;
-
-        public override bool IsContainer() => true;
-
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
+        public override bool Breakable()
         {
-            @out.Write("for ");
+            return true;
+        }
 
-            if (_function.Header.Version == Version.LUA50)
+        public override bool IsContainer()
+        {
+            return true;
+        }
+
+        public override void AddStatement(Statement in_statement)
+        {
+            _statements.Add(in_statement);
+        }
+
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
+
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write("for ");
+
+            if (_function.Header.Version.Version == LuaVersion.Lua50)
             {
-                _r.GetTarget(_register + 2, Begin - 1).Write(@out);
+                in_registers.GetTarget(in_register + 2, Begin - 1).Write(in_output);
 
-                for (int r1 = _register + 3; r1 <= _register + 2 + _length; r1++)
+                for (int register = in_register + 3; register <= in_register + 2 + in_length; register++)
                 {
-                    @out.Write(", ");
+                    in_output.Write(", ");
 
-                    _r.GetTarget(r1, Begin - 1).Write(@out);
+                    in_registers.GetTarget(register, Begin - 1).Write(in_output);
                 }
             }
             else
             {
-                _r.GetTarget(_register + 3, Begin - 1).Write(@out);
+                in_registers.GetTarget(in_register + 3, Begin - 1).Write(in_output);
 
-                for (int r1 = _register + 4; r1 <= _register + 2 + _length; r1++)
+                for (int register = in_register + 4; register <= in_register + 2 + in_length; register++)
                 {
-                    @out.Write(", ");
+                    in_output.Write(", ");
 
-                    _r.GetTarget(r1, Begin - 1).Write(@out);
+                    in_registers.GetTarget(register, Begin - 1).Write(in_output);
                 }
             }
 
-            @out.Write(" in ");
+            in_output.Write(" in ");
 
-            Expression value;
-            value = _r.GetValue(_register, Begin - 1);
-            value.Write(@out);
+            var value = in_registers.GetValue(in_register, Begin - 1);
+
+            value.Write(in_output);
 
             if (!value.IsMultiple())
             {
-                @out.Write(", ");
+                in_output.Write(", ");
 
-                value = _r.GetValue(_register + 1, Begin - 1);
-                value.Write(@out);
+                value = in_registers.GetValue(in_register + 1, Begin - 1);
+                value.Write(in_output);
 
                 if (!value.IsMultiple())
                 {
-                    @out.Write(", ");
+                    in_output.Write(", ");
 
-                    value = _r.GetValue(_register + 2, Begin - 1);
-                    value.Write(@out);
+                    value = in_registers.GetValue(in_register + 2, Begin - 1);
+                    value.Write(in_output);
                 }
             }
 
-            @out.Write(" do");
-            @out.WriteLine();
-            @out.Indent();
+            in_output.Write(" do");
+            in_output.WriteLine();
+            in_output.Indent();
 
-            WriteSequence(@out, _statements);
+            WriteSequence(in_output, _statements);
 
-            @out.Dedent();
-            @out.Write("end");
+            in_output.Dedent();
+            in_output.Write("end");
         }
     }
 }

@@ -1,23 +1,25 @@
 ﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class GlobalExpression : Expression
+    public class GlobalExpression(string in_name, int in_index) : Expression(Precedence.Atomic)
     {
-        private readonly string _name;
-        private readonly int _index;
-
-        public GlobalExpression(string name, int index) : base(Precedence.ATOMIC)
+        public override int GetConstantIndex()
         {
-            _name = name;
-            _index = index;
+            return in_index;
         }
 
-        public override int GetConstantIndex() => _index;
+        public override bool IsDotChain()
+        {
+            return true;
+        }
 
-        public override bool IsDotChain() => true;
+        public override bool IsBrief()
+        {
+            return true;
+        }
 
-        public override void Write(Output @out)
-            => @out.Write(_name);
-
-        public override bool IsBrief() => true;
+        public override void Write(Output in_output)
+        {
+            in_output.Write(in_name);
+        }
     }
 }

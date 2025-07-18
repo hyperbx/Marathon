@@ -1,29 +1,23 @@
 ﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class UnaryExpression : Expression
+    public class UnaryExpression(string in_operator, Expression in_expression, Precedence in_precedence) : Expression(in_precedence)
     {
-        private readonly string _op;
-        private readonly Expression _expression;
-
-        public UnaryExpression(string op, Expression expression, Precedence precedence) : base(precedence)
+        public override int GetConstantIndex()
         {
-            _op = op;
-            _expression = expression;
+            return in_expression.GetConstantIndex();
         }
 
-        public override int GetConstantIndex() => _expression.GetConstantIndex();
-
-        public override void Write(Output @out)
+        public override void Write(Output in_output)
         {
-            @out.Write(_op);
+            in_output.Write(in_operator);
 
-            if (Precedence > _expression.Precedence)
-                @out.Write("(");
+            if (Precedence > in_expression.Precedence)
+                in_output.Write("(");
 
-            _expression.Write(@out);
+            in_expression.Write(in_output);
 
-            if (Precedence > _expression.Precedence)
-                @out.Write(")");
+            if (Precedence > in_expression.Precedence)
+                in_output.Write(")");
         }
     }
 }

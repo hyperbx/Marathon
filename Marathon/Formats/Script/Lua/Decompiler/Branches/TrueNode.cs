@@ -5,24 +5,37 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
     public class TrueNode : Branch
     {
-        public readonly int Register;
-        private readonly bool _invert;
+        public int Register { get; }
 
-        public TrueNode(int register, bool invert, int line, int begin, int end) : base(line, begin, end)
+        public bool IsInverted { get; }
+
+        public TrueNode(int in_register, bool in_isInverted, int in_line, int in_begin, int in_end) : base(in_line, in_begin, in_end)
         {
-            Register = register;
-            _invert = invert;
-            SetTarget = register;
+            Register = in_register;
+            IsInverted = in_isInverted;
+            SetTarget = in_register;
         }
 
-        public override Branch Invert() => new TrueNode(Register, !_invert, Line, End, Begin);
+        public override Branch Invert()
+        {
+            return new TrueNode(Register, !IsInverted, Line, End, Begin);
+        }
 
-        public override int GetRegister() => Register;
+        public override int GetRegister()
+        {
+            return Register;
+        }
 
-        public override Expression AsExpression(Registers r) => new ConstantExpression(new Constant(_invert ? LBoolean.LTRUE : LBoolean.LFALSE), -1);
+        public override Expression AsExpression(Registers in_registers)
+        {
+            return new ConstantExpression(new Constant(IsInverted ? LBoolean.True : LBoolean.False), -1);
+        }
 
-        public override void UseExpression(Expression expression) { }
+        public override void UseExpression(Expression in_expression) { }
 
-        public override string ToString() => $"TrueNode[invert={_invert};line={Line};begin={Begin};end={End}]";
+        public override string ToString()
+        {
+            return $"TrueNode[invert={IsInverted};line={Line};begin={Begin};end={End}]";
+        }
     }
 }

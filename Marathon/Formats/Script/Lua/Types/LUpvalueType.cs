@@ -1,16 +1,16 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LUpvalueType : BObjectType<LUpvalue>
     {
-        public override LUpvalue Parse(BinaryReaderEx reader, BHeader header)
+        public override LUpvalue Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
-            LUpvalue upvalue = new()
+            return new LUpvalue()
             {
-                InStack = reader.ReadByte() != 0,
-                Index = reader.ReadByte()
+                IsInStack = in_reader.Read<byte>() != 0,
+                Index = in_reader.Read<byte>()
             };
-
-            return upvalue;
         }
     }
 }

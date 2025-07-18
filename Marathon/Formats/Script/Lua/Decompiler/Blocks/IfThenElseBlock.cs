@@ -1,79 +1,87 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using System;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class IfThenElseBlock : Block, IComparable<Block>
+    public class IfThenElseBlock(LFunction in_function, Branch in_branch, int in_loopback, bool in_isEmptyElse, Registers in_registers)
+        : Block(in_function, in_branch.Begin, in_branch.End), IComparable<Block>
     {
-        private readonly Branch _branch;
-        private readonly int _loopback;
-        private readonly Registers _r;
-        private readonly List<Statement> _statements;
-        private readonly bool _emptyElse;
-        public ElseEndBlock Partner;
+        private readonly List<Statement> _statements = new(in_branch.End - in_branch.Begin + 1);
 
-        public IfThenElseBlock(LFunction function, Branch branch, int loopback, bool emptyElse, Registers r) : base(function, branch.Begin, branch.End)
-        {
-            _branch = branch;
-            _loopback = loopback;
-            _emptyElse = emptyElse;
-            _r = r;
-            _statements = new List<Statement>(branch.End - branch.Begin + 1);
-        }
+        public ElseEndBlock Partner { get; set; }
 
-        public new int CompareTo(Block block)
+        public new int CompareTo(Block in_block)
         {
-            if (block == Partner)
-            {
+            if (in_block == Partner)
                 return -1;
-            }
 
-            return base.CompareTo(block);
+            return base.CompareTo(in_block);
         }
 
-        public override bool Breakable() => false;
-
-        public override bool IsContainer() => true;
-
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
-
-        public override int ScopeEnd() => End - 2;
-
-        public override bool IsUnprotected() => true;
-
-        public override int GetLoopback() => _loopback;
-
-        public override void Write(Output @out)
+        public override bool Breakable()
         {
-            @out.Write("if ");
+            return false;
+        }
 
-            _branch.AsExpression(_r).Write(@out);
+        public override bool IsContainer()
+        {
+            return true;
+        }
 
-            @out.Write(" then");
-            @out.WriteLine();
-            @out.Indent();
+        public override void AddStatement(Statement in_statement)
+        {
+            _statements.Add(in_statement);
+        }
+
+        public override int ScopeEnd()
+        {
+            return End - 2;
+        }
+
+        public override bool IsUnprotected()
+        {
+            return true;
+        }
+
+        public override int GetLoopback()
+        {
+            return in_loopback;
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write("if ");
+
+            in_branch.AsExpression(in_registers).Write(in_output);
+
+            in_output.Write(" then");
+            in_output.WriteLine();
+            in_output.Indent();
 
             /* Handle the case where the "then" is empty in if-then-else.
                The jump over the else block is falsely detected as a break. */
-            if (_statements.Count == 1 && _statements[0] is Break @break)
+            if (_statements.Count == 1 && _statements[0] is Break out_break)
             {
-                if (@break.Target == _loopback)
+                if (out_break.Target == in_loopback)
                 {
-                    @out.Dedent();
+                    in_output.Dedent();
                     return;
                 }
             }
 
-            WriteSequence(@out, _statements);
+            WriteSequence(in_output, _statements);
 
-            @out.Dedent();
+            in_output.Dedent();
 
-            if (_emptyElse)
+            if (in_isEmptyElse)
             {
-                @out.WriteLine("else");
-                @out.WriteLine("end");
+                // FIX: don't write empty else block.
+                // in_output.WriteLine("else");
+
+                in_output.WriteLine("end");
             }
         }
     }

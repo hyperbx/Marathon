@@ -2,32 +2,24 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Targets
 {
-    public class TableTarget : Target
+    public class TableTarget(Expression in_table, Expression in_index) : Target
     {
-        private readonly Expression _table, _index;
-
-        public TableTarget(Expression table, Expression index)
+        public override void Write(Output in_output)
         {
-            _table = table;
-            _index = index;
+            new TableReference(in_table, in_index).Write(in_output);
         }
 
-        public override void Write(Output @out)
-            => new TableReference(_table, _index).Write(@out);
-
-        public override void WriteMethod(Output @out)
+        public override void WriteMethod(Output in_output)
         {
-            _table.Write(@out);
-            @out.Write(":");
-            @out.Write(_index.AsName());
+            in_table.Write(in_output);
+
+            in_output.Write(":");
+            in_output.Write(in_index.AsName());
         }
 
         public override bool IsFunctionName()
         {
-            if (!_index.IsIdentifier())
-                return false;
-
-            if (!_table.IsDotChain())
+            if (!in_index.IsIdentifier() || !in_table.IsDotChain())
                 return false;
 
             return true;

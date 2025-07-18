@@ -2,33 +2,30 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
-    public class AndBranch : Branch
+    public class AndBranch(Branch in_left, Branch in_right) : Branch(in_right.Line, in_right.Begin, in_right.End)
     {
-        private readonly Branch _left, _right;
-
-        public AndBranch(Branch left, Branch right) : base(right.Line, right.Begin, right.End)
+        public override Branch Invert()
         {
-            _left = left;
-            _right = right;
+            return new OrBranch(in_left.Invert(), in_right.Invert());
         }
-
-        public override Branch Invert() => new OrBranch(_left.Invert(), _right.Invert());
 
         public override int GetRegister()
         {
-            int rleft = _left.GetRegister(),
-                rright = _right.GetRegister();
+            var leftRegister = in_left.GetRegister();
+            var rightRegister = in_right.GetRegister();
 
-            return rleft == rright ? rleft : -1;
+            return leftRegister == rightRegister ? leftRegister : -1;
         }
 
-        public override Expression AsExpression(Registers r)
-            => new BinaryExpression("and", _left.AsExpression(r), _right.AsExpression(r), Precedence.AND, Associativity.NONE);
-
-        public override void UseExpression(Expression expression)
+        public override Expression AsExpression(Registers in_registers)
         {
-            _left.UseExpression(expression);
-            _right.UseExpression(expression);
+            return new BinaryExpression("and", in_left.AsExpression(in_registers), in_right.AsExpression(in_registers), Precedence.And, Associativity.None);
+        }
+
+        public override void UseExpression(Expression in_expression)
+        {
+            in_left.UseExpression(in_expression);
+            in_right.UseExpression(in_expression);
         }
     }
 }

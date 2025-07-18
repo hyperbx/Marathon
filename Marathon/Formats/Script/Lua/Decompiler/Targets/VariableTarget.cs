@@ -1,28 +1,41 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Targets
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Targets
 {
-    public class VariableTarget : Target
+    public class VariableTarget(Declaration in_declaration) : Target
     {
-        public readonly Declaration Declaration;
+        public Declaration Declaration => in_declaration;
 
-        public VariableTarget(Declaration decl) => Declaration = decl;
-
-        public override void Write(Output @out)
-            => @out.Write(Declaration.Name);
-
-        public override void WriteMethod(Output @out)
-            => throw new Exception();
-
-        public override bool IsDeclaration(Declaration decl) => Declaration == decl;
-
-        public override bool IsLocal() => true;
-
-        public override int GetIndex() => Declaration.Register;
-
-        public override bool Equals(object obj)
+        public override bool IsLocal()
         {
-            if (obj is VariableTarget t)
+            return true;
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write(Declaration.Name);
+        }
+
+        public override void WriteMethod(Output in_output)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override bool IsDeclaration(Declaration in_declaration)
+        {
+            return Declaration == in_declaration;
+        }
+
+        public override int GetIndex()
+        {
+            return Declaration.Register;
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is VariableTarget out_target)
             {
-                return Declaration == t.Declaration;
+                return Declaration == out_target.Declaration;
             }
             else
             {

@@ -1,17 +1,31 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Targets
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Targets
 {
     public abstract class Target
     {
-        public abstract void Write(Output @out);
+        public virtual bool IsLocal()
+        {
+            return false;
+        }
 
-        public abstract void WriteMethod(Output @out);
+        public virtual bool IsDeclaration(Declaration in_declaration)
+        {
+            return false;
+        }
 
-        public virtual bool IsDeclaration(Declaration decl) => false;
+        public virtual bool IsFunctionName()
+        {
+            return true;
+        }
 
-        public virtual bool IsLocal() => false;
+        public virtual int GetIndex()
+        {
+            throw new NotSupportedException();
+        }
 
-        public virtual int GetIndex() => throw new Exception();
+        public abstract void Write(Output in_output);
 
-        public virtual bool IsFunctionName() => true;
+        public abstract void WriteMethod(Output in_output);
     }
 }

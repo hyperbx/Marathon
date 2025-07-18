@@ -1,20 +1,30 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
-    public class AssignNode : Branch
+    public class AssignNode(int in_line, int in_begin, int in_end) : Branch(in_line, in_begin, in_end)
     {
         private Expression _expression;
 
-        public AssignNode(int line, int begin, int end) : base(line, begin, end) { }
+        public override Branch Invert()
+        {
+            throw new NotSupportedException();
+        }
 
-        public override Branch Invert() => throw new Exception();
+        public override int GetRegister()
+        {
+            throw new NotSupportedException();
+        }
 
-        public override int GetRegister() => throw new Exception();
+        public override Expression AsExpression(Registers in_registers)
+        {
+            return _expression;
+        }
 
-        public override Expression AsExpression(Registers r) => _expression;
-
-        public override void UseExpression(Expression expression)
-            => _expression = expression;
+        public override void UseExpression(Expression in_expression)
+        {
+            _expression = in_expression;
+        }
     }
 }

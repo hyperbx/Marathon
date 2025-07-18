@@ -4,12 +4,11 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public class CallOperation : Operation
+    public class CallOperation(int in_line, FunctionCall in_call) : Operation(in_line)
     {
-        private FunctionCall _call;
-
-        public CallOperation(int line, FunctionCall call) : base(line) => _call = call;
-
-        public override Statement Process(Registers r, Block block) => new FunctionCallStatement(_call);
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            return new FunctionCallStatement(in_call);
+        }
     }
 }

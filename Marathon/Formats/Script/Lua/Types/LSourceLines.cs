@@ -1,13 +1,15 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LSourceLines
     {
-        public static LSourceLines Parse(BinaryReaderEx reader)
+        public static LSourceLines Parse(BinaryObjectReaderEx in_reader)
         {
-            int number = reader.ReadInt32();
+            var number = in_reader.Read<int>();
 
             while (number-- > 0)
-                reader.ReadInt32();
+                in_reader.Read<int>();
 
             return null;
         }

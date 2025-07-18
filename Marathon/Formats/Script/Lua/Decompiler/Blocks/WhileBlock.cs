@@ -1,51 +1,58 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class WhileBlock : Block
+    public class WhileBlock(LFunction in_function, Branch in_branch, int in_loopback, Registers in_registers) : Block(in_function, in_branch.Begin, in_branch.End)
     {
-        private readonly Branch _branch;
-        private readonly int _loopback;
-        private readonly Registers _r;
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new(in_branch.End - in_branch.Begin + 1);
 
-        public WhileBlock(LFunction function, Branch branch, int loopback, Registers r) : base(function, branch.Begin, branch.End)
+        public override int ScopeEnd()
         {
-            _branch = branch;
-            _loopback = loopback;
-            _r = r;
-            _statements = new List<Statement>(branch.End - branch.Begin + 1);
+            return End - 2;
         }
 
-        public override int ScopeEnd() => End - 2;
-
-        public override bool Breakable() => true;
-
-        public override bool IsContainer() => true;
-
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
-
-        public override bool IsUnprotected() => true;
-
-        public override int GetLoopback() => _loopback;
-
-        public override void Write(Output @out)
+        public override bool Breakable()
         {
-            @out.Write("while ");
+            return true;
+        }
 
-            _branch.AsExpression(_r).Write(@out);
+        public override bool IsContainer()
+        {
+            return true;
+        }
 
-            @out.Write(" do");
-            @out.WriteLine();
-            @out.Indent();
+        public override void AddStatement(Statement in_statement)
+        {
+            _statements.Add(in_statement);
+        }
 
-            WriteSequence(@out, _statements);
+        public override bool IsUnprotected()
+        {
+            return true;
+        }
 
-            @out.Dedent();
-            @out.Write("end");
+        public override int GetLoopback()
+        {
+            return in_loopback;
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write("while ");
+
+            in_branch.AsExpression(in_registers).Write(in_output);
+
+            in_output.Write(" do");
+            in_output.WriteLine();
+            in_output.Indent();
+
+            WriteSequence(in_output, _statements);
+
+            in_output.Dedent();
+            in_output.Write("end");
         }
     }
 }

@@ -1,104 +1,100 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿using System;
+using System.Collections.Generic;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class FunctionCall : Expression
+    public class FunctionCall(Expression in_function, Expression[] in_arguments, bool in_isMultiple) : Expression(Precedence.Atomic)
     {
-        private readonly Expression _function;
-        private readonly Expression[] _arguments;
-        private readonly bool _multiple;
-
-        public FunctionCall(Expression function, Expression[] arguments, bool multiple) : base(Precedence.ATOMIC)
-        {
-            _function = function;
-            _arguments = arguments;
-            _multiple = multiple;
-        }
-
         public override int GetConstantIndex()
         {
-            int index = _function.GetConstantIndex();
+            var index = in_function.GetConstantIndex();
 
-            foreach (Expression argument in _arguments)
+            foreach (var argument in in_arguments)
                 index = Math.Max(argument.GetConstantIndex(), index);
 
             return index;
         }
 
-        public override bool IsMultiple() => _multiple;
-
-        public void PrintMultiple(Output @out)
+        public override bool IsMultiple()
         {
-            if (!_multiple)
-                @out.Write("(");
-
-            Write(@out);
-
-            if (!_multiple)
-                @out.Write(")");
+            return in_isMultiple;
         }
 
-        private bool IsMethodCall() => _function.IsMemberAccess() && _arguments.Length > 0 && _function.GetTable() == _arguments[0];
+        public void PrintMultiple(Output in_output)
+        {
+            if (!in_isMultiple)
+                in_output.Write("(");
 
-        public override bool BeginsWithParent()
+            Write(in_output);
+
+            if (!in_isMultiple)
+                in_output.Write(")");
+        }
+
+        private bool IsMethodCall()
+        {
+            return in_function.IsMemberAccess() && in_arguments.Length > 0 && in_function.GetTable() == in_arguments[0];
+        }
+
+        public override bool BeginsWithParen()
         {
             if (IsMethodCall())
             {
-                Expression obj = _function.GetTable();
+                var obj = in_function.GetTable();
 
-                return obj.IsClosure() || obj.IsConstant() || obj.BeginsWithParent();
+                return obj.IsClosure() || obj.IsConstant() || obj.BeginsWithParen();
             }
-            else
-            {
-                return _function.IsClosure() || _function.IsConstant() || _function.BeginsWithParent();
-            }
+
+            return in_function.IsClosure() || in_function.IsConstant() || in_function.BeginsWithParen();
         }
 
-        public override void Write(Output @out)
+        public override void Write(Output in_output)
         {
-            List<Expression> args = new(_arguments.Length);
+            var args = new List<Expression>(in_arguments.Length);
 
             if (IsMethodCall())
             {
-                Expression obj = _function.GetTable();
+                var obj = in_function.GetTable();
 
                 if (obj.IsClosure() || obj.IsConstant())
                 {
-                    @out.Write("(");
-                    obj.Write(@out);
-                    @out.Write(")");
+                    in_output.Write("(");
+                    obj.Write(in_output);
+                    in_output.Write(")");
                 }
                 else
                 {
-                    obj.Write(@out);
+                    obj.Write(in_output);
                 }
 
-                @out.Write(":");
-                @out.Write(_function.GetField());
+                in_output.Write(":");
+                in_output.Write(in_function.GetField());
 
-                for (int i = 1; i < _arguments.Length; i++)
-                    args.Add(_arguments[i]);
+                for (int i = 1; i < in_arguments.Length; i++)
+                    args.Add(in_arguments[i]);
             }
             else
             {
-                if (_function.IsClosure() || _function.IsConstant())
+                if (in_function.IsClosure() || in_function.IsConstant())
                 {
-                    @out.Write("(");
-                    _function.Write(@out);
-                    @out.Write(")");
+                    in_output.Write("(");
+                    in_function.Write(in_output);
+                    in_output.Write(")");
                 }
                 else
                 {
-                    _function.Write(@out);
+                    in_function.Write(in_output);
                 }
 
-                for (int i = 0; i < _arguments.Length; i++)
-                    args.Add(_arguments[i]);
+                for (int i = 0; i < in_arguments.Length; i++)
+                    args.Add(in_arguments[i]);
             }
 
-            @out.Write("(");
+            in_output.Write("(");
 
-            WriteSequence(@out, args, false, true);
+            WriteSequence(in_output, args, false, true);
 
-            @out.Write(")");
+            in_output.Write(")");
         }
     }
 }

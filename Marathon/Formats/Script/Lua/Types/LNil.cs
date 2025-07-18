@@ -1,13 +1,19 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LNil : LObject
     {
-        public static readonly LNil NIL = new();
+        public static LNil Nil => new();
 
-        private LNil() { }
+        public override string Dereference()
+        {
+            throw new NotSupportedException();
+        }
 
-        public override string Dereference() => throw new NotImplementedException();
-
-        public override bool Equals(object o) => this == o;
+        public override bool Equals(object in_obj)
+        {
+            return this == in_obj;
+        }
     }
 }

@@ -1,51 +1,51 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Blocks;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
     public abstract class Statement
     {
-        public string Comment;
+        public string Comment { get; set; }
 
         /// <summary>
         /// Prints out a sequences of statements on separate lines.
         /// <para>Correctly informs the last statement that it is last in a block.</para>
         /// </summary>
-        public static void WriteSequence(Output @out, List<Statement> statements)
+        public static void WriteSequence(Output in_output, List<Statement> in_statements)
         {
-            int n = statements.Count;
-
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < in_statements.Count; i++)
             {
-                bool last = i + 1 == n;
+                var isLast = i + 1 == in_statements.Count;
+                var statement = in_statements[i];
+                var nextStatement = isLast ? null : in_statements[i + 1];
 
-                Statement statement = statements[i],
-                          nextStatement = last ? null : statements[i + 1];
-
-                if (last)
+                if (isLast)
                 {
-                    statement.WriteTail(@out);
+                    statement.WriteTail(in_output);
                 }
                 else
                 {
-                    statement.Write(@out);
+                    statement.Write(in_output);
                 }
 
-                if (nextStatement != null && statement is FunctionCallStatement && nextStatement.BeginsWithParent())
-                    @out.Write(";");
+                if (nextStatement != null && statement is FunctionCallStatement && nextStatement.BeginsWithParen())
+                    in_output.Write(";");
 
                 if (statement is not IfThenElseBlock)
-                    @out.WriteLine();
+                    in_output.WriteLine();
             }
         }
 
-        public abstract void Write(Output @out);
+        public virtual bool BeginsWithParen()
+        {
+            return false;
+        }
 
-        public virtual void WriteTail(Output @out)
-            => Write(@out);
+        public abstract void Write(Output in_output);
 
-        public void AddComment(string comment)
-            => Comment = comment;
-
-        public virtual bool BeginsWithParent() => false;
+        public virtual void WriteTail(Output in_output)
+        {
+            Write(in_output);
+        }
     }
 }

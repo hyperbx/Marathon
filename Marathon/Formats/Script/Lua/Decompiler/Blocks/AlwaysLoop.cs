@@ -1,36 +1,52 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class AlwaysLoop : Block
+    public class AlwaysLoop(LFunction in_function, int in_begin, int in_end) : Block(in_function, in_begin, in_end)
     {
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new();
 
-        public AlwaysLoop(LFunction function, int begin, int end) : base(function, begin, end) => _statements = new List<Statement>();
-
-        public override int ScopeEnd() => End - 2;
-
-        public override bool Breakable() => true;
-
-        public override bool IsContainer() => true;
-
-        public override bool IsUnprotected() => true;
-
-        public override int GetLoopback() => Begin;
-
-        public override void Write(Output @out)
+        public override int ScopeEnd()
         {
-            @out.WriteLine("while true do");
-            @out.Indent();
-
-            WriteSequence(@out, _statements);
-
-            @out.Dedent();
-            @out.Write("end");
+            return End - 2;
         }
 
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
+        public override bool Breakable()
+        {
+            return true;
+        }
+
+        public override bool IsContainer()
+        {
+            return true;
+        }
+
+        public override bool IsUnprotected()
+        {
+            return true;
+        }
+
+        public override int GetLoopback()
+        {
+            return Begin;
+        }
+
+        public override void AddStatement(Statement in_statement)
+        {
+            _statements.Add(in_statement);
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.WriteLine("while true do");
+            in_output.Indent();
+
+            WriteSequence(in_output, _statements);
+
+            in_output.Dedent();
+            in_output.Write("end");
+        }
     }
 }

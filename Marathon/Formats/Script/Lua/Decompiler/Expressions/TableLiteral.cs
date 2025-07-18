@@ -1,40 +1,24 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿using System;
+using System.Collections.Generic;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class TableLiteral : Expression
+    public class TableLiteral(int in_arraySize, int in_hashSize) : Expression(Precedence.Atomic)
     {
-        public class Entry : IComparable<Entry>
-        {
-            public readonly Expression Key, Value;
-            public readonly bool IsList;
-            public readonly int Timestamp;
+        private readonly List<TableEntry> _entries = new(in_arraySize + in_hashSize);
 
-            public Entry(Expression key, Expression value, bool isList, int timestamp)
-            {
-                Key = key;
-                Value = value;
-                IsList = isList;
-                Timestamp = timestamp;
-            }
+        private bool _isObject = true;
+        private bool _isList = true;
 
-            public int CompareTo(Entry e) => Timestamp.CompareTo(e.Timestamp);
-        }
-
-        private List<Entry> _entries;
-
-        private bool _isObject = true,
-                     _isList = true;
-
-        private int listLength = 1;
+        private int _listLength = 1;
 
         public TableLiteral() : this(5, 5) { }
 
-        public TableLiteral(int arraySize, int hashSize) : base(Precedence.ATOMIC) => _entries = new List<Entry>(arraySize + hashSize);
-
         public override int GetConstantIndex()
         {
-            int index = -1;
+            var index = -1;
 
-            foreach (Entry entry in _entries)
+            foreach (var entry in _entries)
             {
                 index = Math.Max(entry.Key.GetConstantIndex(), index);
                 index = Math.Max(entry.Value.GetConstantIndex(), index);
@@ -43,61 +27,60 @@
             return index;
         }
 
-        public override void Write(Output @out)
+        public override void Write(Output in_output)
         {
             _entries.Sort();
 
-            listLength = 1;
+            _listLength = 1;
 
             if (_entries.Count == 0)
             {
-                @out.Write("{}");
+                in_output.Write("{}");
             }
             else
             {
-                bool lineBreak = _isList && _entries.Count > 5 || _isObject && _entries.Count > 2 || !_isObject;
+                var lineBreak = _isList && _entries.Count > 5 || _isObject && _entries.Count > 2 || !_isObject;
 
                 if (!lineBreak)
                 {
-                    foreach (Entry entry in _entries)
+                    foreach (var entry in _entries)
                     {
-                        Expression value = entry.Value;
+                        var value = entry.Value;
 
                         if (!value.IsBrief())
                         {
                             lineBreak = true;
-
                             break;
                         }
                     }
                 }
 
-                @out.Write("{");
+                in_output.Write("{");
 
                 if (lineBreak)
                 {
-                    @out.WriteLine();
-                    @out.Indent();
+                    in_output.WriteLine();
+                    in_output.Indent();
                 }
 
-                WriteEntry(0, @out);
+                WriteEntry(0, in_output);
 
                 if (!_entries[0].Value.IsMultiple())
                 {
                     for (int index = 1; index < _entries.Count; index++)
                     {
-                        @out.Write(",");
+                        in_output.Write(",");
 
                         if (lineBreak)
                         {
-                            @out.WriteLine();
+                            in_output.WriteLine();
                         }
                         else
                         {
-                            @out.Write(" ");
+                            in_output.Write(" ");
                         }
 
-                        WriteEntry(index, @out);
+                        WriteEntry(index, in_output);
 
                         if (_entries[index].Value.IsMultiple())
                             break;
@@ -106,63 +89,66 @@
 
                 if (lineBreak)
                 {
-                    @out.WriteLine();
-                    @out.Dedent();
+                    in_output.WriteLine();
+                    in_output.Dedent();
                 }
 
-                @out.Write("}");
+                in_output.Write("}");
             }
         }
 
-        private void WriteEntry(int index, Output @out)
+        private void WriteEntry(int in_index, Output in_output)
         {
-            Entry entry = _entries[index];
+            var entry = _entries[in_index];
+            var key = entry.Key;
+            var value = entry.Value;
 
-            Expression key = entry.Key,
-                       value = entry.Value;
-
-            bool isList = entry.IsList,
-                 multiple = index + 1 >= _entries.Count || value.IsMultiple();
-
-            if (isList && key.IsInteger() && listLength == key.AsInteger())
+            if (entry.IsList && key.IsInteger() && _listLength == key.AsInteger())
             {
-                if (multiple)
+                var isMultiple = in_index + 1 >= _entries.Count || value.IsMultiple();
+
+                if (isMultiple)
                 {
-                    value.WriteMultiple(@out);
+                    value.WriteMultiple(in_output);
                 }
                 else
                 {
-                    value.Write(@out);
+                    value.Write(in_output);
                 }
 
-                listLength++;
+                _listLength++;
             }
             else if (_isObject && key.IsIdentifier())
             {
-                @out.Write(key.AsName());
-                @out.Write(" = ");
-                value.Write(@out);
+                in_output.Write(key.AsName());
+                in_output.Write(" = ");
+                value.Write(in_output);
             }
             else
             {
-                @out.Write("[");
-                key.Write(@out);
-                @out.Write("] = ");
-                value.Write(@out);
+                in_output.Write("[");
+                key.Write(in_output);
+                in_output.Write("] = ");
+                value.Write(in_output);
             }
         }
 
-        public override bool IsTableLiteral() => true;
-
-        public override void AddEntry(Entry entry)
+        public override bool IsTableLiteral()
         {
-            _entries.Add(entry);
-
-            _isObject = _isObject && (entry.IsList || entry.Key.IsIdentifier());
-
-            _isList = _isList && entry.IsList;
+            return true;
         }
 
-        public override bool IsBrief() => false;
+        public override void AddEntry(TableEntry in_entry)
+        {
+            _entries.Add(in_entry);
+
+            _isObject = _isObject && (in_entry.IsList || in_entry.Key.IsIdentifier());
+            _isList = _isList && in_entry.IsList;
+        }
+
+        public override bool IsBrief()
+        {
+            return false;
+        }
     }
 }

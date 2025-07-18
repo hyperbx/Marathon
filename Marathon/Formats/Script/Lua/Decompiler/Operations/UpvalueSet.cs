@@ -5,17 +5,13 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public class UpvalueSet : Operation
+    public class UpvalueSet(int in_line, string in_upvalue, Expression in_value) : Operation(in_line)
     {
-        private UpvalueTarget _target;
-        private Expression _value;
+        private readonly UpvalueTarget _target = new UpvalueTarget(in_upvalue);
 
-        public UpvalueSet(int line, string upvalue, Expression value) : base(line)
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            _target = new UpvalueTarget(upvalue);
-            _value = value;
+            return new Assignment(_target, in_value);
         }
-
-        public override Statement Process(Registers r, Block block) => new Assignment(_target, _value);
     }
 }

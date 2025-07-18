@@ -1,33 +1,48 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using System.Collections.Generic;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class DoEndBlock : Block
+    public class DoEndBlock(LFunction in_function, int in_begin, int in_end) : Block(in_function, in_begin, in_end)
     {
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new(in_end - in_begin + 1);
 
-        public DoEndBlock(LFunction function, int begin, int end) : base(function, begin, end) => _statements = new List<Statement>(end - begin + 1);
-
-        public override void AddStatement(Statement statement) => _statements.Add(statement);
-
-        public override bool Breakable() => false;
-
-        public override bool IsContainer() => true;
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
+        public override void AddStatement(Statement statement)
         {
-            @out.WriteLine("do");
-            @out.Indent();
+            _statements.Add(statement);
+        }
 
-            WriteSequence(@out, _statements);
+        public override bool Breakable()
+        {
+            return false;
+        }
 
-            @out.Dedent();
-            @out.Write("end");
+        public override bool IsContainer()
+        {
+            return true;
+        }
+
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
+
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.WriteLine("do");
+            in_output.Indent();
+
+            WriteSequence(in_output, _statements);
+
+            in_output.Dedent();
+            in_output.Write("end");
         }
     }
 }

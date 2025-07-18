@@ -1,17 +1,16 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
-    public class BSizeTType : BObjectType<BSizeT>
+    public class BSizeTType(int in_sizeTSize) : BObjectType<BSizeT>
     {
-        public readonly int SizeTSize;
+        private readonly BIntegerType _integerType = new(in_sizeTSize);
 
-        private BIntegerType _integerType;
+        public int SizeTSize => in_sizeTSize;
 
-        public BSizeTType(int sizeTSize)
+        public override BSizeT Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
-            SizeTSize = sizeTSize;
-            _integerType = new BIntegerType(sizeTSize);
+            return new(_integerType.RawParse(in_reader, in_header));
         }
-
-        public override BSizeT Parse(BinaryReaderEx reader, BHeader header) => new(_integerType.RawParse(reader, header));
     }
 }

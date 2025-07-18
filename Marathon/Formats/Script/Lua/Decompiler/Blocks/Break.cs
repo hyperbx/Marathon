@@ -1,32 +1,50 @@
-﻿using Marathon.Formats.Script.Lua.Types;
-using Marathon.Formats.Script.Lua.Decompiler.Statements;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using Marathon.Formats.Script.Lua.Types;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class Break : Block
+    public class Break(LFunction in_function, int in_line, int in_target) : Block(in_function, in_line, in_line)
     {
-        public readonly int Target;
+        public readonly int Target = in_target;
 
-        public Break(LFunction function, int line, int target) : base(function, line, line) => Target = target;
+        public override void AddStatement(Statement in_statement)
+        {
+            throw new NotSupportedException();
+        }
 
-        public override void AddStatement(Statement statement)
-            => throw new Exception();
+        public override bool IsContainer()
+        {
+            return false;
+        }
 
-        public override bool IsContainer() => false;
+        public override bool Breakable()
+        {
+            return false;
+        }
 
-        public override bool Breakable() => false;
+        public override bool IsUnprotected()
+        {
+            // This *is* unprotected, but isn't really a block.
+            return false;
+        }
 
-        /// <summary>
-        /// This *is* unprotected, but isn't really a block.
-        /// </summary>
-        public override bool IsUnprotected() => false;
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
 
-        public override int GetLoopback() => throw new Exception();
+        public override void Write(Output in_output)
+        {
+            /* FIX: "do break end" is a syntax error. There's not really
+               much point to writing an empty statement, so lets remove it. */
 
-        public override void Write(Output @out)
-            => @out.Write("do break end");
+            // in_output.Write("do break end");
+        }
 
-        public override void WriteTail(Output @out)
-            => @out.Write("break");
+        public override void WriteTail(Output in_output)
+        {
+            in_output.Write("break");
+        }
     }
 }

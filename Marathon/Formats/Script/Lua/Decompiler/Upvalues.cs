@@ -3,17 +3,13 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
-    public class Upvalues
+    public class Upvalues(LUpvalue[] in_upvalues)
     {
-        private readonly LUpvalue[] _upvalues;
-
-        public Upvalues(LUpvalue[] upvalues) => _upvalues = upvalues;
-
         public string GetName(int index)
         {
-            if (index < _upvalues.Length && _upvalues[index].Name != null)
+            if (index < in_upvalues.Length && in_upvalues[index].Name != null)
             {
-                return _upvalues[index].Name;
+                return in_upvalues[index].Name;
             }
             else
             {
@@ -22,6 +18,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
         }
 
-        public UpvalueExpression GetExpression(int index) => new(GetName(index));
+        public UpvalueExpression GetExpression(int index)
+        {
+            return new(GetName(index));
+        }
     }
 }

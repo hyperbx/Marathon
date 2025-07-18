@@ -1,18 +1,25 @@
 ﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class UpvalueExpression : Expression
+    public class UpvalueExpression(string in_name) : Expression(Precedence.Atomic)
     {
-        private readonly string _name;
+        public override int GetConstantIndex()
+        {
+            return -1;
+        }
 
-        public UpvalueExpression(string name) : base(Precedence.ATOMIC) => _name = name;
+        public override bool IsDotChain()
+        {
+            return true;
+        }
 
-        public override int GetConstantIndex() => -1;
+        public override bool IsBrief()
+        {
+            return true;
+        }
 
-        public override bool IsDotChain() => true;
-
-        public override void Write(Output @out)
-            => @out.Write(_name);
-
-        public override bool IsBrief() => true;
+        public override void Write(Output in_output)
+        {
+            in_output.Write(in_name);
+        }
     }
 }

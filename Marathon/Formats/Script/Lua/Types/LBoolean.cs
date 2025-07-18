@@ -1,16 +1,21 @@
 ﻿namespace Marathon.Formats.Script.Lua.Types
 {
-    public class LBoolean : LObject
+    public class LBoolean(bool in_value) : LObject
     {
-        public static readonly LBoolean LTRUE = new(true);
-        public static readonly LBoolean LFALSE = new(false);
+        private readonly bool _value = in_value;
 
-        private readonly bool _value;
+        public static LBoolean True => new(true);
 
-        private LBoolean(bool value) => _value = value;
+        public static LBoolean False => new(false);
 
-        public override string ToString() => _value.ToString();
+        public override bool Equals(object in_obj)
+        {
+            return this == in_obj;
+        }
 
-        public override bool Equals(object o) => this == o;
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
 }

@@ -2,8 +2,8 @@
 {
     public enum Associativity
     {
-        NONE,
-        LEFT,
-        RIGHT
+        None,
+        Left,
+        Right
     }
 }

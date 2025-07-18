@@ -2,31 +2,28 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
-    public abstract class Branch
+    public abstract class Branch(int in_line, int in_begin, int in_end)
     {
-        public readonly int Line;
+        public int Line => in_line;
 
-        public int Begin,
-                   End,
-                   SetTarget = -1;
+        public int Begin { get; set; } = in_begin;
 
-        public bool IsSet = false,
-                    IsCompareSet = false,
-                    IsTest = false;
+        public int End { get; set; } = in_end;
 
-        public Branch(int line, int begin, int end)
-        {
-            Line = line;
-            Begin = begin;
-            End = end;
-        }
+        public int SetTarget { get; set; } = -1;
+
+        public bool IsSet { get; set; } = false;
+
+        public bool IsCompareSet { get; set; } = false;
+
+        public bool IsTest { get; set; } = false;
 
         public abstract Branch Invert();
 
         public abstract int GetRegister();
 
-        public abstract Expression AsExpression(Registers r);
+        public abstract Expression AsExpression(Registers in_registers);
 
-        public abstract void UseExpression(Expression expression);
+        public abstract void UseExpression(Expression in_expression);
     }
 }

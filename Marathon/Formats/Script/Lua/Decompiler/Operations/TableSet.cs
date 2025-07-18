@@ -5,37 +5,17 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public class TableSet : Operation
+    public class TableSet(int in_line, Expression in_table, Expression in_index, Expression in_value, bool in_isTable, int in_timestamp) : Operation(in_line)
     {
-        private Expression _table,
-                           _index,
-                           _value;
-
-        private bool _isTable;
-
-        private int _timestamp;
-
-        public TableSet(int line, Expression table, Expression index, Expression value, bool isTable, int timestamp) : base(line)
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            _table = table;
-            _index = index;
-            _value = value;
-            _isTable = isTable;
-            _timestamp = timestamp;
-        }
-
-        public override Statement Process(Registers r, Block block)
-        {
-            if (_table.IsTableLiteral())
+            if (in_table.IsTableLiteral())
             {
-                _table.AddEntry(new TableLiteral.Entry(_index, _value, !_isTable, _timestamp));
-
+                in_table.AddEntry(new TableEntry(in_index, in_value, !in_isTable, in_timestamp));
                 return null;
             }
-            else
-            {
-                return new Assignment(new TableTarget(_table, _index), _value);
-            }
+
+            return new Assignment(new TableTarget(in_table, in_index), in_value);
         }
     }
 }

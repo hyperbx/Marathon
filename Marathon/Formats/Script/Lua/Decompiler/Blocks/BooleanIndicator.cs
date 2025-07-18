@@ -1,23 +1,36 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class BooleanIndicator : Block
+    public class BooleanIndicator(LFunction in_function, int in_line) : Block(in_function, in_line, in_line)
     {
-        public BooleanIndicator(LFunction function, int line) : base(function, line, line) { }
+        public override void AddStatement(Statement in_statement) { }
 
-        public override void AddStatement(Statement statement) { }
+        public override bool IsContainer()
+        {
+            return false;
+        }
 
-        public override bool IsContainer() => false;
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
 
-        public override bool IsUnprotected() => false;
+        public override bool Breakable()
+        {
+            return false;
+        }
 
-        public override bool Breakable() => false;
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
 
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
-            => @out.Write("-- Unhandled boolean indicator...");
+        public override void Write(Output in_output)
+        {
+            in_output.Write("-- WARNING: unhandled boolean indicator!");
+        }
     }
 }

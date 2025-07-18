@@ -3,177 +3,145 @@ using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+using System.Collections.Generic;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class IfThenEndBlock : Block
+    public class IfThenEndBlock(LFunction in_function, Branch in_branch, Stack<Branch> in_stack, Registers in_registers)
+        : Block(in_function, (in_branch.Begin == in_branch.End) ? in_branch.Begin - 1 : in_branch.Begin, (in_branch.Begin == in_branch.End) ? in_branch.Begin - 1 : in_branch.End)
     {
-        private readonly Branch _branch;
-        private readonly Stack<Branch> _stack;
-        private readonly Registers _r;
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new(in_branch.End - in_branch.Begin + 1);
 
-        public IfThenEndBlock(LFunction function, Branch branch, Registers r) : this(function, branch, null, r) { }
+        public Branch Branch { get; } = in_branch;
 
-        public IfThenEndBlock(LFunction function, Branch branch, Stack<Branch> stack, Registers r)
-            : base(function, (branch.Begin == branch.End) ? branch.Begin - 1 : branch.Begin, (branch.Begin == branch.End) ? branch.Begin - 1 : branch.End)
+        public IfThenEndBlock(LFunction in_function, Branch in_branch, Registers in_registers)
+            : this(in_function, in_branch, null, in_registers) { }
+
+        public override void AddStatement(Statement in_statement)
         {
-            _branch = branch;
-            _stack = stack;
-            _r = r;
-
-            _statements = new List<Statement>(branch.End - branch.Begin + 1);
+            _statements.Add(in_statement);
         }
 
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
-
-        public override bool Breakable() => false;
-
-        public override bool IsContainer() => true;
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
+        public override bool Breakable()
         {
-            @out.Write("if ");
-
-            _branch.AsExpression(_r).Write(@out);
-
-            @out.Write(" then");
-            @out.WriteLine();
-            @out.Indent();
-
-            WriteSequence(@out, _statements);
-
-            @out.Dedent();
-            @out.Write("end");
+            return false;
         }
 
-        public override Operation Process(Decompiler d)
+        public override bool IsContainer()
+        {
+            return true;
+        }
+
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
+
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override Operation Process(Decompiler in_decompiler)
         {
             if (_statements.Count == 1)
             {
-                Statement statement = _statements[0];
+                var statement = _statements[0];
 
-                if (statement is Assignment assign)
+                if (statement is Assignment out_assignment)
                 {
-                    if (assign.GetArity() == 1)
+                    if (out_assignment.GetArity() == 1)
                     {
-                        if (_branch is TestNode node)
+                        if (Branch is TestNode out_node)
                         {
-                            Declaration decl = _r.GetDeclaration(node.Test, node.Line);
+                            var declaration = in_registers.GetDeclaration(out_node.Register, out_node.Line);
 
-                            if (assign.GetFirstTarget().IsDeclaration(decl))
+                            if (out_assignment.GetFirstTarget().IsDeclaration(declaration))
                             {
-                                Expression expr;
+                                var @operator = out_node.IsInverted ? "or" : "and";
+                                var left = new LocalVariable(declaration);
+                                var right = out_assignment.GetFirstValue();
+                                var precedence = out_node.IsInverted ? Precedence.Or : Precedence.And;
+                                var associativity = Associativity.None;
 
-                                if (node._Invert)
-                                {
-                                    expr = new BinaryExpression
-                                    (
-                                        "or",
-                                        new LocalVariable(decl),
-                                        assign.GetFirstValue(),
-                                        Precedence.OR,
-                                        Associativity.NONE
-                                    );
-                                }
-                                else
-                                {
-                                    expr = new BinaryExpression
-                                    (
-                                        "and",
-                                        new LocalVariable(decl),
-                                        assign.GetFirstValue(),
-                                        Precedence.AND,
-                                        Associativity.NONE
-                                    );
-                                }
-
-                                return new OperationAnonymousInnerClass(this, assign, expr);
+                                return new IfThenEndBlockSingleStatementOperation(this, out_assignment,
+                                    new BinaryExpression(@operator, left, right, precedence, associativity));
                             }
                         }
                     }
                 }
             }
-            else if (_statements.Count == 0 && _stack != null)
+            else if (_statements.Count == 0 && in_stack != null)
             {
-                int test = _branch.GetRegister();
+                var testRegister = Branch.GetRegister();
 
-                if (test < 0)
+                if (testRegister < 0)
                 {
-                    for (int reg = 0; reg < _r._Registers; reg++)
+                    for (int register = 0; register < in_registers.RegisterCount; register++)
                     {
-                        if (_r.GetUpdated(reg, _branch.End - 1) >= _branch.Begin)
+                        if (in_registers.GetUpdated(register, Branch.End - 1) >= Branch.Begin)
                         {
-                            if (test >= 0)
+                            if (testRegister >= 0)
                             {
-                                test = -1;
+                                testRegister = -1;
                                 break;
                             }
 
-                            test = reg;
+                            testRegister = register;
                         }
                     }
                 }
 
-                if (test >= 0)
+                if (testRegister >= 0)
                 {
-                    if (_r.GetUpdated(test, _branch.End - 1) >= _branch.Begin)
+                    if (in_registers.GetUpdated(testRegister, Branch.End - 1) >= Branch.Begin)
                     {
-                        Expression right = _r.GetValue(test, _branch.End);
+                        var right = in_registers.GetValue(testRegister, Branch.End);
+                        var setBranch = in_decompiler.PopSetCondition(in_stack, in_stack.Peek().End);
 
-                        Branch setb = d.PopSetCondition(_stack, _stack.Peek().End);
-                        setb.UseExpression(right);
+                        setBranch.UseExpression(right);
 
-                        int testreg = test;
-
-                        return new OperationAnonymousInnerClass2(this, setb, testreg);
+                        return new IfThenEndBlockNoStatementOperation(this, setBranch, testRegister);
                     }
                 }
             }
 
-            return base.Process(d);
+            return base.Process(in_decompiler);
         }
 
-        private class OperationAnonymousInnerClass : Operation
+        public override void Write(Output in_output)
         {
-            private readonly IfThenEndBlock _outerInstance;
-            private Assignment _assign;
-            private Expression _expr;
+            in_output.Write("if ");
 
-            public OperationAnonymousInnerClass(IfThenEndBlock outerInstance, Assignment assign, Expression expr) : base(outerInstance.End - 1)
-            {
-                _outerInstance = outerInstance;
-                _assign = assign;
-                _expr = expr;
-            }
+            Branch.AsExpression(in_registers).Write(in_output);
 
-            public override Statement Process(Registers r, Block block) => new Assignment(_assign.GetFirstTarget(), _expr);
+            in_output.Write(" then");
+            in_output.WriteLine();
+            in_output.Indent();
+
+            WriteSequence(in_output, _statements);
+
+            in_output.Dedent();
+            in_output.Write("end");
         }
+    }
 
-        private class OperationAnonymousInnerClass2 : Operation
+    file class IfThenEndBlockSingleStatementOperation(IfThenEndBlock in_outerInstance, Assignment in_assignment, Expression in_expression) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            private readonly IfThenEndBlock _outerInstance;
-            private Branch _setb;
-            private int _testreg;
+            return new Assignment(in_assignment.GetFirstTarget(), in_expression);
+        }
+    }
 
-            public OperationAnonymousInnerClass2(IfThenEndBlock outerInstance, Branch setb, int testreg) : base(outerInstance.End - 1)
-            {
-                _outerInstance = outerInstance;
-                _setb = setb;
-                _testreg = testreg;
-            }
+    file class IfThenEndBlockNoStatementOperation(IfThenEndBlock in_outerInstance, Branch in_setBranch, int in_testRegister) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            in_registers.SetValue(in_testRegister, in_outerInstance.Branch.End - 1, in_setBranch.AsExpression(in_registers));
 
-            public override Statement Process(Registers r, Block block)
-            {
-                r.SetValue(_testreg, _outerInstance._branch.End - 1, _setb.AsExpression(r));
-
-                return null;
-            }
+            return null;
         }
     }
 }

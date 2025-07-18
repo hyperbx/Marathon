@@ -1,40 +1,46 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class TableReference : Expression
+    public class TableReference(Expression in_table, Expression in_index) : Expression(Precedence.Atomic)
     {
-        private readonly Expression _table, _index;
+        public override int GetConstantIndex() => Math.Max(in_table.GetConstantIndex(), in_index.GetConstantIndex());
 
-        public TableReference(Expression table, Expression index) : base(Precedence.ATOMIC)
+        public override void Write(Output in_output)
         {
-            _table = table;
-            _index = index;
-        }
+            in_table.Write(in_output);
 
-        public override int GetConstantIndex() => Math.Max(_table.GetConstantIndex(), _index.GetConstantIndex());
-
-        public override void Write(Output @out)
-        {
-            _table.Write(@out);
-
-            if (_index.IsIdentifier())
+            if (in_index.IsIdentifier())
             {
-                @out.Write(".");
-                @out.Write(_index.AsName());
+                in_output.Write(".");
+                in_output.Write(in_index.AsName());
             }
             else
             {
-                @out.Write("[");
-                _index.Write(@out);
-                @out.Write("]");
+                in_output.Write("[");
+                in_index.Write(in_output);
+                in_output.Write("]");
             }
         }
 
-        public override bool IsDotChain() => _index.IsIdentifier() && _table.IsDotChain();
+        public override bool IsDotChain()
+        {
+            return in_index.IsIdentifier() && in_table.IsDotChain();
+        }
 
-        public override bool IsMemberAccess() => _index.IsIdentifier();
+        public override bool IsMemberAccess()
+        {
+            return in_index.IsIdentifier();
+        }
 
-        public override Expression GetTable() => _table;
+        public override Expression GetTable()
+        {
+            return in_table;
+        }
 
-        public override string GetField() => _index.AsName();
+        public override string GetField()
+        {
+            return in_index.AsName();
+        }
     }
 }

@@ -5,17 +5,11 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
-    public class GlobalSet : Operation
+    public class GlobalSet(int in_line, string in_global, Expression in_value) : Operation(in_line)
     {
-        private string _global;
-        private Expression _value;
-
-        public GlobalSet(int line, string global, Expression value) : base(line)
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            _global = global;
-            _value = value;
+            return new Assignment(new GlobalTarget(in_global), in_value);
         }
-
-        public override Statement Process(Registers r, Block block) => new Assignment(new GlobalTarget(_global), _value);
     }
 }

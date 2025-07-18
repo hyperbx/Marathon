@@ -4,34 +4,40 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
     public class TestNode : Branch
     {
-        public readonly int Test;
-        public readonly bool _Invert;
+        public int Register { get; }
 
-        public TestNode(int test, bool invert, int line, int begin, int end) : base(line, begin, end)
+        public bool IsInverted { get; }
+
+        public TestNode(int in_testRegister, bool in_isInverted, int in_line, int in_begin, int in_end) : base(in_line, in_begin, in_end)
         {
-            Test = test;
-            _Invert = invert;
+            Register = in_testRegister;
+            IsInverted = in_isInverted;
             IsTest = true;
         }
 
-        public override Branch Invert() => new TestNode(Test, !_Invert, Line, End, Begin);
-
-        public override int GetRegister() => Test;
-
-        public override Expression AsExpression(Registers r)
+        public override Branch Invert()
         {
-            if (_Invert)
-            {
-                return new NotBranch(Invert()).AsExpression(r);
-            }
-            else
-            {
-                return r.GetExpression(Test, Line);
-            }
+            return new TestNode(Register, !IsInverted, Line, End, Begin);
         }
 
-        public override void UseExpression(Expression expression) { }
+        public override int GetRegister()
+        {
+            return Register;
+        }
 
-        public override string ToString() => $"TestNode[test={Test};invert={_Invert};line={Line};begin={Begin};end={End}]";
+        public override Expression AsExpression(Registers in_registers)
+        {
+            if (IsInverted)
+                return new NotBranch(Invert()).AsExpression(in_registers);
+
+            return in_registers.GetExpression(Register, Line);
+        }
+
+        public override void UseExpression(Expression in_expression) { }
+
+        public override string ToString()
+        {
+            return $"TestNode[test={Register};invert={IsInverted};line={Line};begin={Begin};end={End}]";
+        }
     }
 }

@@ -1,32 +1,32 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using System.Collections.Generic;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
-    public class BList<T> : BObject where T : BObject
+    public class BList<T>(BInteger in_length, List<T> in_values) : BObject where T : BObject
     {
-        public readonly BInteger Length;
+        private readonly List<T> _values = in_values;
 
-        private readonly List<T> _values;
+        public BInteger Length => in_length;
 
-        public BList(BInteger length, List<T> values)
+        public T Get(int in_index)
         {
-            Length = length;
-            _values = values;
+            return _values[in_index];
         }
 
-        public T Get(int index) => _values[index];
-
-        public T[] AsArray(T[] array)
+        public T[] AsArray(T[] in_array)
         {
-            int i = 0;
+            var i = 0;
 
-            Length.Iterate(Run);
+            Length.Iterate
+            (
+                () =>
+                {
+                    in_array[i] = _values[i];
+                    i++;
+                }
+            );
 
-            void Run()
-            {
-                array[i] = _values[i];
-                i++;
-            }
-
-            return array;
+            return in_array;
         }
     }
 }

@@ -1,74 +1,59 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler
 {
-    public class Output
+    public class Output(IOutputProvider in_outputProvider, IndentationType in_indentationType = IndentationType.Spaces)
     {
-        private IndentationType _indentationType;
-        private IOutputProvider _out;
-        private int _indentationLevel = 0;
         private int _position = 0;
 
-        public Output() => new OutputProviderAnonymousInnerClass(this);
+        public IndentationType IndentationType { get; } = in_indentationType;
 
-        public Output(IOutputProvider @out, IndentationType indentationType = IndentationType.Spaces)
-        {
-            _out = @out;
-            _indentationType = indentationType;
-        }
-
-        private class OutputProviderAnonymousInnerClass : IOutputProvider
-        {
-            private readonly Output _outerInstance;
-
-            public OutputProviderAnonymousInnerClass(Output outerInstance) => _outerInstance = outerInstance;
-
-            public void Write(string str)
-                => Console.Write(str);
-
-            public void WriteLine()
-                => Console.WriteLine();
-        }
+        public int IndentationLevel { get; set; } = 0;
 
         public void Indent()
-            => _indentationLevel += _indentationType == IndentationType.Spaces ? 4 : 1;
+        {
+            IndentationLevel += IndentationType == IndentationType.Spaces ? 4 : 1;
+        }
 
         public void Dedent()
-            => _indentationLevel -= _indentationType == IndentationType.Spaces ? 4 : 1;
-
-        public int GetIndentationLevel() => _indentationLevel;
-
-        public int GetPosition() => _position;
-
-        public void SetIndentationLevel(int indentationLevel) => _indentationLevel = indentationLevel;
+        {
+            IndentationLevel -= IndentationType == IndentationType.Spaces ? 4 : 1;
+        }
 
         private void Start()
         {
-            if (_position == 0)
+            if (_position != 0)
+                return;
+
+            for (int i = IndentationLevel; i != 0; i--)
             {
-                for (int i = _indentationLevel; i != 0; i--)
-                {
-                    _out.Write(_indentationType == IndentationType.Spaces ? " " : "\t");
-                    _position++;
-                }
+                in_outputProvider.Write(IndentationType == IndentationType.Spaces ? " " : "\t");
+
+                _position++;
             }
         }
 
-        public void Write(string str)
+        public void Write(string in_str)
         {
             Start();
-            _out.Write(str);
-            _position += str.Length;
+
+            in_outputProvider.Write(in_str);
+
+            _position += in_str.Length;
         }
 
         public void WriteLine()
         {
             Start();
-            _out.WriteLine();
+
+            in_outputProvider.WriteLine();
+
             _position = 0;
         }
 
-        public void WriteLine(string str)
+        public void WriteLine(string in_str)
         {
-            Write(str);
+            Write(in_str);
             WriteLine();
         }
     }

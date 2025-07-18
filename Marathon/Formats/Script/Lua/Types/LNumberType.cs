@@ -1,33 +1,39 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Marathon.IO;
+using System;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LNumberType : BObjectType<LNumber>
     {
-        public readonly int Size;
-        public readonly bool Integral;
+        public int Size { get; }
 
-        public LNumberType(int size, bool integral)
+        public bool IsIntegral { get; }
+
+        public LNumberType(int in_size, bool in_integral)
         {
-            Size = size;
-            Integral = integral;
+            Size = in_size;
+            IsIntegral = in_integral;
 
-            if (!(size == 4 || size == 8))
-                throw new Exception($"The input chunk has an unsupported Lua number size: {size}");
+            if (in_size == 4 || in_size == 8)
+                return;
+
+            throw new NotSupportedException($"Unsupported Lua number size: {in_size}");
         }
 
-        public override LNumber Parse(BinaryReaderEx reader, BHeader header)
+        public override LNumber Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
             LNumber value = null;
 
-            if (Integral)
+            if (IsIntegral)
             {
                 switch (Size)
                 {
                     case 4:
-                        value = new LIntNumber(reader.ReadInt32());
+                        value = new LIntNumber(in_reader.Read<int>());
                         break;
 
                     case 8:
-                        value = new LLongNumber(reader.ReadInt64());
+                        value = new LLongNumber(in_reader.Read<long>());
                         break;
                 }
             }
@@ -36,17 +42,17 @@
                 switch (Size)
                 {
                     case 4:
-                        value = new LFloatNumber(reader.ReadSingle());
+                        value = new LFloatNumber(in_reader.Read<float>());
                         break;
 
                     case 8:
-                        value = new LDoubleNumber(reader.ReadDouble());
+                        value = new LDoubleNumber(in_reader.Read<double>());
                         break;
                 }
             }
 
             if (value == null)
-                throw new Exception("The input chunk has an unsupported Lua number format");
+                throw new NotSupportedException("Unsupported Lua number format.");
 
             return value;
         }

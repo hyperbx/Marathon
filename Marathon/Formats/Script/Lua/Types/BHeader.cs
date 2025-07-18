@@ -1,130 +1,139 @@
-﻿using Marathon.Formats.Script.Lua.Decompiler;
+﻿using Amicitia.IO.Binary;
+using Marathon.Formats.Script.Lua.Decompiler.Extractors;
+using Marathon.Formats.Script.Lua.Version;
+using Marathon.IO;
+using Marathon.IO.Extensions;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Types
 {
     public class BHeader
     {
-        public static readonly byte[] Signature = { 0x1B, 0x4C, 0x75, 0x61 };
-        public static readonly byte[] LuaTail = { 0x19, 0x93, 0x0D, 0x0A, 0x1A, 0x0A };
+        private readonly byte[] _signature = [ 0x1B, 0x4C, 0x75, 0x61 ];
+        private readonly byte[] _tail = [ 0x19, 0x93, 0x0D, 0x0A, 0x1A, 0x0A ];
 
-        public readonly Version Version;
-        public readonly BIntegerType Integer;
-        public readonly BSizeTType SizeT;
-        public readonly LBooleanType Bool;
-        public readonly LNumberType Number;
-        public readonly LStringType String;
-        public readonly LConstantType Constant;
-        public readonly LLocalType Local;
-        public readonly LUpvalueType Upvalue;
-        public readonly LFunctionType Function;
-        public readonly ICodeExtract Extractor;
+        public VersionBase Version { get; }
 
-        public BHeader(BinaryReaderEx reader)
+        public BIntegerType Integer { get; }
+
+        public BSizeTType SizeT { get; }
+
+        public LBooleanType Boolean { get; }
+
+        public LNumberType Number { get; }
+
+        public LStringType String { get; }
+
+        public LConstantType Constant { get; }
+
+        public LLocalType Local { get; }
+
+        public LUpvalueType Upvalue { get; }
+
+        public LFunctionType Function { get; }
+
+        public ICodeExtractor Extractor { get; }
+
+        public BHeader(BinaryObjectReaderEx in_reader)
         {
-            // Read script signature.
-            reader.ReadSignature(4, Signature);
+            in_reader.CheckSignature(_signature);
 
-            int versionNumber = reader.ReadByte();
+            var versionNumber = in_reader.Read<LuaVersion>();
 
             switch (versionNumber)
             {
-                case 0x50:
+                case LuaVersion.Lua50:
                 {
-                    Version = Version.LUA50;
+                    Version = new Version50();
                     break;
                 }
 
-                case 0x51:
+                case LuaVersion.Lua51:
                 {
-                    Version = Version.LUA51;
+                    Version = new Version51();
                     break;
                 }
 
-                case 0x52:
+                case LuaVersion.Lua52:
                 {
-                    Version = Version.LUA52;
+                    Version = new Version52();
                     break;
                 }
 
                 default:
                 {
-                    int major = versionNumber >> 4;
-                    int minor = versionNumber & 0x0F;
+                    var major = (byte)versionNumber >> 4;
+                    var minor = (byte)versionNumber & 0x0F;
 
-                    throw new Exception($"The input chunk's Lua version is {major}.{minor}; Marathon can only handle Lua 5.0, Lua 5.1 and Lua 5.2.");
+                    throw new Exception($"Unsupported Lua version: {major}.{minor}");
                 }
             }
 
             if (Version.HasFormat())
             {
-                int format = reader.ReadByte();
+                var format = in_reader.Read<byte>();
 
                 if (format != 0)
-                    throw new Exception($"The input chunk reports a non-standard Lua format: {format}");
+                    throw new Exception($"Unsupported Lua format: {format}");
             }
 
-            int endianness = reader.ReadByte();
+            var endianness = in_reader.Read<byte>();
 
-            switch (endianness)
+            in_reader.Endianness = endianness switch
             {
-                case 0:
-                    reader.IsBigEndian = true;
-                    break;
+                0 => Endianness.Big,
+                1 => Endianness.Little,
+                _ => throw new Exception($"Invalid endianness: {endianness}"),
+            };
 
-                case 1:
-                    reader.IsBigEndian = false;
-                    break;
+            Integer = new BIntegerType(in_reader.Read<byte>());
+            SizeT = new BSizeTType(in_reader.Read<byte>());
 
-                default:
-                    throw new Exception($"The input chunk reports an invalid endianness: {endianness}");
-            }
+            var instrSize = in_reader.Read<byte>();
 
-            int intSize = reader.ReadByte();
-            Integer = new BIntegerType(intSize);
+            if (instrSize != 4)
+                throw new Exception($"Unsupported instruction size: {instrSize}");
 
-            int sizeTSize = reader.ReadByte();
-            SizeT = new BSizeTType(sizeTSize);
-
-            int instructionSize = reader.ReadByte();
-            if (instructionSize != 4)
-                throw new Exception($"The input chunk reports an unsupported instruction size: {instructionSize} bytes");
-
-            if (Version == Version.LUA50)
+            if (Version.Version == LuaVersion.Lua50)
             {
-                Extractor = new Code50(reader.ReadByte(), reader.ReadByte(), reader.ReadByte(), reader.ReadByte());
+                Extractor = new CodeExtractor50(in_reader.Read<byte>(), in_reader.Read<byte>(), in_reader.Read<byte>(), in_reader.Read<byte>());
             }
             else
             {
-                Extractor = new Code51();
+                Extractor = new CodeExtractor51();
             }
 
-            int lNumberSize = reader.ReadByte();
-            if (Version == Version.LUA50)
+            var lNumberSize = in_reader.Read<byte>();
+
+            if (Version.Version == LuaVersion.Lua50)
             {
                 Number = new LNumberType(lNumberSize, false);
-                reader.ReadInt64();
+
+                in_reader.JumpAhead(8);
             }
             else
             {
-                int lNumberIntegralCode = reader.ReadByte();
+                var lNumberIntegralCode = in_reader.Read<byte>();
 
                 if (lNumberIntegralCode > 1)
-                    throw new Exception($"The input chunk reports an invalid code for lua number integralness: {lNumberIntegralCode}");
+                    throw new Exception($"Invalid Lua number integral: {lNumberIntegralCode}");
 
-                bool lNumberIntegral = lNumberIntegralCode == 1;
+                var lNumberIntegral = lNumberIntegralCode == 1;
 
                 Number = new LNumberType(lNumberSize, lNumberIntegral);
             }
 
-            Bool = new LBooleanType();
+            Boolean = new LBooleanType();
             String = new LStringType();
             Constant = new LConstantType();
             Local = new LLocalType();
             Upvalue = new LUpvalueType();
             Function = Version.GetLFunctionType();
 
-            if (Version.HasHeaderTail())
-                reader.ReadSignature(6, LuaTail);
+            if (!Version.HasHeaderTail())
+                return;
+            
+            in_reader.CheckSignature(_tail);
         }
     }
 }

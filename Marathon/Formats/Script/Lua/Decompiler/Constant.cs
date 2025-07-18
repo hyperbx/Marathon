@@ -1,11 +1,18 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
+using System;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Constant
     {
-        private static readonly HashSet<string> reservedWords = new()
-        {
+        private readonly int _type;
+        private readonly bool _bool;
+        private readonly LNumber _number;
+        private readonly string _string;
+
+        private static readonly HashSet<string> _keywords =
+        [
             "and",
             "break",
             "do",
@@ -27,81 +34,76 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             "true",
             "until",
             "while"
-        };
+        ];
 
-        private readonly int _type;
-        private readonly bool _bool;
-        private readonly LNumber _number;
-        private readonly string _string;
-
-        public Constant(int constant)
+        public Constant(int in_constant)
         {
             _type = 2;
             _bool = false;
-            _number = LNumber.MakeInteger(constant);
+            _number = LNumber.MakeInteger(in_constant);
             _string = null;
         }
 
-        public Constant(LObject constant)
+        public Constant(LObject in_constant)
         {
-            if (constant is LNil)
+            if (in_constant is LNil)
             {
                 _type = 0;
                 _bool = false;
                 _number = null;
                 _string = null;
             }
-            else if (constant is LBoolean)
+            else if (in_constant is LBoolean)
             {
                 _type = 1;
-                _bool = constant == LBoolean.LTRUE;
+                _bool = in_constant == LBoolean.True;
                 _number = null;
                 _string = null;
             }
-            else if (constant is LNumber)
+            else if (in_constant is LNumber)
             {
                 _type = 2;
                 _bool = false;
-                _number = (LNumber)constant;
+                _number = (LNumber)in_constant;
                 _string = null;
             }
-            else if (constant is LString)
+            else if (in_constant is LString)
             {
                 _type = 3;
                 _bool = false;
                 _number = null;
-                _string = ((LString)constant).Dereference();
+                _string = ((LString)in_constant).Dereference();
             }
             else
             {
-                throw new Exception($"Illegal constant type: {constant}");
+                throw new Exception($"Illegal constant type: {in_constant}");
             }
         }
 
-        public void Write(Output @out)
+        public void Write(Output in_output)
         {
             switch (_type)
             {
                 case 0:
-                    @out.Write("nil");
+                    in_output.Write("nil");
                     break;
 
                 case 1:
-                    @out.Write(_bool ? "true" : "false");
+                    in_output.Write(_bool ? "true" : "false");
                     break;
 
                 case 2:
-                    @out.Write(_number.ToString());
+                    in_output.Write(_number.ToString());
                     break;
 
                 case 3:
                 {
-                    int newlines = 0,
-                        unwritable = 0;
+                    var newlines = 0;
+                    var unwritable = 0;
 
                     for (int i = 0; i < _string.Length; i++)
                     {
-                        char c = _string[i];
+                        var c = _string[i];
 
                         if (c == '\n')
                         {
@@ -115,40 +117,42 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                     if (unwritable == 0 && !_string.Contains("[[") && (newlines > 1 || (newlines == 1 && _string.IndexOf('\n') != _string.Length - 1)))
                     {
-                        int pipe = 0;
-                        string pipeString = "]]";
+                        var pipe = 0;
+                        var pipeStr = "]]";
 
-                        while (_string.IndexOf(pipeString) >= 0)
+                        while (_string.IndexOf(pipeStr) >= 0)
                         {
                             pipe++;
-                            pipeString = "]";
+                            pipeStr = "]";
 
-                            int i = pipe;
+                            var i = pipe;
 
                             while (i-- > 0)
-                                pipeString += "=";
+                                pipeStr += "=";
 
-                            pipeString += "]";
+                            pipeStr += "]";
                         }
 
-                        @out.Write("[");
+                        in_output.Write("[");
 
                         while (pipe-- > 0)
-                            @out.Write("=");
+                            in_output.Write("=");
 
-                        @out.Write("[");
+                        in_output.Write("[");
 
-                        int indent = @out.GetIndentationLevel();
+                        var currentIndentation = in_output.IndentationLevel;
 
-                        @out.SetIndentationLevel(0);
-                        @out.WriteLine();
-                        @out.Write(_string);
-                        @out.Write(pipeString);
-                        @out.SetIndentationLevel(indent);
+                        in_output.IndentationLevel = 0;
+
+                        in_output.WriteLine();
+                        in_output.Write(_string);
+                        in_output.Write(pipeStr);
+
+                        in_output.IndentationLevel = currentIndentation;
                     }
                     else
                     {
-                        @out.Write("\"");
+                        in_output.Write("\"");
 
                         for (int i = 0; i < _string.Length; i++)
                         {
@@ -159,44 +163,44 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 switch (c)
                                 {
                                     case (char)7:
-                                        @out.Write("\\a");
+                                        in_output.Write("\\a");
                                         break;
 
                                     case (char)8:
-                                        @out.Write("\\b");
+                                        in_output.Write("\\b");
                                         break;
 
                                     case (char)9:
-                                        @out.Write("\\t");
+                                        in_output.Write("\\t");
                                         break;
 
                                     case (char)10:
-                                        @out.Write("\\n");
+                                        in_output.Write("\\n");
                                         break;
 
                                     case (char)11:
-                                        @out.Write("\\v");
+                                        in_output.Write("\\v");
                                         break;
 
                                     case (char)12:
-                                        @out.Write("\\f");
+                                        in_output.Write("\\f");
                                         break;
 
                                     case (char)13:
-                                        @out.Write("\\r");
+                                        in_output.Write("\\r");
                                         break;
 
                                     default:
                                     {
-                                        string dec = c.ToString();
-                                        int len = dec.Length;
+                                        var dec = c.ToString();
+                                        var len = dec.Length;
 
-                                        @out.Write("\\");
+                                        in_output.Write("\\");
 
                                         while (len++ < 3)
-                                            @out.Write("0");
+                                            in_output.Write("0");
 
-                                        @out.Write(dec);
+                                        in_output.Write(dec);
 
                                         break;
                                     }
@@ -204,19 +208,19 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                             }
                             else if (c == 34)
                             {
-                                @out.Write("\\\"");
+                                in_output.Write("\\\"");
                             }
                             else if (c == 92)
                             {
-                                @out.Write("\\\\");
+                                in_output.Write("\\\\");
                             }
                             else
                             {
-                                @out.Write(c.ToString());
+                                in_output.Write(c.ToString());
                             }
                         }
 
-                        @out.Write("\"");
+                        in_output.Write("\"");
                     }
 
                     break;
@@ -227,43 +231,44 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
         }
 
-        public bool IsNil() => _type == 0;
-
-        public bool IsBoolean() => _type == 1;
-
-        public bool IsNumber() => _type == 2;
-
-        public bool IsInteger() => _number.Value() == Math.Round(_number.Value());
-
-        public int AsInteger()
+        public bool IsNil()
         {
-            if (!IsInteger())
-                throw new Exception();
-
-            return (int)_number.Value();
+            return _type == 0;
         }
 
-        public bool IsString() => _type == 3;
+        public bool IsBoolean()
+        {
+            return _type == 1;
+        }
+
+        public bool IsNumber()
+        {
+            return _type == 2;
+        }
+
+        public bool IsString()
+        {
+            return _type == 3;
+        }
+
+        public bool IsInteger()
+        {
+            return _number.Value() == Math.Round(_number.Value());
+        }
 
         public bool IsIdentifier()
         {
-            if (!IsString())
+            if (!IsString() || _keywords.Contains(_string) || (_string.Length == 0))
                 return false;
 
-            if (reservedWords.Contains(_string))
-                return false;
-
-            if (_string.Length == 0)
-                return false;
-
-            char start = _string[0];
+            var start = _string[0];
 
             if (start != '_' && !char.IsLetter(start))
                 return false;
 
             for (int i = 1; i < _string.Length; i++)
             {
-                char next = _string[i];
+                var next = _string[i];
 
                 if (char.IsLetterOrDigit(next))
                     continue;
@@ -280,9 +285,17 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         public string AsName()
         {
             if (_type != 3)
-                throw new Exception();
+                throw new InvalidCastException("This constant's data type is not a string.");
 
             return _string;
+        }
+
+        public int AsInteger()
+        {
+            if (!IsInteger())
+                throw new InvalidCastException("This constant's data type is not an integer.");
+
+            return (int)_number.Value();
         }
     }
 }

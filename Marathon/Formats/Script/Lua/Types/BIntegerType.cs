@@ -1,47 +1,49 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using Amicitia.IO.Binary;
+using Marathon.IO;
+using System.Numerics;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
-    public class BIntegerType : BObjectType<BInteger>
+    public class BIntegerType(int in_intSize) : BObjectType<BInteger>
     {
-        public readonly int IntSize;
+        public int Size => in_intSize;
 
-        public BIntegerType(int intSize) => IntSize = intSize;
-
-        public BInteger RawParse(BinaryReaderEx reader, BHeader header)
+        public BInteger RawParse(BinaryObjectReaderEx in_reader, BHeader in_header)
         {
             BInteger value;
 
-            switch (IntSize)
+            switch (Size)
             {
                 case 0:
                     value = new BInteger(0);
                     break;
 
                 case 1:
-                    value = new BInteger(reader.ReadByte());
+                    value = new BInteger(in_reader.Read<byte>());
                     break;
 
                 case 2:
-                    value = new BInteger(reader.ReadInt16());
+                    value = new BInteger(in_reader.Read<short>());
                     break;
 
                 case 4:
-                    value = new BInteger(reader.ReadInt32());
+                    value = new BInteger(in_reader.Read<int>());
                     break;
 
                 default:
                 {
-                    byte[] bytes = new byte[IntSize];
+                    var bytes = new byte[Size];
+                    var start = 0;
+                    var delta = 1;
 
-                    int start = 0, delta = 1;
-
-                    if (!reader.IsBigEndian)
+                    if (in_reader.Endianness != Endianness.Big)
                     {
-                        start = IntSize - 1;
+                        start = Size - 1;
                         delta = -1;
                     }
 
-                    for (int i = start; i >= 0 && i < IntSize; i += delta)
-                        bytes[i] = reader.ReadByte();
+                    for (int i = start; i >= 0 && i < Size; i += delta)
+                        bytes[i] = in_reader.Read<byte>();
 
                     value = new BInteger(new BigInteger(bytes));
 
@@ -52,6 +54,9 @@
             return value;
         }
 
-        public override BInteger Parse(BinaryReaderEx reader, BHeader header) => RawParse(reader, header);
+        public override BInteger Parse(BinaryObjectReaderEx in_reader, BHeader in_header)
+        {
+            return RawParse(in_reader, in_header);
+        }
     }
 }

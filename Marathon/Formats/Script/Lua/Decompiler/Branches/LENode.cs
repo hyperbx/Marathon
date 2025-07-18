@@ -2,32 +2,27 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
-    class LENode : Branch
+    public class LENode(int in_left, int in_right, bool in_invert, int in_line, int in_begin, int in_end) : Branch(in_line, in_begin, in_end)
     {
-        private readonly int _left, _right;
-        private readonly bool _invert;
-
-        public LENode(int left, int right, bool invert, int line, int begin, int end) : base(line, begin, end)
+        public override Branch Invert()
         {
-            _left = left;
-            _right = right;
-            _invert = invert;
+            return new LENode(in_left, in_right, !in_invert, Line, End, Begin);
         }
 
-        public override Branch Invert() => new LENode(_left, _right, !_invert, Line, End, Begin);
-
-        public override int GetRegister() => -1;
-
-        public override Expression AsExpression(Registers r)
+        public override int GetRegister()
         {
-            bool transpose = false;
+            return -1;
+        }
 
-            Expression leftExpression = r.GetConstantExpression(_left, Line),
-                       rightExpression = r.GetConstantExpression(_right, Line);
+        public override Expression AsExpression(Registers in_registers)
+        {
+            var transpose = false;
+            var leftExpression = in_registers.GetConstantExpression(in_left, Line);
+            var rightExpression = in_registers.GetConstantExpression(in_right, Line);
 
             if (!leftExpression.IsConstant() && !rightExpression.IsConstant())
             {
-                transpose = r.GetUpdated(_left, Line) > r.GetUpdated(_right, Line);
+                transpose = in_registers.GetUpdated(in_left, Line) > in_registers.GetUpdated(in_right, Line);
             }
             else
             {
@@ -39,16 +34,16 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Branches
                 !transpose ? "<=" : ">=",
                 !transpose ? leftExpression : rightExpression,
                 !transpose ? rightExpression : leftExpression,
-                Precedence.COMPARE,
-                Associativity.LEFT
+                Precedence.Compare,
+                Associativity.Left
             );
 
-            if (_invert)
-                result = new UnaryExpression("not ", result, Precedence.UNARY);
+            if (in_invert)
+                result = new UnaryExpression("not ", result, Precedence.Unary);
 
             return result;
         }
 
-        public override void UseExpression(Expression expression) { }
+        public override void UseExpression(Expression in_expression) { }
     }
 }

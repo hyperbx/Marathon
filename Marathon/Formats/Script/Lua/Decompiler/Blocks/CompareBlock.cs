@@ -1,45 +1,55 @@
-﻿using Marathon.Formats.Script.Lua.Types;
-using Marathon.Formats.Script.Lua.Decompiler.Branches;
-using Marathon.Formats.Script.Lua.Decompiler.Statements;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;
+using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using Marathon.Formats.Script.Lua.Types;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class CompareBlock : Block
+    public class CompareBlock(LFunction in_function, int in_begin, int in_end, int in_target, Branch in_branch) : Block(in_function, in_begin, in_end)
     {
-        public int Target;
-        public Branch Branch;
+        public int Target { get; set; } = in_target;
 
-        public CompareBlock(LFunction function, int begin, int end, int target, Branch branch) : base(function, begin, end)
+        public Branch Branch { get; set; } = in_branch;
+
+        public override bool IsContainer()
         {
-            Target = target;
-            Branch = branch;
+            return false;
         }
 
-        public override bool IsContainer() => false;
-
-        public override bool Breakable() => false;
-
-        public override void AddStatement(Statement statement) { }
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
-            => @out.Write("-- Unhandled compare assign...");
-
-        public override Operation Process(Decompiler d) => new OperationAnonymousInnerClass(this);
-
-        private class OperationAnonymousInnerClass : Operation
+        public override bool Breakable()
         {
-            private readonly CompareBlock _outerInstance;
+            return false;
+        }
 
-            public OperationAnonymousInnerClass(CompareBlock outerInstance) : base(outerInstance.End - 1)
-                => _outerInstance = outerInstance;
+        public override void AddStatement(Statement in_statement) { }
 
-            public override Statement Process(Registers r, Block block)
-                => new RegisterSet(_outerInstance.End - 1, _outerInstance.Target, _outerInstance.Branch.AsExpression(r)).Process(r, block);
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
+
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write("-- WARNING: unhandled compare assign!");
+        }
+
+        public override Operation Process(Decompiler in_decompiler)
+        {
+            return new CompareBlockOperation(this);
+        }
+    }
+
+    file class CompareBlockOperation(CompareBlock in_outerInstance) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
+        {
+            return new RegisterSet(in_outerInstance.End - 1, in_outerInstance.Target, in_outerInstance.Branch.AsExpression(in_registers)).Process(in_registers, in_block);
         }
     }
 }

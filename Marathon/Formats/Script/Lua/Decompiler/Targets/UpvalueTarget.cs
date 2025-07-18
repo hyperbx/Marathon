@@ -1,15 +1,17 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Targets
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Targets
 {
-    public class UpvalueTarget : Target
+    public class UpvalueTarget(string in_name) : Target
     {
-        private readonly string _name;
+        public override void Write(Output in_output)
+        {
+            in_output.Write(in_name);
+        }
 
-        public UpvalueTarget(string name) => _name = name;
-
-        public override void Write(Output @out)
-            => @out.Write(_name);
-
-        public override void WriteMethod(Output @out)
-            => throw new Exception();
+        public override void WriteMethod(Output in_output)
+        {
+            throw new NotSupportedException();
+        }
     }
 }

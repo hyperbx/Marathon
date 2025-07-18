@@ -1,29 +1,32 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using System;
+using System.Numerics;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class BInteger : BObject
     {
-        private readonly BigInteger? _big;
-        private readonly int _n;
+        private readonly BigInteger? _valueBig;
+        private readonly int _value;
 
-        private static BigInteger? _max;
         private static BigInteger? _min;
+        private static BigInteger? _max;
 
-        public BInteger(BInteger b)
+        public BInteger(BInteger in_value)
         {
-            _big = b._big;
-            _n = b._n;
+            _valueBig = in_value._valueBig;
+            _value = in_value._value;
         }
 
-        public BInteger(int n)
+        public BInteger(int in_value)
         {
-            _big = null;
-            _n = n;
+            _valueBig = null;
+            _value = in_value;
         }
 
-        public BInteger(BigInteger big)
+        public BInteger(BigInteger in_value)
         {
-            _big = big;
-            _n = 0;
+            _valueBig = in_value;
+            _value = 0;
 
             if (_max == 0)
             {
@@ -34,36 +37,36 @@
 
         public int AsInt()
         {
-            if (_big == null)
+            if (_valueBig == null)
             {
-                return _n;
+                return _value;
             }
-            else if (_big.Value.CompareTo(_max) > 0 || _big.Value.CompareTo(_min) < 0)
+            else if (_valueBig.Value.CompareTo(_max) > 0 || _valueBig.Value.CompareTo(_min) < 0)
             {
-                throw new Exception("The size of an integer is outside the range that unluac can handle.");
+                throw new Exception("Invalid integer value.");
             }
             else
             {
-                return (int)_big.Value;
+                return (int)_valueBig.Value;
             }
         }
 
-        public void Iterate(Action thunk)
+        public void Iterate(Action in_action)
         {
-            if (_big == null)
+            if (_valueBig == null)
             {
-                int i = _n;
+                var i = _value;
 
                 while (i-- != 0)
-                    thunk();
+                    in_action();
             }
             else
             {
-                BigInteger i = _big.Value;
+                var i = _valueBig.Value;
 
-                while (_big.Value.Sign > 0)
+                while (_valueBig.Value.Sign > 0)
                 {
-                    thunk();
+                    in_action();
 
                     i -= BigInteger.One;
                 }

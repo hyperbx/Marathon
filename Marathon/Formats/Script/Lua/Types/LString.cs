@@ -1,26 +1,27 @@
 ﻿namespace Marathon.Formats.Script.Lua.Types
 {
-    public class LString : LObject
+    public class LString(BSizeT in_size, string in_value) : LObject
     {
-        public readonly BSizeT Size;
-        public readonly string Value;
+        public BSizeT Size => in_size;
 
-        public LString(BSizeT size, string value)
+        public string Value => in_value.Length == 0 ? string.Empty : in_value[0..^1];
+
+        public override string Dereference()
         {
-            Size = size;
-            Value = value.Length == 0 ? "" : value[0..^1];
+            return Value;
         }
-
-        public override string Dereference() => Value;
-
-        public override string ToString() => $"\"{Value}\"";
 
         public override bool Equals(object o)
         {
-            if (o is LString lString)
-                return lString.Value.Equals(Value);
+            if (o is LString out_string)
+                return out_string.Value.Equals(Value);
 
             return false;
+        }
+
+        public override string ToString()
+        {
+            return $"\"{Value}\"";
         }
     }
 }

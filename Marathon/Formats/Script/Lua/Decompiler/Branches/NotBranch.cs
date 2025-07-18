@@ -2,18 +2,23 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
-    public class NotBranch : Branch
+    public class NotBranch(Branch in_branch) : Branch(in_branch.Line, in_branch.Begin, in_branch.End)
     {
-        private readonly Branch _branch;
+        public override Branch Invert()
+        {
+            return in_branch;
+        }
 
-        public NotBranch(Branch branch) : base(branch.Line, branch.Begin, branch.End) => _branch = branch;
+        public override int GetRegister()
+        {
+            return in_branch.GetRegister();
+        }
 
-        public override Branch Invert() => _branch;
+        public override Expression AsExpression(Registers in_registers)
+        {
+            return new UnaryExpression("not ", in_branch.AsExpression(in_registers), Precedence.Unary);
+        }
 
-        public override int GetRegister() => _branch.GetRegister();
-
-        public override Expression AsExpression(Registers r) => new UnaryExpression("not ", _branch.AsExpression(r), Precedence.UNARY);
-
-        public override void UseExpression(Expression expression) { }
+        public override void UseExpression(Expression in_expression) { }
     }
 }

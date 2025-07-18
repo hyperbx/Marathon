@@ -1,19 +1,46 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public abstract class LNumber : LObject
     {
-        public static LNumber MakeInteger(int number) => new LIntNumber(number);
+        public static LNumber MakeInteger(int in_number)
+        {
+            return new LIntNumber(in_number);
+        }
 
         public abstract new string ToString();
 
         public abstract double Value();
     }
 
-    class LFloatNumber : LNumber
+    class LFloatNumber(float in_number) : LNumber
     {
-        public readonly float Number;
+        public float Number => in_number;
 
-        public LFloatNumber(float number) => Number = number;
+        public override double Value()
+        {
+            return Number;
+        }
+
+        public override string Dereference()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is LFloatNumber out_floatNumber)
+            {
+                return Number == out_floatNumber.Number;
+            }
+            else if (in_obj is LNumber out_number)
+            {
+                return Value() == out_number.Value();
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {
@@ -26,31 +53,35 @@
                 return Number.ToString();
             }
         }
+    }
 
-        public override string Dereference() => throw new NotImplementedException();
+    class LDoubleNumber(double in_number) : LNumber
+    {
+        public double Number => in_number;
 
-        public override bool Equals(object o)
+        public override double Value()
         {
-            if (o is LFloatNumber lFloatNumber)
+            return Number;
+        }
+
+        public override string Dereference()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is LDoubleNumber out_doubleNumber)
             {
-                return Number == lFloatNumber.Number;
+                return Number == out_doubleNumber.Number;
             }
-            else if (o is LNumber lNumber)
+            else if (in_obj is LNumber out_number)
             {
-                return Value() == lNumber.Value();
+                return Value() == out_number.Value();
             }
 
             return false;
         }
-
-        public override double Value() => Number;
-    }
-
-    class LDoubleNumber : LNumber
-    {
-        public readonly double Number;
-
-        public LDoubleNumber(double number) => Number = number;
 
         public override string ToString()
         {
@@ -63,77 +94,73 @@
                 return Number.ToString();
             }
         }
-
-        public override string Dereference() => throw new NotImplementedException();
-
-        public override bool Equals(object o)
-        {
-            if (o is LDoubleNumber lDoubleNumber)
-            {
-                return Number == lDoubleNumber.Number;
-            }
-            else if (o is LNumber lNumber)
-            {
-                return Value() == lNumber.Value();
-            }
-
-            return false;
-        }
-
-        public override double Value() => Number;
     }
 
-    class LIntNumber : LNumber
+    class LIntNumber(int in_number) : LNumber
     {
-        public readonly int Number;
+        public int Number => in_number;
 
-        public LIntNumber(int number) => Number = number;
-
-        public override string ToString() => Number.ToString();
-
-        public override string Dereference() => throw new NotImplementedException();
-
-        public override bool Equals(object o)
+        public override double Value()
         {
-            if (o is LIntNumber lIntNumber)
+            return Number;
+        }
+
+        public override string Dereference()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is LIntNumber out_intNumber)
             {
-                return Number == lIntNumber.Number;
+                return Number == out_intNumber.Number;
             }
-            else if (o is LNumber lNumber)
+            else if (in_obj is LNumber out_number)
             {
-                return Value() == lNumber.Value();
+                return Value() == out_number.Value();
             }
 
             return false;
         }
 
-        public override double Value() => Number;
+        public override string ToString()
+        {
+            return Number.ToString();
+        }
     }
 
-    class LLongNumber : LNumber
+    class LLongNumber(long in_number) : LNumber
     {
-        public readonly long Number;
+        public long Number => in_number;
 
-        public LLongNumber(long number) => Number = number;
-
-        public override string ToString() => Number.ToString();
-
-        public override string Dereference() => throw new NotImplementedException();
-
-        public override bool Equals(object o)
+        public override double Value()
         {
-            if (o is LLongNumber lLongNumber)
+            return Number;
+        }
+
+        public override string Dereference()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is LLongNumber out_longNumber)
             {
-                return Number == lLongNumber.Number;
+                return Number == out_longNumber.Number;
             }
-            else if (o is LNumber lNumber)
+            else if (in_obj is LNumber out_number)
             {
-                return Value() == lNumber.Value();
+                return Value() == out_number.Value();
             }
 
             return false;
         }
 
-        public override double Value() => Number;
+        public override string ToString()
+        {
+            return Number.ToString();
+        }
     }
 }

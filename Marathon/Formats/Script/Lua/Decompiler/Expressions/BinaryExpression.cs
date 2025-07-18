@@ -1,53 +1,61 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿using System;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class BinaryExpression : Expression
+    public class BinaryExpression(string in_operator, Expression in_left, Expression in_right, Precedence in_precedence, Associativity in_associativity) : Expression(in_precedence)
     {
-        private readonly string _op;
-        private readonly Expression _left, _right;
-        private readonly Associativity _associativity;
+        public string Operator => in_operator;
 
-        public BinaryExpression(string op, Expression left, Expression right, Precedence precedence, Associativity associativity) : base(precedence)
+        public Expression Left => in_left;
+
+        public Expression Right => in_right;
+
+        public Associativity Associativity => in_associativity;
+
+        public override int GetConstantIndex()
         {
-            _op = op;
-            _left = left;
-            _right = right;
-            _associativity = associativity;
+            return Math.Max(Left.GetConstantIndex(), Right.GetConstantIndex());
         }
 
-        public override int GetConstantIndex() => Math.Max(_left.GetConstantIndex(), _right.GetConstantIndex());
-
-        public override bool BeginsWithParent() => LeftGroup() || _left.BeginsWithParent();
-
-        public override void Write(Output @out)
+        public override bool BeginsWithParen()
         {
-            bool leftGroup = LeftGroup();
-            bool rightGroup = RightGroup();
-
-            if (leftGroup)
-                @out.Write("(");
-
-            _left.Write(@out);
-
-            if (leftGroup)
-                @out.Write(")");
-
-            @out.Write(" ");
-            @out.Write(_op);
-            @out.Write(" ");
-
-            if (rightGroup)
-                @out.Write("(");
-
-            _right.Write(@out);
-
-            if (rightGroup)
-                @out.Write(")");
+            return IsLeftGroup() || Left.BeginsWithParen();
         }
 
-        private bool LeftGroup()
-            => Precedence > _left.Precedence || (Precedence == _left.Precedence && _associativity == Associativity.RIGHT);
+        private bool IsLeftGroup()
+        {
+            return Precedence > Left.Precedence || (Precedence == Left.Precedence && Associativity == Associativity.Right);
+        }
 
-        private bool RightGroup()
-            => Precedence > _right.Precedence || (Precedence == _right.Precedence && _associativity == Associativity.LEFT);
+        private bool IsRightGroup()
+        {
+            return Precedence > Right.Precedence || (Precedence == Right.Precedence && Associativity == Associativity.Left);
+        }
+
+        public override void Write(Output in_output)
+        {
+            var isLeftGroup = IsLeftGroup();
+            var isRightGroup = IsRightGroup();
+
+            if (isLeftGroup)
+                in_output.Write("(");
+
+            Left.Write(in_output);
+
+            if (isLeftGroup)
+                in_output.Write(")");
+
+            in_output.Write(" ");
+            in_output.Write(Operator);
+            in_output.Write(" ");
+
+            if (isRightGroup)
+                in_output.Write("(");
+
+            Right.Write(in_output);
+
+            if (isRightGroup)
+                in_output.Write(")");
+        }
     }
 }

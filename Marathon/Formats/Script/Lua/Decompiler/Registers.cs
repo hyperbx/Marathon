@@ -1,170 +1,191 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
+using System;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Registers
     {
-        public readonly int _Registers, Length;
-
-        private readonly Declaration[,] _decls;
-        private readonly Function _f;
+        private readonly Declaration[,] _declarations;
+        private readonly Function _function;
         private readonly Expression[,] _values;
         private readonly int[,] _updated;
         private bool[] _startedLines;
 
-        public Registers(int registers, int length, Declaration[] declList, Function f)
+        public int RegisterCount { get; }
+
+        public int Length { get; }
+
+        public Registers(int in_registerCount, int in_length, Declaration[] in_declarations, Function in_function)
         {
-            _Registers = registers;
-            Length = length;
-            _decls = new Declaration[registers, length + 1];
+            RegisterCount = in_registerCount;
+            Length = in_length;
 
-            for (int i = 0; i < declList.Length; i++)
+            _declarations = new Declaration[in_registerCount, in_length + 1];
+
+            for (int i = 0; i < in_declarations.Length; i++)
             {
-                Declaration decl = declList[i];
-                int register = 0;
+                var declaration = in_declarations[i];
+                var register = 0;
 
-                while (_decls[register, decl.Begin] != null)
+                while (_declarations[register, declaration.Begin] != null)
                     register++;
 
-                decl.Register = register;
+                declaration.Register = register;
 
-                for (int line = decl.Begin; line <= decl.End; line++)
-                    _decls[register, line] = decl;
+                for (int line = declaration.Begin; line <= declaration.End; line++)
+                    _declarations[register, line] = declaration;
             }
 
-            _values = new Expression[registers, length + 1];
+            _values = new Expression[in_registerCount, in_length + 1];
 
-            for (int register = 0; register < registers; register++)
-                _values[register, 0] = Expression.NIL;
+            for (int register = 0; register < in_registerCount; register++)
+                _values[register, 0] = Expression.Nil;
 
-            _updated = new int[registers, length + 1];
-            _startedLines = new bool[length + 1];
+            _updated = new int[in_registerCount, in_length + 1];
+            _startedLines = new bool[in_length + 1];
 
             Array.Fill(_startedLines, false);
 
-            _f = f;
+            _function = in_function;
         }
 
-        public bool IsAssignable(int register, int line) => IsLocal(register, line) && !_decls[register, line].ForLoop;
-
-        public bool IsLocal(int register, int line)
+        public bool IsAssignable(int in_register, int in_line)
         {
-            if (register < 0)
+            return IsLocal(in_register, in_line) && !_declarations[in_register, in_line].IsForLoop;
+        }
+
+        public bool IsLocal(int in_register, int in_line)
+        {
+            if (in_register < 0)
                 return false;
 
-            return _decls[register, line] != null;
+            return _declarations[in_register, in_line] != null;
         }
 
-        public bool IsNewLocal(int register, int line)
+        public bool IsNewLocal(int in_register, int in_line)
         {
-            Declaration decl = _decls[register, line];
+            var declaration = _declarations[in_register, in_line];
 
-            return decl != null && decl.Begin == line && !decl.ForLoop;
+            return declaration != null && declaration.Begin == in_line && !declaration.IsForLoop;
         }
 
-        public List<Declaration> GetNewLocals(int line)
+        public List<Declaration> GetNewLocals(int in_line)
         {
-            List<Declaration> locals = new(_Registers);
+            var locals = new List<Declaration>(RegisterCount);
 
-            for (int register = 0; register < _Registers; register++)
+            for (int register = 0; register < RegisterCount; register++)
             {
-                if (IsNewLocal(register, line))
-                    locals.Add(GetDeclaration(register, line));
+                if (IsNewLocal(register, in_line))
+                    locals.Add(GetDeclaration(register, in_line));
             }
 
             return locals;
         }
 
-        public Declaration GetDeclaration(int register, int line) => _decls[register, line];
-
-        public void StartLine(int line)
+        public Declaration GetDeclaration(int in_register, int in_line)
         {
-            _startedLines[line] = true;
+            return _declarations[in_register, in_line];
+        }
 
-            for (int register = 0; register < _Registers; register++)
+        public void StartLine(int in_line)
+        {
+            _startedLines[in_line] = true;
+
+            for (int register = 0; register < RegisterCount; register++)
             {
-                _values[register, line] = _values[register, line - 1];
-                _updated[register, line] = _updated[register, line - 1];
+                _values[register, in_line] = _values[register, in_line - 1];
+                _updated[register, in_line] = _updated[register, in_line - 1];
             }
         }
 
-        public Expression GetExpression(int register, int line)
+        public Expression GetExpression(int in_register, int in_line)
         {
-            if (IsLocal(register, line - 1))
+            if (IsLocal(in_register, in_line - 1))
             {
-                return new LocalVariable(GetDeclaration(register, line - 1));
-            }
-            else
-            {
-                return _values[register, line - 1];
-            }
-        }
-
-        public Expression GetConstantExpression(int register, int line)
-        {
-            if (_f.IsConstant(register))
-            {
-                return _f.GetConstantExpression(_f.ConstantIndex(register));
+                return new LocalVariable(GetDeclaration(in_register, in_line - 1));
             }
             else
             {
-                return GetExpression(register, line);
+                return _values[in_register, in_line - 1];
             }
         }
 
-        public Expression GetValue(int register, int line) => _values[register, line - 1];
-
-        public int GetUpdated(int register, int line) => _updated[register, line];
-
-        public void SetValue(int register, int line, Expression expression)
+        public Expression GetConstantExpression(int in_register, int in_line)
         {
-            _values[register, line] = expression;
-            _updated[register, line] = line;
-        }
-
-        public Target GetTarget(int register, int line)
-        {
-            if (!IsLocal(register, line))
-                _decls[register, line] = new Declaration("i", 0, 0);
-
-            return new VariableTarget(_decls[register, line]);
-        }
-
-        public void SetInternalLoopVariable(int register, int begin, int end)
-        {
-            Declaration decl = GetDeclaration(register, begin);
-
-            if (decl == null)
+            if (_function.IsConstant(in_register))
             {
-                decl = new("i", begin, end);
-                decl.Register = register;
-
-                NewDeclaration(decl, register, begin, end);
+                return _function.GetConstantExpression(_function.ConstantIndex(in_register));
             }
-
-            decl.ForLoop = true;
-        }
-
-        public void SetExplicitLoopVariable(int register, int begin, int end)
-        {
-            Declaration decl = GetDeclaration(register, begin);
-
-            if (decl == null)
+            else
             {
-                decl = new($"v{register}", begin, end);
-                decl.Register = register;
-
-                NewDeclaration(decl, register, begin, end);
+                return GetExpression(in_register, in_line);
             }
-
-            decl.ForLoopExplicit = true;
         }
 
-        private void NewDeclaration(Declaration decl, int register, int begin, int end)
+        public Expression GetValue(int in_register, int in_line)
         {
-            for (int line = begin; line <= end; line++)
-                _decls[register, line] = decl;
+            return _values[in_register, in_line - 1];
+        }
+
+        public int GetUpdated(int in_register, int in_line)
+        {
+            return _updated[in_register, in_line];
+        }
+
+        public void SetValue(int in_register, int in_line, Expression in_expression)
+        {
+            _values[in_register, in_line] = in_expression;
+            _updated[in_register, in_line] = in_line;
+        }
+
+        public Target GetTarget(int in_register, int in_line)
+        {
+            if (!IsLocal(in_register, in_line))
+                _declarations[in_register, in_line] = new Declaration("i", 0, 0);
+
+            return new VariableTarget(_declarations[in_register, in_line]);
+        }
+
+        public void SetInternalLoopVariable(int in_register, int in_begin, int in_end)
+        {
+            var declaration = GetDeclaration(in_register, in_begin);
+
+            if (declaration == null)
+            {
+                declaration = new("i", in_begin, in_end)
+                {
+                    Register = in_register
+                };
+
+                NewDeclaration(declaration, in_register, in_begin, in_end);
+            }
+
+            declaration.IsForLoop = true;
+        }
+
+        public void SetExplicitLoopVariable(int in_register, int in_begin, int in_end)
+        {
+            var declaration = GetDeclaration(in_register, in_begin);
+
+            if (declaration == null)
+            {
+                declaration = new($"v{in_register}", in_begin, in_end)
+                {
+                    Register = in_register
+                };
+
+                NewDeclaration(declaration, in_register, in_begin, in_end);
+            }
+
+            declaration.IsForLoopExplicit = true;
+        }
+
+        private void NewDeclaration(Declaration in_declaration, int in_register, int in_begin, int in_end)
+        {
+            for (int line = in_begin; line <= in_end; line++)
+                _declarations[in_register, line] = in_declaration;
         }
     }
 }

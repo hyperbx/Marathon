@@ -1,36 +1,41 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Operations;
+using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public abstract class Block : Statement, IComparable<Block>
+    public abstract class Block(LFunction in_function, int in_begin, int in_end) : Statement, IComparable<Block>
     {
-        protected readonly LFunction _function;
+        protected readonly LFunction _function = in_function;
 
-        public int Begin, End;
-        public bool LoopRedirectAdjustment = false;
+        public int Begin { get; set; } = in_begin;
 
-        public Block(LFunction function, int begin, int end)
-        {
-            _function = function;
-            Begin = begin;
-            End = end;
-        }
+        public int End { get; set; } = in_end;
+
+        public bool LoopRedirectAdjustment { get; set; } = false;
 
         public abstract void AddStatement(Statement statement);
 
-        public bool Contains(Block block) => Begin <= block.Begin && End >= block.End;
+        public bool Contains(Block in_block)
+        {
+            return Begin <= in_block.Begin && End >= in_block.End;
+        }
 
-        public bool Contains(int line) => Begin <= line && line < End;
+        public bool Contains(int in_line)
+        {
+            return Begin <= in_line && in_line < End;
+        }
 
-        public virtual int ScopeEnd() => End - 1;
+        public virtual int ScopeEnd()
+        {
+            return End - 1;
+        }
 
         /// <summary>
         /// An unprotected block is one that ends in a JMP instruction.
         /// <para>If this is the case, any inner statement that tries to jump to the end of this block will be redirected.</para>
-        /// <para>One of the Lua compiler's few optimizations is that is changes any JMP that targets another JMP to the ultimate target.</para>
-        /// <para>This is what I call redirection.</para>
+        /// <para>One of the Lua compiler's few optimisations is that it changes any JMP that targets another JMP to the absolute target.</para>
         /// </summary>
         public abstract bool IsUnprotected();
 
@@ -40,25 +45,24 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
         public abstract bool IsContainer();
 
-        public int CompareTo(Block block)
+        public int CompareTo(Block in_block)
         {
-            if (Begin < block.Begin)
-            {
+            if (Begin < in_block.Begin)
                 return -1;
-            }
-            else if (Begin == block.Begin)
+
+            if (Begin == in_block.Begin)
             {
-                if (End < block.End)
+                if (End < in_block.End)
                 {
                     return 1;
                 }
-                else if (End == block.End)
+                else if (End == in_block.End)
                 {
-                    if (IsContainer() && !block.IsContainer())
+                    if (IsContainer() && !in_block.IsContainer())
                     {
                         return -1;
                     }
-                    else if (!IsContainer() && block.IsContainer())
+                    else if (!IsContainer() && in_block.IsContainer())
                     {
                         return 1;
                     }
@@ -72,31 +76,21 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
                     return -1;
                 }
             }
-            else
-            {
-                return 1;
-            }
+
+            return 1;
         }
 
-        public virtual Operation Process(Decompiler d)
+        public virtual Operation Process(Decompiler in_decompiler)
         {
-            Statement statement = this;
-
-            return new OperationAnonymousInnerClass(this, statement);
+            return new BlockOperation(this, this);
         }
+    }
 
-        private class OperationAnonymousInnerClass : Operation
+    file class BlockOperation(Block in_outerInstance, Statement in_statement) : Operation(in_outerInstance.End - 1)
+    {
+        public override Statement Process(Registers in_registers, Block in_block)
         {
-            private readonly Block _outerInstance;
-            private Statement _statement;
-
-            public OperationAnonymousInnerClass(Block outerInstance, Statement statement) : base(outerInstance.End - 1)
-            {
-                _outerInstance = outerInstance;
-                _statement = statement;
-            }
-
-            public override Statement Process(Registers r, Block block) => _statement;
+            return in_statement;
         }
     }
 }

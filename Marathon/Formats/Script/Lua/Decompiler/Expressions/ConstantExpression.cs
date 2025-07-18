@@ -1,37 +1,60 @@
 ﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class ConstantExpression : Expression
+    public class ConstantExpression(Constant in_constant, int in_index) : Expression(Precedence.Atomic)
     {
-        private readonly Constant _constant;
-        private readonly int _index;
-
-        public ConstantExpression(Constant constant, int index) : base(Precedence.ATOMIC)
+        public override int GetConstantIndex()
         {
-            _constant = constant;
-            _index = index;
+            return in_index;
         }
 
-        public override int GetConstantIndex() => _index;
+        public override bool IsConstant()
+        {
+            return true;
+        }
 
-        public override void Write(Output @out)
-            => _constant.Write(@out);
+        public override bool IsNil()
+        {
+            return in_constant.IsNil();
+        }
 
-        public override bool IsConstant() => true;
+        public override bool IsBoolean()
+        {
+            return in_constant.IsBoolean();
+        }
 
-        public override bool IsNil() => _constant.IsNil();
+        public override bool IsInteger()
+        {
+            return in_constant.IsInteger();
+        }
 
-        public override bool IsBoolean() => _constant.IsBoolean();
+        public override int AsInteger()
+        {
+            return in_constant.AsInteger();
+        }
 
-        public override bool IsInteger() => _constant.IsInteger();
+        public override bool IsString()
+        {
+            return in_constant.IsString();
+        }
 
-        public override int AsInteger() => _constant.AsInteger();
+        public override bool IsIdentifier()
+        {
+            return in_constant.IsIdentifier();
+        }
 
-        public override bool IsString() => _constant.IsString();
+        public override string AsName()
+        {
+            return in_constant.AsName();
+        }
 
-        public override bool IsIdentifier() => _constant.IsIdentifier();
+        public override bool IsBrief()
+        {
+            return !in_constant.IsString() || in_constant.AsName().Length <= 10;
+        }
 
-        public override string AsName() => _constant.AsName();
-
-        public override bool IsBrief() => !_constant.IsString() || _constant.AsName().Length <= 10;
+        public override void Write(Output in_output)
+        {
+            in_constant.Write(in_output);
+        }
     }
 }

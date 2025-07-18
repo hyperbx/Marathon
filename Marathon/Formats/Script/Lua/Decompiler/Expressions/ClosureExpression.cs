@@ -3,102 +3,102 @@ using Marathon.Formats.Script.Lua.Decompiler.Targets;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class ClosureExpression : Expression
+    public class ClosureExpression(LFunction in_function, int in_upvalueLine) : Expression(Precedence.Atomic)
     {
-        private readonly LFunction _function;
-        private int _upvalueLine;
-
-        public ClosureExpression(LFunction function, int upvalueLine) : base(Precedence.ATOMIC)
+        public override int GetConstantIndex()
         {
-            _function = function;
-            _upvalueLine = upvalueLine;
+            return -1;
         }
 
-        public override int GetConstantIndex() => -1;
-
-        public override bool IsClosure() => true;
-
-        public override bool IsUpvalueOf(int register)
+        public override bool IsClosure()
         {
-            for (int i = 0; i < _function.Upvalues.Length; i++)
-            {
-                LUpvalue upvalue = _function.Upvalues[i];
+            return true;
+        }
 
-                if (upvalue.InStack && upvalue.Index == register)
+        public override bool IsUpvalueOf(int in_register)
+        {
+            for (int i = 0; i < in_function.Upvalues.Length; i++)
+            {
+                var upvalue = in_function.Upvalues[i];
+
+                if (upvalue.IsInStack && upvalue.Index == in_register)
                     return true;
             }
 
             return false;
         }
 
-        public override int ClosureUpvalueLine() => _upvalueLine;
-
-        public override void Write(Output @out)
+        public override int ClosureUpvalueLine()
         {
-            Decompiler d = new(_function);
-
-            @out.Write("function");
-
-            PrintMain(@out, d, true);
+            return in_upvalueLine;
         }
 
-        public override void WriteClosure(Output @out, Target name)
+        public override void Write(Output in_output)
         {
-            Decompiler d = new(_function);
+            var decompiler = new Decompiler(in_function);
 
-            @out.Write("function ");
+            in_output.Write("function");
 
-            if (_function.NumParams >= 1 && d.DeclarationList[0].Name.Equals("self") && name is TableTarget)
+            PrintMain(in_output, decompiler, true);
+        }
+
+        public override void WriteClosure(Output in_output, Target in_name)
+        {
+            var decompiler = new Decompiler(in_function);
+
+            in_output.Write("function ");
+
+            if (in_function.ParamCount >= 1 && decompiler.DeclarationList[0].Name.Equals("self") && in_name is TableTarget)
             {
-                name.WriteMethod(@out);
-                PrintMain(@out, d, false);
+                in_name.WriteMethod(in_output);
+                PrintMain(in_output, decompiler, false);
             }
             else
             {
-                name.Write(@out);
-                PrintMain(@out, d, true);
+                in_name.Write(in_output);
+                PrintMain(in_output, decompiler, true);
             }
         }
 
-        private void PrintMain(Output @out, Decompiler d, bool includeFirst)
+        private void PrintMain(Output in_output, Decompiler in_decompiler, bool in_includeFirst)
         {
-            @out.Write("(");
+            in_output.Write("(");
 
-            int start = includeFirst ? 0 : 1;
+            var start = in_includeFirst ? 0 : 1;
 
-            if (_function.NumParams > start)
+            if (in_function.ParamCount > start)
             {
-                new VariableTarget(d.DeclarationList[start]).Write(@out);
+                new VariableTarget(in_decompiler.DeclarationList[start]).Write(in_output);
 
-                for (int i = start + 1; i < _function.NumParams; i++)
+                for (int i = start + 1; i < in_function.ParamCount; i++)
                 {
-                    @out.Write(", ");
+                    in_output.Write(", ");
 
-                    new VariableTarget(d.DeclarationList[i]).Write(@out);
+                    new VariableTarget(in_decompiler.DeclarationList[i]).Write(in_output);
                 }
             }
 
-            if ((_function.Vararg & 1) == 1)
+            if ((in_function.VariadicArgs & 1) == 1)
             {
-                if (_function.NumParams > start)
+                if (in_function.ParamCount > start)
                 {
-                    @out.Write(", ...");
+                    in_output.Write(", ...");
                 }
                 else
                 {
-                    @out.Write("...");
+                    in_output.Write("...");
                 }
             }
 
-            @out.Write(")");
-            @out.WriteLine();
-            @out.Indent();
+            in_output.Write(")");
+            in_output.WriteLine();
+            in_output.Indent();
+            
+            in_decompiler.Decompile();
+            in_decompiler.Write(in_output);
 
-            d.Decompile();
-            d.Write(@out);
-
-            @out.Dedent();
-            @out.Write("end");
+            in_output.Dedent();
+            in_output.Write("end");
         }
     }
 }

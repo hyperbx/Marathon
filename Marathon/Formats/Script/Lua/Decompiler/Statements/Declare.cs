@@ -1,20 +1,18 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Statements
+﻿using System.Collections.Generic;
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
-    public class Declare : Statement
+    public class Declare(List<Declaration> in_declarations) : Statement
     {
-        private readonly List<Declaration> _decls;
-
-        public Declare(List<Declaration> decls) => _decls = decls;
-
-        public override void Write(Output @out)
+        public override void Write(Output in_output)
         {
-            @out.Write("local ");
-            @out.Write(_decls[0].Name);
+            in_output.Write("local ");
+            in_output.Write(in_declarations[0].Name);
 
-            for (int i = 1; i < _decls.Count; i++)
+            for (int i = 1; i < in_declarations.Count; i++)
             {
-                @out.Write(", ");
-                @out.Write(_decls[i].Name);
+                in_output.Write(", ");
+                in_output.Write(in_declarations[i].Name);
             }
         }
     }

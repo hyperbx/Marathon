@@ -1,45 +1,52 @@
-﻿using Marathon.Formats.Script.Lua.Types;
-using Marathon.Formats.Script.Lua.Decompiler.Branches;
+﻿using Marathon.Formats.Script.Lua.Decompiler.Branches;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
+using Marathon.Formats.Script.Lua.Types;
+using System;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
-    public class RepeatBlock : Block
+    public class RepeatBlock(LFunction in_function, Branch in_branch, Registers in_registers) : Block(in_function, in_branch.End, in_branch.Begin)
     {
-        private readonly Branch _branch;
-        private readonly Registers _r;
-        private readonly List<Statement> _statements;
+        private readonly List<Statement> _statements = new(in_branch.Begin - in_branch.End + 1);
 
-        public RepeatBlock(LFunction function, Branch branch, Registers r) : base(function, branch.End, branch.Begin)
+        public override bool Breakable()
         {
-            _branch = branch;
-            _r = r;
-            _statements = new List<Statement>(branch.Begin - branch.End + 1);
+            return true;
         }
 
-        public override bool Breakable() => true;
-
-        public override bool IsContainer() => true;
-
-        public override void AddStatement(Statement statement)
-            => _statements.Add(statement);
-
-        public override bool IsUnprotected() => false;
-
-        public override int GetLoopback() => throw new Exception();
-
-        public override void Write(Output @out)
+        public override bool IsContainer()
         {
-            @out.Write("repeat");
-            @out.WriteLine();
-            @out.Indent();
+            return true;
+        }
 
-            WriteSequence(@out, _statements);
+        public override void AddStatement(Statement in_statement)
+        {
+            _statements.Add(in_statement);
+        }
 
-            @out.Dedent();
-            @out.Write("until ");
+        public override bool IsUnprotected()
+        {
+            return false;
+        }
 
-            _branch.AsExpression(_r).Write(@out);
+        public override int GetLoopback()
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void Write(Output in_output)
+        {
+            in_output.Write("repeat");
+            in_output.WriteLine();
+            in_output.Indent();
+
+            WriteSequence(in_output, _statements);
+
+            in_output.Dedent();
+            in_output.Write("until ");
+
+            in_branch.AsExpression(in_registers).Write(in_output);
         }
     }
 }
