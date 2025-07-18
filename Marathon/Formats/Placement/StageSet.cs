@@ -20,7 +20,7 @@ namespace Marathon.Formats.Placement
     /// </summary>
     public class StageSet : FileBase
     {
-        private const string _extension = ".set"; // "Set"
+        private const string _extension = ".set"; // "SET"
 
         public StageSet() { }
 
@@ -335,11 +335,6 @@ namespace Marathon.Formats.Placement
             writer.FinishWrite();
         }
 
-        public void ImportTemplates(string in_path)
-        {
-            Actors = Templates.ImportJson(in_path);
-        }
-
         public override void Import(string in_path)
         {
             if (Actors.Count <= 0)
@@ -408,18 +403,56 @@ namespace Marathon.Formats.Placement
 
         public override void Export(string in_path = "")
         {
-            if (Actors.Count <= 0)
-                throw new Exception("There are no actors to export with.");
-
             if (string.IsNullOrEmpty(in_path))
                 in_path = $"{Location}.hson";
+
+            var name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
+
+            ToHsonProject(name).Save(in_path, jsonOptions: new() { Indented = true });
+        }
+
+        public bool AddTemplatesFromFile(string in_path)
+        {
+            switch (Path.GetExtension(in_path))
+            {
+                case ".prop":
+                    Actors.AddRange(Templates.ImportProp(in_path));
+                    return true;
+
+                case ".json":
+                    Actors.AddRange(Templates.ImportJson(in_path));
+                    return true;
+            }
+
+            return false;
+        }
+
+        public Project ToHsonProject(string in_name = "", string in_description = "")
+        {
+            if (Actors.Count <= 0)
+                throw new Exception("Actor templates are required to create a HSON project.");
+
+            if (string.IsNullOrEmpty(in_name))
+            {
+                if (string.IsNullOrEmpty(Location))
+                {
+                    in_name = string.IsNullOrEmpty(Name) ? "Untitled" : Name;
+                }
+                else
+                {
+                    in_name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(Location));
+                }
+            }
+
+            if (string.IsNullOrEmpty(in_description))
+                in_description = Name;
 
             var hsonProject = new Project
             {
                 Metadata = new ProjectMetadata
                 {
-                    Name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path)),
-                    Description = Name
+                    Name = in_name,
+                    Description = in_description
                 }
             };
 
@@ -450,7 +483,7 @@ namespace Marathon.Formats.Placement
             foreach (var group in Groups)
                 hsonProject.Objects.Add(group.ToHsonObject(hsonProject));
 
-            hsonProject.Save(in_path, jsonOptions: new() { Indented = true });
+            return hsonProject;
         }
 
         public override string ToString()

@@ -14,7 +14,7 @@ namespace Marathon.Formats.Placement
     /// </summary>
     public class PropLibrary : FileBase
     {
-        private const string _extension = ".prop"; // "Prop"
+        private const string _extension = ".prop"; // "PROP"
 
         public PropLibrary() { }
 

@@ -12,10 +12,18 @@ namespace Marathon.Formats.Placement
     {
         public static List<Actor> ImportProp(string in_path)
         {
+            if (!File.Exists(in_path))
+                throw new FileNotFoundException("The specified file does not exist.");
+
+            return new PropLibrary(in_path).Actors;
+        }
+
+        public static List<Actor> ImportProps(string in_path)
+        {
             var result = new List<Actor>();
 
             foreach (var file in Directory.GetFiles(in_path, "*.prop"))
-                result.AddRange(new PropLibrary(file).Actors);
+                result.AddRange(ImportProp(file));
 
             return result;
         }
@@ -30,7 +38,7 @@ namespace Marathon.Formats.Placement
 
         public static void ExportJson(string in_inputPath, string in_outputPath)
         {
-            File.WriteAllText(in_outputPath, JsonConvert.SerializeObject(ImportProp(in_inputPath), Formatting.Indented));
+            File.WriteAllText(in_outputPath, JsonConvert.SerializeObject(ImportProps(in_inputPath), Formatting.Indented));
         }
 
         public static void ExportHson(string in_inputPath)

@@ -14,7 +14,7 @@ namespace Marathon.Formats.Mesh
     /// </summary>
     public class SplinePath : FileBase
     {
-        private const string _extension = ".path"; // "Path"
+        private const string _extension = ".path"; // "PATH"
 
         public SplinePath() { }
 
