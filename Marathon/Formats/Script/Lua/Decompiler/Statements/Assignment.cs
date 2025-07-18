@@ -119,7 +119,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Statements
                 {
                     var closure = _values[0];
 
-                    // This check only works in Lua 5.1.
                     if (!_isDeclared || _declareStart >= closure.ClosureUpvalueLine())
                         hasFunctionSugar = true;
 

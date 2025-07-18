@@ -1,6 +1,6 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Extractors
+﻿namespace Marathon.Formats.Script.Lua.Decompiler
 {
-    public class CodeExtractor50 : ICodeExtractor
+    public class CodeExtractor
     {
         private readonly int _shiftA;
         private readonly int _shiftC;
@@ -15,7 +15,7 @@
 
         private readonly int _excessK;
 
-        public CodeExtractor50(int in_sizeOp, int in_sizeA, int in_sizeB, int in_sizeC)
+        public CodeExtractor(int in_sizeOp, int in_sizeA, int in_sizeB, int in_sizeC)
         {
             _shiftA = in_sizeB + in_sizeC + in_sizeOp;
             _shiftB = in_sizeC + in_sizeOp;

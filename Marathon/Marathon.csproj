@@ -103,9 +103,8 @@
     <Compile Include="Formats\Script\Lua\Decompiler\Branches\TestNode.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Branches\TestSetNode.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Branches\TrueNode.cs" />
-    <Compile Include="Formats\Script\Lua\Decompiler\Extractors\CodeExtractor50.cs" />
-    <Compile Include="Formats\Script\Lua\Decompiler\Extractors\CodeExtractor51.cs" />
-    <Compile Include="Formats\Script\Lua\Decompiler\Extractors\CodeExtractor.cs" />
+    <Compile Include="Formats\Script\Lua\Decompiler\CodeExtractor.cs" />
+    <Compile Include="Formats\Script\Lua\Decompiler\Code.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Constant.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Declaration.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Decompiler.cs" />
@@ -125,7 +124,6 @@
     <Compile Include="Formats\Script\Lua\Decompiler\Expressions\UpvalueExpression.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Expressions\VariadicArgs.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Function.cs" />
-    <Compile Include="Formats\Script\Lua\Decompiler\Extractors\ICodeExtractor.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\IOutputProvider.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Op.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Opcode.cs" />
@@ -178,11 +176,6 @@
     <Compile Include="Formats\Script\Lua\Types\LStringType.cs" />
     <Compile Include="Formats\Script\Lua\Types\LUpvalue.cs" />
     <Compile Include="Formats\Script\Lua\Types\LUpvalueType.cs" />
-    <Compile Include="Formats\Script\Lua\Version\Version50.cs" />
-    <Compile Include="Formats\Script\Lua\Version\Version51.cs" />
-    <Compile Include="Formats\Script\Lua\Version\Version52.cs" />
-    <Compile Include="Formats\Script\Lua\Version\VersionBase.cs" />
-    <Compile Include="Formats\Script\Lua\Version\LuaVersion.cs" />
     <Compile Include="Formats\Text\TextBook.cs" />
     <Compile Include="Formats\Text\TextFontPicture.cs" />
   </ItemGroup>

@@ -1,16 +1,15 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 
-namespace Marathon.Formats.Script.Lua.Decompiler.Extractors
+namespace Marathon.Formats.Script.Lua.Decompiler
 {
-    public class CodeExtractor(LFunction in_function)
+    public class Code(LFunction in_function)
     {
-        private readonly ICodeExtractor _extractor = in_function.Header.Extractor;
-        private readonly OpcodeMap _map = in_function.Header.Version.GetOpcodeMap();
+        private readonly CodeExtractor _extractor = in_function.Header.Extractor;
         private readonly int[] _code = in_function.Code;
 
         public virtual Opcode Op(int in_line)
         {
-            return _map.Get(_code[in_line - 1] & 0x0000003F);
+            return OpcodeMap.Get(_code[in_line - 1] & 0x0000003F);
         }
 
         public int A(int in_line)

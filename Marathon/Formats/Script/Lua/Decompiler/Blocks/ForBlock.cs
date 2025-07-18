@@ -1,7 +1,6 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using System.Collections.Generic;
-using Marathon.Formats.Script.Lua.Version;
 using System;
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
@@ -44,25 +43,11 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
         {
             in_output.Write("for ");
 
-            if (_function.Header.Version.Version == LuaVersion.Lua50)
-            {
-                in_registers.GetTarget(in_register, Begin - 1).Write(in_output);
-            }
-            else
-            {
-                in_registers.GetTarget(in_register + 3, Begin - 1).Write(in_output);
-            }
+            in_registers.GetTarget(in_register, Begin - 1).Write(in_output);
 
             in_output.Write(" = ");
 
-            if (_function.Header.Version.Version == LuaVersion.Lua50)
-            {
-                in_registers.GetValue(in_register, Begin - 2).Write(in_output);
-            }
-            else
-            {
-                in_registers.GetValue(in_register, Begin - 1).Write(in_output);
-            }
+            in_registers.GetValue(in_register, Begin - 2).Write(in_output);
 
             in_output.Write(", ");
 

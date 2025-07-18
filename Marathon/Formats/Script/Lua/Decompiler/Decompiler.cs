@@ -8,8 +8,6 @@ using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using Marathon.Formats.Script.Lua.Version;
-using Marathon.Formats.Script.Lua.Decompiler.Extractors;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
@@ -22,9 +20,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         private readonly Upvalues _upvalues;
         private readonly LFunction[] _functions;
-
-        private readonly Opcode _tforTarget;
-        private readonly Opcode _forTarget;
 
         private static Stack<Branch> _backup;
 
@@ -46,7 +41,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         protected Function _function;
         protected LFunction _lFunction;
 
-        public CodeExtractor Code { get; }
+        public Code Code { get; }
 
         public Declaration[] DeclarationList { get; }
 
@@ -57,7 +52,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             _registerCount = function.MaximumStackSize;
             _codeLength = function.Code.Length;
 
-            Code = new CodeExtractor(function);
+            Code = new Code(function);
 
             var i = 0;
 
@@ -86,8 +81,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             _functions = function.Functions;
             _paramCount = function.ParamCount;
             _variadicArgs = function.VariadicArgs;
-            _tforTarget = function.Header.Version.GetTForTarget();
-            _forTarget = function.Header.Version.GetForTarget();
         }
 
         public void Decompile()
@@ -153,18 +146,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 case Opcode.LOADNIL:
                 {
-                    int maximum;
-
-                    if (_lFunction.Header.Version.UsesOldLoadNilEncoding())
-                    {
-                        maximum = B;
-                    }
-                    else
-                    {
-                        maximum = A + B;
-                    }
-
-                    while (A <= maximum)
+                    while (A <= B)
                     {
                         operations.AddLast(new RegisterSet(in_line, A, Expression.Nil));
                         A++;
@@ -418,12 +400,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                     operations.AddLast(new RegisterSet(in_line, A, new ClosureExpression(function, in_line + 1)));
 
-                    if (_lFunction.Header.Version.UsesInlineUpvalueDeclarations())
-                    {
-                        // Skip upvalue declarations.
-                        for (int i = 0; i < function.UpvalueCount; i++)
-                            _skipped[in_line + 1 + i] = true;
-                    }
+                    // Skip upvalue declarations.
+                    for (int i = 0; i < function.UpvalueCount; i++)
+                        _skipped[in_line + 1 + i] = true;
 
                     break;
                 }
@@ -632,7 +611,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     if (assignment == null && newLocals.Count != 0 && Code.Op(line) != Opcode.FORPREP)
                     {
-                        if (Code.Op(line) != Opcode.JMP || Code.Op(line + 1 + Code.sBx(line)) != _tforTarget)
+                        if (Code.Op(line) != Opcode.JMP || Code.Op(line + 1 + Code.sBx(line)) != Opcode.TFORLOOP)
                         {
                             assignment = new Assignment();
                             assignment.Declare(newLocals[0].Begin);
@@ -888,7 +867,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                     _skipped[line + 1] = true;
                                 }
-                                else if (Code.Op(targetLine) == _tforTarget && !_skipped[targetLine])
+                                else if (Code.Op(targetLine) == Opcode.TFORLOOP && !_skipped[targetLine])
                                 {
                                     int A = Code.A(targetLine),
                                         C = Code.C(targetLine);
@@ -907,7 +886,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                     _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
                                 }
-                                else if (Code.Op(targetLine) == _forTarget && !_skipped[targetLine])
+                                else if (Code.Op(targetLine) == Opcode.FORLOOP && !_skipped[targetLine])
                                 {
                                     int A = Code.A(targetLine);
 
@@ -1143,9 +1122,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 var breakTarget = BreakTarget(condition.Begin);
                                 var isBreakable = breakTarget >= 1;
 
-                                if (isBreakable && Code.Op(breakTarget) == Opcode.JMP && _lFunction.Header.Version.Version != LuaVersion.Lua50)
-                                    breakTarget += 1 + Code.sBx(breakTarget);
-
                                 if (isBreakable && breakTarget == condition.End)
                                 {
                                     var immediateEnclosing = EnclosingBlock(condition.Begin);
@@ -1226,7 +1202,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                         var sBx = Code.sBx(tail - 1);
                                         var loopback2 = tail + sBx;
-                                        var isBreakableLoopEnd = _lFunction.Header.Version.IsBreakableLoopEnd(opcode);
+                                        var isBreakableLoopEnd = opcode == Opcode.JMP || opcode == Opcode.FORLOOP;
 
                                         if (isBreakableLoopEnd && loopback2 <= condition.Begin && !isBreak[tail - 1])
                                         {

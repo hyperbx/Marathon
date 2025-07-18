@@ -1,13 +1,13 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
-using Marathon.Formats.Script.Lua.Version;
 
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Function
     {
+        private const int _constantsOffset = 250;
+
         private readonly Constant[] _constants;
-        private readonly int _constantsOffset;
 
         public Function(LFunction in_function)
         {
@@ -15,15 +15,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             for (int i = 0; i < _constants.Length; i++)
                 _constants[i] = new(in_function.Constants[i]);
-
-            if (in_function.Header.Version.Version == LuaVersion.Lua50)
-            {
-                _constantsOffset = 250;
-            }
-            else
-            {
-                _constantsOffset = 256;
-            }
         }
 
         public bool IsConstant(int in_register)
