@@ -53,7 +53,7 @@
     <Compile Include="Formats\Audio\SoundBank.cs" />
     <Compile Include="Formats\Event\EventPlaybook.cs" />
     <Compile Include="Formats\Event\TimeEvent.cs" />
-    <Compile Include="Formats\Mesh\Collision.cs" />
+    <Compile Include="Formats\Mesh\LandCollision.cs" />
     <Compile Include="Formats\Mesh\ReflectionArea.cs" />
     <Compile Include="Formats\Mesh\SplinePath.cs" />
     <Compile Include="Formats\Parameter\EnemyParameterList.cs" />

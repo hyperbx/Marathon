@@ -8,20 +8,23 @@ using System.Globalization;
 using System.IO;
 using System.Numerics;
 
-// Format research attribution: Darío, Knuxfan24, Hyper
+// Format names:        Land Collision
+// Format references:   Sonicteam::SoX::Physics::LandCollision
+// Format designers:    Sonic Team, Havok
+// Format researchers:  Darío, Knuxfan24, Hyper
 
 namespace Marathon.Formats.Mesh
 {
     /// <summary>
     /// Support for collision.bin files; used for collision meshes for terrain.
     /// </summary>
-    public class Collision : FileBase
+    public class LandCollision : FileBase
     {
         private const string _extension = ".bin"; // "BINary"
 
-        public Collision() { }
+        public LandCollision() { }
 
-        public Collision(string in_path) : base(in_path) { }
+        public LandCollision(string in_path) : base(in_path) { }
 
         /// <summary>
         /// The vertices of this collision mesh.
