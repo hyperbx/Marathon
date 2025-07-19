@@ -199,4 +199,8 @@
     <Folder Include="Formats\Archive\" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(SolutionDir)LICENSE&quot; &quot;$(OutDir)LICENSE&quot;" />
+  </Target>
+
 </Project>

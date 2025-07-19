@@ -3,6 +3,10 @@ using Marathon.Formats.Script.Lua.Decompiler.Targets;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
     public class TableSet(int in_line, Expression in_table, Expression in_index, Expression in_value, bool in_isTable, int in_timestamp) : Operation(in_line)

@@ -2,6 +2,10 @@
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
     public class RegisterSet(int in_line, int in_register, Expression in_value) : Operation(in_line)

@@ -4,7 +4,10 @@ using Marathon.IO.Types.BINA;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper
+// Format names:        Sound Bank
+// Format references:   Sonicteam::SoX::Audio::SoundBank, Sonicteam::SoundBankDataBin
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Hyper
 
 namespace Marathon.Formats.Audio
 {

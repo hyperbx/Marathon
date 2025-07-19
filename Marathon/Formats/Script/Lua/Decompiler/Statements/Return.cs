@@ -1,6 +1,10 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using System.Collections.Generic;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
     public class Return : Statement

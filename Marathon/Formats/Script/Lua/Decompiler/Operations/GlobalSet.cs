@@ -3,6 +3,10 @@ using Marathon.Formats.Script.Lua.Decompiler.Targets;
 using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Operations
 {
     public class GlobalSet(int in_line, string in_global, Expression in_value) : Operation(in_line)

@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Statements
 {
     public class Declare(List<Declaration> in_declarations) : Statement

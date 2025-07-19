@@ -1,5 +1,9 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
     public class NotBranch(Branch in_branch) : Branch(in_branch.Line, in_branch.Begin, in_branch.End)

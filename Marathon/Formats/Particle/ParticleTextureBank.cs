@@ -4,7 +4,10 @@ using Marathon.IO.Types.BINA;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper, GordinRamsay
+// Format names:        Particle Texture Bank
+// Format references:   Sonicteam::GE1PE::TextureBank
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format researchers:  Knuxfan24, Hyper, GordinRamsay
 
 namespace Marathon.Formats.Particle
 {

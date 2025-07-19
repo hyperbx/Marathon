@@ -4,7 +4,10 @@ using Marathon.IO.Types.BINA;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper
+// Format names:        Enemy Shot Parameter List
+// Format references:   Sonicteam::Enemy::ShotParameterList
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Hyper
 
 namespace Marathon.Formats.Parameter
 {

@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 
-// Format research attribution: Knuxfan24, Hyper
+// Format names:        Time Event
+// Format references:   Sonicteam::TimeEvent
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Hyper
 
 namespace Marathon.Formats.Event
 {

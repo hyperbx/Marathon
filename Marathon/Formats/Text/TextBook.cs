@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-// Format research attribution: GerbilSoft, Knuxfan24, Hyper
+// Format names:        Text Book
+// Format references:   Sonicteam::TextBook
+// Format designers:    Sonic Team
+// Format researchers:  GerbilSoft, Knuxfan24, Hyper
 
 namespace Marathon.Formats.Text
 {

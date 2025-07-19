@@ -2,6 +2,10 @@
 using Marathon.IO;
 using System.Numerics;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Types
 {
     public class BIntegerType(int in_intSize) : BObjectType<BInteger>

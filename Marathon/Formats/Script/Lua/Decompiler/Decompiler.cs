@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Decompiler
@@ -58,7 +62,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             if (function.Locals.Length >= function.ParamCount)
             {
-                // FIX: reserve space for variadic arg keyword declaration.
+                // FIX (Hyper): reserve space for variadic arg keyword declaration.
                 DeclarationList = new Declaration[function.Locals.Length + function.VariadicArgs];
 
                 for (i = 0; i < DeclarationList.Length; i++)
@@ -66,14 +70,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
             else
             {
-                // FIX: reserve space for variadic arg keyword declaration.
+                // FIX (Hyper): reserve space for variadic arg keyword declaration.
                 DeclarationList = new Declaration[function.ParamCount + function.VariadicArgs];
 
                 for (i = 0; i < DeclarationList.Length; i++)
                     DeclarationList[i] = new Declaration($"a{i + 1}", 0, _codeLength - 1);
             }
 
-            // FIX: create declaration for variadic args keyword.
+            // FIX (Hyper): create declaration for variadic args keyword.
             if ((function.VariadicArgs & 1) == 1)
                 DeclarationList[i - 1] = new Declaration("arg", 0, _codeLength - 1);
 
@@ -260,7 +264,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 case Opcode.CONCAT:
                 {
-                    Expression value = _registers.GetExpression(C, in_line);
+                    var value = _registers.GetExpression(C, in_line);
 
                     // Remember that CONCAT is right associative.
                     while (C-- > B)

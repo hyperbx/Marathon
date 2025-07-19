@@ -1,4 +1,8 @@
-﻿namespace Marathon.Formats.Script.Lua.Types
+﻿// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
+namespace Marathon.Formats.Script.Lua.Types
 {
     public class LLocal(LString in_name, BInteger in_start, BInteger in_end) : BObject
     {

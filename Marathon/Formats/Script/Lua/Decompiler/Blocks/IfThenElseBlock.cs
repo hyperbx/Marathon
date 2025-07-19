@@ -4,6 +4,10 @@ using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using System;
 using System.Collections.Generic;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
     public class IfThenElseBlock(LFunction in_function, Branch in_branch, int in_loopback, bool in_isEmptyElse, Registers in_registers)
@@ -78,7 +82,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
             if (in_isEmptyElse)
             {
-                // FIX: don't write empty else block.
+                // FIX (Hyper): don't write empty else block.
                 // in_output.WriteLine("else");
 
                 in_output.WriteLine("end");

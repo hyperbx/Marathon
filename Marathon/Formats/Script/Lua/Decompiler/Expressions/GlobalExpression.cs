@@ -1,4 +1,8 @@
-﻿namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
+﻿// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
+namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
     public class GlobalExpression(string in_name, int in_index) : Expression(Precedence.Atomic)
     {

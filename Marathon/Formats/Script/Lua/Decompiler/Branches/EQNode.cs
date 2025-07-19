@@ -1,5 +1,9 @@
 ﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Branches
 {
     public class EQNode(int in_left, int in_right, bool in_invert, int in_line, int in_begin, int in_end) : Branch(in_line, in_begin, in_end)

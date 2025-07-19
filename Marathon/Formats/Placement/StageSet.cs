@@ -11,7 +11,10 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 
-// Format research attribution: Knuxfan24, Darío
+// Format names:        Stage Set
+// Format references:   Sonicteam::Prop::StageSetManagerRunner, LoadStageSet
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Radfordhound, Darío
 
 namespace Marathon.Formats.Placement
 {

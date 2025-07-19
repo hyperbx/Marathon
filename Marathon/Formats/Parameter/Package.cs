@@ -4,7 +4,10 @@ using Marathon.IO.Types.BINA;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper
+// Format names:        Package
+// Format references:   Sonicteam::PackageBinary
+// Format designers:    Sonic Team
+// Format researchers:  Radfordhound
 
 namespace Marathon.Formats.Parameter
 {

@@ -8,10 +8,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: c08o.prkiua, Hyper
+// Format names:        Kynapse Big File
+// Format references:   Sonicteam::KynapseSkel::CBigFileDataReader
+// Format designers:    Sonic Team, Kynogon
+// Format researchers:  c08o.prkiua, Hyper
 
 namespace Marathon.Formats.AI
 {
+    /// <summary>
+    /// Support for *.kbf files; used for packing Kynapse configuration and binary data.
+    /// </summary>
     public class KynapseBigFile : FileBase
     {
         private const string _extension = ".kbf";        // "Kynapse Big File"

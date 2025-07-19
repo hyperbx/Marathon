@@ -6,7 +6,10 @@ using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper, GordinRamsay
+// Format names:        Enemy Parameter List
+// Format references:   Sonicteam::Enemy::ParameterList
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Hyper, GordinRamsay
 
 namespace Marathon.Formats.Parameter
 {

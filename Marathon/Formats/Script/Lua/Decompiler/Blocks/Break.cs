@@ -2,6 +2,10 @@
 using Marathon.Formats.Script.Lua.Types;
 using System;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
     public class Break(LFunction in_function, int in_line, int in_target) : Block(in_function, in_line, in_line)
@@ -36,7 +40,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
         public override void Write(Output in_output)
         {
-            /* FIX: "do break end" is a syntax error. There's not really
+            /* FIX (Hyper): "do break end" is a syntax error. There's not really
                much point to writing an empty statement, so lets remove it. */
 
             // in_output.Write("do break end");

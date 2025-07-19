@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 
-// Format research attribution: Hyper
+// Format names:        Reflection Area
+// Format references:   Sonicteam::ReflectionArea
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Mesh
 {

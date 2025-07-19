@@ -3,6 +3,10 @@ using Marathon.Formats.Script.Lua.Decompiler.Statements;
 using System.Collections.Generic;
 using System;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 {
     public class OuterBlock(LFunction in_function, int in_length) : Block(in_function, 0, in_length + 1)

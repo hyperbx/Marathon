@@ -6,7 +6,10 @@ using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Knuxfan24, Hyper
+// Format names:        Particle Global Settings
+// Format references:   Sonicteam::GE1PE::GlobalSetting
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format researchers:  Knuxfan24, Hyper
 
 namespace Marathon.Formats.Particle
 {

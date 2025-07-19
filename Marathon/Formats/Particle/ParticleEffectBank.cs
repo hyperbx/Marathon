@@ -10,7 +10,10 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 
-// Format research attribution: Knuxfan24, Hyper, GordinRamsay
+// Format names:        Particle Effect Bank
+// Format references:   Sonicteam::GE1PE::EffectBank
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format researchers:  Knuxfan24, Hyper, GordinRamsay
 
 namespace Marathon.Formats.Particle
 {

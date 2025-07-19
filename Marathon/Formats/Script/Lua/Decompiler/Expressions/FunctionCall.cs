@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
     public class FunctionCall(Expression in_function, Expression[] in_arguments, bool in_isMultiple) : Expression(Precedence.Atomic)

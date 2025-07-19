@@ -5,7 +5,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 
-// Format research attribution: Knuxfan24, Aruki
+// Format names:        Spline Path
+// Format references:   Sonicteam::SplinePath
+// Format designers:    Sonic Team
+// Format researchers:  Knuxfan24, Aruki
 
 namespace Marathon.Formats.Mesh
 {

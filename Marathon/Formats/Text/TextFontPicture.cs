@@ -5,7 +5,10 @@ using Marathon.IO.Types.BINA;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Hyper
+// Format names:        Text Font Picture
+// Format references:   Sonicteam::TextFontPicture
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Text
 {

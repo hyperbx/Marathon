@@ -1,5 +1,9 @@
 ﻿using System;
 
+// Format names:        Lua Binary
+// Format designers:    Tecgraf, PUC-Rio
+// Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+
 namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
     public class BinaryExpression(string in_operator, Expression in_left, Expression in_right, Precedence in_precedence, Associativity in_associativity) : Expression(in_precedence)
