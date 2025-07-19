@@ -1,8 +1,11 @@
-﻿// Format research attribution: Hyper
+﻿// Format names:        Save Data
+// Format references:   Sonicteam::SaveDataTask
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Save
 {
-    public class SonicNextTrial
+    public class SaveTrial
     {
         /// <summary>
         /// The ID for this trial set in the Lua score table.
@@ -12,7 +15,7 @@ namespace Marathon.Formats.Save
         /// <summary>
         /// The rank rewarded for this trial.
         /// </summary>
-        public SonicNextRank Rank { get; set; }
+        public SaveRank Rank { get; set; }
 
         /// <summary>
         /// The time taken to complete this trial.
@@ -29,9 +32,9 @@ namespace Marathon.Formats.Save
         /// </summary>
         public int Rings { get; set; }
 
-        public SonicNextTrial() { }
+        public SaveTrial() { }
 
-        public SonicNextTrial(int in_id, SonicNextRank in_rank, int in_time, int in_score, int in_rings)
+        public SaveTrial(int in_id, SaveRank in_rank, int in_time, int in_score, int in_rings)
         {
             ID = in_id;
             Rank = in_rank;

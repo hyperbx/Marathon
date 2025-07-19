@@ -5,14 +5,17 @@ using Marathon.IO.Extensions;
 using System.Collections.Generic;
 using System.IO;
 
-// Format research attribution: Hyper
+// Format names:        Save Data
+// Format references:   Sonicteam::SaveDataTask
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Save
 {
     /// <summary>
     /// Support for SonicNextSaveData.bin; used for storing player progress and game configuration.
     /// </summary>
-    public class SonicNextSaveData : FileBase
+    public class SaveData : FileBase
     {
         private const string _extension = ".bin"; // "BINary"
 
@@ -20,25 +23,25 @@ namespace Marathon.Formats.Save
         private const int _globalFlagCount = 0x27FF;
         private const int _trialCount = 512;
 
-        public SonicNextSaveData() { }
+        public SaveData() { }
 
-        public SonicNextSaveData(string in_path) : base(in_path) { }
+        public SaveData(string in_path) : base(in_path) { }
 
         public override WriteMode WriteMode => WriteMode.Fixed;
 
-        public SonicNextEpisode[] Episodes { get; set; } = new SonicNextEpisode[_episodeCount];
+        public SaveEpisode[] Episodes { get; set; } = new SaveEpisode[_episodeCount];
 
-        public Dictionary<SonicNextFlags, int> GlobalFlags { get; set; } = [];
+        public Dictionary<SaveFlags, int> GlobalFlags { get; set; } = [];
 
-        public SonicNextTrial[] Trials { get; set; } = new SonicNextTrial[_trialCount];
+        public SaveTrial[] Trials { get; set; } = new SaveTrial[_trialCount];
 
-        public SonicNextOptions Options { get; set; } = new();
+        public SaveOptions Options { get; set; } = new();
 
         public override void Read(Stream in_stream)
         {
             var reader = new BinaryObjectReaderEx(in_stream, StreamOwnership.Retain, Endianness.Big);
 
-            // Expected zero.
+            // Always null.
             reader.CheckSignature(0);
 
             // Read each episode's lives.
@@ -55,7 +58,7 @@ namespace Marathon.Formats.Save
                 Episodes[i].Rings = reader.Read<int>();
 
             for (int i = 0; i <= _globalFlagCount; i++)
-                GlobalFlags.Add((SonicNextFlags)i, reader.Read<int>());
+                GlobalFlags.Add((SaveFlags)i, reader.Read<int>());
 
             for (int i = 0; i < _episodeCount; i++)
             {
@@ -92,7 +95,7 @@ namespace Marathon.Formats.Save
                 Trials[i] = new()
                 {
                     ID = reader.Read<int>(),
-                    Rank = reader.Read<SonicNextRank>(),
+                    Rank = reader.Read<SaveRank>(),
                     Time = reader.Read<int>(),
                     Score = reader.Read<int>(),
                     Rings = reader.Read<int>()
@@ -117,7 +120,7 @@ namespace Marathon.Formats.Save
                 writer.Write(Episodes[i].Rings);
         
             for (int i = 0; i <= _globalFlagCount; i++)
-                writer.Write(GlobalFlags[(SonicNextFlags)i]);
+                writer.Write(GlobalFlags[(SaveFlags)i]);
         
             for (int i = 0; i < _episodeCount; i++)
             {

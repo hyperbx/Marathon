@@ -1,8 +1,11 @@
-﻿// Format research attribution: Hyper
+﻿// Format names:        Save Data
+// Format references:   Sonicteam::SaveDataTask
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Save
 {
-    public class SonicNextEpisode
+    public class SaveEpisode
     {
         /// <summary>
         /// The number of total lives pertaining to this episode.

@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-// Format research attribution: Hyper
+// Format names:        Save Data
+// Format references:   Sonicteam::SaveDataTask
+// Format designers:    Sonic Team
+// Format researchers:  Hyper
 
 namespace Marathon.Formats.Save
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum SonicNextFlags
+    public enum SaveFlags
     {
         // Episode unlocks.
         Unlock_Episode_Silver = 50,
