@@ -3,9 +3,12 @@ using Marathon.Helpers;
 using Marathon.IO.Extensions;
 using System.Text;
 
-// Format research attribution: Radfordhound
+// Format names:        Binary Resource
+// Format references:   binarc
+// Format designers:    Sonic Team
+// Format researchers:  Radfordhound
 
-namespace Marathon.IO
+namespace Marathon.IO.Types.BINA
 {
     public class BINAHeader
     {
