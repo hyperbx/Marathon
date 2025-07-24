@@ -41,7 +41,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
         public override void Write(Output in_output)
         {
             /* FIX (Hyper): "do break end" is a syntax error. There's not really
-               much point to writing an empty statement, so lets remove it. */
+               much point in writing an empty statement, so lets remove it. */
 
             // in_output.Write("do break end");
         }

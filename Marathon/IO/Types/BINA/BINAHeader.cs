@@ -4,7 +4,7 @@ using Marathon.IO.Extensions;
 using System.Text;
 
 // Format names:        Binary Resource
-// Format references:   binarc
+// Format references:   binarc.exe
 // Format designers:    Sonic Team
 // Format researchers:  Radfordhound
 
@@ -19,13 +19,19 @@ namespace Marathon.IO.Types.BINA
 
         private const string _signature = "BINA";
 
-        public long HeaderOffset;
-        public uint FileSize;
-        public uint OffsetTableOffset;
-        public uint OffsetTableLength;
-        public uint Version;
-        public bool IsBigEndian;
-        public bool HasFooterMagic;
+        public long HeaderOffset { get; set; }
+
+        public uint FileSize { get; set; }
+
+        public uint OffsetTableOffset { get; set; }
+
+        public uint OffsetTableLength { get; set; }
+
+        public uint Version { get; set; }
+
+        public bool IsBigEndian { get; set; }
+
+        public bool HasFooterMagic { get; set; }
 
         public BINAHeader(uint in_version = 1, bool in_isBigEndian = true)
         {
@@ -66,8 +72,10 @@ namespace Marathon.IO.Types.BINA
                 }
             }
 
-            if (!uint.TryParse(version, out Version))
-                Logger.Warning($"Unexpected BINA version: {version}");
+            if (!uint.TryParse(version, out var out_version))
+                Logger.Warning($"Unexpected BINA version: {out_version}");
+
+            Version = out_version;
 
             // Jump to the beginning of the header to read it with the correct endianness.
             in_reader.JumpTo(HeaderOffset);

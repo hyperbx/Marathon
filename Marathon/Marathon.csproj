@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <LangVersion>preview</LangVersion>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>13</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Version>2.0.0</Version>
     <Authors>Hyper, Knuxfan24</Authors>
@@ -196,7 +196,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Formats\Archive\" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.7" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

@@ -440,7 +440,7 @@ namespace Marathon.Formats.Particle
             if (Type == null)
                 return this;
 
-            var typeName = Enum.GetName(Type.Value);
+            var typeName = Enum.GetName(Type.GetType(), Type.Value);
 
             if (string.IsNullOrEmpty(typeName))
             {
@@ -474,7 +474,7 @@ namespace Marathon.Formats.Particle
                 return;
             }
 
-            var typeName = Enum.GetName(Type.Value);
+            var typeName = Enum.GetName(Type.GetType(), Type.Value);
 
             if (string.IsNullOrEmpty(typeName))
             {
@@ -499,7 +499,7 @@ namespace Marathon.Formats.Particle
         public int Length()
         {
             var result = 4;
-            var typeName = Enum.GetName(Type.Value);
+            var typeName = Enum.GetName(Type.GetType(),Type.Value);
 
             if (string.IsNullOrEmpty(typeName))
             {

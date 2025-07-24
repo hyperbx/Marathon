@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 // Format names:        Lua Binary
 // Format designers:    Tecgraf, PUC-Rio
@@ -9,7 +10,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class OutputProviderStream(Stream in_stream) : IOutputProvider, IDisposable
     {
-        private readonly StreamWriter _sw = new(in_stream, leaveOpen: true);
+        private readonly StreamWriter _sw = new(in_stream, Encoding.UTF8, 1024, leaveOpen: true);
 
         public void Write(string in_str)
         {

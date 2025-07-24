@@ -18,6 +18,7 @@ namespace Marathon.Formats.Script.Lua
     {
         private const string _extension = ".lub"; // "LUa Binary"
 
+        private LFunction _main;
         private string _decompiled;
 
         public LuaBinary() { }
@@ -28,11 +29,11 @@ namespace Marathon.Formats.Script.Lua
 
         public LFunction Main 
         {
-            get;
+            get => _main;
 
             private set
             {
-                field = value;
+                _main = value;
                 _decompiled = null;
             }
         }
