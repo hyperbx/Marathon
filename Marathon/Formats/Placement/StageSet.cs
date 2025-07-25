@@ -547,6 +547,12 @@ namespace Marathon.Formats.Placement
 
             for (int i = 0; i < Parameters.Count; i++)
             {
+                // The set format allows any amount of parameters
+                // to be written here, regardless of what the prop
+                // libraries have stored.
+                if (i >= in_actor.Parameters.Count)
+                    break;
+
                 var param = Parameters[i];
                 var hsonParam = new libHSON.Parameter();
 
