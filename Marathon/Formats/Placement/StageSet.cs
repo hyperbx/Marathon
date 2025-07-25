@@ -341,9 +341,6 @@ namespace Marathon.Formats.Placement
 
         public override void Import(string in_path)
         {
-            if (Actors.Count <= 0)
-                throw new Exception("There are no actors to import with.");
-
             if (!File.Exists(in_path))
                 throw new FileNotFoundException("The specified file does not exist.");
 
@@ -379,7 +376,7 @@ namespace Marathon.Formats.Placement
         public void FromHsonProject(Project in_hsonProject)
         {
             if (Actors.Count <= 0)
-                throw new Exception("Actor templates are required to create a HSON project.");
+                throw new Exception("Actor templates are required for HSON projects.");
 
             var hsonGroups = new List<libHSON.Object>();
             var objectIDs = new Dictionary<Guid, int>();
@@ -446,7 +443,7 @@ namespace Marathon.Formats.Placement
         public Project ToHsonProject(string in_name = "", string in_description = "")
         {
             if (Actors.Count <= 0)
-                throw new Exception("Actor templates are required to create a HSON project.");
+                throw new Exception("Actor templates are required for HSON projects.");
 
             if (string.IsNullOrEmpty(in_name))
             {
