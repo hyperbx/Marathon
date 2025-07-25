@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 
 // Format names:        Stage Set
 // Format references:   Sonicteam::Prop::StageSetManagerRunner, LoadStageSet
@@ -346,26 +347,59 @@ namespace Marathon.Formats.Placement
             if (!File.Exists(in_path))
                 throw new FileNotFoundException("The specified file does not exist.");
 
-            var hsonProject = Project.FromFile(in_path);
+            FromHsonProject(Project.FromFile(in_path));
+        }
+
+        public override void Export(string in_path = "")
+        {
+            if (string.IsNullOrEmpty(in_path))
+                in_path = $"{Location}.hson";
+
+            var name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
+
+            ToHsonProject(name).Save(in_path, jsonOptions: new() { Indented = true });
+        }
+
+        public bool AddTemplatesFromFile(string in_path)
+        {
+            switch (Path.GetExtension(in_path))
+            {
+                case ".prop":
+                    Actors.AddRange(Templates.ImportProp(in_path));
+                    return true;
+
+                case ".json":
+                    Actors.AddRange(Templates.ImportJson(in_path));
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void FromHsonProject(Project in_hsonProject)
+        {
+            if (Actors.Count <= 0)
+                throw new Exception("Actor templates are required to create a HSON project.");
+
             var hsonGroups = new List<libHSON.Object>();
             var objectIDs = new Dictionary<Guid, int>();
 
-            for (int i = hsonProject.Objects.Count - 1; i >= 0; i--)
+            for (int i = in_hsonProject.Objects.Count - 1; i >= 0; i--)
             {
-                var hsonObject = hsonProject.Objects[i];
+                var hsonObject = in_hsonProject.Objects[i];
 
                 if (hsonObject.Type != "group")
                     continue;
 
                 hsonGroups.Add(hsonObject);
-                hsonProject.Objects.Remove(hsonProject.Objects[i]);
+                in_hsonProject.Objects.Remove(in_hsonProject.Objects[i]);
             }
 
             hsonGroups.Reverse();
 
-            for (int i = 0; i < hsonProject.Objects.Count; i++)
+            for (int i = 0; i < in_hsonProject.Objects.Count; i++)
             {
-                var hsonObject = hsonProject.Objects[i];
+                var hsonObject = in_hsonProject.Objects[i];
                 var actor = Actors.Find(x => x.Name == hsonObject.Type);
 
                 objectIDs.Add(hsonObject.Id, i);
@@ -374,9 +408,9 @@ namespace Marathon.Formats.Placement
             }
 
             // Resolve object IDs.
-            for (int i = 0; i < hsonProject.Objects.Count; i++)
+            for (int i = 0; i < in_hsonProject.Objects.Count; i++)
             {
-                var hsonObject = hsonProject.Objects[i];
+                var hsonObject = in_hsonProject.Objects[i];
                 var actor = Actors.Find(x => x.Name == hsonObject.Type);
 
                 for (int j = 0; j < hsonObject.LocalParameters.Count; j++)
@@ -404,30 +438,9 @@ namespace Marathon.Formats.Placement
                 Groups.Add(StageSetObjectGroup.FromHsonObject(hsonGroup, objectIDs));
         }
 
-        public override void Export(string in_path = "")
+        public void FromHsonProject(string in_json)
         {
-            if (string.IsNullOrEmpty(in_path))
-                in_path = $"{Location}.hson";
-
-            var name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
-
-            ToHsonProject(name).Save(in_path, jsonOptions: new() { Indented = true });
-        }
-
-        public bool AddTemplatesFromFile(string in_path)
-        {
-            switch (Path.GetExtension(in_path))
-            {
-                case ".prop":
-                    Actors.AddRange(Templates.ImportProp(in_path));
-                    return true;
-
-                case ".json":
-                    Actors.AddRange(Templates.ImportJson(in_path));
-                    return true;
-            }
-
-            return false;
+            FromHsonProject(Project.FromData(Encoding.UTF8.GetBytes(in_json)));
         }
 
         public Project ToHsonProject(string in_name = "", string in_description = "")
