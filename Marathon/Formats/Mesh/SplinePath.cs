@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -15,7 +16,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for *.path files; used for spline data.
     /// </summary>
-    public class SplinePath : FileBase
+    public class SplinePath : FileBase, IList<SplinePathData>
     {
         private const string _extension = ".path"; // "PATH"
 
@@ -27,6 +28,16 @@ namespace Marathon.Formats.Mesh
         /// The defined paths in this file.
         /// </summary>
         public List<SplinePathData> Paths { get; set; } = [];
+
+        public int Count => Paths.Count;
+
+        public bool IsReadOnly => false;
+
+        public SplinePathData this[int in_index]
+        {
+            get => Paths[in_index];
+            set => Paths[in_index] = value;
+        }
 
         public SplinePathData this[string in_name]
         {
@@ -162,6 +173,56 @@ namespace Marathon.Formats.Mesh
             }
 
             writer.FinishWrite();
+        }
+
+        public int IndexOf(SplinePathData in_item)
+        {
+            return Paths.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, SplinePathData in_item)
+        {
+            Paths.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Paths.RemoveAt(in_index);
+        }
+
+        public void Add(SplinePathData in_item)
+        {
+            Paths.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Paths.Clear();
+        }
+
+        public bool Contains(SplinePathData in_item)
+        {
+            return Paths.Contains(in_item);
+        }
+
+        public void CopyTo(SplinePathData[] in_array, int in_arrayIndex)
+        {
+            Paths.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(SplinePathData in_item)
+        {
+            return Paths.Remove(in_item);
+        }
+
+        public IEnumerator<SplinePathData> GetEnumerator()
+        {
+            return Paths.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

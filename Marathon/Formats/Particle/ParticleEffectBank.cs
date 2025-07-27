@@ -5,6 +5,7 @@ using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.peb files; used for configuring particle effects.
     /// </summary>
-    public class ParticleEffectBank : FileBase
+    public class ParticleEffectBank : FileBase, IList<ParticleEffect>
     {
         private const string _extension = ".peb";  // "Particle Effect Bank"
         private const string _signature  = "BEEP"; // "Particle Effect Effect Bank" (reverse)
@@ -38,6 +39,16 @@ namespace Marathon.Formats.Particle
         /// The effects in this bank.
         /// </summary>
         public List<ParticleEffect> Effects { get; set; } = [];
+
+        public int Count => Effects.Count;
+
+        public bool IsReadOnly => false;
+
+        public ParticleEffect this[int in_index]
+        {
+            get => Effects[in_index];
+            set => Effects[in_index] = value;
+        }
 
         public ParticleEffect this[string in_name]
         {
@@ -227,6 +238,56 @@ namespace Marathon.Formats.Particle
             }
 
             writer.FinishWrite();
+        }
+
+        public int IndexOf(ParticleEffect in_item)
+        {
+            return Effects.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, ParticleEffect in_item)
+        {
+            Effects.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Effects.RemoveAt(in_index);
+        }
+
+        public void Add(ParticleEffect in_item)
+        {
+            Effects.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Effects.Clear();
+        }
+
+        public bool Contains(ParticleEffect in_item)
+        {
+            return Effects.Contains(in_item);
+        }
+
+        public void CopyTo(ParticleEffect[] in_array, int in_arrayIndex)
+        {
+            Effects.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(ParticleEffect in_item)
+        {
+            return Effects.Remove(in_item);
+        }
+
+        public IEnumerator<ParticleEffect> GetEnumerator()
+        {
+            return Effects.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public override string ToString()

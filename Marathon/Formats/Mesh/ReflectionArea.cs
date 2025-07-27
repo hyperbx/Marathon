@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -15,7 +16,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for *.rab files; used for reflection zones.
     /// </summary>
-    public class ReflectionArea : FileBase
+    public class ReflectionArea : FileBase, IList<ReflectionAreaParam>
     {
         private const string _extension = ".rab"; // "Reflection Area Binary"
 
@@ -24,6 +25,16 @@ namespace Marathon.Formats.Mesh
         public ReflectionArea(string in_path) : base(in_path) { }
 
         public List<ReflectionAreaParam> Parameters { get; set; } = [];
+
+        public int Count => Parameters.Count;
+
+        public bool IsReadOnly => false;
+
+        public ReflectionAreaParam this[int in_index]
+        {
+            get => Parameters[in_index];
+            set => Parameters[in_index] = value;
+        }
 
         public override void Read(Stream in_stream)
         {
@@ -108,6 +119,56 @@ namespace Marathon.Formats.Mesh
             }
 
             writer.FinishWrite();
+        }
+
+        public int IndexOf(ReflectionAreaParam in_item)
+        {
+            return Parameters.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, ReflectionAreaParam in_item)
+        {
+            Parameters.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Parameters.RemoveAt(in_index);
+        }
+
+        public void Add(ReflectionAreaParam in_item)
+        {
+            Parameters.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Parameters.Clear();
+        }
+
+        public bool Contains(ReflectionAreaParam in_item)
+        {
+            return Parameters.Contains(in_item);
+        }
+
+        public void CopyTo(ReflectionAreaParam[] in_array, int in_arrayIndex)
+        {
+            Parameters.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(ReflectionAreaParam in_item)
+        {
+            return Parameters.Remove(in_item);
+        }
+
+        public IEnumerator<ReflectionAreaParam> GetEnumerator()
+        {
+            return Parameters.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

@@ -3,8 +3,10 @@ using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 // Format names:        Object Physics Parameter List
 // Format references:   Sonicteam::ObjectPhysicsParameterList
@@ -16,7 +18,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for Common.bin files; used for configuring physics object parameters.
     /// </summary>
-    public class ObjectPhysicsParameterList : FileBase
+    public class ObjectPhysicsParameterList : FileBase, IList<ObjectPhysicsParameter>
     {
         private const string _extension = ".bin"; // "BINary"
 
@@ -25,6 +27,16 @@ namespace Marathon.Formats.Parameter
         public ObjectPhysicsParameterList(string in_path) : base(in_path) { }
 
         public List<ObjectPhysicsParameter> Parameters { get; set; } = [];
+
+        public int Count => Parameters.Count;
+
+        public bool IsReadOnly => false;
+
+        public ObjectPhysicsParameter this[int in_index]
+        {
+            get => Parameters[in_index];
+            set => Parameters[in_index] = value;
+        }
 
         public ObjectPhysicsParameter this[string in_name]
         {
@@ -167,6 +179,56 @@ namespace Marathon.Formats.Parameter
 
             writer.Write(0);
             writer.FinishWrite();
+        }
+
+        public int IndexOf(ObjectPhysicsParameter in_item)
+        {
+            return Parameters.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, ObjectPhysicsParameter in_item)
+        {
+            Parameters.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Parameters.RemoveAt(in_index);
+        }
+
+        public void Add(ObjectPhysicsParameter in_item)
+        {
+            Parameters.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Parameters.Clear();
+        }
+
+        public bool Contains(ObjectPhysicsParameter in_item)
+        {
+            return Parameters.Contains(in_item);
+        }
+
+        public void CopyTo(ObjectPhysicsParameter[] in_array, int in_arrayIndex)
+        {
+            Parameters.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(ObjectPhysicsParameter in_item)
+        {
+            return Parameters.Remove(in_item);
+        }
+
+        public IEnumerator<ObjectPhysicsParameter> GetEnumerator()
+        {
+            return Parameters.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

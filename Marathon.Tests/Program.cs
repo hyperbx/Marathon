@@ -39,6 +39,7 @@ namespace Marathon.Tests
             else
             {
                 Logger.Error("Unable to determine game platform.");
+                Environment.ExitCode = -1;
                 return;
             }
 

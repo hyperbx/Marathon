@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.mst files; used for storing wide text with friendly names and variables.
     /// </summary>
-    public class TextBook : FileBase
+    public class TextBook : FileBase, IList<TextBookMessage>
     {
         private const string _extension = ".mst"; // "MeSsage Table" (speculatory)
         private const string _signature = "WTXT"; // "Wide TeXT" (referring to UTF-16)
@@ -33,6 +34,16 @@ namespace Marathon.Formats.Text
         /// The messages in this text book.
         /// </summary>
         public List<TextBookMessage> Messages { get; set; } = [];
+
+        public int Count => Messages.Count;
+
+        public bool IsReadOnly => false;
+
+        public TextBookMessage this[int in_index]
+        {
+            get => Messages[in_index];
+            set => Messages[in_index] = value;
+        }
 
         public TextBookMessage this[string in_name]
         {
@@ -107,6 +118,56 @@ namespace Marathon.Formats.Text
             }
 
             writer.FinishWrite();
+        }
+
+        public int IndexOf(TextBookMessage in_item)
+        {
+            return Messages.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, TextBookMessage in_item)
+        {
+            Messages.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Messages.RemoveAt(in_index);
+        }
+
+        public void Add(TextBookMessage in_item)
+        {
+            Messages.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Messages.Clear();
+        }
+
+        public bool Contains(TextBookMessage in_item)
+        {
+            return Messages.Contains(in_item);
+        }
+
+        public void CopyTo(TextBookMessage[] in_array, int in_arrayIndex)
+        {
+            Messages.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(TextBookMessage in_item)
+        {
+            return Messages.Remove(in_item);
+        }
+
+        public IEnumerator<TextBookMessage> GetEnumerator()
+        {
+            return Messages.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public override string ToString()

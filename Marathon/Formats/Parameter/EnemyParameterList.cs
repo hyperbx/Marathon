@@ -3,6 +3,7 @@ using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -16,7 +17,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for ScriptParameter.bin files; used for configuring enemy parameters.
     /// </summary>
-    public class EnemyParameterList : FileBase
+    public class EnemyParameterList : FileBase, IList<EnemyParameter>
     {
         private const string _extension = ".bin"; // "BINary"
 
@@ -25,6 +26,16 @@ namespace Marathon.Formats.Parameter
         public EnemyParameterList(string in_path) : base(in_path) { }
 
         public List<EnemyParameter> Parameters { get; set; } = [];
+
+        public int Count => Parameters.Count;
+
+        public bool IsReadOnly => false;
+
+        public EnemyParameter this[int in_index]
+        {
+            get => Parameters[in_index];
+            set => Parameters[in_index] = value;
+        }
 
         public EnemyParameter this[string in_name]
         {
@@ -108,6 +119,56 @@ namespace Marathon.Formats.Parameter
 
             writer.Write(0);
             writer.FinishWrite();
+        }
+
+        public int IndexOf(EnemyParameter in_item)
+        {
+            return Parameters.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, EnemyParameter in_item)
+        {
+            Parameters.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Parameters.RemoveAt(in_index);
+        }
+
+        public void Add(EnemyParameter in_item)
+        {
+            Parameters.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Parameters.Clear();
+        }
+
+        public bool Contains(EnemyParameter in_item)
+        {
+            return Parameters.Contains(in_item);
+        }
+
+        public void CopyTo(EnemyParameter[] in_array, int in_arrayIndex)
+        {
+            Parameters.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(EnemyParameter in_item)
+        {
+            return Parameters.Remove(in_item);
+        }
+
+        public IEnumerator<EnemyParameter> GetEnumerator()
+        {
+            return Parameters.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

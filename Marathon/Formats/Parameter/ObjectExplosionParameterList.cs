@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,7 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for Explosion.bin files; used for configuring explosion parameters.
     /// </summary>
-    public class ObjectExplosionParameterList : FileBase
+    public class ObjectExplosionParameterList : FileBase, IList<ObjectExplosionParameter>
     {
         private const string _extension = ".bin"; // "BINary"
 
@@ -23,6 +24,16 @@ namespace Marathon.Formats.Parameter
         public ObjectExplosionParameterList(string in_path) : base(in_path) { }
 
         public List<ObjectExplosionParameter> Parameters { get; set; } = [];
+
+        public int Count => Parameters.Count;
+
+        public bool IsReadOnly => false;
+
+        public ObjectExplosionParameter this[int in_index]
+        {
+            get => Parameters[in_index];
+            set => Parameters[in_index] = value;
+        }
 
         public ObjectExplosionParameter this[string in_name]
         {
@@ -117,6 +128,56 @@ namespace Marathon.Formats.Parameter
 
             writer.Write(0);
             writer.FinishWrite();
+        }
+
+        public int IndexOf(ObjectExplosionParameter in_item)
+        {
+            return Parameters.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, ObjectExplosionParameter in_item)
+        {
+            Parameters.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Parameters.RemoveAt(in_index);
+        }
+
+        public void Add(ObjectExplosionParameter in_item)
+        {
+            Parameters.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Parameters.Clear();
+        }
+
+        public bool Contains(ObjectExplosionParameter in_item)
+        {
+            return Parameters.Contains(in_item);
+        }
+
+        public void CopyTo(ObjectExplosionParameter[] in_array, int in_arrayIndex)
+        {
+            Parameters.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(ObjectExplosionParameter in_item)
+        {
+            return Parameters.Remove(in_item);
+        }
+
+        public IEnumerator<ObjectExplosionParameter> GetEnumerator()
+        {
+            return Parameters.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

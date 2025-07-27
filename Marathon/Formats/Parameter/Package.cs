@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -14,7 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for *.pkg files; used for preloading specific assets with friendly names.
     /// </summary>
-    public class Package : FileBase
+    public class Package : FileBase, IList<PackageCategory>
     {
         private const string _extension = ".pkg"; // "PacKaGe"
 
@@ -23,6 +24,16 @@ namespace Marathon.Formats.Parameter
         public Package(string in_path) : base(in_path) { }
 
         public List<PackageCategory> Categories { get; set; } = [];
+
+        public int Count => Categories.Count;
+
+        public bool IsReadOnly => false;
+
+        public PackageCategory this[int in_index]
+        {
+            get => Categories[in_index];
+            set => Categories[in_index] = value;
+        }
 
         public PackageCategory this[string in_name]
         {
@@ -124,6 +135,56 @@ namespace Marathon.Formats.Parameter
                 result += category.Files.Count;
 
             return result;
+        }
+
+        public int IndexOf(PackageCategory in_item)
+        {
+            return Categories.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, PackageCategory in_item)
+        {
+            Categories.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Categories.RemoveAt(in_index);
+        }
+
+        public void Add(PackageCategory in_item)
+        {
+            Categories.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Categories.Clear();
+        }
+
+        public bool Contains(PackageCategory in_item)
+        {
+            return Categories.Contains(in_item);
+        }
+
+        public void CopyTo(PackageCategory[] in_array, int in_arrayIndex)
+        {
+            Categories.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(PackageCategory in_item)
+        {
+            return Categories.Remove(in_item);
+        }
+
+        public IEnumerator<PackageCategory> GetEnumerator()
+        {
+            return Categories.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 

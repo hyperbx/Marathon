@@ -1,7 +1,8 @@
-﻿using Marathon.Extensions;
+﻿using Marathon.Formats.Parameter;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,7 +16,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.pft files; used for defining placeholder images for the <see cref="TextBook"/> format.
     /// </summary>
-    public class TextFontPicture : FileBase
+    public class TextFontPicture : FileBase, IList<TextFontPictureCrop>
     {
         private const string _extension = ".pft"; // "Picture FonT"
         private const string _signature = "FNTP"; // "FoNT Picture"
@@ -33,6 +34,16 @@ namespace Marathon.Formats.Text
         /// The crops for the specified texture.
         /// </summary>
         public List<TextFontPictureCrop> Crops { get; set; } = [];
+
+        public int Count => Crops.Count;
+
+        public bool IsReadOnly => false;
+
+        public TextFontPictureCrop this[int in_index]
+        {
+            get => Crops[in_index];
+            set => Crops[in_index] = value;
+        }
 
         public TextFontPictureCrop this[string in_name]
         {
@@ -95,6 +106,56 @@ namespace Marathon.Formats.Text
             }
 
             writer.FinishWrite();
+        }
+
+        public int IndexOf(TextFontPictureCrop in_item)
+        {
+            return Crops.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, TextFontPictureCrop in_item)
+        {
+            Crops.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Crops.RemoveAt(in_index);
+        }
+
+        public void Add(TextFontPictureCrop in_item)
+        {
+            Crops.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Crops.Clear();
+        }
+
+        public bool Contains(TextFontPictureCrop in_item)
+        {
+            return Crops.Contains(in_item);
+        }
+
+        public void CopyTo(TextFontPictureCrop[] in_array, int in_arrayIndex)
+        {
+            Crops.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(TextFontPictureCrop in_item)
+        {
+            return Crops.Remove(in_item);
+        }
+
+        public IEnumerator<TextFontPictureCrop> GetEnumerator()
+        {
+            return Crops.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public override string ToString()
