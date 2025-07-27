@@ -10,6 +10,8 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Marathon.Shared", "Marathon.Shared\Marathon.Shared.shproj", "{DA94BAE1-9D6A-4E00-8DFF-10AF9FD6AAC1}"
 EndProject
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Tests", "Marathon.Tests\Marathon.Tests.csproj", "{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
