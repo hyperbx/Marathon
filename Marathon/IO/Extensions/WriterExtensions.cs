@@ -1,5 +1,7 @@
 ﻿using Amicitia.IO;
 using Amicitia.IO.Binary;
+using System;
+using System.IO;
 
 namespace Marathon.IO.Extensions
 {
@@ -48,6 +50,15 @@ namespace Marathon.IO.Extensions
         public static void WriteStringFixedLength(this BinaryObjectWriter in_writer, string in_str, int in_length)
         {
             in_writer.WriteStringFixedLength(in_writer.Encoding, in_str, in_length);
+        }
+
+        public static void WriteAtOffset(this BinaryObjectWriter in_writer, long in_offset, Action in_action, SeekOrigin in_seekOrigin = SeekOrigin.Begin)
+        {
+            var pos = in_writer.Position;
+
+            in_writer.Seek(in_offset, in_seekOrigin);
+            in_action();
+            in_writer.Seek(pos, SeekOrigin.Begin);
         }
 
         public static void Align(this BinaryObjectWriter in_writer, int in_alignment)

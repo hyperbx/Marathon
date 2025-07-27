@@ -33,6 +33,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var pos = reader.Position;
             var stringPoolOffset = reader.ReadUInt32();
 
@@ -131,14 +133,14 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                writer.CreateStringField($"Param{i}Name", Parameters[i].Name);
-                writer.CreateStringField($"Param{i}Model", Parameters[i].Model);
-                writer.CreateStringField($"Param{i}UnknownField1", Parameters[i].UnknownField1);
-                writer.CreateStringField($"Param{i}UnknownField2", Parameters[i].UnknownField2);
+                writer.WriteStringOffset(Parameters[i].Name);
+                writer.WriteStringOffset(Parameters[i].Model);
+                writer.WriteStringOffset(Parameters[i].UnknownField1);
+                writer.WriteStringOffset(Parameters[i].UnknownField2);
                 writer.Write(Parameters[i].UnknownField3);
                 writer.Write(Parameters[i].UnknownField4);
                 writer.Write(Parameters[i].UnknownField5);
@@ -151,16 +153,16 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].UnknownField12);
                 writer.Write(Parameters[i].UnknownField13);
                 writer.Write(Parameters[i].UnknownField14);
-                writer.CreateStringField($"Param{i}Explosion", Parameters[i].ExplosionName);
-                writer.CreateStringField($"Param{i}ParticleContainerA", Parameters[i].ParticleContainerA);
-                writer.CreateStringField($"Param{i}ParticleNameA", Parameters[i].ParticleNameA);
-                writer.CreateStringField($"Param{i}SoundBank", Parameters[i].SoundBank);
-                writer.CreateStringField($"Param{i}SoundName", Parameters[i].SoundName);
-                writer.CreateStringField($"Param{i}ParticleContainerB", Parameters[i].ParticleContainerB);
-                writer.CreateStringField($"Param{i}ParticleNameB", Parameters[i].ParticleNameB);
-                writer.CreateStringField($"Param{i}ParticleContainerC", Parameters[i].ParticleContainerC);
-                writer.CreateStringField($"Param{i}ParticleNameC", Parameters[i].ParticleNameC);
-                writer.CreateStringField($"Param{i}UnknownField15", Parameters[i].UnknownField15);
+                writer.WriteStringOffset(Parameters[i].ExplosionName);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerA);
+                writer.WriteStringOffset(Parameters[i].ParticleNameA);
+                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundName);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerB);
+                writer.WriteStringOffset(Parameters[i].ParticleNameB);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerC);
+                writer.WriteStringOffset(Parameters[i].ParticleNameC);
+                writer.WriteStringOffset(Parameters[i].UnknownField15);
             }
 
             writer.Write(0);

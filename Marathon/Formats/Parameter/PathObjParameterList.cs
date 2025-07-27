@@ -33,6 +33,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var stringPoolOffset = reader.Read<uint>();
 
             reader.JumpBehind(4);
@@ -72,17 +74,17 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
                 var param = Parameters[i];
 
-                writer.CreateStringField($"Name{i}", param.Name);
-                writer.CreateStringField($"Model{i}", param.Model);
-                writer.CreateStringField($"Animation{i}", param.Animation);
-                writer.CreateStringField($"Text{i}", param.Text);
-                writer.CreateStringField($"MaterialAnimation{i}", param.MaterialAnimation);
+                writer.WriteStringOffset(param.Name);
+                writer.WriteStringOffset(param.Model);
+                writer.WriteStringOffset(param.Animation);
+                writer.WriteStringOffset(param.Text);
+                writer.WriteStringOffset(param.MaterialAnimation);
             }
 
             writer.Write(0);

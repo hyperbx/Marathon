@@ -1,4 +1,5 @@
-﻿using Assimp;
+﻿using Amicitia.IO.Binary;
+using Assimp;
 using Assimp.Configs;
 using Marathon.IO;
 using Marathon.IO.Extensions;
@@ -40,6 +41,8 @@ namespace Marathon.Formats.Mesh
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var unkField1 = reader.Read<uint>(); // TODO: unknown.
             var moppCodeOffset = reader.Read<uint>();
             var vertexTableOffset = reader.Read<uint>();
@@ -70,9 +73,9 @@ namespace Marathon.Formats.Mesh
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
-            writer.CreateNamedField("UnknownField1");
+            writer.Reserve<uint>("UnknownField1");
 
             /* Havok MOPP (memory optimised partial polytope)
                code can only be generated using the SDK, but
@@ -80,16 +83,16 @@ namespace Marathon.Formats.Mesh
                don't write it here. */
             writer.Write(0);
 
-            writer.WriteNamedField("UnknownField1", (uint)writer.Position - BINAHeader.Size);
-            writer.CreateNamedField("VertexTableOffset");
-            writer.CreateNamedField("FaceTableOffset");
-            writer.WriteNamedField("VertexTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("UnknownField1", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("VertexTableOffset");
+            writer.Reserve<uint>("FaceTableOffset");
+            writer.WriteReserved("VertexTableOffset", (uint)writer.Position - BINAHeader.Size);
             writer.Write(Vertices.Count);
 
             for (int i = 0; i < Vertices.Count; i++)
                 writer.Write(Vertices[i]);
 
-            writer.WriteNamedField("FaceTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("FaceTableOffset", (uint)writer.Position - BINAHeader.Size);
             writer.Write(Faces.Count);
 
             for (int i = 0; i < Faces.Count; i++)

@@ -35,6 +35,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var pos = reader.Position;
             var stringPoolOffset = reader.ReadUInt32();
 
@@ -131,18 +133,18 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                writer.CreateStringField($"Param{i}Name", Parameters[i].Name);
-                writer.CreateStringField($"Param{i}Model", Parameters[i].Model);
-                writer.CreateStringField($"Param{i}Havok", Parameters[i].Havok);
-                writer.CreateStringField($"Param{i}TimeEvent", Parameters[i].TimeEvent);
-                writer.CreateStringField($"Param{i}MaterialAnimation", Parameters[i].MaterialAnimation);
-                writer.CreateStringField($"Param{i}Lua", Parameters[i].Lua);
+                writer.WriteStringOffset(Parameters[i].Name);
+                writer.WriteStringOffset(Parameters[i].Model);
+                writer.WriteStringOffset(Parameters[i].Havok);
+                writer.WriteStringOffset(Parameters[i].TimeEvent);
+                writer.WriteStringOffset(Parameters[i].MaterialAnimation);
+                writer.WriteStringOffset(Parameters[i].Lua);
                 writer.Write(Parameters[i].Type);
-                writer.CreateStringField($"Param{i}PsiGrabNode", Parameters[i].PsiGrabNode);
+                writer.WriteStringOffset(Parameters[i].PsiGrabNode);
                 writer.Write(Parameters[i].CollisionType);
                 writer.Write(Parameters[i].GravityType);
                 writer.Write(Parameters[i].DebrisType);
@@ -154,12 +156,12 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].LifeTime);
                 writer.Write(Parameters[i].LifeTimeRandom);
                 writer.Write(Parameters[i].Score);
-                writer.CreateStringField($"Param{i}DestroyObjectName", Parameters[i].OnDestroy);
-                writer.CreateStringField($"Param{i}ExplosionName", Parameters[i].ExplosionName);
-                writer.CreateStringField($"Param{i}ParticleContainer", Parameters[i].ParticleContainer);
-                writer.CreateStringField($"Param{i}ParticleName", Parameters[i].ParticleName);
-                writer.CreateStringField($"Param{i}SoundBank", Parameters[i].SoundBank);
-                writer.CreateStringField($"Param{i}SoundName", Parameters[i].SoundName);
+                writer.WriteStringOffset(Parameters[i].OnDestroy);
+                writer.WriteStringOffset(Parameters[i].ExplosionName);
+                writer.WriteStringOffset(Parameters[i].ParticleContainer);
+                writer.WriteStringOffset(Parameters[i].ParticleName);
+                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundName);
                 writer.Write(Parameters[i].PsiGrabBehaviour);
             }
 

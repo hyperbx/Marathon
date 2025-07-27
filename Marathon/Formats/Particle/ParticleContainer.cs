@@ -41,6 +41,8 @@ namespace Marathon.Formats.Particle
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var nameOffset = reader.Read<uint>();
 
             reader.ReadAtOffset(BINAHeader.Size + nameOffset,
@@ -76,16 +78,16 @@ namespace Marathon.Formats.Particle
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
-            writer.CreateStringField("Name", Name);
-            writer.CreateNamedField("ParticleTableOffset");
+            writer.WriteStringOffset(Name);
+            writer.Reserve<uint>("ParticleTableOffset");
             writer.Write(Particles.Count);
-            writer.WriteNamedField("ParticleTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("ParticleTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Particles.Count; i++)
             {
-                writer.CreateStringField($"Particle{i}Name", Particles[i].Name);
+                writer.WriteStringOffset(Particles[i].Name);
 
                 if (Particles[i].EffectBankName == null)
                 {
@@ -93,10 +95,10 @@ namespace Marathon.Formats.Particle
                 }
                 else
                 {
-                    writer.CreateStringField($"Particle{i}EffectName", Particles[i].EffectBankName);
+                    writer.WriteStringOffset(Particles[i].EffectBankName);
                 }
 
-                writer.CreateStringField($"Particle{i}EffectBank", Particles[i].Resource);
+                writer.WriteStringOffset(Particles[i].Resource);
                 writer.Write(Particles[i].Flags);
             }
 

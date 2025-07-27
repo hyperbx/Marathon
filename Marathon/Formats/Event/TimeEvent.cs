@@ -38,6 +38,8 @@ namespace Marathon.Formats.Event
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             reader.CheckSignature(_signature);
 
             // Always null.
@@ -77,21 +79,21 @@ namespace Marathon.Formats.Event
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
         
             writer.WriteSignature(_signature);
             writer.Write(0);
-            writer.CreateStringField("MotionNameOffset", Motion);
+            writer.WriteStringOffset(Motion);
             writer.Write(Events.Count);
-            writer.CreateNamedField("EventTableOffset");
-            writer.WriteNamedField("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("EventTableOffset");
+            writer.WriteReserved("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.Write(0);
-                writer.CreateStringField($"TargetNode{i}", Events[i].TargetNode);
-                writer.CreateStringField($"Resource{i}", Events[i].Resource);
-                writer.CreateStringField($"ResourceName{i}", Events[i].ResourceName);
+                writer.WriteStringOffset(Events[i].TargetNode);
+                writer.WriteStringOffset(Events[i].Resource);
+                writer.WriteStringOffset(Events[i].ResourceName);
                 writer.Write(Events[i].StartTime);
                 writer.Write(Events[i].EndTime);
                 writer.Write(Events[i].UnknownField1);

@@ -1,6 +1,8 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.IO;
 
@@ -43,6 +45,8 @@ namespace Marathon.Formats.Audio
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             reader.CheckSignature(_signature);
 
             var magic = reader.Read<uint>();
@@ -54,8 +58,8 @@ namespace Marathon.Formats.Audio
             Name = reader.ReadStringFixedLength(0x40);
 
             var soundCount = reader.Read<uint>();
-            var csbCount = reader.Read<uint>();    // The total number of sounds in this bank that use *.csb streams.
-            var streamCount = reader.Read<uint>(); // The total number of sounds in this bank that use external streams.
+            var csbCount = reader.Read<uint>();
+            var streamCount = reader.Read<uint>();
 
             var currentStream = 0;
 
@@ -66,14 +70,15 @@ namespace Marathon.Formats.Audio
                     Name = reader.ReadStringFixedLength(0x20)
                 };
 
-                var isExternalStream = reader.Read<uint>() != 0;
-                var cueIndex = reader.Read<uint>();
+                sound.StreamType = reader.Read<StreamType>();
 
-                sound.Category = reader.Read<uint>();
-                sound.UnknownField1 = reader.Read<float>();
+                var soundIndex = reader.Read<uint>();
+
+                sound.UnknownField1 = reader.Read<uint>();
+                sound.UnknownField2 = reader.Read<float>();
                 sound.Radius = reader.Read<float>();
 
-                if (isExternalStream)
+                if (sound.StreamType == StreamType.External && streamTableOffset != 0)
                 {
                     var pos = reader.Position;
 
@@ -81,9 +86,11 @@ namespace Marathon.Formats.Audio
                     reader.JumpTo(BINAHeader.Size + streamTableOffset);
                     reader.JumpAhead(4 * currentStream);
 
-                    var streamNameOffset = reader.ReadUInt32();
+                    var streamNameOffset = reader.Read<uint>();
 
-                    reader.ReadAtOffset(BINAHeader.Size + streamNameOffset, () => sound.Stream = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + streamNameOffset,
+                        () => sound.Stream = reader.ReadStringNullTerminated());
+
                     reader.JumpTo(pos);
 
                     currentStream++;
@@ -91,85 +98,131 @@ namespace Marathon.Formats.Audio
 
                 Sounds.Add(sound);
             }
+
+            if (soundIndicesOffset != 0)
+            {
+                reader.JumpTo(BINAHeader.Size + soundIndicesOffset);
+
+                for (int i = 0; i < Sounds.Count; i++)
+                {
+                    if (Sounds[i].StreamType != StreamType.CueSheet)
+                        continue;
+
+                    Sounds[i].CueIndex = reader.Read<int>();
+                }
+            }
         }
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             var csbCount = 0;
             var streamCount = 0;
+            var hasIndexTable = false;
+            var hasStreamTable = false;
 
-            for (int i = 0; i < Sounds.Count; i++)
+            foreach (var sound in Sounds)
             {
-                if (string.IsNullOrEmpty(Sounds[i].Stream))
+                if (sound.StreamType == StreamType.CueSheet)
                 {
                     csbCount++;
+
+                    if (sound.CueIndex != -1)
+                        hasIndexTable = true;
                 }
-                else
+                else if (sound.StreamType == StreamType.External)
                 {
                     streamCount++;
+
+                    if (!string.IsNullOrEmpty(sound.Stream))
+                        hasStreamTable = true;
                 }
             }
-        
+
             writer.WriteSignature(_signature);
             writer.Write(_magic);
-            writer.CreateNamedField("NameOffset");
-            writer.CreateNamedField("SoundTableOffset");
-            writer.CreateNamedField("SoundIndicesOffset");
-            writer.CreateNamedField("StreamTableOffset");
-            writer.WriteNamedField("NameOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("NameOffset");
+            writer.Reserve<uint>("SoundTableOffset");
+
+            if (csbCount == 0 || !hasIndexTable)
+            {
+                writer.Write(0);
+            }
+            else
+            {
+                writer.Reserve<uint>("SoundIndicesOffset");
+            }
+
+            if (streamCount == 0 || !hasStreamTable)
+            {
+                writer.Write(0);
+            }
+            else
+            {
+                writer.Reserve<uint>("StreamTableOffset");
+            }
+
+            writer.WriteReserved("NameOffset", (uint)writer.Position - BINAHeader.Size);
             writer.WriteStringFixedLength(Name, 0x40);
             writer.Write(Sounds.Count);
             writer.Write(csbCount);
             writer.Write(streamCount);
-            writer.WriteNamedField("SoundTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("SoundTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             var csbSoundID = 0;
             var streamSoundID = 0;
         
             for (int i = 0; i < Sounds.Count; i++)
             {
-                writer.WriteStringFixedLength(Sounds[i].Name, 0x20);
+                var sound = Sounds[i];
 
-                if (string.IsNullOrEmpty(Sounds[i].Stream))
+                writer.WriteStringFixedLength(sound.Name, 0x20);
+                writer.Write(sound.StreamType);
+
+                if (sound.StreamType == StreamType.CueSheet)
                 {
-                    // Write CSB entry.
-                    writer.Write(0);
                     writer.Write(csbSoundID);
                     csbSoundID++;
                 }
-                else
+                else if (sound.StreamType == StreamType.External)
                 {
-                    // Write external stream entry.
-                    writer.Write(1);
                     writer.Write(streamSoundID);
                     streamSoundID++;
                 }
-        
-                writer.Write(Sounds[i].Category);
-                writer.Write(Sounds[i].UnknownField1);
-                writer.Write(Sounds[i].Radius);
+                else
+                {
+                    writer.Write(0);
+                }
+
+                writer.Write(sound.UnknownField1);
+                writer.Write(sound.UnknownField2);
+                writer.Write(sound.Radius);
             }
 
-            if (csbCount != 0)
+            if (csbCount != 0 && hasIndexTable)
             {
-                writer.WriteNamedField("SoundIndicesOffset", (uint)writer.Position - BINAHeader.Size);
-        
-                for (int i = 0; i < csbCount; i++)
-                    writer.Write(i);
-            }
+                writer.WriteReserved("SoundIndicesOffset", (uint)writer.Position - BINAHeader.Size);
 
-            if (streamCount != 0)
-            {
-                writer.WriteNamedField("StreamTableOffset", (uint)writer.Position - BINAHeader.Size);
-        
                 for (int i = 0; i < Sounds.Count; i++)
                 {
-                    if (string.IsNullOrEmpty(Sounds[i].Stream))
+                    if (Sounds[i].StreamType != StreamType.CueSheet)
                         continue;
 
-                    writer.CreateStringField($"StreamOffset{i}", Sounds[i].Stream);
+                    writer.Write(Sounds[i].CueIndex);
+                }
+            }
+
+            if (streamCount != 0 && hasStreamTable)
+            {
+                writer.WriteReserved("StreamTableOffset", (uint)writer.Position - BINAHeader.Size);
+
+                for (int i = 0; i < Sounds.Count; i++)
+                {
+                    if (Sounds[i].StreamType != StreamType.External)
+                        continue;
+
+                    writer.WriteStringOffset(Sounds[i].Stream);
                 }
             }
 
@@ -190,14 +243,19 @@ namespace Marathon.Formats.Audio
         public string Name { get; set; }
 
         /// <summary>
+        /// The type of audio stream used by this sound.
+        /// </summary>
+        public StreamType StreamType { get; set; }
+
+        /// <summary>
         /// TODO: unknown.
         /// </summary>
-        public uint Category { get; set; }
+        public uint UnknownField1 { get; set; }
 
         /// <summary>
         /// TODO: unknown, possibly a flag or maybe unused?
         /// </summary>
-        public float UnknownField1 { get; set; }
+        public float UnknownField2 { get; set; }
 
         /// <summary>
         /// The radius at which this sound can be heard from.
@@ -205,19 +263,26 @@ namespace Marathon.Formats.Audio
         public float Radius { get; set; }
 
         /// <summary>
+        /// The index of the cue in the *.csb file.
+        /// </summary>
+        public int CueIndex { get; set; } = -1;
+
+        /// <summary>
         /// The name of the stream this sound uses.
         /// <para>If using a stream from a *.csb file, leave blank.</para>
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Stream { get; set; }
 
         public SoundBankData() { }
 
-        public SoundBankData(string in_name, uint in_category, float in_unknownField1, float in_radius, string in_stream)
+        public SoundBankData(string in_name, uint in_unkField1, float in_unkField2, float in_radius, int in_cueIndex, string in_stream)
         {
             Name = in_name;
-            Category = in_category;
-            UnknownField1 = in_unknownField1;
+            UnknownField1 = in_unkField1;
+            UnknownField2 = in_unkField2;
             Radius = in_radius;
+            CueIndex = in_cueIndex;
             Stream = in_stream;
         }
 
@@ -225,5 +290,21 @@ namespace Marathon.Formats.Audio
         {
             return Name;
         }
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum StreamType : int
+    {
+        Undefined = -1,
+
+        /// <summary>
+        /// The audio data is stored in a *.csb file.
+        /// </summary>
+        CueSheet,
+
+        /// <summary>
+        /// The audio data is stored in an external audio file (e.g. *.xma, *.at3).
+        /// </summary>
+        External
     }
 }

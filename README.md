@@ -46,7 +46,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 - Save
     - [Save Data (`SonicNextSaveData.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Save/SonicNextSaveData.cs) reading and writing
 - Script
-    - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Script/Lua/LuaBinary.cs) reading and writing
+    - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Script/Lua/LuaBinary.cs) reading and decompiling
 - Text
     - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextBook.cs) reading and writing
     - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontPicture.cs) reading and writing

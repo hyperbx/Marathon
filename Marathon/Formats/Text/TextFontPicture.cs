@@ -43,6 +43,8 @@ namespace Marathon.Formats.Text
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             reader.CheckSignature(_signature);
 
             var textureNameOffset = reader.Read<uint>();
@@ -75,17 +77,17 @@ namespace Marathon.Formats.Text
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
-            writer.CreateStringField("TextureNameOffset", Texture);
+            writer.WriteStringOffset(Texture);
             writer.Write(Crops.Count);
-            writer.CreateNamedField("CropTableOffset");
-            writer.WriteNamedField("CropTableOffset", (uint)(writer.Position - BINAHeader.Size));
+            writer.Reserve<uint>("CropTableOffset");
+            writer.WriteReserved("CropTableOffset", (uint)(writer.Position - BINAHeader.Size));
 
             for (int i = 0; i < Crops.Count; i++)
             {
-                writer.CreateStringField($"CropNameOffset{i}", Crops[i].Name);
+                writer.WriteStringOffset(Crops[i].Name);
                 writer.Write(Crops[i].X);
                 writer.Write(Crops[i].Y);
                 writer.Write(Crops[i].Width);

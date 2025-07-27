@@ -23,9 +23,9 @@ namespace Marathon.IO.Types.BINA
 
         public uint FileSize { get; set; }
 
-        public uint OffsetTableOffset { get; set; }
+        public uint RelocTableOffset { get; set; }
 
-        public uint OffsetTableLength { get; set; }
+        public uint RelocTableLength { get; set; }
 
         public uint Version { get; set; }
 
@@ -81,8 +81,8 @@ namespace Marathon.IO.Types.BINA
             in_reader.JumpTo(HeaderOffset);
 
             FileSize = in_reader.ReadUInt32();
-            OffsetTableOffset = in_reader.ReadUInt32();
-            OffsetTableLength = in_reader.ReadUInt32();
+            RelocTableOffset = in_reader.ReadUInt32();
+            RelocTableLength = in_reader.ReadUInt32();
 
             // TODO: unknown.
             var unkField1 = in_reader.ReadUInt32();
@@ -113,11 +113,11 @@ namespace Marathon.IO.Types.BINA
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Endianness = IsBigEndian ? Endianness.Big : Endianness.Little;
+            IsBigEndian = in_writer.Endianness == Endianness.Big;
 
             in_writer.Write(FileSize);
-            in_writer.Write(OffsetTableOffset);
-            in_writer.Write(OffsetTableLength);
+            in_writer.Write(RelocTableOffset);
+            in_writer.Write(RelocTableLength);
 
             // TODO: unknown - possibly padding?
             in_writer.WriteNullBytes(4);

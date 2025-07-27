@@ -39,6 +39,8 @@ namespace Marathon.Formats.Event
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             reader.CheckSignature(_signature);
 
             var magic = reader.Read<uint>();
@@ -95,26 +97,26 @@ namespace Marathon.Formats.Event
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
             writer.Write(_magic);
             writer.Write(Events.Count);
-            writer.CreateNamedField("EventTableOffset");
-            writer.WriteNamedField("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("EventTableOffset");
+            writer.WriteReserved("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Events.Count; i++)
             {
-                writer.CreateStringField($"Event{i}Name", Events[i].Name);
-                writer.CreateStringField($"Event{i}Folder", Events[i].Folder);
+                writer.WriteStringOffset(Events[i].Name);
+                writer.WriteStringOffset(Events[i].Folder);
                 writer.Write(Events[i].Length);
                 writer.Write(Events[i].Position);
                 writer.Write(Events[i].Rotation);
-                writer.CreateStringField($"Event{i}Terrain", Events[i].Terrain);
-                writer.CreateStringField($"Event{i}SceneLua", Events[i].SceneParameters);
-                writer.CreateStringField($"Event{i}SceneBank", Events[i].SoundBank);
-                writer.CreateStringField($"Event{i}ParticleList", Events[i].ParticleContainer);
-                writer.CreateStringField($"Event{i}SubtitleMST", Events[i].Subtitles);
+                writer.WriteStringOffset(Events[i].Terrain);
+                writer.WriteStringOffset(Events[i].SceneParameters);
+                writer.WriteStringOffset(Events[i].SoundBank);
+                writer.WriteStringOffset(Events[i].ParticleContainer);
+                writer.WriteStringOffset(Events[i].Subtitles);
             }
 
             writer.FinishWrite();

@@ -12,7 +12,7 @@ using System.Numerics;
 
 // Format names:        Particle Effect Bank
 // Format references:   Sonicteam::GE1PE::EffectBank
-// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. #1
 // Format researchers:  Knuxfan24, Hyper, GordinRamsay
 
 namespace Marathon.Formats.Particle
@@ -47,6 +47,8 @@ namespace Marathon.Formats.Particle
         public override void Read(Stream in_stream)
         {
             BINAReader reader = new(in_stream);
+
+            Endianness = reader.Endianness;
 
             reader.CheckSignature(_signature);
 
@@ -132,25 +134,41 @@ namespace Marathon.Formats.Particle
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
             writer.WriteNullBytes(8);
             writer.Write(Effects.Count);
             writer.WriteStringFixedLength(Name, 0x20);
-            writer.CreateNamedField("EffectTableOffset");
-            writer.WriteNamedField("EffectTableOffset", (uint)writer.Position - BINAHeader.Size);
+
+            if (Effects.Count <= 0)
+            {
+                writer.Write(0);
+            }
+            else
+            {
+                writer.Reserve<uint>("EffectTableOffset");
+                writer.WriteReserved("EffectTableOffset", (uint)writer.Position - BINAHeader.Size);
+            }
 
             for (int i = 0; i < Effects.Count; i++)
             {
                 writer.WriteStringFixedLength(Effects[i].Name, 0x40);
                 writer.Write(Effects[i].Nodes.Count);
-                writer.CreateNamedField($"NodeOffset{i}");
+
+                if (Effects[i].Nodes.Count <= 0)
+                {
+                    writer.Write(0);
+                }
+                else
+                {
+                    writer.Reserve<uint>($"NodeOffset{i}");
+                }
             }
 
             for (int i = 0; i < Effects.Count; i++)
             {
-                writer.WriteNamedField($"NodeOffset{i}", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"NodeOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Effects[i].Nodes.Count; j++)
                 {
@@ -183,13 +201,13 @@ namespace Marathon.Formats.Particle
 
                     writer.Write(propertyCount);
 
-                    if (propertyCount == 0)
+                    if (propertyCount <= 0)
                     {
                         writer.Write(0);
                     }
                     else
                     {
-                        writer.CreateNamedField($"Node{i}PropertyOffset{j}");
+                        writer.Reserve<uint>($"Node{i}PropertyOffset{j}");
                     }
                 }
             }
@@ -201,7 +219,7 @@ namespace Marathon.Formats.Particle
                     if (Effects[i].Nodes[j].Properties.Sum(x => x.Length()) == 0)
                         continue;
 
-                    writer.WriteNamedField($"Node{i}PropertyOffset{j}", (uint)writer.Position - BINAHeader.Size);
+                    writer.WriteReserved($"Node{i}PropertyOffset{j}", (uint)writer.Position - BINAHeader.Size);
 
                     foreach (var property in Effects[i].Nodes[j].Properties)
                         property.Write(writer);
@@ -444,7 +462,7 @@ namespace Marathon.Formats.Particle
 
             if (string.IsNullOrEmpty(typeName))
             {
-                Logger.Log($"Unknown type at 0x{in_reader.Position:X}: 0x{Type:X}");
+                Logger.Warning($"Unknown type at 0x{in_reader.Position:X}: 0x{Type:X}");
                 return this;
             }
 
@@ -478,7 +496,7 @@ namespace Marathon.Formats.Particle
 
             if (string.IsNullOrEmpty(typeName))
             {
-                Logger.Log($"Unknown type: 0x{Type:X}");
+                Logger.Warning($"Unknown type: 0x{Type:X}");
                 return;
             }
 
@@ -503,7 +521,7 @@ namespace Marathon.Formats.Particle
 
             if (string.IsNullOrEmpty(typeName))
             {
-                Logger.Log($"Unknown type: 0x{Type:X}");
+                Logger.Warning($"Unknown type: 0x{Type:X}");
                 return result;
             }
 

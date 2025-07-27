@@ -8,7 +8,7 @@ using System.Numerics;
 // Format names:        Spline Path
 // Format references:   Sonicteam::SplinePath
 // Format designers:    Sonic Team
-// Format researchers:  Knuxfan24, Aruki
+// Format researchers:  Aruki, Knuxfan24, Hyper
 
 namespace Marathon.Formats.Mesh
 {
@@ -37,6 +37,8 @@ namespace Marathon.Formats.Mesh
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var pathTableOffset = reader.Read<uint>();
             var pathCount = reader.Read<uint>();
             var nodeTableOffset = reader.Read<uint>();
@@ -45,30 +47,30 @@ namespace Marathon.Formats.Mesh
             for (int i = 0; i < pathCount; i++)
             {
                 var path = new SplinePathData();
-
                 var pathOffset = reader.Read<uint>();
                 var splineCount = reader.Read<uint>();
 
-                path.UnknownField1 = reader.Read<float>();
+                path.UnknownField = reader.Read<float>();
 
                 var pos = reader.Position;
 
                 reader.JumpTo(BINAHeader.Size + pathOffset);
 
-                var splineOffset = reader.Read<uint>();
-                var vertexCount = reader.Read<uint>(); 
-
-                path.UnknownField2 = reader.Read<uint>();
-
-                reader.JumpTo(BINAHeader.Size + splineOffset);
-
                 for (int j = 0; j < splineCount; j++)
                 {
                     var spline = new SplineRoot();
+                    var splineOffset = reader.Read<uint>();
+                    var vertexCount = reader.Read<uint>();
+
+                    spline.UnknownField = reader.Read<uint>();
+
+                    var splinePos = reader.Position;
+
+                    reader.JumpTo(BINAHeader.Size + splineOffset);
 
                     for (int k = 0; k < vertexCount; k++)
                     {
-                        var point = new SplineVertex()
+                        var vertex = new SplineVertex()
                         {
                             Flags = reader.Read<uint>(),
                             Position = reader.Read<Vector3>(),
@@ -76,25 +78,24 @@ namespace Marathon.Formats.Mesh
                             OutPosition = reader.Read<Vector3>()
                         };
 
-                        spline.Vertices.Add(point);
+                        spline.Vertices.Add(vertex);
                     }
+
+                    reader.JumpTo(splinePos);
 
                     path.Splines.Add(spline);
                 }
 
-                Paths.Add(path);
-
                 reader.JumpTo(pos);
+
+                Paths.Add(path);
             }
 
             reader.JumpTo(BINAHeader.Size + nodeTableOffset);
 
             for (int i = 0; i < nodeCount; i++)
             {
-                /* TODO: unknown - usually the same as the
-                   path's number sequentially, but not always. */
                 Paths[i].NodeIndex = reader.Read<uint>();
-
                 Paths[i].Position = reader.Read<Vector3>();
                 Paths[i].Rotation = reader.Read<Quaternion>();
 
@@ -107,35 +108,39 @@ namespace Marathon.Formats.Mesh
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
-            writer.CreateNamedField("PathTableOffset");
+            writer.Reserve<uint>("PathTableOffset");
             writer.Write(Paths.Count);
-            writer.CreateNamedField("NodeTableOffset");
-            writer.Write(Paths.Count); // Always seems to be the same as the path count.
-            writer.WriteNamedField("PathTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("NodeTableOffset");
+            writer.Write(Paths.Count);
+            writer.WriteReserved("PathTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Paths.Count; i++)
             {
-                writer.CreateNamedField($"Path{i}Offset");
+                writer.Reserve<uint>($"Path{i}Offset");
                 writer.Write(Paths[i].Splines.Count);
-                writer.Write(Paths[i].UnknownField1);
+                writer.Write(Paths[i].UnknownField);
             }
 
             for (int i = 0; i < Paths.Count; i++)
             {
-                writer.WriteNamedField($"Path{i}Offset", (uint)writer.Position - BINAHeader.Size);
-                writer.CreateNamedField($"Path{i}SplineOffset");
-                writer.Write(Paths[i].Splines[0].Vertices.Count);
-                writer.Write(Paths[i].UnknownField2);
-            }
-
-            for (int i = 0; i < Paths.Count; i++)
-            {
-                writer.WriteNamedField($"Path{i}SplineOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"Path{i}Offset", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Paths[i].Splines.Count; j++)
                 {
+                    writer.Reserve<uint>($"Path{i}Spline{j}Offset");
+                    writer.Write(Paths[i].Splines[j].Vertices.Count);
+                    writer.Write(Paths[i].Splines[j].UnknownField);
+                }
+            }
+
+            for (int i = 0; i < Paths.Count; i++)
+            {
+                for (int j = 0; j < Paths[i].Splines.Count; j++)
+                {
+                    writer.WriteReserved($"Path{i}Spline{j}Offset", (uint)writer.Position - BINAHeader.Size);
+
                     for (int k = 0; k < Paths[i].Splines[j].Vertices.Count; k++)
                     {
                         writer.Write(Paths[i].Splines[j].Vertices[k].Flags);
@@ -146,14 +151,14 @@ namespace Marathon.Formats.Mesh
                 }
             }
 
-            writer.WriteNamedField("NodeTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("NodeTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Paths.Count; i++)
             {
                 writer.Write(Paths[i].NodeIndex);
                 writer.Write(Paths[i].Position);
                 writer.Write(Paths[i].Rotation);
-                writer.CreateStringField($"Path{i}Name", Paths[i].Name);
+                writer.WriteStringOffset(Paths[i].Name);
             }
 
             writer.FinishWrite();
@@ -162,9 +167,7 @@ namespace Marathon.Formats.Mesh
 
     public class SplinePathData
     {
-        public float UnknownField1 { get; set; }
-
-        public uint UnknownField2 { get; set; }
+        public float UnknownField { get; set; }
 
         public uint NodeIndex { get; set; }
 
@@ -184,12 +187,15 @@ namespace Marathon.Formats.Mesh
 
     public class SplineRoot
     {
+        public uint UnknownField { get; set; }
+
         public List<SplineVertex> Vertices { get; set; } = [];
 
         public SplineRoot() { }
 
-        public SplineRoot(List<SplineVertex> in_vertices)
+        public SplineRoot(uint in_unkField, List<SplineVertex> in_vertices)
         {
+            UnknownField = in_unkField;
             Vertices = in_vertices;
         }
     }

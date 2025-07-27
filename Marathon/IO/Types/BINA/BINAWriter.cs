@@ -16,9 +16,9 @@ namespace Marathon.IO.Types.BINA
         public class StringPoolEntry(string in_str)
         {
             /// <summary>
-            /// A collection of field names that will point to this string.
+            /// A collection of offsets to this string.
             /// </summary>
-            public List<string> FieldNames { get; set; } = [];
+            public List<long> Offsets { get; set; } = [];
 
             /// <summary>
             /// The string to be written to the string pool.
@@ -28,22 +28,21 @@ namespace Marathon.IO.Types.BINA
 
         public List<StringPoolEntry> StringPoolEntries = [];
 
-        public BINAWriter(Stream in_stream, bool in_isBigEndian = true)
-            : base(in_stream, StreamOwnership.Retain, in_isBigEndian ? Endianness.Big : Endianness.Little, EncodingFactory.ShiftJIS)
+        public BINAWriter(Stream in_stream, Endianness in_endianness = Endianness.Big)
+            : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
         {
             // Reserve header chunk.
             this.WriteNullBytes(BINAHeader.Size);
         }
 
-        public void CreateStringField(string in_fieldName, string in_str = null, bool in_writeNullPtrOnEmptyString = true, int in_fieldLength = 4)
+        public long WriteStringOffset(string in_str = null, bool in_writeNullPtrOnEmptyString = true, int in_fieldLength = 4)
         {
-            if (string.IsNullOrEmpty(in_fieldName))
-                return;
+            var reserved = Position;
 
             if (string.IsNullOrEmpty(in_str) && in_writeNullPtrOnEmptyString)
             {
                 this.WriteNullBytes(in_fieldLength);
-                return;
+                return reserved;
             }
 
             var newEntry = new StringPoolEntry(in_str);
@@ -59,12 +58,14 @@ namespace Marathon.IO.Types.BINA
                 }
             }
 
-            CreateNamedField(in_fieldName, in_fieldLength);
+            reserved = Reserve(in_fieldLength);
 
-            newEntry.FieldNames.Add(in_fieldName);
+            newEntry.Offsets.Add(reserved);
 
             if (isNewEntry)
                 StringPoolEntries.Add(newEntry);
+
+            return reserved;
         }
 
         private void WriteStringPool()
@@ -72,8 +73,8 @@ namespace Marathon.IO.Types.BINA
             foreach (var entry in StringPoolEntries)
             {
                 // Write all offsets that point to this string in the file.
-                foreach (var offsetName in entry.FieldNames)
-                    WriteNamedField(offsetName, (uint)Position - BINAHeader.Size);
+                foreach (var offset in entry.Offsets)
+                    WriteReserved(offset, (uint)Position - BINAHeader.Size);
 
                 this.WriteStringNullTerminated(entry.Data);
             }
@@ -83,10 +84,10 @@ namespace Marathon.IO.Types.BINA
 
         private void WriteFooter()
         {
-            var offsetTablePos = WriteOffsetTable();
+            var offsetTablePos = WriteRelocTable();
 
-            Header.OffsetTableOffset = (uint)(offsetTablePos - BINAHeader.Size);
-            Header.OffsetTableLength = (uint)(Position - offsetTablePos);
+            Header.RelocTableOffset = (uint)(offsetTablePos - BINAHeader.Size);
+            Header.RelocTableLength = (uint)(Position - offsetTablePos);
 
             if (Header.HasFooterMagic)
                 WriteFooterMagic();
@@ -94,29 +95,29 @@ namespace Marathon.IO.Types.BINA
             Header.FileSize = (uint)Position;
         }
 
-        private long WriteOffsetTable()
+        private long WriteRelocTable()
         {
             var pos = Position;
-            var pointerOffset = (long)BINAHeader.Size;
+            var lastOffset = (long)BINAHeader.Size;
 
-            foreach (var field in Fields)
+            foreach (var offset in Offsets)
             {
-                var offsetBits = (field.Value - pointerOffset) >> 2;
+                var offsetBits = (offset.Value - lastOffset) >> 2;
 
-                if (offsetBits <= 0x3F)
+                if (offsetBits > 0x3FFF)
                 {
-                    WriteBig((byte)((byte)BINAOffsetEncoding.SixBit | offsetBits));
+                    WriteBig((uint)(((byte)BINAOffsetEncoding.ThirtyBit << 24) | offsetBits));
                 }
-                else if (offsetBits <= 0x3FFF)
+                else if (offsetBits > 0x3F)
                 {
                     WriteBig((ushort)(((byte)BINAOffsetEncoding.FourteenBit << 8) | offsetBits));
                 }
                 else
                 {
-                    WriteBig((uint)(((byte)BINAOffsetEncoding.ThirtyBit << 24) | offsetBits));
+                    WriteBig((byte)((byte)BINAOffsetEncoding.SixBit | offsetBits));
                 }
 
-                pointerOffset = field.Value;
+                lastOffset = offset.Value;
             }
 
             this.Align(4);
@@ -142,12 +143,21 @@ namespace Marathon.IO.Types.BINA
         }
 
         /// <summary>
-        /// Alias of <see cref="BinaryObjectWriterEx.WriteNamedField{T}(string, T, bool)"/> that defaults <paramref name="in_removeField"/> to <b>false</b>.
-        /// <para>All fields must remain present for the offset table to be written last.</para>
+        /// Alias of <see cref="BinaryObjectWriterEx.WriteReserved{T}(long, T, bool)"/> that defaults <paramref name="in_removeAfterWrite"/> to <b>false</b>.
+        /// <para>All fields must remain present for the relocation table to be written last.</para>
         /// </summary>
-        public override void WriteNamedField<T>(string in_name, T in_value, bool in_removeField = false)
+        public override void WriteReserved<T>(long in_offset, T in_value, bool in_removeAfterWrite = false)
         {
-            base.WriteNamedField(in_name, in_value, in_removeField);
+            base.WriteReserved(in_offset, in_value, in_removeAfterWrite);
+        }
+
+        /// <summary>
+        /// Alias of <see cref="BinaryObjectWriterEx.WriteReserved{T}(string, T, bool)"/> that defaults <paramref name="in_removeAfterWrite"/> to <b>false</b>.
+        /// <para>All fields must remain present for the relocation table to be written last.</para>
+        /// </summary>
+        public override void WriteReserved<T>(string in_name, T in_value, bool in_removeAfterWrite = false)
+        {
+            base.WriteReserved(in_name, in_value, in_removeAfterWrite);
         }
     }
 

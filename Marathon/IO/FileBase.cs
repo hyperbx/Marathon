@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Amicitia.IO.Binary;
+using System;
 using System.IO;
 
 namespace Marathon.IO
@@ -14,6 +15,11 @@ namespace Marathon.IO
         /// The location of this file.
         /// </summary>
         public string Location { get; private set; }
+
+        /// <summary>
+        /// The endianness of this file.
+        /// </summary>
+        public Endianness Endianness { get; set; } = Endianness.Big;
 
         /// <summary>
         /// The method used for writing the file.

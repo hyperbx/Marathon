@@ -33,6 +33,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var pos = reader.Position;
             var stringPoolOffset = reader.ReadUInt32();
 
@@ -91,11 +93,11 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                writer.CreateStringField($"Param{i}Name", Parameters[i].Name);
+                writer.WriteStringOffset(Parameters[i].Name);
                 writer.Write(Parameters[i].UnknownField1);
                 writer.Write(Parameters[i].Radius);
                 writer.Write(Parameters[i].UnknownField2);
@@ -105,11 +107,11 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].Force);
                 writer.Write(Parameters[i].Damage);
                 writer.Write(Parameters[i].Behaviour);
-                writer.CreateStringField($"Param{i}ParticleContainer", Parameters[i].ParticleContainer);
-                writer.CreateStringField($"Param{i}ParticleName", Parameters[i].ParticleName);
-                writer.CreateStringField($"Param{i}SoundBank", Parameters[i].SoundBank);
-                writer.CreateStringField($"Param{i}SoundName", Parameters[i].SoundName);
-                writer.CreateStringField($"Param{i}LightName", Parameters[i].LightName);
+                writer.WriteStringOffset(Parameters[i].ParticleContainer);
+                writer.WriteStringOffset(Parameters[i].ParticleName);
+                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundName);
+                writer.WriteStringOffset(Parameters[i].LightName);
                 writer.WriteNullBytes(12);
             }
 

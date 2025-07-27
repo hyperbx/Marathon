@@ -6,7 +6,7 @@ using System.IO;
 
 // Format names:        Particle Texture Bank
 // Format references:   Sonicteam::GE1PE::TextureBank
-// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. #1
 // Format researchers:  Knuxfan24, Hyper, GordinRamsay
 
 namespace Marathon.Formats.Particle
@@ -40,7 +40,9 @@ namespace Marathon.Formats.Particle
 
         public override void Read(Stream in_stream)
         {
-            BINAReader reader = new(in_stream);
+            var reader = new BINAReader(in_stream);
+
+            Endianness = reader.Endianness;
 
             reader.CheckSignature(_signature);
 
@@ -69,14 +71,22 @@ namespace Marathon.Formats.Particle
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
             writer.WriteNullBytes(8);
             writer.Write(Textures.Count);
             writer.WriteStringFixedLength(Name, 0x20);
-            writer.CreateNamedField("EntryTableOffset");
-            writer.WriteNamedField("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
+
+            if (Textures.Count <= 0)
+            {
+                writer.Write(0);
+            }
+            else
+            {
+                writer.Reserve<uint>("EntryTableOffset");
+                writer.WriteReserved("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
+            }
 
             for (int i = 0; i < Textures.Count; i++)
             {

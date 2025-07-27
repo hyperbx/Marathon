@@ -42,6 +42,8 @@ namespace Marathon.Formats.Placement
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             // Always null.
             reader.JumpAhead(12);
 
@@ -57,8 +59,8 @@ namespace Marathon.Formats.Placement
                 var actorNameOffset = reader.Read<uint>();
                 var parameterCount = reader.Read<uint>();
                 var parameterOffset = reader.Read<uint>();
-                var unkField1 = reader.Read<uint>();
-                var unkField2 = reader.Read<uint>();
+                var hasPersistent = reader.Read<uint>() > 0;
+                var persistentOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + actorNameOffset, () => actor.Name = reader.ReadStringNullTerminated());
 
@@ -71,10 +73,17 @@ namespace Marathon.Formats.Placement
                     var param = new ActorParameter()
                     {
                         Name = reader.ReadStringFixedLength(0x10),
-                        Type = (StageSetDataType)reader.Read<uint>()
+                        Type = reader.Read<StageSetDataType>()
                     };
 
                     actor.Parameters.Add(param);
+                }
+
+                if (hasPersistent)
+                {
+                    reader.JumpTo(BINAHeader.Size + persistentOffset);
+
+                    actor.Persistent = reader.ReadStringFixedLength(0x10);
                 }
 
                 reader.JumpTo(pos);
@@ -85,29 +94,39 @@ namespace Marathon.Formats.Placement
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteNullBytes(12);
             writer.WriteStringFixedLength(Name.Truncate(0x20), 0x20);
             writer.Write(Actors.Count);
-            writer.CreateNamedField("ActorTableOffset");
-            writer.WriteNamedField("ActorTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("ActorTableOffset");
+            writer.WriteReserved("ActorTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Actors.Count; i++)
             {
-                writer.CreateStringField($"Actor{i}Name", Actors[i].Name);
-                writer.Write(Actors[i].Parameters.Count);
+                var actor = Actors[i];
 
-                if (Actors[i].Parameters.Count == 0)
+                writer.WriteStringOffset(actor.Name);
+                writer.Write(actor.Parameters.Count);
+
+                if (actor.Parameters.Count == 0)
                 {
                     writer.Write(0);
                 }
                 else
                 {
-                    writer.CreateNamedField($"Actor{i}ParameterOffset");
+                    writer.Reserve<uint>($"Actor{i}ParameterOffset");
                 }
 
-                writer.WriteNullBytes(8);
+                if (string.IsNullOrEmpty(actor.Persistent))
+                {
+                    writer.WriteNullBytes(8);
+                }
+                else
+                {
+                    writer.Write(1);
+                    writer.Reserve<uint>($"Actor{i}PersistentOffset");
+                }
             }
 
             for (int i = 0; i < Actors.Count; i++)
@@ -115,7 +134,7 @@ namespace Marathon.Formats.Placement
                 if (Actors[i].Parameters.Count == 0)
                     continue;
 
-                writer.WriteNamedField($"Actor{i}ParameterOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"Actor{i}ParameterOffset", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Actors[i].Parameters.Count; j++)
                 {
@@ -123,6 +142,17 @@ namespace Marathon.Formats.Placement
                     writer.Write((uint)Actors[i].Parameters[j].Type);
                     writer.Write(j);
                 }
+            }
+
+            for (int i = 0; i < Actors.Count; i++)
+            {
+                var actor = Actors[i];
+
+                if (string.IsNullOrEmpty(actor.Persistent))
+                    continue;
+
+                writer.WriteReserved($"Actor{i}PersistentOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteStringFixedLength(actor.Persistent.Truncate(0x10), 0x10);
             }
 
             writer.FinishWrite();
@@ -146,12 +176,18 @@ namespace Marathon.Formats.Placement
         /// </summary>
         public List<ActorParameter> Parameters { get; set; } = [];
 
+        /// <summary>
+        /// The name of a variable that persists after dying in a stage.
+        /// </summary>
+        public string Persistent { get; set; }
+
         public Actor() { }
 
-        public Actor(string in_name, List<ActorParameter> in_parameters = null)
+        public Actor(string in_name, List<ActorParameter> in_parameters = null, string in_persistent = null)
         {
             Name = in_name;
             Parameters = in_parameters ?? [];
+            Persistent = in_persistent;
         }
 
         public override string ToString()

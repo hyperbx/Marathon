@@ -54,6 +54,8 @@ namespace Marathon.Formats.Placement
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             // Always null.
             reader.JumpAhead(0x0C);
 
@@ -125,7 +127,7 @@ namespace Marathon.Formats.Placement
                             {
                                 var stringOffset = reader.Read<uint>();
                                 reader.ReadAtOffset(BINAHeader.Size + stringOffset, () => param.Value = reader.ReadStringNullTerminated());
-                                reader.JumpAhead(12); // Always 1, 0, then the amount of characters in the string plus one?
+                                reader.JumpAhead(12); // Always 1, 0, then the string length plus null terminator.
                                 break;
                             }
 
@@ -179,37 +181,56 @@ namespace Marathon.Formats.Placement
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteNullBytes(12); // Always null.
             writer.WriteStringFixedLength(Name.Truncate(0x20), 0x20);
             writer.Write(Objects.Count);
-            writer.CreateNamedField("ObjectTableOffset");
+            writer.Reserve<uint>("ObjectTableOffset");
             writer.Write(Groups.Count);
-            writer.CreateNamedField("GroupTableOffset");
-            writer.WriteNamedField("ObjectTableOffset", (uint)writer.Position - BINAHeader.Size);
+
+            if (Groups.Count <= 0)
+            {
+                writer.Write(0);
+            }
+            else
+            {
+                writer.Reserve<uint>("GroupTableOffset");
+            }
+
+            writer.WriteReserved("ObjectTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Objects.Count; i++)
             {
+                var @object = Objects[i];
+
                 // If the object's name is empty, add an offset to a null entry.
-                if (string.IsNullOrEmpty(Objects[i].Name))
+                if (string.IsNullOrEmpty(@object.Name))
                 {
-                    writer.CreateNamedField($"Object{i}Name");
+                    writer.Reserve<uint>($"Object{i}Name");
                 }
                 else
                 {
-                    writer.CreateStringField($"Object{i}Name", Objects[i].Name);
+                    writer.WriteStringOffset(@object.Name);
                 }
 
-                writer.CreateStringField($"Object{i}Type", Objects[i].Type);
+                writer.WriteStringOffset(@object.Type);
                 writer.WriteBytes([0x40, 0x00, 0x00]);
-                writer.Write(Objects[i].StartInactive);
+                writer.Write(@object.StartInactive);
                 writer.WriteNullBytes(12);
-                writer.Write(Objects[i].Position);
-                writer.Write(Objects[i].DrawDistance);
-                writer.Write(Objects[i].Rotation);
-                writer.Write(Objects[i].Parameters.Count);
-                writer.CreateNamedField($"Object{i}ParametersOffset");
+                writer.Write(@object.Position);
+                writer.Write(@object.DrawDistance);
+                writer.Write(@object.Rotation);
+                writer.Write(@object.Parameters.Count);
+
+                if (@object.Parameters.Count <= 0)
+                {
+                    writer.Write(0);
+                }
+                else
+                {
+                    writer.Reserve<uint>($"Object{i}ParametersOffset");
+                }
             }
 
             for (int i = 0; i < Objects.Count; i++)
@@ -217,7 +238,7 @@ namespace Marathon.Formats.Placement
                 if (Objects[i].Parameters.Count <= 0)
                     continue;
 
-                writer.WriteNamedField($"Object{i}ParametersOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"Object{i}ParametersOffset", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Objects[i].Parameters.Count; j++)
                 {
@@ -248,11 +269,11 @@ namespace Marathon.Formats.Placement
                             // If the parameter's name is empty, add an offset to a null entry.
                             if (string.IsNullOrEmpty(Objects[i].Parameters[j].Value.ToString()))
                             {
-                                writer.CreateNamedField($"Object{i}Parameter{j}String");
+                                writer.Reserve<uint>($"Object{i}Parameter{j}String");
                             }
                             else
                             {
-                                writer.CreateStringField($"Object{i}Parameter{j}String", Objects[i].Parameters[j].Value.ToString());
+                                writer.WriteStringOffset(Objects[i].Parameters[j].Value.ToString());
                             }
 
                             writer.Write(1);
@@ -275,24 +296,34 @@ namespace Marathon.Formats.Placement
 
             if (Groups.Count > 0)
             {
-                writer.WriteNamedField("GroupTableOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved("GroupTableOffset", (uint)writer.Position - BINAHeader.Size);
 
                 for (int i = 0; i < Groups.Count; i++)
                 {
-                    writer.CreateStringField($"Group{i}Name", Groups[i].Name);
+                    var group = Groups[i];
+
+                    writer.WriteStringOffset(group.Name);
 
                     // If the group's function is empty, add an offset to a null entry.
-                    if (string.IsNullOrEmpty(Groups[i].Function))
+                    if (string.IsNullOrEmpty(group.Function))
                     {
-                        writer.CreateNamedField($"Group{i}Function");
+                        writer.Reserve<uint>($"Group{i}Function");
                     }
                     else
                     {
-                        writer.CreateStringField($"Group{i}Function", Groups[i].Function);
+                        writer.WriteStringOffset(group.Function);
                     }
 
-                    writer.Write(Groups[i].Objects.Count);
-                    writer.CreateNamedField($"Group{i}IndexListOffset");
+                    writer.Write(group.Objects.Count);
+
+                    if (group.Objects.Count <= 0)
+                    {
+                        writer.Write(0);
+                    }
+                    else
+                    {
+                        writer.Reserve<uint>($"Group{i}IndexListOffset");
+                    }
                 }
 
                 for (int i = 0; i < Groups.Count; i++)
@@ -300,7 +331,7 @@ namespace Marathon.Formats.Placement
                     if (Groups[i].Objects.Count <= 0)
                         continue;
 
-                    writer.WriteNamedField($"Group{i}IndexListOffset", (uint)writer.Position - BINAHeader.Size);
+                    writer.WriteReserved($"Group{i}IndexListOffset", (uint)writer.Position - BINAHeader.Size);
 
                     foreach (var id in Groups[i].Objects)
                         writer.Write(id);
@@ -311,7 +342,7 @@ namespace Marathon.Formats.Placement
             for (int i = 0; i < Objects.Count; i++)
             {
                 if (string.IsNullOrEmpty(Objects[i].Name))
-                    writer.WriteNamedField($"Object{i}Name", (uint)writer.Position - BINAHeader.Size);
+                    writer.WriteReserved($"Object{i}Name", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Objects[i].Parameters.Count; j++)
                 {
@@ -321,7 +352,7 @@ namespace Marathon.Formats.Placement
                     if (!string.IsNullOrEmpty(Objects[i].Parameters[j].Value.ToString()))
                         continue;
 
-                    writer.WriteNamedField($"Object{i}Parameter{j}String", (uint)writer.Position - BINAHeader.Size);
+                    writer.WriteReserved($"Object{i}Parameter{j}String", (uint)writer.Position - BINAHeader.Size);
                     writer.Write(0);
                 }
             }
@@ -332,7 +363,7 @@ namespace Marathon.Formats.Placement
                 if (!string.IsNullOrEmpty(Groups[i].Function))
                     continue;
 
-                writer.WriteNamedField($"Group{i}Function", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"Group{i}Function", (uint)writer.Position - BINAHeader.Size);
                 writer.Write(0);
             }
 
@@ -489,7 +520,7 @@ namespace Marathon.Formats.Placement
 
                     var hsonParam = hsonProject.Objects[i].LocalParameters.ElementAt(j);
 
-                    hsonParam.Value.ValueString = $"{{{hsonProject.Objects[(int)param.Value].Id}}}";
+                    hsonParam.Value.ValueString = hsonProject.Objects[(int)param.Value].Id.ToString("B");
                 }
             }
 
@@ -590,7 +621,7 @@ namespace Marathon.Formats.Placement
                         break;
 
                     case StageSetDataType.Object:
-                        hsonParam.ValueString = $"{{{Guid.Empty}}}";
+                        hsonParam.ValueString = Guid.Empty.ToString("B");
                         break;
 
                     default:
@@ -749,7 +780,7 @@ namespace Marathon.Formats.Placement
 
                     var hsonObjFromId = in_hsonProject.Objects[(int)id];
 
-                    guids.Add(new libHSON.Parameter($"{{{hsonObjFromId.Id}}}"));
+                    guids.Add(new libHSON.Parameter(hsonObjFromId.Id.ToString("B")));
 
                     if (hsonObjFromId.HasSpecifiedPosition)
                         positions.Add(hsonObjFromId.SpecifiedPosition.Value);

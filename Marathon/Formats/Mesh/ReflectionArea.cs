@@ -29,6 +29,8 @@ namespace Marathon.Formats.Mesh
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var reflectionCount = reader.Read<uint>();
             var reflectionTableOffset = reader.Read<uint>();
             var entryTableCount = reader.Read<uint>();
@@ -41,7 +43,7 @@ namespace Marathon.Formats.Mesh
                 var param = new ReflectionAreaParam()
                 {
                     Pitch = reader.Read<float>(),
-                    UnknownField1 = reader.Read<float>(),
+                    UnknownField = reader.Read<float>(),
                     Roll = reader.Read<float>(),
                     Y = reader.Read<float>()
                 };
@@ -70,36 +72,36 @@ namespace Marathon.Formats.Mesh
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.Write(Parameters.Count);
-            writer.CreateNamedField("ReflectionTableOffset");
+            writer.Reserve<uint>("ReflectionTableOffset");
 
             writer.Write(Parameters.Count);
-            writer.CreateNamedField("EntryTableOffset");
+            writer.Reserve<uint>("EntryTableOffset");
 
-            writer.WriteNamedField("ReflectionTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("ReflectionTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
                 writer.Write(Parameters[i].Pitch);
-                writer.Write(Parameters[i].UnknownField1);
+                writer.Write(Parameters[i].UnknownField);
                 writer.Write(Parameters[i].Roll);
                 writer.Write(Parameters[i].Y);
             }
 
-            writer.WriteNamedField("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
                 writer.Write(Parameters[i].Vertices.Count);
-                writer.CreateNamedField($"VertexTableOffset{i}");
+                writer.Reserve<uint>($"VertexTableOffset{i}");
                 writer.Write(i);
             }
 
             for (int i = 0; i < Parameters.Count; i++)
             {
-                writer.WriteNamedField($"VertexTableOffset{i}", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"VertexTableOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
                 foreach (var vector in Parameters[i].Vertices)
                     writer.Write(vector);
@@ -113,7 +115,7 @@ namespace Marathon.Formats.Mesh
     {
         public float Pitch { get; set; }
 
-        public float UnknownField1 { get; set; }
+        public float UnknownField { get; set; }
 
         public float Roll { get; set; }
 
@@ -127,10 +129,10 @@ namespace Marathon.Formats.Mesh
 
         public ReflectionAreaParam() { }
 
-        public ReflectionAreaParam(float in_pitch, float in_unkField1, float in_roll, float in_y)
+        public ReflectionAreaParam(float in_pitch, float in_unkField, float in_roll, float in_y)
         {
             Pitch = in_pitch;
-            UnknownField1 = in_unkField1;
+            UnknownField = in_unkField;
             Roll = in_roll;
             Y = in_y;
         }

@@ -33,6 +33,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var fileCount = reader.Read<uint>();
             var fileTableOffset = reader.Read<uint>();
             var categoryCount = reader.Read<uint>();
@@ -79,33 +81,33 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.Write(GetTotalFileCount());
-            writer.CreateNamedField("FileTableOffset");
+            writer.Reserve<uint>("FileTableOffset");
             writer.Write(Categories.Count);
-            writer.CreateNamedField("CategoryTableOffset");
-            writer.WriteNamedField("CategoryTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.Reserve<uint>("CategoryTableOffset");
+            writer.WriteReserved("CategoryTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Categories.Count; i++)
             {
-                writer.CreateStringField($"CategoryName{i}", Categories[i].Name);
+                writer.WriteStringOffset(Categories[i].Name);
                 writer.Write(Categories[i].Files.Count);
-                writer.CreateNamedField($"CategoryFileOffset{i}");
+                writer.Reserve<uint>($"CategoryFileOffset{i}");
             }
 
-            writer.WriteNamedField("FileTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("FileTableOffset", (uint)writer.Position - BINAHeader.Size);
 
             var fileCount = 0;
 
             for (int i = 0; i < Categories.Count; i++)
             {
-                writer.WriteNamedField($"CategoryFileOffset{i}", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved($"CategoryFileOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
                 for (int j = 0; j < Categories[i].Files.Count; j++)
                 {
-                    writer.CreateStringField($"FileName{fileCount}", Categories[i].Files[j].Name);
-                    writer.CreateStringField($"FileLocation{fileCount}", Categories[i].Files[j].Location);
+                    writer.WriteStringOffset(Categories[i].Files[j].Name);
+                    writer.WriteStringOffset(Categories[i].Files[j].Location);
 
                     fileCount++;
                 }

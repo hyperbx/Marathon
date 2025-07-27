@@ -35,6 +35,8 @@ namespace Marathon.Formats.Parameter
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             var begin = reader.Position;
             var stringPoolOffset = reader.Read<uint>() + BINAHeader.Size;
             var paramCount = stringPoolOffset / EnemyParameter.Size;
@@ -77,11 +79,11 @@ namespace Marathon.Formats.Parameter
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             foreach (var param in Parameters)
             {
-                writer.CreateStringField($"StringOffset{writer.Position}", param.Name);
+                writer.WriteStringOffset(param.Name);
                 writer.Write(param.Behaviour);
                 writer.Write(param.Health);
                 writer.Write(param.Score);

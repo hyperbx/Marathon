@@ -8,7 +8,7 @@ using System.IO;
 
 // Format names:        Particle Global Settings
 // Format references:   Sonicteam::GE1PE::GlobalSetting
-// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. 1
+// Format designers:    Sonic Team, SEGA Global Entertainment R&D Dept. #1
 // Format researchers:  Knuxfan24, Hyper
 
 namespace Marathon.Formats.Particle
@@ -43,6 +43,8 @@ namespace Marathon.Formats.Particle
         public override void Read(Stream in_stream)
         {
             var reader = new BINAReader(in_stream);
+
+            Endianness = reader.Endianness;
 
             reader.CheckSignature(_signature);
             reader.JumpAhead(4);
@@ -82,7 +84,7 @@ namespace Marathon.Formats.Particle
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
             writer.Write(0);
@@ -90,21 +92,21 @@ namespace Marathon.Formats.Particle
             writer.Write(TextureBanks.Count);
             writer.Write(Materials.Count);
             writer.Write(ParticleMaterial.Size);
-            writer.CreateNamedField("ParticleEffectBankOffset");
-            writer.CreateNamedField("ParticleTextureBankOffset");
-            writer.CreateNamedField("MaterialOffset");
+            writer.Reserve<uint>("ParticleEffectBankOffset");
+            writer.Reserve<uint>("ParticleTextureBankOffset");
+            writer.Reserve<uint>("MaterialOffset");
 
-            writer.WriteNamedField("ParticleEffectBankOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("ParticleEffectBankOffset", (uint)writer.Position - BINAHeader.Size);
 
             foreach (var effectBank in EffectBanks)
                 writer.WriteStringFixedLength(effectBank, 0x20);
 
-            writer.WriteNamedField("ParticleTextureBankOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("ParticleTextureBankOffset", (uint)writer.Position - BINAHeader.Size);
 
             foreach (var textureBank in TextureBanks)
                 writer.WriteStringFixedLength(textureBank, 0x20);
 
-            writer.WriteNamedField("MaterialOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved("MaterialOffset", (uint)writer.Position - BINAHeader.Size);
 
             foreach (var material in Materials)
             {

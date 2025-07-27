@@ -43,6 +43,8 @@ namespace Marathon.Formats.Text
         {
             var reader = new BINAReader(in_stream);
 
+            Endianness = reader.Endianness;
+
             reader.CheckSignature(_signature);
 
             var nameOffset = reader.Read<uint>();
@@ -77,16 +79,16 @@ namespace Marathon.Formats.Text
 
         public override void Write(Stream in_stream)
         {
-            var writer = new BINAWriter(in_stream);
+            var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
-            writer.CreateStringField("NameOffset", Name);
+            writer.WriteStringOffset(Name);
             writer.Write(Messages.Count);
 
             for (int i = 0; i < Messages.Count; i++)
             {
-                writer.CreateStringField($"MessageNameOffset{i}", Messages[i].Name);
-                writer.CreateNamedField($"MessageTextOffset{i}");
+                writer.WriteStringOffset(Messages[i].Name);
+                writer.Reserve($"MessageTextOffset{i}");
 
                 if (Messages[i].Variables == null)
                 {
@@ -94,13 +96,13 @@ namespace Marathon.Formats.Text
                 }
                 else
                 {
-                    writer.CreateStringField($"MessageVariablesOffset{i}", string.Join(',', Messages[i].Variables));
+                    writer.WriteStringOffset(string.Join(',', Messages[i].Variables));
                 }
             }
 
             for (int i = 0; i < Messages.Count; i++)
             {
-                writer.WriteNamedField($"MessageTextOffset{i}", (uint)(writer.Position - BINAHeader.Size));
+                writer.WriteReserved($"MessageTextOffset{i}", (uint)(writer.Position - BINAHeader.Size));
                 writer.WriteStringNullTerminated(Encoding.BigEndianUnicode, Messages[i].Text);
             }
 
