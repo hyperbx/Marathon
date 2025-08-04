@@ -15,6 +15,8 @@ namespace Marathon.Tests
 
         public static void Main(string[] args)
         {
+            Console.Title = "Marathon Tests";
+
             Logger.Log("Marathon Tests\n");
 
             if (args.Length <= 0)

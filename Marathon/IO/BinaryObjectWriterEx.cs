@@ -23,6 +23,12 @@ namespace Marathon.IO
         public BinaryObjectWriterEx(Stream in_stream, StreamOwnership in_streamOwnership, Endianness in_endianness, Encoding in_encoding = null, string in_fileName = null, int in_blockSize = 1048576)
             : base(in_stream, in_streamOwnership, in_endianness, in_encoding, in_fileName, in_blockSize) { }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_name">The name of the reserved offset.</param>
+        /// <param name="in_offset">The offset to reserve.</param>
+        /// <param name="in_size">The size of the space to reserve.</param>
         public long Reserve(string in_name, long in_offset, int in_size)
         {
             // Create padding.
@@ -39,21 +45,41 @@ namespace Marathon.IO
             return in_offset;
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_name">The name of the reserved offset.</param>
+        /// <param name="in_size">The size of the space to reserve.</param>
         public long Reserve(string in_name, int in_size = 4)
         {
             return Reserve(in_name, Position, in_size);
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_name">The name of the reserved offset.</param>
+        /// <param name="in_offset">The offset to reserve.</param>
         public unsafe T Reserve<T>(string in_name, long in_offset) where T : unmanaged
         {
             return (T)Convert.ChangeType(Reserve(in_name, in_offset, sizeof(T)), typeof(T));
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_name">The name of the reserved offset.</param>
         public unsafe T Reserve<T>(string in_name) where T : unmanaged
         {
             return (T)Convert.ChangeType(Reserve<T>(in_name, Position), typeof(T));
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_offset">The offset to reserve.</param>
+        /// <param name="in_size">The size of the space to reserve.</param>
+        /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public long Reserve(long in_offset, int in_size, bool in_isLocal = false)
         {
             // Create padding.
@@ -65,21 +91,42 @@ namespace Marathon.IO
             return in_offset;
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_size">The size of the space to reserve.</param>
+        /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public long Reserve(int in_size = 4, bool in_isLocal = false)
         {
             return Reserve(Position, in_size, in_isLocal);
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_offset">The offset to reserve.</param>
+        /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public unsafe T Reserve<T>(long in_offset, bool in_isLocal = false) where T : unmanaged
         {
-            return (T)(object)Reserve(in_offset, sizeof(T), in_isLocal);
+            return (T)Convert.ChangeType(Reserve(in_offset, sizeof(T), in_isLocal), typeof(T));
         }
 
+        /// <summary>
+        /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
+        /// </summary>
+        /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public unsafe T Reserve<T>(bool in_isLocal = false) where T : unmanaged
         {
-            return (T)(object)Reserve<T>(Position, in_isLocal);
+            return (T)Convert.ChangeType(Reserve<T>(Position, in_isLocal), typeof(T));
         }
 
+        /// <summary>
+        /// Writes a value to an offset created by a <b>Reserve</b> method.
+        /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
+        /// <param name="in_offset">The offset to write to.</param>
+        /// <param name="in_value">The value to write.</param>
+        /// <param name="in_removeAfterWrite">Determines whether the reserved offset should be removed from the relocation table.</param>
         public virtual void WriteReserved<T>(long in_offset, T in_value, bool in_removeAfterWrite = true) where T : unmanaged
         {
             this.WriteAtOffset(in_offset, () => Write(in_value));
@@ -87,13 +134,20 @@ namespace Marathon.IO
             if (!in_removeAfterWrite)
                 return;
 
-            if (Offsets.ContainsValue(in_offset))
-            {
-                foreach (var item in Offsets.Where(x => x.Value == in_offset))
-                    Offsets.Remove(item.Key);
-            }
+            if (!Offsets.ContainsValue(in_offset))
+                return;
+
+            foreach (var item in Offsets.Where(x => x.Value == in_offset))
+                Offsets.Remove(item.Key);
         }
 
+        /// <summary>
+        /// Writes a value to an offset created by a <b>Reserve</b> method.
+        /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
+        /// <param name="in_name">The name of the offset to write to.</param>
+        /// <param name="in_value">The value to write.</param>
+        /// <param name="in_removeAfterWrite">Determines whether the reserved offset should be removed from the relocation table.</param>
         public virtual void WriteReserved<T>(string in_name, T in_value, bool in_removeAfterWrite = true) where T : unmanaged
         {
             if (!Offsets.TryGetValue(in_name, out var out_offset))
