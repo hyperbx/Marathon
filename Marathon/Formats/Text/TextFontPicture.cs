@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Parameter;
-using Marathon.IO;
+﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using System.Collections;
