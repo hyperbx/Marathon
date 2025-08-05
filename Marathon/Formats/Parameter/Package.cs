@@ -188,11 +188,15 @@ namespace Marathon.Formats.Parameter
         }
     }
 
-    public class PackageCategory
+    public class PackageCategory : IList<PackageFile>
     {
         public string Name { get; set; }
 
         public List<PackageFile> Files { get; set; } = [];
+
+        public int Count => Files.Count;
+
+        public bool IsReadOnly => false;
 
         public PackageCategory() { }
 
@@ -202,9 +206,65 @@ namespace Marathon.Formats.Parameter
             Files = in_files ?? [];
         }
 
+        public PackageFile this[int in_index]
+        {
+            get => Files[in_index];
+            set => Files[in_index] = value;
+        }
+
         public PackageFile this[string in_name]
         {
             get => Files.Find((x) => x.Name == in_name);
+        }
+
+        public int IndexOf(PackageFile in_item)
+        {
+            return Files.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, PackageFile in_item)
+        {
+            Files.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Files.RemoveAt(in_index);
+        }
+
+        public void Add(PackageFile in_item)
+        {
+            Files.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Files.Clear();
+        }
+
+        public bool Contains(PackageFile in_item)
+        {
+            return Files.Contains(in_item);
+        }
+
+        public void CopyTo(PackageFile[] in_array, int in_arrayIndex)
+        {
+            Files.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(PackageFile in_item)
+        {
+            return Files.Remove(in_item);
+        }
+
+        public IEnumerator<PackageFile> GetEnumerator()
+        {
+            return Files.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public override string ToString()
