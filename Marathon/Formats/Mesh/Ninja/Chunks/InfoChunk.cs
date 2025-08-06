@@ -50,13 +50,19 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             Version = in_reader.Read<int>();
 
             for (int i = 0; i < chunkCount; i++)
-                ReadChunk(in_reader, Chunks);
+            {
+                if (!ReadChunk(in_reader, Chunks))
+                    break;
+            }
 
             while (in_reader.Position < in_reader.Length)
-                ReadChunk(in_reader, ExtraChunks);
+            {
+                if (!ReadChunk(in_reader, ExtraChunks))
+                    break;
+            }
         }
 
-        private void ReadChunk(BinaryObjectReaderEx in_reader, List<IChunk> in_chunkList)
+        private bool ReadChunk(BinaryObjectReaderEx in_reader, List<IChunk> in_chunkList)
         {
             var pos = in_reader.Position;
             var nextChunkSignature = in_reader.Read<FourCC>();
@@ -65,10 +71,14 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             // Return to chunk start.
             in_reader.JumpTo(pos);
 
-            in_chunkList.Add(ChunkFactory.GetChunkByFourCC(in_reader, nextChunkSignature));
+            var chunk = ChunkFactory.GetChunkByFourCC(in_reader, nextChunkSignature);
+
+            in_chunkList.Add(chunk);
 
             // Jump to next chunk.
             in_reader.JumpTo(pos + nextChunkLength + 8);
+
+            return chunk.ChunkID != EndChunk.ID;
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
