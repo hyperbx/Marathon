@@ -10,7 +10,7 @@ namespace Marathon.Formats.Mesh.Ninja.Flags
     {
         // Masks
         NND_D3DFVF_POSITION_MASK = 0x400EU,
-        NND_D3DFVF_TEXCOUNT_MASK = 0xf00U,
+        NND_D3DFVF_TEXCOUNT_MASK = 0xF00U,
 
         // Types
         NND_D3DFVF_TEXTUREFORMAT2 = 0,

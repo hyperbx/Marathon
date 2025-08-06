@@ -54,6 +54,7 @@
     <Compile Include="Formats\Event\EventPlaybook.cs" />
     <Compile Include="Formats\Event\TimeEvent.cs" />
     <Compile Include="Formats\Mesh\LandCollision.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\MorphTargetChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\NodeNameChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Flags\BlendMode.cs" />
     <Compile Include="Formats\Mesh\Ninja\Flags\BlendOperation.cs" />

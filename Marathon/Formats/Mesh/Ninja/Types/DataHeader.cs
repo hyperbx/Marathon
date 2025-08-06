@@ -11,6 +11,8 @@ namespace Marathon.Formats.Mesh.Ninja.Types
         private uint _dataOffset;
         private uint _versionOffset;
 
+        public const int Size = 0x10;
+
         public FourCC ID { get; set; }
 
         public uint Length { get; set; }

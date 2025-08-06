@@ -103,8 +103,5 @@ The `*.wmv` format is Microsoft's proprietary Windows Media Video format used fo
 ### Xbox Media Audio
 The `*.xma` format is Microsoft's proprietary variant of the Windows Media Audio format used for the Xbox 360 version of the game. There are no plans for Marathon to support this.
 
-### Ninja Morph
-The Ninja format, particularly for `*.xno` files (such as `kdv_obj_cage02.xno`) have an `NXMT` chunk that is currently unsupported, preventing these files from being read correctly.
-
 ### Ninja Raw
 The `*.xtm`, `*.xto` and `*.xtv` formats are leftover plaintext representations of their binary counterparts as auto-generated C code from a 3ds Max script. These plaintext versions are not supported and aren't used by the game, but they helped with research on the binary Ninja formats, which are supported by Marathon.

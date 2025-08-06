@@ -24,6 +24,9 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
                 case ObjectChunk.ID:
                     return new ObjectChunk(in_reader);
 
+                case MorphTargetChunk.ID:
+                    return new MorphTargetChunk(in_reader);
+
                 case OffsetChunk.ID:
                     return new OffsetChunk(in_reader);
 

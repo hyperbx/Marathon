@@ -1,7 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
 using Marathon.Formats.Mesh.Ninja.Types;
-using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
@@ -218,16 +217,16 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             var materialsPos = (uint)in_writer.Position;
 
-            for (int i = 0; i < Materials.Count; i++)
-                Materials[i].WritePointer(in_writer);
+            foreach (var material in Materials)
+                material.WritePointer(in_writer);
 
             foreach (var vertexList in VertexLists)
                 vertexList.Write(in_writer);
 
             var vertexListsPos = (uint)in_writer.Position;
 
-            for (int i = 0; i < VertexLists.Count; i++)
-                VertexLists[i].WritePointer(in_writer);
+            foreach (var vertexList in VertexLists)
+                vertexList.WritePointer(in_writer);
 
             foreach (var primitiveList in PrimitiveLists)
             {
@@ -235,13 +234,13 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
                 primitiveList.WriteIndexIndices(in_writer);
             }
 
-            for (int i = 0; i < PrimitiveLists.Count; i++)
-                PrimitiveLists[i].WriteInfo(in_writer);
+            foreach (var primitiveList in PrimitiveLists)
+                primitiveList.WriteInfo(in_writer);
 
             var primitiveListsPos = (uint)in_writer.Position;
 
-            for (int i = 0; i < PrimitiveLists.Count; i++)
-                PrimitiveLists[i].WritePointer(in_writer);
+            foreach (var primitiveList in PrimitiveLists)
+                primitiveList.WritePointer(in_writer);
 
             foreach (var subObject in SubObjects)
             {
@@ -251,8 +250,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             var subObjectsPos = (uint)in_writer.Position;
 
-            for (int i = 0; i < SubObjects.Count; i++)
-                SubObjects[i].WriteInfo(in_writer);
+            foreach (var subObject in SubObjects)
+                subObject.WriteInfo(in_writer);
 
             var dataOffset = (uint)(in_writer.Position - InfoChunk.Size);
 
@@ -284,6 +283,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Write(TextureCount);
 
+            // Extra data appended to the standard
+            // structure only in NN version 3.
             if (Type.HasValue && BoundingBox.HasValue)
             {
                 Version = 3;
@@ -297,8 +298,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             var vertexTableStart = (uint)in_writer.Position;
 
-            for (int i = 0; i < VertexLists.Count; i++)
-                VertexLists[i].WriteVertices(in_writer);
+            foreach (var vertexList in VertexLists)
+                vertexList.WriteVertices(in_writer);
 
             var vertexTableLength = (uint)(in_writer.Position - vertexTableStart);
 

@@ -8,7 +8,7 @@ namespace Marathon.Formats.Mesh.Ninja.Types
 {
     public class VertexList
     {
-        private uint _infoOffset;
+        private uint _dataOffset;
         private uint _verticesOffset;
 
         public const int InfoSize = 8;
@@ -31,18 +31,21 @@ namespace Marathon.Formats.Mesh.Ninja.Types
 
         public VertexList() { }
 
-        public VertexList(BinaryObjectReaderEx in_reader)
+        public VertexList(BinaryObjectReaderEx in_reader, bool in_isMorphTarget = false)
         {
-            Read(in_reader);
+            Read(in_reader, in_isMorphTarget);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader)
+        public void Read(BinaryObjectReaderEx in_reader, bool in_isMorphTarget = false)
         {
-            Type = in_reader.Read<VertexType>();
+            if (!in_isMorphTarget)
+            {
+                Type = in_reader.Read<VertexType>();
 
-            var infoOffset = in_reader.Read<uint>();
+                var dataOffset = in_reader.Read<uint>();
 
-            in_reader.JumpTo(InfoChunk.Size + infoOffset);
+                in_reader.JumpTo(InfoChunk.Size + dataOffset);
+            }
 
             Format = in_reader.Read<VertexFormat>();
             FlexibleFormat = in_reader.Read<FlexibleVertexFormat>();
@@ -68,20 +71,24 @@ namespace Marathon.Formats.Mesh.Ninja.Types
                 BoneMatrixIndices.Add(in_reader.Read<int>());
         }
 
-        public void Write(BinaryObjectWriterEx in_writer)
+        public void Write(BinaryObjectWriterEx in_writer, uint in_verticesOffset = 0)
         {
-            var boneMatrixIndicesPos = in_writer.Position;
+            var boneMatrixIndicesPos = (uint)(in_writer.Position - InfoChunk.Size);
 
             foreach (var index in BoneMatrixIndices)
                 in_writer.Write(index);
 
-            _infoOffset = (uint)in_writer.Position;
+            _dataOffset = (uint)(in_writer.Position - InfoChunk.Size);
 
             in_writer.Write(Format);
             in_writer.Write(FlexibleFormat);
             in_writer.Write(GetVertexSize());
             in_writer.Write(Vertices.Count);
             _verticesOffset = in_writer.Reserve<uint>();
+
+            if (in_verticesOffset != 0)
+                in_writer.WriteReserved(_verticesOffset, in_verticesOffset, false);
+
             in_writer.Write(BoneMatrixIndices.Count);
 
             if (BoneMatrixIndices.Count <= 0)
@@ -91,8 +98,7 @@ namespace Marathon.Formats.Mesh.Ninja.Types
             else
             {
                 var boneMatrixIndicesOffset = in_writer.Reserve<uint>();
-
-                in_writer.WriteReserved(boneMatrixIndicesOffset, (uint)(boneMatrixIndicesPos - InfoChunk.Size), false);
+                in_writer.WriteReserved(boneMatrixIndicesOffset, boneMatrixIndicesPos, false);
             }
 
             in_writer.Write(HDRCommon);
@@ -105,12 +111,15 @@ namespace Marathon.Formats.Mesh.Ninja.Types
         {
             in_writer.Write(Type);
             var offset = in_writer.Reserve<uint>();
-            in_writer.WriteReserved(offset, _infoOffset - InfoChunk.Size, false);
+            in_writer.WriteReserved(offset, _dataOffset, false);
         }
         
-        public void WriteVertices(BinaryObjectWriterEx in_writer)
+        public uint WriteVertices(BinaryObjectWriterEx in_writer, bool in_isMorphTarget = false)
         {
-            in_writer.WriteReserved(_verticesOffset, (uint)(in_writer.Position - InfoChunk.Size), false);
+            var verticesOffset = (uint)(in_writer.Position - InfoChunk.Size);
+
+            if (!in_isMorphTarget)
+                in_writer.WriteReserved(_verticesOffset, verticesOffset, false);
 
             foreach (var vertex in Vertices)
             {
@@ -144,6 +153,8 @@ namespace Marathon.Formats.Mesh.Ninja.Types
                 if (vertex.Binormals != null)
                     in_writer.Write(vertex.Binormals.Value);
             }
+
+            return verticesOffset;
         }
 
         public int GetVertexSize()
