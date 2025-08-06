@@ -141,12 +141,14 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             foreach (var material in Materials)
             {
+                var existingIndex = materialColours.IndexOf(material.Colour);
+
                 // NOTE: Ninja optimises repeat material colours
                 // by pointing other materials to the same one if
                 // they're identical.
-                if (materialColours.Contains(material.Colour))
+                if (existingIndex > -1)
                 {
-                    materialColourOffsets.Add(materialColourOffsets[materialColours.IndexOf(material.Colour)]);
+                    materialColourOffsets.Add(materialColourOffsets[existingIndex]);
                 }
                 else
                 {
@@ -162,12 +164,14 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             foreach (var material in Materials)
             {
+                var existingIndex = materialLogics.IndexOf(material.Logic);
+
                 // NOTE: Ninja optimises repeat material logic
                 // by pointing other materials to the same one if
                 // they're identical.
-                if (materialLogics.Contains(material.Logic))
+                if (existingIndex > -1)
                 {
-                    materialLogicOffsets.Add(materialLogicOffsets[materialLogics.IndexOf(material.Logic)]);
+                    materialLogicOffsets.Add(materialLogicOffsets[existingIndex]);
                 }
                 else
                 {
@@ -183,12 +187,14 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             foreach (var material in Materials)
             {
+                var existingIndex = materialTextureMaps.IndexOf(material.TextureMap);
+
                 // NOTE: Ninja optimises repeat material texture maps
                 // by pointing other materials to the same one if
                 // they're identical.
-                if (materialTextureMaps.Contains(material.TextureMap))
+                if (existingIndex > -1)
                 {
-                    materialTextureMapOffsets.Add(materialTextureMapOffsets[materialTextureMaps.IndexOf(material.TextureMap)]);
+                    materialTextureMapOffsets.Add(materialTextureMapOffsets[existingIndex]);
                 }
                 else
                 {
