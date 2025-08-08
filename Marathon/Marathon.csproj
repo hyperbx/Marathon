@@ -56,6 +56,7 @@
     <Compile Include="Formats\Mesh\LandCollision.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\CameraChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\CameraMotionChunk.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\LightChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\LightMotionChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\MaterialMotionChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\MorphMotionChunk.cs" />
@@ -97,6 +98,8 @@
     <Compile Include="Formats\Mesh\Ninja\Types\DataHeader.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Keyframe.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\KeyframeFactory.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\Light.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\LightFactory.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Material.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialColour.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialLogic.cs" />
