@@ -46,7 +46,7 @@ namespace Marathon.Formats.Text
 
         public TextFontPictureCrop this[string in_name]
         {
-            get => Crops.Find((x) => x.Name == in_name);
+            get => Crops.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

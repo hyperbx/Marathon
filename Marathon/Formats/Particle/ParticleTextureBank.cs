@@ -46,7 +46,7 @@ namespace Marathon.Formats.Particle
 
         public ParticleTexture this[string in_name]
         {
-            get => Textures.Find((x) => x.Name == in_name);
+            get => Textures.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

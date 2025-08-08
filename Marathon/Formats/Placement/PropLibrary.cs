@@ -46,7 +46,7 @@ namespace Marathon.Formats.Placement
 
         public Actor this[string in_name]
         {
-            get => Actors.Find((x) => x.Name == in_name);
+            get => Actors.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

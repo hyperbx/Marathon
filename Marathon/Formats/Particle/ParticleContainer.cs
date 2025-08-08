@@ -45,7 +45,7 @@ namespace Marathon.Formats.Particle
 
         public Particle this[string in_name]
         {
-            get => Particles.Find((x) => x.Name == in_name);
+            get => Particles.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

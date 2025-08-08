@@ -87,7 +87,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             for (int i = 0; i < materialCount; i++)
             {
                 in_reader.JumpTo(InfoChunk.Size + materialOffset + (Material.InfoSize * i));
-                Materials.Add(new Material(in_reader));
+                Materials.Add(new(in_reader));
             }
 
             in_reader.JumpTo(InfoChunk.Size + vertexListOffset);
@@ -95,7 +95,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             for (int i = 0; i < vertexListCount; i++)
             {
                 in_reader.JumpTo(InfoChunk.Size + vertexListOffset + (VertexList.InfoSize * i));
-                VertexLists.Add(new VertexList(in_reader));
+                VertexLists.Add(new(in_reader));
             }
 
             in_reader.JumpTo(InfoChunk.Size + primitiveListOffset);
@@ -103,20 +103,20 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             for (int i = 0; i < primitiveListCount; i++)
             {
                 in_reader.JumpTo(InfoChunk.Size + primitiveListOffset + (PrimitiveList.InfoSize * i));
-                PrimitiveLists.Add(new PrimitiveList(in_reader));
+                PrimitiveLists.Add(new(in_reader));
             }
 
             in_reader.JumpTo(InfoChunk.Size + nodeOffset);
 
             for (int i = 0; i < nodeCount; i++)
-                Nodes.Add(new Node(in_reader));
+                Nodes.Add(new(in_reader));
 
             in_reader.JumpTo(InfoChunk.Size + subObjectOffset);
 
             for (int i = 0; i < subObjectCount; i++)
             {
                 in_reader.JumpTo(InfoChunk.Size + subObjectOffset + (SubObject.InfoSize * i));
-                SubObjects.Add(new SubObject(in_reader));
+                SubObjects.Add(new(in_reader));
             }    
         }
 

@@ -52,7 +52,7 @@ namespace Marathon.Formats.Particle
 
         public ParticleEffect this[string in_name]
         {
-            get => Effects.Find((x) => x.Name == in_name);
+            get => Effects.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

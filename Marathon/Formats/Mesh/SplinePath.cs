@@ -41,7 +41,7 @@ namespace Marathon.Formats.Mesh
 
         public SplinePathData this[string in_name]
         {
-            get => Paths.Find((x) => x.Name == in_name);
+            get => Paths.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

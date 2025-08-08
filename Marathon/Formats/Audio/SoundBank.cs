@@ -49,7 +49,7 @@ namespace Marathon.Formats.Audio
 
         public SoundBankData this[string in_name]
         {
-            get => Sounds.Find((x) => x.Name == in_name);
+            get => Sounds.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

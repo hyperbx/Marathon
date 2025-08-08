@@ -40,7 +40,7 @@ namespace Marathon.Formats.Parameter
 
         public ObjectPhysicsParameter this[string in_name]
         {
-            get => Parameters.Find((x) => x.Name == in_name);
+            get => Parameters.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)

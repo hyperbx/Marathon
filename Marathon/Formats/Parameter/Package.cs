@@ -37,7 +37,7 @@ namespace Marathon.Formats.Parameter
 
         public PackageCategory this[string in_name]
         {
-            get => Categories.Find((x) => x.Name == in_name);
+            get => Categories.Find(x => x.Name == in_name);
         }
 
         public override void Read(Stream in_stream)
@@ -214,7 +214,7 @@ namespace Marathon.Formats.Parameter
 
         public PackageFile this[string in_name]
         {
-            get => Files.Find((x) => x.Name == in_name);
+            get => Files.Find(x => x.Name == in_name);
         }
 
         public int IndexOf(PackageFile in_item)
