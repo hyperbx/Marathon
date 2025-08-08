@@ -219,5 +219,10 @@ namespace Marathon.Formats.Archive
             Name = in_name;
             Data = in_data;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
