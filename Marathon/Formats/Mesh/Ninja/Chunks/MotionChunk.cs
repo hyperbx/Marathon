@@ -134,7 +134,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_reader.JumpTo(InfoChunk.Size + keyframeOffset);
 
             for (int i = 0; i < keyframeCount; i++)
-                Keyframes.Add(KeyframeFactory.ReadKeyframeByType(in_reader, this));
+                Keyframes.Add(KeyframeFactory.ReadKeyframeByType(in_reader, Type));
 
             in_reader.JumpTo(pos);
         }
@@ -159,7 +159,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             _keyframeOffset = (uint)(in_writer.Position - InfoChunk.Size);
 
             foreach (var keyframe in Keyframes)
-                KeyframeFactory.WriteKeyframeByType(in_writer, this, keyframe);
+                KeyframeFactory.WriteKeyframeByType(in_writer, Type, keyframe);
         }
     }
 }
