@@ -1,4 +1,5 @@
-﻿using Marathon.IO;
+﻿using Marathon.Helpers;
+using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
 
@@ -23,11 +24,15 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
+            var pos = in_reader.Position;
+
             Signature = in_reader.Read<FourCC>();
 
             var chunkLength = in_reader.Read<uint>();
 
             Data = in_reader.ReadBytes((int)chunkLength);
+
+            Logger.Warning($"Encountered undefined chunk at 0x{pos:X8}: {Signature}");
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
