@@ -1,6 +1,7 @@
 ﻿using Marathon.Formats.Ninja.Flags;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -16,9 +17,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Normals { get; set; }
 
-        public byte[] VertexColoursA { get; set; }
+        public ARGB8 VertexColoursA { get; set; }
 
-        public byte[] VertexColoursB { get; set; }
+        public ARGB8 VertexColoursB { get; set; }
 
         public List<Vector2> TextureCoordinates { get; set; }
 
@@ -48,10 +49,10 @@ namespace Marathon.Formats.Ninja.Types
                 Normals = in_reader.Read<Vector3>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR))
-                VertexColoursA = in_reader.ReadBytes(4);
+                VertexColoursA = in_reader.Read<ARGB8>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR2))
-                VertexColoursB = in_reader.ReadBytes(4);
+                VertexColoursB = in_reader.Read<ARGB8>();
 
             for (int i = 0; i < (uint)in_vertexList.Format / (uint)VertexFormat.NND_VTXTYPE_XB_TEXCOORD; i++)
             {
