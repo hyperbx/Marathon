@@ -38,7 +38,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var header = in_reader.ReadObject<DataHeader>();
+            var header = in_reader.ReadObject<ChunkHeader>();
 
             if (!header.ID.Equals(GetChunkID()))
                 throw new InvalidSignatureException(GetChunkID(), header.ID);
@@ -56,7 +56,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var header = new DataHeader(in_writer, GetChunkID(), 0);
+            var header = new ChunkHeader(in_writer, GetChunkID(), 0);
 
             var textureFilePos = (int)(in_writer.Position - InfoChunk.Size);
             var textureFileNameOffsets = new List<uint>();

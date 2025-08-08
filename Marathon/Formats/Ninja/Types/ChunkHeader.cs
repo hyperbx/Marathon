@@ -4,7 +4,7 @@ using Marathon.IO.Types;
 
 namespace Marathon.Formats.Ninja.Types
 {
-    public class DataHeader : IBinarySerializable
+    public class ChunkHeader : IBinarySerializable
     {
         private uint _lengthOffset;
         private uint _chunkStart;
@@ -21,9 +21,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public int Version { get; set; }
 
-        public DataHeader() { }
+        public ChunkHeader() { }
 
-        public DataHeader(FourCC in_id, uint in_length, uint in_dataOffset, int in_version = 0)
+        public ChunkHeader(FourCC in_id, uint in_length, uint in_dataOffset, int in_version = 0)
         {
             ID = in_id;
             Length = in_length;
@@ -31,10 +31,10 @@ namespace Marathon.Formats.Ninja.Types
             Version = in_version;
         }
 
-        public DataHeader(string in_id, uint in_length, uint in_dataOffset, int in_version = 0)
+        public ChunkHeader(string in_id, uint in_length, uint in_dataOffset, int in_version = 0)
             : this(new FourCC(in_id), in_length, in_dataOffset, in_version) { }
 
-        public DataHeader(BinaryObjectWriterEx in_writer, FourCC in_id, int in_version = 0)
+        public ChunkHeader(BinaryObjectWriterEx in_writer, FourCC in_id, int in_version = 0)
         {
             ID = in_id;
             Version = in_version;
@@ -42,7 +42,7 @@ namespace Marathon.Formats.Ninja.Types
             Reserve(in_writer);
         }
 
-        public DataHeader(BinaryObjectWriterEx in_writer, string in_id, int in_version = 0)
+        public ChunkHeader(BinaryObjectWriterEx in_writer, string in_id, int in_version = 0)
             : this(in_writer, new FourCC(in_id), in_version) { }
 
         public void Read(BinaryObjectReader in_reader)
