@@ -3,13 +3,13 @@ using Marathon.Tests.Helpers;
 
 namespace Marathon.Tests.Formats.Archive
 {
-    internal class DDMTests : ITest
+    internal class DirectDrawMapTests : ITest
     {
         private Func<bool>[] _tests = [BinaryIdenticalTest];
 
         private static bool BinaryIdenticalTest()
         {
-            return TestHelper.CheckAllBinaries<DDM>("*.ddm");
+            return TestHelper.CheckAllBinaries<DirectDrawMap>("*.ddm");
         }
 
         public bool Run()

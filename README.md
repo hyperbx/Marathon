@@ -18,7 +18,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/AI/KynapseBigFile.cs) reading and writing
 - Archive
     - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs) reading and writing
-    - [DDM (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DDM.cs) reading and writing
+    - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs) reading and writing
 - Audio
     - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs) reading and writing
 - Event

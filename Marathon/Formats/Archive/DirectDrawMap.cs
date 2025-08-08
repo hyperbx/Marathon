@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-// Format names:        DDM
+// Format names:        DirectDraw Map (speculatory)
 // Format references:   Sonicteam::Spanverse::CustomEssenceTextureDDM
 // Format designers:    Sonic Team
 // Format researchers:  Hyper
@@ -17,31 +17,31 @@ using System.IO;
 namespace Marathon.Formats.Archive
 {
     /// <summary>
-    /// Support for *.ddm files; used for storing DirectDraw Surface textures.
+    /// Support for *.ddm files; used for storing DirectDraw Surface textures by name.
     /// </summary>
-    public class DDM : FileBase, IList<DDMFile>
+    public class DirectDrawMap : FileBase, IList<DirectDrawMapFile>
     {
-        private const string _signature = "DDM ";
-        private const string _fileNameChunkSignature = "DSFN";
-        private const string _dataChunkSignature = "DSCK";
+        private const string _signature = "DDM ";              // DirectDraw Map (speculatory)
+        private const string _fileNameChunkSignature = "DSFN"; // Directdraw Surface File Name (speculatory)
+        private const string _dataChunkSignature = "DSCK";     // Directdraw Surface ChunK (speculatory)
 
-        public DDM() { }
+        public DirectDrawMap() { }
 
-        public DDM(string in_path) : base(in_path) { }
+        public DirectDrawMap(string in_path) : base(in_path) { }
 
-        public List<DDMFile> Files { get; set; } = [];
+        public List<DirectDrawMapFile> Files { get; set; } = [];
 
         public int Count => Files.Count;
 
         public bool IsReadOnly => false;
 
-        public DDMFile this[int in_index]
+        public DirectDrawMapFile this[int in_index]
         {
             get => Files[in_index];
             set => Files[in_index] = value;
         }
 
-        public DDMFile this[string in_name]
+        public DirectDrawMapFile this[string in_name]
         {
             get => Files.Find(x => x.Name == in_name);
         }
@@ -155,12 +155,12 @@ namespace Marathon.Formats.Archive
                 File.WriteAllBytes(Path.Combine(dir.FullName, file.Name), file.Data);
         }
 
-        public int IndexOf(DDMFile in_item)
+        public int IndexOf(DirectDrawMapFile in_item)
         {
             return Files.IndexOf(in_item);
         }
 
-        public void Insert(int in_index, DDMFile in_item)
+        public void Insert(int in_index, DirectDrawMapFile in_item)
         {
             Files.Insert(in_index, in_item);
         }
@@ -170,7 +170,7 @@ namespace Marathon.Formats.Archive
             Files.RemoveAt(in_index);
         }
 
-        public void Add(DDMFile in_item)
+        public void Add(DirectDrawMapFile in_item)
         {
             Files.Add(in_item);
         }
@@ -180,22 +180,22 @@ namespace Marathon.Formats.Archive
             Files.Clear();
         }
 
-        public bool Contains(DDMFile in_item)
+        public bool Contains(DirectDrawMapFile in_item)
         {
             return Files.Contains(in_item);
         }
 
-        public void CopyTo(DDMFile[] in_array, int in_arrayIndex)
+        public void CopyTo(DirectDrawMapFile[] in_array, int in_arrayIndex)
         {
             Files.CopyTo(in_array, in_arrayIndex);
         }
 
-        public bool Remove(DDMFile in_item)
+        public bool Remove(DirectDrawMapFile in_item)
         {
             return Files.Remove(in_item);
         }
 
-        public IEnumerator<DDMFile> GetEnumerator()
+        public IEnumerator<DirectDrawMapFile> GetEnumerator()
         {
             return Files.GetEnumerator();
         }
@@ -206,15 +206,15 @@ namespace Marathon.Formats.Archive
         }
     }
 
-    public class DDMFile
+    public class DirectDrawMapFile
     {
         public string Name { get; set; }
 
         public byte[] Data { get; set; }
 
-        public DDMFile() { }
+        public DirectDrawMapFile() { }
 
-        public DDMFile(string in_name, byte[] in_data)
+        public DirectDrawMapFile(string in_name, byte[] in_data)
         {
             Name = in_name;
             Data = in_data;
