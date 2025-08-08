@@ -2,6 +2,7 @@
 using Amicitia.IO.Streams;
 using Marathon.Formats.Mesh.Ninja.Chunks;
 using Marathon.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -82,6 +83,18 @@ namespace Marathon.Formats.Mesh.Ninja
             ExtraChunks.Add(new EndChunk());
 
             Info.WriteExtraChunks(writer);
+        }
+
+        public T GetChunk<T>() where T : IChunk
+        {
+            var chunk = Activator.CreateInstance(typeof(T)) as IChunk;
+
+            return (T)this[chunk.GetChunkID()];
+        }
+
+        public IChunk GetChunk(string in_id)
+        {
+            return this[in_id];
         }
 
         public override string ToString()
