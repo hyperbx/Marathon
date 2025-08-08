@@ -6,13 +6,13 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class MaterialColour
     {
-        public ARGBF32 Diffuse { get; set; }
+        public BGRAF32 Diffuse { get; set; }
 
-        public ARGBF32 Ambient { get; set; }
+        public BGRAF32 Ambient { get; set; }
 
-        public ARGBF32 Specular { get; set; }
+        public BGRAF32 Specular { get; set; }
 
-        public ARGBF32 Emissive { get; set; }
+        public BGRAF32 Emissive { get; set; }
 
         public float Power { get; set; }
 
@@ -25,10 +25,10 @@ namespace Marathon.Formats.Ninja.Types
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Diffuse = in_reader.Read<ARGBF32>();
-            Ambient = in_reader.Read<ARGBF32>();
-            Specular = in_reader.Read<ARGBF32>();
-            Emissive = in_reader.Read<ARGBF32>();
+            Diffuse = in_reader.Read<BGRAF32>();
+            Ambient = in_reader.Read<BGRAF32>();
+            Specular = in_reader.Read<BGRAF32>();
+            Emissive = in_reader.Read<BGRAF32>();
             Power = in_reader.Read<float>();
         }
 

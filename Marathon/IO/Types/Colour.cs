@@ -148,6 +148,80 @@
         }
     }
 
+    public struct BGRA8
+    {
+        public byte B { get; set; }
+
+        public byte G { get; set; }
+
+        public byte R { get; set; }
+
+        public byte A { get; set; }
+
+        public BGRA8() { }
+
+        public BGRA8(byte in_b, byte in_g, byte in_r, byte in_a)
+        {
+            B = in_b;
+            G = in_g;
+            R = in_r;
+            A = in_a;
+        }
+
+        public readonly BGRA8 Flip()
+        {
+            return new(A, R, G, B);
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is not BGRA8 out_bgra8)
+                return false;
+
+            return B == out_bgra8.B &&
+                   G == out_bgra8.G &&
+                   R == out_bgra8.R &&
+                   A == out_bgra8.A;
+        }
+    }
+
+    public struct BGRAF32
+    {
+        public float B { get; set; }
+
+        public float G { get; set; }
+
+        public float R { get; set; }
+
+        public float A { get; set; }
+
+        public BGRAF32() { }
+
+        public BGRAF32(float in_b, float in_g, float in_r, float in_a)
+        {
+            B = in_b;
+            G = in_g;
+            R = in_r;
+            A = in_a;
+        }
+
+        public readonly BGRAF32 Flip()
+        {
+            return new(A, R, G, B);
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is not BGRAF32 out_bgraF32)
+                return false;
+
+            return B == out_bgraF32.B &&
+                   G == out_bgraF32.G &&
+                   R == out_bgraF32.R &&
+                   A == out_bgraF32.A;
+        }
+    }
+
     public struct RGB8
     {
         public byte R { get; set; }
