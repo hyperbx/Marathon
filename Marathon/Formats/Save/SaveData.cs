@@ -23,10 +23,6 @@ namespace Marathon.Formats.Save
         private const int _globalFlagCount = 0x27FF;
         private const int _trialCount = 512;
 
-        public SaveData() { }
-
-        public SaveData(string in_path) : base(in_path) { }
-
         public override WriteMode WriteMode => WriteMode.Fixed;
 
         public SaveEpisode[] Episodes { get; set; } = new SaveEpisode[_episodeCount];
@@ -36,6 +32,10 @@ namespace Marathon.Formats.Save
         public SaveTrial[] Trials { get; set; } = new SaveTrial[_trialCount];
 
         public SaveOptions Options { get; set; } = new();
+
+        public SaveData() { }
+
+        public SaveData(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

@@ -6,7 +6,6 @@ using Newtonsoft.Json.Converters;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 // Format names:        Object Physics Parameter List
 // Format references:   Sonicteam::ObjectPhysicsParameterList
@@ -21,10 +20,6 @@ namespace Marathon.Formats.Parameter
     public class ObjectPhysicsParameterList : FileBase, IList<ObjectPhysicsParameter>
     {
         private const string _extension = ".bin"; // "BINary"
-
-        public ObjectPhysicsParameterList() { }
-
-        public ObjectPhysicsParameterList(string in_path) : base(in_path) { }
 
         public List<ObjectPhysicsParameter> Parameters { get; set; } = [];
 
@@ -42,6 +37,10 @@ namespace Marathon.Formats.Parameter
         {
             get => Parameters.Find(x => x.Name == in_name);
         }
+
+        public ObjectPhysicsParameterList() { }
+
+        public ObjectPhysicsParameterList(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

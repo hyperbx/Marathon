@@ -22,10 +22,6 @@ namespace Marathon.Formats.Event
         private const string _signature = ".EPB"; // "Event PlayBook"
         private const uint _magic = 0x20060700;
 
-        public EventPlaybook() { }
-
-        public EventPlaybook(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The events in this playbook.
         /// </summary>
@@ -45,6 +41,10 @@ namespace Marathon.Formats.Event
         {
             get => Events.Find(x => x.Name == in_name);
         }
+
+        public EventPlaybook() { }
+
+        public EventPlaybook(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

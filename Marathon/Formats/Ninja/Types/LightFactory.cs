@@ -1,6 +1,5 @@
 ﻿using Marathon.Formats.Ninja.Flags;
 using Marathon.IO;
-using Marathon.IO.Types.BINA;
 using System;
 
 namespace Marathon.Formats.Ninja.Types

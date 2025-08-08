@@ -2,7 +2,6 @@
 using Amicitia.IO.Streams;
 using Marathon.Formats.Ninja.Chunks;
 using Marathon.IO;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -18,10 +17,6 @@ namespace Marathon.Formats.Ninja
     /// </summary>
     public class NinjaNext : FileBase
     {
-        public NinjaNext() { }
-
-        public NinjaNext(string in_path) : base(in_path) { }
-
         public string Name { get; set; }
 
         public InfoChunk Info { get; set; }
@@ -32,21 +27,12 @@ namespace Marathon.Formats.Ninja
 
         public IChunk this[string in_id]
         {
-            get
-            {
-                var chunk = Info.Chunks.Find(x => x.GetChunkID() == in_id);
-
-                if (chunk != default)
-                    return chunk;
-
-                var extraChunk = Info.ExtraChunks.Find(x => x.GetChunkID() == in_id);
-
-                if (extraChunk != default)
-                    return extraChunk;
-
-                return null;
-            }
+            get => Info[in_id];
         }
+
+        public NinjaNext() { }
+
+        public NinjaNext(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {
@@ -87,14 +73,12 @@ namespace Marathon.Formats.Ninja
 
         public T GetChunk<T>() where T : IChunk
         {
-            var chunk = Activator.CreateInstance(typeof(T)) as IChunk;
-
-            return (T)this[chunk.GetChunkID()];
+            return Info.GetChunk<T>();
         }
 
         public IChunk GetChunk(string in_id)
         {
-            return this[in_id];
+            return Info[in_id];
         }
 
         public override string ToString()

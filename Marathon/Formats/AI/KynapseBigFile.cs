@@ -23,13 +23,13 @@ namespace Marathon.Formats.AI
         private const string _extension = ".kbf";        // "Kynapse Big File"
         private const string _signature = "KS BIG FILE"; // "KynapSe BIG FILE"
 
-        public KynapseBigFile() { }
-
-        public KynapseBigFile(string in_path) : base(in_path) { }
-
         public uint Version { get; set; } = 1;
 
         public KynapseObject Root { get; set; }
+
+        public KynapseBigFile() { }
+
+        public KynapseBigFile(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

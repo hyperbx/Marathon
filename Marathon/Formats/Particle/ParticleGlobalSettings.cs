@@ -21,10 +21,6 @@ namespace Marathon.Formats.Particle
         private const string _extension = ".pgs"; // "Particle Global Settings"
         private const string _signature = "SGEP"; // "Particle Effect Global Settings" (reverse)
 
-        public ParticleGlobalSettings() { }
-
-        public ParticleGlobalSettings(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The registered effect banks.
         /// </summary>
@@ -39,6 +35,10 @@ namespace Marathon.Formats.Particle
         /// The material settings for the particles.
         /// </summary>
         public List<ParticleMaterial> Materials { get; set; } = [];
+
+        public ParticleGlobalSettings() { }
+
+        public ParticleGlobalSettings(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

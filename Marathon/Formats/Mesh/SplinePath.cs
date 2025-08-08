@@ -20,10 +20,6 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".path"; // "PATH"
 
-        public SplinePath() { }
-
-        public SplinePath(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The defined paths in this file.
         /// </summary>
@@ -43,6 +39,10 @@ namespace Marathon.Formats.Mesh
         {
             get => Paths.Find(x => x.Name == in_name);
         }
+
+        public SplinePath() { }
+
+        public SplinePath(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

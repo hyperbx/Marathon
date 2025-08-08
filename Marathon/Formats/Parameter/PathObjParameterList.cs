@@ -4,7 +4,6 @@ using Marathon.IO.Types.BINA;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 // Format names:        Path Obj Parameter List
 // Format references:   Sonicteam::PathObjParameter
@@ -19,10 +18,6 @@ namespace Marathon.Formats.Parameter
     public class PathObjParameterList : FileBase, IList<PathObjParameter>
     {
         private const string _extension = ".bin"; // "BINary"
-
-        public PathObjParameterList() { }
-
-        public PathObjParameterList(string in_path) : base(in_path) { }
 
         public List<PathObjParameter> Parameters { get; set; } = [];
 
@@ -40,6 +35,10 @@ namespace Marathon.Formats.Parameter
         {
             get => Parameters.Find(x => x.Name == in_name);
         }
+
+        public PathObjParameterList() { }
+
+        public PathObjParameterList(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

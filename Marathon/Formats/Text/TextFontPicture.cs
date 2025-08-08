@@ -20,10 +20,6 @@ namespace Marathon.Formats.Text
         private const string _extension = ".pft"; // "Picture FonT"
         private const string _signature = "FNTP"; // "FoNT Picture"
 
-        public TextFontPicture() { }
-
-        public TextFontPicture(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The path to the texture these crops pertain to.
         /// </summary>
@@ -48,6 +44,10 @@ namespace Marathon.Formats.Text
         {
             get => Crops.Find(x => x.Name == in_name);
         }
+
+        public TextFontPicture() { }
+
+        public TextFontPicture(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

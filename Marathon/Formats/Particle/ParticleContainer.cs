@@ -19,10 +19,6 @@ namespace Marathon.Formats.Particle
     {
         private const string _extension = ".plc"; // "ParticLe Container"
 
-        public ParticleContainer() { }
-
-        public ParticleContainer(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this particle container.
         /// </summary>
@@ -47,6 +43,10 @@ namespace Marathon.Formats.Particle
         {
             get => Particles.Find(x => x.Name == in_name);
         }
+
+        public ParticleContainer() { }
+
+        public ParticleContainer(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

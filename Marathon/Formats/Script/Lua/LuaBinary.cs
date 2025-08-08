@@ -21,10 +21,6 @@ namespace Marathon.Formats.Script.Lua
         private LFunction _main;
         private string _decompiled;
 
-        public LuaBinary() { }
-
-        public LuaBinary(string in_path) : base(in_path) { }
-
         public IndentationType IndentationType { get; set; } = IndentationType.Spaces;
 
         public LFunction Main 
@@ -37,6 +33,10 @@ namespace Marathon.Formats.Script.Lua
                 _decompiled = null;
             }
         }
+
+        public LuaBinary() { }
+
+        public LuaBinary(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

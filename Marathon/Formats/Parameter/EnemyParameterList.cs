@@ -21,10 +21,6 @@ namespace Marathon.Formats.Parameter
     {
         private const string _extension = ".bin"; // "BINary"
 
-        public EnemyParameterList() { }
-
-        public EnemyParameterList(string in_path) : base(in_path) { }
-
         public List<EnemyParameter> Parameters { get; set; } = [];
 
         public int Count => Parameters.Count;
@@ -41,6 +37,10 @@ namespace Marathon.Formats.Parameter
         {
             get => Parameters.Find(x => x.Name == in_name);
         }
+
+        public EnemyParameterList() { }
+
+        public EnemyParameterList(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

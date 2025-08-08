@@ -2,6 +2,7 @@
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
+using System;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Ninja.Chunks
@@ -23,6 +24,24 @@ namespace Marathon.Formats.Ninja.Chunks
         public List<IChunk> Chunks { get; set; } = [];
 
         public List<IChunk> ExtraChunks { get; set; } = [];
+
+        public IChunk this[string in_id]
+        {
+            get
+            {
+                var chunk = Chunks.Find(x => x.GetChunkID() == in_id);
+
+                if (chunk != default)
+                    return chunk;
+
+                var extraChunk = ExtraChunks.Find(x => x.GetChunkID() == in_id);
+
+                if (extraChunk != default)
+                    return extraChunk;
+
+                return null;
+            }
+        }
 
         public InfoChunk() { }
 
@@ -120,6 +139,18 @@ namespace Marathon.Formats.Ninja.Chunks
                 if (isOffsetChunk)
                     in_writer.WriteReserved(_offsetChunkLength, (uint)(in_writer.Position - offsetChunkPos));
             }
+        }
+
+        public T GetChunk<T>() where T : IChunk
+        {
+            var chunk = Activator.CreateInstance(typeof(T)) as IChunk;
+
+            return (T)this[chunk.GetChunkID()];
+        }
+
+        public IChunk GetChunk(string in_id)
+        {
+            return this[in_id];
         }
 
         public virtual string GetChunkID()

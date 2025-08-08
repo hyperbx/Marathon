@@ -20,10 +20,6 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".rab"; // "Reflection Area Binary"
 
-        public ReflectionArea() { }
-
-        public ReflectionArea(string in_path) : base(in_path) { }
-
         public List<ReflectionAreaParam> Parameters { get; set; } = [];
 
         public int Count => Parameters.Count;
@@ -35,6 +31,10 @@ namespace Marathon.Formats.Mesh
             get => Parameters[in_index];
             set => Parameters[in_index] = value;
         }
+
+        public ReflectionArea() { }
+
+        public ReflectionArea(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

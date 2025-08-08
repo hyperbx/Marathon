@@ -23,10 +23,6 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".bin"; // "BINary"
 
-        public LandCollision() { }
-
-        public LandCollision(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The vertices of this collision mesh.
         /// </summary>
@@ -36,6 +32,10 @@ namespace Marathon.Formats.Mesh
         /// The faces of this collision mesh.
         /// </summary>
         public List<CollisionFace> Faces { get; set; } = [];
+
+        public LandCollision() { }
+
+        public LandCollision(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

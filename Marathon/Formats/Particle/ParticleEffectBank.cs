@@ -26,10 +26,6 @@ namespace Marathon.Formats.Particle
         private const string _extension = ".peb";  // "Particle Effect Bank"
         private const string _signature  = "BEEP"; // "Particle Effect Effect Bank" (reverse)
 
-        public ParticleEffectBank() { }
-
-        public ParticleEffectBank(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this effect bank.
         /// </summary>
@@ -54,6 +50,10 @@ namespace Marathon.Formats.Particle
         {
             get => Effects.Find(x => x.Name == in_name);
         }
+
+        public ParticleEffectBank() { }
+
+        public ParticleEffectBank(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

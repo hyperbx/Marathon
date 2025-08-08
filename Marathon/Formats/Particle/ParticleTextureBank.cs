@@ -20,10 +20,6 @@ namespace Marathon.Formats.Particle
         private const string _extension = ".ptb"; // "Particle Texture Bank"
         private const string _signature = "BTEP"; // "Particle Effect Texture Bank" (reverse)
 
-        public ParticleTextureBank() { }
-
-        public ParticleTextureBank(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this texture bank.
         /// </summary>
@@ -48,6 +44,10 @@ namespace Marathon.Formats.Particle
         {
             get => Textures.Find(x => x.Name == in_name);
         }
+
+        public ParticleTextureBank() { }
+
+        public ParticleTextureBank(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

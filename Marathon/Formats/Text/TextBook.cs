@@ -21,10 +21,6 @@ namespace Marathon.Formats.Text
         private const string _extension = ".mst"; // "MeSsage Table" (speculatory)
         private const string _signature = "WTXT"; // "Wide TeXT" (referring to UTF-16)
 
-        public TextBook() { }
-
-        public TextBook(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this text book.
         /// </summary>
@@ -49,6 +45,10 @@ namespace Marathon.Formats.Text
         {
             get => Cards.Find(x => x.Name == in_name);
         }
+
+        public TextBook() { }
+
+        public TextBook(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

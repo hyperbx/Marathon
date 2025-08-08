@@ -19,10 +19,6 @@ namespace Marathon.Formats.Parameter
     {
         private const string _extension = ".pkg"; // "PacKaGe"
 
-        public Package() { }
-
-        public Package(string in_path) : base(in_path) { }
-
         public List<PackageCategory> Categories { get; set; } = [];
 
         public int Count => Categories.Count;
@@ -39,6 +35,10 @@ namespace Marathon.Formats.Parameter
         {
             get => Categories.Find(x => x.Name == in_name);
         }
+
+        public Package() { }
+
+        public Package(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {
@@ -198,14 +198,6 @@ namespace Marathon.Formats.Parameter
 
         public bool IsReadOnly => false;
 
-        public PackageCategory() { }
-
-        public PackageCategory(string in_name, List<PackageFile> in_files = null)
-        {
-            Name = in_name;
-            Files = in_files ?? [];
-        }
-
         public PackageFile this[int in_index]
         {
             get => Files[in_index];
@@ -215,6 +207,14 @@ namespace Marathon.Formats.Parameter
         public PackageFile this[string in_name]
         {
             get => Files.Find(x => x.Name == in_name);
+        }
+
+        public PackageCategory() { }
+
+        public PackageCategory(string in_name, List<PackageFile> in_files = null)
+        {
+            Name = in_name;
+            Files = in_files ?? [];
         }
 
         public int IndexOf(PackageFile in_item)

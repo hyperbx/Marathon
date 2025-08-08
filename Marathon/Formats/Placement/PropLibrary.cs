@@ -20,10 +20,6 @@ namespace Marathon.Formats.Placement
     {
         private const string _extension = ".prop"; // "PROP"
 
-        public PropLibrary() { }
-
-        public PropLibrary(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this library.
         /// </summary>
@@ -48,6 +44,10 @@ namespace Marathon.Formats.Placement
         {
             get => Actors.Find(x => x.Name == in_name);
         }
+
+        public PropLibrary() { }
+
+        public PropLibrary(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

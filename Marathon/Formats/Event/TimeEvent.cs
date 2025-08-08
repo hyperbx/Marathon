@@ -21,10 +21,6 @@ namespace Marathon.Formats.Event
         private const string _extension = ".tev"; // "Time EVent"
         private const string _signature = ".TEV"; // "Time EVent"
 
-        public TimeEvent() { }
-
-        public TimeEvent(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The reference animation file.
         /// </summary>
@@ -44,6 +40,10 @@ namespace Marathon.Formats.Event
             get => Events[in_index];
             set => Events[in_index] = value;
         }
+
+        public TimeEvent() { }
+
+        public TimeEvent(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

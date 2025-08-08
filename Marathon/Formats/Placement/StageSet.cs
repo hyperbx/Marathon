@@ -26,10 +26,6 @@ namespace Marathon.Formats.Placement
     {
         private const string _extension = ".set"; // "SET"
 
-        public StageSet() { }
-
-        public StageSet(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this stage set.
         /// </summary>
@@ -49,6 +45,10 @@ namespace Marathon.Formats.Placement
         /// The actors that describe the objects and their parameters (required for exporting).
         /// </summary>
         public List<Actor> Actors { get; set; } = [];
+
+        public StageSet() { }
+
+        public StageSet(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

@@ -23,10 +23,6 @@ namespace Marathon.Formats.Audio
         private const string _signature = "SBNK"; // "Sound BaNK"
         private const uint _magic = 0x20060700;
 
-        public SoundBank() { }
-
-        public SoundBank(string in_path) : base(in_path) { }
-
         /// <summary>
         /// The name of this sound bank.
         /// </summary>
@@ -51,6 +47,10 @@ namespace Marathon.Formats.Audio
         {
             get => Sounds.Find(x => x.Name == in_name);
         }
+
+        public SoundBank() { }
+
+        public SoundBank(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {

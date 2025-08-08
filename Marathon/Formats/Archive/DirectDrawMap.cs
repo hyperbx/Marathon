@@ -25,10 +25,6 @@ namespace Marathon.Formats.Archive
         private const string _fileNameChunkSignature = "DSFN"; // Directdraw Surface File Name (speculatory)
         private const string _dataChunkSignature = "DSCK";     // Directdraw Surface ChunK (speculatory)
 
-        public DirectDrawMap() { }
-
-        public DirectDrawMap(string in_path) : base(in_path) { }
-
         public List<DirectDrawMapFile> Files { get; set; } = [];
 
         public int Count => Files.Count;
@@ -45,6 +41,10 @@ namespace Marathon.Formats.Archive
         {
             get => Files.Find(x => x.Name == in_name);
         }
+
+        public DirectDrawMap() { }
+
+        public DirectDrawMap(string in_path) : base(in_path) { }
 
         public override void Read(Stream in_stream)
         {
