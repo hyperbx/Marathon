@@ -3,15 +3,31 @@ using Marathon.Exceptions;
 using Marathon.Formats.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Ninja.Chunks
 {
-    public class TextureListChunk : IChunk
+    public class TextureListChunk : IChunk, IList<TextureFile>
     {
         public const string ID = "NXTL"; // Ninja directX Texture List
 
         public List<TextureFile> Textures { get; set; } = [];
+
+        public int Count => Textures.Count;
+
+        public bool IsReadOnly => false;
+
+        public TextureFile this[int in_index]
+        {
+            get => Textures[in_index];
+            set => Textures[in_index] = value;
+        }
+
+        public TextureFile this[string in_name]
+        {
+            get => Textures.Find(x => x.Name == in_name);
+        }
 
         public TextureListChunk() { }
 
@@ -66,6 +82,56 @@ namespace Marathon.Formats.Ninja.Chunks
             in_writer.Align(16);
 
             header.FinishWrite(in_writer, dataPos);
+        }
+
+        public int IndexOf(TextureFile in_item)
+        {
+            return Textures.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, TextureFile in_item)
+        {
+            Textures.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Textures.RemoveAt(in_index);
+        }
+
+        public void Add(TextureFile in_item)
+        {
+            Textures.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Textures.Clear();
+        }
+
+        public bool Contains(TextureFile in_item)
+        {
+            return Textures.Contains(in_item);
+        }
+
+        public void CopyTo(TextureFile[] in_array, int in_arrayIndex)
+        {
+            Textures.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(TextureFile in_item)
+        {
+            return Textures.Remove(in_item);
+        }
+
+        public IEnumerator<TextureFile> GetEnumerator()
+        {
+            return Textures.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public virtual string GetChunkID()

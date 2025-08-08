@@ -3,17 +3,28 @@ using Marathon.Formats.Ninja.Flags;
 using Marathon.Formats.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Ninja.Chunks
 {
-    public class NodeNameChunk : IChunk
+    public class NodeNameChunk : IChunk, IList<string>
     {
         public const string ID = "NXNN"; // Ninja directX Node Name
 
         public NodeNameSortType Type { get; set; }
 
         public List<string> Names { get; set; } = [];
+
+        public int Count => Names.Count;
+
+        public bool IsReadOnly => false;
+
+        public string this[int in_index]
+        {
+            get => Names[in_index];
+            set => Names[in_index] = value;
+        }
 
         public NodeNameChunk() { }
 
@@ -77,6 +88,56 @@ namespace Marathon.Formats.Ninja.Chunks
             in_writer.Align(16);
 
             header.FinishWrite(in_writer, dataPos);
+        }
+
+        public int IndexOf(string in_item)
+        {
+            return Names.IndexOf(in_item);
+        }
+
+        public void Insert(int in_index, string in_item)
+        {
+            Names.Insert(in_index, in_item);
+        }
+
+        public void RemoveAt(int in_index)
+        {
+            Names.RemoveAt(in_index);
+        }
+
+        public void Add(string in_item)
+        {
+            Names.Add(in_item);
+        }
+
+        public void Clear()
+        {
+            Names.Clear();
+        }
+
+        public bool Contains(string in_item)
+        {
+            return Names.Contains(in_item);
+        }
+
+        public void CopyTo(string[] in_array, int in_arrayIndex)
+        {
+            Names.CopyTo(in_array, in_arrayIndex);
+        }
+
+        public bool Remove(string in_item)
+        {
+            return Names.Remove(in_item);
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return Names.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public virtual string GetChunkID()
