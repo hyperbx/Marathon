@@ -1,18 +1,18 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.IO;
-using System.Numerics;
+using Marathon.IO.Types;
 
 namespace Marathon.Formats.Mesh.Ninja.Types
 {
     public class MaterialColour
     {
-        public Vector4 Diffuse { get; set; }
+        public ARGBF32 Diffuse { get; set; }
 
-        public Vector4 Ambient { get; set; }
+        public ARGBF32 Ambient { get; set; }
 
-        public Vector4 Specular { get; set; }
+        public ARGBF32 Specular { get; set; }
 
-        public Vector4 Emissive { get; set; }
+        public ARGBF32 Emissive { get; set; }
 
         public float Power { get; set; }
 
@@ -25,10 +25,10 @@ namespace Marathon.Formats.Mesh.Ninja.Types
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Diffuse = in_reader.Read<Vector4>();
-            Ambient = in_reader.Read<Vector4>();
-            Specular = in_reader.Read<Vector4>();
-            Emissive = in_reader.Read<Vector4>();
+            Diffuse = in_reader.Read<ARGBF32>();
+            Ambient = in_reader.Read<ARGBF32>();
+            Specular = in_reader.Read<ARGBF32>();
+            Emissive = in_reader.Read<ARGBF32>();
             Power = in_reader.Read<float>();
         }
 
@@ -47,10 +47,10 @@ namespace Marathon.Formats.Mesh.Ninja.Types
             if (in_obj is not MaterialColour out_colour)
                 return false;
 
-            return out_colour.Diffuse == Diffuse &&
-                   out_colour.Ambient == Ambient &&
-                   out_colour.Specular == Specular &&
-                   out_colour.Emissive == Emissive &&
+            return out_colour.Diffuse.Equals(Diffuse) &&
+                   out_colour.Ambient.Equals(Ambient) &&
+                   out_colour.Specular.Equals(Specular) &&
+                   out_colour.Emissive.Equals(Emissive) &&
                    out_colour.Power == Power;
         }
     }
