@@ -1,18 +1,20 @@
-﻿namespace Marathon.IO.Types
+﻿using Amicitia.IO.Binary;
+
+namespace Marathon.IO.Types
 {
-    public struct RGBA8
+    public struct Colour<TData, TFormat> : IBinarySerializable where TData : unmanaged where TFormat : IColourFormat
     {
-        public byte R { get; set; }
+        public TData R { get; set; }
 
-        public byte G { get; set; }
+        public TData G { get; set; }
 
-        public byte B { get; set; }
+        public TData B { get; set; }
 
-        public byte A { get; set; }
+        public TData A { get; set; }
 
-        public RGBA8() { }
+        public Colour() { }
 
-        public RGBA8(byte in_r, byte in_g, byte in_b, byte in_a)
+        public Colour(TData in_r, TData in_g, TData in_b, TData in_a)
         {
             R = in_r;
             G = in_g;
@@ -20,238 +22,78 @@
             A = in_a;
         }
 
-        public readonly RGBA8 Flip()
+        public void Read(BinaryObjectReader in_reader)
         {
-            return new(A, B, G, R);
+            if (typeof(TFormat) == typeof(RGBA))
+            {
+                R = in_reader.Read<TData>();
+                G = in_reader.Read<TData>();
+                B = in_reader.Read<TData>();
+                A = in_reader.Read<TData>();
+            }
+            else if (typeof(TFormat) == typeof(ARGB))
+            {
+                A = in_reader.Read<TData>();
+                R = in_reader.Read<TData>();
+                G = in_reader.Read<TData>();
+                B = in_reader.Read<TData>();
+            }
+            else if (typeof(TFormat) == typeof(BGRA))
+            {
+                B = in_reader.Read<TData>();
+                G = in_reader.Read<TData>();
+                R = in_reader.Read<TData>();
+                A = in_reader.Read<TData>();
+            }
+        }
+
+        public void Write(BinaryObjectWriter in_writer)
+        {
+            if (typeof(TFormat) == typeof(RGBA))
+            {
+                in_writer.Write(R);
+                in_writer.Write(G);
+                in_writer.Write(B);
+                in_writer.Write(A);
+            }
+            else if (typeof(TFormat) == typeof(ARGB))
+            {
+                in_writer.Write(A);
+                in_writer.Write(R);
+                in_writer.Write(G);
+                in_writer.Write(B);
+            }
+            else if (typeof(TFormat) == typeof(BGRA))
+            {
+                in_writer.Write(B);
+                in_writer.Write(G);
+                in_writer.Write(R);
+                in_writer.Write(A);
+            }
+        }
+
+        public Colour<TData, TFormat> Flip()
+        {
+            return new Colour<TData, TFormat>(A, B, G, R);
         }
 
         public override bool Equals(object in_obj)
         {
-            if (in_obj is not RGBA8 out_rgba8)
+            if (in_obj is not Colour<TData, TFormat> out_colour)
                 return false;
 
-            return R == out_rgba8.R &&
-                   G == out_rgba8.G &&
-                   B == out_rgba8.B &&
-                   A == out_rgba8.A;
+            return (object)R == (object)out_colour.R &&
+                   (object)G == (object)out_colour.G &&
+                   (object)B == (object)out_colour.B &&
+                   (object)A == (object)out_colour.A;
         }
     }
 
-    public struct RGBAF32
-    {
-        public float R { get; set; }
+    public struct RGBA : IColourFormat { }
 
-        public float G { get; set; }
+    public struct ARGB : IColourFormat { }
 
-        public float B { get; set; }
+    public struct BGRA : IColourFormat { }
 
-        public float A { get; set; }
-
-        public RGBAF32() { }
-
-        public RGBAF32(float in_r, float in_g, float in_b, float in_a)
-        {
-            R = in_r;
-            G = in_g;
-            B = in_b;
-            A = in_a;
-        }
-
-        public readonly RGBAF32 Flip()
-        {
-            return new(A, B, G, R);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not RGBAF32 out_rgbaF32)
-                return false;
-
-            return R == out_rgbaF32.R &&
-                   G == out_rgbaF32.G &&
-                   B == out_rgbaF32.B &&
-                   A == out_rgbaF32.A;
-        }
-    }
-
-    public struct ARGB8
-    {
-        public byte A { get; set; }
-
-        public byte R { get; set; }
-
-        public byte G { get; set; }
-
-        public byte B { get; set; }
-
-        public ARGB8() { }
-
-        public ARGB8(byte in_a, byte in_r, byte in_g, byte in_b)
-        {
-            A = in_a;
-            R = in_r;
-            G = in_g;
-            B = in_b;
-        }
-
-        public readonly ARGB8 Flip()
-        {
-            return new(B, G, R, A);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not ARGB8 out_argb8)
-                return false;
-
-            return R == out_argb8.R &&
-                   G == out_argb8.G &&
-                   B == out_argb8.B &&
-                   A == out_argb8.A;
-        }
-    }
-
-    public struct ARGBF32
-    {
-        public float A { get; set; }
-
-        public float R { get; set; }
-
-        public float G { get; set; }
-
-        public float B { get; set; }
-
-        public ARGBF32() { }
-
-        public ARGBF32(float in_a, float in_r, float in_g, float in_b)
-        {
-            A = in_a;
-            R = in_r;
-            G = in_g;
-            B = in_b;
-        }
-
-        public readonly ARGBF32 Flip()
-        {
-            return new(B, G, R, A);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not ARGBF32 out_argbF32)
-                return false;
-
-            return R == out_argbF32.R &&
-                   G == out_argbF32.G &&
-                   B == out_argbF32.B &&
-                   A == out_argbF32.A;
-        }
-    }
-
-    public struct BGRA8
-    {
-        public byte B { get; set; }
-
-        public byte G { get; set; }
-
-        public byte R { get; set; }
-
-        public byte A { get; set; }
-
-        public BGRA8() { }
-
-        public BGRA8(byte in_b, byte in_g, byte in_r, byte in_a)
-        {
-            B = in_b;
-            G = in_g;
-            R = in_r;
-            A = in_a;
-        }
-
-        public readonly BGRA8 Flip()
-        {
-            return new(A, R, G, B);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not BGRA8 out_bgra8)
-                return false;
-
-            return B == out_bgra8.B &&
-                   G == out_bgra8.G &&
-                   R == out_bgra8.R &&
-                   A == out_bgra8.A;
-        }
-    }
-
-    public struct BGRAF32
-    {
-        public float B { get; set; }
-
-        public float G { get; set; }
-
-        public float R { get; set; }
-
-        public float A { get; set; }
-
-        public BGRAF32() { }
-
-        public BGRAF32(float in_b, float in_g, float in_r, float in_a)
-        {
-            B = in_b;
-            G = in_g;
-            R = in_r;
-            A = in_a;
-        }
-
-        public readonly BGRAF32 Flip()
-        {
-            return new(A, R, G, B);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not BGRAF32 out_bgraF32)
-                return false;
-
-            return B == out_bgraF32.B &&
-                   G == out_bgraF32.G &&
-                   R == out_bgraF32.R &&
-                   A == out_bgraF32.A;
-        }
-    }
-
-    public struct RGB8
-    {
-        public byte R { get; set; }
-
-        public byte G { get; set; }
-
-        public byte B { get; set; }
-
-        public RGB8() { }
-
-        public RGB8(byte in_r, byte in_g, byte in_b)
-        {
-            R = in_r;
-            G = in_g;
-            B = in_b;
-        }
-
-        public readonly RGB8 Flip()
-        {
-            return new(B, G, R);
-        }
-
-        public override bool Equals(object in_obj)
-        {
-            if (in_obj is not RGB8 out_rgb8)
-                return false;
-
-            return R == out_rgb8.R &&
-                   G == out_rgb8.G &&
-                   B == out_rgb8.B;
-        }
-    }
+    public interface IColourFormat { }
 }

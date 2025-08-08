@@ -6,13 +6,13 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class MaterialColour
     {
-        public BGRAF32 Diffuse { get; set; }
+        public Colour<float, BGRA> Diffuse { get; set; }
 
-        public BGRAF32 Ambient { get; set; }
+        public Colour<float, BGRA> Ambient { get; set; }
 
-        public BGRAF32 Specular { get; set; }
+        public Colour<float, BGRA> Specular { get; set; }
 
-        public BGRAF32 Emissive { get; set; }
+        public Colour<float, BGRA> Emissive { get; set; }
 
         public float Power { get; set; }
 
@@ -25,19 +25,19 @@ namespace Marathon.Formats.Ninja.Types
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Diffuse = in_reader.Read<BGRAF32>();
-            Ambient = in_reader.Read<BGRAF32>();
-            Specular = in_reader.Read<BGRAF32>();
-            Emissive = in_reader.Read<BGRAF32>();
+            Diffuse = in_reader.ReadObject<Colour<float, BGRA>>();
+            Ambient = in_reader.ReadObject<Colour<float, BGRA>>();
+            Specular = in_reader.ReadObject<Colour<float, BGRA>>();
+            Emissive = in_reader.ReadObject<Colour<float, BGRA>>();
             Power = in_reader.Read<float>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(Diffuse);
-            in_writer.Write(Ambient);
-            in_writer.Write(Specular);
-            in_writer.Write(Emissive);
+            in_writer.WriteObject(Diffuse);
+            in_writer.WriteObject(Ambient);
+            in_writer.WriteObject(Specular);
+            in_writer.WriteObject(Emissive);
             in_writer.Write(Power);
             in_writer.Align(16);
         }
