@@ -54,9 +54,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_writer.WriteReserved(lightOffset, lightPos, false);
             in_writer.Align(16);
 
-            var chunkSize = (uint)(in_writer.Position - header.GetChunkStart());
-
-            header.FinishWrite(in_writer, chunkSize, infoPos);
+            header.FinishWrite(in_writer, infoPos);
         }
 
         public virtual string GetChunkID()

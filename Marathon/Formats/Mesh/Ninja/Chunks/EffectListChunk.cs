@@ -1,4 +1,5 @@
 ﻿using Marathon.Exceptions;
+using Marathon.Formats.Mesh.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
@@ -52,12 +53,12 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_reader.Seek(InfoChunk.Size + effectFileOffset, SeekOrigin.Begin);
 
             for (int i = 0; i < effectFileCount; i++)
-                Effects.Add(new Effect(in_reader));
+                Effects.Add(new(in_reader));
 
             in_reader.Seek(InfoChunk.Size + techniqueNameOffset, SeekOrigin.Begin);
 
             for (int i = 0; i < techniqueNameCount; i++)
-                Techniques.Add(new Technique(in_reader));
+                Techniques.Add(new(in_reader));
 
             in_reader.Seek(InfoChunk.Size + techniqueIndicesOffset, SeekOrigin.Begin);
 
@@ -129,86 +130,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         public virtual string GetChunkID()
         {
             return ID;
-        }
-    }
-
-    public class Effect
-    {
-        public const int Size = 8;
-
-        public uint Type { get; set; }
-
-        public string Name { get; set; }
-
-        public Effect() { }
-
-        public Effect(BinaryObjectReaderEx in_reader)
-        {
-            Read(in_reader);
-        }
-
-        public void Read(BinaryObjectReaderEx in_reader)
-        {
-            Type = in_reader.Read<uint>();
-
-            var nameOffset = in_reader.Read<uint>();
-
-            in_reader.ReadAtOffset(InfoChunk.Size + nameOffset,
-                () => Name = in_reader.ReadStringNullTerminated());
-        }
-
-        public long Write(BinaryObjectWriterEx in_writer)
-        {
-            in_writer.Write(Type);
-
-            return in_writer.Reserve<uint>();
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
-    }
-
-    public class Technique
-    {
-        public const int Size = 8;
-
-        public uint Type { get; set; }
-
-        public uint EffectIndex { get; set; }
-
-        public string Name { get; set; }
-
-        public Technique() { }
-
-        public Technique(BinaryObjectReaderEx in_reader)
-        {
-            Read(in_reader);
-        }
-
-        public void Read(BinaryObjectReaderEx in_reader)
-        {
-            Type = in_reader.Read<uint>();
-            EffectIndex = in_reader.Read<uint>();
-
-            var nameOffset = in_reader.Read<uint>();
-
-            in_reader.ReadAtOffset(InfoChunk.Size + nameOffset,
-                () => Name = in_reader.ReadStringNullTerminated());
-        }
-
-        public long Write(BinaryObjectWriterEx in_writer)
-        {
-            in_writer.Write(Type);
-            in_writer.Write(EffectIndex);
-
-            return in_writer.Reserve<uint>();
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

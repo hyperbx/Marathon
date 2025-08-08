@@ -1,8 +1,8 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
+using Marathon.Formats.Mesh.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Marathon.IO.Types;
 
 namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
@@ -19,11 +19,10 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var chunkSignature = in_reader.Read<FourCC>();
-            var chunkLength = in_reader.Read<uint>();
+            var header = in_reader.ReadObject<DataHeader>();
 
-            if (!chunkSignature.Equals(ID))
-                throw new InvalidSignatureException(ID, chunkSignature);
+            if (!header.ID.Equals(GetChunkID()))
+                throw new InvalidSignatureException(GetChunkID(), header.ID);
 
             in_reader.Align(16);
         }

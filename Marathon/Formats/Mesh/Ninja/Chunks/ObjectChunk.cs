@@ -305,9 +305,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.WriteReserved(verticesLength, vertexTableLength);
 
-            var chunkSize = (uint)(in_writer.Position - header.GetChunkStart());
-
-            header.FinishWrite(in_writer, chunkSize, dataOffset, Version);
+            header.FinishWrite(in_writer, dataOffset, Version);
         }
 
         public virtual string GetChunkID()

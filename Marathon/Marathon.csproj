@@ -97,6 +97,7 @@
     <Compile Include="Formats\Mesh\Ninja\Types\Camera.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\CameraFactory.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\DataHeader.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\Effect.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Keyframe.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\KeyframeFactory.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Light.cs" />
@@ -107,9 +108,13 @@
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialTextureMap.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialTextureMapDesc.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MeshSet.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\MorphTarget.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Node.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\PrimitiveList.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\SubMotion.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\SubObject.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\Technique.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\TextureFile.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Vertex.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\VertexList.cs" />
     <Compile Include="Formats\Mesh\ReflectionArea.cs" />

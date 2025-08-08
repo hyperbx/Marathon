@@ -1,4 +1,5 @@
 ﻿using Amicitia.IO.Binary;
+using Marathon.Formats.Script.Lua.Types;
 using Marathon.IO;
 using Marathon.IO.Types;
 
@@ -77,9 +78,9 @@ namespace Marathon.Formats.Mesh.Ninja.Types
             in_writer.WriteReserved(_versionOffset, Version);
         }
 
-        public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_length, uint in_dataOffset, int in_version = 0)
+        public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_dataOffset, int in_version = 0)
         {
-            Length = in_length;
+            Length = (uint)(in_writer.Position - _chunkStart);
             DataOffset = in_dataOffset;
             Version = in_version;
 

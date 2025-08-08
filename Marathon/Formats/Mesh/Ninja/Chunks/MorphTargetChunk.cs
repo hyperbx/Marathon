@@ -34,7 +34,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_reader.JumpTo(InfoChunk.Size + morphTargetOffset);
 
             for (int i = 0; i < morphTargetCount; i++)
-                MorphTargets.Add(new MorphTarget(in_reader));
+                MorphTargets.Add(new(in_reader));
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -78,48 +78,12 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Align(16);
 
-            var chunkEnd = (uint)in_writer.Position;
-            var chunkSize = chunkEnd - header.GetChunkStart();
-
-            header.FinishWrite(in_writer, chunkSize, dataOffset);
+            header.FinishWrite(in_writer, dataOffset);
         }
 
         public virtual string GetChunkID()
         {
             return ID;
-        }
-    }
-
-    public class MorphTarget
-    {
-        public uint Target { get; set; }
-
-        public VertexList VertexList { get; set; }
-
-        public MorphTarget() { }
-
-        public MorphTarget(BinaryObjectReaderEx in_reader)
-        {
-            Read(in_reader);
-        }
-
-        public void Read(BinaryObjectReaderEx in_reader)
-        {
-            Target = in_reader.Read<uint>();
-            var morphTargetOffset = in_reader.Read<uint>();
-
-            var pos = in_reader.Position;
-
-            in_reader.JumpTo(InfoChunk.Size + morphTargetOffset);
-
-            var unkField = in_reader.Read<uint>(); // TODO: unknown - always 2?
-            var vertexListOffset = in_reader.Read<uint>();
-
-            in_reader.JumpTo(InfoChunk.Size + vertexListOffset);
-            
-            VertexList = new VertexList(in_reader, true);
-
-            in_reader.JumpTo(pos);
         }
     }
 }

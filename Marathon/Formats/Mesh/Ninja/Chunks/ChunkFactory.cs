@@ -7,58 +7,26 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public static IChunk GetChunkByFourCC(BinaryObjectReaderEx in_reader, FourCC in_signature)
         {
-            switch (in_signature.ToString())
+            return in_signature.ToString() switch
             {
-                case InfoChunk.ID:
-                    return new InfoChunk(in_reader);
-
-                case TextureListChunk.ID:
-                    return new TextureListChunk(in_reader);
-
-                case EffectListChunk.ID:
-                    return new EffectListChunk(in_reader);
-
-                case NodeNameChunk.ID:
-                    return new NodeNameChunk(in_reader);
-
-                case ObjectChunk.ID:
-                    return new ObjectChunk(in_reader);
-
-                case CameraChunk.ID:
-                    return new CameraChunk(in_reader);
-
-                case LightChunk.ID:
-                    return new LightChunk(in_reader);
-
-                case MotionChunk.ID:
-                    return new MotionChunk(in_reader);
-
-                case MaterialMotionChunk.ID:
-                    return new MaterialMotionChunk(in_reader);
-
-                case CameraMotionChunk.ID:
-                    return new CameraMotionChunk(in_reader);
-
-                case LightMotionChunk.ID:
-                    return new LightMotionChunk(in_reader);
-
-                case MorphMotionChunk.ID:
-                    return new MorphMotionChunk(in_reader);
-
-                case MorphTargetChunk.ID:
-                    return new MorphTargetChunk(in_reader);
-
-                case OffsetChunk.ID:
-                    return new OffsetChunk(in_reader);
-
-                case FileNameChunk.ID:
-                    return new FileNameChunk(in_reader);
-
-                case EndChunk.ID:
-                    return new EndChunk(in_reader);
-            }
-
-            return new UndefinedChunk(in_reader);
+                InfoChunk.ID           => new InfoChunk(in_reader),
+                TextureListChunk.ID    => new TextureListChunk(in_reader),
+                EffectListChunk.ID     => new EffectListChunk(in_reader),
+                NodeNameChunk.ID       => new NodeNameChunk(in_reader),
+                ObjectChunk.ID         => new ObjectChunk(in_reader),
+                CameraChunk.ID         => new CameraChunk(in_reader),
+                LightChunk.ID          => new LightChunk(in_reader),
+                MotionChunk.ID         => new MotionChunk(in_reader),
+                MaterialMotionChunk.ID => new MaterialMotionChunk(in_reader),
+                CameraMotionChunk.ID   => new CameraMotionChunk(in_reader),
+                LightMotionChunk.ID    => new LightMotionChunk(in_reader),
+                MorphMotionChunk.ID    => new MorphMotionChunk(in_reader),
+                MorphTargetChunk.ID    => new MorphTargetChunk(in_reader),
+                OffsetChunk.ID         => new OffsetChunk(in_reader),
+                FileNameChunk.ID       => new FileNameChunk(in_reader),
+                EndChunk.ID            => new EndChunk(in_reader),
+                _                      => new UndefinedChunk(in_reader)
+            };
         }
     }
 }
