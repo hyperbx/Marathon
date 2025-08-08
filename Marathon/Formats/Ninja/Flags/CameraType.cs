@@ -1,0 +1,29 @@
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+
+namespace Marathon.Formats.Ninja.Flags
+{
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum CameraType : uint
+    {
+        NND_CAMERATYPE_MEMBER_USER = 1,
+        NND_CAMERATYPE_MEMBER_FOVY = 2,
+        NND_CAMERATYPE_MEMBER_ASPECT = 4,
+        NND_CAMERATYPE_MEMBER_ZNEAR = 8,
+        NND_CAMERATYPE_MEMBER_ZFAR = 16,
+        NND_CAMERATYPE_MEMBER_POSITION = 32,
+        NND_CAMERATYPE_MEMBER_TARGET = 64,
+        NND_CAMERATYPE_MEMBER_ROLL = 128,
+        NND_CAMERATYPE_MEMBER_UPVECTOR = 256,
+        NND_CAMERATYPE_MEMBER_UPTARGET = 512,
+        NND_CAMERATYPE_MEMBER_ROTTYPE = 1024,
+        NND_CAMERATYPE_MEMBER_ROTATION = 2048,
+        NND_CAMERATYPE_MEMBER_COMMON = 63,
+        NND_CAMERATYPE_ROTATION = 3135,
+        NND_CAMERATYPE_TARGET_ROLL = 255,
+        NND_CAMERATYPE_TARGET_UPVECTOR = 383,
+        NND_CAMERATYPE_TARGET_UPTARGET = 639
+    }
+}

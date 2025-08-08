@@ -13,47 +13,58 @@
 # Building
 See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on the wiki.
 
-# Capabilities
+# Supported
 - AI
-    - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/AI/KynapseBigFile.cs) reading and writing
+    - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/AI/KynapseBigFile.cs)
 - Archive
-    - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs) reading and writing
-    - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs) reading and writing
+    - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs)
+    - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs)
 - Audio
-    - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs) reading and writing
+    - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs)
 - Event
-    - [Event Playbook (`*.epb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/EventPlaybook.cs) reading and writing
-    - [Time Event (`*.tev`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/TimeEvent.cs) reading and writing
+    - [Event Playbook (`*.epb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/EventPlaybook.cs)
+    - [Time Event (`*.tev`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/TimeEvent.cs)
 - Mesh
-    - [Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/Collision.cs) reading and writing
-    - [Ninja (`*.xna; *.xnd; *.xne; *.xnf; *.xng; *.xni; *.xnm; *.xno; *.xnv`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/Ninja/NinjaNext.cs) reading and writing
-    - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs) reading and writing
-    - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs) reading and writing
+    - [Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/Collision.cs)
+    - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs)
+    - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs)
+- Ninja
+    - [Camera (`*.xnc`, `*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraChunk.cs)
+    - [Camera Animation (`*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraMotionChunk.cs)
+    - [Effect List (`*.xne`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/EffectListChunk.cs)
+    - [Light (`*.xni`, `*.xnl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/LightChunk.cs)
+    - [Light Animation (`*.xni`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/LightMotionChunk.cs)
+    - [Material Animation (`*.xnv`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MaterialMotionChunk.cs)
+    - [Morph Animation (`*.xnf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MorphMotionChunk.cs)
+    - [Morph Target (`*.xng`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MorphTargetChunk.cs)
+    - [Node Animation (`*.xnm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MotionChunk.cs)
+    - [Node Name (`*.xna`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/NodeNameChunk.cs)
+    - [Object (`*.xno`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/ObjectChunk.cs)
+    - [Texture List (`*.xnt`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/TextureListChunk.cs)
 - Parameter
-    - [Enemy Parameter List (`ScriptParameter.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/EnemyParameterList.cs) reading and writing
-    - [Enemy Shot Parameter List (`ShotParameter.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/EnemyShotParameterList.cs) reading and writing
-    - [Object Explosion Parameter List (`Explosion.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/ObjectExplosionParameterList.cs) reading and writing
-    - [Object Physics Parameter List (`Common.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/ObjectPhysicsParameterList.cs) reading and writing
-    - [Package (`*.pkg`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Parameter/Package.cs) reading and writing
-    - [Path Object Parameter List (`PathObj.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/PathObjParameterList.cs) reading and writing
+    - [Enemy Parameter List (`ScriptParameter.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/EnemyParameterList.cs)
+    - [Enemy Shot Parameter List (`ShotParameter.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/EnemyShotParameterList.cs)
+    - [Object Explosion Parameter List (`Explosion.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/ObjectExplosionParameterList.cs)
+    - [Object Physics Parameter List (`Common.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/ObjectPhysicsParameterList.cs)
+    - [Package (`*.pkg`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Parameter/Package.cs)
+    - [Path Object Parameter List (`PathObj.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Package/PathObjParameterList.cs)
 - Particle
-    - [Particle Container (`*.plc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleContainer.cs) reading and writing
-    - [Particle Effect Bank (`*.peb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleEffectBank.cs) reading and writing
-    - [Particle Global Settings (`*.pgs`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleGlobalSettings.cs) reading and writing
-    - [Particle Texture Bank (`*.ptb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleTextureBank.cs) reading and writing
+    - [Particle Container (`*.plc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleContainer.cs)
+    - [Particle Effect Bank (`*.peb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleEffectBank.cs)
+    - [Particle Global Settings (`*.pgs`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleGlobalSettings.cs)
+    - [Particle Texture Bank (`*.ptb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Particle/ParticleTextureBank.cs)
 - Placement
-    - [Prop Library (`*.prop`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Placement/PropLibrary.cs) reading and writing
-    - [Stage Set (`*.set`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Placement/StageSet.cs) reading and writing    
+    - [Prop Library (`*.prop`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Placement/PropLibrary.cs)
+    - [Stage Set (`*.set`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Placement/StageSet.cs)
 - Save
-    - [Save Data (`SonicNextSaveData.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Save/SonicNextSaveData.cs) reading and writing
+    - [Save Data (`SonicNextSaveData.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Save/SonicNextSaveData.cs)
 - Script
-    - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Script/Lua/LuaBinary.cs) reading and decompiling
+    - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Script/Lua/LuaBinary.cs)
 - Text
-    - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextBook.cs) reading and writing
-    - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontPicture.cs) reading and writing
+    - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextBook.cs)
+    - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontPicture.cs)
 	
 # Unsupported
-
 Marathon currently doesn't support *every* format, despite the above list already being pretty large.
 
 ### Adaptive Transform Acoustic Coding 3 (ATRAC3)
