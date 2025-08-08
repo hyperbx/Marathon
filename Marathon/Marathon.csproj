@@ -54,7 +54,12 @@
     <Compile Include="Formats\Event\EventPlaybook.cs" />
     <Compile Include="Formats\Event\TimeEvent.cs" />
     <Compile Include="Formats\Mesh\LandCollision.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\CameraMotionChunk.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\LightMotionChunk.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\MaterialMotionChunk.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\MorphMotionChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\MorphTargetChunk.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Chunks\MotionChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\NodeNameChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Flags\BlendMode.cs" />
     <Compile Include="Formats\Mesh\Ninja\Flags\BlendOperation.cs" />
@@ -87,6 +92,8 @@
     <Compile Include="Formats\Mesh\Ninja\Chunks\TextureListChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Chunks\UndefinedChunk.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\DataHeader.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\Keyframe.cs" />
+    <Compile Include="Formats\Mesh\Ninja\Types\KeyframeFactory.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\Material.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialColour.cs" />
     <Compile Include="Formats\Mesh\Ninja\Types\MaterialLogic.cs" />

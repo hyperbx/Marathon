@@ -10,8 +10,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public const string ID = "NXMT";
 
-        public string ChunkID { get; set; } = ID;
-
         public List<MorphTarget> MorphTargets { get; set; } = [];
 
         public MorphTargetChunk() { }
@@ -25,8 +23,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         {
             var header = in_reader.ReadObject<DataHeader>();
 
-            if (!header.ID.Equals(ID))
-                throw new InvalidSignatureException(ID, header.ID);
+            if (!header.ID.Equals(GetChunkID()))
+                throw new InvalidSignatureException(GetChunkID(), header.ID);
 
             in_reader.JumpTo(InfoChunk.Size + header.DataOffset);
 
@@ -41,7 +39,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var header = new DataHeader(in_writer, ID, 0);
+            var header = new DataHeader(in_writer, GetChunkID(), 0);
             var verticesOffsets = new List<uint>();
             var vertexListOffsets = new List<uint>();
             var morphTargetOffsets = new List<uint>();
@@ -84,6 +82,11 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             var chunkSize = chunkEnd - header.GetChunkStart();
 
             header.FinishWrite(in_writer, chunkSize, dataOffset);
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 

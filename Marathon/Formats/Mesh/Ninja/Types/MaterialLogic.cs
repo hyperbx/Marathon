@@ -1,5 +1,4 @@
-﻿using Amicitia.IO.Binary;
-using Marathon.Formats.Mesh.Ninja.Flags;
+﻿using Marathon.Formats.Mesh.Ninja.Flags;
 using Marathon.IO;
 
 namespace Marathon.Formats.Mesh.Ninja.Types

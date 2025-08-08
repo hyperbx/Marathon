@@ -11,8 +11,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public const string ID = "NXEF";
 
-        public string ChunkID { get; set; } = ID;
-
         public uint Type { get; set; }
 
         public List<Effect> Effects { get; set; } = [];
@@ -126,6 +124,11 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_writer.Align(16);
 
             in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 

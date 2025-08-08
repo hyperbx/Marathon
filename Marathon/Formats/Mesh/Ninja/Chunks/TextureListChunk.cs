@@ -13,8 +13,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public const string ID = "NXTL";
 
-        public string ChunkID { get; set; } = ID;
-
         public List<TextureFile> Textures { get; set; } = [];
 
         public TextureListChunk() { }
@@ -77,6 +75,11 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             in_writer.Align(16);
 
             in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 

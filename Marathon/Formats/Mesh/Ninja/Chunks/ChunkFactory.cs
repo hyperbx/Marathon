@@ -24,6 +24,21 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
                 case ObjectChunk.ID:
                     return new ObjectChunk(in_reader);
 
+                case MotionChunk.ID:
+                    return new MotionChunk(in_reader);
+
+                case MaterialMotionChunk.ID:
+                    return new MaterialMotionChunk(in_reader);
+
+                case CameraMotionChunk.ID:
+                    return new CameraMotionChunk(in_reader);
+
+                case LightMotionChunk.ID:
+                    return new LightMotionChunk(in_reader);
+
+                case MorphMotionChunk.ID:
+                    return new MorphMotionChunk(in_reader);
+
                 case MorphTargetChunk.ID:
                     return new MorphTargetChunk(in_reader);
 

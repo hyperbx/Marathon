@@ -8,7 +8,7 @@ using System.IO;
 // Format names:        Ninja Next (speculatory)
 // Format references:   Sonicteam::NN
 // Format designers:    SEGA Consumer Research and Development Dept. #2
-// Format researchers:  Radfordhound, ItsEasyActually, ArMM1998, Shadowth117, Knuxfan24
+// Format researchers:  Radfordhound, ItsEasyActually, ArMM1998, Shadowth117, Knuxfan24, Hyper
 
 namespace Marathon.Formats.Mesh.Ninja
 {
@@ -33,12 +33,12 @@ namespace Marathon.Formats.Mesh.Ninja
         {
             get
             {
-                var chunk = Info.Chunks.Find(x => x.ChunkID == in_id);
+                var chunk = Info.Chunks.Find(x => x.GetChunkID() == in_id);
 
                 if (chunk != default)
                     return chunk;
 
-                var extraChunk = Info.ExtraChunks.Find(x => x.ChunkID == in_id);
+                var extraChunk = Info.ExtraChunks.Find(x => x.GetChunkID() == in_id);
 
                 if (extraChunk != default)
                     return extraChunk;
@@ -69,7 +69,7 @@ namespace Marathon.Formats.Mesh.Ninja
             var offsetChunk = new OffsetChunk();
 
             foreach (var offset in writer.Offsets)
-                offsetChunk.Offsets.Add((uint)offset.Value - 0x20);
+                offsetChunk.Offsets.Add((uint)(offset.Value - InfoChunk.Size));
 
             offsetChunk.Offsets.Sort();
 

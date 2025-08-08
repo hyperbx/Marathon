@@ -10,8 +10,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public const string ID = "NEND";
 
-        public string ChunkID { get; set; } = ID;
-
         public EndChunk() { }
 
         public EndChunk(BinaryObjectReaderEx in_reader)
@@ -36,6 +34,11 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             var length = in_writer.Reserve<uint>();
             in_writer.Align(16);
             in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 }

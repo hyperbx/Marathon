@@ -18,8 +18,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public const int Size = 0x20;
 
-        public string ChunkID { get; set; } = ID;
-
         public int Version { get; set; } = 1;
 
         public List<IChunk> Chunks { get; set; } = [];
@@ -78,7 +76,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
             // Jump to next chunk.
             in_reader.JumpTo(pos + nextChunkLength + 8);
 
-            return chunk.ChunkID != EndChunk.ID;
+            return chunk.GetChunkID() != EndChunk.ID;
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -107,7 +105,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         {
             foreach (var chunk in ExtraChunks)
             {
-                var isOffsetChunk = chunk.ChunkID == OffsetChunk.ID;
+                var isOffsetChunk = chunk.GetChunkID() == OffsetChunk.ID;
                 var offsetChunkPos = (uint)in_writer.Position;
 
                 if (isOffsetChunk)
@@ -122,6 +120,11 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
                 if (isOffsetChunk)
                     in_writer.WriteReserved(_offsetChunkLength, (uint)(in_writer.Position - offsetChunkPos));
             }
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 }

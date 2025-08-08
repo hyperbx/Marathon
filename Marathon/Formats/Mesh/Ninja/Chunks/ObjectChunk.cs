@@ -12,8 +12,6 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
     {
         public const string ID = "NXOB";
 
-        public string ChunkID { get; set; } = ID;
-
         public int Version { get; set; }
 
         public Vector3 Centre { get; set; }
@@ -51,8 +49,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         {
             var header = in_reader.ReadObject<DataHeader>();
 
-            if (!header.ID.Equals(ID))
-                throw new InvalidSignatureException(ID, header.ID);
+            if (!header.ID.Equals(GetChunkID()))
+                throw new InvalidSignatureException(GetChunkID(), header.ID);
 
             var verticesLength = in_reader.Read<uint>();
             var verticesOffset = in_reader.Read<uint>();
@@ -124,7 +122,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var header = new DataHeader(in_writer, ID, Version);
+            var header = new DataHeader(in_writer, GetChunkID(), Version);
             var verticesLength = in_writer.Reserve<uint>();
             var verticesOffset = in_writer.Reserve<uint>();
 
@@ -305,12 +303,16 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Align(16);
 
-            var chunkEnd = (uint)in_writer.Position;
-            var chunkSize = chunkEnd - header.GetChunkStart();
-
             in_writer.WriteReserved(verticesLength, vertexTableLength);
 
+            var chunkSize = (uint)(in_writer.Position - header.GetChunkStart());
+
             header.FinishWrite(in_writer, chunkSize, dataOffset, Version);
+        }
+
+        public virtual string GetChunkID()
+        {
+            return ID;
         }
     }
 }
