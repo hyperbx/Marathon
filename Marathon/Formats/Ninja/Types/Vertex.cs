@@ -17,9 +17,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Normals { get; set; }
 
-        public ARGB8 VertexColoursA { get; set; }
+        public ARGB8? VertexColoursA { get; set; }
 
-        public ARGB8 VertexColoursB { get; set; }
+        public ARGB8? VertexColoursB { get; set; }
 
         public List<Vector2> TextureCoordinates { get; set; }
 

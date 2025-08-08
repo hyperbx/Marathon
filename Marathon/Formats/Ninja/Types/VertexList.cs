@@ -136,10 +136,10 @@ namespace Marathon.Formats.Ninja.Types
                     in_writer.Write(vertex.Normals.Value);
 
                 if (vertex.VertexColoursA != null)
-                    in_writer.WriteBytes(vertex.VertexColoursA);
+                    in_writer.Write(vertex.VertexColoursA.Value);
 
                 if (vertex.VertexColoursB != null)
-                    in_writer.WriteBytes(vertex.VertexColoursB);
+                    in_writer.Write(vertex.VertexColoursB.Value);
 
                 if (vertex.TextureCoordinates != null)
                 {
