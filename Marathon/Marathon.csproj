@@ -50,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Formats\Archive\DDM.cs" />
     <Compile Include="Formats\Audio\SoundBank.cs" />
     <Compile Include="Formats\Event\EventPlaybook.cs" />
     <Compile Include="Formats\Event\TimeEvent.cs" />

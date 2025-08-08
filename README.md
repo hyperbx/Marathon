@@ -18,6 +18,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/AI/KynapseBigFile.cs) reading and writing
 - Archive
     - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs) reading and writing
+    - [DDM (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DDM.cs) reading and writing
 - Audio
     - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs) reading and writing
 - Event
@@ -60,9 +61,6 @@ The `*.at3` format is Sony's proprietary audio format used for the PlayStation 3
 
 ### Cue Sheet Binary
 The `*.csb` format is part of CRIWARE's ADX middleware. There are currently no plans for Marathon to support this, as there would be better maintained open-source alternatives that aren't specific to this game.
-
-### Proprietary Sonic Team texture container
-The `*.ddm` format is a basic container that stores the names of textures per index and all of the texture data that pertains to them in the DirectDraw Surface format. It was supported by Marathon at one point, but only had reading capabilities.
 
 ### DirectDraw Surface
 The `*.dds` format is for textures. There are no plans for Marathon to support this, there is plenty of software that can create these files already.
