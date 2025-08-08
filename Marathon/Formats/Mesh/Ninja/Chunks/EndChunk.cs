@@ -8,7 +8,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class EndChunk : IChunk
     {
-        public const string ID = "NEND";
+        public const string ID = "NEND"; // Ninja END
 
         public EndChunk() { }
 

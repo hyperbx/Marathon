@@ -9,7 +9,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class TextureListChunk : IChunk
     {
-        public const string ID = "NXTL";
+        public const string ID = "NXTL"; // Ninja directX Texture List
 
         public List<TextureFile> Textures { get; set; } = [];
 

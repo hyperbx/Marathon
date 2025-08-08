@@ -4,7 +4,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class CameraMotionChunk : MotionChunk
     {
-        public new const string ID = "NXMC";
+        public new const string ID = "NXMC"; // Ninja directX Motion Camera
 
         public CameraMotionChunk() { }
 

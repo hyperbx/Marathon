@@ -4,7 +4,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class MaterialMotionChunk : MotionChunk
     {
-        public new const string ID = "NXMA";
+        public new const string ID = "NXMA"; // Ninja directX Motion mAterial
 
         public MaterialMotionChunk() { }
 

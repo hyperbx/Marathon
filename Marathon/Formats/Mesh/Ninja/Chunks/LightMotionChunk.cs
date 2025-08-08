@@ -4,7 +4,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class LightMotionChunk : MotionChunk
     {
-        public new const string ID = "NXML";
+        public new const string ID = "NXML"; // Ninja directX Motion Light
 
         public LightMotionChunk() { }
 

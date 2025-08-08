@@ -9,7 +9,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class OffsetChunk : IChunk
     {
-        public const string ID = "NOF0";
+        public const string ID = "NOF0"; // Ninja OFfset
 
         public List<uint> Offsets { get; set; } = [];
 

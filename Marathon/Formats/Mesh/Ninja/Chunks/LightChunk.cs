@@ -8,7 +8,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class LightChunk : IChunk
     {
-        public const string ID = "NXLI";
+        public const string ID = "NXLI"; // Ninja directX LIght
 
         public LightType Type { get; set; }
 

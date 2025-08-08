@@ -8,7 +8,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class MorphTargetChunk : IChunk
     {
-        public const string ID = "NXMT";
+        public const string ID = "NXMT"; // Ninja directX Morph Target
 
         public List<MorphTarget> MorphTargets { get; set; } = [];
 

@@ -14,7 +14,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         private uint _offsetChunkOffset;
         private uint _offsetChunkLength;
 
-        public const string ID = "NXIF";
+        public const string ID = "NXIF"; // Ninja directX InFo
 
         public const int Size = 0x20;
 

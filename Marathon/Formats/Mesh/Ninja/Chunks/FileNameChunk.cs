@@ -8,7 +8,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class FileNameChunk : IChunk
     {
-        public const string ID = "NFN0";
+        public const string ID = "NFN0"; // Ninja File Name
 
         public string Name { get; set; }
 

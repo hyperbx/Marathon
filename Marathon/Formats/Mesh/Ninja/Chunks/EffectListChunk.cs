@@ -2,7 +2,6 @@
 using Marathon.Formats.Mesh.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Marathon.IO.Types;
 using System.Collections.Generic;
 using System.IO;
 
@@ -10,7 +9,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 {
     public class EffectListChunk : IChunk
     {
-        public const string ID = "NXEF";
+        public const string ID = "NXEF"; // Ninja directX EFfect
 
         public uint Type { get; set; }
 
