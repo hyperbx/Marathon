@@ -29,15 +29,12 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var chunkSignature = in_reader.Read<FourCC>();
-            var chunkLength = in_reader.Read<uint>();
+            var header = in_reader.ReadObject<DataHeader>();
 
-            if (!chunkSignature.Equals(ID))
-                throw new InvalidSignatureException(ID, chunkSignature);
+            if (!header.ID.Equals(GetChunkID()))
+                throw new InvalidSignatureException(GetChunkID(), header.ID);
 
-            var infoOffset = in_reader.Read<uint>();
-
-            in_reader.Seek(InfoChunk.Size + infoOffset, SeekOrigin.Begin);
+            in_reader.Seek(InfoChunk.Size + header.DataOffset, SeekOrigin.Begin);
 
             Type = in_reader.Read<uint>();
 
@@ -68,12 +65,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteSignature(ID);
-
-            var length = in_writer.Reserve<uint>();
-            var infoOffset = in_writer.Reserve<uint>();
-
-            in_writer.Align(16);
+            var header = new DataHeader(in_writer, GetChunkID(), 0);
 
             var effectsOffset = (int)(in_writer.Position - InfoChunk.Size);
             var effectsOffsets = new List<long>();
@@ -94,7 +86,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Align(4);
 
-            in_writer.WriteReserved(infoOffset, (int)(in_writer.Position - InfoChunk.Size));
+            var dataOffset = (uint)(in_writer.Position - InfoChunk.Size);
 
             in_writer.Write(Type);
 
@@ -124,7 +116,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Align(16);
 
-            in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+            header.FinishWrite(in_writer, dataOffset);
         }
 
         public virtual string GetChunkID()

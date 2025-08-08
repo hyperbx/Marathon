@@ -29,10 +29,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteSignature(ID);
-            var length = in_writer.Reserve<uint>();
-            in_writer.Align(16);
-            in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+            new DataHeader(in_writer, GetChunkID(), 0).FinishWrite(in_writer, 0);
         }
 
         public virtual string GetChunkID()

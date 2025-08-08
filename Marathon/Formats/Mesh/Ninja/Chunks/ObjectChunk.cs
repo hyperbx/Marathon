@@ -123,6 +123,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         public void Write(BinaryObjectWriterEx in_writer)
         {
             var header = new DataHeader(in_writer, GetChunkID(), Version);
+
             var verticesLength = in_writer.Reserve<uint>();
             var verticesOffset = in_writer.Reserve<uint>();
 

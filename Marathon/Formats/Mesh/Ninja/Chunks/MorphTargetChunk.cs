@@ -40,6 +40,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
         public void Write(BinaryObjectWriterEx in_writer)
         {
             var header = new DataHeader(in_writer, GetChunkID(), 0);
+
             var verticesOffsets = new List<uint>();
             var vertexListOffsets = new List<uint>();
             var morphTargetOffsets = new List<uint>();

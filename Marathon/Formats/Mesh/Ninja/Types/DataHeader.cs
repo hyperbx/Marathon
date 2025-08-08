@@ -1,5 +1,4 @@
 ﻿using Amicitia.IO.Binary;
-using Marathon.Formats.Script.Lua.Types;
 using Marathon.IO;
 using Marathon.IO.Types;
 

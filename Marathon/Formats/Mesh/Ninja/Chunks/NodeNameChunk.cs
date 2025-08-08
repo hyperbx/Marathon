@@ -1,8 +1,8 @@
 ﻿using Marathon.Exceptions;
 using Marathon.Formats.Mesh.Ninja.Flags;
+using Marathon.Formats.Mesh.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Marathon.IO.Types;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Mesh.Ninja.Chunks
@@ -24,15 +24,12 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var chunkSignature = in_reader.Read<FourCC>();
-            var chunkLength = in_reader.Read<uint>();
+            var header = in_reader.ReadObject<DataHeader>();
 
-            if (!chunkSignature.Equals(ID))
-                throw new InvalidSignatureException(ID, chunkSignature);
+            if (!header.ID.Equals(GetChunkID()))
+                throw new InvalidSignatureException(GetChunkID(), header.ID);
 
-            var infoOffset = in_reader.Read<uint>();
-
-            in_reader.JumpTo(InfoChunk.Size + infoOffset);
+            in_reader.JumpTo(InfoChunk.Size + header.DataOffset);
 
             Type = in_reader.Read<NodeNameSortType>();
 
@@ -53,12 +50,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteSignature(ID);
-
-            var length = in_writer.Reserve<uint>();
-            var infoOffset = in_writer.Reserve<uint>();
-
-            in_writer.Align(16);
+            var header = new DataHeader(in_writer, GetChunkID(), 0);
 
             var nodeListPos = (uint)in_writer.Position;
             var nodeNameOffsets = new List<uint>();
@@ -69,8 +61,8 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
                 nodeNameOffsets.Add(in_writer.Reserve<uint>());
             }
 
-            in_writer.WriteReserved(infoOffset, (uint)(in_writer.Position - InfoChunk.Size));
-            
+            var dataPos = (uint)(in_writer.Position - InfoChunk.Size);
+
             in_writer.Write(Type);
             in_writer.Write(Names.Count);
             var nodeListOffset = in_writer.Reserve<uint>();
@@ -84,7 +76,7 @@ namespace Marathon.Formats.Mesh.Ninja.Chunks
 
             in_writer.Align(16);
 
-            in_writer.WriteReserved(length, (int)(in_writer.Position - (length + 4)));
+            header.FinishWrite(in_writer, dataPos);
         }
 
         public virtual string GetChunkID()
