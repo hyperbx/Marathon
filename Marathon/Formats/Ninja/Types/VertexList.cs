@@ -80,7 +80,7 @@ namespace Marathon.Formats.Ninja.Types
 
             _dataOffset = (uint)(in_writer.Position - InfoChunk.Size);
 
-            in_writer.Write(Format);
+            in_writer.Write(GetVertexFormat());
             in_writer.Write(FlexibleFormat);
             in_writer.Write(GetVertexSize());
             in_writer.Write(Vertices.Count);
@@ -155,6 +155,43 @@ namespace Marathon.Formats.Ninja.Types
             }
 
             return verticesOffset;
+        }
+
+        public VertexFormat GetVertexFormat()
+        {
+            VertexFormat result = 0;
+
+            if (Vertices.Count <= 0)
+                return result;
+
+            if (Vertices[0].Position != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_POSITION;
+
+            if (Vertices[0].Weight != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_WEIGHT3;
+
+            if (Vertices[0].MatrixIndices != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_MTX_INDEX4;
+
+            if (Vertices[0].Normals != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_NORMAL;
+
+            if (Vertices[0].VertexColoursA != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_COLOR;
+
+            if (Vertices[0].VertexColoursB != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_COLOR2;
+
+            if (Vertices[0].TextureCoordinates != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_TEXCOORD;
+
+            if (Vertices[0].Tangent != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_TANGENT;
+
+            if (Vertices[0].Binormals != null)
+                result |= VertexFormat.NND_VTXTYPE_XB_BINORMAL;
+
+            return result;
         }
 
         public int GetVertexSize()
