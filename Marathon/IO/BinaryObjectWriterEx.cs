@@ -137,8 +137,10 @@ namespace Marathon.IO
             if (!Offsets.ContainsValue(in_offset))
                 return;
 
-            foreach (var item in Offsets.Where(x => x.Value == in_offset))
-                Offsets.Remove(item.Key);
+            var offsets = Offsets.Where(x => x.Value == in_offset);
+
+            for (int i = 0; i < offsets.Count(); i++)
+                Offsets.Remove(offsets.ElementAt(i).Key);
         }
 
         /// <summary>
