@@ -1,5 +1,4 @@
 ﻿using Marathon.Formats.Ninja.Flags;
-using Marathon.Formats.Script.Lua.Types;
 using Marathon.IO;
 using System.Numerics;
 

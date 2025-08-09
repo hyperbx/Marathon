@@ -58,6 +58,7 @@ namespace Marathon.IO
         /// <summary>
         /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
         /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_name">The name of the reserved offset.</param>
         /// <param name="in_offset">The offset to reserve.</param>
         public unsafe T Reserve<T>(string in_name, long in_offset) where T : unmanaged
@@ -68,6 +69,7 @@ namespace Marathon.IO
         /// <summary>
         /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
         /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_name">The name of the reserved offset.</param>
         public unsafe T Reserve<T>(string in_name) where T : unmanaged
         {
@@ -104,6 +106,7 @@ namespace Marathon.IO
         /// <summary>
         /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
         /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_offset">The offset to reserve.</param>
         /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public unsafe T Reserve<T>(long in_offset, bool in_isLocal = false) where T : unmanaged
@@ -114,6 +117,7 @@ namespace Marathon.IO
         /// <summary>
         /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
         /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
         public unsafe T Reserve<T>(bool in_isLocal = false) where T : unmanaged
         {

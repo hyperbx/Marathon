@@ -10,7 +10,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class OffsetChunk : IChunk, IList<uint>
     {
-        public const string ID = "NOF0"; // Ninja OFfset
+        public const string ID = "NOF0"; // "Ninja OFfset"
 
         public List<uint> Offsets { get; set; } = [];
 

@@ -8,7 +8,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class CameraChunk : IChunk
     {
-        public const string ID = "NXCA"; // Ninja directX CAmera
+        public const string ID = "NXCA"; // "Ninja directX CAmera"
 
         public CameraType Type { get; set; }
 

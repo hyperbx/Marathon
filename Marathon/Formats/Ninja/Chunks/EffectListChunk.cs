@@ -9,7 +9,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class EffectListChunk : IChunk
     {
-        public const string ID = "NXEF"; // Ninja directX EFfect
+        public const string ID = "NXEF"; // "Ninja directX EFfect"
 
         public uint Type { get; set; }
 

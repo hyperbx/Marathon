@@ -10,7 +10,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class NodeNameChunk : IChunk, IList<string>
     {
-        public const string ID = "NXNN"; // Ninja directX Node Name
+        public const string ID = "NXNN"; // "Ninja directX Node Name"
 
         public NodeNameSortType Type { get; set; }
 

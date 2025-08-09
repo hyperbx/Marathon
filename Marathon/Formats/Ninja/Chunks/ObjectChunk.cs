@@ -10,7 +10,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class ObjectChunk : IChunk
     {
-        public const string ID = "NXOB"; // Ninja directX OBject
+        public const string ID = "NXOB"; // "Ninja directX OBject"
 
         public int Version { get; set; }
 

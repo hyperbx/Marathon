@@ -4,7 +4,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class MorphMotionChunk : MotionChunk
     {
-        public new const string ID = "NXMM"; // Ninja directX Motion Morph
+        public new const string ID = "NXMM"; // "Ninja directX Motion Morph"
 
         public MorphMotionChunk() { }
 

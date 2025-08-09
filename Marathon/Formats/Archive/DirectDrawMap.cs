@@ -1,10 +1,8 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
-using Marathon.Exceptions;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Marathon.IO.Types;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,9 +19,9 @@ namespace Marathon.Formats.Archive
     /// </summary>
     public class DirectDrawMap : FileBase, IList<DirectDrawMapFile>
     {
-        private const string _signature = "DDM ";              // DirectDraw Map (speculatory)
-        private const string _fileNameChunkSignature = "DSFN"; // Directdraw Surface File Name (speculatory)
-        private const string _dataChunkSignature = "DSCK";     // Directdraw Surface ChunK (speculatory)
+        private const string _signature = "DDM ";              // "DirectDraw Map" (speculatory)
+        private const string _fileNameChunkSignature = "DSFN"; // "Directdraw Surface File Name" (speculatory)
+        private const string _dataChunkSignature = "DSCK";     // "Directdraw Surface ChunK" (speculatory)
 
         public List<DirectDrawMapFile> Files { get; set; } = [];
 
@@ -58,10 +56,7 @@ namespace Marathon.Formats.Archive
 
             reader.Align(16);
 
-            var fileNameChunkSignature = reader.Read<FourCC>();
-
-            if (!fileNameChunkSignature.Equals(_fileNameChunkSignature))
-                throw new InvalidSignatureException(_fileNameChunkSignature, fileNameChunkSignature);
+            reader.CheckSignature(_fileNameChunkSignature);
 
             reader.Align(16);
 
@@ -74,10 +69,7 @@ namespace Marathon.Formats.Archive
 
             for (int i = 0; i < fileCount; i++)
             {
-                var dataChunkSignature = reader.Read<FourCC>();
-
-                if (!dataChunkSignature.Equals(_dataChunkSignature))
-                    throw new InvalidSignatureException(_dataChunkSignature, dataChunkSignature);
+                reader.CheckSignature(_dataChunkSignature);
 
                 var dataChunkLength = reader.Read<int>();
                 var dataLength = reader.Read<int>();

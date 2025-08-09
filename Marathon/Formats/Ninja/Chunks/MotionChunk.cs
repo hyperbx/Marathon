@@ -9,7 +9,7 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class MotionChunk : IChunk
     {
-        public const string ID = "NXMO"; // Ninja directX MOtion
+        public const string ID = "NXMO"; // "Ninja directX MOtion"
 
         public MotionType Type { get; set; }
 
