@@ -17,27 +17,26 @@ namespace Marathon.Formats.Archive
     /// <summary>
     /// Support for *.ddm files; used for storing DirectDraw Surface textures by name.
     /// </summary>
-    public class DirectDrawMap : FileBase, IList<DirectDrawMapFile>
+    public class DirectDrawMap : FileBase, IDictionary<string, byte[]>
     {
         private const string _signature = "DDM ";              // "DirectDraw Map" (speculatory)
         private const string _fileNameChunkSignature = "DSFN"; // "Directdraw Surface File Name" (speculatory)
         private const string _dataChunkSignature = "DSCK";     // "Directdraw Surface ChunK" (speculatory)
 
-        public List<DirectDrawMapFile> Files { get; set; } = [];
+        public Dictionary<string, byte[]> Files { get; set; } = [];
+
+        public ICollection<string> Keys => Files.Keys;
+
+        public ICollection<byte[]> Values => Files.Values;
 
         public int Count => Files.Count;
 
         public bool IsReadOnly => false;
 
-        public DirectDrawMapFile this[int in_index]
+        public byte[] this[string in_key]
         {
-            get => Files[in_index];
-            set => Files[in_index] = value;
-        }
-
-        public DirectDrawMapFile this[string in_name]
-        {
-            get => Files.Find(x => x.Name == in_name);
+            get => Files[in_key];
+            set => Files[in_key] = value;
         }
 
         public DirectDrawMap() { }
@@ -80,7 +79,7 @@ namespace Marathon.Formats.Archive
 
                 reader.Align(16);
 
-                Files.Add(new(fileNames[i], data));
+                Files.Add(fileNames[i], data);
             }
         }
 
@@ -102,7 +101,7 @@ namespace Marathon.Formats.Archive
             writer.Align(16);
 
             foreach (var file in Files)
-                writer.WriteStringNullTerminated(file.Name);
+                writer.WriteStringNullTerminated(file.Key);
 
             writer.Align(16);
 
@@ -118,7 +117,7 @@ namespace Marathon.Formats.Archive
 
                 var dataStart = writer.Position;
 
-                writer.WriteBytes(file.Data);
+                writer.WriteBytes(file.Value);
                 writer.WriteReserved(dataLength, (uint)(writer.Position - dataStart));
 
                 writer.Align(16);
@@ -133,7 +132,7 @@ namespace Marathon.Formats.Archive
                 throw new DirectoryNotFoundException($"The specified directory does not exist: {in_path}");
 
             foreach (var file in Directory.GetFiles(in_path, "*.dds", SearchOption.TopDirectoryOnly))
-                Files.Add(new(Path.GetFileName(file), File.ReadAllBytes(file)));
+                Files.Add(Path.GetFileName(file), File.ReadAllBytes(file));
         }
 
         public override void Export(string in_path = "")
@@ -144,27 +143,32 @@ namespace Marathon.Formats.Archive
             var dir = Directory.CreateDirectory(FileSystemHelper.TruncateAllExtensions(in_path));
 
             foreach (var file in Files)
-                File.WriteAllBytes(Path.Combine(dir.FullName, file.Name), file.Data);
+                File.WriteAllBytes(Path.Combine(dir.FullName, file.Key), file.Value);
         }
 
-        public int IndexOf(DirectDrawMapFile in_item)
+        public void Add(string in_key, byte[] in_value)
         {
-            return Files.IndexOf(in_item);
+            Files.Add(in_key, in_value);
         }
 
-        public void Insert(int in_index, DirectDrawMapFile in_item)
+        public bool ContainsKey(string in_key)
         {
-            Files.Insert(in_index, in_item);
+            return Files.ContainsKey(in_key);
         }
 
-        public void RemoveAt(int in_index)
+        public bool Remove(string in_key)
         {
-            Files.RemoveAt(in_index);
+            return Files.Remove(in_key);
         }
 
-        public void Add(DirectDrawMapFile in_item)
+        public bool TryGetValue(string in_key, out byte[] out_value)
         {
-            Files.Add(in_item);
+            return Files.TryGetValue(in_key, out out_value);
+        }
+
+        public void Add(KeyValuePair<string, byte[]> in_item)
+        {
+            Files.Add(in_item.Key, in_item.Value);
         }
 
         public void Clear()
@@ -172,22 +176,22 @@ namespace Marathon.Formats.Archive
             Files.Clear();
         }
 
-        public bool Contains(DirectDrawMapFile in_item)
+        public bool Contains(KeyValuePair<string, byte[]> in_item)
         {
-            return Files.Contains(in_item);
+            return Files.ContainsKey(in_item.Key) && Files.ContainsValue(in_item.Value);
         }
 
-        public void CopyTo(DirectDrawMapFile[] in_array, int in_arrayIndex)
+        public void CopyTo(KeyValuePair<string, byte[]>[] in_array, int in_arrayIndex)
         {
-            Files.CopyTo(in_array, in_arrayIndex);
+            Extensions.CollectionExtensions.CopyTo(this, in_array, in_arrayIndex);
         }
 
-        public bool Remove(DirectDrawMapFile in_item)
+        public bool Remove(KeyValuePair<string, byte[]> in_item)
         {
-            return Files.Remove(in_item);
+            return Files.Remove(in_item.Key);
         }
 
-        public IEnumerator<DirectDrawMapFile> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, byte[]>> GetEnumerator()
         {
             return Files.GetEnumerator();
         }
@@ -195,26 +199,6 @@ namespace Marathon.Formats.Archive
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-    }
-
-    public class DirectDrawMapFile
-    {
-        public string Name { get; set; }
-
-        public byte[] Data { get; set; }
-
-        public DirectDrawMapFile() { }
-
-        public DirectDrawMapFile(string in_name, byte[] in_data)
-        {
-            Name = in_name;
-            Data = in_data;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }
