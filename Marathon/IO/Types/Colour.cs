@@ -1,4 +1,5 @@
 ﻿using Amicitia.IO.Binary;
+using System.Collections.Generic;
 
 namespace Marathon.IO.Types
 {
@@ -82,10 +83,10 @@ namespace Marathon.IO.Types
             if (in_obj is not Colour<TData, TFormat> out_colour)
                 return false;
 
-            return (object)R == (object)out_colour.R &&
-                   (object)G == (object)out_colour.G &&
-                   (object)B == (object)out_colour.B &&
-                   (object)A == (object)out_colour.A;
+            return EqualityComparer<TData>.Default.Equals(R, out_colour.R) &&
+                   EqualityComparer<TData>.Default.Equals(G, out_colour.G) &&
+                   EqualityComparer<TData>.Default.Equals(B, out_colour.B) &&
+                   EqualityComparer<TData>.Default.Equals(A, out_colour.A);
         }
     }
 
