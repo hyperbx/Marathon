@@ -19,7 +19,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public int PrimitiveListIndex { get; set; }
 
-        public int ShaderIndex { get; set; }
+        public int TechniqueIndex { get; set; }
 
         public MeshSet() { }
 
@@ -37,7 +37,7 @@ namespace Marathon.Formats.Ninja.Types
             MaterialIndex = in_reader.Read<int>();
             VertexListIndex = in_reader.Read<int>();
             PrimitiveListIndex = in_reader.Read<int>();
-            ShaderIndex = in_reader.Read<int>();
+            TechniqueIndex = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -49,7 +49,7 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(MaterialIndex);
             in_writer.Write(VertexListIndex);
             in_writer.Write(PrimitiveListIndex);
-            in_writer.Write(ShaderIndex);
+            in_writer.Write(TechniqueIndex);
         }
     }
 }
