@@ -10,7 +10,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public uint Type { get; set; }
 
-        public uint EffectIndex { get; set; }
+        public int EffectIndex { get; set; }
 
         public string Name { get; set; }
 
@@ -24,7 +24,7 @@ namespace Marathon.Formats.Ninja.Types
         public void Read(BinaryObjectReaderEx in_reader)
         {
             Type = in_reader.Read<uint>();
-            EffectIndex = in_reader.Read<uint>();
+            EffectIndex = in_reader.Read<int>();
 
             var nameOffset = in_reader.Read<uint>();
 
@@ -38,6 +38,11 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(EffectIndex);
 
             return in_writer.Reserve<uint>();
+        }
+
+        public Effect GetEffect(EffectListChunk in_effectListChunk)
+        {
+            return in_effectListChunk.Effects[EffectIndex];
         }
 
         public override string ToString()
