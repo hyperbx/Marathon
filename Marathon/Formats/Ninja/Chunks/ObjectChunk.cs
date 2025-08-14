@@ -28,11 +28,11 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public List<Node> Nodes { get; set; } = [];
 
-        public uint MatrixIndexCount { get; set; }
+        public int MatrixIndexCount { get; set; }
 
         public List<SubObject> SubObjects { get; set; } = [];
 
-        public uint TextureCount { get; set; }
+        public int TextureCount { get; set; }
 
         public uint? Type { get; set; }
 
@@ -70,10 +70,10 @@ namespace Marathon.Formats.Ninja.Chunks
             var nodeCount = in_reader.Read<uint>();
             MaxNodeDepth = in_reader.Read<uint>();
             var nodeOffset = in_reader.Read<uint>();
-            MatrixIndexCount = in_reader.Read<uint>();
+            MatrixIndexCount = in_reader.Read<int>();
             var subObjectCount = in_reader.Read<uint>();
             var subObjectOffset = in_reader.Read<uint>();
-            TextureCount = in_reader.Read<uint>();
+            TextureCount = in_reader.Read<int>();
 
             if (header.Version == 3)
             {

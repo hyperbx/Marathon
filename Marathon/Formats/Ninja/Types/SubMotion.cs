@@ -78,5 +78,10 @@ namespace Marathon.Formats.Ninja.Types
             foreach (var keyframe in Keyframes)
                 KeyframeFactory.WriteKeyframeByType(in_writer, Type, keyframe);
         }
+
+        public Node GetNode(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Nodes[NodeIndex];
+        }
     }
 }

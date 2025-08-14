@@ -36,7 +36,7 @@ namespace Marathon.Formats.Ninja.Types
             in_reader.JumpTo(InfoChunk.Size + meshSetOffset);
 
             for (int i = 0; i < meshSetCount; i++)
-                MeshSets.Add(new MeshSet(in_reader));
+                MeshSets.Add(new(in_reader));
 
             in_reader.JumpTo(InfoChunk.Size + textureIndicesOffset);
 
@@ -79,6 +79,16 @@ namespace Marathon.Formats.Ninja.Types
 
             foreach (var index in TextureIndices)
                 in_writer.Write(index);
+        }
+
+        public List<TextureFile> GetTextures(TextureListChunk in_textureListChunk)
+        {
+            var result = new List<TextureFile>();
+
+            foreach (var index in TextureIndices)
+                result.Add(in_textureListChunk.Textures[index]);
+
+            return result;
         }
     }
 }
