@@ -140,7 +140,7 @@ namespace Marathon.Formats.Archive
             if (string.IsNullOrEmpty(in_path))
                 in_path = Location;
 
-            var dir = Directory.CreateDirectory(FileSystemHelper.TruncateAllExtensions(in_path));
+            var dir = Directory.CreateDirectory(FilesystemHelper.TruncateAllExtensions(in_path));
 
             foreach (var file in Files)
                 File.WriteAllBytes(Path.Combine(dir.FullName, file.Key), file.Value);

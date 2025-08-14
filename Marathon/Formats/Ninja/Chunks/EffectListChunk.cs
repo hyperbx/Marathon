@@ -46,17 +46,17 @@ namespace Marathon.Formats.Ninja.Chunks
             var techniqueIndicesCount = in_reader.Read<uint>();
             var techniqueIndicesOffset = in_reader.Read<uint>();
 
-            in_reader.Seek(InfoChunk.Size + effectFileOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(InfoChunk.Size + effectFileOffset);
 
             for (int i = 0; i < effectFileCount; i++)
                 Effects.Add(new(in_reader));
 
-            in_reader.Seek(InfoChunk.Size + techniqueNameOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(InfoChunk.Size + techniqueNameOffset);
 
             for (int i = 0; i < techniqueNameCount; i++)
                 Techniques.Add(new(in_reader));
 
-            in_reader.Seek(InfoChunk.Size + techniqueIndicesOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(InfoChunk.Size + techniqueIndicesOffset);
 
             for (int i = 0; i < techniqueIndicesCount; i++)
                 TechniqueIndices.Add(in_reader.Read<short>());

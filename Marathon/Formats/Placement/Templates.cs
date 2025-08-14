@@ -103,7 +103,7 @@ namespace Marathon.Formats.Placement
                         }
                     }
 
-                    var dir = Directory.CreateDirectory(FileSystemHelper.GetDirectoryNameOfFileName(file));
+                    var dir = Directory.CreateDirectory(FilesystemHelper.GetDirectoryNameOfFileName(file));
 
                     hsonProject.Objects.Add(hsonObject);
                     hsonProject.Save(Path.Combine(dir.FullName, $"{actor.Name}.hson"), jsonOptions: new() { Indented = true });

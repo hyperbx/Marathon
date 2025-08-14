@@ -57,7 +57,7 @@ namespace Marathon.Formats.AI
 
             Root = JsonConvert.DeserializeObject<KynapseObject>(File.ReadAllText(in_path));
 
-            var binDirName = Path.GetFileName(FileSystemHelper.TruncateAllExtensions(in_path));
+            var binDirName = Path.GetFileName(FilesystemHelper.TruncateAllExtensions(in_path));
             var binDir = Path.Combine(Path.GetDirectoryName(in_path), binDirName);
 
             void WalkBinaries(KynapseObject in_object)
@@ -89,7 +89,7 @@ namespace Marathon.Formats.AI
                 in_path = Location;
 
             if (File.Exists(in_path))
-                in_path = FileSystemHelper.TruncateAllExtensions(in_path);
+                in_path = FilesystemHelper.TruncateAllExtensions(in_path);
 
             var dir = Directory.CreateDirectory(in_path);
             var name = Path.GetFileNameWithoutExtension(dir.FullName);
@@ -132,7 +132,7 @@ namespace Marathon.Formats.AI
 
                     File.WriteAllBytes(binFile, in_object.Data);
 
-                    in_object.File = '.' + FileSystemHelper.ConvertPathToUnix(binFile[dir.FullName.Length..]);
+                    in_object.File = '.' + FilesystemHelper.ConvertPathToUnix(binFile[dir.FullName.Length..]);
                 }
             }
 

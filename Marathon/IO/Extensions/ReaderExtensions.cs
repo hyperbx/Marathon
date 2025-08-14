@@ -13,70 +13,71 @@ namespace Marathon.IO.Extensions
             return in_reader.ReadArray<byte>(in_count);
         }
 
-        public static bool CheckSignature(byte[] in_expected, byte[] in_received, bool in_isExceptionOnInvalid = true)
+        public static bool CheckSignature(byte[] in_expected, byte[] in_received, bool in_throwExceptionOnInvalid = true)
         {
             if (in_expected.SequenceEqual(in_received))
                 return true;
 
-            if (in_isExceptionOnInvalid)
+            if (in_throwExceptionOnInvalid)
                 throw new InvalidSignatureException(in_expected, in_received);
 
             return false;
         }
 
-        public static bool CheckSignature(this BinaryValueReader in_reader, byte[] in_expected, bool in_isExceptionOnInvalid = true)
+        public static bool CheckSignature(this BinaryValueReader in_reader, byte[] in_expected, bool in_throwExceptionOnInvalid = true)
         {
-            return CheckSignature(in_expected, in_reader.ReadBytes(in_expected.Length), in_isExceptionOnInvalid);
+            return CheckSignature(in_expected, in_reader.ReadBytes(in_expected.Length), in_throwExceptionOnInvalid);
         }
 
-        public static bool CheckSignature<T>(T in_expected, T in_received, bool in_isExceptionOnInvalid = true) where T : unmanaged
+        public static bool CheckSignature<T>(T in_expected, T in_received, bool in_throwExceptionOnInvalid = true) where T : unmanaged
         {
             if (in_expected.Equals(in_received))
                 return true;
 
-            if (in_isExceptionOnInvalid)
+            if (in_throwExceptionOnInvalid)
                 throw new InvalidSignatureException(in_expected, in_received);
 
             return false;
         }
 
-        public static bool CheckSignature<T>(this BinaryValueReader in_reader, T in_expected, bool in_isExceptionOnInvalid = true) where T : unmanaged
+        public static bool CheckSignature<T>(this BinaryValueReader in_reader, T in_expected, bool in_throwExceptionOnInvalid = true) where T : unmanaged
         {
-            return CheckSignature(in_expected, in_reader.Read<T>(), in_isExceptionOnInvalid);
+            return CheckSignature(in_expected, in_reader.Read<T>(), in_throwExceptionOnInvalid);
         }
 
-        public static bool CheckSignature(string in_expected, string in_received, bool in_isExceptionOnInvalid = true)
+        public static bool CheckSignature(string in_expected, string in_received, bool in_throwExceptionOnInvalid = true)
         {
             if (in_expected.Equals(in_received))
                 return true;
 
-            if (in_isExceptionOnInvalid)
+            if (in_throwExceptionOnInvalid)
                 throw new InvalidSignatureException(in_expected, in_received);
 
             return false;
         }
 
-        public static bool CheckSignature(this BinaryValueReader in_reader, string in_expected, bool in_isExceptionOnInvalid = true)
+        public static bool CheckSignature(this BinaryValueReader in_reader, string in_expected, bool in_throwExceptionOnInvalid = true)
         {
             var str = in_reader.ReadString(StringBinaryFormat.FixedLength, in_expected.Length);
 
-            return CheckSignature(in_expected, str, in_isExceptionOnInvalid);
+            return CheckSignature(in_expected, str, in_throwExceptionOnInvalid);
         }
 
         public static Endianness GetEndiannessFromSignature<T>(this BinaryValueReader in_reader, T in_expected, T in_received) where T : unmanaged
         {
+            if (in_received.Equals(in_expected))
+                return in_reader.Endianness;
+
             var expectedReversed = BinaryHelper.SwapEndianness(in_expected);
 
             if (in_received.Equals(expectedReversed))
             {
-                return in_reader.Endianness == Endianness.Little
-                    ? Endianness.Big
-                    : Endianness.Little;
+                return in_reader.Endianness == Endianness.Big
+                    ? Endianness.Little
+                    : Endianness.Big;
             }
 
-            return in_reader.Endianness == Endianness.Big
-                ? Endianness.Little
-                : Endianness.Big;
+            throw new InvalidSignatureException(in_expected, in_received);
         }
 
         public static Endianness GetEndiannessFromSignature<T>(this BinaryValueReader in_reader, T in_expected) where T : unmanaged

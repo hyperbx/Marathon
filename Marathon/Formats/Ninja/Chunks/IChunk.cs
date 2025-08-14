@@ -8,7 +8,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         void Write(BinaryObjectWriterEx in_writer);
 
-        public virtual string GetChunkID()
+        virtual string GetChunkID()
         {
             return string.Empty;
         }

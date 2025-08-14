@@ -73,7 +73,7 @@ namespace Marathon.IO.Types
             }
         }
 
-        public Colour<TData, TFormat> Flip()
+        public readonly Colour<TData, TFormat> Flip()
         {
             return new Colour<TData, TFormat>(A, B, G, R);
         }
