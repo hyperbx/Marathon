@@ -1,4 +1,5 @@
-﻿using Marathon.IO;
+﻿using Marathon.Formats.Ninja.Chunks;
+using Marathon.IO;
 using System.Numerics;
 
 namespace Marathon.Formats.Ninja.Types
@@ -50,6 +51,31 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(VertexListIndex);
             in_writer.Write(PrimitiveListIndex);
             in_writer.Write(TechniqueIndex);
+        }
+
+        public Node GetNode(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Nodes[NodeIndex];
+        }
+
+        public Material GetMaterial(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Materials[MaterialIndex];
+        }
+
+        public VertexList GetVertexList(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.VertexLists[VertexListIndex];
+        }
+
+        public PrimitiveList GetPrimitiveList(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.PrimitiveLists[PrimitiveListIndex];
+        }
+
+        public Technique GetTechnique(EffectListChunk in_effectListChunk)
+        {
+            return in_effectListChunk.Techniques[in_effectListChunk.TechniqueIndices[TechniqueIndex]];
         }
     }
 }
