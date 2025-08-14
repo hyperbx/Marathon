@@ -75,7 +75,12 @@ namespace Marathon.Formats.Ninja.Types
 
         public Technique GetTechnique(EffectListChunk in_effectListChunk)
         {
-            return in_effectListChunk.Techniques[in_effectListChunk.TechniqueIndices[TechniqueIndex]];
+            var techniqueIndex = in_effectListChunk.TechniqueIndices[TechniqueIndex];
+
+            if (techniqueIndex < 0 || techniqueIndex >= in_effectListChunk.Techniques.Count)
+                return null;
+
+            return in_effectListChunk.Techniques[techniqueIndex];
         }
     }
 }
