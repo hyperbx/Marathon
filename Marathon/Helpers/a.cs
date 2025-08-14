@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Marathon.Helpers
 {
-    public class FileSystemHelper
+    public class FilesystemHelper
     {
         public static string ConvertPathToUnix(string in_path)
         {
