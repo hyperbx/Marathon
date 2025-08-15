@@ -10,6 +10,9 @@ using System.Text;
 // Format references:   Sonicteam::TextBook, Sonicteam::TextCard
 // Format designers:    Sonic Team
 // Format researchers:  GerbilSoft, Knuxfan24, Hyper
+//
+// Format research references:
+// - https://github.com/GerbilSoft/mst06 (used with permission)
 
 namespace Marathon.Formats.Text
 {

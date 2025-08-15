@@ -13,6 +13,9 @@ using System.Numerics;
 // Format references:   Sonicteam::SoX::Physics::LandCollision
 // Format designers:    Sonic Team, Havok
 // Format researchers:  Darío, Knuxfan24, Hyper
+//
+// Format research references:
+// - https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Collision.cpp (used with permission)
 
 namespace Marathon.Formats.Mesh
 {

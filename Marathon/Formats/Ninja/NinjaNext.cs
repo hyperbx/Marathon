@@ -8,7 +8,12 @@ using System.IO;
 // Format names:        Ninja Next (speculatory)
 // Format references:   Sonicteam::NN
 // Format designers:    SEGA Consumer Research and Development Dept. #2
-// Format researchers:  Radfordhound, ItsEasyActually, ArMM1998, Shadowth117, Knuxfan24, Hyper
+// Format researchers:  Radfordhound, ItsEasyActually, ArMM1998, Shadowth117, Darío, Knuxfan24, Hyper
+//
+// Format research references:
+// - https://hedgedocs.com/index.php/NN_Chunk_Format
+// - https://github.com/tge-was-taken/Sonic4Ep1-WindowsPhone-Decompilation
+// - https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06XnObject.cpp (used with permission)
 
 namespace Marathon.Formats.Ninja
 {

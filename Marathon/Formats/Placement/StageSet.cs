@@ -15,7 +15,10 @@ using System.Text;
 // Format names:        Stage Set
 // Format references:   Sonicteam::Prop::StageSetManagerRunner, LoadStageSet
 // Format designers:    Sonic Team
-// Format researchers:  Knuxfan24, Radfordhound, Darío
+// Format researchers:  Darío, Knuxfan24, Radfordhound
+//
+// Format research references:
+// - https://github.com/DarioSamo/libgens-sonicglvl/blob/master/src/LibS06/S06Set.cpp (used with permission)
 
 namespace Marathon.Formats.Placement
 {

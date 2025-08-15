@@ -8,6 +8,9 @@ using System.IO;
 // Format names:        Lua Binary
 // Format designers:    Tecgraf, PUC-Rio
 // Format researchers:  tehtmi, Thomas Klaeger, Shadow LAG
+//
+// Format research references:
+// - https://sourceforge.net/projects/unluac
 
 namespace Marathon.Formats.Script.Lua
 {

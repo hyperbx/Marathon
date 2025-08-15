@@ -10,6 +10,9 @@ using System.Numerics;
 // Format references:   Sonicteam::SplinePath
 // Format designers:    Sonic Team
 // Format researchers:  Aruki, Knuxfan24, Hyper
+//
+// Format research references:
+// - https://github.com/Knuxfan24/Sonic-06-Stage-Editing-Archive/tree/cleanup/Binaries/PATH%20Maxscripts
 
 namespace Marathon.Formats.Mesh
 {
