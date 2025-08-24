@@ -64,7 +64,7 @@ namespace Marathon.Formats.Save
             {
                 Episodes[i].Lua = reader.ReadString(StringBinaryFormat.FixedLength, 0x100);
                 Episodes[i].TemporaryFlags = reader.ReadArray<int>(32);
-                Episodes[i].Objective = reader.ReadStringFixedLength(0x100);
+                Episodes[i].Mission = reader.ReadStringFixedLength(0x100);
                 Episodes[i].Area = reader.ReadStringFixedLength(0x100);
                 Episodes[i].Terrain = reader.ReadStringFixedLength(0x100);
                 Episodes[i].StageSet = reader.ReadStringFixedLength(0x100);
@@ -128,7 +128,7 @@ namespace Marathon.Formats.Save
                 for (int j = 0; j < 32; j++)
                     writer.Write(episode.TemporaryFlags[j]);
 
-                writer.WriteStringFixedLength(episode.Objective, 0x100);
+                writer.WriteStringFixedLength(episode.Mission, 0x100);
                 writer.WriteStringFixedLength(episode.Area, 0x100);
                 writer.WriteStringFixedLength(episode.Terrain, 0x100);
                 writer.WriteStringFixedLength(episode.StageSet, 0x100);
