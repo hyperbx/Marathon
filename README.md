@@ -14,8 +14,6 @@
 See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on the wiki.
 
 # Supported
-- AI
-    - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/AI/KynapseBigFile.cs)
 - Archive
     - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs)
     - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs)
@@ -24,6 +22,8 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 - Event
     - [Event Playbook (`*.epb`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/EventPlaybook.cs)
     - [Time Event (`*.tev`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/TimeEvent.cs)
+- Kynapse
+    - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynapseBigFile.cs)
 - Mesh
     - [Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/Collision.cs)
     - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs)

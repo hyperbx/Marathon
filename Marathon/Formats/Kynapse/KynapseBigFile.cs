@@ -13,7 +13,7 @@ using System.IO;
 // Format designers:    Sonic Team, Kynogon
 // Format researchers:  c08o.prkiua, Hyper
 
-namespace Marathon.Formats.AI
+namespace Marathon.Formats.Kynapse
 {
     /// <summary>
     /// Support for *.kbf files; used for packing Kynapse configuration and binary data.

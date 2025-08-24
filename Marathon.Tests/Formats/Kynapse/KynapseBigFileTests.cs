@@ -1,7 +1,7 @@
-﻿using Marathon.Formats.AI;
+﻿using Marathon.Formats.Kynapse;
 using Marathon.Tests.Helpers;
 
-namespace Marathon.Tests.Formats.AI
+namespace Marathon.Tests.Formats.Kynapse
 {
     internal class KynapseBigFileTests : ITest
     {
