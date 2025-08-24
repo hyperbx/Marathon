@@ -89,7 +89,7 @@ The `*.fxo` format is for compiled DirectX shaders. There are no plans for Marat
 The `*.hkx` format is part of the Havok physics engine, specifically Havok 3.3.0-b2 for this game. There are no plans for Marathon to support this.
 
 ### Acroarts Binary
-The `*.mab` format is part of CRIWARE's Acroarts middleware. It's used for miscellaneous event data for particle effects and timing with various cutscene elements (e.g. subtitles, models, etc).
+The `*.mab` format is part of SEGA's Acroarts middleware. It's used for miscellaneous event data for particle effects and timing with various cutscene elements (e.g. subtitles, models, etc).
 
 ### Motion Base Information
 The `*.mbi` format is a plaintext file format containing node definitions for skeletons. This format hasn't been researched, but the data it stores is all clearly labelled by the internal tool that exported it.
