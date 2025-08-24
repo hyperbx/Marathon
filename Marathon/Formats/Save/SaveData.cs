@@ -63,11 +63,8 @@ namespace Marathon.Formats.Save
             for (int i = 0; i < _episodeCount; i++)
             {
                 Episodes[i].Lua = reader.ReadString(StringBinaryFormat.FixedLength, 0x100);
-
-                // TODO: unknown, contains flags!
-                reader.JumpAhead(0x80);
-
-                Episodes[i].Objective  = reader.ReadStringFixedLength(0x100);
+                Episodes[i].TemporaryFlags = reader.ReadArray<int>(32);
+                Episodes[i].Objective = reader.ReadStringFixedLength(0x100);
                 Episodes[i].Area = reader.ReadStringFixedLength(0x100);
                 Episodes[i].Terrain = reader.ReadStringFixedLength(0x100);
                 Episodes[i].StageSet = reader.ReadStringFixedLength(0x100);
@@ -124,42 +121,46 @@ namespace Marathon.Formats.Save
         
             for (int i = 0; i < _episodeCount; i++)
             {
-                writer.WriteStringFixedLength(Episodes[i].Lua, 0x100);
-        
-                // TODO: unknown, contains flags!
-                writer.JumpAhead(0x80);
-        
-                writer.WriteStringFixedLength(Episodes[i].Objective, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].Area, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].Terrain, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].StageSet, 0x100);
-                writer.WriteStringFixedLength(Episodes[i].SplinePath, 0x100);
+                var episode = Episodes[i];
+
+                writer.WriteStringFixedLength(episode.Lua, 0x100);
+
+                for (int j = 0; j < 32; j++)
+                    writer.Write(episode.TemporaryFlags[j]);
+
+                writer.WriteStringFixedLength(episode.Objective, 0x100);
+                writer.WriteStringFixedLength(episode.Area, 0x100);
+                writer.WriteStringFixedLength(episode.Terrain, 0x100);
+                writer.WriteStringFixedLength(episode.StageSet, 0x100);
+                writer.WriteStringFixedLength(episode.SplinePath, 0x100);
         
                 // TODO: unknown.
                 writer.JumpAhead(0x500);
         
-                writer.WriteStringFixedLength(Episodes[i].TextBook, 0x100);
+                writer.WriteStringFixedLength(episode.TextBook, 0x100);
         
                 // TODO: unknown, contains flags!
                 writer.JumpAhead(0x24C);
         
-                writer.Write(Episodes[i].Progress);
-                writer.Write(Episodes[i].Year);
-                writer.Write(Episodes[i].Month);
-                writer.Write(Episodes[i].Day);
-                writer.Write(Episodes[i].Hour);
-                writer.Write(Episodes[i].Minute);
+                writer.Write(episode.Progress);
+                writer.Write(episode.Year);
+                writer.Write(episode.Month);
+                writer.Write(episode.Day);
+                writer.Write(episode.Hour);
+                writer.Write(episode.Minute);
         
-                writer.WriteStringFixedLength(Episodes[i].Location, 0x42);
+                writer.WriteStringFixedLength(episode.Location, 0x42);
             }
         
             for (int i = 0; i < _trialCount; i++)
             {
-                writer.Write(Trials[i].ID);
-                writer.Write(Trials[i].Rank);
-                writer.Write(Trials[i].Time);
-                writer.Write(Trials[i].Score);
-                writer.Write(Trials[i].Rings);
+                var trial = Trials[i];
+
+                writer.Write(trial.ID);
+                writer.Write(trial.Rank);
+                writer.Write(trial.Time);
+                writer.Write(trial.Score);
+                writer.Write(trial.Rings);
             }
         
             writer.Write(Options.Subtitles ? 1 : 0);

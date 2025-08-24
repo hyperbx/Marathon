@@ -23,6 +23,11 @@ namespace Marathon.Formats.Save
         public string Lua { get; set; }
 
         /// <summary>
+        /// This mission's temporary flags.
+        /// </summary>
+        public int[] TemporaryFlags { get; set; } = new int[32];
+
+        /// <summary>
         /// The name of the text book message for the loading screen text.
         /// </summary>
         public string Objective { get; set; }
