@@ -21,7 +21,7 @@ namespace Marathon.Formats.Audio
     {
         private const string _extension = ".sbk"; // "Sound BanK"
         private const string _signature = "SBNK"; // "Sound BaNK"
-        private const uint _magic = 0x20060700;
+        private const uint _version = 0x20060700; // 2006 July, Revision 0
 
         /// <summary>
         /// The name of this sound bank.
@@ -60,7 +60,7 @@ namespace Marathon.Formats.Audio
 
             reader.CheckSignature(_signature);
 
-            var magic = reader.Read<uint>();
+            var version = reader.Read<uint>();
             var nameOffset = reader.Read<uint>();
             var soundTableOffset = reader.Read<uint>();
             var soundIndicesOffset = reader.Read<uint>();
@@ -76,12 +76,11 @@ namespace Marathon.Formats.Audio
 
             for (int i = 0; i < soundCount; i++)
             {
-                var sound = new SoundBankData()
+                var sound = new SoundBankData
                 {
-                    Name = reader.ReadStringFixedLength(0x20)
+                    Name = reader.ReadStringFixedLength(0x20),
+                    StreamType = reader.Read<StreamType>()
                 };
-
-                sound.StreamType = reader.Read<StreamType>();
 
                 var soundIndex = reader.Read<uint>();
 
@@ -119,7 +118,7 @@ namespace Marathon.Formats.Audio
                     if (Sounds[i].StreamType != StreamType.CueSheet)
                         continue;
 
-                    Sounds[i].CueIndex = reader.Read<int>();
+                    Sounds[i].CueID = reader.Read<int>();
                 }
             }
         }
@@ -130,7 +129,7 @@ namespace Marathon.Formats.Audio
 
             var csbCount = 0;
             var streamCount = 0;
-            var hasIndexTable = false;
+            var hasIDTable = false;
             var hasStreamTable = false;
 
             foreach (var sound in Sounds)
@@ -139,8 +138,8 @@ namespace Marathon.Formats.Audio
                 {
                     csbCount++;
 
-                    if (sound.CueIndex != -1)
-                        hasIndexTable = true;
+                    if (sound.CueID != -1)
+                        hasIDTable = true;
                 }
                 else if (sound.StreamType == StreamType.External)
                 {
@@ -152,11 +151,11 @@ namespace Marathon.Formats.Audio
             }
 
             writer.WriteSignature(_signature);
-            writer.Write(_magic);
+            writer.Write(_version);
             writer.Reserve<uint>("NameOffset");
             writer.Reserve<uint>("SoundTableOffset");
 
-            if (csbCount == 0 || !hasIndexTable)
+            if (csbCount == 0 || !hasIDTable)
             {
                 writer.Write(0);
             }
@@ -211,7 +210,7 @@ namespace Marathon.Formats.Audio
                 writer.Write(sound.Radius);
             }
 
-            if (csbCount != 0 && hasIndexTable)
+            if (csbCount != 0 && hasIDTable)
             {
                 writer.WriteReserved("SoundIndicesOffset", (uint)writer.Position - BINAHeader.Size);
 
@@ -220,7 +219,7 @@ namespace Marathon.Formats.Audio
                     if (Sounds[i].StreamType != StreamType.CueSheet)
                         continue;
 
-                    writer.Write(Sounds[i].CueIndex);
+                    writer.Write(Sounds[i].CueID);
                 }
             }
 
@@ -324,9 +323,9 @@ namespace Marathon.Formats.Audio
         public float Radius { get; set; }
 
         /// <summary>
-        /// The index of the cue in the *.csb file.
+        /// The ID of the cue in the *.csb file.
         /// </summary>
-        public int CueIndex { get; set; } = -1;
+        public int CueID { get; set; } = -1;
 
         /// <summary>
         /// The name of the stream this sound uses.
@@ -337,13 +336,13 @@ namespace Marathon.Formats.Audio
 
         public SoundBankData() { }
 
-        public SoundBankData(string in_name, uint in_unkField1, float in_unkField2, float in_radius, int in_cueIndex, string in_stream)
+        public SoundBankData(string in_name, uint in_unkField1, float in_unkField2, float in_radius, int in_cueID, string in_stream)
         {
             Name = in_name;
             UnknownField1 = in_unkField1;
             UnknownField2 = in_unkField2;
             Radius = in_radius;
-            CueIndex = in_cueIndex;
+            CueID = in_cueID;
             Stream = in_stream;
         }
 
