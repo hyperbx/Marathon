@@ -63,6 +63,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 - Text
     - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextBook.cs)
     - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontPicture.cs)
+    - [Text Font Proportion (`*.pfi`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontProportion.cs)
 	
 # Unsupported
 Marathon currently doesn't support *every* format, despite the above list already being pretty large.
@@ -99,9 +100,6 @@ The `*.mdl` format is used by the PlayStation 3 version of the game in place of 
 
 ### Proprietary Sony video format
 The `*.pam` format is Sony's proprietary video format used for the PlayStation 3 version of the game for pre-rendered events. Apparently, this format consists of `*.avi` and `*.at3` data, but the only encoder available is part of the PlayStation 3 SDK and doesn't allow you to embed audio data in the video. There are no plans for Marathon to support this.
-
-### Text Font Proportion
-The `*.pfi` format defines the margin and padding per character in a given font map. It was supported by Marathon at one point, but only had a reader and some data wasn't fully researched.
 
 ### PlayStation 3 Vertex Shader Bytecode
 The `*.vpo` format is the compiled vertex shader format for the PlayStation 3 version of the game. There are no plans for Marathon to support this.
