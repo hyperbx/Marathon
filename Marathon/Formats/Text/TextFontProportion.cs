@@ -26,9 +26,9 @@ namespace Marathon.Formats.Text
         public ushort Kerning { get; set; } = 2;
 
         /// <summary>
-        /// The size of each character cell in the font atlas.
+        /// The width of each character cell in the font atlas.
         /// </summary>
-        public ushort CellSize { get; set; }
+        public ushort CellWidth { get; set; }
 
         /// <summary>
         /// The amount of characters to skip from the beginning of the character set.
@@ -44,7 +44,7 @@ namespace Marathon.Formats.Text
 
         /// <summary>
         /// The width of each character in the order of the character set.
-        /// <para>If a character width is zero, it'll fall back to <see cref="CellSize"/>.</para>
+        /// <para>If a character width is zero, it'll fall back to <see cref="CellWidth"/>.</para>
         /// <para>This follows the <a href="https://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">Shift-JIS</a> specification.</para>
         /// </summary>
         [JsonConverter(typeof(ByteArrayToListConverter))]
@@ -65,7 +65,7 @@ namespace Marathon.Formats.Text
             var dataOffset = reader.Read<uint>();
 
             Kerning = reader.Read<ushort>();
-            CellSize = reader.Read<ushort>();
+            CellWidth = reader.Read<ushort>();
             EncodingSeek = reader.Read<ushort>();
             EncodingLength = reader.Read<ushort>();
 
@@ -86,7 +86,7 @@ namespace Marathon.Formats.Text
             var dataOffset = writer.Reserve();
 
             writer.Write(Kerning);
-            writer.Write(CellSize);
+            writer.Write(CellWidth);
             writer.Write(EncodingSeek);
             writer.Write(EncodingLength);
 
