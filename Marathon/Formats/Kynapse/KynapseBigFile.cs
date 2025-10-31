@@ -54,8 +54,7 @@ namespace Marathon.Formats.Kynapse
 
         public override void Import(string in_path)
         {
-            if (!File.Exists(in_path))
-                throw new FileNotFoundException($"The specified file does not exist: {in_path}");
+            ThrowHelper.ThrowFileNotFoundException(in_path);
 
             Root = JsonConvert.DeserializeObject<KynapseObject>(File.ReadAllText(in_path));
 

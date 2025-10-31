@@ -377,8 +377,7 @@ namespace Marathon.Formats.Placement
 
         public override void Import(string in_path)
         {
-            if (!File.Exists(in_path))
-                throw new FileNotFoundException("The specified file does not exist.");
+            ThrowHelper.ThrowFileNotFoundException(in_path);
 
             FromHsonProject(Project.FromFile(in_path));
         }

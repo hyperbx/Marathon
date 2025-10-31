@@ -3,7 +3,6 @@ using Amicitia.IO.Streams;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,21 +16,13 @@ namespace Marathon.Formats.Archive
     /// <summary>
     /// Support for *.ddm files; used for storing DirectDraw Surface textures by name.
     /// </summary>
-    public class DirectDrawMap : FileBase, IDictionary<string, byte[]>
+    public class DirectDrawMap : FileBase
     {
         private const string _signature = "DDM ";              // "DirectDraw Map" (speculatory)
         private const string _fileNameChunkSignature = "DSFN"; // "Directdraw Surface File Name" (speculatory)
         private const string _dataChunkSignature = "DSCK";     // "Directdraw Surface ChunK" (speculatory)
 
         public Dictionary<string, byte[]> Files { get; set; } = [];
-
-        public ICollection<string> Keys => Files.Keys;
-
-        public ICollection<byte[]> Values => Files.Values;
-
-        public int Count => Files.Count;
-
-        public bool IsReadOnly => false;
 
         public byte[] this[string in_key]
         {
@@ -128,8 +119,7 @@ namespace Marathon.Formats.Archive
 
         public override void Import(string in_path)
         {
-            if (!Directory.Exists(in_path))
-                throw new DirectoryNotFoundException($"The specified directory does not exist: {in_path}");
+            ThrowHelper.ThrowDirectoryNotFoundException(in_path);
 
             foreach (var file in Directory.GetFiles(in_path, "*.dds", SearchOption.TopDirectoryOnly))
                 Files.Add(Path.GetFileName(file), File.ReadAllBytes(file));
@@ -151,61 +141,6 @@ namespace Marathon.Formats.Archive
 
                 File.WriteAllBytes(path, file.Value);
             }
-        }
-
-        public void Add(string in_key, byte[] in_value)
-        {
-            Files.Add(in_key, in_value);
-        }
-
-        public bool ContainsKey(string in_key)
-        {
-            return Files.ContainsKey(in_key);
-        }
-
-        public bool Remove(string in_key)
-        {
-            return Files.Remove(in_key);
-        }
-
-        public bool TryGetValue(string in_key, out byte[] out_value)
-        {
-            return Files.TryGetValue(in_key, out out_value);
-        }
-
-        public void Add(KeyValuePair<string, byte[]> in_item)
-        {
-            Files.Add(in_item.Key, in_item.Value);
-        }
-
-        public void Clear()
-        {
-            Files.Clear();
-        }
-
-        public bool Contains(KeyValuePair<string, byte[]> in_item)
-        {
-            return Files.ContainsKey(in_item.Key) && Files.ContainsValue(in_item.Value);
-        }
-
-        public void CopyTo(KeyValuePair<string, byte[]>[] in_array, int in_arrayIndex)
-        {
-            Extensions.CollectionExtensions.CopyTo(this, in_array, in_arrayIndex);
-        }
-
-        public bool Remove(KeyValuePair<string, byte[]> in_item)
-        {
-            return Files.Remove(in_item.Key);
-        }
-
-        public IEnumerator<KeyValuePair<string, byte[]>> GetEnumerator()
-        {
-            return Files.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

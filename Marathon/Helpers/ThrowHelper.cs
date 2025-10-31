@@ -18,7 +18,15 @@ namespace Marathon.Helpers
             if (File.Exists(in_path))
                 return;
 
-            throw new FileNotFoundException("The specified file does not exist.", in_path);
+            throw new FileNotFoundException($"The specified file does not exist: \"{in_path}\"", in_path);
+        }
+
+        public static void ThrowDirectoryNotFoundException(string in_path)
+        {
+            if (Directory.Exists(in_path))
+                return;
+
+            throw new DirectoryNotFoundException($"The specified directory does not exist: \"{in_path}\"");
         }
     }
 }

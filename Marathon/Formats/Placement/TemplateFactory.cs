@@ -12,8 +12,7 @@ namespace Marathon.Formats.Placement
     {
         public static List<Actor> ImportProp(string in_path)
         {
-            if (!File.Exists(in_path))
-                throw new FileNotFoundException("The specified file does not exist.");
+            ThrowHelper.ThrowFileNotFoundException(in_path);
 
             return new PropLibrary(in_path).Actors;
         }
@@ -30,8 +29,7 @@ namespace Marathon.Formats.Placement
 
         public static List<Actor> ImportJson(string in_path)
         {
-            if (!File.Exists(in_path))
-                throw new FileNotFoundException("The specified file does not exist.");
+            ThrowHelper.ThrowFileNotFoundException(in_path);
 
             return JsonConvert.DeserializeObject<List<Actor>>(File.ReadAllText(in_path));
         }
