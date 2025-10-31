@@ -24,7 +24,31 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public List<PrimitiveList> PrimitiveLists { get; set; } = [];
 
-        public uint MaxNodeDepth { get; set; }
+        public int MaxNodeDepth
+        {
+            get
+            {
+                var result = 0;
+
+                void WalkNodes(int in_parentIndex, int in_depth)
+                {
+                    for (int i = 0; i < Nodes.Count; i++)
+                    {
+                        if (Nodes[i].ParentIndex == in_parentIndex)
+                        {
+                            if ((in_depth + 1) > result)
+                                result = in_depth + 1;
+
+                            WalkNodes(i, in_depth + 1);
+                        }
+                    }
+                }
+
+                WalkNodes(0, result + 1);
+
+                return result;
+            }
+        }
 
         public List<Node> Nodes { get; set; } = [];
 
@@ -61,17 +85,17 @@ namespace Marathon.Formats.Ninja.Chunks
 
             Centre = in_reader.Read<Vector3>();
             Radius = in_reader.Read<float>();
-            var materialCount = in_reader.Read<uint>();
+            var materialCount = in_reader.Read<int>();
             var materialOffset = in_reader.Read<uint>();
-            var vertexListCount = in_reader.Read<uint>();
+            var vertexListCount = in_reader.Read<int>();
             var vertexListOffset = in_reader.Read<uint>();
-            var primitiveListCount = in_reader.Read<uint>();
+            var primitiveListCount = in_reader.Read<int>();
             var primitiveListOffset = in_reader.Read<uint>();
-            var nodeCount = in_reader.Read<uint>();
-            MaxNodeDepth = in_reader.Read<uint>();
+            var nodeCount = in_reader.Read<int>();
+            var maxNodeDepth = in_reader.Read<int>();
             var nodeOffset = in_reader.Read<uint>();
             MatrixIndexCount = in_reader.Read<int>();
-            var subObjectCount = in_reader.Read<uint>();
+            var subObjectCount = in_reader.Read<int>();
             var subObjectOffset = in_reader.Read<uint>();
             TextureCount = in_reader.Read<int>();
 
@@ -307,6 +331,21 @@ namespace Marathon.Formats.Ninja.Chunks
             in_writer.WriteReserved(verticesLength, vertexTableLength);
 
             header.FinishWrite(in_writer, dataOffset, Version);
+        }
+
+        public int GetNodeMatrixCount()
+        {
+            var result = 0;
+
+            foreach (var node in Nodes)
+            {
+                if (node.MatrixIndex == -1)
+                    continue;
+
+                result++;
+            }
+
+            return result;
         }
 
         public virtual string GetChunkID()

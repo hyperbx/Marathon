@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,7 +14,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.plc files; used for defining particle effects.
     /// </summary>
-    public class ParticleContainer : FileBase, IList<Particle>
+    public class ParticleContainer : FileBase
     {
         private const string _extension = ".plc"; // "ParticLe Container"
 
@@ -28,10 +27,6 @@ namespace Marathon.Formats.Particle
         /// The particles in this container.
         /// </summary>
         public List<Particle> Particles { get; set; } = [];
-
-        public int Count => Particles.Count;
-
-        public bool IsReadOnly => false;
 
         public Particle this[int in_index]
         {
@@ -114,56 +109,6 @@ namespace Marathon.Formats.Particle
             }
 
             writer.FinishWrite();
-        }
-
-        public int IndexOf(Particle in_item)
-        {
-            return Particles.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, Particle in_item)
-        {
-            Particles.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Particles.RemoveAt(in_index);
-        }
-
-        public void Add(Particle in_item)
-        {
-            Particles.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Particles.Clear();
-        }
-
-        public bool Contains(Particle in_item)
-        {
-            return Particles.Contains(in_item);
-        }
-
-        public void CopyTo(Particle[] in_array, int in_arrayIndex)
-        {
-            Particles.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(Particle in_item)
-        {
-            return Particles.Remove(in_item);
-        }
-
-        public IEnumerator<Particle> GetEnumerator()
-        {
-            return Particles.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

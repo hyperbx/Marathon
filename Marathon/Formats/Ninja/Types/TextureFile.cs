@@ -2,6 +2,7 @@
 using Marathon.Formats.Ninja.Flags;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using System.IO;
 
 namespace Marathon.Formats.Ninja.Types
 {
@@ -51,6 +52,24 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(MagFilter);
             in_writer.Write(GlobalIndex);
             in_writer.Write(Bank);
+        }
+
+        public static TextureFileType GetFileTypeByName(string in_name)
+        {
+            var extension = Path.GetExtension(in_name);
+
+            return extension switch
+            {
+                ".gvr" or ".dds" => TextureFileType.NND_TEXFTYPE_GVRTEX,
+                ".svr"           => TextureFileType.NND_TEXFTYPE_SVRTEX,
+                ".xvr"           => TextureFileType.NND_TEXFTYPE_XVRTEX,
+                _                => TextureFileType.NND_TEXFTYPE_GVRTEX
+            };
+        }
+
+        public TextureFileType GetFileTypeByName()
+        {
+            return GetFileTypeByName(Name);
         }
 
         public override string ToString()

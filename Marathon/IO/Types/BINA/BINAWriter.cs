@@ -92,7 +92,7 @@ namespace Marathon.IO.Types.BINA
             if (Header.HasFooterMagic)
                 WriteFooterMagic();
 
-            Header.FileSize = (uint)Position;
+            Header.ResourceSize = (uint)Position;
         }
 
         private long WriteRelocTable()

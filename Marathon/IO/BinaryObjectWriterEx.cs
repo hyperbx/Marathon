@@ -167,6 +167,21 @@ namespace Marathon.IO
             Offsets.Remove(in_name);
         }
 
+        /// <summary>
+        /// Writes a value and stores its offset in the offset list.
+        /// </summary>
+        /// <typeparam name="T">The type to write.</typeparam>
+        /// <param name="in_value">The value to write.</param>
+        public long WriteOffset<T>(T in_value) where T : unmanaged
+        {
+            var pos = Position;
+
+            Offsets.Add(Guid.NewGuid().ToString("B"), pos);
+            Write(in_value);
+
+            return pos;
+        }
+
         public void JumpAhead(long in_offset)
         {
             Seek(in_offset, SeekOrigin.Current);

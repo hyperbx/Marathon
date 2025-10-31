@@ -24,7 +24,7 @@ namespace Marathon.Formats.Ninja
     {
         public string Name { get; set; }
 
-        public InfoChunk Info { get; set; }
+        public InfoChunk Info { get; set; } = new();
 
         public List<IChunk> Chunks => Info?.Chunks;
 

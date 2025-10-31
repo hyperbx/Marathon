@@ -52,7 +52,12 @@ namespace Marathon.IO.Types
 
         public override string ToString()
         {
-            return Encoding.UTF8.GetString(BitConverter.GetBytes(Data));
+            var bytes = BitConverter.GetBytes(Data);
+
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(bytes);
+
+            return Encoding.UTF8.GetString(bytes);
         }
     }
 }

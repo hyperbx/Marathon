@@ -6,8 +6,6 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class Technique
     {
-        public const int Size = 8;
-
         public uint Type { get; set; }
 
         public int EffectIndex { get; set; }

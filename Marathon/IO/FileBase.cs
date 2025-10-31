@@ -1,4 +1,5 @@
 ﻿using Amicitia.IO.Binary;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -9,27 +10,32 @@ namespace Marathon.IO
         /// <summary>
         /// The underlying stream to the file.
         /// </summary>
+        [JsonIgnore]
         protected Stream Stream { get; private set; }
 
         /// <summary>
         /// The location of this file.
         /// </summary>
+        [JsonIgnore]
         public string Location { get; private set; }
 
         /// <summary>
         /// The endianness of this file.
         /// </summary>
+        [JsonIgnore]
         public Endianness Endianness { get; set; } = Endianness.Big;
 
         /// <summary>
         /// The method used for writing the file.
         /// </summary>
+        [JsonIgnore]
         public virtual WriteMode WriteMode { get; set; } = WriteMode.New;
 
         /// <summary>
         /// Leaves the <see cref="Stream"/> open after writing.
         /// <para>If left open, the stream must manually be disposed using the <see cref="Dispose"/> method.</para>
         /// </summary>
+        [JsonIgnore]
         public virtual bool LeaveOpen { get; set; } = false;
 
         public FileBase(WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)

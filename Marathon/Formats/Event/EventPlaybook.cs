@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -16,20 +15,16 @@ namespace Marathon.Formats.Event
     /// <summary>
     /// Support for *.epb files; used for defining cutscene properties.
     /// </summary>
-    public class EventPlaybook : FileBase, IList<EventPlaybookData>
+    public class EventPlaybook : FileBase
     {
         private const string _extension = ".epb"; // "Event PlayBook"
         private const string _signature = ".EPB"; // "Event PlayBook"
-        private const uint _magic = 0x20060700;
+        private const uint _version = 0x20060700; // 2006 July, Revision 0
 
         /// <summary>
         /// The events in this playbook.
         /// </summary>
         public List<EventPlaybookData> Events { get; set; } = [];
-
-        public int Count => Events.Count;
-
-        public bool IsReadOnly => false;
 
         public EventPlaybookData this[int in_index]
         {
@@ -54,7 +49,7 @@ namespace Marathon.Formats.Event
 
             reader.CheckSignature(_signature);
 
-            var magic = reader.Read<uint>();
+            var version = reader.Read<uint>();
             var eventCount = reader.Read<uint>();
             var eventTableOffset = reader.Read<uint>();
 
@@ -111,7 +106,7 @@ namespace Marathon.Formats.Event
             var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
-            writer.Write(_magic);
+            writer.Write(_version);
             writer.Write(Events.Count);
             writer.Reserve<uint>("EventTableOffset");
             writer.WriteReserved("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
@@ -131,56 +126,6 @@ namespace Marathon.Formats.Event
             }
 
             writer.FinishWrite();
-        }
-
-        public int IndexOf(EventPlaybookData in_item)
-        {
-            return Events.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, EventPlaybookData in_item)
-        {
-            Events.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Events.RemoveAt(in_index);
-        }
-
-        public void Add(EventPlaybookData in_item)
-        {
-            Events.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Events.Clear();
-        }
-
-        public bool Contains(EventPlaybookData in_item)
-        {
-            return Events.Contains(in_item);
-        }
-
-        public void CopyTo(EventPlaybookData[] in_array, int in_arrayIndex)
-        {
-            Events.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(EventPlaybookData in_item)
-        {
-            return Events.Remove(in_item);
-        }
-
-        public IEnumerator<EventPlaybookData> GetEnumerator()
-        {
-            return Events.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 

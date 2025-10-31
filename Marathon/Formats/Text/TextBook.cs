@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -19,7 +18,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.mst files; used for storing wide text with friendly names and variables.
     /// </summary>
-    public class TextBook : FileBase, IList<TextCard>
+    public class TextBook : FileBase
     {
         private const string _extension = ".mst"; // "MeSsage Table" (speculatory)
         private const string _signature = "WTXT"; // "Wide TeXT" (referring to UTF-16)
@@ -33,10 +32,6 @@ namespace Marathon.Formats.Text
         /// The cards in this text book.
         /// </summary>
         public List<TextCard> Cards { get; set; } = [];
-
-        public int Count => Cards.Count;
-
-        public bool IsReadOnly => false;
 
         public TextCard this[int in_index]
         {
@@ -151,56 +146,6 @@ namespace Marathon.Formats.Text
             result.Add(in_variables.Substring(start));
 
             return result;
-        }
-
-        public int IndexOf(TextCard in_item)
-        {
-            return Cards.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, TextCard in_item)
-        {
-            Cards.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Cards.RemoveAt(in_index);
-        }
-
-        public void Add(TextCard in_item)
-        {
-            Cards.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Cards.Clear();
-        }
-
-        public bool Contains(TextCard in_item)
-        {
-            return Cards.Contains(in_item);
-        }
-
-        public void CopyTo(TextCard[] in_array, int in_arrayIndex)
-        {
-            Cards.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(TextCard in_item)
-        {
-            return Cards.Remove(in_item);
-        }
-
-        public IEnumerator<TextCard> GetEnumerator()
-        {
-            return Cards.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

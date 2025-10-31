@@ -8,7 +8,7 @@ using System.Numerics;
 
 namespace Marathon.Formats.Placement
 {
-    public class Templates
+    public class TemplateFactory
     {
         public static List<Actor> ImportProp(string in_path)
         {

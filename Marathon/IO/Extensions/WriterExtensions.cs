@@ -49,6 +49,12 @@ namespace Marathon.IO.Extensions
 
         public static void WriteStringFixedLength(this BinaryObjectWriter in_writer, string in_str, int in_length)
         {
+            if (in_str == null)
+            {
+                in_writer.WriteNullBytes(in_length);
+                return;
+            }
+
             in_writer.WriteStringFixedLength(in_writer.Encoding, in_str, in_length);
         }
 

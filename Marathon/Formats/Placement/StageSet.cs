@@ -396,11 +396,11 @@ namespace Marathon.Formats.Placement
             switch (Path.GetExtension(in_path))
             {
                 case ".prop":
-                    Actors.AddRange(Templates.ImportProp(in_path));
+                    Actors.AddRange(TemplateFactory.ImportProp(in_path));
                     return true;
 
                 case ".json":
-                    Actors.AddRange(Templates.ImportJson(in_path));
+                    Actors.AddRange(TemplateFactory.ImportJson(in_path));
                     return true;
             }
 

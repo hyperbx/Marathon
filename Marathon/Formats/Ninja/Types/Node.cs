@@ -1,5 +1,7 @@
-﻿using Marathon.Formats.Ninja.Flags;
+﻿using Marathon.Formats.Ninja.Chunks;
+using Marathon.Formats.Ninja.Flags;
 using Marathon.IO;
+using System;
 using System.Numerics;
 
 namespace Marathon.Formats.Ninja.Types
@@ -71,6 +73,29 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(Radius);
             in_writer.Write(UserData);
             in_writer.Write(BoundingBox);
+        }
+
+        public string GetName(NodeNameChunk in_nodeNameChunk, int in_index)
+        {
+            if (in_nodeNameChunk.Type == NodeNameSortType.NNE_NODENAME_SORTTYPE_NAME)
+                throw new NotSupportedException();
+
+            return in_nodeNameChunk.Names[in_index];
+        }
+
+        public Node GetParent(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Nodes[ParentIndex];
+        }
+
+        public Node GetChild(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Nodes[ChildIndex];
+        }
+
+        public Node GetSibling(ObjectChunk in_objectChunk)
+        {
+            return in_objectChunk.Nodes[SiblingIndex];
         }
     }
 }

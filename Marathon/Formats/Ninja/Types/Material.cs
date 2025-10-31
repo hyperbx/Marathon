@@ -6,7 +6,7 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class Material
     {
-        private uint _infoOffset;
+        private uint _dataOffset;
 
         public const int InfoSize = 8;
 
@@ -35,9 +35,9 @@ namespace Marathon.Formats.Ninja.Types
         {
             Type = in_reader.Read<MaterialType>();
 
-            var infoOffset = in_reader.Read<uint>();
+            var dataOffset = in_reader.Read<uint>();
 
-            in_reader.JumpTo(InfoChunk.Size + infoOffset);
+            in_reader.JumpTo(InfoChunk.Size + dataOffset);
 
             Flag = in_reader.Read<MaterialType>();
             UserData = in_reader.Read<int>();
@@ -63,7 +63,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public void WriteInfo(BinaryObjectWriterEx in_writer, uint in_colourOffset, uint in_logicOffset, uint in_textureMapOffset)
         {
-            _infoOffset = (uint)in_writer.Position;
+            _dataOffset = (uint)in_writer.Position;
 
             in_writer.Write(Flag);
             in_writer.Write(UserData);
@@ -91,7 +91,7 @@ namespace Marathon.Formats.Ninja.Types
         {
             in_writer.Write(Type);
             var offset = in_writer.Reserve<uint>();
-            in_writer.WriteReserved(offset, _infoOffset - InfoChunk.Size, false);
+            in_writer.WriteReserved(offset, _dataOffset - InfoChunk.Size, false);
         }
 
         public int GetTextureCount()

@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,15 +14,11 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for *.pkg files; used for preloading specific assets with friendly names.
     /// </summary>
-    public class Package : FileBase, IList<PackageCategory>
+    public class Package : FileBase
     {
         private const string _extension = ".pkg"; // "PacKaGe"
 
         public List<PackageCategory> Categories { get; set; } = [];
-
-        public int Count => Categories.Count;
-
-        public bool IsReadOnly => false;
 
         public PackageCategory this[int in_index]
         {
@@ -136,67 +131,13 @@ namespace Marathon.Formats.Parameter
 
             return result;
         }
-
-        public int IndexOf(PackageCategory in_item)
-        {
-            return Categories.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, PackageCategory in_item)
-        {
-            Categories.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Categories.RemoveAt(in_index);
-        }
-
-        public void Add(PackageCategory in_item)
-        {
-            Categories.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Categories.Clear();
-        }
-
-        public bool Contains(PackageCategory in_item)
-        {
-            return Categories.Contains(in_item);
-        }
-
-        public void CopyTo(PackageCategory[] in_array, int in_arrayIndex)
-        {
-            Categories.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(PackageCategory in_item)
-        {
-            return Categories.Remove(in_item);
-        }
-
-        public IEnumerator<PackageCategory> GetEnumerator()
-        {
-            return Categories.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
 
-    public class PackageCategory : IList<PackageFile>
+    public class PackageCategory
     {
         public string Name { get; set; }
 
         public List<PackageFile> Files { get; set; } = [];
-
-        public int Count => Files.Count;
-
-        public bool IsReadOnly => false;
 
         public PackageFile this[int in_index]
         {
@@ -215,56 +156,6 @@ namespace Marathon.Formats.Parameter
         {
             Name = in_name;
             Files = in_files ?? [];
-        }
-
-        public int IndexOf(PackageFile in_item)
-        {
-            return Files.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, PackageFile in_item)
-        {
-            Files.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Files.RemoveAt(in_index);
-        }
-
-        public void Add(PackageFile in_item)
-        {
-            Files.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Files.Clear();
-        }
-
-        public bool Contains(PackageFile in_item)
-        {
-            return Files.Contains(in_item);
-        }
-
-        public void CopyTo(PackageFile[] in_array, int in_arrayIndex)
-        {
-            Files.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(PackageFile in_item)
-        {
-            return Files.Remove(in_item);
-        }
-
-        public IEnumerator<PackageFile> GetEnumerator()
-        {
-            return Files.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

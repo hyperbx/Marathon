@@ -70,7 +70,7 @@
     <Compile Include="Formats\Placement\PropLibrary.cs" />
     <Compile Include="Formats\Placement\StageSet.cs" />
     <Compile Include="Formats\Placement\StageSetDataType.cs" />
-    <Compile Include="Formats\Placement\Templates.cs" />
+    <Compile Include="Formats\Placement\TemplateFactory.cs" />
     <Compile Include="Formats\Save\SaveEpisode.cs" />
     <Compile Include="Formats\Save\SaveFlags.cs" />
     <Compile Include="Formats\Save\SaveOptions.cs" />
@@ -193,7 +193,7 @@
     <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="JeremyAnsel.Media.WavefrontObj" Version="3.0.56" />
     <PackageReference Include="libHSON" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,15 +14,11 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for ShotParameter.bin files; used for configuring enemy projectiles.
     /// </summary>
-    public class EnemyShotParameterList : FileBase, IList<EnemyShotParameter>
+    public class EnemyShotParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"
 
         public List<EnemyShotParameter> Parameters { get; set; } = [];
-
-        public int Count => Parameters.Count;
-
-        public bool IsReadOnly => false;
 
         public EnemyShotParameter this[int in_index]
         {
@@ -178,56 +173,6 @@ namespace Marathon.Formats.Parameter
 
             writer.Write(0);
             writer.FinishWrite();
-        }
-
-        public int IndexOf(EnemyShotParameter in_item)
-        {
-            return Parameters.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, EnemyShotParameter in_item)
-        {
-            Parameters.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Parameters.RemoveAt(in_index);
-        }
-
-        public void Add(EnemyShotParameter in_item)
-        {
-            Parameters.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Parameters.Clear();
-        }
-
-        public bool Contains(EnemyShotParameter in_item)
-        {
-            return Parameters.Contains(in_item);
-        }
-
-        public void CopyTo(EnemyShotParameter[] in_array, int in_arrayIndex)
-        {
-            Parameters.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(EnemyShotParameter in_item)
-        {
-            return Parameters.Remove(in_item);
-        }
-
-        public IEnumerator<EnemyShotParameter> GetEnumerator()
-        {
-            return Parameters.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 

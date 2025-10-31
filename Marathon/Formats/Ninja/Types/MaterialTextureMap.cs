@@ -1,18 +1,13 @@
 ﻿using Marathon.IO;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Marathon.Formats.Ninja.Types
 {
-    public class MaterialTextureMap : IList<MaterialTextureMapDesc>
+    public class MaterialTextureMap
     {
         public List<MaterialTextureMapDesc> Descriptions { get; set; } = [];
-
-        public int Count => Descriptions.Count;
-
-        public bool IsReadOnly => false;
 
         public MaterialTextureMapDesc this[int in_index]
         {
@@ -37,56 +32,6 @@ namespace Marathon.Formats.Ninja.Types
         {
             foreach (var desc in Descriptions)
                 desc.Write(in_writer);
-        }
-
-        public int IndexOf(MaterialTextureMapDesc in_item)
-        {
-            return Descriptions.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, MaterialTextureMapDesc in_item)
-        {
-            Descriptions.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Descriptions.RemoveAt(in_index);
-        }
-
-        public void Add(MaterialTextureMapDesc in_item)
-        {
-            Descriptions.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Descriptions.Clear();
-        }
-
-        public bool Contains(MaterialTextureMapDesc in_item)
-        {
-            return Descriptions.Contains(in_item);
-        }
-
-        public void CopyTo(MaterialTextureMapDesc[] in_array, int in_arrayIndex)
-        {
-            Descriptions.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(MaterialTextureMapDesc in_item)
-        {
-            return Descriptions.Remove(in_item);
-        }
-
-        public IEnumerator<MaterialTextureMapDesc> GetEnumerator()
-        {
-            return Descriptions.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override bool Equals(object in_obj)

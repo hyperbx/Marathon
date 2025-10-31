@@ -2,7 +2,6 @@
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -16,7 +15,7 @@ namespace Marathon.Formats.Placement
     /// <summary>
     /// Support for *.prop files; used for defining actors.
     /// </summary>
-    public class PropLibrary : FileBase, IList<Actor>
+    public class PropLibrary : FileBase
     {
         private const string _extension = ".prop"; // "PROP"
 
@@ -29,10 +28,6 @@ namespace Marathon.Formats.Placement
         /// The actors in this library.
         /// </summary>
         public List<Actor> Actors { get; set; } = [];
-
-        public int Count => Actors.Count;
-
-        public bool IsReadOnly => false;
 
         public Actor this[int in_index]
         {
@@ -167,56 +162,6 @@ namespace Marathon.Formats.Placement
             }
 
             writer.FinishWrite();
-        }
-
-        public int IndexOf(Actor in_item)
-        {
-            return Actors.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, Actor in_item)
-        {
-            Actors.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Actors.RemoveAt(in_index);
-        }
-
-        public void Add(Actor in_item)
-        {
-            Actors.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Actors.Clear();
-        }
-
-        public bool Contains(Actor in_item)
-        {
-            return Actors.Contains(in_item);
-        }
-
-        public void CopyTo(Actor[] in_array, int in_arrayIndex)
-        {
-            Actors.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(Actor in_item)
-        {
-            return Actors.Remove(in_item);
-        }
-
-        public IEnumerator<Actor> GetEnumerator()
-        {
-            return Actors.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

@@ -132,8 +132,8 @@ namespace Marathon.Formats.Ninja.Types
                 if (vertex.MatrixIndices != null)
                     in_writer.WriteBytes(vertex.MatrixIndices);
 
-                if (vertex.Normals != null)
-                    in_writer.Write(vertex.Normals.Value);
+                if (vertex.Normal != null)
+                    in_writer.Write(vertex.Normal.Value);
 
                 if (vertex.VertexColourA != null)
                     in_writer.Write(vertex.VertexColourA.Value);
@@ -150,8 +150,8 @@ namespace Marathon.Formats.Ninja.Types
                 if (vertex.Tangent != null)
                     in_writer.Write(vertex.Tangent.Value);
 
-                if (vertex.Binormals != null)
-                    in_writer.Write(vertex.Binormals.Value);
+                if (vertex.Binormal != null)
+                    in_writer.Write(vertex.Binormal.Value);
             }
 
             return verticesOffset;
@@ -173,7 +173,7 @@ namespace Marathon.Formats.Ninja.Types
             if (Vertices[0].MatrixIndices != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_MTX_INDEX4;
 
-            if (Vertices[0].Normals != null)
+            if (Vertices[0].Normal != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_NORMAL;
 
             if (Vertices[0].VertexColourA != null)
@@ -188,7 +188,7 @@ namespace Marathon.Formats.Ninja.Types
             if (Vertices[0].Tangent != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_TANGENT;
 
-            if (Vertices[0].Binormals != null)
+            if (Vertices[0].Binormal != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_BINORMAL;
 
             return result;

@@ -3,7 +3,6 @@ using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -17,7 +16,7 @@ namespace Marathon.Formats.Audio
     /// <summary>
     /// Support for *.sbk files; used for defining sounds.
     /// </summary>
-    public class SoundBank : FileBase, IList<SoundBankData>
+    public class SoundBank : FileBase
     {
         private const string _extension = ".sbk"; // "Sound BanK"
         private const string _signature = "SBNK"; // "Sound BaNK"
@@ -32,10 +31,6 @@ namespace Marathon.Formats.Audio
         /// The sounds in this bank.
         /// </summary>
         public List<SoundBankData> Sounds { get; set; } = [];
-
-        public int Count => Sounds.Count;
-
-        public bool IsReadOnly => false;
 
         public SoundBankData this[int in_index]
         {
@@ -237,56 +232,6 @@ namespace Marathon.Formats.Audio
             }
 
             writer.FinishWrite();
-        }
-
-        public int IndexOf(SoundBankData in_item)
-        {
-            return Sounds.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, SoundBankData in_item)
-        {
-            Sounds.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Sounds.RemoveAt(in_index);
-        }
-
-        public void Add(SoundBankData in_item)
-        {
-            Sounds.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Sounds.Clear();
-        }
-
-        public bool Contains(SoundBankData in_item)
-        {
-            return Sounds.Contains(in_item);
-        }
-
-        public void CopyTo(SoundBankData[] in_array, int in_arrayIndex)
-        {
-            Sounds.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(SoundBankData in_item)
-        {
-            return Sounds.Remove(in_item);
-        }
-
-        public IEnumerator<SoundBankData> GetEnumerator()
-        {
-            return Sounds.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

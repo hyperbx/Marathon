@@ -13,9 +13,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Weight { get; set; }
 
-        public byte[] MatrixIndices { get; set; }
+        public byte[] MatrixIndices { get; set; } = new byte[4];
 
-        public Vector3? Normals { get; set; }
+        public Vector3? Normal { get; set; }
 
         public Colour<byte, RGBA>? VertexColourA { get; set; }
 
@@ -25,7 +25,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Tangent { get; set; }
 
-        public Vector3? Binormals { get; set; }
+        public Vector3? Binormal { get; set; }
 
         public Vertex() { }
 
@@ -46,7 +46,7 @@ namespace Marathon.Formats.Ninja.Types
                 MatrixIndices = in_reader.ReadBytes(4);
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_NORMAL))
-                Normals = in_reader.Read<Vector3>();
+                Normal = in_reader.Read<Vector3>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR))
                 VertexColourA = in_reader.ReadObject<Colour<byte, RGBA>>();
@@ -64,7 +64,7 @@ namespace Marathon.Formats.Ninja.Types
                 Tangent = in_reader.Read<Vector3>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_BINORMAL))
-                Binormals = in_reader.Read<Vector3>();
+                Binormal = in_reader.Read<Vector3>();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,7 +14,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.ptb files; used for defining textures for particle effects.
     /// </summary>
-    public class ParticleTextureBank : FileBase, IList<ParticleTexture>
+    public class ParticleTextureBank : FileBase
     {
         private const string _extension = ".ptb"; // "Particle Texture Bank"
         private const string _signature = "BTEP"; // "Particle Effect Texture Bank" (reverse)
@@ -29,10 +28,6 @@ namespace Marathon.Formats.Particle
         /// The textures in this bank.
         /// </summary>
         public List<ParticleTexture> Textures { get; set; } = [];
-
-        public int Count => Textures.Count;
-
-        public bool IsReadOnly => false;
 
         public ParticleTexture this[int in_index]
         {
@@ -108,56 +103,6 @@ namespace Marathon.Formats.Particle
             }
 
             writer.FinishWrite();
-        }
-
-        public int IndexOf(ParticleTexture in_item)
-        {
-            return Textures.IndexOf(in_item);
-        }
-
-        public void Insert(int in_index, ParticleTexture in_item)
-        {
-            Textures.Insert(in_index, in_item);
-        }
-
-        public void RemoveAt(int in_index)
-        {
-            Textures.RemoveAt(in_index);
-        }
-
-        public void Add(ParticleTexture in_item)
-        {
-            Textures.Add(in_item);
-        }
-
-        public void Clear()
-        {
-            Textures.Clear();
-        }
-
-        public bool Contains(ParticleTexture in_item)
-        {
-            return Textures.Contains(in_item);
-        }
-
-        public void CopyTo(ParticleTexture[] in_array, int in_arrayIndex)
-        {
-            Textures.CopyTo(in_array, in_arrayIndex);
-        }
-
-        public bool Remove(ParticleTexture in_item)
-        {
-            return Textures.Remove(in_item);
-        }
-
-        public IEnumerator<ParticleTexture> GetEnumerator()
-        {
-            return Textures.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public override string ToString()

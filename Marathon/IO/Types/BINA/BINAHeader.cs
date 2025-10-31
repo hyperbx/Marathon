@@ -21,7 +21,7 @@ namespace Marathon.IO.Types.BINA
 
         public long HeaderOffset { get; set; }
 
-        public uint FileSize { get; set; }
+        public uint ResourceSize { get; set; }
 
         public uint RelocTableOffset { get; set; }
 
@@ -80,32 +80,32 @@ namespace Marathon.IO.Types.BINA
             // Jump to the beginning of the header to read it with the correct endianness.
             in_reader.JumpTo(HeaderOffset);
 
-            FileSize = in_reader.ReadUInt32();
-            RelocTableOffset = in_reader.ReadUInt32();
-            RelocTableLength = in_reader.ReadUInt32();
+            ResourceSize = in_reader.Read<uint>();
+            RelocTableOffset = in_reader.Read<uint>();
+            RelocTableLength = in_reader.Read<uint>();
 
             // TODO: unknown.
-            var unkField1 = in_reader.ReadUInt32();
+            var unkField1 = in_reader.Read<uint>();
 
             if (unkField1 != 0)
                 Logger.Warning($"{nameof(unkField1)} is non-zero: {unkField1}");
 
             // TODO: unknown - possibly a flag?
-            var unkField2 = in_reader.ReadUInt16();
+            var unkField2 = in_reader.Read<ushort>();
 
             if (unkField2 != 0)
                 Logger.Warning($"{nameof(unkField2)} is non-zero: {unkField2}");
 
             // TODO: unknown - possibly node count?
-            HasFooterMagic = in_reader.ReadUInt16() == 1;
+            HasFooterMagic = in_reader.Read<ushort>() == 1;
 
             in_reader.JumpAhead(4);
 
             if (!in_reader.CheckSignature(_signature, false))
-                Logger.Warning("No BINA signature. Acroarts file?");
+                Logger.Warning("No BINA signature. Acroarts binary?");
 
             // TODO: unknown - possibly additional data length?
-            var unkField3 = in_reader.ReadUInt32();
+            var unkField3 = in_reader.Read<uint>();
 
             if (unkField3 != 0)
                 Logger.Warning($"{nameof(unkField3)} is non-zero: {unkField3}");
@@ -115,15 +115,15 @@ namespace Marathon.IO.Types.BINA
         {
             IsBigEndian = in_writer.Endianness == Endianness.Big;
 
-            in_writer.Write(FileSize);
+            in_writer.Write(ResourceSize);
             in_writer.Write(RelocTableOffset);
             in_writer.Write(RelocTableLength);
 
             // TODO: unknown - possibly padding?
-            in_writer.WriteNullBytes(4);
+            in_writer.Write(0);
 
             // TODO: unknown - possibly a flag?
-            in_writer.WriteNullBytes(2);
+            in_writer.Write<ushort>(0);
 
             in_writer.Write(HasFooterMagic ? (ushort)1 : (ushort)0);
 
@@ -137,7 +137,7 @@ namespace Marathon.IO.Types.BINA
             in_writer.WriteStringFixedLength(Encoding.UTF8, _signature, 4);
 
             // TODO: unknown.
-            in_writer.WriteNullBytes(4);
+            in_writer.Write(0);
         }
     }
 }
