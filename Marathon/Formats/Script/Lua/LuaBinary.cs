@@ -37,6 +37,8 @@ namespace Marathon.Formats.Script.Lua
             }
         }
 
+        public override string Extension => _extension;
+
         public LuaBinary() { }
 
         public LuaBinary(string in_path) : base(in_path) { }

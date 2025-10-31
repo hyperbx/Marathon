@@ -27,6 +27,8 @@ namespace Marathon.Formats.Mesh
         /// </summary>
         public List<SplinePathData> Paths { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public SplinePathData this[int in_index]
         {
             get => Paths[in_index];

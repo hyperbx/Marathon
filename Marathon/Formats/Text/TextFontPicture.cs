@@ -29,6 +29,8 @@ namespace Marathon.Formats.Text
         /// </summary>
         public List<TextFontPictureCrop> Crops { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public TextFontPictureCrop this[int in_index]
         {
             get => Crops[in_index];

@@ -30,6 +30,8 @@ namespace Marathon.Formats.Event
         /// </summary>
         public List<TimeEventData> Events { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public TimeEventData this[int in_index]
         {
             get => Events[in_index];

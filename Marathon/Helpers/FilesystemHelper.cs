@@ -65,6 +65,77 @@ namespace Marathon.Helpers
             return Path.Combine(Path.GetDirectoryName(in_filePath), name);
         }
 
+        public static string TruncateExtensions(string in_filePath, int in_count = 1, bool in_isFileNameOnly = false)
+        {
+            var name = in_filePath;
+
+            if (in_count <= 0)
+                return name;
+
+            for (int i = 0; i < in_count; i++)
+                name = Path.GetFileNameWithoutExtension(name);
+
+            if (in_isFileNameOnly)
+                return name;
+
+            return Path.Combine(Path.GetDirectoryName(in_filePath), name);
+        }
+
+        public static string EnsureExtension(string in_path, string in_expectedExtension)
+        {
+            if (string.IsNullOrEmpty(in_expectedExtension))
+                throw new ArgumentNullException(nameof(in_expectedExtension));
+
+            var path = in_path ?? throw new ArgumentNullException(nameof(in_path));
+            var expectedExtension = in_expectedExtension.Trim().Trim('.');
+
+            // File name already ends with expected extension.
+            if (path.EndsWith(expectedExtension, StringComparison.OrdinalIgnoreCase))
+                return path;
+
+            var originalExtensions = GetAllExtensions(path).ToArray();
+
+            // File name has no extension, just append expected extension.
+            if (originalExtensions.Length == 0)
+                return path + expectedExtension;
+
+            var expectedExtensions = in_expectedExtension.Split('.', StringSplitOptions.RemoveEmptyEntries);
+            var max = Math.Min(originalExtensions.Length, expectedExtensions.Length);
+            var len = 0;
+
+            // Get number of missing extensions.
+            for (int i = max; i >= 1; i--)
+            {
+                var matches = true;
+
+                for (int j = 0; j < i; j++)
+                {
+                    var curOriginalExtension = originalExtensions[originalExtensions.Length - i + j];
+                    var curExpectedExtension = expectedExtensions[j];
+
+                    if (!string.Equals(curOriginalExtension, curExpectedExtension, StringComparison.OrdinalIgnoreCase))
+                    {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if (matches)
+                {
+                    len = i;
+                    break;
+                }
+            }
+
+            var missingExtensions = expectedExtensions.Skip(len).ToArray();
+
+            if (missingExtensions.Length == 0)
+                return path;
+
+            // Append missing extensions.
+            return path + '.' + string.Join('.', missingExtensions);
+        }
+
         public static string OmitRootDirectory(string in_path)
         {
             var index = in_path.IndexOf(Path.DirectorySeparatorChar);

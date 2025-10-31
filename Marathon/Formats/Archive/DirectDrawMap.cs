@@ -135,7 +135,7 @@ namespace Marathon.Formats.Archive
                 Files.Add(Path.GetFileName(file), File.ReadAllBytes(file));
         }
 
-        public override void Export(string in_path = "")
+        public override void Export(string in_path = "", bool in_isOverwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 in_path = Location;
@@ -143,7 +143,14 @@ namespace Marathon.Formats.Archive
             var dir = Directory.CreateDirectory(FilesystemHelper.TruncateAllExtensions(in_path));
 
             foreach (var file in Files)
-                File.WriteAllBytes(Path.Combine(dir.FullName, file.Key), file.Value);
+            {
+                var path = Path.Combine(dir.FullName, file.Key);
+
+                if (!in_isOverwrite)
+                    ThrowHelper.ThrowFileExistsException(path);
+
+                File.WriteAllBytes(path, file.Value);
+            }
         }
 
         public void Add(string in_key, byte[] in_value)

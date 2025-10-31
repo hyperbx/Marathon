@@ -32,6 +32,8 @@ namespace Marathon.Formats.Audio
         /// </summary>
         public List<SoundBankData> Sounds { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public SoundBankData this[int in_index]
         {
             get => Sounds[in_index];

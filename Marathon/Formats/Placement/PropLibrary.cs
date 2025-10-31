@@ -29,6 +29,8 @@ namespace Marathon.Formats.Placement
         /// </summary>
         public List<Actor> Actors { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public Actor this[int in_index]
         {
             get => Actors[in_index];

@@ -22,6 +22,8 @@ namespace Marathon.Formats.Parameter
 
         public List<EnemyParameter> Parameters { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public EnemyParameter this[int in_index]
         {
             get => Parameters[in_index];

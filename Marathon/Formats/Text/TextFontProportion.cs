@@ -1,6 +1,8 @@
 ﻿using Amicitia.IO.Streams;
+using Marathon.Helpers.Converters;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Newtonsoft.Json;
 using System.IO;
 
 // Format names:        Text Font Proportion
@@ -45,7 +47,10 @@ namespace Marathon.Formats.Text
         /// <para>If a character width is zero, it'll fall back to <see cref="CellSize"/>.</para>
         /// <para>This follows the <a href="https://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">Shift-JIS</a> specification.</para>
         /// </summary>
+        [JsonConverter(typeof(ByteArrayToListConverter))]
         public byte[] CharacterWidths { get; set; }
+
+        public override string Extension => _extension;
 
         public TextFontProportion() { }
 

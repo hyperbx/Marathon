@@ -35,6 +35,8 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public List<ParticleEffect> Effects { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public ParticleEffect this[int in_index]
         {
             get => Effects[in_index];

@@ -33,6 +33,8 @@ namespace Marathon.Formats.Text
         /// </summary>
         public List<TextCard> Cards { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public TextCard this[int in_index]
         {
             get => Cards[in_index];

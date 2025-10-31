@@ -20,6 +20,8 @@ namespace Marathon.Formats.Parameter
 
         public List<PackageCategory> Categories { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public PackageCategory this[int in_index]
         {
             get => Categories[in_index];

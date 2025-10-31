@@ -1,12 +1,16 @@
 ﻿using Amicitia.IO.Binary;
+using Marathon.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Marathon.IO
 {
     public class FileBase : IDisposable
     {
+        private const string _intermediateExtension = ".json";
+
         /// <summary>
         /// The underlying stream to the file.
         /// </summary>
@@ -20,10 +24,22 @@ namespace Marathon.IO
         public string Location { get; private set; }
 
         /// <summary>
-        /// The endianness of this file.
+        /// Determines whether this file format has a file extension.
         /// </summary>
         [JsonIgnore]
-        public Endianness Endianness { get; set; } = Endianness.Big;
+        public virtual bool HasExtension { get; private set; } = true;
+
+        /// <summary>
+        /// The file extension of this file format.
+        /// </summary>
+        [JsonIgnore]
+        public virtual string Extension { get; private set; }
+
+        /// <summary>
+        /// The endianness of this file format.
+        /// </summary>
+        [JsonIgnore]
+        public virtual Endianness Endianness { get; set; } = Endianness.Big;
 
         /// <summary>
         /// The method used for writing the file.
@@ -57,8 +73,7 @@ namespace Marathon.IO
             if (string.IsNullOrEmpty(in_path))
                 throw new ArgumentNullException(nameof(in_path));
 
-            if (!File.Exists(in_path))
-                throw new FileNotFoundException("The specified file does not exist.", in_path);
+            ThrowHelper.ThrowFileNotFoundException(in_path);
 
             Stream = new FileStream(in_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
@@ -70,13 +85,12 @@ namespace Marathon.IO
             throw new NotImplementedException();
         }
 
-        public virtual void Write(string in_path, bool in_overwrite = true)
+        public virtual void Write(string in_path, bool in_isOverwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 throw new ArgumentNullException(nameof(in_path));
 
-            if (!in_overwrite && File.Exists(in_path))
-                throw new IOException("The specified file already exists.");
+            ThrowHelper.ThrowFileExistsException(in_path);
 
             switch (WriteMode)
             {
@@ -119,9 +133,39 @@ namespace Marathon.IO
             Write(Location, in_isOverwrite);
         }
 
-        public virtual void Import(string in_path) { }
+        public virtual void Import(string in_path)
+        {
+            if (HasExtension && string.IsNullOrEmpty(Extension))
+                throw new Exception("A file extension for this format has not been provided.");
 
-        public virtual void Export(string in_path = "") { }
+            ThrowHelper.ThrowFileNotFoundException(in_path);
+
+            if (!in_path.EndsWith(Extension + _intermediateExtension))
+                throw new IOException("The specified file is not in the default intermediate format.");
+
+            JsonConvert.PopulateObject(File.ReadAllText(in_path), this);
+        }
+
+        public virtual void Export(string in_path = "", bool in_isOverwrite = true)
+        {
+            if (HasExtension && string.IsNullOrEmpty(Extension))
+                throw new Exception("A file extension for this format has not been provided.");
+
+            if (string.IsNullOrEmpty(in_path))
+            {
+                if (string.IsNullOrEmpty(Location))
+                    throw new ArgumentNullException(nameof(in_path));
+
+                in_path = $"{Location}.json";
+            }
+
+            in_path = FilesystemHelper.EnsureExtension(in_path, Extension + _intermediateExtension);
+
+            if (!in_isOverwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            File.WriteAllText(in_path, JsonConvert.SerializeObject(this, Formatting.Indented));
+        }
 
         public void Dispose()
         {

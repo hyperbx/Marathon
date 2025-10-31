@@ -20,6 +20,8 @@ namespace Marathon.Formats.Parameter
 
         public List<ObjectExplosionParameter> Parameters { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public ObjectExplosionParameter this[int in_index]
         {
             get => Parameters[in_index];

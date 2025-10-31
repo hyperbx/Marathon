@@ -26,6 +26,8 @@ namespace Marathon.Formats.Event
         /// </summary>
         public List<EventPlaybookData> Events { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public EventPlaybookData this[int in_index]
         {
             get => Events[in_index];

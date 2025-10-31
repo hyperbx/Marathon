@@ -21,6 +21,8 @@ namespace Marathon.Formats.Mesh
 
         public List<ReflectionAreaParam> Parameters { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public ReflectionAreaParam this[int in_index]
         {
             get => Parameters[in_index];

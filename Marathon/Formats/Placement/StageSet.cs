@@ -49,6 +49,8 @@ namespace Marathon.Formats.Placement
         /// </summary>
         public List<Actor> Actors { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public StageSet() { }
 
         public StageSet(string in_path) : base(in_path) { }
@@ -381,10 +383,13 @@ namespace Marathon.Formats.Placement
             FromHsonProject(Project.FromFile(in_path));
         }
 
-        public override void Export(string in_path = "")
+        public override void Export(string in_path = "", bool in_isOverwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 in_path = $"{Location}.hson";
+
+            if (!in_isOverwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
 
             var name = FilesystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
 

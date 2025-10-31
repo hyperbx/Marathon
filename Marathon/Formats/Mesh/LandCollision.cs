@@ -1,6 +1,7 @@
 ﻿using Amicitia.IO.Binary;
 using Assimp;
 using Assimp.Configs;
+using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
@@ -35,6 +36,8 @@ namespace Marathon.Formats.Mesh
         /// The faces of this collision mesh.
         /// </summary>
         public List<CollisionFace> Faces { get; set; } = [];
+
+        public override string Extension => _extension;
 
         public LandCollision() { }
 
@@ -152,10 +155,13 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public override void Export(string in_path = "")
+        public override void Export(string in_path = "", bool in_isOverwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 in_path = Location + ".obj";
+
+            if (!in_isOverwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
 
             var writer = new StreamWriter(in_path);
 

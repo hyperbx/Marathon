@@ -36,6 +36,8 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public List<ParticleMaterial> Materials { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public ParticleGlobalSettings() { }
 
         public ParticleGlobalSettings(string in_path) : base(in_path) { }

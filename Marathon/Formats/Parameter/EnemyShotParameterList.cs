@@ -20,6 +20,8 @@ namespace Marathon.Formats.Parameter
 
         public List<EnemyShotParameter> Parameters { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public EnemyShotParameter this[int in_index]
         {
             get => Parameters[in_index];

@@ -29,6 +29,8 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public List<ParticleTexture> Textures { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public ParticleTexture this[int in_index]
         {
             get => Textures[in_index];

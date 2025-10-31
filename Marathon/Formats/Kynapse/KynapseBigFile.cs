@@ -27,6 +27,8 @@ namespace Marathon.Formats.Kynapse
 
         public KynapseObject Root { get; set; }
 
+        public override string Extension => _extension;
+
         public KynapseBigFile() { }
 
         public KynapseBigFile(string in_path) : base(in_path) { }
@@ -83,7 +85,7 @@ namespace Marathon.Formats.Kynapse
             WalkBinaries(Root);
         }
 
-        public override void Export(string in_path = "")
+        public override void Export(string in_path = "", bool in_isOverwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 in_path = Location;
@@ -129,6 +131,9 @@ namespace Marathon.Formats.Kynapse
 
                     var binDir = Directory.CreateDirectory(Path.Combine(dir.FullName, in_hierarchy));
                     var binFile = Path.Combine(binDir.FullName, $"{name}.bin");
+
+                    if (!in_isOverwrite)
+                        ThrowHelper.ThrowFileExistsException(binFile);
 
                     File.WriteAllBytes(binFile, in_object.Data);
 

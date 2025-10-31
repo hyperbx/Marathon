@@ -28,6 +28,8 @@ namespace Marathon.Formats.Particle
         /// </summary>
         public List<Particle> Particles { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public Particle this[int in_index]
         {
             get => Particles[in_index];

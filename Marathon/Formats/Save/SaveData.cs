@@ -33,6 +33,8 @@ namespace Marathon.Formats.Save
 
         public SaveOptions Options { get; set; } = new();
 
+        public override string Extension => _extension;
+
         public SaveData() { }
 
         public SaveData(string in_path) : base(in_path) { }

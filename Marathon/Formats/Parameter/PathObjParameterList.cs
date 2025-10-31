@@ -20,6 +20,8 @@ namespace Marathon.Formats.Parameter
 
         public List<PathObjParameter> Parameters { get; set; } = [];
 
+        public override string Extension => _extension;
+
         public PathObjParameter this[int in_index]
         {
             get => Parameters[in_index];
