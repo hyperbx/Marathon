@@ -178,6 +178,7 @@
     <Compile Include="Formats\Script\Lua\Types\LUpvalue.cs" />
     <Compile Include="Formats\Script\Lua\Types\LUpvalueType.cs" />
     <Compile Include="Formats\Text\TextBook.cs" />
+    <Compile Include="Formats\Text\TextFontMap.cs" />
     <Compile Include="Formats\Text\TextFontPicture.cs" />
     <Compile Include="Formats\Text\TextFontProportion.cs" />
   </ItemGroup>

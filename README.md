@@ -25,9 +25,9 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 - Kynapse
     - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynapseBigFile.cs)
 - Mesh
-    - [Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/Collision.cs)
-    - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs)
+    - [Land Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/LandCollision.cs)
     - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs)
+    - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs)
 - Ninja
     - [Camera (`*.xnc`, `*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraChunk.cs)
     - [Camera Animation (`*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraMotionChunk.cs)
@@ -62,6 +62,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Lua Binary (`*.lub`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Script/Lua/LuaBinary.cs)
 - Text
     - [Text Book (`*.mst`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextBook.cs)
+    - [Text Font Map (`*.ftm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontMap.cs)
     - [Text Font Picture (`*.pft`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontPicture.cs)
     - [Text Font Proportion (`*.pfi`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Text/TextFontProportion.cs)
 	
@@ -76,9 +77,6 @@ The `*.csb` format is part of CRIWARE's ADX middleware. There are currently no p
 
 ### DirectDraw Surface
 The `*.dds` format is for textures. There are no plans for Marathon to support this, there is plenty of software that can create these files already.
-
-### Text Font Map
-The `*.ftm` format contains information about how the characters are mapped to the font textures. This format is a bit of a nightmare, so not much research has been done on it yet.
 
 ### PlayStation 3 Fragment Shader Bytecode
 The `*.fpo` format is the compiled fragment shader format for the PlayStation 3 version of the game. There are no plans for Marathon to support this.

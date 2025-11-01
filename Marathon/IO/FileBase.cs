@@ -3,7 +3,6 @@ using Marathon.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Linq;
 
 namespace Marathon.IO
 {
@@ -90,7 +89,8 @@ namespace Marathon.IO
             if (string.IsNullOrEmpty(in_path))
                 throw new ArgumentNullException(nameof(in_path));
 
-            ThrowHelper.ThrowFileExistsException(in_path);
+            if (!in_isOverwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
 
             switch (WriteMode)
             {
