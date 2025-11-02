@@ -70,27 +70,27 @@ namespace Marathon.Formats.Parameter
                 var particleContainerOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleContainerOffset,
-                    () => param.ParticleContainer = reader.ReadStringNullTerminated());
+                    () => param.ParticleContainerName = reader.ReadStringNullTerminated());
 
                 var particleNameOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleNameOffset,
                     () => param.ParticleName = reader.ReadStringNullTerminated());
 
-                var soundBankOffset = reader.Read<uint>();
+                var soundBankNameOffset = reader.Read<uint>();
 
-                reader.ReadAtOffset(BINAHeader.Size + soundBankOffset,
-                    () => param.SoundBank = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + soundBankNameOffset,
+                    () => param.SoundBankName = reader.ReadStringNullTerminated());
 
                 var soundNameOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + soundNameOffset,
                     () => param.SoundName = reader.ReadStringNullTerminated());
 
-                var lightNameOffset = reader.Read<uint>();
+                var lightPathOffset = reader.Read<uint>();
 
-                reader.ReadAtOffset(BINAHeader.Size + lightNameOffset,
-                    () => param.LightName = reader.ReadStringNullTerminated());
+                reader.ReadAtOffset(BINAHeader.Size + lightPathOffset,
+                    () => param.Light = reader.ReadStringNullTerminated());
 
                 // Always null.
                 reader.JumpAhead(12);
@@ -115,11 +115,11 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].Force);
                 writer.Write(Parameters[i].Damage);
                 writer.Write(Parameters[i].Behaviour);
-                writer.WriteStringOffset(Parameters[i].ParticleContainer);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerName);
                 writer.WriteStringOffset(Parameters[i].ParticleName);
-                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundBankName);
                 writer.WriteStringOffset(Parameters[i].SoundName);
-                writer.WriteStringOffset(Parameters[i].LightName);
+                writer.WriteStringOffset(Parameters[i].Light);
                 writer.WriteNullBytes(12);
             }
 
@@ -181,9 +181,9 @@ namespace Marathon.Formats.Parameter
         public uint Behaviour { get; set; }
 
         /// <summary>
-        /// The location of the particle container used for this explosion.
+        /// The name of the particle container used to source one of this explosion's particle effects.
         /// </summary>
-        public string ParticleContainer { get; set; }
+        public string ParticleContainerName { get; set; }
 
         /// <summary>
         /// The name of the particle used for this explosion.
@@ -191,9 +191,9 @@ namespace Marathon.Formats.Parameter
         public string ParticleName { get; set; }
 
         /// <summary>
-        /// The location of the sound bank used for this explosion.
+        /// The name of the sound bank used to source sound effects for this explosion.
         /// </summary>
-        public string SoundBank { get; set; }
+        public string SoundBankName { get; set; }
 
         /// <summary>
         /// The name of the sound to use for this explosion.
@@ -203,7 +203,7 @@ namespace Marathon.Formats.Parameter
         /// <summary>
         /// The location of the light animation (*.xni) used for this explosion.
         /// </summary>
-        public string LightName { get; set; }
+        public string Light { get; set; }
 
         public override string ToString()
         {

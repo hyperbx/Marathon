@@ -18,9 +18,9 @@ namespace Marathon.Formats.Save
         public int Rings { get; set; }
 
         /// <summary>
-        /// The location of this mission's Lua script.
+        /// The location of this episode's mission script.
         /// </summary>
-        public string Lua { get; set; }
+        public string Script { get; set; }
 
         /// <summary>
         /// This mission's temporary flags.

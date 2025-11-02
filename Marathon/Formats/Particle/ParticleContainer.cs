@@ -71,12 +71,12 @@ namespace Marathon.Formats.Particle
                 var effectNameOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + effectNameOffset,
-                    () => particle.EffectBankName = reader.ReadStringNullTerminated());
+                    () => particle.EffectName = reader.ReadStringNullTerminated());
 
                 var effectBankOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + effectBankOffset,
-                    () => particle.Resource = reader.ReadStringNullTerminated());
+                    () => particle.EffectBank = reader.ReadStringNullTerminated());
 
                 particle.Flags = reader.Read<uint>();
 
@@ -97,16 +97,16 @@ namespace Marathon.Formats.Particle
             {
                 writer.WriteStringOffset(Particles[i].Name);
 
-                if (Particles[i].EffectBankName == null)
+                if (Particles[i].EffectName == null)
                 {
                     writer.Write(0);
                 }
                 else
                 {
-                    writer.WriteStringOffset(Particles[i].EffectBankName);
+                    writer.WriteStringOffset(Particles[i].EffectName);
                 }
 
-                writer.WriteStringOffset(Particles[i].Resource);
+                writer.WriteStringOffset(Particles[i].EffectBank);
                 writer.Write(Particles[i].Flags);
             }
 
@@ -127,21 +127,21 @@ namespace Marathon.Formats.Particle
         public string Name { get; set; }
 
         /// <summary>
-        /// The name of the effect bank entry this particle uses.
-        /// <para>If null, this particle uses a *.mab file.</para>
+        /// The name of the particle effect bank entry this particle uses.
+        /// <para>If null, this particle uses an Acroarts binary (*.mab).</para>
         /// </summary>
-        public string EffectBankName { get; set; }
+        public string EffectName { get; set; }
 
         /// <summary>
-        /// The location of the resource this particle uses.
-        /// <para>If <see cref="EffectBankName"/> is null, this should be the location of a *.mab file.</para>
+        /// The location of the particle effect bank used for this particle.
+        /// <para>If <see cref="EffectName"/> is null, this should be the location of an Acroarts binary (*.mab).</para>
         /// </summary>
-        public string Resource { get; set; }
+        public string EffectBank { get; set; }
 
         /// <summary>
         /// TODO: unknown, bitfield?
-        /// <para>0x00000000 - uses a *.mab file.</para>
-        /// <para>0x00000001 - only used on kdv_scaffold01, the resource referenced does not exist.</para>
+        /// <para>0x00000000 - uses an Acroarts binary (*.mab).</para>
+        /// <para>0x00000001 - only used on kdv_scaffold01, the resource it references does not exist.</para>
         /// <para>0x00000002 - uses a particle effect bank.</para>
         /// <para>0x00010000 - unknown, can be combined with the other values for something.</para>
         /// </summary>
@@ -152,8 +152,8 @@ namespace Marathon.Formats.Particle
         public Particle(string in_particleName, string in_effectName, string in_file, uint in_flags)
         {
             Name = in_particleName;
-            EffectBankName = in_effectName;
-            Resource = in_file;
+            EffectName = in_effectName;
+            EffectBank = in_file;
             Flags = in_flags;
         }
 

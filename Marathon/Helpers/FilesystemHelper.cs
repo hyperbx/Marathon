@@ -42,7 +42,12 @@ namespace Marathon.Helpers
 
         public static List<string> GetAllExtensions(string in_filePath)
         {
-            return Path.GetFileName(in_filePath).Split('.', StringSplitOptions.RemoveEmptyEntries).Skip(1).ToList();
+            return [.. Path.GetFileName(in_filePath).Split('.', StringSplitOptions.RemoveEmptyEntries).Skip(1)];
+        }
+
+        public static List<string> GetExtensions(string in_filePath, int in_count)
+        {
+            return [.. GetAllExtensions(in_filePath).TakeLast(in_count)];
         }
 
         public static string TruncateAllExtensions(string in_filePath, bool in_isFileNameOnly = false)

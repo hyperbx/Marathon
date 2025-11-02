@@ -161,6 +161,7 @@ namespace Marathon.Formats.Particle
     {
         Additive,
         Negation,
-        Opaque = 3
+        Subtraction,
+        Opaque
     }
 }

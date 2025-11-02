@@ -2,6 +2,7 @@
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
@@ -187,6 +188,7 @@ namespace Marathon.Formats.Placement
         /// <summary>
         /// The name of a variable that persists after dying in a stage.
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Persistent { get; set; }
 
         public Actor() { }

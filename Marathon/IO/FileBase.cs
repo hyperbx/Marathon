@@ -62,7 +62,16 @@ namespace Marathon.IO
         public FileBase(string in_path, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)
             : this(in_writeMode, in_leaveOpen)
         {
-            Read(in_path);
+            var extension = '.' + string.Join('.', FilesystemHelper.GetExtensions(in_path, 2));
+
+            if (extension == Extension + _intermediateExtension)
+            {
+                Import(in_path);
+            }
+            else
+            {
+                Read(in_path);
+            }
         }
 
         public virtual void Read(string in_path)

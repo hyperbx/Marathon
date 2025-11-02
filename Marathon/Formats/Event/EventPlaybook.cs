@@ -64,7 +64,7 @@ namespace Marathon.Formats.Event
                 var nameOffset = reader.Read<uint>();
                 var folderOffset = reader.Read<uint>();
                 
-                @event.Length = reader.Read<uint>();
+                @event.Duration = reader.Read<uint>();
                 @event.Position = reader.Read<Vector3>();
                 @event.Rotation = reader.Read<Vector3>();
                 
@@ -80,13 +80,13 @@ namespace Marathon.Formats.Event
                     reader.ReadAtOffset(BINAHeader.Size + nameOffset, () => @event.Name = reader.ReadStringNullTerminated());
 
                 if (folderOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + folderOffset, () => @event.Folder = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + folderOffset, () => @event.Directory = reader.ReadStringNullTerminated());
 
                 if (terrainOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + terrainOffset, () => @event.Terrain = reader.ReadStringNullTerminated());
 
                 if (sceneParametersOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + sceneParametersOffset, () => @event.SceneParameters = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + sceneParametersOffset, () => @event.SceneParams = reader.ReadStringNullTerminated());
 
                 if (sceneBankOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + sceneBankOffset, () => @event.SoundBank = reader.ReadStringNullTerminated());
@@ -95,7 +95,7 @@ namespace Marathon.Formats.Event
                     reader.ReadAtOffset(BINAHeader.Size + particleContainerOffset, () => @event.ParticleContainer = reader.ReadStringNullTerminated());
 
                 if (subtitlesOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + subtitlesOffset, () => @event.Subtitles = reader.ReadStringNullTerminated());
+                    reader.ReadAtOffset(BINAHeader.Size + subtitlesOffset, () => @event.TextBook = reader.ReadStringNullTerminated());
 
                 reader.JumpTo(pos);
 
@@ -116,15 +116,15 @@ namespace Marathon.Formats.Event
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.WriteStringOffset(Events[i].Name);
-                writer.WriteStringOffset(Events[i].Folder);
-                writer.Write(Events[i].Length);
+                writer.WriteStringOffset(Events[i].Directory);
+                writer.Write(Events[i].Duration);
                 writer.Write(Events[i].Position);
                 writer.Write(Events[i].Rotation);
                 writer.WriteStringOffset(Events[i].Terrain);
-                writer.WriteStringOffset(Events[i].SceneParameters);
+                writer.WriteStringOffset(Events[i].SceneParams);
                 writer.WriteStringOffset(Events[i].SoundBank);
                 writer.WriteStringOffset(Events[i].ParticleContainer);
-                writer.WriteStringOffset(Events[i].Subtitles);
+                writer.WriteStringOffset(Events[i].TextBook);
             }
 
             writer.FinishWrite();
@@ -141,7 +141,7 @@ namespace Marathon.Formats.Event
         /// <summary>
         /// The location of this event's resources.
         /// </summary>
-        public string Folder { get; set; }
+        public string Directory { get; set; }
 
         /// <summary>
         /// The location of this event's terrain.
@@ -151,7 +151,7 @@ namespace Marathon.Formats.Event
         /// <summary>
         /// The location of this event's scene parameter script.
         /// </summary>
-        public string SceneParameters { get; set; }
+        public string SceneParams { get; set; }
 
         /// <summary>
         /// The location of this event's sound bank.
@@ -164,22 +164,22 @@ namespace Marathon.Formats.Event
         public string ParticleContainer { get; set; }
 
         /// <summary>
-        /// The location of this event's message table for subtitles.
+        /// The location of this event's text book for subtitles.
         /// </summary>
-        public string Subtitles { get; set; }
+        public string TextBook { get; set; }
 
         /// <summary>
-        /// The length of this event in frames.
+        /// The duration of this event in frames.
         /// </summary>
-        public uint Length { get; set; }
+        public uint Duration { get; set; }
 
         /// <summary>
-        /// The position of this event's objects relative to the origin point.
+        /// The start position of this event's camera.
         /// </summary>
         public Vector3 Position { get; set; }
 
         /// <summary>
-        /// The rotation of this event's objects.
+        /// The start rotation of this event's camera.
         /// </summary>
         public Vector3 Rotation { get; set; }
 

@@ -23,7 +23,7 @@ namespace Marathon.Formats.Event
         /// <summary>
         /// The reference animation file.
         /// </summary>
-        public string Motion { get; set; }
+        public string Animation { get; set; }
 
         /// <summary>
         /// The events in this file.
@@ -53,9 +53,10 @@ namespace Marathon.Formats.Event
             // Always null.
             reader.JumpAhead(4);
 
-            var motionPathOffset = reader.Read<uint>();
+            var animationPathOffset = reader.Read<uint>();
 
-            reader.ReadAtOffset(BINAHeader.Size + motionPathOffset, () => Motion = reader.ReadStringNullTerminated());
+            reader.ReadAtOffset(BINAHeader.Size + animationPathOffset,
+                () => Animation = reader.ReadStringNullTerminated());
 
             var eventCount = reader.Read<uint>();
             var eventTableOffset = reader.Read<uint>();
@@ -67,19 +68,26 @@ namespace Marathon.Formats.Event
                 // Always null.
                 reader.JumpAhead(4);
 
-                var targetNodeOffset = reader.Read<uint>();
-                var resourceOffset = reader.Read<uint>();
-                var resourceNameOffset = reader.Read<uint>();
+                var nodeNameOffset = reader.Read<uint>();
+
+                reader.ReadAtOffset(BINAHeader.Size + nodeNameOffset,
+                    () => data.Node = reader.ReadStringNullTerminated());
+
+                var particleContainerNameOffset = reader.Read<uint>();
+
+                reader.ReadAtOffset(BINAHeader.Size + particleContainerNameOffset,
+                    () => data.ParticleContainerName = reader.ReadStringNullTerminated());
+
+                var particleNameOffset = reader.Read<uint>();
+
+                reader.ReadAtOffset(BINAHeader.Size + particleNameOffset,
+                    () => data.ParticleName = reader.ReadStringNullTerminated());
 
                 data.StartTime = reader.Read<float>();
                 data.EndTime = reader.Read<float>();
                 data.UnknownField1 = reader.Read<uint>();
                 data.Position = reader.Read<Vector3>();
                 data.UnknownField2 = reader.Read<Vector3>();
-
-                reader.ReadAtOffset(BINAHeader.Size + targetNodeOffset, () => data.TargetNode = reader.ReadStringNullTerminated());
-                reader.ReadAtOffset(BINAHeader.Size + resourceOffset, () => data.Resource = reader.ReadStringNullTerminated());
-                reader.ReadAtOffset(BINAHeader.Size + resourceNameOffset, () => data.ResourceName = reader.ReadStringNullTerminated());
 
                 Events.Add(data);
             }
@@ -91,7 +99,7 @@ namespace Marathon.Formats.Event
         
             writer.WriteSignature(_signature);
             writer.Write(0);
-            writer.WriteStringOffset(Motion);
+            writer.WriteStringOffset(Animation);
             writer.Write(Events.Count);
             writer.Reserve<uint>("EventTableOffset");
             writer.WriteReserved("EventTableOffset", (uint)writer.Position - BINAHeader.Size);
@@ -99,9 +107,9 @@ namespace Marathon.Formats.Event
             for (int i = 0; i < Events.Count; i++)
             {
                 writer.Write(0);
-                writer.WriteStringOffset(Events[i].TargetNode);
-                writer.WriteStringOffset(Events[i].Resource);
-                writer.WriteStringOffset(Events[i].ResourceName);
+                writer.WriteStringOffset(Events[i].Node);
+                writer.WriteStringOffset(Events[i].ParticleContainerName);
+                writer.WriteStringOffset(Events[i].ParticleName);
                 writer.Write(Events[i].StartTime);
                 writer.Write(Events[i].EndTime);
                 writer.Write(Events[i].UnknownField1);
@@ -114,7 +122,7 @@ namespace Marathon.Formats.Event
 
         public override string ToString()
         {
-            return Motion;
+            return Animation;
         }
     }
 
@@ -123,17 +131,17 @@ namespace Marathon.Formats.Event
         /// <summary>
         /// The name of the node to target.
         /// </summary>
-        public string TargetNode { get; set; }
+        public string Node { get; set; }
 
         /// <summary>
         /// The name of the resource file to load from.
         /// </summary>
-        public string Resource { get; set; }
+        public string ParticleContainerName { get; set; }
 
         /// <summary>
         /// The name of the resource to pair with this animation.
         /// </summary>
-        public string ResourceName { get; set; }
+        public string ParticleName { get; set; }
 
         /// <summary>
         /// The time during the animation this event starts at.
@@ -159,10 +167,5 @@ namespace Marathon.Formats.Event
         /// TODO: unknown.
         /// </summary>
         public Vector3 UnknownField2 { get; set; }
-
-        public override string ToString()
-        {
-            return ResourceName;
-        }
     }
 }

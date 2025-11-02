@@ -270,13 +270,13 @@ namespace Marathon.Formats.Audio
         public float Radius { get; set; }
 
         /// <summary>
-        /// The ID of the cue in the *.csb file.
+        /// The ID of the cue in the Cue Sheet Binary (*.csb) file.
         /// </summary>
         public int CueID { get; set; } = -1;
 
         /// <summary>
         /// The name of the stream this sound uses.
-        /// <para>If using a stream from a *.csb file, leave blank.</para>
+        /// <para>If using a stream from a Cue Sheet Binary (*.csb) file, leave blank.</para>
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Stream { get; set; }
@@ -305,7 +305,7 @@ namespace Marathon.Formats.Audio
         Undefined = -1,
 
         /// <summary>
-        /// The audio data is stored in a *.csb file.
+        /// The audio data is stored in a Cue Sheet Binary (*.csb) file.
         /// </summary>
         CueSheet,
 

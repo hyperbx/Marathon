@@ -82,7 +82,7 @@ namespace Marathon.Formats.Parameter
                 param.UnknownField10 = reader.Read<float>();
                 param.UnknownField11 = reader.Read<float>();
                 param.UnknownField12 = reader.Read<uint>();
-                param.UnknownField13 = reader.Read<float>();
+                param.UnknownField13 = reader.Read<float>(); // TODO: investigate this.
                 param.UnknownField14 = reader.Read<float>();
 
                 var explosionNameOffset = reader.Read<uint>();
@@ -93,7 +93,7 @@ namespace Marathon.Formats.Parameter
                 var particleContainerAOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleContainerAOffset,
-                    () => param.ParticleContainerA = reader.ReadStringNullTerminated());
+                    () => param.ParticleContainerNameA = reader.ReadStringNullTerminated());
 
                 var particleNameAOffset = reader.Read<uint>();
 
@@ -103,7 +103,7 @@ namespace Marathon.Formats.Parameter
                 var soundBankOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + soundBankOffset,
-                    () => param.SoundBank = reader.ReadStringNullTerminated());
+                    () => param.SoundBankName = reader.ReadStringNullTerminated());
 
                 var soundNameOffset = reader.Read<uint>();
 
@@ -113,7 +113,7 @@ namespace Marathon.Formats.Parameter
                 var particleContainerBOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleContainerBOffset,
-                    () => param.ParticleContainerB = reader.ReadStringNullTerminated());
+                    () => param.ParticleContainerNameB = reader.ReadStringNullTerminated());
 
                 var particleNameBOffset = reader.Read<uint>();
 
@@ -123,7 +123,7 @@ namespace Marathon.Formats.Parameter
                 var particleContainerCOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleContainerCOffset,
-                    () => param.ParticleContainerC = reader.ReadStringNullTerminated());
+                    () => param.ParticleContainerNameC = reader.ReadStringNullTerminated());
 
                 var particleNameCOffset = reader.Read<uint>();
 
@@ -162,13 +162,13 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].UnknownField13);
                 writer.Write(Parameters[i].UnknownField14);
                 writer.WriteStringOffset(Parameters[i].ExplosionName);
-                writer.WriteStringOffset(Parameters[i].ParticleContainerA);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerNameA);
                 writer.WriteStringOffset(Parameters[i].ParticleNameA);
-                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundBankName);
                 writer.WriteStringOffset(Parameters[i].SoundName);
-                writer.WriteStringOffset(Parameters[i].ParticleContainerB);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerNameB);
                 writer.WriteStringOffset(Parameters[i].ParticleNameB);
-                writer.WriteStringOffset(Parameters[i].ParticleContainerC);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerNameC);
                 writer.WriteStringOffset(Parameters[i].ParticleNameC);
                 writer.WriteStringOffset(Parameters[i].UnknownField15);
             }
@@ -266,9 +266,9 @@ namespace Marathon.Formats.Parameter
         public string ExplosionName { get; set; }
 
         /// <summary>
-        /// The location of a particle container for one of this projectile's particle effects.
+        /// The name of a particle container used to source one of this projectile's particle effects.
         /// </summary>
-        public string ParticleContainerA { get; set; }
+        public string ParticleContainerNameA { get; set; }
 
         /// <summary>
         /// The name of the particle used by this projectile from the first particle container.
@@ -278,7 +278,7 @@ namespace Marathon.Formats.Parameter
         /// <summary>
         /// The location of the sound bank for this projectile.
         /// </summary>
-        public string SoundBank { get; set; }
+        public string SoundBankName { get; set; }
 
         /// <summary>
         /// The name of the sound used when this projectile is destroyed.
@@ -286,9 +286,9 @@ namespace Marathon.Formats.Parameter
         public string SoundName { get; set; }
 
         /// <summary>
-        /// The location of a particle container for one of this projectile's particle effects.
+        /// The name of a particle container used to source one of this projectile's particle effects.
         /// </summary>
-        public string ParticleContainerB { get; set; }
+        public string ParticleContainerNameB { get; set; }
 
         /// <summary>
         /// The name of the particle used by this projectile from the second particle container.
@@ -296,9 +296,9 @@ namespace Marathon.Formats.Parameter
         public string ParticleNameB { get; set; }
 
         /// <summary>
-        /// The location of a particle container for one of this projectile's particle effects.
+        /// The name of a particle container used to source one of this projectile's particle effects.
         /// </summary>
-        public string ParticleContainerC { get; set; }
+        public string ParticleContainerNameC { get; set; }
 
         /// <summary>
         /// The name of the particle used by this projectile from the third particle container.

@@ -15,12 +15,11 @@ $work = $pwd
 $profiles = @("win-x86", "win-x64", "linux-x64", "osx-x64")
 $buildPaths = @("Marathon.CLI\bin\Publish\")
 $patchVersion = ".github\workflows\Patch-Version.ps1"
+$currentVersion = "2.0.0"
 
 if ($Help)
 {
     echo "Marathon Build Script"
-    echo ""
-    echo "All your platforms are belong to us."
     echo ""
     echo "Usage:"
     echo "-Archive - archives the build artifacts."
@@ -47,7 +46,7 @@ if ([System.String]::IsNullOrEmpty($Version))
 {
     foreach ($project in [System.IO.Directory]::EnumerateFiles(".", "*.csproj", [System.IO.SearchOption]::AllDirectories))
     {
-        & "${patchVersion}" -ProjectPath "${project}" -Version "1.0.0"
+        & "${patchVersion}" -ProjectPath "${project}" -Version "${currentVersion}"
     }
 }
 
@@ -76,7 +75,7 @@ function Build([String]$configuration, [String]$profile)
     dotnet publish /p:Configuration="${configuration}" /p:PublishProfile="${profile}"
 
     # Restore default version number.
-    PatchVersionInformation "" $false "1.0.0"
+    PatchVersionInformation "" $false "${currentVersion}"
 
     if ($Archive)
     {

@@ -2,7 +2,9 @@
 using Amicitia.IO.Streams;
 using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler;
+using Marathon.Helpers;
 using Marathon.IO;
+using System;
 using System.IO;
 
 // Format names:        Lua Binary
@@ -49,6 +51,27 @@ namespace Marathon.Formats.Script.Lua
             var header = new BHeader(reader);
 
             Main = header.Function.Parse(reader, header);
+        }
+
+        public override void Write(Stream in_stream)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Import(string in_path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Export(string in_path = "", bool in_isOverwrite = true)
+        {
+            if (string.IsNullOrEmpty(in_path))
+                in_path = Location;
+
+            if (!in_isOverwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            File.WriteAllText(in_path, Decompile());
         }
 
         public string Decompile()

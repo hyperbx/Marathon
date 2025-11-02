@@ -103,11 +103,11 @@ namespace Marathon.Formats.Particle
                         UnknownField6 = reader.Read<uint>(),
                         UnknownField7 = reader.Read<uint>(),
                         MaterialName = reader.ReadStringFixedLength(0x20),
-                        TextureBankA = reader.ReadStringFixedLength(0x20),
+                        TextureBankNameA = reader.ReadStringFixedLength(0x20),
                         TextureNameA = reader.ReadStringFixedLength(0x20),
-                        TextureBankB = reader.ReadStringFixedLength(0x20),
+                        TextureBankNameB = reader.ReadStringFixedLength(0x20),
                         TextureNameB = reader.ReadStringFixedLength(0x20),
-                        TextureBankC = reader.ReadStringFixedLength(0x20),
+                        TextureBankNameC = reader.ReadStringFixedLength(0x20),
                         TextureNameC = reader.ReadStringFixedLength(0x20)
                     };
 
@@ -198,11 +198,11 @@ namespace Marathon.Formats.Particle
                     writer.Write(node.UnknownField6);
                     writer.Write(node.UnknownField7);
                     writer.WriteStringFixedLength(node.MaterialName, 0x20);
-                    writer.WriteStringFixedLength(node.TextureBankA, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankNameA, 0x20);
                     writer.WriteStringFixedLength(node.TextureNameA, 0x20);
-                    writer.WriteStringFixedLength(node.TextureBankB, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankNameB, 0x20);
                     writer.WriteStringFixedLength(node.TextureNameB, 0x20);
-                    writer.WriteStringFixedLength(node.TextureBankC, 0x20);
+                    writer.WriteStringFixedLength(node.TextureBankNameC, 0x20);
                     writer.WriteStringFixedLength(node.TextureNameC, 0x20);
 
                     var propertyCount = node.Properties.Sum(x => x.Length());
@@ -352,9 +352,9 @@ namespace Marathon.Formats.Particle
         public string MaterialName { get; set; }
 
         /// <summary>
-        /// The location of a particle texture bank for one this particle's textures.
+        /// The name of a particle texture bank for one this particle's textures.
         /// </summary>
-        public string TextureBankA { get; set; }
+        public string TextureBankNameA { get; set; }
 
         /// <summary>
         /// The name of the texture used by this particle from the first particle texture bank.
@@ -362,9 +362,9 @@ namespace Marathon.Formats.Particle
         public string TextureNameA { get; set; }
 
         /// <summary>
-        /// The location of a particle texture bank for one this particle's textures.
+        /// The name of a particle texture bank for one this particle's textures.
         /// </summary>
-        public string TextureBankB { get; set; }
+        public string TextureBankNameB { get; set; }
 
         /// <summary>
         /// The name of the texture used by this particle from the second particle texture bank.
@@ -372,9 +372,9 @@ namespace Marathon.Formats.Particle
         public string TextureNameB { get; set; }
 
         /// <summary>
-        /// The location of a particle texture bank for one this particle's textures.
+        /// The name of a particle texture bank for one this particle's textures.
         /// </summary>
-        public string TextureBankC { get; set; }
+        public string TextureBankNameC { get; set; }
 
         /// <summary>
         /// The name of the texture used by this particle from the third particle texture bank.

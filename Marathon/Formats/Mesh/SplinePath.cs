@@ -178,17 +178,17 @@ namespace Marathon.Formats.Mesh
 
     public class SplinePathData
     {
-        public float UnknownField { get; set; }
+        public string Name { get; set; }
 
         public uint NodeIndex { get; set; }
 
-        public List<SplineRoot> Splines { get; set; } = [];
+        public float UnknownField { get; set; }
 
         public Vector3 Position { get; set; }
 
         public Quaternion Rotation { get; set; }
 
-        public string Name { get; set; }
+        public List<SplineRoot> Splines { get; set; } = [];
 
         public override string ToString()
         {

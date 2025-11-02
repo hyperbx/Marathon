@@ -599,30 +599,30 @@ namespace Marathon.Formats.Save
         SilverMedal_CollectAll3 = 5411,
 
         // Sonic's upgrades.
-        Upgrade_Sonic_LightDash   = 6000,
-        Upgrade_Sonic_Sliding     = 6001,
-        Upgrade_Sonic_BoundJump   = 6002,
-        Upgrade_Sonic_HomingSmash = 6003,
-        Upgrade_Sonic_GreenGem    = 6004,
-        Upgrade_Sonic_RedGem      = 6005,
-        Upgrade_Sonic_BlueGem     = 6006,
-        Upgrade_Sonic_WhiteGem    = 6007,
-        Upgrade_Sonic_SkyGem      = 6008,
-        Upgrade_Sonic_YellowGem   = 6009,
-        Upgrade_Sonic_PurpleGem   = 6010,
-        Upgrade_Sonic_RainbowGem  = 6011,
+        Upgrade_Sonic_LightChip      = 6000, // Light Dash
+        Upgrade_Sonic_Antigravity    = 6001, // Sliding Attack
+        Upgrade_Sonic_BounceBracelet = 6002,
+        Upgrade_Sonic_HomingSmash    = 6003, // Unused
+        Upgrade_Sonic_GreenGem       = 6004,
+        Upgrade_Sonic_RedGem         = 6005,
+        Upgrade_Sonic_BlueGem        = 6006,
+        Upgrade_Sonic_WhiteGem       = 6007,
+        Upgrade_Sonic_SkyGem         = 6008,
+        Upgrade_Sonic_YellowGem      = 6009,
+        Upgrade_Sonic_PurpleGem      = 6010,
+        Upgrade_Sonic_RainbowGem     = 6011, // Unused
 
         // Shadow's upgrades.
-        Upgrade_Shadow_LightDash = 6012,
-        Upgrade_Shadow_BoostLV1  = 6013,
-        Upgrade_Shadow_BoostLV2  = 6014,
-        Upgrade_Shadow_BoostLV3  = 6015,
+        Upgrade_Shadow_AirChip          = 6012, // Light Dash
+        Upgrade_Shadow_MemoryShardBlue  = 6013, // Chaos Boost Lv. 1 / Chaos Snap
+        Upgrade_Shadow_MemoryShardRed   = 6014, // Chaos Boost Lv. 2 / Chaos Lance
+        Upgrade_Shadow_MemoryShardBlack = 6015, // Chaos Boost Lv. 3 / Chaos Blast
 
         // Silver's upgrades.
-        Upgrade_Silver_HoldSmash   = 6016,
-        Upgrade_Silver_CatchAll    = 6017,
-        Upgrade_Silver_Teleport    = 6018,
-        Upgrade_Silver_Psychoshock = 6019,
-        Upgrade_Silver_SpeedUp     = 6020
+        Upgrade_Silver_SingleLayeredExtreme = 6016, // Hold Smash
+        Upgrade_Silver_PowerBracelet        = 6017, // Grab All
+        Upgrade_Silver_HeartOfWind          = 6018, // Teleport Dash
+        Upgrade_Silver_ShockBracelet        = 6019, // Psycho Shock
+        Upgrade_Silver_SpeedUp              = 6020  // Unused
     }
 }

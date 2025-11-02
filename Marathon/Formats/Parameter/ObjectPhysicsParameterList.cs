@@ -67,7 +67,7 @@ namespace Marathon.Formats.Parameter
                 var havokOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + havokOffset,
-                    () => param.Havok = reader.ReadStringNullTerminated());
+                    () => param.Physics = reader.ReadStringNullTerminated());
 
                 var timeEventOffset = reader.Read<uint>();
 
@@ -82,7 +82,7 @@ namespace Marathon.Formats.Parameter
                 var luaOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + luaOffset,
-                    () => param.Lua = reader.ReadStringNullTerminated());
+                    () => param.Script = reader.ReadStringNullTerminated());
 
                 param.Type = reader.Read<ObjectPhysicsType>();
 
@@ -116,7 +116,7 @@ namespace Marathon.Formats.Parameter
                 var particleContainerOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + particleContainerOffset,
-                    () => param.ParticleContainer = reader.ReadStringNullTerminated());
+                    () => param.ParticleContainerName = reader.ReadStringNullTerminated());
 
                 var particleNameOffset = reader.Read<uint>();
 
@@ -126,7 +126,7 @@ namespace Marathon.Formats.Parameter
                 var soundBankOffset = reader.Read<uint>();
 
                 reader.ReadAtOffset(BINAHeader.Size + soundBankOffset,
-                    () => param.SoundBank = reader.ReadStringNullTerminated());
+                    () => param.SoundBankName = reader.ReadStringNullTerminated());
 
                 var soundNameOffset = reader.Read<uint>();
 
@@ -147,10 +147,10 @@ namespace Marathon.Formats.Parameter
             {
                 writer.WriteStringOffset(Parameters[i].Name);
                 writer.WriteStringOffset(Parameters[i].Model);
-                writer.WriteStringOffset(Parameters[i].Havok);
+                writer.WriteStringOffset(Parameters[i].Physics);
                 writer.WriteStringOffset(Parameters[i].TimeEvent);
                 writer.WriteStringOffset(Parameters[i].MaterialAnimation);
-                writer.WriteStringOffset(Parameters[i].Lua);
+                writer.WriteStringOffset(Parameters[i].Script);
                 writer.Write(Parameters[i].Type);
                 writer.WriteStringOffset(Parameters[i].PsiGrabNode);
                 writer.Write(Parameters[i].CollisionType);
@@ -166,9 +166,9 @@ namespace Marathon.Formats.Parameter
                 writer.Write(Parameters[i].Score);
                 writer.WriteStringOffset(Parameters[i].OnDestroy);
                 writer.WriteStringOffset(Parameters[i].ExplosionName);
-                writer.WriteStringOffset(Parameters[i].ParticleContainer);
+                writer.WriteStringOffset(Parameters[i].ParticleContainerName);
                 writer.WriteStringOffset(Parameters[i].ParticleName);
-                writer.WriteStringOffset(Parameters[i].SoundBank);
+                writer.WriteStringOffset(Parameters[i].SoundBankName);
                 writer.WriteStringOffset(Parameters[i].SoundName);
                 writer.Write(Parameters[i].PsiGrabBehaviour);
             }
@@ -191,9 +191,9 @@ namespace Marathon.Formats.Parameter
         public string Model { get; set; }
 
         /// <summary>
-        /// The location of the Havok data file for this object.
+        /// The location of the physics file for this object.
         /// </summary>
-        public string Havok { get; set; }
+        public string Physics { get; set; }
 
         /// <summary>
         /// The location of the time event for this object.
@@ -206,9 +206,9 @@ namespace Marathon.Formats.Parameter
         public string MaterialAnimation { get; set; }
 
         /// <summary>
-        /// The location of the Lua script for this object.
+        /// The location of the script for this object.
         /// </summary>
-        public string Lua { get; set; }
+        public string Script { get; set; }
 
         /// <summary>
         /// The type of object this is.
@@ -287,9 +287,9 @@ namespace Marathon.Formats.Parameter
         public string ExplosionName { get; set; }
 
         /// <summary>
-        /// The location of the particle container for this object.
+        /// The name of the particle container used to source one of this object's particle effects.
         /// </summary>
-        public string ParticleContainer { get; set; }
+        public string ParticleContainerName { get; set; }
 
         /// <summary>
         /// The name of the particle used when this object is destroyed.
@@ -299,7 +299,7 @@ namespace Marathon.Formats.Parameter
         /// <summary>
         /// The location of the sound bank for this object.
         /// </summary>
-        public string SoundBank { get; set; }
+        public string SoundBankName { get; set; }
 
         /// <summary>
         /// The name of the sound used when this object is destroyed.

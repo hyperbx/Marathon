@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Marathon.Shared
 {
@@ -16,7 +15,7 @@ namespace Marathon.Shared
             if (in_useMarkdown)
                 exception.AppendLine("```");
 
-            exception.AppendLine("Marathon " + $"({AssemblyExtensions.GetInformationalVersion()})");
+            exception.AppendLine($"Marathon v{System.Reflection.Assembly.GetExecutingAssembly().GetInformationalVersion()}");
 
             if (!string.IsNullOrEmpty(in_ex.GetType().Name))
                 exception.AppendLine($"\nType: {in_ex.GetType().Name}");

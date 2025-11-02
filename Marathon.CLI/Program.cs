@@ -1,8 +1,11 @@
-﻿using Marathon.Formats.Archive;
+﻿using Amicitia.IO.Binary;
+using Marathon.Exceptions;
+using Marathon.Formats.Archive;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
+using Marathon.Formats.Kynapse;
 using Marathon.Formats.Mesh;
-using Marathon.Formats.Package;
+using Marathon.Formats.Parameter;
 using Marathon.Formats.Particle;
 using Marathon.Formats.Placement;
 using Marathon.Formats.Save;
@@ -10,288 +13,330 @@ using Marathon.Formats.Script;
 using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
+using Marathon.IO;
 using Marathon.Shared;
-using System;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
+using System.Reflection;
 
-namespace Marathon.CLI
-{
-    class Program
-    {
-        internal static IndentationType _indentationType { get; set; } = IndentationType.Spaces;
+Console.Title = "Marathon";
 
-        internal static CompressionLevel _compressionLevel { get; set; } = CompressionLevel.Optimal;
-
-        static void Main(string[] args)
-        {
-            Console.Title = "Marathon Command Line";
-
-            Console.WriteLine
-            (
-                $"Marathon - Version {AssemblyExtensions.GetInformationalVersion()}\n\n" +
-                "" +
-                "All your '06 formats are belong to us.\n"
-            );
+Console.WriteLine($"Marathon v{Assembly.GetExecutingAssembly().GetInformationalVersion()}\n");
 
 #if !DEBUG
-            // Log to file if an unhandled exception occurs.
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-            {
-                File.WriteAllText($"{AssemblyExtensions.GetAssemblyName()}.log", ((Exception)e.ExceptionObject).CreateLog());
-            };
+AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+{
+    File.WriteAllText($"{Assembly.GetExecutingAssembly().GetAssemblyName()}.log", ((Exception)e.ExceptionObject).CreateLog());
+};
 #endif
 
-            // Force culture info 'en-GB' to prevent errors with values altered by culture-specific differences.
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
+// Force culture info to 'en-GB' to prevent errors with values being altered by culture-specific differences.
+CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-GB");
 
-            if (args.Length > 0)
-            {
-                foreach (string arg in args)
-                {
-                    // Set indentation type.
-                    switch (arg)
-                    {
-                        case "--indent-spaces":
-                            _indentationType = IndentationType.Spaces;
-                            break;
+if (args.Length <= 0)
+{
+    Console.WriteLine
+    (
+        """
+        Options:
+        --endianness {big|little} - specify the endianness of the output file.
+        --compression {none|fast|optimal} - specify the compression level for *.arc files.
+        --indentation {tabs|spaces} - specify the indentation type for decompiled Lua scripts.
+        --output "{path}" - specify the output path for the processed data (resets for next file if not a directory).
+        --unattended - don't wait for keyboard input when a message is displayed.
 
-                        case "--indent-tabs":
-                            _indentationType = IndentationType.Tabs;
-                            break;
-                    }
+        Usage: Marathon.CLI [options] [path]
 
-                    // Set compression level.
-                    switch (arg)
-                    {
-                        case "--no-compression":
-                            _compressionLevel = CompressionLevel.NoCompression;
-                            continue;
+        Press any key to continue...
+        """
+    );
 
-                        case "--fast-compression":
-                            _compressionLevel = CompressionLevel.Fastest;
-                            continue;
+    Console.ReadKey();
 
-                        case "--optimal-compression":
-                            _compressionLevel = CompressionLevel.Optimal;
-                            continue;
-                    }
+    return;
+}
 
-                    if (Directory.Exists(arg))
-                    {
-                        U8Archive arc = new(arg, true, _compressionLevel);
-                        arc.Save(StringHelper.ReplaceFilename(arg, Path.GetFileName(arg) + arc.Extension));
-                    }
+var isEndianness = false;
+var endianness = Endianness.Big;
 
-                    if (File.Exists(arg))
-                    {
-                        Console.WriteLine($"File: {arg}\n");
+var isCompression = false;
+var compression = CompressionLevel.Optimal;
 
-                        // Get last extension for overwritable formats.
-                        switch (Path.GetExtension(arg))
-                        {
-                            case ".arc":
-                                U8Archive arc = new(arg, IO.ReadMode.IndexOnly);
-                                arc.Extract(Path.Combine(Path.GetDirectoryName(arg), Path.GetFileNameWithoutExtension(arg)));
-                                break;
+var isIndentation = false;
+var indentation = IndentationType.Tabs;
 
-                            case ".lub":
-                                LuaBinary lub = new(arg);
-                                lub.IndentationType = _indentationType;
-                                lub.Save();
-                                break;
-                        }
+var isOutput = false;
+var output = string.Empty;
 
-                        // Get full extension for serialisable formats.
-                        switch (StringHelper.GetFullExtension(arg))
-                        {
-                            case ".bin":
-                            case ".bin.json":
-                            {
-                                Console.WriteLine
-                                (
-                                    "This file is of a generic type, please specify what format it is;\n" +
-                                    "1. Collision (collision.bin)\n" +
-                                    "2. Common Package (Common.bin)\n" +
-                                    "3. Explosion Package (Explosion.bin)\n" +
-                                    "4. Path Package (PathObj.bin)\n" +
-                                    "5. Save Data (SonicNextSaveData.bin)\n" +
-                                    "6. Script Package (ScriptParameter.bin)\n" +
-                                    "7. Shot Package (ShotParameter.bin)"
-                                );
+var isUnattended = false;
 
-                                switch (Console.ReadKey().KeyChar)
-                                {
-                                    case '1':
-                                        Collision collision = new(arg, true);
-                                        break;
+void Log(string in_message, LogLevel in_logLevel = LogLevel.None)
+{
+    Logger.Log(in_message, in_logLevel, null);
 
-                                    case '2':
-                                        CommonPackage common = new(arg, true);
-                                        break;
+    if (!isUnattended && in_logLevel == LogLevel.Error)
+    {
+        Logger.Log("\nPress any key to continue...");
+        Console.ReadKey();
+    }
+}
 
-                                    case '3':
-                                        ExplosionPackage explosion = new(arg, true);
-                                        break;
+for (int i = 0; i < args.Length; i++)
+{
+    var arg = args[i];
 
-                                    case '4':
-                                        PathPackage pathObj = new(arg, true);
-                                        break;
+    switch (arg.ToLower())
+    {
+        case "--endianness":  isEndianness = true;  continue;
+        case "--compression": isCompression = true; continue;
+        case "--indentation": isIndentation = true; continue;
+        case "--output":      isOutput = true;      continue;
+        case "--unattended":  isUnattended = true;  continue;
+    }
 
-                                    case '5':
-                                        SonicNextSaveData saveData = new(arg, true);
-                                        break;
+    if (isEndianness)
+    {
+        isEndianness = false;
 
-                                    case '6':
-                                        ScriptPackage scriptParameter = new(arg, true);
-                                        break;
-
-                                    case '7':
-                                        ShotPackage shotParameter = new(arg, true);
-                                        break;
-                                }
-
-                                // Pad with two line breaks.
-                                Console.WriteLine('\n');
-
-                                break;
-                            }
-
-                            case ".bin.obj":
-                                Collision collisionOBJ = new(arg, true);
-                                break;
-
-                            case ".sbk":
-                            case ".sbk.json":
-                                SoundBank sbk = new(arg, true);
-                                break;
-
-                            case ".epb":
-                            case ".epb.json":
-                                EventPlaybook epb = new(arg, true);
-                                break;
-
-                            case ".tev":
-                            case ".tev.json":
-                                TimeEvent tev = new(arg, true);
-                                break;
-
-                            case ".pkg":
-                            case ".pkg.json":
-                                AssetPackage pkg = new(arg, true);
-                                break;
-
-                            case ".plc":
-                            case ".plc.json":
-                                ParticleContainer plc = new(arg, true);
-                                break;
-
-                            case ".peb":
-                            case ".peb.json":
-                                ParticleEffectBank peb = new(arg, true);
-                                break;
-
-                            case ".pgs":
-                            case ".pgs.json":
-                                ParticleGenerationSystem pgs = new(arg, true);
-                                break;
-
-                            case ".ptb":
-                            case ".ptb.json":
-                                ParticleTextureBank ptb = new(arg, true);
-                                break;
-
-                            case ".rab":
-                            case ".rab.json":
-                                ReflectionZone rab = new(arg, true);
-                                break;
-
-                            case ".set":
-                            case ".set.json":
-                                SetData set = new(arg, true, !args.Contains("--no-index"));
-                                break;
-
-                            case ".prop":
-                            case ".prop.json":
-                                PropertyDatabase prop = new(arg, true);
-                                break;
-
-                            case string mstEx when mstEx.EndsWith(".mst"):
-                            case string mstJsonEx when mstJsonEx.EndsWith(".mst.json"):
-                                MessageTable mst = new(arg, true);
-                                break;
-
-                            case ".pft":
-                            case ".pft.json":
-                                PictureFont pft = new(arg, true);
-                                break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("Arguments:");
-                Console.WriteLine("--no-index - disables index display for serialised Object Placement data.");
-                Console.WriteLine("--no-compression - writes U8 Archive files uncompressed.");
-                Console.WriteLine("--fast-compression - writes U8 Archive files using fast Zlib compression.");
-                Console.WriteLine("--optimal-compression - writes U8 Archive files using optimal Zlib compression.\n");
-
-                Console.WriteLine("Archive:");
-                Console.WriteLine("- U8 Archive (*.arc)\n");
-
-                Console.WriteLine("Audio:");
-                Console.WriteLine("- Sound Bank (*.sbk)\n");
-
-                Console.WriteLine("Event:");
-                Console.WriteLine("- Event Playbook (*.epb)");
-                Console.WriteLine("- Time Event (*.tev)\n");
-
-                Console.WriteLine("Mesh:");
-                Console.WriteLine("- Collision (*.bin)");
-                Console.WriteLine("- Reflection Zone (*.rab)\n");
-
-                Console.WriteLine("Package:");
-                Console.WriteLine("- Asset Package (*.pkg)");
-                Console.WriteLine("- Common Package (Common.bin)");
-                Console.WriteLine("- Explosion Package (Explosion.bin)");
-                Console.WriteLine("- Path Package (PathObj.bin)");
-                Console.WriteLine("- Script Package (ScriptParameter.bin)");
-                Console.WriteLine("- Shot Package (ShotParameter.bin)\n");
-
-                Console.WriteLine("Particle:");
-                Console.WriteLine("- Particle Container (*.plc)");
-                Console.WriteLine("- Particle Effect Bank (*.peb)");
-                Console.WriteLine("- Particle Generation System (*.pgs)");
-                Console.WriteLine("- Particle Texture Bank (*.ptb)\n");
-
-                Console.WriteLine("Placement:");
-                Console.WriteLine("- Object Placement (*.set)");
-                Console.WriteLine("- Object Property Database (*.prop)\n");
-
-                Console.WriteLine("Save:");
-                Console.WriteLine("- Save Data (SonicNextSaveData.bin)\n");
-
-                Console.WriteLine("Script:");
-                Console.WriteLine("- Lua Bytecode (*.lub)\n");
-
-                Console.WriteLine("Text:");
-                Console.WriteLine("- Message Table (*.mst)");
-                Console.WriteLine("- Picture Font (*.pft)\n");
-
-                Console.WriteLine
-                (
-                    "Usage:\n" +
-                    "Marathon.CLI.exe \"some_supported_file_format.pkg\" ...\n" +
-                    "Marathon.CLI.exe \"some_supported_serialised_format.pkg.json\" ...\n"
-                );
-
-                Console.WriteLine("Press any key to continue...");
-
-                Console.ReadKey();
-            }
+        switch (arg.ToLower().Trim('"'))
+        {
+            case "big":    endianness = Endianness.Big;    continue;
+            case "little": endianness = Endianness.Little; continue;
         }
     }
+
+    if (isCompression)
+    {
+        isCompression = false;
+
+        switch (arg.ToLower().Trim('"'))
+        {
+            case "none":    compression = CompressionLevel.NoCompression; continue;
+            case "fast":    compression = CompressionLevel.Fastest;       continue;
+            case "optimal": compression = CompressionLevel.Optimal;       continue;
+        }
+    }
+
+    if (isIndentation)
+    {
+        isIndentation = false;
+
+        switch (arg.ToLower().Trim('"'))
+        {
+            case "tabs":   indentation = IndentationType.Tabs;   continue;
+            case "spaces": indentation = IndentationType.Spaces; continue;
+        }
+    }
+
+    if (isOutput)
+    {
+        isOutput = false;
+        output = arg;
+        continue;
+    }
+
+    if (string.IsNullOrEmpty(output))
+    {
+        Log($"File: \"{arg}\"");
+        output = null;
+    }
+    else
+    {
+        Log($"Source:      \"{arg}\"");
+        Log($"Destination: \"{output}\"");
+    }
+    
+    Console.WriteLine();
+
+    if (File.Exists(arg))
+    {
+        void ExportFile<T>(string in_path, string in_importExtension = ".json", Func<T, bool>? in_callback = null) where T : FileBase, new()
+        {
+            var file = new T
+            {
+                Endianness = endianness
+            };
+
+            if (in_callback?.Invoke(file) == false)
+                return;
+
+            if (Path.GetExtension(in_path) == in_importExtension)
+            {
+                file.Import(arg);
+                file.Write(output ?? FilesystemHelper.TruncateLastExtension(arg));
+                return;
+            }
+
+            try
+            {
+                file.Read(arg);
+                file.Export(output);
+            }
+            catch (InvalidSignatureException)
+            {
+                Log("Invalid file format.", LogLevel.Error);
+            }
+        }
+
+        var extension = '.' + string.Join('.', FilesystemHelper.GetAllExtensions(arg));
+        var success = true;
+
+        switch (extension)
+        {
+            case ".ddm":
+                ExportFile<DirectDrawMap>(arg);
+                break;
+
+            case ".sbk":
+            case ".sbk.json":
+                ExportFile<SoundBank>(arg);
+                break;
+
+            case ".epb":
+            case ".epb.json":
+                ExportFile<EventPlaybook>(arg);
+                break;
+
+            case ".tev":
+            case ".tev.json":
+                ExportFile<TimeEvent>(arg);
+                break;
+
+            case ".kbf":
+            case ".kbf.json":
+                ExportFile<KynapseBigFile>(arg);
+                break;
+
+            case ".bin":
+            case ".bin.json":
+            case ".bin.obj":
+            {
+                switch (Path.GetFileNameWithoutExtension(arg))
+                {
+                    case "collision":         ExportFile<LandCollision>(arg, ".obj");        break;
+                    case "ScriptParameter":   ExportFile<EnemyParameterList>(arg);           break;
+                    case "ShotParameter":     ExportFile<EnemyShotParameterList>(arg);       break;
+                    case "Explosion":         ExportFile<ObjectExplosionParameterList>(arg); break;
+                    case "Common":            ExportFile<ObjectPhysicsParameterList>(arg);   break;
+                    case "PathObj":           ExportFile<PathObjParameterList>(arg);         break;
+                    case "SonicNextSaveData": ExportFile<SaveData>(arg);                     break;
+                }
+
+                break;
+            }
+
+            case ".rab":
+            case ".rab.json":
+                ExportFile<ReflectionArea>(arg);
+                break;
+
+            case ".path":
+            case ".path.json":
+                ExportFile<SplinePath>(arg);
+                break;
+
+            case ".pkg":
+            case ".pkg.json":
+                ExportFile<Package>(arg);
+                break;
+
+            case ".plc":
+            case ".plc.json":
+                ExportFile<ParticleContainer>(arg);
+                break;
+
+            case ".peb":
+            case ".peb.json":
+                ExportFile<ParticleEffectBank>(arg);
+                break;
+
+            case ".pgs":
+            case ".pgs.json":
+                ExportFile<ParticleGlobalSettings>(arg);
+                break;
+
+            case ".ptb":
+            case ".ptb.json":
+                ExportFile<ParticleTextureBank>(arg);
+                break;
+
+            case ".prop":
+            case ".prop.json":
+                ExportFile<PropLibrary>(arg);
+                break;
+
+            case ".set":
+            case ".set.hson":
+            {
+                ExportFile<StageSet>(arg, ".hson", (x) =>
+                {
+                    var templatesPath = "./Resources/Templates.json";
+
+                    if (!File.Exists(templatesPath))
+                    {
+                        Log($"Could not find \"{templatesPath}\" for stage set exporting.", LogLevel.Error);
+                        return false;
+                    }
+
+                    x.AddTemplatesFromFile(templatesPath);
+
+                    return true;
+                });
+
+                break;
+            }
+
+            case ".lub":
+            {
+                var lub = new LuaBinary(arg)
+                {
+                    IndentationType = indentation
+                };
+
+                lub.Export(output);
+
+                break;
+            }
+
+            case string mst when mst.EndsWith(".mst"):
+            case string mstJson when mstJson.EndsWith(".mst.json"):
+                ExportFile<TextBook>(arg);
+                break;
+
+            case ".ftm":
+            case ".ftm.json":
+                ExportFile<TextFontMap>(arg);
+                break;
+
+            case ".pft":
+            case ".pft.json":
+                ExportFile<TextFontPicture>(arg);
+                break;
+
+            case ".pfi":
+            case ".pfi.json":
+                ExportFile<TextFontProportion>(arg);
+                break;
+
+            default:
+                Log("Unsupported file type.", LogLevel.Error);
+                success = false;
+                break;
+        }
+
+        if (success)
+            Logger.Utility("The file was exported successfully.");
+    }
+    else if (Directory.Exists(arg))
+    {
+        Log("Archives are not implemented yet.", LogLevel.Error);
+    }
+    else
+    {
+        Log("File does not exist.", LogLevel.Error);
+    }
+
+    // Reset output path if it's not a directory.
+    if (File.Exists(output))
+        output = string.Empty;
 }
