@@ -211,16 +211,59 @@ for (int i = 0; i < args.Length; i++)
             case ".bin.json":
             case ".bin.obj":
             {
-                switch (Path.GetFileNameWithoutExtension(arg))
+                void ExportGenericFile(string in_type)
                 {
-                    case "collision":         ExportFile<LandCollision>(arg, ".obj");        break;
-                    case "ScriptParameter":   ExportFile<EnemyParameterList>(arg);           break;
-                    case "ShotParameter":     ExportFile<EnemyShotParameterList>(arg);       break;
-                    case "Explosion":         ExportFile<ObjectExplosionParameterList>(arg); break;
-                    case "Common":            ExportFile<ObjectPhysicsParameterList>(arg);   break;
-                    case "PathObj":           ExportFile<PathObjParameterList>(arg);         break;
-                    case "SonicNextSaveData": ExportFile<SaveData>(arg);                     break;
+                    switch (in_type)
+                    {
+                        case "collision":         ExportFile<LandCollision>(arg, ".obj");        break;
+                        case "ScriptParameter":   ExportFile<EnemyParameterList>(arg);           break;
+                        case "ShotParameter":     ExportFile<EnemyShotParameterList>(arg);       break;
+                        case "Explosion":         ExportFile<ObjectExplosionParameterList>(arg); break;
+                        case "Common":            ExportFile<ObjectPhysicsParameterList>(arg);   break;
+                        case "PathObj":           ExportFile<PathObjParameterList>(arg);         break;
+                        case "SonicNextSaveData": ExportFile<SaveData>(arg);                     break;
+
+                        default:
+                        {
+                            Console.WriteLine
+                            (
+                                """
+                                The file type could not be determined automatically, please specify:
+
+                                1. Land Collision (collision.bin)
+                                2. Enemy Parameter List (ScriptParameter.bin)
+                                3. Enemy Shot Parameter List (ShotParameter.bin)
+                                4. Object Explosion Parameter List (Explosion.bin)
+                                5. Object Physics Parameter List (Common.bin)
+                                6. Path Obj Parameter List (PathObj.bin)
+                                7. Save Data (SonicNextSaveData.bin)
+
+                                """
+                            );
+
+                            var type = string.Empty;
+
+                            switch (Console.ReadKey().KeyChar)
+                            {
+                                case '1': type = "collision";         break;
+                                case '2': type = "ScriptParameter";   break;
+                                case '3': type = "ShotParameter";     break;
+                                case '4': type = "Explosion";         break;
+                                case '5': type = "Common";            break;
+                                case '6': type = "PathObj";           break;
+                                case '7': type = "SonicNextSaveData"; break;
+                            }
+
+                            Console.WriteLine('\n');
+
+                            ExportGenericFile(type);
+
+                            break;
+                        }
+                    }
                 }
+
+                ExportGenericFile(Path.GetFileNameWithoutExtension(arg));
 
                 break;
             }
