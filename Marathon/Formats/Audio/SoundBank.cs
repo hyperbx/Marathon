@@ -126,7 +126,7 @@ namespace Marathon.Formats.Audio
 
             var csbCount = 0;
             var streamCount = 0;
-            var hasIDTable = false;
+            var hasCueIDTable = false;
             var hasStreamTable = false;
 
             foreach (var sound in Sounds)
@@ -136,7 +136,7 @@ namespace Marathon.Formats.Audio
                     csbCount++;
 
                     if (sound.CueID != -1)
-                        hasIDTable = true;
+                        hasCueIDTable = true;
                 }
                 else if (sound.StreamType == StreamType.External)
                 {
@@ -152,13 +152,13 @@ namespace Marathon.Formats.Audio
             writer.Reserve<uint>("NameOffset");
             writer.Reserve<uint>("SoundTableOffset");
 
-            if (csbCount == 0 || !hasIDTable)
+            if (csbCount == 0 || !hasCueIDTable)
             {
                 writer.Write(0);
             }
             else
             {
-                writer.Reserve<uint>("SoundIndicesOffset");
+                writer.Reserve<uint>("CueIDTableOffset");
             }
 
             if (streamCount == 0 || !hasStreamTable)
@@ -207,9 +207,9 @@ namespace Marathon.Formats.Audio
                 writer.Write(sound.Radius);
             }
 
-            if (csbCount != 0 && hasIDTable)
+            if (csbCount != 0 && hasCueIDTable)
             {
-                writer.WriteReserved("SoundIndicesOffset", (uint)writer.Position - BINAHeader.Size);
+                writer.WriteReserved("CueIDTableOffset", (uint)writer.Position - BINAHeader.Size);
 
                 for (int i = 0; i < Sounds.Count; i++)
                 {

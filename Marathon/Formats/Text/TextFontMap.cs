@@ -19,7 +19,6 @@ namespace Marathon.Formats.Text
     {
         private const string _extension = ".ftm"; // "FonT Map"
         private const string _signature = "FNTM"; // "FoNT Map"
-
         private const int _maxCodePages = 256;
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace Marathon.Formats.Text
         /// <summary>
         /// The pages of character definitions in this font map in Unicode order.
         /// </summary>
-        public TextFontCodePage[] CodePages { get; set; }
+        public TextFontMapCodePage[] CodePages { get; set; }
 
         public override string Extension => _extension;
 
@@ -63,9 +62,10 @@ namespace Marathon.Formats.Text
             var unkField = reader.Read<ushort>(); // TODO: unknown - always 1.
             var fontNameOffset = reader.Read<uint>();
 
-            reader.ReadAtOffset(BINAHeader.Size + fontNameOffset, () => { Name = reader.ReadStringNullTerminated(); });
+            reader.ReadAtOffset(BINAHeader.Size + fontNameOffset,
+                () => Name = reader.ReadStringNullTerminated());
 
-            CodePages = new TextFontCodePage[codePageCount + 1];
+            CodePages = new TextFontMapCodePage[codePageCount + 1];
 
             for (int i = 0; i < CodePages.Length; i++)
             {
@@ -76,11 +76,11 @@ namespace Marathon.Formats.Text
 
                 reader.ReadAtOffset(BINAHeader.Size + codePageOffset, () =>
                 {
-                    var codePage = new TextFontCodePage();
+                    var codePage = new TextFontMapCodePage();
 
-                    for (int j = 0; j < TextFontCodePage.Size / 4; j++)
+                    for (int j = 0; j < TextFontMapCodePage.Size / 4; j++)
                     {
-                        var character = reader.ReadObject<TextFontCharacter>();
+                        var character = reader.ReadObject<TextFontMapCharacter>();
 
                         character.Character = (char)((i << 8) | j);
 
@@ -134,13 +134,13 @@ namespace Marathon.Formats.Text
             writer.FinishWrite();
         }
 
-        public static TextFontCodePage CreateCodePage(int in_index)
+        public static TextFontMapCodePage CreateCodePage(int in_index)
         {
-            var result = new TextFontCodePage();
+            var result = new TextFontMapCodePage();
 
-            for (int i = 0; i < TextFontCodePage.Size / 4; i++)
+            for (int i = 0; i < TextFontMapCodePage.Size / 4; i++)
             {
-                var character = new TextFontCharacter
+                var character = new TextFontMapCharacter
                 {
                     Character = (char)((in_index << 8) | i)
                 };
@@ -157,14 +157,14 @@ namespace Marathon.Formats.Text
         }
     }
 
-    public class TextFontCodePage
+    public class TextFontMapCodePage
     {
         public const int Size = 0x400;
 
-        public List<TextFontCharacter> Characters { get; set; } = [];
+        public List<TextFontMapCharacter> Characters { get; set; } = [];
     }
 
-    public class TextFontCharacter : IBinarySerializable
+    public class TextFontMapCharacter : IBinarySerializable
     {
         public char Character { get; internal set; }
 

@@ -1,8 +1,7 @@
-﻿using Amicitia.IO.Streams;
-using Marathon.Helpers.Converters;
+﻿using Amicitia.IO.Binary;
+using Amicitia.IO.Streams;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Newtonsoft.Json;
 using System.IO;
 
 // Format names:        Text Font Proportion
@@ -31,24 +30,20 @@ namespace Marathon.Formats.Text
         public ushort CellWidth { get; set; }
 
         /// <summary>
-        /// The amount of characters to skip from the beginning of the character set.
-        /// <para>This follows the <a href="https://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">Shift-JIS</a> specification.</para>
+        /// The amount of characters to skip from the beginning of the code page.
         /// </summary>
-        public ushort EncodingSeek { get; set; } = 32;
+        public ushort CodePageSeek { get; set; } = 32;
 
         /// <summary>
-        /// The total size of the character set (including the skipped characters from <see cref="EncodingSeek"/>).
-        /// <para>This follows the <a href="https://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">Shift-JIS</a> specification.</para>
+        /// The total size of the code page (including the skipped characters from <see cref="CodePageSeek"/>).
         /// </summary>
-        public ushort EncodingLength { get; set; } = 255;
+        public ushort CodePageLength { get; set; } = 255;
 
         /// <summary>
-        /// The width of each character in the order of the character set.
+        /// The width of each character in the code page.
         /// <para>If a character width is zero, it'll fall back to <see cref="CellWidth"/>.</para>
-        /// <para>This follows the <a href="https://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">Shift-JIS</a> specification.</para>
         /// </summary>
-        [JsonConverter(typeof(ByteArrayToListConverter))]
-        public byte[] CharacterWidths { get; set; }
+        public TextFontProportionCharacter[] Characters { get; set; }
 
         public override string Extension => _extension;
 
@@ -66,15 +61,21 @@ namespace Marathon.Formats.Text
 
             Kerning = reader.Read<ushort>();
             CellWidth = reader.Read<ushort>();
-            EncodingSeek = reader.Read<ushort>();
-            EncodingLength = reader.Read<ushort>();
+            CodePageSeek = reader.Read<ushort>();
+            CodePageLength = reader.Read<ushort>();
 
             reader.JumpTo(dataOffset);
 
-            CharacterWidths = new byte[EncodingLength - EncodingSeek + 1];
+            Characters = new TextFontProportionCharacter[CodePageLength - CodePageSeek + 1];
 
-            for (int i = 0; i < CharacterWidths.Length; i++)
-                CharacterWidths[i] = reader.Read<byte>();
+            for (int i = 0; i < Characters.Length; i++)
+            {
+                var character = reader.ReadObject<TextFontProportionCharacter>();
+
+                character.Character = (char)(CodePageSeek + i);
+
+                Characters[i] = character;
+            }
         }
 
         public override void Write(Stream in_stream)
@@ -87,13 +88,35 @@ namespace Marathon.Formats.Text
 
             writer.Write(Kerning);
             writer.Write(CellWidth);
-            writer.Write(EncodingSeek);
-            writer.Write(EncodingLength);
+            writer.Write(CodePageSeek);
+            writer.Write(CodePageLength);
 
             writer.WriteReserved(dataOffset, (uint)writer.Position);
 
-            for (int i = 0; i < CharacterWidths.Length; i++)
-                writer.Write(CharacterWidths[i]);
+            for (int i = 0; i < Characters.Length; i++)
+                writer.WriteObject(Characters[i]);
+        }
+    }
+
+    public class TextFontProportionCharacter : IBinarySerializable
+    {
+        public char Character { get; internal set; }
+
+        public byte Width { get; set; }
+
+        public void Read(BinaryObjectReader in_reader)
+        {
+            Width = in_reader.Read<byte>();
+        }
+
+        public void Write(BinaryObjectWriter in_writer)
+        {
+            in_writer.Write(Width);
+        }
+
+        public override string ToString()
+        {
+            return Character.ToString();
         }
     }
 }

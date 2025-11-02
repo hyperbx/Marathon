@@ -11,7 +11,7 @@ namespace Marathon.Extensions
         {
             using var ms = new MemoryStream();
 
-            in_project.Write(ms, jsonOptions: new() { Indented = true });
+            in_project.Write(ms, in_hsonOptions, in_jsonOptions);
 
             return Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Length);
         }

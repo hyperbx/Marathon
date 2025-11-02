@@ -22,8 +22,7 @@ namespace Marathon.Formats.Kynapse
     {
         private const string _extension = ".kbf";        // "Kynapse Big File"
         private const string _signature = "KS BIG FILE"; // "KynapSe BIG FILE"
-
-        public uint Version { get; set; } = 1;
+        private const int _version = 1;
 
         public KynapseObject Root { get; set; }
 
@@ -38,8 +37,8 @@ namespace Marathon.Formats.Kynapse
             var reader = new BinaryObjectReaderEx(in_stream, StreamOwnership.Retain, Endianness.Little);
 
             reader.CheckSignature(_signature);
+            reader.JumpAhead(4); // Version
 
-            Version = reader.Read<uint>();
             Root = reader.ReadObject<KynapseObject>();
         }
 
@@ -48,7 +47,7 @@ namespace Marathon.Formats.Kynapse
             var writer = new BinaryObjectWriterEx(in_stream, StreamOwnership.Retain, Endianness.Little);
 
             writer.WriteSignature(_signature);
-            writer.Write(Version);
+            writer.Write(_version);
             writer.WriteObject(Root);
         }
 
