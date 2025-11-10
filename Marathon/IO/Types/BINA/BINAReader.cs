@@ -10,7 +10,7 @@ namespace Marathon.IO.Types.BINA
 
         public long Offset { get; private set; }
 
-        public BINAReader(Stream in_stream, Endianness in_endianness = Endianness.Big, long in_offset = 0)
+        public BINAReader(Stream in_stream, long in_offset = 0, Endianness in_endianness = Endianness.Big)
             : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
         {
             Offset = in_offset;

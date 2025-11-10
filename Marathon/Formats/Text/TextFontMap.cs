@@ -51,7 +51,9 @@ namespace Marathon.Formats.Text
 
         public override void Read(Stream in_stream)
         {
-            var reader = new BINAReader(in_stream, Endianness);
+            var reader = new BINAReader(in_stream);
+
+            Endianness = reader.Endianness;
 
             reader.CheckSignature(_signature);
 
