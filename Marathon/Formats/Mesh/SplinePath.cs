@@ -78,8 +78,8 @@ namespace Marathon.Formats.Mesh
                                 {
                                     Flags = reader.Read<uint>(),
                                     Position = reader.Read<Vector3>(),
-                                    InPosition = reader.Read<Vector3>(),
-                                    OutPosition = reader.Read<Vector3>()
+                                    In = reader.Read<Vector3>(),
+                                    Out = reader.Read<Vector3>()
                                 };
 
                                 spline.Vertices.Add(vertex);
@@ -147,8 +147,8 @@ namespace Marathon.Formats.Mesh
                     {
                         writer.Write(Paths[i].Splines[j].Vertices[k].Flags);
                         writer.Write(Paths[i].Splines[j].Vertices[k].Position);
-                        writer.Write(Paths[i].Splines[j].Vertices[k].InPosition);
-                        writer.Write(Paths[i].Splines[j].Vertices[k].OutPosition);
+                        writer.Write(Paths[i].Splines[j].Vertices[k].In);
+                        writer.Write(Paths[i].Splines[j].Vertices[k].Out);
                     }
                 }
             }
@@ -192,14 +192,6 @@ namespace Marathon.Formats.Mesh
         public uint UnknownField { get; set; }
 
         public List<SplinePathVertex> Vertices { get; set; } = [];
-
-        public SplinePathRoot() { }
-
-        public SplinePathRoot(uint in_unkField, List<SplinePathVertex> in_vertices)
-        {
-            UnknownField = in_unkField;
-            Vertices = in_vertices;
-        }
     }
 
     public class SplinePathVertex
@@ -208,18 +200,18 @@ namespace Marathon.Formats.Mesh
 
         public Vector3 Position { get; set; }
 
-        public Vector3 InPosition { get; set; }
+        public Vector3 In { get; set; }
 
-        public Vector3 OutPosition { get; set; }
+        public Vector3 Out { get; set; }
 
         public SplinePathVertex() { }
 
-        public SplinePathVertex(uint in_flags, Vector3 in_position, Vector3 in_inPosition, Vector3 in_outPosition)
+        public SplinePathVertex(uint in_flags, Vector3 in_position, Vector3 in_in, Vector3 in_out)
         {
             Flags = in_flags;
             Position = in_position;
-            InPosition = in_inPosition;
-            OutPosition = in_outPosition;
+            In = in_in;
+            Out = in_out;
         }
     }
 }

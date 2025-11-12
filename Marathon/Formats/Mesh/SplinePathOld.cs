@@ -82,8 +82,8 @@ namespace Marathon.Formats.Mesh
                                 var vertex = new SplinePathOldVertex()
                                 {
                                     Position = reader.Read<Vector3>(),
-                                    UnknownField1 = reader.Read<Vector3>(),
-                                    UnknownField2 = reader.Read<Vector3>(),
+                                    In = reader.Read<Vector3>(),
+                                    Out = reader.Read<Vector3>(),
                                     Length = k == vertexCount - 1 ? 0 : reader.Read<float>()
                                 };
 
@@ -138,8 +138,8 @@ namespace Marathon.Formats.Mesh
                         var vertex = spline.Vertices[k];
 
                         writer.Write(vertex.Position);
-                        writer.Write(vertex.UnknownField1);
-                        writer.Write(vertex.UnknownField2);
+                        writer.Write(vertex.In);
+                        writer.Write(vertex.Out);
 
                         if (k < spline.Vertices.Count - 1)
                             writer.Write(vertex.Length);
@@ -160,7 +160,7 @@ namespace Marathon.Formats.Mesh
                 {
                     Name = path.Name,
                     NodeIndex = 0,
-                    UnknownField = path.Length,
+                    UnknownField = 2.0f,
                     Position = Vector3.Zero,
                     Rotation = Quaternion.Identity
                 };
@@ -178,8 +178,8 @@ namespace Marathon.Formats.Mesh
                         {
                             Flags = 0,
                             Position = vertex.Position,
-                            InPosition = vertex.Position,
-                            OutPosition = vertex.Position
+                            In = vertex.Position + vertex.In,
+                            Out = vertex.Position + vertex.Out
                         };
 
                         newSpline.Vertices.Add(newVertex);
@@ -220,10 +220,20 @@ namespace Marathon.Formats.Mesh
     {
         public Vector3 Position { get; set; }
 
-        public Vector3 UnknownField1 { get; set; }
+        public Vector3 In { get; set; }
 
-        public Vector3 UnknownField2 { get; set; }
+        public Vector3 Out { get; set; }
 
         public float Length { get; set; }
+
+        public SplinePathOldVertex() { }
+
+        public SplinePathOldVertex(Vector3 in_position, Vector3 in_in, Vector3 in_out, Vector3? in_nextPosition = null)
+        {
+            Position = in_position;
+            In = in_in;
+            Out = in_out;
+            Length = in_nextPosition == null ? 0 : Vector3.Distance(in_position, in_nextPosition.Value);
+        }
     }
 }
