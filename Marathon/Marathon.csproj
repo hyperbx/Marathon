@@ -54,6 +54,7 @@
     <Compile Include="Formats\Event\TimeEvent.cs" />
     <Compile Include="Formats\Mesh\LandCollision.cs" />
     <Compile Include="Formats\Mesh\ReflectionArea.cs" />
+    <Compile Include="Formats\Mesh\SplinePathOld.cs" />
     <Compile Include="Formats\Mesh\SplinePath.cs" />
     <Compile Include="Formats\Parameter\EnemyParameterList.cs" />
     <Compile Include="Formats\Parameter\EnemyShotParameterList.cs" />
@@ -197,7 +198,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.7" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

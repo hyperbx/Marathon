@@ -29,7 +29,9 @@ namespace Marathon.IO.Types.BINA
 
         public uint Version { get; set; }
 
-        public bool IsBigEndian { get; set; }
+        public bool IsBigEndian { get; set; } = true;
+
+        public bool HasSignature { get; set; } = true;
 
         public bool HasFooterMagic { get; set; }
 
@@ -101,8 +103,7 @@ namespace Marathon.IO.Types.BINA
 
             in_reader.JumpAhead(4);
 
-            if (!in_reader.CheckSignature(_signature, false))
-                Logger.Warning("No BINA signature. Acroarts binary?");
+            HasSignature = in_reader.CheckSignature(_signature, false);
 
             // TODO: unknown - possibly additional data length?
             var unkField3 = in_reader.Read<uint>();
@@ -134,7 +135,15 @@ namespace Marathon.IO.Types.BINA
 
             in_writer.WriteStringFixedLength(Encoding.UTF8, version, version.Length);
             in_writer.Write(IsBigEndian ? _endianFlagBig : _endianFlagLittle);
-            in_writer.WriteStringFixedLength(Encoding.UTF8, _signature, 4);
+
+            if (HasSignature)
+            {
+                in_writer.WriteStringFixedLength(Encoding.UTF8, _signature, 4);
+            }
+            else
+            {
+                in_writer.Write(0);
+            }
 
             // TODO: unknown.
             in_writer.Write(0);

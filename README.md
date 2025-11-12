@@ -28,6 +28,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Land Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/LandCollision.cs)
     - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs)
     - [Spline Path (`*.path`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePath.cs)
+    - [Spline Path (Old) (`*.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePathOld.cs)
 - Ninja
     - [Camera (`*.xnc`, `*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraChunk.cs)
     - [Camera Animation (`*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraMotionChunk.cs)

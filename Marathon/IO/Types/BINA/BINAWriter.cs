@@ -13,20 +13,7 @@ namespace Marathon.IO.Types.BINA
 
         public BINAHeader Header { get; private set; } = new();
 
-        public class StringPoolEntry(string in_str)
-        {
-            /// <summary>
-            /// A collection of offsets to this string.
-            /// </summary>
-            public List<long> Offsets { get; set; } = [];
-
-            /// <summary>
-            /// The string to be written to the string pool.
-            /// </summary>
-            public string Data { get; set; } = in_str;
-        }
-
-        public List<StringPoolEntry> StringPoolEntries = [];
+        public List<StringPoolEntry> StringPoolEntries { get; set; } = [];
 
         public BINAWriter(Stream in_stream, Endianness in_endianness = Endianness.Big)
             : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
@@ -159,6 +146,19 @@ namespace Marathon.IO.Types.BINA
         {
             base.WriteReserved(in_name, in_value, in_removeAfterWrite);
         }
+    }
+
+    public class StringPoolEntry(string in_str)
+    {
+        /// <summary>
+        /// A collection of offsets to this string.
+        /// </summary>
+        public List<long> Offsets { get; set; } = [];
+
+        /// <summary>
+        /// The string to be written to the string pool.
+        /// </summary>
+        public string Data { get; set; } = in_str;
     }
 
     public enum BINAOffsetEncoding : byte

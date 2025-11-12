@@ -22,20 +22,17 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".path"; // "PATH"
 
-        /// <summary>
-        /// The defined paths in this file.
-        /// </summary>
-        public List<SplinePathData> Paths { get; set; } = [];
+        public List<SplinePathInfo> Paths { get; set; } = [];
 
         public override string Extension => _extension;
 
-        public SplinePathData this[int in_index]
+        public SplinePathInfo this[int in_index]
         {
             get => Paths[in_index];
             set => Paths[in_index] = value;
         }
 
-        public SplinePathData this[string in_name]
+        public SplinePathInfo this[string in_name]
         {
             get => Paths.Find(x => x.Name == in_name);
         }
@@ -55,49 +52,43 @@ namespace Marathon.Formats.Mesh
             var nodeTableOffset = reader.Read<uint>();
             var nodeCount = reader.Read<uint>();
 
+            reader.JumpTo(BINAHeader.Size + pathTableOffset);
+
             for (int i = 0; i < pathCount; i++)
             {
-                var path = new SplinePathData();
+                var path = new SplinePathInfo();
                 var pathOffset = reader.Read<uint>();
                 var splineCount = reader.Read<uint>();
-
                 path.UnknownField = reader.Read<float>();
 
-                var pos = reader.Position;
-
-                reader.JumpTo(BINAHeader.Size + pathOffset);
-
-                for (int j = 0; j < splineCount; j++)
+                reader.ReadAtOffset(BINAHeader.Size + pathOffset, () =>
                 {
-                    var spline = new SplineRoot();
-                    var splineOffset = reader.Read<uint>();
-                    var vertexCount = reader.Read<uint>();
-
-                    spline.UnknownField = reader.Read<uint>();
-
-                    var splinePos = reader.Position;
-
-                    reader.JumpTo(BINAHeader.Size + splineOffset);
-
-                    for (int k = 0; k < vertexCount; k++)
+                    for (int j = 0; j < splineCount; j++)
                     {
-                        var vertex = new SplineVertex()
+                        var spline = new SplinePathRoot();
+                        var splineOffset = reader.Read<uint>();
+                        var vertexCount = reader.Read<uint>();
+                        spline.UnknownField = reader.Read<uint>();
+
+                        reader.ReadAtOffset(BINAHeader.Size + splineOffset, () =>
                         {
-                            Flags = reader.Read<uint>(),
-                            Position = reader.Read<Vector3>(),
-                            InPosition = reader.Read<Vector3>(),
-                            OutPosition = reader.Read<Vector3>()
-                        };
+                            for (int k = 0; k < vertexCount; k++)
+                            {
+                                var vertex = new SplinePathVertex()
+                                {
+                                    Flags = reader.Read<uint>(),
+                                    Position = reader.Read<Vector3>(),
+                                    InPosition = reader.Read<Vector3>(),
+                                    OutPosition = reader.Read<Vector3>()
+                                };
 
-                        spline.Vertices.Add(vertex);
+                                spline.Vertices.Add(vertex);
+                            }
+                        });
+
+                        path.Splines.Add(spline);
                     }
-
-                    reader.JumpTo(splinePos);
-
-                    path.Splines.Add(spline);
-                }
-
-                reader.JumpTo(pos);
+                });
 
                 Paths.Add(path);
             }
@@ -176,7 +167,7 @@ namespace Marathon.Formats.Mesh
         }
     }
 
-    public class SplinePathData
+    public class SplinePathInfo
     {
         public string Name { get; set; }
 
@@ -188,7 +179,7 @@ namespace Marathon.Formats.Mesh
 
         public Quaternion Rotation { get; set; }
 
-        public List<SplineRoot> Splines { get; set; } = [];
+        public List<SplinePathRoot> Splines { get; set; } = [];
 
         public override string ToString()
         {
@@ -196,22 +187,22 @@ namespace Marathon.Formats.Mesh
         }
     }
 
-    public class SplineRoot
+    public class SplinePathRoot
     {
         public uint UnknownField { get; set; }
 
-        public List<SplineVertex> Vertices { get; set; } = [];
+        public List<SplinePathVertex> Vertices { get; set; } = [];
 
-        public SplineRoot() { }
+        public SplinePathRoot() { }
 
-        public SplineRoot(uint in_unkField, List<SplineVertex> in_vertices)
+        public SplinePathRoot(uint in_unkField, List<SplinePathVertex> in_vertices)
         {
             UnknownField = in_unkField;
             Vertices = in_vertices;
         }
     }
 
-    public class SplineVertex
+    public class SplinePathVertex
     {
         public uint Flags { get; set; }
 
@@ -221,9 +212,9 @@ namespace Marathon.Formats.Mesh
 
         public Vector3 OutPosition { get; set; }
 
-        public SplineVertex() { }
+        public SplinePathVertex() { }
 
-        public SplineVertex(uint in_flags, Vector3 in_position, Vector3 in_inPosition, Vector3 in_outPosition)
+        public SplinePathVertex(uint in_flags, Vector3 in_position, Vector3 in_inPosition, Vector3 in_outPosition)
         {
             Flags = in_flags;
             Position = in_position;
