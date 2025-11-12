@@ -149,6 +149,50 @@ namespace Marathon.Formats.Mesh
 
             writer.FinishWrite();
         }
+
+        public SplinePath Upgrade()
+        {
+            var result = new SplinePath();
+
+            foreach (var path in Paths)
+            {
+                var newPath = new SplinePathInfo
+                {
+                    Name = path.Name,
+                    NodeIndex = 0,
+                    UnknownField = path.Length,
+                    Position = Vector3.Zero,
+                    Rotation = Quaternion.Identity
+                };
+
+                foreach (var spline in path.Splines)
+                {
+                    var newSpline = new SplinePathRoot()
+                    {
+                        UnknownField = spline.UnknownField
+                    };
+
+                    foreach (var vertex in spline.Vertices)
+                    {
+                        var newVertex = new SplinePathVertex()
+                        {
+                            Flags = 0,
+                            Position = vertex.Position,
+                            InPosition = vertex.Position,
+                            OutPosition = vertex.Position
+                        };
+
+                        newSpline.Vertices.Add(newVertex);
+                    }
+
+                    newPath.Splines.Add(newSpline);
+                }
+
+                result.Paths.Add(newPath);
+            }
+
+            return result;
+        }
     }
 
     public class SplinePathOldInfo
