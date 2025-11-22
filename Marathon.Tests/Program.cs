@@ -1,4 +1,6 @@
-﻿using Marathon.Helpers;
+﻿using Marathon.Formats.Archive;
+using Marathon.Helpers;
+using Marathon.IO.Types.FileSystem;
 using System.Diagnostics;
 
 namespace Marathon.Tests
@@ -6,6 +8,8 @@ namespace Marathon.Tests
     static class Program
     {
         public static string? GameDirectory { get; private set; }
+
+        public static VirtualDirectory GameFileSystem { get; private set; } = new();
 
         public static List<string> RequestedTests { get; private set; } = [];
 
@@ -50,6 +54,27 @@ namespace Marathon.Tests
             if (args.Length > 1)
                 RequestedTests.AddRange(args[1].Split(',', StringSplitOptions.RemoveEmptyEntries));
 
+            Logger.Log("Loading filesystem...");
+
+            foreach (var file in Directory.EnumerateFiles(GameDirectory, "*.arc", SearchOption.AllDirectories))
+            {
+                var arc = new ArcFile(file);
+
+                foreach (var node in arc.GetNodes(in_isRecursive: false))
+                {
+                    if (node.IsDirectory)
+                    {
+                        GameFileSystem.AddDirectory(node as IDirectory);
+                    }
+                    else
+                    {
+                        GameFileSystem.AddFile(node as IFile);
+                    }
+                }
+            }
+
+            Logger.Log("Done.\n");
+
             var start = DateTime.Now;
 
             Logger.Log($"Start:         {start:dd/MM/yyyy hh:mm:ss.fff tt}\n");
@@ -57,8 +82,6 @@ namespace Marathon.Tests
             var result = true;
 
             Temp = Directory.CreateTempSubdirectory();
-
-            // TODO: extract required archives before running tests.
 
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes())

@@ -57,7 +57,7 @@ namespace Marathon.Formats.Kynapse
 
             Root = JsonConvert.DeserializeObject<KynapseObject>(File.ReadAllText(in_path));
 
-            var binDirName = Path.GetFileName(FilesystemHelper.TruncateAllExtensions(in_path));
+            var binDirName = Path.GetFileName(FileSystemHelper.TruncateAllExtensions(in_path));
             var binDir = Path.Combine(Path.GetDirectoryName(in_path), binDirName);
 
             void WalkBinaries(KynapseObject in_object)
@@ -135,7 +135,7 @@ namespace Marathon.Formats.Kynapse
 
                     File.WriteAllBytes(binFile, in_object.Data);
 
-                    in_object.File = '.' + FilesystemHelper.ConvertPathToUnix(binFile[dir.FullName.Length..]);
+                    in_object.File = '.' + FileSystemHelper.ConvertPathToUnix(binFile[dir.FullName.Length..]);
                 }
             }
 

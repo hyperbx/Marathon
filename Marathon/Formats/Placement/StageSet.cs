@@ -390,7 +390,7 @@ namespace Marathon.Formats.Placement
             if (!in_isOverwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
-            var name = FilesystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
+            var name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path));
 
             ToHsonProject(name).Save(in_path, jsonOptions: new() { Indented = true });
         }
@@ -491,7 +491,7 @@ namespace Marathon.Formats.Placement
                 }
                 else
                 {
-                    in_name = FilesystemHelper.TruncateAllExtensions(Path.GetFileName(Location));
+                    in_name = FileSystemHelper.TruncateAllExtensions(Path.GetFileName(Location));
                 }
             }
 

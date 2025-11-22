@@ -163,7 +163,7 @@ for (int i = 0; i < args.Length; i++)
             if (Path.GetExtension(in_path) == in_importExtension)
             {
                 file.Import(arg);
-                file.Write(output ?? FilesystemHelper.TruncateLastExtension(arg));
+                file.Write(output ?? FileSystemHelper.TruncateLastExtension(arg));
                 return;
             }
 
@@ -178,7 +178,7 @@ for (int i = 0; i < args.Length; i++)
             }
         }
 
-        var extension = '.' + string.Join('.', FilesystemHelper.GetAllExtensions(arg));
+        var extension = '.' + string.Join('.', FileSystemHelper.GetAllExtensions(arg));
         var success = true;
 
         switch (extension)

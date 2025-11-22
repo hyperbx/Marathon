@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Marathon.IO.Types.FileSystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Marathon.Helpers
 {
-    public class FilesystemHelper
+    public class FileSystemHelper
     {
+        public static char[] DirectorySeparators = ['/', '\\', '¥'];
+
         public static string ConvertPathToUnix(string in_path)
         {
             return in_path.Replace('\\', '/');
@@ -141,6 +145,171 @@ namespace Marathon.Helpers
             return path + '.' + string.Join('.', missingExtensions);
         }
 
+        public static string GetDirectoryTree(IDirectory in_root, string in_name = ".", bool in_showFiles = true, bool in_showSizes = true)
+        {
+            var result = new StringBuilder();
+
+            void WalkDirectories(IDirectory in_root, string in_indent, bool in_isLast, bool in_isRoot = false)
+            {
+                if (in_isRoot)
+                {
+                    result.AppendLine(in_name);
+                }
+                else
+                {
+                    result.Append(in_indent);
+                    result.Append(in_isLast ? "└───" : "├───");
+                    result.AppendLine(in_root.Name);
+                }
+
+                var nodes = in_root.GetNodes(in_isRecursive: false).ToList();
+                var maxFileNameLength = 0;
+                var hasSubdirs = nodes.Any(x => x.IsDirectory);
+                var wasFilePrevious = false;
+
+                foreach (var node in nodes)
+                {
+                    if (node.IsDirectory)
+                        continue;
+
+                    // Compute max file name length for this directory.
+                    maxFileNameLength = Math.Max(maxFileNameLength, node.Name.Length);
+                }
+
+                // Sort alphanumerically with directories last.
+                nodes = [.. nodes.OrderBy(x => x.IsDirectory).ThenBy(x => x.Name, StringComparer.OrdinalIgnoreCase)];
+
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    var node = nodes[i];
+                    var isLast = i == nodes.Count - 1;
+                    var childIndent = in_isRoot ? string.Empty : in_indent + (in_isLast ? "    " : "│   ");
+
+                    if ((in_showFiles && !node.IsDirectory) || wasFilePrevious)
+                    {
+                        result.Append(childIndent);
+                        result.Append(hasSubdirs ? "│   " : "    ");
+
+                        if (node.IsDirectory)
+                            result.AppendLine();
+                    }
+
+                    if (node.IsDirectory)
+                    {
+                        WalkDirectories(node as IDirectory, childIndent, isLast);
+                    }
+                    else if (in_showFiles)
+                    {
+                        var file = node as IFile;
+
+                        result.Append(file.Name.PadRight(maxFileNameLength));
+
+                        if (in_showSizes)
+                        {
+                            result.Append("    ");
+
+                            if (file.UncompressedLength != 0)
+                            {
+                                var compressionRatio = 100.0f - (((float)file.Length / (float)file.UncompressedLength) * 100.0f);
+                                result.Append($"{file.Length:N0} / {file.UncompressedLength:N0} bytes ({compressionRatio:N0}%)");
+                            }
+                            else
+                            {
+                                result.Append($"{file.Length:N0} bytes");
+                            }
+                        }
+
+                        result.AppendLine();
+
+                        if (isLast)
+                            result.AppendLine(childIndent);
+                    }
+
+                    if (in_showFiles)
+                        wasFilePrevious = !node.IsDirectory;
+                }
+            }
+
+            WalkDirectories(in_root, "", true, true);
+
+            return result.ToString();
+        }
+
+        public static INode WalkPath(IDirectory in_root, string in_path, Func<IDirectory, string, INode, INode> in_onPathNode = null)
+        {
+            if (string.IsNullOrEmpty(in_path))
+                throw new ArgumentNullException(nameof(in_path));
+
+            var segments = in_path.Split(DirectorySeparators, StringSplitOptions.RemoveEmptyEntries);
+
+            if (segments.Length == 0)
+                return null;
+
+            var dir = in_root;
+
+            for (int i = 0; i < segments.Length; i++)
+            {
+                if (dir == null)
+                    return null;
+
+                var segment = segments[i];
+
+                switch (segment)
+                {
+                    case ".":
+                        continue;
+
+                    case "..":
+                        dir = dir.Parent;
+                        continue;
+
+                    default:
+                    {
+                        var item = dir.FirstOrDefault(x => x.Name == segment);
+
+                        if (in_onPathNode != null)
+                        {
+                            item = in_onPathNode(dir, segment, item);
+
+                            // Callback returned a file, stop walking.
+                            if (item != null && !item.IsDirectory)
+                                return item;
+                        }
+
+                        // Reached end of path, stop walking.
+                        if (i == segments.Length - 1)
+                            return item;
+
+                        // Set next directory to walk through.
+                        dir = item as IDirectory;
+
+                        break;
+                    }
+                }
+            }
+
+            return dir;
+        }
+
+        public static string CreatePath(INode in_node, INode in_top = null)
+        {
+            var names = new Stack<string>();
+            var root = in_node;
+
+            while (root.Parent != in_top)
+            {
+                names.Push(root.Name);
+                root = root.Parent;
+            }
+
+            var result = string.Join(Path.DirectorySeparatorChar, names);
+
+            if (in_node.IsDirectory)
+                result += Path.DirectorySeparatorChar;
+
+            return result;
+        }
+
         public static string OmitRootDirectory(string in_path)
         {
             var index = in_path.IndexOf(Path.DirectorySeparatorChar);
@@ -159,15 +328,25 @@ namespace Marathon.Helpers
                 : in_path;
         }
 
-        public static FileSystemBasicType GetBasicType(string in_path)
+        public static FileMode TransformFileAccessToFileMode(FileAccess in_access)
         {
-            if (Directory.Exists(in_path))
-                return FileSystemBasicType.Directory;
-
-            return FileSystemBasicType.File;
+            return in_access switch
+            {
+                FileAccess.Read => FileMode.Open,
+                FileAccess.Write or FileAccess.ReadWrite => FileMode.OpenOrCreate,
+                _ => FileMode.OpenOrCreate,
+            };
         }
 
-        public enum FileSystemBasicType
+        public static NodeType GetNodeType(string in_path)
+        {
+            if (Directory.Exists(in_path))
+                return NodeType.Directory;
+
+            return NodeType.File;
+        }
+
+        public enum NodeType
         {
             File,
             Directory

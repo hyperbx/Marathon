@@ -14,7 +14,7 @@ namespace Marathon.IO
         /// The underlying stream to the file.
         /// </summary>
         [JsonIgnore]
-        protected Stream Stream { get; private set; }
+        public Stream BaseStream { get; private set; }
 
         /// <summary>
         /// The location of this file.
@@ -47,7 +47,7 @@ namespace Marathon.IO
         public virtual WriteMode WriteMode { get; set; } = WriteMode.New;
 
         /// <summary>
-        /// Leaves the <see cref="Stream"/> open after writing.
+        /// Leaves the <see cref="BaseStream"/> open after writing.
         /// <para>If left open, the stream must manually be disposed using the <see cref="Dispose"/> method.</para>
         /// </summary>
         [JsonIgnore]
@@ -62,7 +62,7 @@ namespace Marathon.IO
         public FileBase(string in_path, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)
             : this(in_writeMode, in_leaveOpen)
         {
-            var extension = '.' + string.Join('.', FilesystemHelper.GetExtensions(in_path, 2));
+            var extension = '.' + string.Join('.', FileSystemHelper.GetExtensions(in_path, 2));
 
             if (extension == Extension + _intermediateExtension)
             {
@@ -83,9 +83,9 @@ namespace Marathon.IO
 
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
-            Stream = new FileStream(in_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BaseStream = new FileStream(in_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-            Read(Stream);
+            Read(BaseStream);
         }
 
         public virtual void Read(Stream in_stream)
@@ -93,12 +93,12 @@ namespace Marathon.IO
             throw new NotImplementedException();
         }
 
-        public virtual void Write(string in_path, bool in_isOverwrite = true)
+        public virtual void Write(string in_path, bool in_overwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))
                 throw new ArgumentNullException(nameof(in_path));
 
-            if (!in_isOverwrite)
+            if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
             switch (WriteMode)
@@ -137,9 +137,9 @@ namespace Marathon.IO
             throw new NotImplementedException();
         }
 
-        public virtual void Write(bool in_isOverwrite = true)
+        public virtual void Write(bool in_overwrite = true)
         {
-            Write(Location, in_isOverwrite);
+            Write(Location, in_overwrite);
         }
 
         public virtual void Import(string in_path)
@@ -155,7 +155,7 @@ namespace Marathon.IO
             JsonConvert.PopulateObject(File.ReadAllText(in_path), this);
         }
 
-        public virtual void Export(string in_path = "", bool in_isOverwrite = true)
+        public virtual void Export(string in_path = "", bool in_overwrite = true)
         {
             if (HasExtension && string.IsNullOrEmpty(Extension))
                 throw new Exception("A file extension for this format has not been provided.");
@@ -168,17 +168,34 @@ namespace Marathon.IO
                 in_path = $"{Location}.json";
             }
 
-            in_path = FilesystemHelper.EnsureExtension(in_path, Extension + _intermediateExtension);
+            in_path = FileSystemHelper.EnsureExtension(in_path, Extension + _intermediateExtension);
 
-            if (!in_isOverwrite)
+            if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
             File.WriteAllText(in_path, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
+        public void EnsurePath(ref string in_path, Func<string, string> in_modifier = null)
+        {
+            if (string.IsNullOrEmpty(in_path))
+            {
+                if (string.IsNullOrEmpty(Location))
+                    throw new ArgumentNullException(nameof(in_path));
+
+                in_path = Location;
+            }
+
+            if (in_modifier == null)
+                return;
+
+            in_path = in_modifier(in_path);
+        }
+
         public void Dispose()
         {
-            Stream?.Dispose();
+            BaseStream?.Dispose();
+            BaseStream = null;
         }
     }
 

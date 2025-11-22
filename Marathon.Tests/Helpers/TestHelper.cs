@@ -1,5 +1,6 @@
 ﻿using Marathon.Helpers;
 using Marathon.IO;
+using Marathon.IO.Types.FileSystem;
 using System.Diagnostics;
 
 namespace Marathon.Tests.Helpers
@@ -46,51 +47,60 @@ namespace Marathon.Tests.Helpers
             return result;
         }
 
+        public static bool CheckBinary<T>(IFile in_file, out T out_file) where T : FileBase, new()
+        {
+            out_file = new T();
+
+            if (in_file.Decompress?.Invoke(in_file) == false)
+                return false;
+
+            var fileStream = in_file.Open();
+
+            out_file.Read(fileStream);
+
+            using var compareStream = new MemoryStream();
+            out_file.Write(compareStream);
+
+            fileStream.Position = 0;
+            compareStream.Position = 0;
+
+            var oldHash = HashHelper.ComputeStreamXxHash3(fileStream);
+            var newHash = HashHelper.ComputeStreamXxHash3(compareStream);
+
+            return oldHash == newHash;
+        }
+
         public static bool CheckAllBinaries<T>(string in_searchPattern, List<string> in_ignoreList = null) where T : FileBase, new()
         {
             var result = true;
-            var files = Directory.GetFiles(Program.GameDirectory, in_searchPattern, SearchOption.AllDirectories);
+            var nodes = Program.GameFileSystem.GetNodes(in_searchPattern).Where(x => !x.IsDirectory);
             var i = 0;
 
-            foreach (var file in files)
+            foreach (var node in nodes)
             {
-                var fileCount = files.Length;
+                var file = node as IFile;
+                var fileCount = nodes.Count();
 
                 if (in_ignoreList != null)
                 {
                     fileCount -= in_ignoreList.Count;
 
-                    if (in_ignoreList.Contains(Path.GetFileName(file)))
+                    if (in_ignoreList.Contains(node.Name))
                         continue;
                 }
 
-                Logger.Log($"│    ├── File:      {file[(Program.GameDirectory.Length + 1)..]}");
+                Logger.Log($"│    ├── File:      {node.Path}");
                 Logger.Log($"│    └── Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})");
 
-                var bin = new T();
-                bin.Read(file);
-
-                using (var ms = new MemoryStream())
-                {
-                    bin.Write(ms);
-
-                    var oldHash = HashHelper.ComputeFileXxHash3(file);
-                    var newHash = HashHelper.ComputeBufferXxHash3(ms.ToArray());
-
-                    result = oldHash == newHash;
-                }
-
-                if (!result)
+                if (!CheckBinary<T>(file, out var out_exhibit))
                 {
                     if (Debugger.IsAttached)
                         Debugger.Break();
 
-                    var badFile = $"{file}.bad";
-
-                    bin.Write(badFile);
+                    var exhibitPath = CreateExhibit(node.Path, out_exhibit);
 
                     ConsoleHelper.ReturnToPreviousLine();
-                    Logger.Error($"│    └── Exhibit:   {badFile[(Program.GameDirectory.Length + 1)..]}");
+                    Logger.Error($"│    └── Exhibit:   {exhibitPath}");
 
                     if (Debugger.IsAttached)
                         Debugger.Break();
@@ -104,6 +114,24 @@ namespace Marathon.Tests.Helpers
             }
 
             return result;
+        }
+
+        public static string CreateExhibit<T>(string in_path, T in_exhibit, Action<T, string> in_creator = null) where T : FileBase
+        {
+            var path = Path.Combine(Program.Temp.FullName, in_path);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+            if (in_creator == null)
+            {
+                in_exhibit.Write(path);
+            }
+            else
+            {
+                in_creator(in_exhibit, path);
+            }
+
+            return path;
         }
     }
 }

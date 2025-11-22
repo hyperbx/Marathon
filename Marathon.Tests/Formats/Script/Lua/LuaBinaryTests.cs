@@ -1,6 +1,7 @@
 ﻿using Marathon.Extensions;
 using Marathon.Formats.Script.Lua;
 using Marathon.Helpers;
+using Marathon.IO.Types.FileSystem;
 using Marathon.Tests.Helpers;
 using System.Diagnostics;
 
@@ -13,7 +14,7 @@ namespace Marathon.Tests.Formats.Script.Lua
         private static bool ValidDecompilationTest()
         {
             var result = true;
-            var files = Directory.GetFiles(Program.GameDirectory, "*.lub", SearchOption.AllDirectories);
+            var nodes = Program.GameFileSystem.GetNodes("*.lub").Where(x => !x.IsDirectory);
             var i = 0;
 
             // Known bad decompilations.
@@ -25,19 +26,26 @@ namespace Marathon.Tests.Formats.Script.Lua
                 "actionstage.lub"
             };
 
-            foreach (var file in files)
+            foreach (var node in nodes)
             {
-                if (ignoreList.Contains(Path.GetFileName(file)))
+                var file = node as IFile;
+
+                if (ignoreList.Contains(node.Name))
                     continue;
 
-                var fileCount = files.Length - ignoreList.Count;
+                var fileCount = nodes.Count() - ignoreList.Count;
 
-                Logger.Log($"│    ├── File:      {file[(Program.GameDirectory.Length + 1)..]}");
+                Logger.Log($"│    ├── File:      {node.Path}");
                 Logger.Log($"│    └── Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})");
 
-                var lub = new LuaBinary(file);
+                var lub = new LuaBinary();
                 var dec = "";
                 var decException = false;
+
+                if (file.Decompress?.Invoke(file) == false)
+                    goto OnError;
+
+                lub.Read(file.Open());
 
                 try
                 {
@@ -100,12 +108,11 @@ namespace Marathon.Tests.Formats.Script.Lua
 
                     if (!decException)
                     {
-                        var badFile = $"{file}.bad";
-
-                        File.WriteAllText(badFile, lub.Decompile());
+                        var exhibitPath = TestHelper.CreateExhibit(node.Path, lub,
+                            (exhibit, path) => File.WriteAllText(path, exhibit.Decompile()));
 
                         ConsoleHelper.ReturnToPreviousLine();
-                        Logger.Error($"│    └── Exhibit:   {badFile[(Program.GameDirectory.Length + 1)..]}");
+                        Logger.Error($"│    └── Exhibit:   {exhibitPath}");
 
                         if (Debugger.IsAttached)
                             Debugger.Break();
