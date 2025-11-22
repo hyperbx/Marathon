@@ -34,7 +34,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => true;
 
-        public IFile this[string in_name] => GetFile(in_name);
+        public INode this[string in_path] => GetNodes(in_path).FirstOrDefault();
 
         public INode this[int in_index] => GetNodes().ElementAt(in_index);
 
@@ -85,9 +85,6 @@ namespace Marathon.IO.Types.FileSystem
 
         public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = true)
         {
-            if (!IsDirectory)
-                throw new InvalidDataException("This node is not a directory.");
-
             foreach (var entry in Directory.EnumerateFileSystemEntries(Path, in_searchPattern, in_isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
             {
                 if (FileSystemHelper.GetNodeType(entry) == FileSystemHelper.NodeType.File)

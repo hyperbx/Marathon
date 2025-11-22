@@ -24,7 +24,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => true;
 
-        public IFile this[string in_name] => GetFile(in_name);
+        public INode this[string in_path] => FileSystemHelper.WalkPath(this, in_path);
 
         public INode this[int in_index] => _nodes[in_index];
 

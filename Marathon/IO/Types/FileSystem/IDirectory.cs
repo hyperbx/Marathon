@@ -8,7 +8,7 @@ namespace Marathon.IO.Types.FileSystem
     {
         bool IsDirectory => true;
 
-        IFile this[string in_name] { get; }
+        INode this[string in_path] { get; }
 
         INode this[int in_index] { get; }
 
