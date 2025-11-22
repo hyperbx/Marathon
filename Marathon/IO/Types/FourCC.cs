@@ -50,6 +50,7 @@ namespace Marathon.IO.Types
             return false;
         }
 
+        // TODO: replace this with custom impl.
         public override string ToString()
         {
             var bytes = BitConverter.GetBytes(Data);

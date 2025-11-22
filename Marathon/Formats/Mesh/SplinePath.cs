@@ -22,6 +22,9 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".path"; // "PATH"
 
+        /// <summary>
+        /// The paths in this file.
+        /// </summary>
         public List<SplinePathInfo> Paths { get; set; } = [];
 
         public override string Extension => _extension;

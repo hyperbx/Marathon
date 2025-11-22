@@ -19,6 +19,9 @@ namespace Marathon.Formats.Mesh
     {
         private const string _extension = ".bin"; // "BINary"
 
+        /// <summary>
+        /// The paths in this file.
+        /// </summary>
         public List<SplinePathOldInfo> Paths { get; set; } = [];
 
         public override string Extension => _extension;

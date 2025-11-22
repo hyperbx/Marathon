@@ -82,7 +82,7 @@ namespace Marathon.Formats.Parameter
                 param.UnknownField10 = reader.Read<float>();
                 param.UnknownField11 = reader.Read<float>();
                 param.UnknownField12 = reader.Read<uint>();
-                param.UnknownField13 = reader.Read<float>(); // TODO: investigate this.
+                param.UnknownField13 = reader.Read<float>();
                 param.UnknownField14 = reader.Read<float>();
 
                 var explosionNameOffset = reader.Read<uint>();
