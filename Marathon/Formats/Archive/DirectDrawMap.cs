@@ -18,11 +18,14 @@ namespace Marathon.Formats.Archive
     /// </summary>
     public class DirectDrawMap : FileBase
     {
+        private const string _extension = ".ddm";              // "DirectDraw Map" (speculatory)
         private const string _signature = "DDM ";              // "DirectDraw Map" (speculatory)
         private const string _fileNameChunkSignature = "DSFN"; // "Directdraw Surface File Name" (speculatory)
         private const string _dataChunkSignature = "DSCK";     // "Directdraw Surface ChunK" (speculatory)
 
         public Dictionary<string, byte[]> Files { get; set; } = [];
+
+        public override string Extension => _extension;
 
         public byte[] this[string in_key]
         {
@@ -125,18 +128,17 @@ namespace Marathon.Formats.Archive
                 Files.Add(Path.GetFileName(file), File.ReadAllBytes(file));
         }
 
-        public override void Export(string in_path = "", bool in_isOverwrite = true)
+        public override void Export(string in_path = "", bool in_overwrite = true)
         {
-            if (string.IsNullOrEmpty(in_path))
-                in_path = Location;
+            EnsurePath(ref in_path, path => FileSystemHelper.TruncateAllExtensions(path));
 
-            var dir = Directory.CreateDirectory(FilesystemHelper.TruncateAllExtensions(in_path));
+            var dir = Directory.CreateDirectory(in_path);
 
             foreach (var file in Files)
             {
                 var path = Path.Combine(dir.FullName, file.Key);
 
-                if (!in_isOverwrite)
+                if (!in_overwrite)
                     ThrowHelper.ThrowFileExistsException(path);
 
                 File.WriteAllBytes(path, file.Value);
