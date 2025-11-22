@@ -155,12 +155,11 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public override void Export(string in_path = "", bool in_isOverwrite = true)
+        public override void Export(string in_path = "", bool in_overwrite = true)
         {
-            if (string.IsNullOrEmpty(in_path))
-                in_path = Location + ".obj";
+            EnsurePath(ref in_path, path => FileSystemHelper.EnsureExtension(path, ".obj"));
 
-            if (!in_isOverwrite)
+            if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
             var writer = new StreamWriter(in_path);

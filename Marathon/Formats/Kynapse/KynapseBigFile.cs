@@ -83,13 +83,9 @@ namespace Marathon.Formats.Kynapse
             WalkBinaries(Root);
         }
 
-        public override void Export(string in_path = "", bool in_isOverwrite = true)
+        public override void Export(string in_path = "", bool in_overwrite = true)
         {
-            if (string.IsNullOrEmpty(in_path))
-                in_path = Location;
-
-            if (File.Exists(in_path))
-                in_path = FilesystemHelper.TruncateAllExtensions(in_path);
+            EnsurePath(ref in_path, path => FileSystemHelper.TruncateAllExtensions(path));
 
             var dir = Directory.CreateDirectory(in_path);
             var name = Path.GetFileNameWithoutExtension(dir.FullName);
@@ -130,7 +126,7 @@ namespace Marathon.Formats.Kynapse
                     var binDir = Directory.CreateDirectory(Path.Combine(dir.FullName, in_hierarchy));
                     var binFile = Path.Combine(binDir.FullName, $"{name}.bin");
 
-                    if (!in_isOverwrite)
+                    if (!in_overwrite)
                         ThrowHelper.ThrowFileExistsException(binFile);
 
                     File.WriteAllBytes(binFile, in_object.Data);
@@ -197,17 +193,12 @@ namespace Marathon.Formats.Kynapse
                 }
 
                 case KynapseDataType.Binary:
-                {
                     Data = in_reader.ReadBytes(length);
-                    Properties = null;
                     break;
-                }
 
                 case KynapseDataType.Property:
-                {
                     Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
                     break;
-                }
             }
         }
 
@@ -292,7 +283,7 @@ namespace Marathon.Formats.Kynapse
 
             result.Reverse();
 
-            return string.Join('/', result);
+            return string.Join(Path.DirectorySeparatorChar, result);
         }
 
         public override string ToString()
