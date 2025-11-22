@@ -317,17 +317,27 @@ namespace Marathon.Formats.Archive
                 else
                 {
                     var file = in_node as IFile;
+                    var fileLength = (uint)file.Length;
+                    var fileUncompressedLength = (uint)file.UncompressedLength;
 
                     writer.Align(32);
                     writer.WriteReserved($"File{globalEntryIndex}Data", (uint)writer.Position);
 
-                    if (file.UncompressedLength == 0 && CompressionLevel != CompressionLevel.NoCompression)
-                        file.Compress?.Invoke(file, CompressionLevel);
+                    if (fileUncompressedLength == 0 && CompressionLevel != CompressionLevel.NoCompression)
+                    {
+                        if (!ZLib.TryCompress(file.BaseStream, writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
+                            throw new IOException($"Failed to compress file: {file.Path}");
 
-                    file.Open().CopyTo(writer.GetBaseStream());
+                        fileUncompressedLength = fileLength;
+                        fileLength = (uint)out_compressedStream.Length;
+                    }
+                    else
+                    {
+                        file.Open().CopyTo(writer.GetBaseStream());
+                    }
 
-                    writer.WriteReserved($"File{globalEntryIndex}Length", (uint)file.Length);
-                    writer.WriteReserved($"File{globalEntryIndex}UncompressedLength", (uint)file.UncompressedLength);
+                    writer.WriteReserved($"File{globalEntryIndex}Length", fileLength);
+                    writer.WriteReserved($"File{globalEntryIndex}UncompressedLength", fileUncompressedLength);
 
                     ++globalEntryIndex;
                 }
@@ -378,8 +388,15 @@ namespace Marathon.Formats.Archive
 
                 using (var fs = new FileStream(filePath, FileMode.Create))
                 {
-                    file.Decompress?.Invoke(file);
-                    file.Open().CopyTo(fs);
+                    if (file.UncompressedLength > 0)
+                    {
+                        if (!ZLib.TryDecompress(file.Open(), fs, out var out_uncompressedStream) || file.UncompressedLength != out_uncompressedStream.Length)
+                            throw new IOException($"Failed to decompress file: {file.Path}");
+                    }
+                    else
+                    {
+                        file.Open().CopyTo(fs);
+                    }
                 }
             }
         }

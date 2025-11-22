@@ -7,12 +7,10 @@ namespace Marathon.IO.Compression
     {
         public static Stream Compress(Stream in_srcStream, Stream in_destStream, CompressionLevel in_compressionLevel = CompressionLevel.Optimal)
         {
-            var zlibStream = new ZLibStream(in_destStream, in_compressionLevel);
+            var zlibStream = new ZLibStream(in_destStream, in_compressionLevel, true);
 
             in_srcStream.CopyTo(zlibStream);
             zlibStream.Dispose();
-
-            in_destStream.Position = 0;
 
             return in_destStream;
         }
@@ -63,12 +61,10 @@ namespace Marathon.IO.Compression
 
         public static Stream Decompress(Stream in_srcStream, Stream in_destStream)
         {
-            var zlibStream = new ZLibStream(in_srcStream, CompressionMode.Decompress);
+            var zlibStream = new ZLibStream(in_srcStream, CompressionMode.Decompress, true);
 
             zlibStream.CopyTo(in_destStream);
             zlibStream.Dispose();
-
-            in_destStream.Position = 0;
 
             return in_destStream;
         }
