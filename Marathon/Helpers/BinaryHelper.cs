@@ -71,6 +71,74 @@ namespace Marathon.Helpers
         }
 
         /// <summary>
+        /// Prints a byte array to the console.
+        /// </summary>
+        /// <param name="in_data">The byte array to print.</param>
+        /// <param name="in_baseAddr">The address to start the left-most column at.</param>
+        public static void PrintBytes(byte[] in_data, uint in_baseAddr = 0)
+        {
+            var oldColour = Console.ForegroundColor;
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("Address  ");
+
+            // Print top row.
+            for (int i = 0; i < 16; i++)
+                Console.Write($"{(i + in_baseAddr % 16):X2} ");
+
+            // Print top row for ASCII table.
+            for (int i = 0; i < 16; i++)
+                Console.Write($"{(((i + in_baseAddr) % 16 + 16) % 16):X}");
+
+            Console.WriteLine();
+            Console.ForegroundColor = oldColour;
+
+            for (int i = 0; i < in_data.Length; i += 16)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write($"{(in_baseAddr + i):X8} ");
+                Console.ForegroundColor = oldColour;
+
+                // Print bytes.
+                for (int j = 0; j < 16; j++)
+                {
+                    int index = i + j;
+
+                    if (index < in_data.Length)
+                    {
+                        Console.Write($"{in_data[index]:X2} ");
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("?? ");
+                        Console.ForegroundColor = oldColour;
+                    }
+                }
+
+                // Print ASCII table.
+                for (int j = 0; j < 16; j++)
+                {
+                    int index = i + j;
+
+                    if (index < in_data.Length)
+                    {
+                        char c = (char)in_data[index];
+                        Console.Write(char.IsControl(c) ? '.' : c);
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write("?");
+                        Console.ForegroundColor = oldColour;
+                    }
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        /// <summary>
         /// Transforms a length value into a Windows-like suffix string.
         /// </summary>
         /// <param name="in_length">The length to represent.</param>
