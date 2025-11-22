@@ -34,7 +34,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => true;
 
-        public INode this[string in_path] => GetNodes(in_path).FirstOrDefault();
+        public INode this[string in_path] => GetNodes(in_path, true).FirstOrDefault();
 
         public INode this[int in_index] => GetNodes().ElementAt(in_index);
 
@@ -78,12 +78,12 @@ namespace Marathon.IO.Types.FileSystem
             return GetDirectoryFromPath(System.IO.Path.GetDirectoryName(in_path));
         }
 
-        public int GetNodeCount(bool in_isRecursive = true)
+        public int GetNodeCount(bool in_isRecursive = false)
         {
             return Directory.EnumerateFileSystemEntries(Path).Count();
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = true)
+        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
         {
             foreach (var entry in Directory.EnumerateFileSystemEntries(Path, in_searchPattern, in_isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
             {

@@ -162,7 +162,7 @@ namespace Marathon.Helpers
                     result.AppendLine(in_root.Name);
                 }
 
-                var nodes = in_root.GetNodes(in_isRecursive: false).ToList();
+                var nodes = in_root.GetNodes().ToList();
                 var maxFileNameLength = 0;
                 var hasSubdirs = nodes.Any(x => x.IsDirectory);
                 var wasFilePrevious = false;

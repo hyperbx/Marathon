@@ -73,7 +73,7 @@ namespace Marathon.Tests.Helpers
         public static bool CheckAllBinaries<T>(string in_searchPattern, List<string> in_ignoreList = null) where T : FileBase, new()
         {
             var result = true;
-            var nodes = Program.GameFileSystem.GetNodes(in_searchPattern).Where(x => !x.IsDirectory);
+            var nodes = Program.GameFileSystem.GetNodes(in_searchPattern, true).Where(x => !x.IsDirectory);
             var i = 0;
 
             foreach (var node in nodes)

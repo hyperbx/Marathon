@@ -12,9 +12,9 @@ namespace Marathon.IO.Types.FileSystem
 
         INode this[int in_index] { get; }
 
-        int GetNodeCount(bool in_isRecursive = true);
+        int GetNodeCount(bool in_isRecursive = false);
 
-        IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = true);
+        IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false);
 
         INode AddNode(INode in_node, bool in_overwrite = true);
 

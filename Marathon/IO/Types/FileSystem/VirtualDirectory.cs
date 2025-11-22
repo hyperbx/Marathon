@@ -40,7 +40,7 @@ namespace Marathon.IO.Types.FileSystem
             _nodes = in_nodes;
         }
 
-        public int GetNodeCount(bool in_isRecursive = true)
+        public int GetNodeCount(bool in_isRecursive = false)
         {
             var result = _nodes.Count;
 
@@ -53,14 +53,14 @@ namespace Marathon.IO.Types.FileSystem
 
                     var dir = node as IDirectory;
 
-                    result += dir.GetNodeCount();
+                    result += dir.GetNodeCount(in_isRecursive);
                 }
             }
 
             return result;
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = true)
+        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
         {
             foreach (var node in _nodes)
             {
@@ -186,13 +186,13 @@ namespace Marathon.IO.Types.FileSystem
                 DeleteDirectory(in_directory.Name);
 
             // Merge input directory's nodes with this directory.
-            foreach (var node in GetNodes(in_isRecursive: false))
+            foreach (var node in GetNodes())
             {
                 if (!node.IsDirectory || node.Name != in_directory.Name)
                     continue;
 
                 var dstNode = node as IDirectory;
-                var srcNodes = in_directory.GetNodes(in_isRecursive: false);
+                var srcNodes = in_directory.GetNodes();
 
                 for (int i = 0; i < srcNodes.Count(); i++)
                 {
@@ -213,7 +213,7 @@ namespace Marathon.IO.Types.FileSystem
 
             // Add remaining nodes to new directory.
             {
-                var srcNodes = in_directory.GetNodes(in_isRecursive: false);
+                var srcNodes = in_directory.GetNodes();
 
                 for (int i = 0; i < srcNodes.Count(); i++)
                 {

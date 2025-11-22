@@ -248,7 +248,7 @@ namespace Marathon.Formats.Archive
 
                         ++globalEntryIndex;
 
-                        writer.Write(dir.GetNodeCount() + 1);
+                        writer.Write(dir.GetNodeCount(true) + 1);
                     }
                     else
                     {
@@ -258,7 +258,7 @@ namespace Marathon.Formats.Archive
 
                         ++globalEntryIndex;
 
-                        writer.Write(globalEntryIndex + dir.GetNodeCount());
+                        writer.Write(globalEntryIndex + dir.GetNodeCount(true));
                     }
 
                     if (IsSoXArchive)
@@ -344,7 +344,7 @@ namespace Marathon.Formats.Archive
 
             var dir = new PhysicalDirectory(in_path);
 
-            foreach (var node in dir.GetNodes(in_isRecursive: false))
+            foreach (var node in dir.GetNodes())
             {
                 if (node.IsDirectory)
                 {
@@ -363,7 +363,7 @@ namespace Marathon.Formats.Archive
 
             Directory.CreateDirectory(in_path);
 
-            foreach (var node in GetNodes())
+            foreach (var node in GetNodes(in_isRecursive: true))
             {
                 if (node.IsDirectory)
                     continue;
@@ -414,12 +414,12 @@ namespace Marathon.Formats.Archive
             return true;
         }
 
-        public int GetNodeCount(bool in_isRecursive = true)
+        public int GetNodeCount(bool in_isRecursive = false)
         {
             return _root.GetNodeCount(in_isRecursive);
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = true)
+        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
         {
             return _root.GetNodes(in_searchPattern, in_isRecursive);
         }

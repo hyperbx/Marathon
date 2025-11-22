@@ -14,7 +14,7 @@ namespace Marathon.Tests.Formats.Script.Lua
         private static bool ValidDecompilationTest()
         {
             var result = true;
-            var nodes = Program.GameFileSystem.GetNodes("*.lub").Where(x => !x.IsDirectory);
+            var nodes = Program.GameFileSystem.GetNodes("*.lub", true).Where(x => !x.IsDirectory);
             var i = 0;
 
             // Known bad decompilations.
