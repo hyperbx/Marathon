@@ -195,7 +195,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amicitia.IO" Version="1.2.0" />
+    <PackageReference Include="Amicitia.IO" Version="1.2.1" />
     <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
     <PackageReference Include="libHSON" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
