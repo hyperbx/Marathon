@@ -51,7 +51,6 @@ namespace Marathon.IO.Types.FileSystem
 
         public void ReplaceWith(IFile in_file)
         {
-            Length = in_file.Length;
             UncompressedLength = in_file.UncompressedLength;
             CompressionMethod = in_file.CompressionMethod;
             DecompressionMethod = in_file.DecompressionMethod;

@@ -284,7 +284,7 @@ namespace Marathon.IO.Types.FileSystem
             var parentPath = System.IO.Path.GetDirectoryName(in_path);
 
             if (!string.IsNullOrEmpty(parentPath) && GetDirectory(parentPath) == null)
-                ThrowHelper.ThrowDirectoryNotFoundException(parentPath, false);
+                CreateDirectory(parentPath);
 
             return (IFile)FileSystemHelper.WalkPath(this, in_path, (dir, segment, node) =>
             {
@@ -305,8 +305,14 @@ namespace Marathon.IO.Types.FileSystem
                     }
                 }
 
+                var file = new VirtualFile(segment)
+                {
+                    Parent = dir,
+                    BaseStream = new MemoryStream()
+                };
+
                 // Create new file, stop walking.
-                return dir.AddNode(new VirtualFile(segment) { Parent = dir });
+                return dir.AddNode(file);
             });
         }
 
