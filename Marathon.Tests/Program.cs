@@ -1,6 +1,7 @@
 ﻿using Marathon.Formats.Archive;
 using Marathon.Helpers;
 using Marathon.IO.Types.FileSystem;
+using Marathon.Shared;
 using System.Diagnostics;
 
 namespace Marathon.Tests
@@ -54,7 +55,10 @@ namespace Marathon.Tests
             if (args.Length > 1)
                 RequestedTests.AddRange(args[1].Split(',', StringSplitOptions.RemoveEmptyEntries));
 
-            Logger.Log("Loading filesystem...");
+            Logger.Log("Indexing filesystem...");
+
+            var indexTimer = new Stopwatch();
+            indexTimer.Start();
 
             foreach (var file in Directory.EnumerateFiles(GameDirectory, "*.arc", SearchOption.AllDirectories))
             {
@@ -73,7 +77,9 @@ namespace Marathon.Tests
                 }
             }
 
-            Logger.Log("Done.\n");
+            indexTimer.Stop();
+
+            Logger.Log($"Done. Took {indexTimer.Elapsed.FormatHoursMinutesSeconds()}.\n");
 
             var start = DateTime.Now;
 
@@ -109,7 +115,7 @@ namespace Marathon.Tests
                     var testEnd = DateTime.Now;
                     var testDuration = testEnd - testStart;
 
-                    Logger.Log($"├── Duration:  {testDuration.TotalMilliseconds} ms");
+                    Logger.Log($"├── Duration:  {testDuration.FormatHoursMinutesSeconds()}");
 
                     if (result)
                     {
@@ -135,7 +141,7 @@ namespace Marathon.Tests
             var duration = end - start;
 
             Logger.Log($"End:           {end:dd/MM/yyyy hh:mm:ss.fff tt}");
-            Logger.Log($"Duration:      {duration.TotalMilliseconds} ms\n");
+            Logger.Log($"Duration:      {duration.FormatHoursMinutesSeconds()}\n");
 
             if (result)
             {

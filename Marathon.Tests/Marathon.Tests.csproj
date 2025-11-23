@@ -21,4 +21,6 @@
     </None>
   </ItemGroup>
 
+  <Import Project="..\Marathon.Shared\Marathon.Shared.projitems" Label="Shared" />
+
 </Project>

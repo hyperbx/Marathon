@@ -1,6 +1,7 @@
 ﻿using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Types.FileSystem;
+using Marathon.Shared;
 using System.Diagnostics;
 
 namespace Marathon.Tests.Helpers
@@ -24,7 +25,7 @@ namespace Marathon.Tests.Helpers
                 var testEnd = DateTime.Now;
                 var testDuration = testEnd - testStart;
 
-                Logger.Log($"│    ├── Duration:  {testDuration.TotalMilliseconds} ms");
+                Logger.Log($"│    ├── Duration:  {testDuration.FormatHoursMinutesSeconds()}");
 
                 if (result)
                 {
