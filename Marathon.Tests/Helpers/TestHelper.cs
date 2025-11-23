@@ -101,7 +101,7 @@ namespace Marathon.Tests.Helpers
                     if (Debugger.IsAttached)
                         Debugger.Break();
 
-                    break;
+                    return false;
                 }
 
                 ConsoleHelper.ReturnToPreviousLine(2);
