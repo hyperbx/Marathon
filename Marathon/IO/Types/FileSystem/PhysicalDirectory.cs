@@ -34,9 +34,9 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => true;
 
-        public INode this[string in_path] => GetNodes(in_path, true).FirstOrDefault();
+        public INode this[string in_path] => EnumerateNodes(in_path, SearchOption.AllDirectories).FirstOrDefault();
 
-        public INode this[int in_index] => GetNodes().ElementAt(in_index);
+        public INode this[int in_index] => EnumerateNodes().ElementAt(in_index);
 
         public PhysicalDirectory() { }
 
@@ -78,14 +78,19 @@ namespace Marathon.IO.Types.FileSystem
             return GetDirectoryFromPath(System.IO.Path.GetDirectoryName(in_path));
         }
 
-        public int GetNodeCount(bool in_isRecursive = false)
+        public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            return Directory.EnumerateFileSystemEntries(Path).Count();
+            return Directory.EnumerateFileSystemEntries(Path, "*", in_searchOption).Count();
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
+        public INode[] GetNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            foreach (var entry in Directory.EnumerateFileSystemEntries(Path, in_searchPattern, in_isRecursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly))
+            return [.. EnumerateNodes(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<INode> EnumerateNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            foreach (var entry in Directory.EnumerateFileSystemEntries(Path, in_searchPattern, in_searchOption))
             {
                 if (FileSystemHelper.GetNodeType(entry) == FileSystemHelper.NodeType.File)
                 {
@@ -103,9 +108,14 @@ namespace Marathon.IO.Types.FileSystem
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IDirectory> GetDirectories(string in_searchPattern = "*")
+        public IDirectory[] GetDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            foreach (var directory in Directory.EnumerateDirectories(Path, in_searchPattern))
+            return [.. EnumerateDirectories(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<IDirectory> EnumerateDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            foreach (var directory in Directory.EnumerateDirectories(Path, in_searchPattern, in_searchOption))
                 yield return new PhysicalDirectory(directory);
         }
 
@@ -147,9 +157,14 @@ namespace Marathon.IO.Types.FileSystem
             }
         }
 
-        public IEnumerable<IFile> GetFiles(string in_searchPattern = "*")
+        public IFile[] GetFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            foreach (var file in Directory.EnumerateFiles(Path, in_searchPattern))
+            return [.. EnumerateFiles(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<IFile> EnumerateFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            foreach (var file in Directory.EnumerateFiles(Path, in_searchPattern, in_searchOption))
                 yield return new PhysicalFile(file);
         }
 

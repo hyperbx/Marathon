@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -136,6 +137,28 @@ namespace Marathon.Helpers
 
                 Console.WriteLine();
             }
+        }
+
+        /// <summary>
+        /// Prints a stream to the console.
+        /// </summary>
+        /// <param name="in_stream">The stream to print.</param>
+        /// <param name="in_baseAddr">The address to start the left-most column at.</param>
+        public static void PrintBytes(Stream in_stream, uint in_baseAddr = 0)
+        {
+            var pos = in_stream.Position;
+
+            // TODO: this is inefficient, do main impl as
+            // Stream instead of byte[] instead, then pass
+            // byte[] as MemoryStream.
+            using var memoryStream = new MemoryStream();
+            {
+                in_stream.Position = 0;
+                in_stream.CopyTo(memoryStream);
+                in_stream.Position = pos;
+            }
+
+            PrintBytes(memoryStream.ToArray(), in_baseAddr);
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Marathon.Tests.Formats.Script.Lua
         private static bool ValidDecompilationTest()
         {
             var result = true;
-            var nodes = Program.GameFileSystem.GetNodes("*.lub", true).Where(x => !x.IsDirectory);
+            var files = Program.GameFileSystem.EnumerateFiles("*.lub", SearchOption.AllDirectories);
             var i = 0;
 
             // Known bad decompilations.
@@ -26,26 +26,21 @@ namespace Marathon.Tests.Formats.Script.Lua
                 "actionstage.lub"
             };
 
-            foreach (var node in nodes)
+            foreach (var file in files)
             {
-                var file = node as IFile;
-
-                if (ignoreList.Contains(node.Name))
+                if (ignoreList.Contains(file.Name))
                     continue;
 
-                var fileCount = nodes.Count() - ignoreList.Count;
+                var fileCount = files.Count() - ignoreList.Count;
 
-                Logger.Log($"│    ├── File:      {node.Path}");
+                Logger.Log($"│    ├── File:      {file.Path}");
                 Logger.Log($"│    └── Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})");
 
-                var lub = new LuaBinary();
+                using var uncompressedFile = file.Decompress();
+
+                var lub = new LuaBinary(uncompressedFile);
                 var dec = "";
                 var decException = false;
-
-                if (file.Decompress?.Invoke(file) == false)
-                    goto OnError;
-
-                lub.Read(file.Open());
 
                 try
                 {
@@ -108,7 +103,7 @@ namespace Marathon.Tests.Formats.Script.Lua
 
                     if (!decException)
                     {
-                        var exhibitPath = TestHelper.CreateExhibit(node.Path, lub,
+                        var exhibitPath = TestHelper.CreateExhibit(file.Path, lub,
                             (exhibit, path) => File.WriteAllText(path, exhibit.Decompile()));
 
                         ConsoleHelper.ReturnToPreviousLine();

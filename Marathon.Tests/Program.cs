@@ -60,7 +60,7 @@ namespace Marathon.Tests
             {
                 var arc = new ArcFile(file);
 
-                foreach (var node in arc.GetNodes())
+                foreach (var node in arc.EnumerateNodes())
                 {
                     if (node.IsDirectory)
                     {

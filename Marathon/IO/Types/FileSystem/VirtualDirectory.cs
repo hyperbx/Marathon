@@ -40,11 +40,11 @@ namespace Marathon.IO.Types.FileSystem
             _nodes = in_nodes;
         }
 
-        public int GetNodeCount(bool in_isRecursive = false)
+        public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
             var result = _nodes.Count;
 
-            if (in_isRecursive)
+            if (in_searchOption == SearchOption.AllDirectories)
             {
                 foreach (var node in _nodes)
                 {
@@ -53,24 +53,29 @@ namespace Marathon.IO.Types.FileSystem
 
                     var dir = node as IDirectory;
 
-                    result += dir.GetNodeCount(in_isRecursive);
+                    result += dir.GetNodeCount(in_searchOption);
                 }
             }
 
             return result;
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
+        public INode[] GetNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return [.. EnumerateNodes(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<INode> EnumerateNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
             foreach (var node in _nodes)
             {
-                if (in_isRecursive)
+                if (in_searchOption == SearchOption.AllDirectories)
                 {
                     if (node.IsDirectory)
                     {
                         var dir = node as IDirectory;
 
-                        foreach (var dirNode in dir.GetNodes(in_searchPattern, in_isRecursive))
+                        foreach (var dirNode in dir.EnumerateNodes(in_searchPattern, in_searchOption))
                         {
                             if (!FileSystemName.MatchesSimpleExpression(in_searchPattern, dirNode.Name))
                                 continue;
@@ -117,11 +122,16 @@ namespace Marathon.IO.Types.FileSystem
             return in_node;
         }
 
-        public IEnumerable<IDirectory> GetDirectories(string in_searchPattern = "*")
+        public IDirectory[] GetDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            foreach (var node in _nodes)
+            return [.. EnumerateDirectories(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<IDirectory> EnumerateDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            foreach (var node in EnumerateNodes(in_searchPattern, in_searchOption))
             {
-                if (!node.IsDirectory || !FileSystemName.MatchesSimpleExpression(in_searchPattern, node.Name))
+                if (!node.IsDirectory)
                     continue;
 
                 yield return node as IDirectory;
@@ -170,9 +180,9 @@ namespace Marathon.IO.Types.FileSystem
 
             VirtualDirectory dir;
 
-            if (in_directory is VirtualDirectory virtualDir)
+            if (in_directory is VirtualDirectory out_virtualDir)
             {
-                dir = virtualDir;
+                dir = out_virtualDir;
             }
             else
             {
@@ -186,13 +196,13 @@ namespace Marathon.IO.Types.FileSystem
                 DeleteDirectory(in_directory.Name);
 
             // Merge input directory's nodes with this directory.
-            foreach (var node in GetNodes())
+            foreach (var node in EnumerateNodes())
             {
                 if (!node.IsDirectory || node.Name != in_directory.Name)
                     continue;
 
                 var dstNode = node as IDirectory;
-                var srcNodes = in_directory.GetNodes();
+                var srcNodes = in_directory.EnumerateNodes();
 
                 for (int i = 0; i < srcNodes.Count(); i++)
                 {
@@ -213,7 +223,7 @@ namespace Marathon.IO.Types.FileSystem
 
             // Add remaining nodes to new directory.
             {
-                var srcNodes = in_directory.GetNodes();
+                var srcNodes = in_directory.EnumerateNodes();
 
                 for (int i = 0; i < srcNodes.Count(); i++)
                 {
@@ -240,11 +250,16 @@ namespace Marathon.IO.Types.FileSystem
             return _nodes.Remove(GetDirectory(in_path));
         }
 
-        public IEnumerable<IFile> GetFiles(string in_searchPattern = "*")
+        public IFile[] GetFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            foreach (var node in _nodes)
+            return [.. EnumerateFiles(in_searchPattern, in_searchOption)];
+        }
+
+        public IEnumerable<IFile> EnumerateFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            foreach (var node in EnumerateNodes(in_searchPattern, in_searchOption))
             {
-                if (node.IsDirectory || !FileSystemName.MatchesSimpleExpression(in_searchPattern, node.Name))
+                if (node.IsDirectory)
                     continue;
 
                 yield return node as IFile;

@@ -102,6 +102,11 @@ namespace Marathon.IO
             throw new NotImplementedException();
         }
 
+        public virtual void Read(IFile in_file)
+        {
+            Read(in_file.Open());
+        }
+
         public virtual void Write(string in_path, bool in_overwrite = true)
         {
             if (string.IsNullOrEmpty(in_path))

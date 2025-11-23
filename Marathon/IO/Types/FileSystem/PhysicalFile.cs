@@ -1,4 +1,5 @@
-﻿using Marathon.Helpers;
+﻿using Marathon.Extensions;
+using Marathon.Helpers;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -45,9 +46,9 @@ namespace Marathon.IO.Types.FileSystem
 
         public long UncompressedLength { get; set; }
 
-        public Func<IFile, CompressionLevel, bool> Compress { get; set; }
+        public CompressionDelegate CompressionMethod { get; set; }
 
-        public Func<IFile, bool> Decompress { get; set; }
+        public DecompressionDelegate DecompressionMethod { get; set; }
 
         public Stream BaseStream { get; set; }
 
@@ -89,6 +90,8 @@ namespace Marathon.IO.Types.FileSystem
             {
                 if (Access == in_access)
                 {
+                    BaseStream.Position = 0;
+
                     return BaseStream;
                 }
                 else
@@ -101,6 +104,29 @@ namespace Marathon.IO.Types.FileSystem
             BaseStream = new FileStream(Path, FileSystemHelper.TransformFileAccessToFileMode(Access), Access, FileShare.ReadWrite);
 
             return BaseStream;
+        }
+
+        public void ReplaceWith(IFile in_file)
+        {
+            Dispose();
+
+            Length = in_file.Length;
+            UncompressedLength = in_file.UncompressedLength;
+            CompressionMethod = in_file.CompressionMethod;
+            DecompressionMethod = in_file.DecompressionMethod;
+
+            using (var fs = new FileStream(Path, FileMode.Create))
+                in_file.Open().CopyTo(fs);
+        }
+
+        public IFile Compress(CompressionLevel in_compressionLevel = CompressionLevel.Optimal)
+        {
+            return this.Compress<PhysicalFile>(in_compressionLevel);
+        }
+
+        public IFile Decompress()
+        {
+            return this.Decompress<PhysicalFile>();
         }
 
         public bool IsDisposed()

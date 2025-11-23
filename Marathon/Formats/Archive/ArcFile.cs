@@ -58,6 +58,11 @@ namespace Marathon.Formats.Archive
 
         public ArcFile() { }
 
+        public ArcFile(CompressionLevel in_compressionLevel)
+        {
+            CompressionLevel = in_compressionLevel;
+        }
+
         public ArcFile(string in_path, CompressionLevel in_compressionLevel = CompressionLevel.Optimal)
         {
             CompressionLevel = in_compressionLevel;
@@ -76,7 +81,12 @@ namespace Marathon.Formats.Archive
             }
         }
 
-        public ArcFile(CompressionLevel in_compressionLevel)
+        public ArcFile(Stream in_stream, CompressionLevel in_compressionLevel) : base(in_stream)
+        {
+            CompressionLevel = in_compressionLevel;
+        }
+
+        public ArcFile(IFile in_file, CompressionLevel in_compressionLevel) : base(in_file)
         {
             CompressionLevel = in_compressionLevel;
         }
@@ -174,8 +184,8 @@ namespace Marathon.Formats.Archive
                         Parent = in_directory,
                         Length = entry.Length,
                         UncompressedLength = entry.UncompressedLength,
-                        Compress = CompressFile,
-                        Decompress = DecompressFile,
+                        CompressionMethod = CompressionMethod,
+                        DecompressionMethod = DecompressionMethod,
                         BaseStream = new SubStream(BaseStream, entry.DataOffset, entry.Length)
                     };
 
@@ -248,7 +258,7 @@ namespace Marathon.Formats.Archive
 
                         ++globalEntryIndex;
 
-                        writer.Write(dir.GetNodeCount(true) + 1);
+                        writer.Write(dir.GetNodeCount(SearchOption.AllDirectories) + 1);
                     }
                     else
                     {
@@ -258,7 +268,7 @@ namespace Marathon.Formats.Archive
 
                         ++globalEntryIndex;
 
-                        writer.Write(globalEntryIndex + dir.GetNodeCount(true));
+                        writer.Write(globalEntryIndex + dir.GetNodeCount(SearchOption.AllDirectories));
                     }
 
                     if (IsSoXArchive)
@@ -325,8 +335,12 @@ namespace Marathon.Formats.Archive
 
                     if (fileUncompressedLength == 0 && CompressionLevel != CompressionLevel.NoCompression)
                     {
+                        file.BaseStream.Position = 0;
+
                         if (!ZLib.TryCompress(file.BaseStream, writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
                             throw new IOException($"Failed to compress file: {file.Path}");
+
+                        file.BaseStream.Position = 0;
 
                         fileUncompressedLength = fileLength;
                         fileLength = (uint)out_compressedStream.Length;
@@ -354,7 +368,7 @@ namespace Marathon.Formats.Archive
 
             var dir = new PhysicalDirectory(in_path);
 
-            foreach (var node in dir.GetNodes())
+            foreach (var node in dir.EnumerateNodes())
             {
                 if (node.IsDirectory)
                 {
@@ -373,12 +387,8 @@ namespace Marathon.Formats.Archive
 
             Directory.CreateDirectory(in_path);
 
-            foreach (var node in GetNodes(in_isRecursive: true))
+            foreach (var file in EnumerateFiles(in_searchOption: SearchOption.AllDirectories))
             {
-                if (node.IsDirectory)
-                    continue;
-
-                var file = node as IFile;
                 var filePath = System.IO.Path.Combine(in_path, file.Path);
 
                 if (!in_overwrite)
@@ -390,7 +400,7 @@ namespace Marathon.Formats.Archive
                 {
                     if (file.UncompressedLength > 0)
                     {
-                        if (!ZLib.TryDecompress(file.Open(), fs, out var out_uncompressedStream) || file.UncompressedLength != out_uncompressedStream.Length)
+                        if (!ZLib.TryDecompress(file.Open(), fs, out var out_uncompressedStream) || out_uncompressedStream.Length != file.UncompressedLength)
                             throw new IOException($"Failed to decompress file: {file.Path}");
                     }
                     else
@@ -401,44 +411,67 @@ namespace Marathon.Formats.Archive
             }
         }
 
-        public static bool CompressFile(IFile in_file, CompressionLevel in_compressionLevel)
+        private static bool CompressionMethod(Stream in_srcStream, Stream in_destStream, CompressionLevel in_compressionLevel)
         {
-            if (in_file.UncompressedLength > 0)
-                return true;
-
-            if (!ZLib.TryCompress(in_file.BaseStream, in_compressionLevel, out var out_compressedStream))
-                return false;
-
-            in_file.BaseStream = out_compressedStream;
-            in_file.UncompressedLength = in_file.Length;
-            in_file.Length = in_file.BaseStream.Length;
-
-            return true;
+            return ZLib.TryCompress(in_srcStream, in_destStream, in_compressionLevel, out _);
         }
 
-        public static bool DecompressFile(IFile in_file)
+        private static bool DecompressionMethod(Stream in_srcStream, Stream in_destStream)
         {
-            if (in_file.UncompressedLength <= 0)
-                return true;
-
-            if (!ZLib.TryDecompress(in_file.BaseStream, out var out_uncompressedStream))
-                return false;
-
-            in_file.BaseStream = out_uncompressedStream;
-            in_file.UncompressedLength = 0;
-            in_file.Length = in_file.BaseStream.Length;
-
-            return true;
+            return ZLib.TryDecompress(in_srcStream, in_destStream, out _);
         }
 
-        public int GetNodeCount(bool in_isRecursive = false)
+        public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            return _root.GetNodeCount(in_isRecursive);
+            return _root.GetNodeCount(in_searchOption);
         }
 
-        public IEnumerable<INode> GetNodes(string in_searchPattern = "*", bool in_isRecursive = false)
+        /// <summary>
+        /// Returns the nodes that match the specified search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of nodes in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An array of nodes in the specified archive that match the specified criteria, or an empty array if no nodes are found.
+        /// </returns>
+        public static INode[] GetNodes(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            return _root.GetNodes(in_searchPattern, in_isRecursive);
+            return new ArcFile(in_path).GetNodes(in_searchPattern, in_searchOption);
+        }
+
+        public INode[] GetNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.GetNodes(in_searchPattern, in_searchOption);
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of nodes that match a search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of nodes in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An enumerable collection of nodes in the specified archive that match the specified search pattern and search option.
+        /// </returns>
+        public static IEnumerable<INode> EnumerateNodes(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return new ArcFile(in_path).EnumerateNodes(in_searchPattern, in_searchOption);
+        }
+
+        public IEnumerable<INode> EnumerateNodes(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.EnumerateNodes(in_searchPattern, in_searchOption);
         }
 
         public INode AddNode(INode in_node, bool in_overwrite = true)
@@ -451,9 +484,52 @@ namespace Marathon.Formats.Archive
             return _root;
         }
 
-        public IEnumerable<IDirectory> GetDirectories(string in_searchPattern = "*")
+        /// <summary>
+        /// Returns the directories that match the specified search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of directories in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An array of directories in the specified archive that match the specified criteria, or an empty array if no directories are found.
+        /// </returns>
+        public static IDirectory[] GetDirectories(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            return _root.GetDirectories(in_searchPattern);
+            return new ArcFile(in_path).GetDirectories(in_searchPattern, in_searchOption);
+        }
+
+        public IDirectory[] GetDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.GetDirectories(in_searchPattern, in_searchOption);
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of directories that match a search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of directories in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An enumerable collection of directories in the specified archive that match the specified search pattern and search option.
+        /// </returns>
+        public static IEnumerable<IDirectory> EnumerateDirectories(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return new ArcFile(in_path).EnumerateDirectories(in_searchPattern, in_searchOption);
+        }
+
+        public IEnumerable<IDirectory> EnumerateDirectories(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.EnumerateDirectories(in_searchPattern, in_searchOption);
         }
 
         public IDirectory GetDirectory(string in_path)
@@ -476,9 +552,52 @@ namespace Marathon.Formats.Archive
             return _root.DeleteDirectory(in_path);
         }
 
-        public IEnumerable<IFile> GetFiles(string in_searchPattern = "*")
+        /// <summary>
+        /// Returns the files that match the specified search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of files in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An array of files in the specified archive that match the specified criteria, or an empty array if no files are found.
+        /// </returns>
+        public static IFile[] GetFiles(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
-            return _root.GetFiles(in_searchPattern);
+            return new ArcFile(in_path).GetFiles(in_searchPattern, in_searchOption);
+        }
+
+        public IFile[] GetFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.GetFiles(in_searchPattern, in_searchOption);
+        }
+
+        /// <summary>
+        /// Returns an enumerable collection of files that match a search pattern in the specified archive, and optionally searches subdirectories.
+        /// </summary>
+        /// <param name="in_searchPattern">
+        ///     The search string to match against the names of files in the specified archive.
+        ///     This parameter can contain a combination of valid literal path and wildcard (* and ?) characters, but it doesn't support regular expressions.
+        /// </param>
+        /// <param name="in_searchOption">
+        ///     One of the enumeration values that specifies whether the search operation should include only the current directory or should include all subdirectories.
+        ///     The default value is <see cref="SearchOption.TopDirectoryOnly"/>.
+        /// </param>
+        /// <returns>
+        ///     An enumerable collection of files in the specified archive that match the specified search pattern and search option.
+        /// </returns>
+        public static IEnumerable<IFile> EnumerateFiles(string in_path, string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return new ArcFile(in_path).EnumerateFiles(in_searchPattern, in_searchOption);
+        }
+
+        public IEnumerable<IFile> EnumerateFiles(string in_searchPattern = "*", SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return _root.EnumerateFiles(in_searchPattern, in_searchOption);
         }
 
         public IFile GetFile(string in_path)
@@ -488,12 +607,22 @@ namespace Marathon.Formats.Archive
 
         public IFile CreateFile(string in_path, bool in_overwrite = true)
         {
-            return _root.CreateFile(in_path, in_overwrite);
+            var file = _root.CreateFile(in_path, in_overwrite);
+
+            file.CompressionMethod = CompressionMethod;
+            file.DecompressionMethod = DecompressionMethod;
+
+            return file;
         }
 
         public IFile AddFile(IFile in_path, bool in_overwrite = true)
         {
-            return _root.AddFile(in_path, in_overwrite);
+            var file = _root.AddFile(in_path, in_overwrite);
+
+            file.CompressionMethod = CompressionMethod;
+            file.DecompressionMethod = DecompressionMethod;
+
+            return file;
         }
 
         public bool DeleteFile(string in_path)

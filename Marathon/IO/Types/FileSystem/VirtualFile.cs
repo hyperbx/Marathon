@@ -1,4 +1,5 @@
-﻿using Marathon.Helpers;
+﻿using Marathon.Extensions;
+using Marathon.Helpers;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -23,9 +24,9 @@ namespace Marathon.IO.Types.FileSystem
 
         public long UncompressedLength { get; set; }
 
-        public Func<IFile, CompressionLevel, bool> Compress { get; set; }
+        public CompressionDelegate CompressionMethod { get; set; }
 
-        public Func<IFile, bool> Decompress { get; set; }
+        public DecompressionDelegate DecompressionMethod { get; set; }
 
         public Stream BaseStream { get; set; }
 
@@ -38,7 +39,28 @@ namespace Marathon.IO.Types.FileSystem
 
         public Stream Open(FileAccess in_access = FileAccess.Read)
         {
+            BaseStream.Position = 0;
+
             return BaseStream;
+        }
+
+        public void ReplaceWith(IFile in_file)
+        {
+            Length = in_file.Length;
+            UncompressedLength = in_file.UncompressedLength;
+            CompressionMethod = in_file.CompressionMethod;
+            DecompressionMethod = in_file.DecompressionMethod;
+            BaseStream = in_file.BaseStream;
+        }
+
+        public IFile Compress(CompressionLevel in_compressionLevel = CompressionLevel.Optimal)
+        {
+            return this.Compress<VirtualFile>(in_compressionLevel);
+        }
+
+        public IFile Decompress()
+        {
+            return this.Decompress<VirtualFile>();
         }
 
         public void Dispose()
