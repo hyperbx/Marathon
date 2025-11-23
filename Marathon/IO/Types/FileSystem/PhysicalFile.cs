@@ -44,7 +44,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public long Length
         {
-            get => BaseStream == null ? 0 : BaseStream.Length;
+            get => string.IsNullOrEmpty(Path) ? 0 : new FileInfo(Path).Length;
             set => throw new NotSupportedException();
         }
 
@@ -65,8 +65,6 @@ namespace Marathon.IO.Types.FileSystem
             Path = System.IO.Path.GetFullPath(in_path);
 
             ThrowHelper.ThrowFileNotFoundException(Path);
-
-            Length = new FileInfo(Path).Length;
         }
 
         public static bool Delete(string in_path)

@@ -200,9 +200,6 @@ namespace Marathon.IO.Types.FileSystem
             var srcStream = in_file.Open();
 
             srcStream.CopyTo(destStream);
-
-            file.Length = destStream.Length;
-
             destStream.Dispose();
 
             return file;

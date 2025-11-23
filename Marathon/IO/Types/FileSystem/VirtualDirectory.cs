@@ -326,7 +326,6 @@ namespace Marathon.IO.Types.FileSystem
 
             var file = CreateFile(in_file.Name, in_overwrite) as VirtualFile;
 
-            file.Length = in_file.Length;
             file.UncompressedLength = in_file.UncompressedLength;
             file.BaseStream = in_file.Open();
 
