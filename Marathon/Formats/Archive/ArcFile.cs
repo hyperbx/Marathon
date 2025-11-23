@@ -13,8 +13,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-// Format names:        Revolution Archive, Arc File, ARC
-// Format references:   darch.exe, Sonicteam::SoX::ArcFile, Sonicteam::SoX::FileSystemARC
+// Format names:        Arc File, ARC
+// Format references:   Sonicteam::SoX::ArcFile, Sonicteam::SoX::FileSystemARC
 // Format designers:    Nintendo, Sonic Team
 // Format researchers:  Nintendo homebrew community, xose
 //
@@ -335,12 +335,8 @@ namespace Marathon.Formats.Archive
 
                     if (fileUncompressedLength == 0 && CompressionLevel != CompressionLevel.NoCompression)
                     {
-                        file.BaseStream.Position = 0;
-
-                        if (!ZLib.TryCompress(file.BaseStream, writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
+                        if (!ZLib.TryCompress(file.Open(), writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
                             throw new IOException($"Failed to compress file: {file.Path}");
-
-                        file.BaseStream.Position = 0;
 
                         fileUncompressedLength = fileLength;
                         fileLength = (uint)out_compressedStream.Length;
@@ -349,6 +345,8 @@ namespace Marathon.Formats.Archive
                     {
                         file.Open().CopyTo(writer.GetBaseStream());
                     }
+
+                    file.BaseStream.Position = 0;
 
                     writer.WriteReserved($"File{globalEntryIndex}Length", fileLength);
                     writer.WriteReserved($"File{globalEntryIndex}UncompressedLength", fileUncompressedLength);
@@ -407,6 +405,8 @@ namespace Marathon.Formats.Archive
                     {
                         file.Open().CopyTo(fs);
                     }
+
+                    file.BaseStream.Position = 0;
                 }
             }
         }
