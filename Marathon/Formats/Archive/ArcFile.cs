@@ -182,7 +182,6 @@ namespace Marathon.Formats.Archive
                     {
                         Name = entryName,
                         Parent = in_directory,
-                        Length = entry.Length,
                         UncompressedLength = entry.UncompressedLength,
                         CompressionMethod = CompressionMethod,
                         DecompressionMethod = DecompressionMethod,
@@ -333,7 +332,7 @@ namespace Marathon.Formats.Archive
                     writer.Align(32);
                     writer.WriteReserved($"File{globalEntryIndex}Data", (uint)writer.Position);
 
-                    if (fileUncompressedLength == 0 && CompressionLevel != CompressionLevel.NoCompression)
+                    if (fileUncompressedLength <= 0 && CompressionLevel != CompressionLevel.NoCompression)
                     {
                         if (!ZLib.TryCompress(file.Open(), writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
                             throw new IOException($"Failed to compress file: {file.Path}");

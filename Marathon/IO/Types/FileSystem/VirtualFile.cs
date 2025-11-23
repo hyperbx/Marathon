@@ -20,7 +20,11 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => false;
 
-        public long Length { get; set; }
+        public long Length
+        {
+            get => BaseStream == null ? 0 : BaseStream.Length;
+            set => throw new NotSupportedException();
+        }
 
         public long UncompressedLength { get; set; }
 
@@ -39,7 +43,8 @@ namespace Marathon.IO.Types.FileSystem
 
         public Stream Open(FileAccess in_access = FileAccess.Read)
         {
-            BaseStream.Position = 0;
+            if (BaseStream != null && !IsDisposed())
+                BaseStream.Position = 0;
 
             return BaseStream;
         }
@@ -61,6 +66,22 @@ namespace Marathon.IO.Types.FileSystem
         public IFile Decompress()
         {
             return this.Decompress<VirtualFile>();
+        }
+
+        public bool IsDisposed()
+        {
+            if (BaseStream == null)
+                return false;
+
+            try
+            {
+                _ = BaseStream.Length;
+                return false;
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         public void Dispose()

@@ -42,7 +42,11 @@ namespace Marathon.IO.Types.FileSystem
 
         public bool IsDirectory => false;
 
-        public long Length { get; set; }
+        public long Length
+        {
+            get => BaseStream == null ? 0 : BaseStream.Length;
+            set => throw new NotSupportedException();
+        }
 
         public long UncompressedLength { get; set; }
 
@@ -110,7 +114,6 @@ namespace Marathon.IO.Types.FileSystem
         {
             Dispose();
 
-            Length = in_file.Length;
             UncompressedLength = in_file.UncompressedLength;
             CompressionMethod = in_file.CompressionMethod;
             DecompressionMethod = in_file.DecompressionMethod;

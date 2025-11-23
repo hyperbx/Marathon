@@ -162,7 +162,6 @@ namespace Marathon.IO
 
             Write(in_file.Open());
 
-            in_file.Length = in_file.BaseStream.Length;
             in_file.UncompressedLength = 0;
         }
 

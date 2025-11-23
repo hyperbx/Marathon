@@ -28,7 +28,6 @@ namespace Marathon.Extensions
             {
                 Name = in_file.Name,
                 Parent = in_file.Parent,
-                Length = destStream.Length,
                 UncompressedLength = in_file.BaseStream.Length,
                 CompressionMethod = in_file.CompressionMethod,
                 DecompressionMethod = in_file.DecompressionMethod,
@@ -57,7 +56,6 @@ namespace Marathon.Extensions
             {
                 Name = in_file.Name,
                 Parent = in_file.Parent,
-                Length = destStream.Length,
                 UncompressedLength = 0,
                 CompressionMethod = in_file.CompressionMethod,
                 DecompressionMethod = in_file.DecompressionMethod,
