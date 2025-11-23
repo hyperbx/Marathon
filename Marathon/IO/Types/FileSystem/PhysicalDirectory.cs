@@ -226,7 +226,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public override bool Equals(object in_obj)
         {
-            return in_obj is PhysicalDirectory directory && Path == directory.Path;
+            return in_obj is PhysicalDirectory out_physicalDir && Path == out_physicalDir.Path;
         }
 
         public override int GetHashCode()

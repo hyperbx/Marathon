@@ -342,6 +342,11 @@ namespace Marathon.IO.Types.FileSystem
             return GetEnumerator();
         }
 
+        public override bool Equals(object in_obj)
+        {
+            return in_obj is VirtualDirectory out_virtualDir && Path == out_virtualDir.Path;
+        }
+
         public override int GetHashCode()
         {
             return Name.GetHashCode();
