@@ -2,6 +2,7 @@
 using Amicitia.IO.Streams;
 using Marathon.Formats.Ninja.Chunks;
 using Marathon.IO;
+using Marathon.IO.Types.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 
@@ -38,6 +39,10 @@ namespace Marathon.Formats.Ninja
         public NinjaNext() { }
 
         public NinjaNext(string in_path) : base(in_path) { }
+
+        public NinjaNext(Stream in_stream) : base(in_stream) { }
+
+        public NinjaNext(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

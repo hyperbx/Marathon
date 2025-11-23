@@ -3,6 +3,7 @@ using Amicitia.IO.Streams;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types.FileSystem;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,10 @@ namespace Marathon.Formats.Kynapse
         public KynapseBigFile() { }
 
         public KynapseBigFile(string in_path) : base(in_path) { }
+
+        public KynapseBigFile(Stream in_stream) : base(in_stream) { }
+
+        public KynapseBigFile(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

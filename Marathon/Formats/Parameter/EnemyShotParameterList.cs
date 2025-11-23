@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 
@@ -36,6 +37,10 @@ namespace Marathon.Formats.Parameter
         public EnemyShotParameterList() { }
 
         public EnemyShotParameterList(string in_path) : base(in_path) { }
+
+        public EnemyShotParameterList(Stream in_stream) : base(in_stream) { }
+
+        public EnemyShotParameterList(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

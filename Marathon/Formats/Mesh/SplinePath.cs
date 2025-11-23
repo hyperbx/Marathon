@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
@@ -43,6 +44,10 @@ namespace Marathon.Formats.Mesh
         public SplinePath() { }
 
         public SplinePath(string in_path) : base(in_path) { }
+
+        public SplinePath(Stream in_stream) : base(in_stream) { }
+
+        public SplinePath(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

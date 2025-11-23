@@ -2,6 +2,7 @@
 using Amicitia.IO.Streams;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types.FileSystem;
 using System.IO;
 
 // Format names:        Text Font Proportion
@@ -50,6 +51,10 @@ namespace Marathon.Formats.Text
         public TextFontProportion() { }
 
         public TextFontProportion(string in_path) : base(in_path) { }
+
+        public TextFontProportion(Stream in_stream) : base(in_stream) { }
+
+        public TextFontProportion(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

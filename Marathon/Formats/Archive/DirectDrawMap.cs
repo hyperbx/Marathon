@@ -3,6 +3,7 @@ using Amicitia.IO.Streams;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 
@@ -36,6 +37,10 @@ namespace Marathon.Formats.Archive
         public DirectDrawMap() { }
 
         public DirectDrawMap(string in_path) : base(in_path) { }
+
+        public DirectDrawMap(Stream in_stream) : base(in_stream) { }
+
+        public DirectDrawMap(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

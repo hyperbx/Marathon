@@ -5,6 +5,7 @@ using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,6 +55,10 @@ namespace Marathon.Formats.Placement
         public StageSet() { }
 
         public StageSet(string in_path) : base(in_path) { }
+
+        public StageSet(Stream in_stream) : base(in_stream) { }
+
+        public StageSet(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

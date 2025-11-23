@@ -1,5 +1,6 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +33,10 @@ namespace Marathon.Formats.Mesh
         public ReflectionArea() { }
 
         public ReflectionArea(string in_path) : base(in_path) { }
+
+        public ReflectionArea(Stream in_stream) : base(in_stream) { }
+
+        public ReflectionArea(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

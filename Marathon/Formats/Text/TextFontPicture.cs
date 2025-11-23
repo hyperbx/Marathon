@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using System.Collections.Generic;
 using System.IO;
 
@@ -45,6 +46,10 @@ namespace Marathon.Formats.Text
         public TextFontPicture() { }
 
         public TextFontPicture(string in_path) : base(in_path) { }
+
+        public TextFontPicture(Stream in_stream) : base(in_stream) { }
+
+        public TextFontPicture(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

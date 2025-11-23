@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Helpers;
+using Marathon.IO.Types.FileSystem;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -47,8 +48,7 @@ namespace Marathon.IO
         public virtual WriteMode WriteMode { get; set; } = WriteMode.New;
 
         /// <summary>
-        /// Leaves the <see cref="BaseStream"/> open after writing.
-        /// <para>If left open, the stream must manually be disposed using the <see cref="Dispose"/> method.</para>
+        /// Leaves the <see cref="BaseStream"/> open after disposing.
         /// </summary>
         [JsonIgnore]
         public virtual bool LeaveOpen { get; set; } = false;
@@ -59,8 +59,7 @@ namespace Marathon.IO
             LeaveOpen = in_leaveOpen;
         }
 
-        public FileBase(string in_path, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)
-            : this(in_writeMode, in_leaveOpen)
+        public FileBase(string in_path, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false) : this(in_writeMode, in_leaveOpen)
         {
             var extension = '.' + string.Join('.', FileSystemHelper.GetExtensions(in_path, 2));
 
@@ -72,6 +71,16 @@ namespace Marathon.IO
             {
                 Read(in_path);
             }
+        }
+
+        public FileBase(Stream in_stream, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false) : this(in_writeMode, in_leaveOpen)
+        {
+            Read(in_stream);
+        }
+
+        public FileBase(IFile in_file, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false) : this(in_writeMode, in_leaveOpen)
+        {
+            Read(in_file.Open());
         }
 
         public virtual void Read(string in_path)
@@ -132,14 +141,24 @@ namespace Marathon.IO
             }
         }
 
+        public virtual void Write(bool in_overwrite = true)
+        {
+            Write(Location, in_overwrite);
+        }
+
         public virtual void Write(Stream in_stream)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void Write(bool in_overwrite = true)
+        public virtual void Write(IFile in_file)
         {
-            Write(Location, in_overwrite);
+            in_file.BaseStream = new MemoryStream();
+
+            Write(in_file.Open());
+
+            in_file.Length = in_file.BaseStream.Length;
+            in_file.UncompressedLength = 0;
         }
 
         public virtual void Import(string in_path)
@@ -194,6 +213,9 @@ namespace Marathon.IO
 
         public void Dispose()
         {
+            if (LeaveOpen)
+                return;
+
             BaseStream?.Dispose();
             BaseStream = null;
         }

@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
@@ -48,6 +49,10 @@ namespace Marathon.Formats.Audio
         public SoundBank() { }
 
         public SoundBank(string in_path) : base(in_path) { }
+
+        public SoundBank(Stream in_stream) : base(in_stream) { }
+
+        public SoundBank(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

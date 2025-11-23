@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
+using Marathon.IO.Types.FileSystem;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
@@ -41,6 +42,10 @@ namespace Marathon.Formats.Particle
         public ParticleGlobalSettings() { }
 
         public ParticleGlobalSettings(string in_path) : base(in_path) { }
+
+        public ParticleGlobalSettings(Stream in_stream) : base(in_stream) { }
+
+        public ParticleGlobalSettings(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {

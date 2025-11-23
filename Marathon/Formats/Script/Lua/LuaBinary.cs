@@ -1,9 +1,10 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
-using Marathon.Formats.Script.Lua.Types;
 using Marathon.Formats.Script.Lua.Decompiler;
+using Marathon.Formats.Script.Lua.Types;
 using Marathon.Helpers;
 using Marathon.IO;
+using Marathon.IO.Types.FileSystem;
 using System;
 using System.IO;
 
@@ -44,6 +45,10 @@ namespace Marathon.Formats.Script.Lua
         public LuaBinary() { }
 
         public LuaBinary(string in_path) : base(in_path) { }
+
+        public LuaBinary(Stream in_stream) : base(in_stream) { }
+
+        public LuaBinary(IFile in_file) : base(in_file) { }
 
         public override void Read(Stream in_stream)
         {
