@@ -13,7 +13,6 @@ namespace Marathon.Extensions
         /// <param name="in_file">The file to compress.</param>
         /// <param name="in_compressionLevel">The level of compression to use.</param>
         /// <returns>A new file with compressed data.</returns>
-        /// <exception cref="IOException"/>
         public static IFile Compress<T>(this IFile in_file, CompressionLevel in_compressionLevel = CompressionLevel.Optimal) where T : IFile, new()
         {
             if (in_file.CompressionService == null || in_file.UncompressedLength > 0)
@@ -39,7 +38,6 @@ namespace Marathon.Extensions
         /// <typeparam name="T">The file type.</typeparam>
         /// <param name="in_file">The file to decompress.</param>
         /// <returns>A new file with uncompressed data.</returns>
-        /// <exception cref="IOException"/>
         public static IFile Decompress<T>(this IFile in_file) where T : IFile, new()
         {
             if (in_file.CompressionService == null || in_file.UncompressedLength <= 0)

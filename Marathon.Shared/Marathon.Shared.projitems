@@ -11,7 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\ExceptionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\AssemblyExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)extensions\TimeSpanExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TimeSpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ConsoleHelper.cs" />
   </ItemGroup>
   <ItemGroup>
