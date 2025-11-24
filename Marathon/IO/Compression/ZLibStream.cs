@@ -69,7 +69,7 @@ namespace Marathon.IO.Compression
             }
         }
 
-        public override bool CanSeek { get => false; }
+        public override bool CanSeek => false;
 
         public override long Length
         {
@@ -130,7 +130,6 @@ namespace Marathon.IO.Compression
                 throw new IOException("Invalid ZLib header.");
             }
 
-            // TODO: Adler-32 checksum handling.
             DeflateStream = new DeflateStream(in_stream, in_compressionMode, true);
         }
 
@@ -204,6 +203,49 @@ namespace Marathon.IO.Compression
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void ValidateParameters(byte[] in_array, int in_offset, int in_count)
+        {
+            if (in_array == null)
+                throw new ArgumentNullException(nameof(in_array));
+
+            if (in_offset < 0)
+                throw new ArgumentOutOfRangeException(nameof(in_offset));
+
+            if (in_count < 0)
+                throw new ArgumentOutOfRangeException(nameof(in_count));
+
+            if (in_array.Length - in_offset < in_count)
+                throw new ArgumentException($"Invalid values for {nameof(in_offset)} and {nameof(in_count)}.");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void EnsureNotDisposed()
+        {
+            if (BaseStream != null)
+                return;
+
+            throw new ObjectDisposedException(null, $"{nameof(BaseStream)} has been disposed.");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void EnsureCompressionMode()
+        {
+            if (CompressionMode == CompressionMode.Compress)
+                return;
+
+            throw new InvalidOperationException("Cannot write to a stream opened for decompression.");
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void EnsureDecompressionMode()
+        {
+            if (CompressionMode == CompressionMode.Decompress)
+                return;
+
+            throw new InvalidOperationException("Cannot read from a stream opened for compression.");
+        }
+
         public override int Read(byte[] in_buffer, int in_offset, int in_count)
         {
             EnsureDecompressionMode();
@@ -225,52 +267,12 @@ namespace Marathon.IO.Compression
             EnsureCompressionMode();
             ValidateParameters(in_buffer, in_offset, in_count);
             EnsureNotDisposed();
+
             ProcessAdler32(in_buffer, in_offset, in_count);
 
             DeflateStream.Write(in_buffer, in_offset, in_count);
 
             BytesProcessed += in_count;
-        }
-
-        private void ValidateParameters(byte[] in_array, int in_offset, int in_count)
-        {
-            if (in_array == null)
-                throw new ArgumentNullException(nameof(in_array));
-
-            if (in_offset < 0)
-                throw new ArgumentOutOfRangeException(nameof(in_offset));
-
-            if (in_count < 0)
-                throw new ArgumentOutOfRangeException(nameof(in_count));
-
-            if (in_array.Length - in_offset < in_count)
-                throw new ArgumentException($"Invalid values for {nameof(in_offset)} and {nameof(in_count)}.");
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void EnsureNotDisposed()
-        {
-            if (BaseStream == null)
-                throw new ObjectDisposedException(null, $"{nameof(BaseStream)} has been disposed.");
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void EnsureCompressionMode()
-        {
-            if (CompressionMode != CompressionMode.Compress)
-                throw new InvalidOperationException("Cannot write to a stream opened for decompression.");
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void EnsureDecompressionMode()
-        {
-            if (CompressionMode != CompressionMode.Decompress)
-                throw new InvalidOperationException("Cannot read from a stream opened for compression.");
-        }
-
-        public override void Flush()
-        {
-            EnsureNotDisposed();
         }
 
         public override long Seek(long in_offset, SeekOrigin in_origin)
@@ -283,39 +285,46 @@ namespace Marathon.IO.Compression
             throw new NotSupportedException("ZLibStream does not support setting the stream length.");
         }
 
+        public override void Flush()
+        {
+            EnsureNotDisposed();
+
+            if (CompressionMode != CompressionMode.Compress)
+                return;
+
+            // Special case: zero-length file needs "\x03\x00"
+            // in order to not be misdetected as uncompressed.
+            if (BytesProcessed <= 0)
+            {
+                byte[] emptyMarker = [0x03, 0x00];
+                ProcessAdler32(emptyMarker, 0, emptyMarker.Length);
+                BaseStream.Write(emptyMarker, 0, emptyMarker.Length);
+            }
+
+            // Write the Adler-32 checksum.
+            var adler32 = unchecked((S2 << 16) | S1);
+            var adler32Bytes = BitConverter.GetBytes(adler32);
+
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(adler32Bytes);
+
+            BaseStream.Write(adler32Bytes, 0, adler32Bytes.Length);
+            BaseStream.Flush();
+        }
+
         protected override void Dispose(bool in_isDisposing)
         {
-            if (!IsDisposed && in_isDisposing)
-            {
-                DeflateStream?.Close();
+            if (IsDisposed || !in_isDisposing)
+                return;
 
-                if (CompressionMode == CompressionMode.Compress)
-                {
-                    // Special case: zero-length file needs "\x03\x00"
-                    // in order to not be misdetected as uncompressed.
-                    if (BytesProcessed <= 0)
-                    {
-                        byte[] emptyMarker = [0x03, 0x00];
-                        ProcessAdler32(emptyMarker, 0, emptyMarker.Length);
-                        BaseStream.Write(emptyMarker, 0, emptyMarker.Length);
-                    }
+            DeflateStream?.Close();
 
-                    // Write the Adler-32 checksum.
-                    var adler32 = unchecked((S2 << 16) | S1);
-                    var adler32Bytes = BitConverter.GetBytes(adler32);
+            Flush();
 
-                    if (BitConverter.IsLittleEndian)
-                        Array.Reverse(adler32Bytes);
+            if (!LeaveOpen)
+                BaseStream.Close();
 
-                    BaseStream.Write(adler32Bytes, 0, adler32Bytes.Length);
-                    BaseStream.Flush();
-                }
-
-                if (!LeaveOpen)
-                    BaseStream.Close();
-
-                IsDisposed = true;
-            }
+            IsDisposed = true;
         }
     }
 }

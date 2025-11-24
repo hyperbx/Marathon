@@ -1,7 +1,7 @@
 ﻿using Marathon.Extensions;
 using Marathon.Formats.Script.Lua;
 using Marathon.Helpers;
-using Marathon.IO.Types.FileSystem;
+using Marathon.Shared.Helpers;
 using Marathon.Tests.Helpers;
 using System.Diagnostics;
 

@@ -183,8 +183,7 @@ namespace Marathon.Formats.Archive
                         Name = entryName,
                         Parent = in_directory,
                         UncompressedLength = entry.UncompressedLength,
-                        CompressionMethod = CompressionMethod,
-                        DecompressionMethod = DecompressionMethod,
+                        CompressionService = new ZLibCompressionService(),
                         BaseStream = new SubStream(BaseStream, entry.DataOffset, entry.Length)
                     };
 
@@ -326,19 +325,16 @@ namespace Marathon.Formats.Archive
                 else
                 {
                     var file = in_node as IFile;
-                    var fileLength = (uint)file.Length;
-                    var fileUncompressedLength = (uint)file.UncompressedLength;
+                    var fileLength = file.Length;
+                    var fileUncompressedLength = file.UncompressedLength;
 
                     writer.Align(32);
                     writer.WriteReserved($"File{globalEntryIndex}Data", (uint)writer.Position);
 
                     if (fileUncompressedLength <= 0 && CompressionLevel != CompressionLevel.NoCompression)
                     {
-                        if (!ZLib.TryCompress(file.Open(), writer.GetBaseStream(), CompressionLevel, out var out_compressedStream))
-                            throw new IOException($"Failed to compress file: {file.Path}");
-
                         fileUncompressedLength = fileLength;
-                        fileLength = (uint)out_compressedStream.Length;
+                        fileLength = new ZLibCompressionService().Compress(file.Open(), writer.GetBaseStream(), CompressionLevel);
                     }
                     else
                     {
@@ -347,8 +343,14 @@ namespace Marathon.Formats.Archive
 
                     file.BaseStream.Position = 0;
 
-                    writer.WriteReserved($"File{globalEntryIndex}Length", fileLength);
-                    writer.WriteReserved($"File{globalEntryIndex}UncompressedLength", fileUncompressedLength);
+                    if (fileLength > uint.MaxValue)
+                        throw new InvalidDataException("The length of this file exceeds the internal file size limit.");
+
+                    if (fileUncompressedLength > uint.MaxValue)
+                        throw new InvalidDataException("The uncompressed length of this file exceeds the internal file size limit.");
+
+                    writer.WriteReserved($"File{globalEntryIndex}Length", (uint)fileLength);
+                    writer.WriteReserved($"File{globalEntryIndex}UncompressedLength", (uint)fileUncompressedLength);
 
                     ++globalEntryIndex;
                 }
@@ -397,8 +399,7 @@ namespace Marathon.Formats.Archive
                 {
                     if (file.UncompressedLength > 0)
                     {
-                        if (!ZLib.TryDecompress(file.Open(), fs, out var out_uncompressedStream) || out_uncompressedStream.Length != file.UncompressedLength)
-                            throw new IOException($"Failed to decompress file: {file.Path}");
+                        new ZLibCompressionService().Decompress(file.Open(), fs, file.UncompressedLength);
                     }
                     else
                     {
@@ -408,16 +409,6 @@ namespace Marathon.Formats.Archive
                     file.BaseStream.Position = 0;
                 }
             }
-        }
-
-        private static bool CompressionMethod(Stream in_srcStream, Stream in_destStream, CompressionLevel in_compressionLevel)
-        {
-            return ZLib.TryCompress(in_srcStream, in_destStream, in_compressionLevel, out _);
-        }
-
-        private static bool DecompressionMethod(Stream in_srcStream, Stream in_destStream)
-        {
-            return ZLib.TryDecompress(in_srcStream, in_destStream, out _);
         }
 
         public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
@@ -608,8 +599,7 @@ namespace Marathon.Formats.Archive
         {
             var file = _root.CreateFile(in_path, in_overwrite);
 
-            file.CompressionMethod = CompressionMethod;
-            file.DecompressionMethod = DecompressionMethod;
+            file.CompressionService = new ZLibCompressionService();
 
             return file;
         }
@@ -618,8 +608,7 @@ namespace Marathon.Formats.Archive
         {
             var file = _root.AddFile(in_path, in_overwrite);
 
-            file.CompressionMethod = CompressionMethod;
-            file.DecompressionMethod = DecompressionMethod;
+            file.CompressionService = new ZLibCompressionService();
 
             return file;
         }

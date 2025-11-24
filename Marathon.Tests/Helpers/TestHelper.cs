@@ -2,6 +2,7 @@
 using Marathon.IO;
 using Marathon.IO.Types.FileSystem;
 using Marathon.Shared;
+using Marathon.Shared.Helpers;
 using System.Diagnostics;
 
 namespace Marathon.Tests.Helpers

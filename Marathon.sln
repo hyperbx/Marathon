@@ -45,5 +45,6 @@ Global
 		Marathon.Shared\Marathon.Shared.projitems*{092237a2-fc60-42a1-a7ee-195771d71771}*SharedItemsImports = 5
 		Marathon.Shared\Marathon.Shared.projitems*{c8b0dcec-d8b0-4b39-819b-4b41b440eb03}*SharedItemsImports = 5
 		Marathon.Shared\Marathon.Shared.projitems*{da94bae1-9d6a-4e00-8dff-10af9fd6aac1}*SharedItemsImports = 13
+		Marathon.Shared\Marathon.Shared.projitems*{e54e9390-9aee-4663-b787-69d3bca71666}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

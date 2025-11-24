@@ -1,4 +1,4 @@
-﻿namespace Marathon.Tests.Helpers
+﻿namespace Marathon.Shared.Helpers
 {
     internal class ConsoleHelper
     {
@@ -6,7 +6,9 @@
         {
             for (int i = 0; i < in_count; i++)
             {
-                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                if (Console.CursorTop != 0)
+                    Console.SetCursorPosition(0, Console.CursorTop - 1);
+
                 Console.Write(new string(' ', Console.WindowWidth));
                 Console.SetCursorPosition(0, Console.CursorTop);
             }

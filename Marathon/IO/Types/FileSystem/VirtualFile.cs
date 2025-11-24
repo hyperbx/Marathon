@@ -1,5 +1,6 @@
 ﻿using Marathon.Extensions;
 using Marathon.Helpers;
+using Marathon.IO.Compression;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -28,9 +29,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public long UncompressedLength { get; set; }
 
-        public CompressionDelegate CompressionMethod { get; set; }
-
-        public DecompressionDelegate DecompressionMethod { get; set; }
+        public ICompressionService CompressionService { get; set; }
 
         public Stream BaseStream { get; set; }
 
@@ -52,8 +51,7 @@ namespace Marathon.IO.Types.FileSystem
         public void ReplaceWith(IFile in_file)
         {
             UncompressedLength = in_file.UncompressedLength;
-            CompressionMethod = in_file.CompressionMethod;
-            DecompressionMethod = in_file.DecompressionMethod;
+            CompressionService = in_file.CompressionService;
             BaseStream = in_file.BaseStream;
         }
 

@@ -16,21 +16,19 @@ namespace Marathon.Extensions
         /// <exception cref="IOException"/>
         public static IFile Compress<T>(this IFile in_file, CompressionLevel in_compressionLevel = CompressionLevel.Optimal) where T : IFile, new()
         {
-            if (in_file.CompressionMethod == null || in_file.UncompressedLength > 0)
+            if (in_file.CompressionService == null || in_file.UncompressedLength > 0)
                 return in_file;
 
             var destStream = new MemoryStream();
 
-            if (!in_file.CompressionMethod(in_file.BaseStream, destStream, in_compressionLevel))
-                throw new IOException($"Failed to compress file: {in_file.Path}");
+            in_file.CompressionService.Compress(in_file.BaseStream, destStream, in_compressionLevel);
 
             return new T()
             {
                 Name = in_file.Name,
                 Parent = in_file.Parent,
                 UncompressedLength = in_file.BaseStream.Length,
-                CompressionMethod = in_file.CompressionMethod,
-                DecompressionMethod = in_file.DecompressionMethod,
+                CompressionService = in_file.CompressionService,
                 BaseStream = destStream
             };
         }
@@ -44,21 +42,19 @@ namespace Marathon.Extensions
         /// <exception cref="IOException"/>
         public static IFile Decompress<T>(this IFile in_file) where T : IFile, new()
         {
-            if (in_file.DecompressionMethod == null || in_file.UncompressedLength <= 0)
+            if (in_file.CompressionService == null || in_file.UncompressedLength <= 0)
                 return in_file;
 
             var destStream = new MemoryStream();
 
-            if (!in_file.DecompressionMethod(in_file.Open(), destStream) || destStream.Length != in_file.UncompressedLength)
-                throw new IOException($"Failed to decompress file: {in_file.Path}");
+            in_file.CompressionService.Decompress(in_file.Open(), destStream, in_file.UncompressedLength);
 
             return new T()
             {
                 Name = in_file.Name,
                 Parent = in_file.Parent,
                 UncompressedLength = 0,
-                CompressionMethod = in_file.CompressionMethod,
-                DecompressionMethod = in_file.DecompressionMethod,
+                CompressionService = in_file.CompressionService,
                 BaseStream = destStream
             };
         }

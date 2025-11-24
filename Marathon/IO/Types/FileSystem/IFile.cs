@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marathon.IO.Compression;
+using System;
 using System.IO;
 using System.IO.Compression;
 
@@ -24,17 +25,12 @@ namespace Marathon.IO.Types.FileSystem
         long UncompressedLength { get; set; }
 
         /// <summary>
-        /// The method used to compress data in <see cref="Compress(CompressionLevel)"/>.
+        /// The service used for compression and decompression of this file.
         /// </summary>
-        CompressionDelegate CompressionMethod { get; set; }
+        ICompressionService CompressionService { get; set; }
 
         /// <summary>
-        /// The method used to decompress data in <see cref="Decompress"/>.
-        /// </summary>
-        DecompressionDelegate DecompressionMethod { get; set; }
-
-        /// <summary>
-        /// The stream pertaining to this file's data.
+        /// The underlying stream to the file.
         /// </summary>
         Stream BaseStream { get; set; }
 
@@ -64,23 +60,6 @@ namespace Marathon.IO.Types.FileSystem
         /// <returns>A new file with uncompressed data.</returns>
         IFile Decompress();
     }
-
-    /// <summary>
-    /// The delegate for compressing files.
-    /// </summary>
-    /// <param name="in_srcStream">The uncompressed data stream.</param>
-    /// <param name="in_destStream">The stream to copy compressed data to.</param>
-    /// <param name="in_compressionLevel">The level of compression to use.</param>
-    /// <returns><b>true</b> if compression succeeded. Otherwise, <b>false</b>.</returns>
-    public delegate bool CompressionDelegate(Stream in_srcStream, Stream in_destStream, CompressionLevel in_compressionLevel = CompressionLevel.Optimal);
-
-    /// <summary>
-    /// The delegate for decompressing files.
-    /// </summary>
-    /// <param name="in_srcStream">The compressed data stream.</param>
-    /// <param name="in_destStream">The stream to copy uncompressed data to.</param>
-    /// <returns><b>true</b> if decompression succeeded. Otherwise, <b>false</b>.</returns>
-    public delegate bool DecompressionDelegate(Stream in_srcStream, Stream in_destStream);
 }
 
 #pragma warning restore CS0108 // Member hides inherited member; missing new keyword
