@@ -310,6 +310,26 @@ namespace Marathon.Helpers
             return result;
         }
 
+        public static void ReplaceFile(string in_srcPath, string in_dstPath, string in_backupPath = "", bool in_overwriteBackup = false)
+        {
+            if (string.IsNullOrEmpty(in_srcPath))
+                throw new ArgumentNullException(nameof(in_srcPath));
+
+            if (string.IsNullOrEmpty(in_dstPath))
+                throw new ArgumentNullException(nameof(in_dstPath));
+
+            if (!string.IsNullOrEmpty(in_backupPath))
+                File.Copy(in_dstPath, in_backupPath, in_overwriteBackup);
+
+            using var src = File.OpenRead(in_srcPath);
+            using var dst = new FileStream(in_dstPath, FileMode.Create);
+
+            src.CopyTo(dst);
+            src.Dispose();
+
+            File.Delete(in_srcPath);
+        }
+
         public static string OmitRootDirectory(string in_path)
         {
             var index = in_path.IndexOf(Path.DirectorySeparatorChar);

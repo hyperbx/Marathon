@@ -52,6 +52,8 @@ namespace Marathon.Formats.Archive
 
         public override string Extension => _extension;
 
+        public override bool UseTempFile => true;
+
         public INode this[string in_name] => _root[in_name];
 
         public INode this[int in_index] => _root[in_index];

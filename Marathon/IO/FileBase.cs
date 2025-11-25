@@ -45,13 +45,19 @@ namespace Marathon.IO
         /// The method used for writing the file.
         /// </summary>
         [JsonIgnore]
-        public virtual WriteMode WriteMode { get; set; } = WriteMode.New;
+        public virtual WriteMode WriteMode { get; set; }
+
+        /// <summary>
+        /// Determines whether to write to a temporary file first before replacing the original.
+        /// <para>This should be used for writing to files that have streams associated with them.</para>
+        /// </summary>
+        public virtual bool UseTempFile { get; set; }
 
         /// <summary>
         /// Leaves the <see cref="BaseStream"/> open after disposing.
         /// </summary>
         [JsonIgnore]
-        public virtual bool LeaveOpen { get; set; } = false;
+        public virtual bool LeaveOpen { get; set; }
 
         public FileBase(WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)
         {
@@ -115,13 +121,23 @@ namespace Marathon.IO
             if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
+            var targetPath = in_path;
+            var originalPath = in_path;
+            var isTempFile = UseTempFile;
+
+            // Create a file in the temporary data location.
+            // This will be used for writing before being moved
+            // back to the original file to replace it.
+            if (isTempFile)
+                targetPath = Path.GetTempFileName();
+
             switch (WriteMode)
             {
                 case WriteMode.New:
                 {
-                    Location = in_path;
+                    Location = targetPath;
 
-                    using (var stream = new FileStream(in_path, FileMode.Create, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(targetPath, FileMode.Create, FileAccess.ReadWrite))
                         Write(stream);
 
                     break;
@@ -129,21 +145,33 @@ namespace Marathon.IO
 
                 case WriteMode.Fixed:
                 {
+                    originalPath = Location;
+
                     if (!string.IsNullOrEmpty(Location) && File.Exists(Location))
                     {
-                        if (in_path == Location)
-                            return;
-
                         // Copy the fixed file to the new writing location.
-                        File.Copy(Location, in_path, true);
+                        if (targetPath != Location)
+                            File.Copy(Location, targetPath, true);
+                    }
+                    else
+                    {
+                        ThrowHelper.ThrowFileNotFoundException(Location, false);
                     }
 
-                    using (var stream = new FileStream(in_path, FileMode.Open, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(targetPath, FileMode.Open, FileAccess.ReadWrite))
                         Write(stream);
 
                     break;
                 }
             }
+
+            // Replace the original file with the final
+            // written file from the temporary data location.
+            if (isTempFile)
+                FileSystemHelper.ReplaceFile(targetPath, originalPath);
+
+            // Restore original path.
+            Location = originalPath;
         }
 
         public virtual void Write(bool in_overwrite = true)
@@ -228,13 +256,13 @@ namespace Marathon.IO
     public enum WriteMode
     {
         /// <summary>
-        /// Writes to the file directly.
+        /// Writes the file from scratch.
         /// </summary>
-        Fixed,
+        New,
 
         /// <summary>
-        /// Writes the entire file from scratch.
+        /// Writes to the file directly.
         /// </summary>
-        New
+        Fixed
     }
 }
