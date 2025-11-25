@@ -1,8 +1,8 @@
 ﻿using Marathon.IO.Types.FileSystem;
 using Marathon.Helpers;
+using System;
 using System.IO;
 using System.IO.Compression;
-using System;
 
 namespace Marathon.Extensions
 {
@@ -81,7 +81,7 @@ namespace Marathon.Extensions
         /// </summary>
         /// <param name="in_left">The file to compare against.</param>
         /// <param name="in_right">The other file to check.</param>
-        /// <returns>Whether these two files are identical.</returns>
+        /// <returns><b>true</b> if the files are identical. Otherwise, <b>false</b>.</returns>
         public static bool Compare(this IFile in_left, IFile in_right)
         {
             var leftHash = HashHelper.ComputeStreamXxHash3(in_left.Decompress().Open());

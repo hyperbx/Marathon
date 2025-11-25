@@ -413,7 +413,9 @@ namespace Marathon.Formats.Archive
 
         public bool Delete()
         {
-            return false;
+            _root = new();
+
+            return true;
         }
 
         public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)

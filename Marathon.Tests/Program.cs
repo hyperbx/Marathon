@@ -57,8 +57,7 @@ namespace Marathon.Tests
 
             Logger.Log("Indexing filesystem...");
 
-            var indexTimer = new Stopwatch();
-            indexTimer.Start();
+            var indexTimer = Stopwatch.StartNew();
 
             foreach (var file in Directory.EnumerateFiles(GameDirectory, "*.arc", SearchOption.AllDirectories))
             {
