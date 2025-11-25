@@ -40,12 +40,49 @@ namespace Marathon.IO.Types.FileSystem
             Name = in_name;
         }
 
+        public IFile Clone()
+        {
+            return new VirtualFile
+            {
+                Name = Name,
+                Parent = Parent,
+                UncompressedLength = UncompressedLength,
+                CompressionService = CompressionService,
+                BaseStream = BaseStream
+            };
+        }
+
+        public bool Delete()
+        {
+            if (Parent == null)
+                return false;
+
+            return Parent.DeleteFile(Name);
+        }
+
         public Stream Open(FileAccess in_access = FileAccess.Read)
         {
             if (BaseStream != null && !IsDisposed())
-                BaseStream.Position = 0;
+            {
+                if (in_access is FileAccess.Read or FileAccess.ReadWrite && !BaseStream.CanRead)
+                    throw new IOException("This file's stream does not support reading.");
+
+                if (in_access is FileAccess.Write or FileAccess.ReadWrite && !BaseStream.CanWrite)
+                    throw new IOException("This file's stream does not support writing.");
+
+                if (BaseStream.CanSeek)
+                    BaseStream.Position = 0;
+            }
 
             return BaseStream;
+        }
+
+        public void Export(string in_path, bool in_overwrite = true)
+        {
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            Decompress().Export<VirtualFile>(in_path);
         }
 
         public void ReplaceWith(IFile in_file)

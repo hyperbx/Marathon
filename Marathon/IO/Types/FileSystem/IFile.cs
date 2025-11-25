@@ -30,16 +30,29 @@ namespace Marathon.IO.Types.FileSystem
         ICompressionService CompressionService { get; set; }
 
         /// <summary>
-        /// The underlying stream to the file.
+        /// The underlying stream to this file.
         /// </summary>
         Stream BaseStream { get; set; }
 
         /// <summary>
-        /// Opens the file.
+        /// Clones this file.
+        /// </summary>
+        /// <returns>A new file with the same properties as this file.</returns>
+        IFile Clone();
+
+        /// <summary>
+        /// Opens this file.
         /// </summary>
         /// <param name="in_access">The access level for opening this file.</param>
         /// <returns>A stream for this file's data.</returns>
         Stream Open(FileAccess in_access = FileAccess.Read);
+
+        /// <summary>
+        /// Exports this file.
+        /// </summary>
+        /// <param name="in_path">The path on disk to export to.</param>
+        /// <param name="in_overwrite">Determines whether to overwrite an existing file of the same name.</param>
+        void Export(string in_path, bool in_overwrite = true);
 
         /// <summary>
         /// Replaces this file's data with another file's data.

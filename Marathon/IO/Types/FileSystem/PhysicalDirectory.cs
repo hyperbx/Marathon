@@ -78,6 +78,27 @@ namespace Marathon.IO.Types.FileSystem
             return GetDirectoryFromPath(System.IO.Path.GetDirectoryName(in_path));
         }
 
+        public bool Delete()
+        {
+            return Delete(Path);
+        }
+
+        public static bool Delete(string in_path)
+        {
+            if (!Directory.Exists(in_path))
+                return false;
+
+            try
+            {
+                Directory.Delete(in_path, true);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
             return Directory.EnumerateFileSystemEntries(Path, "*", in_searchOption).Count();

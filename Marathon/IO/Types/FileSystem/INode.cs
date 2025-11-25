@@ -21,5 +21,11 @@
         /// Determines whether this node is a directory.
         /// </summary>
         bool IsDirectory { get; }
+
+        /// <summary>
+        /// Deletes this node.
+        /// </summary>
+        /// <returns><b>true</b> if the deletion was successful. Otherwise, <b>false</b>.</returns>
+        bool Delete();
     }
 }

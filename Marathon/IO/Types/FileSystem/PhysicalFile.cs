@@ -45,7 +45,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public long Length
         {
-            get => string.IsNullOrEmpty(Path) ? 0 : new FileInfo(Path).Length;
+            get => GetFileInfoProperty(Info, i => i.Length, 0);
             set => throw new NotSupportedException();
         }
 
@@ -57,6 +57,8 @@ namespace Marathon.IO.Types.FileSystem
 
         public FileAccess Access { get; set; }
 
+        public FileInfo Info => string.IsNullOrEmpty(Path) ? null : new FileInfo(Path);
+
         public PhysicalFile() { }
 
         public PhysicalFile(string in_path)
@@ -64,6 +66,23 @@ namespace Marathon.IO.Types.FileSystem
             Path = System.IO.Path.GetFullPath(in_path);
 
             ThrowHelper.ThrowFileNotFoundException(Path);
+        }
+
+        public IFile Clone()
+        {
+            return new PhysicalFile
+            {
+                Path = Path,
+                UncompressedLength = UncompressedLength,
+                CompressionService = CompressionService,
+                BaseStream = BaseStream,
+                Access = Access
+            };
+        }
+
+        public bool Delete()
+        {
+            return Delete(Path);
         }
 
         public static bool Delete(string in_path)
@@ -107,15 +126,22 @@ namespace Marathon.IO.Types.FileSystem
             return BaseStream;
         }
 
+        public void Export(string in_path, bool in_overwrite = true)
+        {
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            this.Export<PhysicalFile>(in_path);
+        }
+
         public void ReplaceWith(IFile in_file)
         {
             Dispose();
 
+            in_file.Export(Path);
+
             UncompressedLength = in_file.UncompressedLength;
             CompressionService = in_file.CompressionService;
-
-            using (var fs = new FileStream(Path, FileMode.Create))
-                in_file.Open().CopyTo(fs);
         }
 
         public IFile Compress(CompressionLevel in_compressionLevel = CompressionLevel.Optimal)
@@ -126,6 +152,14 @@ namespace Marathon.IO.Types.FileSystem
         public IFile Decompress()
         {
             return this.Decompress<PhysicalFile>();
+        }
+
+        private T GetFileInfoProperty<T>(FileInfo in_fileInfo, Func<FileInfo, T> in_getter, T in_defaultValue)
+        {
+            if (string.IsNullOrEmpty(Path) || in_fileInfo == null)
+                return in_defaultValue;
+
+            return in_getter(in_fileInfo);
         }
 
         public bool IsDisposed()
@@ -152,7 +186,7 @@ namespace Marathon.IO.Types.FileSystem
 
         public override bool Equals(object in_obj)
         {
-            return in_obj is PhysicalFile out_file && Path == out_file.Path;
+            return in_obj is PhysicalFile out_physicalFile && Path == out_physicalFile.Path;
         }
 
         public override int GetHashCode()

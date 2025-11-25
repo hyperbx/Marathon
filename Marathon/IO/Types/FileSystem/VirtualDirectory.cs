@@ -40,6 +40,14 @@ namespace Marathon.IO.Types.FileSystem
             _nodes = in_nodes;
         }
 
+        public bool Delete()
+        {
+            if (Parent == null)
+                return false;
+
+            return Parent.DeleteDirectory(Name);
+        }
+
         public int GetNodeCount(SearchOption in_searchOption = SearchOption.TopDirectoryOnly)
         {
             var result = _nodes.Count;

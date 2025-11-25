@@ -173,6 +173,7 @@ namespace Marathon.IO.Types.FileSystem
         /// Creates a file at the specified path.
         /// </summary>
         /// <param name="in_path">The path to create the file at.</param>
+        /// <param name="in_overwrite">Determines whether to overwrite an existing file in this directory of the same name.</param>
         /// <returns>The new file at the specified path.</returns>
         IFile CreateFile(string in_path, bool in_overwrite = true);
 
