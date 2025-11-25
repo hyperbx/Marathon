@@ -12,15 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.IO.Hashing" Version="10.0.0-preview.6.25358.103" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Tools\luacheck.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <Import Project="..\Marathon.Shared\Marathon.Shared.projitems" Label="Shared" />
 
 </Project>

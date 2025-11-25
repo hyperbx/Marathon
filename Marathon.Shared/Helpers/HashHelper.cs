@@ -1,8 +1,9 @@
-﻿using System.IO.Hashing;
+﻿using System.IO;
+using System.IO.Hashing;
 
-namespace Marathon.Tests.Helpers
+namespace Marathon.Helpers
 {
-    internal class HashHelper
+    public class HashHelper
     {
         public static ulong ComputeStreamXxHash3(Stream in_stream)
         {

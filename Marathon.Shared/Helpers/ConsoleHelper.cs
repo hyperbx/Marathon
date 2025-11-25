@@ -1,6 +1,8 @@
-﻿namespace Marathon.Shared.Helpers
+﻿using System;
+
+namespace Marathon.Helpers
 {
-    internal class ConsoleHelper
+    public class ConsoleHelper
     {
         public static void ReturnToPreviousLine(int in_count = 1)
         {

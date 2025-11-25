@@ -1,4 +1,6 @@
-namespace Marathon.Shared
+using System;
+
+namespace Marathon.Extensions
 {
     public static class SystemExtensions
     {

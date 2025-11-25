@@ -1,7 +1,7 @@
-﻿using Marathon.Formats.Archive;
+﻿using Marathon.Extensions;
+using Marathon.Formats.Archive;
 using Marathon.Helpers;
 using Marathon.IO.Types.FileSystem;
-using Marathon.Shared;
 using System.Diagnostics;
 
 namespace Marathon.Tests

@@ -1,6 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
-namespace Marathon.Shared
+namespace Marathon.Extensions
 {
     public static class ExceptionExtensions
     {

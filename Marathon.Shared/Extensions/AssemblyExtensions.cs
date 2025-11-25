@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Marathon.Shared
+namespace Marathon.Extensions
 {
     public static class AssemblyExtensions
     {
