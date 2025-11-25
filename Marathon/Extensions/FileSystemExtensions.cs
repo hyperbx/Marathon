@@ -89,5 +89,61 @@ namespace Marathon.Extensions
 
             return leftHash == rightHash;
         }
+
+        /// <summary>
+        /// Copies this file into the specified directory.
+        /// </summary>
+        /// <param name="in_file">The file to copy.</param>
+        /// <param name="in_directory">The directory to copy this file into.</param>
+        /// <param name="in_overwrite">Determines whether to overwrite an existing file in the destination directory of the same name.</param>
+        /// <returns><b>true</b> if the copy succeeded. Otherwise <b>false</b>.</returns>
+        public static IFile CopyTo(this IFile in_file, IDirectory in_directory, bool in_overwrite = true)
+        {
+            return in_directory.AddFile(in_file.Clone(), in_overwrite);
+        }
+
+        /// <summary>
+        /// Copies this directory into the specified directory.
+        /// </summary>
+        /// <param name="in_srcDirectory">The directory to copy.</param>
+        /// <param name="in_dstDirectory">The directory to copy this directory into.</param>
+        /// <param name="in_merge">Determines whether to merge this directory with another directory of the same name.</param>
+        /// <returns><b>true</b> if the copy succeeded. Otherwise <b>false</b>.</returns>
+        public static IDirectory CopyTo(this IDirectory in_srcDirectory, IDirectory in_dstDirectory, bool in_merge = true)
+        {
+            return in_dstDirectory.AddDirectory(in_srcDirectory, in_merge);
+        }
+
+        /// <summary>
+        /// Moves this file into the specified directory.
+        /// </summary>
+        /// <param name="in_file">The file to move.</param>
+        /// <param name="in_directory">The directory to move this file into.</param>
+        /// <param name="in_overwrite">Determines whether to overwrite an existing file in the destination directory of the same name.</param>
+        /// <returns><b>true</b> if the move succeeded. Otherwise <b>false</b>.</returns>
+        public static IFile MoveTo(this IFile in_file, IDirectory in_directory, bool in_overwrite = true)
+        {
+            var result = in_file.CopyTo(in_directory, in_overwrite);
+
+            in_file.Delete();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Moves this directory into the specified directory.
+        /// </summary>
+        /// <param name="in_srcDirectory">The directory to move.</param>
+        /// <param name="in_dstDirectory">The directory to move this directory into.</param>
+        /// <param name="in_merge">Determines whether to merge this directory with another directory of the same name.</param>
+        /// <returns><b>true</b> if the move succeeded. Otherwise <b>false</b>.</returns>
+        public static IDirectory MoveTo(this IDirectory in_srcDirectory, IDirectory in_dstDirectory, bool in_merge = true)
+        {
+            var result = in_srcDirectory.CopyTo(in_dstDirectory, in_merge);
+
+            in_srcDirectory.Delete();
+
+            return result;
+        }
     }
 }
