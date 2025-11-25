@@ -121,23 +121,23 @@ namespace Marathon.IO
             if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);
 
-            var targetPath = in_path;
-            var originalPath = in_path;
+            var origPath = in_path;
+            var tempPath = origPath;
             var isTempFile = UseTempFile;
 
             // Create a file in the temporary data location.
             // This will be used for writing before being moved
             // back to the original file to replace it.
             if (isTempFile)
-                targetPath = Path.GetTempFileName();
+                tempPath = FileSystemHelper.ChangeFileName(origPath, FileSystemHelper.GetTempFileName(origPath), false);
 
             switch (WriteMode)
             {
                 case WriteMode.New:
                 {
-                    Location = targetPath;
+                    Location = tempPath;
 
-                    using (var stream = new FileStream(targetPath, FileMode.Create, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.ReadWrite))
                         Write(stream);
 
                     break;
@@ -145,20 +145,20 @@ namespace Marathon.IO
 
                 case WriteMode.Fixed:
                 {
-                    originalPath = Location;
+                    origPath = Location;
 
                     if (!string.IsNullOrEmpty(Location) && File.Exists(Location))
                     {
                         // Copy the fixed file to the new writing location.
-                        if (targetPath != Location)
-                            File.Copy(Location, targetPath, true);
+                        if (tempPath != Location)
+                            File.Copy(Location, tempPath, true);
                     }
                     else
                     {
                         ThrowHelper.ThrowFileNotFoundException(Location, false);
                     }
 
-                    using (var stream = new FileStream(targetPath, FileMode.Open, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(tempPath, FileMode.Open, FileAccess.ReadWrite))
                         Write(stream);
 
                     break;
@@ -168,10 +168,22 @@ namespace Marathon.IO
             // Replace the original file with the final
             // written file from the temporary data location.
             if (isTempFile)
-                FileSystemHelper.ReplaceFile(targetPath, originalPath);
+            {
+                var isLeaveOpen = LeaveOpen;
+
+                // Close the stream so we can replace this file.
+                LeaveOpen = false;
+                Dispose();
+
+                FileSystemHelper.ReplaceFile(tempPath, origPath);
+
+                // Reconfigure and reopen stream from the new file.
+                LeaveOpen = isLeaveOpen;
+                BaseStream = new FileStream(origPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            }
 
             // Restore original path.
-            Location = originalPath;
+            Location = origPath;
         }
 
         public virtual void Write(bool in_overwrite = true)

@@ -1,4 +1,5 @@
-﻿using Marathon.IO.Types.FileSystem;
+﻿using Marathon.Exceptions;
+using Marathon.IO.Types.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -310,13 +311,37 @@ namespace Marathon.Helpers
             return result;
         }
 
-        public static void ReplaceFile(string in_srcPath, string in_dstPath, string in_backupPath = "", bool in_overwriteBackup = false)
+        public static string GetTempFileName(string in_path)
+        {
+            return $".tmp.{Guid.NewGuid()}.{TruncateAllExtensions(in_path, true)}";
+        }
+
+        public static void ReplaceFile(string in_srcPath, string in_dstPath, string in_backupPath = null, bool in_overwriteBackup = true)
         {
             if (string.IsNullOrEmpty(in_srcPath))
                 throw new ArgumentNullException(nameof(in_srcPath));
 
             if (string.IsNullOrEmpty(in_dstPath))
                 throw new ArgumentNullException(nameof(in_dstPath));
+
+            var srcPathRoot = Path.GetPathRoot(in_srcPath);
+            var dstPathRoot = Path.GetPathRoot(in_dstPath);
+
+            if (string.IsNullOrEmpty(srcPathRoot))
+                throw new InvalidPathException(in_srcPath);
+
+            if (string.IsNullOrEmpty(dstPathRoot))
+                throw new InvalidPathException(in_dstPath);
+
+            if (!string.IsNullOrEmpty(in_backupPath) && !in_overwriteBackup)
+                ThrowHelper.ThrowFileExistsException(in_backupPath);
+
+            // Both files are on the same volume, we can use File.Replace here.
+            if (string.Equals(srcPathRoot, dstPathRoot, StringComparison.OrdinalIgnoreCase))
+            {
+                File.Replace(in_srcPath, in_dstPath, in_backupPath);
+                return;
+            }
 
             if (!string.IsNullOrEmpty(in_backupPath))
                 File.Copy(in_dstPath, in_backupPath, in_overwriteBackup);
