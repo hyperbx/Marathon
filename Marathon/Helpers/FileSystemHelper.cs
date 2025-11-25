@@ -336,8 +336,12 @@ namespace Marathon.Helpers
             if (!string.IsNullOrEmpty(in_backupPath) && !in_overwriteBackup)
                 ThrowHelper.ThrowFileExistsException(in_backupPath);
 
+            var srcAttrs = File.GetAttributes(in_srcPath);
+            var dstAttrs = File.GetAttributes(in_dstPath);
+            var hasReparsePoint = srcAttrs.HasFlag(FileAttributes.ReparsePoint) || dstAttrs.HasFlag(FileAttributes.ReparsePoint);
+
             // Both files are on the same volume, we can use File.Replace here.
-            if (string.Equals(srcPathRoot, dstPathRoot, StringComparison.OrdinalIgnoreCase))
+            if (!hasReparsePoint && string.Equals(srcPathRoot, dstPathRoot, StringComparison.OrdinalIgnoreCase))
             {
                 File.Replace(in_srcPath, in_dstPath, in_backupPath);
                 return;
