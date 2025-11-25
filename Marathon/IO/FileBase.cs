@@ -51,6 +51,7 @@ namespace Marathon.IO
         /// Determines whether to write to a temporary file first before replacing the original.
         /// <para>This should be used for writing to files that have streams associated with them.</para>
         /// </summary>
+        [JsonIgnore]
         public virtual bool UseTempFile { get; set; }
 
         /// <summary>
