@@ -124,7 +124,7 @@ namespace Marathon.IO
 
             var origPath = in_path;
             var tempPath = origPath;
-            var isTempFile = UseTempFile;
+            var isTempFile = UseTempFile && origPath == Location && File.Exists(Location);
 
             // Create a file in the temporary data location.
             // This will be used for writing before being moved
