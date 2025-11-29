@@ -31,8 +31,7 @@ namespace Marathon.Formats.Archive
     {
         private const string _extension = ".arc";   // "ARChive"
         private const uint _signature = 0x55AA382D; // "U.8-"
-        private const uint _soxCompressedMagic = 0xE4F91200;
-        private const uint _soxUncompressedMagic = 0x00007301;
+        private const uint _soxMagic = 0xE4F91200;
         private VirtualDirectory _root = new();
 
         public string Name { get; set; } = string.Empty;
@@ -110,7 +109,7 @@ namespace Marathon.Formats.Archive
             var reserved4 = reader.ReadBig<uint>();
 
             // Sonic '06 magic numbers.
-            IsSoXArchive = reserved1 is _soxCompressedMagic or 0xE4F91300 || reserved4 is _soxUncompressedMagic or 0x78013800;
+            IsSoXArchive = reserved1 is _soxMagic or 0xE4F91300 || reserved4 == 0x78013800;
 
             // Checks the first entry's type and name offset after root.
             // This should always be zero for uncompressed size in Sonic '06 archives.
@@ -206,17 +205,8 @@ namespace Marathon.Formats.Archive
             writer.Reserve<uint>("EntriesOffset");
             writer.Reserve<uint>("EntriesLength");
             writer.Reserve<uint>("DataOffset");
-            writer.Write(IsSoXArchive ? _soxCompressedMagic : 0);
-            writer.WriteNullBytes(8);
-
-            if (IsSoXArchive)
-            {
-                writer.Write(CompressionLevel == CompressionLevel.NoCompression ? _soxUncompressedMagic : 0);
-            }
-            else
-            {
-                writer.Write(0);
-            }
+            writer.Write(IsSoXArchive ? _soxMagic : 0);
+            writer.WriteNullBytes(12);
 
             writer.WriteReserved("EntriesOffset", (uint)writer.Position);
 
@@ -350,12 +340,7 @@ namespace Marathon.Formats.Archive
                     }
                     else
                     {
-                        using var fs = file.Decompress().Open();
-
-                        fileUncompressedLength = 0;
-                        fileLength = fs.Length;
-
-                        fs.CopyTo(writer.GetBaseStream());
+                        file.Open().CopyTo(writer.GetBaseStream());
                     }
 
                     file.BaseStream.Position = 0;
