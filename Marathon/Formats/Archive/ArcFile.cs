@@ -333,14 +333,26 @@ namespace Marathon.Formats.Archive
                     writer.Align(32);
                     writer.WriteReserved($"File{globalEntryIndex}Data", (uint)writer.Position);
 
-                    if (fileUncompressedLength <= 0 && CompressionLevel != CompressionLevel.NoCompression)
+                    if (CompressionLevel == CompressionLevel.NoCompression)
                     {
-                        fileUncompressedLength = fileLength;
-                        fileLength = new ZLibCompressionService().Compress(file.Open(), writer.GetBaseStream(), CompressionLevel);
+                        fileLength = file.UncompressedLength;
+                        fileUncompressedLength = 0;
+
+                        file.Decompress().Open().CopyTo(writer.GetBaseStream());
                     }
                     else
                     {
-                        file.Open().CopyTo(writer.GetBaseStream());
+                        if (fileUncompressedLength > 0)
+                        {
+                            // File is compressed, copy already compressed data to stream.
+                            file.Open().CopyTo(writer.GetBaseStream());
+                        }
+                        else
+                        {
+                            // File is uncompressed, compress it then copy to stream.
+                            fileUncompressedLength = fileLength;
+                            fileLength = new ZLibCompressionService().Compress(file.Open(), writer.GetBaseStream(), CompressionLevel);
+                        }
                     }
 
                     file.BaseStream.Position = 0;
