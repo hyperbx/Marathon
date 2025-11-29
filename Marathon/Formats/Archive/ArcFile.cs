@@ -349,6 +349,8 @@ namespace Marathon.Formats.Archive
                         fileLength = file.UncompressedLength;
                         fileUncompressedLength = 0;
 
+                        // File could be compressed, decompress it first then copy to stream.
+                        // If the file is not compressed, it'll just open the original stream.
                         file.Decompress().Open().CopyTo(writer.GetBaseStream());
                     }
                     else
