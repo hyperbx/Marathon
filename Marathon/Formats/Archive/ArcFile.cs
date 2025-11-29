@@ -34,7 +34,11 @@ namespace Marathon.Formats.Archive
         private const uint _soxMagic = 0xE4F91200;
         private VirtualDirectory _root = new();
 
-        public string Name { get; set; } = string.Empty;
+        public string Name
+        {
+            get => _root.Name;
+            set => _root.Name = value;
+        }
 
         public string Path
         {
@@ -136,6 +140,9 @@ namespace Marathon.Formats.Archive
 
             WalkEntries(0, new(), true);
 
+            if (!string.IsNullOrEmpty(Location))
+                Name = System.IO.Path.GetFileName(Location);
+
             uint WalkEntries(uint in_entryIndex, VirtualDirectory in_directory, bool in_isRoot = false)
             {
                 var entry = entries[(int)in_entryIndex];
@@ -232,6 +239,8 @@ namespace Marathon.Formats.Archive
 
             void WriteEntryTable(INode in_node, int in_parentIndex = 0)
             {
+                var isRoot = in_node.IsDirectory && in_node.Parent == null;
+
                 if (writer.Endianness == Endianness.Big)
                 {
                     writer.Write(in_node.IsDirectory);
@@ -243,7 +252,7 @@ namespace Marathon.Formats.Archive
                     writer.Write(in_node.IsDirectory);
                 }
 
-                stringPoolLength += string.IsNullOrEmpty(in_node.Name)
+                stringPoolLength += isRoot || string.IsNullOrEmpty(in_node.Name)
                     ? 1
                     : writer.Encoding.GetByteCount(in_node.Name) + 1;
 
@@ -251,7 +260,7 @@ namespace Marathon.Formats.Archive
                 {
                     var dir = in_node as IDirectory;
 
-                    if (dir.Parent == null)
+                    if (isRoot)
                     {
                         // Root has no parent.
                         writer.Write(0);
@@ -295,7 +304,9 @@ namespace Marathon.Formats.Archive
 
             void WriteEntryNames(INode in_node)
             {
-                if (string.IsNullOrEmpty(in_node.Name))
+                var isRoot = in_node.IsDirectory && in_node.Parent == null;
+
+                if (isRoot || string.IsNullOrEmpty(in_node.Name))
                 {
                     writer.WriteByte(0);
                 }
