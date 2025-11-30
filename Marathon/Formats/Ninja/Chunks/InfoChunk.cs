@@ -52,7 +52,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var chunkSignature = in_reader.Read<FourCC>();
+            var chunkSignature = in_reader.ReadObject<FourCC>();
             var chunkLength = in_reader.Read<uint>();
 
             if (!chunkSignature.Equals(ID))
@@ -82,7 +82,7 @@ namespace Marathon.Formats.Ninja.Chunks
         private bool ReadChunk(BinaryObjectReaderEx in_reader, List<IChunk> in_chunkList)
         {
             var pos = in_reader.Position;
-            var nextChunkSignature = in_reader.Read<FourCC>();
+            var nextChunkSignature = in_reader.ReadObject<FourCC>();
             var nextChunkLength = in_reader.Read<uint>();
 
             // Return to chunk start.

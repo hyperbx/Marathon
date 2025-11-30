@@ -26,7 +26,7 @@ namespace Marathon.Formats.Ninja.Chunks
         {
             var pos = in_reader.Position;
 
-            Signature = in_reader.Read<FourCC>();
+            Signature = in_reader.ReadObject<FourCC>();
 
             var chunkLength = in_reader.Read<uint>();
 

@@ -1,30 +1,45 @@
-﻿using System;
+﻿using Amicitia.IO.Binary;
+using System;
 using System.Text;
 
 namespace Marathon.IO.Types
 {
-    public struct FourCC
+    public struct FourCC(Endianness in_endianness = Endianness.Big) : IBinarySerializable
     {
         public uint Data;
 
-        public FourCC() { }
+        public Endianness Endianness { get; private set; } = in_endianness;
 
-        public FourCC(uint in_data)
+        public FourCC(uint in_data, Endianness in_endianness = Endianness.Big) : this(in_endianness)
         {
             Data = in_data;
         }
 
-        public FourCC(int in_data)
+        public FourCC(int in_data, Endianness in_endianness = Endianness.Big) : this(in_endianness)
         {
             Data = (uint)in_data;
         }
 
-        public FourCC(string in_signature)
+        public FourCC(string in_signature, Endianness in_endianness = Endianness.Big) : this(in_endianness)
         {
             if (in_signature.Length > 4)
                 throw new ArgumentException("The provided signature is longer than four characters.");
 
             Data = BitConverter.ToUInt32(Encoding.UTF8.GetBytes(in_signature));
+        }
+
+        public void Read(BinaryObjectReader in_reader)
+        {
+            Data = in_reader.Read<uint>();
+            Endianness = in_reader.Endianness;
+        }
+
+        public void Write(BinaryObjectWriter in_writer)
+        {
+            var oldEndianness = in_writer.Endianness;
+            in_writer.Endianness = Endianness;
+            in_writer.Write(Data);
+            in_writer.Endianness = oldEndianness;
         }
 
         public override int GetHashCode()
@@ -50,15 +65,9 @@ namespace Marathon.IO.Types
             return false;
         }
 
-        // TODO: replace this with custom impl.
         public override string ToString()
         {
-            var bytes = BitConverter.GetBytes(Data);
-
-            if (BitConverter.IsLittleEndian)
-                Array.Reverse(bytes);
-
-            return Encoding.UTF8.GetString(bytes);
+            return Encoding.UTF8.GetString(BitConverter.GetBytes(Data));
         }
     }
 }

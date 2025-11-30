@@ -18,6 +18,8 @@ namespace Marathon.Tests
 
         public static DirectoryInfo? Temp { get; private set; }
 
+        public static bool CancelOnTestFailure { get; private set; } = true;
+
         public static void Main(string[] args)
         {
             Console.Title = "Marathon Tests";
@@ -133,6 +135,9 @@ namespace Marathon.Tests
 
                 Logger.Log("");
             }
+
+            if (!result && Debugger.IsAttached)
+                Debugger.Break();
 
             Temp.Delete(true);
 

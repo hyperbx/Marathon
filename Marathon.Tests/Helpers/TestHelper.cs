@@ -2,7 +2,7 @@
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Types.FileSystem;
-using System.Diagnostics;
+using System.IO.Enumeration;
 
 namespace Marathon.Tests.Helpers
 {
@@ -67,14 +67,18 @@ namespace Marathon.Tests.Helpers
             return oldHash == newHash;
         }
 
-        public static bool CheckAllBinaries<T>(string in_searchPattern, List<string> in_ignoreList = null) where T : FileBase, new()
+        public static bool CheckAllBinaries<T>(string in_searchPattern, List<string> in_ignoreList = null, string in_ignorePattern = "") where T : FileBase, new()
         {
             var result = true;
+            var shouldCancel = Program.CancelOnTestFailure;
             var files = Program.GameFileSystem.EnumerateFiles(in_searchPattern, SearchOption.AllDirectories);
             var i = 0;
 
             foreach (var file in files)
             {
+                if (FileSystemName.MatchesSimpleExpression(in_ignorePattern, file.Path))
+                    continue;
+
                 var fileCount = files.Count();
 
                 if (in_ignoreList != null)
@@ -85,29 +89,27 @@ namespace Marathon.Tests.Helpers
                         continue;
                 }
 
+                if (result && i > 0)
+                    ConsoleHelper.ReturnToPreviousLine(2);
+
                 Logger.Log($"│    ├── File:      {file.Path}");
                 Logger.Log($"│    └── Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})");
 
-                if (!CheckBinary<T>(file, out var out_exhibit))
+                if (!(result = CheckBinary<T>(file, out var out_exhibit)))
                 {
-                    if (Debugger.IsAttached)
-                        Debugger.Break();
-
                     var exhibitPath = CreateExhibit(file.Path, out_exhibit);
 
-                    ConsoleHelper.ReturnToPreviousLine();
-                    Logger.Error($"│    └── Exhibit:   {exhibitPath}");
+                    ConsoleHelper.ReturnToPreviousLine(shouldCancel ? 1 : 2);
+                    Logger.Error($"│    ├── Exhibit:   {exhibitPath}");
 
-                    if (Debugger.IsAttached)
-                        Debugger.Break();
-
-                    return false;
+                    if (shouldCancel)
+                        return result;
                 }
-
-                ConsoleHelper.ReturnToPreviousLine(2);
 
                 i++;
             }
+
+            ConsoleHelper.ReturnToPreviousLine(2);
 
             return result;
         }
