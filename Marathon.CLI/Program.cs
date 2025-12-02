@@ -181,7 +181,7 @@ for (int i = 0; i < args.Length; i++)
         var extension = '.' + string.Join('.', FileSystemHelper.GetAllExtensions(arg));
         var success = true;
 
-        switch (extension)
+        switch (extension.ToLower())
         {
             case ".ddm":
                 ExportFile<DirectDrawMap>(arg);

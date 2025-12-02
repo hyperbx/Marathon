@@ -70,7 +70,7 @@ namespace Marathon.IO
         {
             var extension = '.' + string.Join('.', FileSystemHelper.GetExtensions(in_path, 2));
 
-            if (extension == Extension + _intermediateExtension)
+            if (extension.Equals(Extension + _intermediateExtension, StringComparison.OrdinalIgnoreCase))
             {
                 Import(in_path);
             }
@@ -213,7 +213,7 @@ namespace Marathon.IO
 
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
-            if (!in_path.EndsWith(Extension + _intermediateExtension))
+            if (!in_path.EndsWith(Extension + _intermediateExtension, StringComparison.OrdinalIgnoreCase))
                 throw new IOException("The specified file is not in the default intermediate format.");
 
             JsonConvert.PopulateObject(File.ReadAllText(in_path), this);

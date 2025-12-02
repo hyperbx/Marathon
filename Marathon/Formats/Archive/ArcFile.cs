@@ -25,7 +25,7 @@ using System.Text;
 namespace Marathon.Formats.Archive
 {
     /// <summary>
-    /// Support for *.arc files; used for the game's packed filesystem.
+    /// Support for *.arc files; used for the game's packed file system.
     /// </summary>
     public class ArcFile : FileBase, IDirectory
     {
@@ -73,7 +73,7 @@ namespace Marathon.Formats.Archive
         {
             CompressionLevel = in_compressionLevel;
 
-            if (System.IO.Path.GetExtension(in_path) == _extension)
+            if (System.IO.Path.GetExtension(in_path).Equals(_extension, StringComparison.OrdinalIgnoreCase))
             {
                 Read(in_path);
             }
@@ -666,12 +666,12 @@ namespace Marathon.Formats.Archive
     public class ArcFilesystemEntry : IBinarySerializable<ArcFile>
     {
         /// <summary>
-        /// Determines whether this entry is a directory.
+        /// Determines whether this node is a directory.
         /// </summary>
         public bool IsDirectory { get; set; }
 
         /// <summary>
-        /// The offset of this entry's name in the string pool.
+        /// The offset of this node's name in the string pool.
         /// </summary>
         public uint NameOffset { get; set; }
 
