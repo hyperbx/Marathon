@@ -46,6 +46,11 @@ namespace Marathon.Formats.Ninja.Chunks
 
                 WalkNodes(0, result + 1);
 
+                // No file ever ends up with a MaxNodeDepth of 0.
+                // Marathon writing a 0 is what leads to some files having a single byte that is inaccurate to the original file.
+                if (result == 0)
+                    result = 1;
+
                 return result;
             }
         }
