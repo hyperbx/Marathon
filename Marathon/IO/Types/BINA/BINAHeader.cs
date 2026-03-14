@@ -21,7 +21,7 @@ namespace Marathon.IO.Types.BINA
 
         public long HeaderOffset { get; set; }
 
-        public uint ResourceSize { get; set; }
+        public uint Length { get; set; }
 
         public uint RelocTableOffset { get; set; }
 
@@ -82,7 +82,7 @@ namespace Marathon.IO.Types.BINA
             // Jump to the beginning of the header to read it with the correct endianness.
             in_reader.JumpTo(HeaderOffset);
 
-            ResourceSize = in_reader.Read<uint>();
+            Length = in_reader.Read<uint>();
             RelocTableOffset = in_reader.Read<uint>();
             RelocTableLength = in_reader.Read<uint>();
 
@@ -116,22 +116,22 @@ namespace Marathon.IO.Types.BINA
         {
             IsBigEndian = in_writer.Endianness == Endianness.Big;
 
-            in_writer.Write(ResourceSize);
+            in_writer.Write(Length);
             in_writer.Write(RelocTableOffset);
             in_writer.Write(RelocTableLength);
 
             // TODO: unknown - possibly padding?
-            in_writer.Write(0);
+            in_writer.WriteZero<int>();
 
             // TODO: unknown - possibly a flag?
-            in_writer.Write<ushort>(0);
+            in_writer.WriteZero<short>();
 
             in_writer.Write(HasFooterMagic ? (ushort)1 : (ushort)0);
 
             var version = Version.ToString();
 
             if (version.Length < 3)
-                in_writer.WriteNullBytes(3 - version.Length);
+                in_writer.WriteZero<byte>(3 - version.Length);
 
             in_writer.WriteStringFixedLength(Encoding.UTF8, version, version.Length);
             in_writer.Write(IsBigEndian ? _endianFlagBig : _endianFlagLittle);
@@ -142,11 +142,11 @@ namespace Marathon.IO.Types.BINA
             }
             else
             {
-                in_writer.Write(0);
+                in_writer.WriteZero<int>();
             }
 
             // TODO: unknown.
-            in_writer.Write(0);
+            in_writer.WriteZero<int>();
         }
     }
 }

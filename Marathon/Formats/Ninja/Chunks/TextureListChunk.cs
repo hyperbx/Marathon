@@ -54,7 +54,7 @@ namespace Marathon.Formats.Ninja.Chunks
             var header = new ChunkHeader(in_writer, GetChunkID(), 0);
 
             var textureFilePos = (int)(in_writer.Position - InfoChunk.Size);
-            var textureFileNameOffsets = new List<uint>();
+            var textureFileNameOffsets = new List<long>();
 
             foreach (var texture in Textures)
             {

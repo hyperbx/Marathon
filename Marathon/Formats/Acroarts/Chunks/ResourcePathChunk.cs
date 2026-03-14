@@ -1,0 +1,65 @@
+﻿using Marathon.IO;
+using Marathon.IO.Extensions;
+using Marathon.IO.Types;
+
+namespace Marathon.Formats.Acroarts.Chunks
+{
+    public class ResourcePathChunk : IChunk
+    {
+        public long Offset { get; set; }
+
+        public string Path { get; set; }
+
+        public ResourcePathChunk() { }
+
+        public ResourcePathChunk(BinaryObjectReaderEx in_reader)
+        {
+            Read(in_reader, null);
+        }
+
+        public ResourcePathChunk(string in_path)
+        {
+            Path = in_path;
+        }
+
+        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        {
+            Offset = in_reader.Position;
+
+            var chunkHeader = in_reader.ReadObject<ChunkHeader>();
+
+            Path = in_reader.ReadStringFixedLength((int)chunkHeader.Length);
+        }
+
+        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        {
+            var chunkHeader = new ChunkHeader(in_writer, GetResourceIDFromPath(Path));
+            var position = in_writer.Position;
+
+            in_writer.WriteStringNullTerminated(Path);
+            in_writer.Align(16);
+
+            chunkHeader.FinishWrite(in_writer, (uint)(in_writer.Position - position), ChunkHeader.DefaultHeaderSize, 0x40, 0);
+        }
+
+        public static FourCC GetResourceIDFromPath(string in_path)
+        {
+            var id = "    ";
+            
+            // TODO: MORE!!
+            switch (System.IO.Path.GetExtension(in_path).ToLower())
+            {
+                case ".dds":
+                    id = "DDS ";
+                    break;
+
+                case ".xno":
+                case ".xnv":
+                    id = "NXIF";
+                    break;
+            };
+
+            return new FourCC(id);
+        }
+    }
+}

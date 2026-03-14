@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Marathon.IO
@@ -32,15 +33,9 @@ namespace Marathon.IO
         public long Reserve(string in_name, long in_offset, int in_size)
         {
             // Create padding.
-            this.WriteNullBytes(in_size);
+            this.WriteZero<byte>(in_size);
 
-            if (Offsets.ContainsKey(in_name))
-            {
-                Offsets[in_name] = in_offset;
-                return in_offset;
-            }
-
-            Offsets.Add(in_name, in_offset);
+            AddOffset(in_name, in_offset);
 
             return in_offset;
         }
@@ -61,9 +56,9 @@ namespace Marathon.IO
         /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_name">The name of the reserved offset.</param>
         /// <param name="in_offset">The offset to reserve.</param>
-        public unsafe T Reserve<T>(string in_name, long in_offset) where T : unmanaged
+        public T Reserve<T>(string in_name, long in_offset) where T : unmanaged
         {
-            return (T)Convert.ChangeType(Reserve(in_name, in_offset, sizeof(T)), typeof(T));
+            return (T)Convert.ChangeType(Reserve(in_name, in_offset, Marshal.SizeOf<T>()), typeof(T));
         }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace Marathon.IO
         /// </summary>
         /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_name">The name of the reserved offset.</param>
-        public unsafe T Reserve<T>(string in_name) where T : unmanaged
+        public T Reserve<T>(string in_name) where T : unmanaged
         {
             return (T)Convert.ChangeType(Reserve<T>(in_name, Position), typeof(T));
         }
@@ -85,10 +80,10 @@ namespace Marathon.IO
         public long Reserve(long in_offset, int in_size, bool in_isLocal = false)
         {
             // Create padding.
-            this.WriteNullBytes(in_size);
+            this.WriteZero<byte>(in_size);
 
             if (!in_isLocal)
-                Offsets.Add(Guid.NewGuid().ToString("B"), in_offset);
+                AddOffset(in_offset);
 
             return in_offset;
         }
@@ -109,9 +104,9 @@ namespace Marathon.IO
         /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_offset">The offset to reserve.</param>
         /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
-        public unsafe T Reserve<T>(long in_offset, bool in_isLocal = false) where T : unmanaged
+        public long Reserve<T>(long in_offset, bool in_isLocal = false) where T : unmanaged
         {
-            return (T)Convert.ChangeType(Reserve(in_offset, sizeof(T), in_isLocal), typeof(T));
+            return Reserve(in_offset, Marshal.SizeOf<T>(), in_isLocal);
         }
 
         /// <summary>
@@ -119,9 +114,9 @@ namespace Marathon.IO
         /// </summary>
         /// <typeparam name="T">The type to write.</typeparam>
         /// <param name="in_isLocal">Determines whether the reserved offset should be added to the relocation table.</param>
-        public unsafe T Reserve<T>(bool in_isLocal = false) where T : unmanaged
+        public long Reserve<T>(bool in_isLocal = false) where T : unmanaged
         {
-            return (T)Convert.ChangeType(Reserve<T>(Position, in_isLocal), typeof(T));
+            return Reserve<T>(Position, in_isLocal);
         }
 
         /// <summary>
@@ -141,10 +136,7 @@ namespace Marathon.IO
             if (!Offsets.ContainsValue(in_offset))
                 return;
 
-            var offsets = Offsets.Where(x => x.Value == in_offset);
-
-            for (int i = 0; i < offsets.Count(); i++)
-                Offsets.Remove(offsets.ElementAt(i).Key);
+            RemoveOffset(in_offset);
         }
 
         /// <summary>
@@ -164,7 +156,48 @@ namespace Marathon.IO
             if (!in_removeAfterWrite)
                 return;
 
+            RemoveOffset(in_name);
+        }
+
+        public long AddOffset(string in_name, long in_offset)
+        {
+            if (Offsets.ContainsKey(in_name))
+            {
+                Offsets[in_name] = in_offset;
+                return in_offset;
+            }
+
+            Offsets.Add(in_name, in_offset);
+
+            return in_offset;
+        }
+
+        public long AddOffset(long in_offset)
+        {
+            return AddOffset(Guid.NewGuid().ToString("B"), in_offset);
+        }
+
+        public long AddOffset()
+        {
+            return AddOffset(Position);
+        }
+
+        public void RemoveOffset(string in_name)
+        {
             Offsets.Remove(in_name);
+        }
+
+        public void RemoveOffset(long in_offset)
+        {
+            var offsets = Offsets.Where(x => x.Value == in_offset);
+
+            for (int i = 0; i < offsets.Count(); i++)
+                Offsets.Remove(offsets.ElementAt(i).Key);
+        }
+
+        public void RemoveOffset()
+        {
+            RemoveOffset(Position);
         }
 
         /// <summary>
@@ -174,12 +207,11 @@ namespace Marathon.IO
         /// <param name="in_value">The value to write.</param>
         public long WriteOffset<T>(T in_value) where T : unmanaged
         {
-            var pos = Position;
+            var offset = Reserve<T>();
 
-            Offsets.Add(Guid.NewGuid().ToString("B"), pos);
-            Write(in_value);
+            WriteReserved(offset, in_value, false);
 
-            return pos;
+            return offset;
         }
 
         public void JumpAhead(long in_offset)

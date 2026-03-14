@@ -63,7 +63,7 @@ namespace Marathon.Helpers
         /// <param name="in_data">The data to swap.</param>
         public static T SwapEndianness<T>(T in_data)
         {
-            var bytes = new byte[Marshal.SizeOf(typeof(T))];
+            var bytes = new byte[Marshal.SizeOf<T>()];
 
             Marshal.StructureToPtr(in_data, Marshal.UnsafeAddrOfPinnedArrayElement(bytes, 0), false);
             Array.Reverse(bytes);

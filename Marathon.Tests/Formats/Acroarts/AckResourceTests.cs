@@ -1,7 +1,7 @@
 ﻿using Marathon.Formats.Acroarts;
 using Marathon.Tests.Helpers;
 
-namespace Marathon.Tests.Formats.Particle
+namespace Marathon.Tests.Formats.Acroarts
 {
     internal class AckResourceTests : ITest
     {
@@ -9,7 +9,7 @@ namespace Marathon.Tests.Formats.Particle
 
         private static bool BinaryIdenticalTest()
         {
-            return TestHelper.CheckAllBinaries<AckResource>("*mab");
+            return TestHelper.CheckAllBinaries<AckResource>("*.mab");
         }
 
         public bool Run()

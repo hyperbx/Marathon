@@ -1,8 +1,10 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
 using Marathon.IO.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Marathon.IO.Types.BINA
@@ -19,7 +21,18 @@ namespace Marathon.IO.Types.BINA
             : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
         {
             // Reserve header chunk.
-            this.WriteNullBytes(BINAHeader.Size);
+            this.WriteZero<byte>(BINAHeader.Size);
+        }
+
+        public BINAWriter(Stream in_stream, long in_offset = 0, Endianness in_endianness = Endianness.Big)
+            : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
+        {
+            Header.HeaderOffset = in_offset;
+
+            JumpTo(Header.HeaderOffset);
+
+            // Reserve header chunk.
+            this.WriteZero<byte>(BINAHeader.Size);
         }
 
         public long WriteStringOffset(string in_str = null, bool in_writeNullPtrOnEmptyString = true, int in_fieldLength = 4)
@@ -28,7 +41,7 @@ namespace Marathon.IO.Types.BINA
 
             if (string.IsNullOrEmpty(in_str) && in_writeNullPtrOnEmptyString)
             {
-                this.WriteNullBytes(in_fieldLength);
+                this.WriteZero<byte>(in_fieldLength);
                 return reserved;
             }
 
@@ -55,7 +68,7 @@ namespace Marathon.IO.Types.BINA
             return reserved;
         }
 
-        private void WriteStringPool()
+        public void WriteStringPool()
         {
             foreach (var entry in StringPoolEntries)
             {
@@ -69,53 +82,32 @@ namespace Marathon.IO.Types.BINA
             this.Align(4);
         }
 
-        private void WriteFooter()
+        public void WriteFooter()
         {
-            var offsetTablePos = WriteRelocTable();
+            var relocTablePos = WriteRelocationTable();
 
-            Header.RelocTableOffset = (uint)(offsetTablePos - BINAHeader.Size);
-            Header.RelocTableLength = (uint)(Position - offsetTablePos);
+            Header.RelocTableOffset = (uint)(relocTablePos - BINAHeader.Size - Header.HeaderOffset);
+            Header.RelocTableLength = (uint)(Position - relocTablePos);
 
             if (Header.HasFooterMagic)
                 WriteFooterMagic();
 
-            Header.ResourceSize = (uint)Position;
+            Header.Length = (uint)(Position - Header.HeaderOffset);
         }
 
-        private long WriteRelocTable()
+        public long WriteRelocationTable()
         {
-            var pos = Position;
-            var lastOffset = (long)BINAHeader.Size;
+            var relocTable = new BINARelocationTable(Header.HeaderOffset);
 
-            foreach (var offset in Offsets)
-            {
-                var offsetBits = (offset.Value - lastOffset) >> 2;
+            relocTable.AddOffsets(Offsets.Values);
 
-                if (offsetBits > 0x3FFF)
-                {
-                    WriteBig((uint)(((byte)BINAOffsetEncoding.ThirtyBit << 24) | offsetBits));
-                }
-                else if (offsetBits > 0x3F)
-                {
-                    WriteBig((ushort)(((byte)BINAOffsetEncoding.FourteenBit << 8) | offsetBits));
-                }
-                else
-                {
-                    WriteBig((byte)((byte)BINAOffsetEncoding.SixBit | offsetBits));
-                }
-
-                lastOffset = offset.Value;
-            }
-
-            this.Align(4);
-
-            return pos;
+            return relocTable.Write(this);
         }
 
-        private void WriteFooterMagic()
+        public void WriteFooterMagic()
         {
             Write(0x10); // TODO: unknown.
-            this.WriteNullBytes(4);
+            this.WriteZero<int>();
             WriteStringNullTerminated(Encoding.UTF8, _footerSignature);
         }
 
@@ -159,23 +151,5 @@ namespace Marathon.IO.Types.BINA
         /// The string to be written to the string pool.
         /// </summary>
         public string Data { get; set; } = in_str;
-    }
-
-    public enum BINAOffsetEncoding : byte
-    {
-        /// <summary>
-        /// The offset is stored in the remaining six bits after the type bits.
-        /// </summary>
-        SixBit = 0x40,
-
-        /// <summary>
-        /// The offset is stored in the remaining six bits after the type bits, including an extra byte.
-        /// </summary>
-        FourteenBit = 0x80,
-
-        /// <summary>
-        /// The offset is stored in the remaining six bits after the type bits, including an extra three bytes.
-        /// </summary>
-        ThirtyBit = 0xC0
     }
 }

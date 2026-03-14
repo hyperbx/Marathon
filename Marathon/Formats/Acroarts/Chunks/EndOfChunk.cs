@@ -1,6 +1,5 @@
 ﻿using Marathon.Exceptions;
-using Marathon.Formats.Acroarts.Types;
-using Marathon.IO.Types.BINA;
+using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
@@ -8,31 +7,28 @@ namespace Marathon.Formats.Acroarts.Chunks
     {
         public const string ID = "EOFC"; // "End OF Chunk"
 
+        public long Offset { get; set; }
+
         public EndOfChunk() { }
 
-        public EndOfChunk(BINAReader in_reader)
+        public EndOfChunk(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
         {
-            Read(in_reader);
+            Read(in_reader, in_parentChunk);
         }
 
-        public void Read(BINAReader in_reader)
+        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
         {
             var header = in_reader.ReadObject<ChunkHeader>();
 
-            if (header.ID.Equals(GetChunkID()))
+            if (header.ID.Equals(ID))
                 return;
 
-            throw new InvalidSignatureException(GetChunkID(), header.ID);
+            throw new InvalidSignatureException(ID, header.ID);
         }
 
-        public void Write(BINAWriter in_writer)
+        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
         {
-            new ChunkHeader(in_writer, GetChunkID()).FinishWrite(in_writer);
-        }
-
-        public virtual string GetChunkID()
-        {
-            return ID;
+            new ChunkHeader(in_writer, ID).FinishWrite(in_writer, 0, ChunkHeader.DefaultHeaderSize);
         }
     }
 }

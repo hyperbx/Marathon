@@ -19,5 +19,17 @@ namespace Marathon.IO.Types.BINA
 
             Header = new BINAHeader(this);
         }
+
+        public BINARelocationTable ReadRelocationTable()
+        {
+            var relocTable = new BINARelocationTable(Header.HeaderOffset);
+            var pos = Position;
+
+            JumpTo(Header.HeaderOffset + BINAHeader.Size + Header.RelocTableOffset);
+            relocTable.Read(this, Header.RelocTableLength);
+            JumpTo(pos);
+
+            return relocTable;
+        }
     }
 }

@@ -1,16 +1,11 @@
-﻿using Marathon.IO.Types.BINA;
+﻿using Marathon.Formats.Acroarts.Types;
+using Newtonsoft.Json;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public interface IChunk
+    public interface IChunk : INode
     {
-        void Read(BINAReader in_reader);
-
-        void Write(BINAWriter in_writer);
-
-        virtual string GetChunkID()
-        {
-            return string.Empty;
-        }
+        [JsonIgnore]
+        long Offset { get; set; }
     }
 }

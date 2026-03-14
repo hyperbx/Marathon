@@ -1,0 +1,120 @@
+﻿using Amicitia.IO.Binary;
+using Marathon.Exceptions;
+using Marathon.IO;
+using Marathon.IO.Extensions;
+using Marathon.IO.Types.BINA;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
+namespace Marathon.Formats.Acroarts.Chunks
+{
+    public class DataChunk : IChunk
+    {
+        public const string ID = "ABDA"; // "Acroarts Binary DAta"
+
+        public long Offset { get; set; }
+
+        public List<DataChunkParam> Trunks { get; set; } = [];
+
+        [JsonIgnore]
+        public RelocationTableChunk RelocationTableChunk { get; set; }
+
+        public DataChunk() { }
+
+        public DataChunk(BINAReader in_reader)
+        {
+            Read(in_reader, null);
+        }
+
+        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        {
+            Offset = in_reader.Position;
+
+            var chunkHeader = in_reader.ReadObject<ChunkHeader>();
+
+            if (!chunkHeader.ID.Equals(ID))
+                throw new InvalidSignatureException(ID, chunkHeader.ID);
+
+            var version = in_reader.Read<uint>();
+
+            if (version != AckResource.Version)
+                throw new InvalidSignatureException(AckResource.Version, version);
+
+            var trunkCount = in_reader.Read<uint>();
+            var relocTableOffset = in_reader.Read<uint>();
+
+            in_reader.JumpAhead(4); // Reserved.
+
+            for (uint i = 0; i < trunkCount; i++)
+            {
+                var chunkOffset = in_reader.Read<uint>();
+                var param = in_reader.Read<uint>();
+
+                in_reader.ReadAtOffset(Offset + chunkOffset, () =>
+                {
+                    Trunks.Add(new(new TrunkChunk(in_reader, this), param));
+                });
+            }
+
+            in_reader.JumpTo(relocTableOffset + Offset);
+
+            RelocationTableChunk = new RelocationTableChunk(in_reader, this);
+        }
+
+        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        {
+            Offset = in_writer.Position;
+
+            var chunkHeader = new ChunkHeader(in_writer, ID);
+
+            in_writer.Write(AckResource.Version);
+            in_writer.Write(Trunks.Count);
+
+            var relocTableOffset = in_writer.Reserve<uint>(true);
+
+            in_writer.WriteZero<int>(); // Reserved.
+
+            if (Trunks.Count <= 0)
+            {
+                // Empty chunk array.
+                in_writer.WriteZero<long>();
+                in_writer.Align(16);
+            }
+            else
+            {
+                var trunkOffsets = new List<long>();
+
+                foreach (var trunk in Trunks)
+                {
+                    trunkOffsets.Add(in_writer.Reserve<uint>());
+                    in_writer.Write(trunk.Param);
+                }
+
+                in_writer.Align(16);
+
+                for (int i = 0; i < Trunks.Count; i++)
+                {
+                    in_writer.WriteReserved(trunkOffsets[i], (uint)(in_writer.Position - Offset), false);
+                    Trunks[i].Data.Write(in_writer, this);
+                }
+            }
+
+            in_writer.Align(16);
+
+            var chunkLength = (uint)(in_writer.Position - Offset);
+
+            in_writer.WriteReserved(relocTableOffset, chunkLength);
+
+            chunkHeader.FinishWrite(in_writer, chunkLength, 0x30);
+
+            new RelocationTableChunk().Write(in_writer, this);
+            new EndOfChunk().Write(in_writer);
+        }
+    }
+
+    public struct DataChunkParam(IChunk in_data, uint in_param)
+    {
+        public IChunk Data = in_data;
+        public uint Param = in_param;
+    }
+}

@@ -9,11 +9,11 @@ namespace Marathon.Formats.Ninja.Chunks
 {
     public class InfoChunk : IChunk
     {
-        private uint _chunkStart;
-        private uint _chunkOffset;
-        private uint _chunkDataLength;
-        private uint _offsetChunkOffset;
-        private uint _offsetChunkLength;
+        private long _chunkStart;
+        private long _chunkOffset;
+        private long _chunkDataLength;
+        private long _offsetChunkOffset;
+        private long _offsetChunkLength;
 
         public const string ID = "NXIF"; // "Ninja directX InFo"
 
@@ -114,7 +114,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public void WriteChunks(BinaryObjectWriterEx in_writer)
         {
-            _chunkStart = (uint)in_writer.Position;
+            _chunkStart = in_writer.Position;
 
             foreach (var chunk in Chunks)
                 chunk.Write(in_writer);
@@ -124,12 +124,12 @@ namespace Marathon.Formats.Ninja.Chunks
         {
             foreach (var chunk in ExtraChunks)
             {
-                var isOffsetChunk = chunk.GetChunkID() == OffsetChunk.ID;
+                var isOffsetChunk = chunk.GetChunkID() == RelocationTableChunk.ID;
                 var offsetChunkPos = (uint)in_writer.Position;
 
                 if (isOffsetChunk)
                 {
-                    in_writer.WriteReserved(_chunkOffset, _chunkStart);
+                    in_writer.WriteReserved(_chunkOffset, (uint)_chunkStart);
                     in_writer.WriteReserved(_chunkDataLength, (uint)(in_writer.Position - _chunkStart));
                     in_writer.WriteReserved(_offsetChunkOffset, (uint)in_writer.Position);
                 }
