@@ -49,11 +49,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField5);
 
             in_writer.WriteZero<long>();
-            in_writer.WriteReserved(unkField2Offset, (uint)(in_writer.Position - in_parentChunk.Offset));
+            in_writer.WriteReserved(unkField2Offset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
             in_writer.WriteStringFixedLength(UnknownField2, 0x80);
 
             in_writer.WriteZero<long>();
-            in_writer.WriteReserved(unkField3Offset, (uint)(in_writer.Position - in_parentChunk.Offset));
+            in_writer.WriteReserved(unkField3Offset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
             in_writer.WriteStringFixedLength(UnknownField3, 0x80);
         }
 

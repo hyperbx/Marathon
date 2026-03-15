@@ -45,11 +45,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Mode);
 
             in_writer.WriteZero<long>();
-            in_writer.WriteReserved(particleContainerOffset, (uint)(in_writer.Position - in_parentChunk.Offset));
+            in_writer.WriteReserved(particleContainerOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
             in_writer.WriteStringFixedLength(ParticleContainer, 0x80);
 
             in_writer.WriteZero<long>();
-            in_writer.WriteReserved(particleNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset));
+            in_writer.WriteReserved(particleNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
             in_writer.WriteStringFixedLength(ParticleName, 0x80);
         }
 

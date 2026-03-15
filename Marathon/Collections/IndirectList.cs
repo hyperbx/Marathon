@@ -1,4 +1,5 @@
 ﻿using Marathon.IO;
+using Marathon.IO.Extensions;
 using System;
 using System.Collections.Generic;
 
@@ -43,12 +44,21 @@ namespace Marathon.Collections
 
         public void WriteInfo(BinaryObjectWriterEx in_writer, bool in_keepOffsets = true)
         {
+            if (Count <= 0)
+            {
+                in_writer.WriteZero<long>();
+                return;
+            }
+
             in_writer.Write(Count);
             _infoPtrOffset = in_writer.Reserve<uint>(!in_keepOffsets);
         }
 
         public void WriteArray(BinaryObjectWriterEx in_writer, long in_offset = 0, bool in_keepOffsets = true)
         {
+            if (Count <= 0)
+                return;
+
             in_writer.WriteReserved(_infoPtrOffset, (uint)(in_writer.Position - in_offset), !in_keepOffsets);
 
             for (int i = 0; i < Count; i++)

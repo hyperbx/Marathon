@@ -76,7 +76,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public ResourceType ResourceType { get; set; }
 
-        public IResourceTable Resource { get; set; }
+        public IResourceTable Resources { get; set; }
 
         public uint TrOpCtrlFlag { get; set; }
 
@@ -131,7 +131,7 @@ namespace Marathon.Formats.Acroarts.Types
             PrimitiveX1 = in_reader.Read<float>();
             PrimitiveY1 = in_reader.Read<float>();
             ResourceType = in_reader.Read<ResourceType>();
-            Resource = ResourceTableFactory.ReadResourceTableByType(in_reader, in_parentChunk, ResourceType);
+            Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, in_parentChunk, ResourceType);
             TrOpCtrlFlag = in_reader.Read<uint>();
 
             // TODO: check these.
@@ -195,7 +195,7 @@ namespace Marathon.Formats.Acroarts.Types
             in_writer.Write(PrimitiveY1);
             in_writer.Write(ResourceType);
 
-            Resource.WriteInfo(in_writer, in_parentChunk);
+            Resources.WriteInfo(in_writer, in_parentChunk);
 
             in_writer.Write(TrOpCtrlFlag);
             in_writer.WriteZero<int>(); // TODO: modelCount
@@ -206,7 +206,7 @@ namespace Marathon.Formats.Acroarts.Types
             {
                 in_writer.WriteZero<long>();
 
-                Resource.WriteArray(in_writer, in_parentChunk);
+                Resources.WriteArray(in_writer, in_parentChunk);
             }
             else
             {
@@ -218,7 +218,7 @@ namespace Marathon.Formats.Acroarts.Types
                 for (int i = 0; i < MomentumLists.Count; i++)
                     momentumListOffsets.Add(in_writer.Reserve<uint>());
 
-                Resource.WriteArray(in_writer, in_parentChunk);
+                Resources.WriteArray(in_writer, in_parentChunk);
 
                 for (int i = 0; i < MomentumLists.Count; i++)
                 {
@@ -227,7 +227,7 @@ namespace Marathon.Formats.Acroarts.Types
                 }
             }
 
-            Resource.WriteData(in_writer, in_parentChunk);
+            Resources.WriteData(in_writer, in_parentChunk);
         }
     }
 }
