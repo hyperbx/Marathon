@@ -84,20 +84,22 @@ namespace Marathon.Formats.Acroarts.Chunks
             in_writer.WriteReserved(_userFlagsOffset, UserFlags);
         }
 
-        public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_length, uint in_headerSize)
-        {
-            in_writer.WriteReserved(_lengthOffset, in_length);
-            in_writer.WriteReserved(_headerSizeOffset, in_headerSize);
-            in_writer.WriteReserved(_systemFlagsOffset, SystemFlags);
-            in_writer.WriteReserved(_userFlagsOffset, UserFlags);
-        }
-
         public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_length, uint in_headerSize, ushort in_systemFlags, ushort in_userFlags)
         {
             in_writer.WriteReserved(_lengthOffset, in_length);
             in_writer.WriteReserved(_headerSizeOffset, in_headerSize);
             in_writer.WriteReserved(_systemFlagsOffset, in_systemFlags);
             in_writer.WriteReserved(_userFlagsOffset, in_userFlags);
+        }
+
+        public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_length, uint in_headerSize)
+        {
+            FinishWrite(in_writer, in_length, in_headerSize, SystemFlags, UserFlags);
+        }
+
+        public void FinishWrite(BinaryObjectWriterEx in_writer, uint in_length)
+        {
+            FinishWrite(in_writer, in_length, HeaderSize, SystemFlags, UserFlags);
         }
 
         public long GetChunkStart()

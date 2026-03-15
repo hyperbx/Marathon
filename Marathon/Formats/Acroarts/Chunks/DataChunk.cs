@@ -92,6 +92,8 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 in_writer.Align(16);
 
+                chunkHeader.HeaderSize = (uint)(in_writer.Position - Offset);
+
                 for (int i = 0; i < Trunks.Count; i++)
                 {
                     in_writer.WriteReserved(trunkOffsets[i], (uint)(in_writer.Position - Offset), false);
@@ -100,14 +102,12 @@ namespace Marathon.Formats.Acroarts.Chunks
             }
 
             in_writer.Align(16);
-
-            var chunkLength = (uint)(in_writer.Position - Offset);
-
-            in_writer.WriteReserved(relocTableOffset, chunkLength);
-
-            chunkHeader.FinishWrite(in_writer, chunkLength, 0x30);
+            in_writer.WriteReserved(relocTableOffset, (uint)(in_writer.Position - Offset));
 
             new RelocationTableChunk().Write(in_writer, this);
+
+            chunkHeader.FinishWrite(in_writer, (uint)(in_writer.Position - Offset - chunkHeader.HeaderSize));
+
             new EndOfChunk().Write(in_writer);
         }
     }
