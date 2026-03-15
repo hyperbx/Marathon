@@ -26,6 +26,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.ShadowOn => new ShadowOn(in_reader, in_parentChunk),
                 MomentumType.DirectionalLight => new DirectionalLight(in_reader, in_parentChunk),
                 MomentumType.MotionSet => new MotionSet(in_reader, in_parentChunk),
+                MomentumType.SoundPlay => new SoundPlay(in_reader, in_parentChunk),
+                MomentumType.Sound3DPlay => new Sound3DPlay(in_reader, in_parentChunk),
                 MomentumType.ParticlePlay => new ParticlePlay(in_reader, in_parentChunk),
                 MomentumType.Subtitle => new Subtitle(in_reader, in_parentChunk),
                 _ => null
