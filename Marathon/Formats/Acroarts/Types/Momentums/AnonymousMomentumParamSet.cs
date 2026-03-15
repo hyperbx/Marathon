@@ -30,8 +30,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Count);
             in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint));
 
-            for (uint i = 0; i < Count; i++)
-                this[(int)i].Write(in_writer);
+            for (int i = 0; i < Count; i++)
+                this[i].Write(in_writer);
         }
 
         public uint GetParamCount()
