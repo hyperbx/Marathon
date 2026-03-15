@@ -65,7 +65,10 @@ namespace Marathon.Formats.Acroarts.Chunks
         {
             Offset = in_writer.Position;
 
-            var chunkHeader = new ChunkHeader(in_writer, ID);
+            var chunkHeader = new ChunkHeader(in_writer, ID)
+            {
+                HeaderSize = 0x30
+            };
 
             in_writer.Write(AckResource.Version);
             in_writer.Write(Trunks.Count);

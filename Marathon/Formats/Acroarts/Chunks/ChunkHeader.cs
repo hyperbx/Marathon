@@ -1,4 +1,5 @@
-﻿using Amicitia.IO.Binary;
+﻿using Amicitia.IO;
+using Amicitia.IO.Binary;
 using Marathon.IO;
 using Marathon.IO.Types;
 
@@ -78,7 +79,7 @@ namespace Marathon.Formats.Acroarts.Chunks
 
         public void FinishWrite(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteReserved(_lengthOffset, (uint)(in_writer.Position - _chunkStart));
+            in_writer.WriteReserved(_lengthOffset, (uint)AlignmentHelper.Align(in_writer.Position - _chunkStart, 16));
             in_writer.WriteReserved(_headerSizeOffset, HeaderSize);
             in_writer.WriteReserved(_systemFlagsOffset, SystemFlags);
             in_writer.WriteReserved(_userFlagsOffset, UserFlags);

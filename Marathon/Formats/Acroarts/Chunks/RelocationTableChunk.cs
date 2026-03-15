@@ -45,7 +45,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             RelocationTable.AddOffsets(in_writer.Offsets.Values);
             RelocationTable.Write(in_writer);
 
-            in_writer.WriteReserved(length, (uint)RelocationTable.Length + 4);
+            in_writer.WriteReserved(length, RelocationTable.Length <= 0 ? 0U : (uint)RelocationTable.Length + 4);
             in_writer.Align(16);
 
             chunkHeader.FinishWrite(in_writer);

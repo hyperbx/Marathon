@@ -116,8 +116,6 @@ namespace Marathon.Formats.Acroarts.Chunks
                 }
             }
 
-            in_writer.Align(16);
-
             chunkHeader.FinishWrite(in_writer);
         }
     }
