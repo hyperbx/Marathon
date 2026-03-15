@@ -25,6 +25,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.MaterialColorGoal => new MaterialColorGoal(in_reader, in_parentChunk),
                 MomentumType.MotionSet => new MotionSet(in_reader, in_parentChunk),
                 MomentumType.ParticlePlay => new ParticlePlay(in_reader, in_parentChunk),
+                MomentumType.Subtitle => new Subtitle(in_reader, in_parentChunk),
                 _ => null
             };
         }
