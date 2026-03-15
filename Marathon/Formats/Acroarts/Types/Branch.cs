@@ -1,4 +1,5 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
+using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
@@ -56,12 +57,22 @@ namespace Marathon.Formats.Acroarts.Types
             CoordTarget = in_reader.Read<uint>();
             CoordBranchIndex = in_reader.Read<uint>();
             CoordNode = in_reader.Read<int>();
+
             var coordNodeNameOffset = in_reader.Read<uint>(); // TODO: handle this.
+
+            if (coordNodeNameOffset > 0)
+                Logger.Warning($"[Branch] Coord node name at 0x{coordNodeNameOffset:08X}.");
+
             CoordType = in_reader.Read<uint>();
             MessageParam0 = in_reader.Read<int>();
             MessageParam1 = in_reader.Read<int>();
+
             var chainCount = in_reader.Read<uint>();
-            var chainTableOffset = in_reader.Read<uint>();    // TODO: handle these.
+            var chainTableOffset = in_reader.Read<uint>(); // TODO: handle these.
+
+            if (chainCount > 0)
+                Logger.Warning($"[Branch] {chainCount} chains at 0x{chainTableOffset:08X}.");
+
             SortGroup = in_reader.Read<int>();
             LoopCount = in_reader.Read<int>();
 

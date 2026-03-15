@@ -1,5 +1,6 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
 using Marathon.Formats.Acroarts.Types.Resources;
+using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
@@ -122,6 +123,9 @@ namespace Marathon.Formats.Acroarts.Types
             // TODO: test this.
             var unkField = in_reader.Read<uint>();
 
+            if (unkField > 0)
+                Logger.Warning($"[Leaf] Unknown field is non-zero: {unkField}");
+
             PrimitiveX0 = in_reader.Read<float>();
             PrimitiveY0 = in_reader.Read<float>();
             PrimitiveX1 = in_reader.Read<float>();
@@ -134,6 +138,9 @@ namespace Marathon.Formats.Acroarts.Types
             var modelCount = in_reader.Read<uint>();
             var motionCount = in_reader.Read<uint>();
             var textureCount = in_reader.Read<uint>();
+
+            if (modelCount > 0 || motionCount > 0 || textureCount > 0)
+                Logger.Warning($"[Leaf] Model Count: {modelCount}; Motion Count: {motionCount}; Texture Count: {textureCount}");
 
             var momentumListCount = in_reader.Read<uint>();
             var momentumListTableOffset = in_reader.Read<uint>();

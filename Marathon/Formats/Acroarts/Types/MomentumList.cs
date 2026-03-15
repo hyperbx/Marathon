@@ -1,4 +1,5 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
+using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ namespace Marathon.Formats.Acroarts.Types
 
             // TODO: test this.
             var unkField = in_reader.Read<uint>();
+
+            if (unkField > 0)
+                Logger.Warning($"[MomentumList] Unknown field is non-zero: {unkField}");
 
             var momentumCount = in_reader.Read<uint>();
             var momentumTableOffset = in_reader.Read<uint>();
