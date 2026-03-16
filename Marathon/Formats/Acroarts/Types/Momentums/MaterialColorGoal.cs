@@ -1,6 +1,5 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
-using Marathon.IO.Extensions;
 using Marathon.IO.Types;
 using System.Collections.Generic;
 
@@ -14,7 +13,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public uint UnknownField2 { get; set; }
 
-        public uint UnknownField3 { get; set; }
+        public ColorBlendMode ColorBlendMode { get; set; }
 
         public MaterialColorGoal() { }
 
@@ -37,7 +36,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             UnknownField1 = in_reader.Read<uint>();
             UnknownField2 = in_reader.Read<uint>();
-            UnknownField3 = in_reader.Read<uint>();
+            ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
@@ -49,7 +48,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
+            in_writer.Write(ColorBlendMode);
 
             for (int i = 0; i < Sets.Length; i++)
             {

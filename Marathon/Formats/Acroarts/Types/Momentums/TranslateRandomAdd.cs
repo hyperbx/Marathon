@@ -10,13 +10,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Vector3 Add { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public uint UnknownField { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public GTCounter GTCounter { get; set; }
 
-        public uint UnknownField3 { get; set; }
+        public TranslateVectorType VectorType { get; set; }
 
-        public uint UnknownField4 { get; set; }
+        public uint Parameter { get; set; }
 
         public TranslateRandomAdd() { }
 
@@ -29,20 +29,20 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             Position = in_reader.Read<Vector3>();
             Add = in_reader.Read<Vector3>();
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<uint>();
-            UnknownField3 = in_reader.Read<uint>();
-            UnknownField4 = in_reader.Read<uint>();
+            UnknownField = in_reader.Read<uint>();
+            GTCounter = in_reader.Read<GTCounter>();
+            VectorType = in_reader.Read<TranslateVectorType>();
+            Parameter = in_reader.Read<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
         {
             in_writer.Write(Position);
             in_writer.Write(Add);
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
-            in_writer.Write(UnknownField4);
+            in_writer.Write(UnknownField);
+            in_writer.Write(GTCounter);
+            in_writer.Write(VectorType);
+            in_writer.Write(Parameter);
         }
 
         public uint GetParamCount()

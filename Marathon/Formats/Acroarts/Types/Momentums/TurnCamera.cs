@@ -5,11 +5,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class TurnCamera : IMomentumParamSet
     {
-        public int FaceType { get; set; }
+        public FaceType FaceType { get; set; }
 
         public float Radius { get; set; }
 
-        public int Axis { get; set; }
+        public AxisType Axis { get; set; }
 
         public TurnCamera() { }
 
@@ -20,9 +20,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
         {
-            FaceType = in_reader.Read<int>();
+            FaceType = in_reader.Read<FaceType>();
             Radius = in_reader.Read<float>();
-            Axis = in_reader.Read<int>();
+            Axis = in_reader.Read<AxisType>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)

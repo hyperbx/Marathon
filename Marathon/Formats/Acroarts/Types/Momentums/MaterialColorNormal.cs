@@ -1,13 +1,16 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
-using Marathon.IO.Extensions;
 using Marathon.IO.Types;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorNormal : IMomentumParamSet
     {
-        public Colour<float, ARGB> Colour { get; set; }
+        public Colour<float, ARGB> Color { get; set; }
+
+        public bool SetGeneralColor { get; set; }
+
+        public ColorBlendMode ColorBlendMode { get; set; }
 
         public MaterialColorNormal() { }
 
@@ -18,13 +21,16 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
         {
-            Colour = in_reader.ReadObject<Colour<float, ARGB>>();
+            Color = in_reader.ReadObject<Colour<float, ARGB>>();
+            SetGeneralColor = in_reader.Read<uint>() != 0;
+            ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
         {
-            in_writer.WriteObject(Colour);
-            in_writer.WriteZero<long>();
+            in_writer.WriteObject(Color);
+            in_writer.Write(SetGeneralColor ? 1 : 0);
+            in_writer.Write(ColorBlendMode);
         }
 
         public uint GetParamCount()

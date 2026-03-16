@@ -5,7 +5,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class ShadowOn : IMomentumParamSet
     {
-        public bool Value { get; set; }
+        public bool On { get; set; }
 
         public ShadowOn() { }
 
@@ -16,12 +16,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
         {
-            Value = in_reader.Read<uint>() != 0;
+            On = in_reader.Read<uint>() != 0;
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
         {
-            in_writer.Write(Value ? 1 : 0);
+            in_writer.Write(On ? 1 : 0);
         }
 
         public uint GetParamCount()

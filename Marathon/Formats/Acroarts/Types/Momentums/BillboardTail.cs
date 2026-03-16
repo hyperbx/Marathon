@@ -1,5 +1,7 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
+using Marathon.IO.Types;
+using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -21,45 +23,35 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public uint UnknownField8 { get; set; }
 
-        public uint UnknownField9 { get; set; }
+        public uint BlendMode { get; set; }
 
-        public int UnknownField10 { get; set; }
+        public int NodeCount { get; set; }
+
+        public float UnknownField9 { get; set; }
+
+        public float UnknownField10 { get; set; }
 
         public float UnknownField11 { get; set; }
 
         public float UnknownField12 { get; set; }
 
+        public Vector3 Position { get; set; }
+
+        public Colour<float, RGBA> Color { get; set; } 
+
+        public ColorApplyMode ColorApplyMode { get; set; }
+
         public float UnknownField13 { get; set; }
 
-        public float UnknownField14 { get; set; }
+        public uint UnknownField14 { get; set; }
 
         public float UnknownField15 { get; set; }
 
         public uint UnknownField16 { get; set; }
 
-        public uint UnknownField17 { get; set; }
+        public float UnknownField17 { get; set; }
 
-        public float UnknownField18 { get; set; }
-
-        public float UnknownField19 { get; set; }
-
-        public float UnknownField20 { get; set; }
-
-        public float UnknownField21 { get; set; }
-
-        public uint UnknownField22 { get; set; }
-
-        public float UnknownField23 { get; set; }
-
-        public uint UnknownField24 { get; set; }
-
-        public float UnknownField25 { get; set; }
-
-        public uint UnknownField26 { get; set; }
-
-        public float UnknownField27 { get; set; }
-
-        public uint UnknownField28 { get; set; }
+        public uint UnknownField18 { get; set; }
 
         public BillboardTail() { }
 
@@ -78,26 +70,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField6 = in_reader.Read<uint>();
             UnknownField7 = in_reader.Read<uint>();
             UnknownField8 = in_reader.Read<uint>();
-            UnknownField9 = in_reader.Read<uint>();
-            UnknownField10 = in_reader.Read<int>();
+            BlendMode = in_reader.Read<uint>();
+            NodeCount = in_reader.Read<int>();
+            UnknownField9 = in_reader.Read<float>();
+            UnknownField10 = in_reader.Read<float>();
             UnknownField11 = in_reader.Read<float>();
             UnknownField12 = in_reader.Read<float>();
+            Position = in_reader.Read<Vector3>();
+            Color = in_reader.ReadObject<Colour<float, RGBA>>();
+            ColorApplyMode = in_reader.Read<ColorApplyMode>();
             UnknownField13 = in_reader.Read<float>();
-            UnknownField14 = in_reader.Read<float>();
+            UnknownField14 = in_reader.Read<uint>();
             UnknownField15 = in_reader.Read<float>();
             UnknownField16 = in_reader.Read<uint>();
-            UnknownField17 = in_reader.Read<uint>();
-            UnknownField18 = in_reader.Read<float>();
-            UnknownField19 = in_reader.Read<float>();
-            UnknownField20 = in_reader.Read<float>();
-            UnknownField21 = in_reader.Read<float>();
-            UnknownField22 = in_reader.Read<uint>();
-            UnknownField23 = in_reader.Read<float>();
-            UnknownField24 = in_reader.Read<uint>();
-            UnknownField25 = in_reader.Read<float>();
-            UnknownField26 = in_reader.Read<uint>();
-            UnknownField27 = in_reader.Read<float>();
-            UnknownField28 = in_reader.Read<uint>();
+            UnknownField17 = in_reader.Read<float>();
+            UnknownField18 = in_reader.Read<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
@@ -110,26 +97,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField6);
             in_writer.Write(UnknownField7);
             in_writer.Write(UnknownField8);
+            in_writer.Write(BlendMode);
+            in_writer.Write(NodeCount);
             in_writer.Write(UnknownField9);
             in_writer.Write(UnknownField10);
             in_writer.Write(UnknownField11);
             in_writer.Write(UnknownField12);
+            in_writer.Write(Position);
+            in_writer.WriteObject(Color);
+            in_writer.Write(ColorApplyMode);
             in_writer.Write(UnknownField13);
             in_writer.Write(UnknownField14);
             in_writer.Write(UnknownField15);
             in_writer.Write(UnknownField16);
             in_writer.Write(UnknownField17);
             in_writer.Write(UnknownField18);
-            in_writer.Write(UnknownField19);
-            in_writer.Write(UnknownField20);
-            in_writer.Write(UnknownField21);
-            in_writer.Write(UnknownField22);
-            in_writer.Write(UnknownField23);
-            in_writer.Write(UnknownField24);
-            in_writer.Write(UnknownField25);
-            in_writer.Write(UnknownField26);
-            in_writer.Write(UnknownField27);
-            in_writer.Write(UnknownField28);
         }
 
         public uint GetParamCount()
