@@ -1,5 +1,6 @@
 ﻿using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
+using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -15,7 +16,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public float UnknownField5 { get; set; }
 
-        public AnonymousMomentumParamSet Params { get; set; } = [];
+        public List<AnonymousMomentumParamSet> Params { get; set; } = [];
 
         public uint UnknownField6 { get; set; }
 
@@ -52,8 +53,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 {
                     in_reader.ReadAtOffset(in_parentChunk.Offset + offset.UInt32, () =>
                     {
-                        // TODO
-                        Params = new AnonymousMomentumParamSet(in_reader, in_parentChunk);
+                        Params.Add(new AnonymousMomentumParamSet(in_reader, in_parentChunk));
                     });
                 }
             });
@@ -75,12 +75,19 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             in_writer.WriteReserved(paramsOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
 
-            in_writer.Write(1);
+            in_writer.Write(Params.Count);
+            in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint));
 
-            for (int i = 0; i < 2; i++)
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint));
+            var paramsOffsets = new List<long>();
 
-            Params.Write(in_writer, in_parentChunk);
+            for (int i = 0; i < Params.Count; i++)
+                paramsOffsets.Add(in_writer.Reserve<uint>());
+
+            for (int i = 0; i < Params.Count; i++)
+            {
+                in_writer.WriteReserved(paramsOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
+                Params[i].Write(in_writer, in_parentChunk);
+            }
         }
 
         public uint GetParamCount()
