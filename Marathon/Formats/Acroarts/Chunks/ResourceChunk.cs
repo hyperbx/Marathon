@@ -7,13 +7,11 @@ using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class ResourceChunk : IChunk
+    public class ResourceChunk : List<ResourceChunkParam>, IChunk
     {
         public const string ID = "ABRS"; // "Acroarts Binary ReSource"
 
         public long Offset { get; set; }
-
-        public List<ResourceChunkParam> Resources { get; set; } = [];
 
         [JsonIgnore]
         public RelocationTableChunk RelocationTableChunk { get; set; }
@@ -49,7 +47,7 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 in_reader.ReadAtOffset(Offset + chunkOffset, () =>
                 {
-                    Resources.Add(new(new ResourcePathChunk(in_reader), virtualResId));
+                    Add(new(new ResourcePathChunk(in_reader), virtualResId));
                 });
             }
 
@@ -68,11 +66,11 @@ namespace Marathon.Formats.Acroarts.Chunks
             };
 
             in_writer.Write(AckResource.Version);
-            in_writer.Write(Resources.Count);
+            in_writer.Write(Count);
 
             var relocTableOffset = in_writer.Reserve<uint>(true);
 
-            if (Resources.Count <= 0)
+            if (Count <= 0)
             {
                 // Empty chunk array.
                 in_writer.WriteArray([0, -1]);
@@ -82,7 +80,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             {
                 var resourceOffsets = new List<long>();
 
-                foreach (var trunk in Resources)
+                foreach (var trunk in this)
                 {
                     resourceOffsets.Add(in_writer.Reserve<uint>());
                     in_writer.Write(trunk.VirtualResID);
@@ -92,10 +90,10 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 chunkHeader.HeaderSize = (uint)(in_writer.Position - Offset);
 
-                for (int i = 0; i < Resources.Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     in_writer.WriteReserved(resourceOffsets[i], (uint)(in_writer.Position - Offset), false);
-                    Resources[i].Data.Write(in_writer, this);
+                    this[i].Resource.Write(in_writer, this);
                 }
             }
 
@@ -112,7 +110,7 @@ namespace Marathon.Formats.Acroarts.Chunks
 
     public struct ResourceChunkParam(IChunk in_data, int in_virtualResId)
     {
-        public IChunk Data = in_data;
+        public IChunk Resource = in_data;
         public int VirtualResID = in_virtualResId;
     }
 }

@@ -8,13 +8,11 @@ using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class DataChunk : IChunk
+    public class DataChunk : List<TrunkChunkParam>, IChunk
     {
         public const string ID = "ABDA"; // "Acroarts Binary DAta"
 
         public long Offset { get; set; }
-
-        public List<DataChunkParam> Trunks { get; set; } = [];
 
         [JsonIgnore]
         public RelocationTableChunk RelocationTableChunk { get; set; }
@@ -52,7 +50,7 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 in_reader.ReadAtOffset(Offset + chunkOffset, () =>
                 {
-                    Trunks.Add(new(new TrunkChunk(in_reader, this), param));
+                    Add(new(new TrunkChunk(in_reader, this), param));
                 });
             }
 
@@ -71,13 +69,13 @@ namespace Marathon.Formats.Acroarts.Chunks
             };
 
             in_writer.Write(AckResource.Version);
-            in_writer.Write(Trunks.Count);
+            in_writer.Write(Count);
 
             var relocTableOffset = in_writer.Reserve<uint>(true);
 
             in_writer.WriteZero<int>(); // Reserved.
 
-            if (Trunks.Count <= 0)
+            if (Count <= 0)
             {
                 // Empty chunk array.
                 in_writer.WriteZero<long>();
@@ -87,20 +85,20 @@ namespace Marathon.Formats.Acroarts.Chunks
             {
                 var trunkOffsets = new List<long>();
 
-                foreach (var trunk in Trunks)
+                foreach (var trunk in this)
                 {
                     trunkOffsets.Add(in_writer.Reserve<uint>());
-                    in_writer.Write(trunk.Param);
+                    in_writer.Write(trunk.Parameter);
                 }
 
                 in_writer.Align(16);
 
                 chunkHeader.HeaderSize = (uint)(in_writer.Position - Offset);
 
-                for (int i = 0; i < Trunks.Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     in_writer.WriteReserved(trunkOffsets[i], (uint)(in_writer.Position - Offset), false);
-                    Trunks[i].Data.Write(in_writer, this);
+                    this[i].Trunk.Write(in_writer, this);
                 }
             }
 
@@ -115,9 +113,9 @@ namespace Marathon.Formats.Acroarts.Chunks
         }
     }
 
-    public struct DataChunkParam(IChunk in_data, uint in_param)
+    public struct TrunkChunkParam(IChunk in_data, uint in_param)
     {
-        public IChunk Data = in_data;
-        public uint Param = in_param;
+        public IChunk Trunk = in_data;
+        public uint Parameter = in_param;
     }
 }
