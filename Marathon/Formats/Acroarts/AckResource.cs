@@ -25,7 +25,7 @@ namespace Marathon.Formats.Acroarts
 
         public DataChunk Data { get; set; }
 
-        public ResourceChunk Resource { get; set; }
+        public ResourceChunk Resources { get; set; }
 
         public override string Extension => _extension;
 
@@ -64,7 +64,7 @@ namespace Marathon.Formats.Acroarts
             if (abrsOffset != 0)
             {
                 binaReader.JumpTo(binaReader.Offset + BINAHeader.Size + abrsOffset);
-                Resource = new ResourceChunk(binaReader);
+                Resources = new ResourceChunk(binaReader);
             }
         }
 
@@ -101,10 +101,10 @@ namespace Marathon.Formats.Acroarts
 
             abrsWriter.JumpTo(binaWriter.Position);
 
-            if (Resource != null)
+            if (Resources != null)
             {
                 binaWriter.WriteReserved(abrsOffset, (uint)(binaWriter.Position - abrsOffset) + sizeof(uint));
-                Resource.Write(abrsWriter);
+                Resources.Write(abrsWriter);
             }
 
             // BINA is exclusively used for these.
