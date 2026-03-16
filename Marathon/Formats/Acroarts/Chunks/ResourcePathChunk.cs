@@ -1,6 +1,7 @@
 ﻿using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
+using System.IO.Enumeration;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
@@ -45,16 +46,15 @@ namespace Marathon.Formats.Acroarts.Chunks
         public static FourCC GetResourceIDFromPath(string in_path)
         {
             var id = "    ";
-            
-            // TODO: MORE!!
-            switch (System.IO.Path.GetExtension(in_path).ToLower())
+            var extension = System.IO.Path.GetExtension(in_path).ToLower();
+
+            switch (extension)
             {
                 case ".dds":
                     id = "DDS ";
                     break;
 
-                case ".xno":
-                case ".xnv":
+                case var _ when FileSystemName.MatchesSimpleExpression(".xn*", extension):
                     id = "NXIF";
                     break;
             };
