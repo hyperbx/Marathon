@@ -9,6 +9,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             return in_type switch
             {
+                MomentumType.TranslateNormal => new TranslateNormal(in_reader, in_parentChunk),
                 MomentumType.TranslateRandomAdd => new TranslateRandomAdd(in_reader, in_parentChunk),
                 MomentumType.RotateNormal => new RotateNormal(in_reader, in_parentChunk),
                 MomentumType.RotateAdd => new RotateAdd(in_reader, in_parentChunk),
