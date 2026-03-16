@@ -30,6 +30,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.Sound3DPlay => new Sound3DPlay(in_reader, in_parentChunk),
                 MomentumType.ParticlePlay => new ParticlePlay(in_reader, in_parentChunk),
                 MomentumType.Subtitle => new Subtitle(in_reader, in_parentChunk),
+                MomentumType.FilterColorCorrection => new FilterColorCorrection(in_reader, in_parentChunk),
                 _ => null
             };
         }
