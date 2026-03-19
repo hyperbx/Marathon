@@ -1,4 +1,5 @@
-﻿using Marathon.IO;
+﻿using Marathon.Helpers;
+using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
 using System.IO.Enumeration;
@@ -56,6 +57,10 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 case var _ when FileSystemName.MatchesSimpleExpression(".xn*", extension):
                     id = "NXIF";
+                    break;
+
+                default:
+                    Logger.Warning($"[ResourcePathChunk] Couldn't determine resource ID from extension: {extension}");
                     break;
             };
 
