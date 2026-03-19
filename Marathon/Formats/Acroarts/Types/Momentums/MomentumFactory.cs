@@ -18,6 +18,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.RotateAdd => new RotateAdd(in_reader),
                 MomentumType.RotateRandomNormal => new RotateRandomNormal(in_reader),
                 MomentumType.RotateRandomAdd => new RotateRandomAdd(in_reader),
+                MomentumType.RotateGoal => new RotateGoal(in_reader),
                 MomentumType.ScaleNormal => new ScaleNormal(in_reader),
                 MomentumType.ScaleAdd => new ScaleAdd(in_reader),
                 MomentumType.ScaleAccel => new ScaleAccel(in_reader),
