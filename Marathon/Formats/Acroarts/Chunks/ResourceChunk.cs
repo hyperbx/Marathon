@@ -109,9 +109,9 @@ namespace Marathon.Formats.Acroarts.Chunks
         }
     }
 
-    public struct ResourceChunkParam(IBinarySerializableEx in_resource, int in_virtualResId)
+    public struct ResourceChunkParam(ResourcePathChunk in_resource, int in_virtualResId)
     {
-        public IBinarySerializableEx Resource = in_resource;
+        public ResourcePathChunk Resource = in_resource;
         public int VirtualResID = in_virtualResId;
     }
 }
