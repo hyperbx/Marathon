@@ -4,6 +4,7 @@ using Marathon.IO;
 using Marathon.IO.Extensions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
@@ -13,6 +14,8 @@ namespace Marathon.Formats.Acroarts.Chunks
 
         [JsonIgnore]
         public RelocationTableChunk RelocationTableChunk { get; set; }
+
+        public bool IsChunkAligned { get; set; }
 
         public DataChunk() { }
 
@@ -54,6 +57,11 @@ namespace Marathon.Formats.Acroarts.Chunks
             in_reader.JumpTo(in_reader.CalculateOffset(relocTableOffset));
 
             RelocationTableChunk = new RelocationTableChunk(in_reader);
+            new EndOfChunk().Read(in_reader);
+
+            var pos = in_reader.Position;
+            IsChunkAligned = in_reader.ReadArray<byte>(0x10).Sum(x => x) == 0;
+            in_reader.JumpTo(pos);
 
             in_reader.PopOffsetOrigin();
         }
@@ -110,13 +118,16 @@ namespace Marathon.Formats.Acroarts.Chunks
 
             new EndOfChunk().Write(in_writer);
 
+            if (IsChunkAligned)
+                in_writer.WriteZero<byte>(0x10);
+
             in_writer.PopOffsetOrigin();
         }
     }
 
-    public struct TrunkChunkParam(IBinarySerializableEx in_trunk, uint in_parameter)
+    public struct TrunkChunkParam(TrunkChunk in_trunk, uint in_parameter)
     {
-        public IBinarySerializableEx Trunk = in_trunk;
+        public TrunkChunk Trunk = in_trunk;
         public uint Parameter = in_parameter;
     }
 }
