@@ -50,6 +50,10 @@ namespace Marathon.Formats.Acroarts.Chunks
                     id = "DDS ";
                     break;
 
+                case ".xncp":
+                    id = "FAPC";
+                    break;
+
                 case var _ when FileSystemName.MatchesSimpleExpression(".xn*", extension):
                     id = "NXIF";
                     break;
