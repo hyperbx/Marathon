@@ -1,13 +1,11 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.Helpers;
+﻿using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Marathon.Formats.Acroarts.Types
 {
-    public class MomentumList : INode
+    public class MomentumList : IBinarySerializableEx
     {
         public uint Flags { get; set; }
 
@@ -23,12 +21,12 @@ namespace Marathon.Formats.Acroarts.Types
 
         public MomentumList() { }
 
-        public MomentumList(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public MomentumList(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Flags = in_reader.Read<uint>();
             ID = in_reader.Read<int>();
@@ -45,20 +43,20 @@ namespace Marathon.Formats.Acroarts.Types
             var momentumCount = in_reader.Read<uint>();
             var momentumTableOffset = in_reader.Read<uint>();
 
-            in_reader.Seek(in_parentChunk.Offset + momentumTableOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(in_reader.CalculateOffset(momentumTableOffset));
 
             for (uint i = 0; i < momentumCount; i++)
             {
                 var momentumOffset = in_reader.Read<uint>();
 
-                in_reader.ReadAtOffset(in_parentChunk.Offset + momentumOffset, () =>
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(momentumOffset), () =>
                 {
-                    Momentums.Add(new Momentum(in_reader, in_parentChunk));
+                    Momentums.Add(new Momentum(in_reader));
                 });
             }
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Flags);
             in_writer.Write(ID);
@@ -74,7 +72,7 @@ namespace Marathon.Formats.Acroarts.Types
             else
             {
                 in_writer.Write(Momentums.Count);
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint)); // Momentum table offset.
+                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Momentum table offset.
 
                 var momentumOffsets = new List<long>();
 
@@ -83,8 +81,8 @@ namespace Marathon.Formats.Acroarts.Types
 
                 for (int i = 0; i < Momentums.Count; i++)
                 {
-                    in_writer.WriteReserved(momentumOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
-                    Momentums[i].Write(in_writer, in_parentChunk);
+                    in_writer.WriteReserved(momentumOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    Momentums[i].Write(in_writer);
                 }
             }
         }

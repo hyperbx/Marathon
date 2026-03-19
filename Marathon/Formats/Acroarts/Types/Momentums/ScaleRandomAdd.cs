@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
@@ -18,12 +17,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public ScaleRandomAdd() { }
 
-        public ScaleRandomAdd(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public ScaleRandomAdd(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Scale = in_reader.Read<Vector3>();
             Add = in_reader.Read<Vector3>();
@@ -32,7 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField2 = in_reader.Read<uint>();
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Scale);
             in_writer.Write(Add);

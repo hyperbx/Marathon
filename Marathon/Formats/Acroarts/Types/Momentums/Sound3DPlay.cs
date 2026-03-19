@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -7,7 +6,6 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
     {
         public Sound3DPlay() { }
 
-        public Sound3DPlay(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
-            : base(in_reader, in_parentChunk) { }
+        public Sound3DPlay(BinaryObjectReaderEx in_reader) : base(in_reader) { }
     }
 }

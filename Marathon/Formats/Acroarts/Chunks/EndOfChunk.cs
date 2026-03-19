@@ -3,20 +3,18 @@ using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class EndOfChunk : IChunk
+    public class EndOfChunk : IBinarySerializableEx
     {
         public const string ID = "EOFC"; // "End OF Chunk"
 
-        public long Offset { get; set; }
-
         public EndOfChunk() { }
 
-        public EndOfChunk(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public EndOfChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var header = in_reader.ReadObject<ChunkHeader>();
 
@@ -26,7 +24,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             throw new InvalidSignatureException(ID, header.ID);
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             new ChunkHeader(in_writer, ID).FinishWrite(in_writer, 0, ChunkHeader.DefaultHeaderSize);
         }

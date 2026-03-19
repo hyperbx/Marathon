@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
@@ -16,12 +15,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public RotateRandomAdd() { }
 
-        public RotateRandomAdd(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public RotateRandomAdd(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Rotation = in_reader.Read<Vector3>();
             Add = in_reader.Read<Vector3>();
@@ -29,7 +28,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             GTCounter = in_reader.Read<GTCounter>();
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Rotation);
             in_writer.Write(Add);

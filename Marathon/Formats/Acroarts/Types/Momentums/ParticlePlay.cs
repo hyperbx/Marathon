@@ -1,6 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
-using Marathon.IO.Extensions;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -16,12 +14,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public ParticlePlay() { }
 
-        public ParticlePlay(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public ParticlePlay(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var particleContainerOffset = in_reader.Read<uint>();
             var particleNameOffset = in_reader.Read<uint>();
@@ -29,14 +27,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             Speed = in_reader.Read<float>();
             Mode = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + particleContainerOffset,
-                () => ParticleContainer = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(particleContainerOffset),
+                () => ParticleContainer = FixedString.Read(in_reader));
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + particleNameOffset,
-                () => ParticleName = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(particleNameOffset),
+                () => ParticleName = FixedString.Read(in_reader));
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             var particleContainerOffset = in_writer.Reserve<uint>();
             var particleNameOffset = in_writer.Reserve<uint>();
@@ -44,13 +42,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Speed);
             in_writer.Write(Mode);
 
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(particleContainerOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(ParticleContainer, 0x80);
-
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(particleNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(ParticleName, 0x80);
+            FixedString.Write(in_writer, ParticleContainer, particleContainerOffset);
+            FixedString.Write(in_writer, ParticleName, particleNameOffset);
         }
 
         public uint GetParamCount()

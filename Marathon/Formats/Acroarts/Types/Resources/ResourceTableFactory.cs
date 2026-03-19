@@ -1,21 +1,20 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
 {
     public class ResourceTableFactory
     {
-        public static IResourceTable ReadResourceTableByType(BinaryObjectReaderEx in_reader, IChunk in_parentChunk, ResourceType in_type)
+        public static IResourceTable ReadResourceTableByType(BinaryObjectReaderEx in_reader, ResourceType in_type)
         {
             IResourceTable resource = in_type switch
             {
-                ResourceType.Model => new ModelResourceTable(in_reader, in_parentChunk),
-                ResourceType.CellSprite => new CellSpriteResourceTable(in_reader, in_parentChunk),
-                ResourceType.Camera => new CameraResourceTable(in_reader, in_parentChunk),
-                ResourceType.Screen => new ScreenResourceTable(in_reader, in_parentChunk),
-                ResourceType.Light => new LightResourceTable(in_reader, in_parentChunk),
-                ResourceType.Primitive => new PrimitiveResourceTable(in_reader, in_parentChunk),
-                ResourceType.Extra => new ExtraResourceTable(in_reader, in_parentChunk),
+                ResourceType.Model => new ModelResourceTable(in_reader),
+                ResourceType.CellSprite => new CellSpriteResourceTable(in_reader),
+                ResourceType.Camera => new CameraResourceTable(in_reader),
+                ResourceType.Screen => new ScreenResourceTable(in_reader),
+                ResourceType.Light => new LightResourceTable(in_reader),
+                ResourceType.Primitive => new PrimitiveResourceTable(in_reader),
+                ResourceType.Extra => new ExtraResourceTable(in_reader),
                 _ => null
             };
 

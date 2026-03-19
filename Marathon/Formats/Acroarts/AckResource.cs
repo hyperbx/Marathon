@@ -57,13 +57,13 @@ namespace Marathon.Formats.Acroarts
 
             if (abdaOffset != 0)
             {
-                binaReader.JumpTo(binaReader.Offset + BINAHeader.Size + abdaOffset);
+                binaReader.JumpTo(binaReader.CalculateOffset(abdaOffset));
                 Data = new DataChunk(binaReader);
             }
 
             if (abrsOffset != 0)
             {
-                binaReader.JumpTo(binaReader.Offset + BINAHeader.Size + abrsOffset);
+                binaReader.JumpTo(binaReader.CalculateOffset(abrsOffset));
                 Resources = new ResourceChunk(binaReader);
             }
         }

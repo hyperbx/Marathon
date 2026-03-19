@@ -1,5 +1,4 @@
 ﻿using Marathon.Collections;
-using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
@@ -12,20 +11,20 @@ namespace Marathon.Formats.Acroarts.Types.Resources
 
         public CameraResourceTable() { }
 
-        public CameraResourceTable(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public CameraResourceTable(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Cameras = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
-            CameraMotions = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
+            Cameras = new IndirectUnmanagedList<uint>(in_reader);
+            CameraMotions = new IndirectUnmanagedList<uint>(in_reader);
 
             in_reader.JumpAhead(sizeof(uint) * 4);
         }
 
-        public void WriteInfo(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteInfo(BinaryObjectWriterEx in_writer)
         {
             Cameras.WriteInfo(in_writer);
             CameraMotions.WriteInfo(in_writer);
@@ -33,16 +32,16 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             in_writer.JumpAhead(sizeof(uint) * 4);
         }
 
-        public void WriteArray(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteArray(BinaryObjectWriterEx in_writer)
         {
-            Cameras.WriteArray(in_writer, in_parentChunk.Offset);
-            CameraMotions.WriteArray(in_writer, in_parentChunk.Offset);
+            Cameras.WriteArray(in_writer);
+            CameraMotions.WriteArray(in_writer);
         }
 
-        public void WriteData(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteData(BinaryObjectWriterEx in_writer)
         {
-            Cameras.WriteData(in_writer, in_parentChunk.Offset);
-            CameraMotions.WriteData(in_writer, in_parentChunk.Offset);
+            Cameras.WriteData(in_writer);
+            CameraMotions.WriteData(in_writer);
         }
     }
 }

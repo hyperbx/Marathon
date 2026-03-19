@@ -27,9 +27,9 @@ namespace Marathon.IO.Types.BINA
         public BINAWriter(Stream in_stream, long in_offset = 0, Endianness in_endianness = Endianness.Big)
             : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
         {
-            Header.HeaderOffset = in_offset;
+            Header.Offset = in_offset;
 
-            JumpTo(Header.HeaderOffset);
+            JumpTo(Header.Offset);
 
             // Reserve header chunk.
             this.WriteZero<byte>(BINAHeader.Size);
@@ -86,18 +86,18 @@ namespace Marathon.IO.Types.BINA
         {
             var relocTablePos = WriteRelocationTable();
 
-            Header.RelocTableOffset = (uint)(relocTablePos - BINAHeader.Size - Header.HeaderOffset);
+            Header.RelocTableOffset = (uint)(relocTablePos - BINAHeader.Size - Header.Offset);
             Header.RelocTableLength = (uint)(Position - relocTablePos);
 
             if (Header.HasFooterMagic)
                 WriteFooterMagic();
 
-            Header.Length = (uint)(Position - Header.HeaderOffset);
+            Header.Length = (uint)(Position - Header.Offset);
         }
 
         public long WriteRelocationTable()
         {
-            var relocTable = new BINARelocationTable(Header.HeaderOffset);
+            var relocTable = new BINARelocationTable(Header.Offset);
 
             relocTable.AddOffsets(Offsets.Values);
 
@@ -116,27 +116,9 @@ namespace Marathon.IO.Types.BINA
             WriteStringPool();
             WriteFooter();
 
-            JumpTo(Header.HeaderOffset);
+            JumpTo(Header.Offset);
 
             Header.Write(this);
-        }
-
-        /// <summary>
-        /// Alias of <see cref="BinaryObjectWriterEx.WriteReserved{T}(long, T, bool)"/> that defaults <paramref name="in_removeAfterWrite"/> to <b>false</b>.
-        /// <para>All fields must remain present for the relocation table to be written last.</para>
-        /// </summary>
-        public override void WriteReserved<T>(long in_offset, T in_value, bool in_removeAfterWrite = false)
-        {
-            base.WriteReserved(in_offset, in_value, in_removeAfterWrite);
-        }
-
-        /// <summary>
-        /// Alias of <see cref="BinaryObjectWriterEx.WriteReserved{T}(string, T, bool)"/> that defaults <paramref name="in_removeAfterWrite"/> to <b>false</b>.
-        /// <para>All fields must remain present for the relocation table to be written last.</para>
-        /// </summary>
-        public override void WriteReserved<T>(string in_name, T in_value, bool in_removeAfterWrite = false)
-        {
-            base.WriteReserved(in_name, in_value, in_removeAfterWrite);
         }
     }
 

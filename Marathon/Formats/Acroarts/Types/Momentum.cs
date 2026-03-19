@@ -1,12 +1,11 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.Formats.Acroarts.Types.Momentums;
+﻿using Marathon.Formats.Acroarts.Types.Momentums;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 
 namespace Marathon.Formats.Acroarts.Types
 {
-    public class Momentum : INode
+    public class Momentum : IBinarySerializableEx
     {
         public uint Flags { get; set; }
 
@@ -22,12 +21,12 @@ namespace Marathon.Formats.Acroarts.Types
 
         public Momentum() { }
 
-        public Momentum(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public Momentum(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var position = in_reader.Position;
 
@@ -41,21 +40,21 @@ namespace Marathon.Formats.Acroarts.Types
             var paramCount = in_reader.Read<uint>();
             var paramOffset = in_reader.Read<uint>();
 
-            in_reader.JumpTo(in_parentChunk.Offset + paramOffset);
+            in_reader.JumpTo(in_reader.CalculateOffset(paramOffset));
 
-            Params = MomentumFactory.ReadMomentumByType(in_reader, in_parentChunk, Type);
+            Params = MomentumFactory.ReadMomentumByType(in_reader, Type);
 
             if (Params == null)
             {
                 in_reader.JumpTo(paramPosition);
 
-                Params = new AnonymousMomentumParamSet(in_reader, in_parentChunk);
+                Params = new AnonymousMomentumParamSet(in_reader);
 
                 Logger.Warning($"[Momentum] Unimplemented type at 0x{position:X08} of length {paramCount * 4}: {Type}");
             }
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Flags);
             in_writer.Write(Type);
@@ -72,9 +71,9 @@ namespace Marathon.Formats.Acroarts.Types
             else
             {
                 in_writer.Write(Params.GetParamCount());
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint)); // Params offset.
+                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Params offset.
 
-                Params.Write(in_writer, in_parentChunk);
+                Params.Write(in_writer);
             }
         }
     }

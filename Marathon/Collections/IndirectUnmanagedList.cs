@@ -6,17 +6,17 @@ namespace Marathon.Collections
     {
         public IndirectUnmanagedList() { }
 
-        public IndirectUnmanagedList(BinaryObjectReaderEx in_reader, long in_offset = 0)
+        public IndirectUnmanagedList(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_offset);
+            Read(in_reader);
         }
 
-        public override T ReadImpl(BinaryObjectReaderEx in_reader, long in_offset = 0)
+        public override T ReadImpl(BinaryObjectReaderEx in_reader)
         {
             return in_reader.Read<T>();
         }
 
-        public override void WriteDataImpl(BinaryObjectWriterEx in_writer, T in_object, long in_offset = 0, bool in_keepOffsets = true)
+        public override void WriteDataImpl(BinaryObjectWriterEx in_writer, T in_object, bool in_keepOffsets = true)
         {
             in_writer.Write(in_object);
         }

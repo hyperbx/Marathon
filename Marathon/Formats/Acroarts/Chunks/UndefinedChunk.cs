@@ -7,10 +7,8 @@ using Newtonsoft.Json;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class UndefinedChunk : IChunk
+    public class UndefinedChunk : IBinarySerializableEx
     {
-        public long Offset { get; set; }
-
         public string ChunkID { get; set; }
 
         public FourCC Signature { get; set; }
@@ -20,26 +18,25 @@ namespace Marathon.Formats.Acroarts.Chunks
 
         public UndefinedChunk() { }
 
-        public UndefinedChunk(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public UndefinedChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
 
             ChunkID = Signature.ToString();
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Offset = in_reader.Position;
             Signature = in_reader.ReadObject<FourCC>();
 
             var chunkLength = in_reader.Read<uint>();
 
             Data = in_reader.ReadBytes((int)chunkLength);
 
-            Logger.Warning($"Encountered undefined chunk at 0x{Offset:X8}: {Signature}");
+            Logger.Warning($"Encountered undefined chunk at 0x{in_reader.OffsetOrigin:X8}: {Signature}");
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.WriteObject(Signature);
 

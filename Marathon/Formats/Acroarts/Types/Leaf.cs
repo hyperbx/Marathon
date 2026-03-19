@@ -1,14 +1,12 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.Formats.Acroarts.Types.Resources;
+﻿using Marathon.Formats.Acroarts.Types.Resources;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Marathon.Formats.Acroarts.Types
 {
-    public class Leaf : INode
+    public class Leaf : IBinarySerializableEx
     {
         public uint Flags { get; set; }
 
@@ -84,12 +82,12 @@ namespace Marathon.Formats.Acroarts.Types
 
         public Leaf() { }
 
-        public Leaf(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public Leaf(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Flags = in_reader.Read<uint>();
             ID = in_reader.Read<int>();
@@ -131,7 +129,7 @@ namespace Marathon.Formats.Acroarts.Types
             PrimitiveX1 = in_reader.Read<float>();
             PrimitiveY1 = in_reader.Read<float>();
             ResourceType = in_reader.Read<ResourceType>();
-            Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, in_parentChunk, ResourceType);
+            Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, ResourceType);
             TrOpCtrlFlag = in_reader.Read<uint>();
 
             // TODO: check these.
@@ -145,20 +143,20 @@ namespace Marathon.Formats.Acroarts.Types
             var momentumListCount = in_reader.Read<uint>();
             var momentumListTableOffset = in_reader.Read<uint>();
 
-            in_reader.Seek(in_parentChunk.Offset + momentumListTableOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(in_reader.CalculateOffset(momentumListTableOffset));
 
             for (uint i = 0; i < momentumListCount; i++)
             {
                 var momentumListOffset = in_reader.Read<uint>();
 
-                in_reader.ReadAtOffset(in_parentChunk.Offset + momentumListOffset, () =>
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(momentumListOffset), () =>
                 {
-                    MomentumLists.Add(new MomentumList(in_reader, in_parentChunk));
+                    MomentumLists.Add(new MomentumList(in_reader));
                 });
             }
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Flags);
             in_writer.Write(ID);
@@ -195,7 +193,7 @@ namespace Marathon.Formats.Acroarts.Types
             in_writer.Write(PrimitiveY1);
             in_writer.Write(ResourceType);
 
-            Resources.WriteInfo(in_writer, in_parentChunk);
+            Resources.WriteInfo(in_writer);
 
             in_writer.Write(TrOpCtrlFlag);
             in_writer.WriteZero<int>(); // TODO: modelCount
@@ -206,28 +204,28 @@ namespace Marathon.Formats.Acroarts.Types
             {
                 in_writer.WriteZero<long>();
 
-                Resources.WriteArray(in_writer, in_parentChunk);
+                Resources.WriteArray(in_writer);
             }
             else
             {
                 in_writer.Write(MomentumLists.Count);
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint)); // Momentum list table offset.
+                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Momentum list table offset.
 
                 var momentumListOffsets = new List<long>();
 
                 for (int i = 0; i < MomentumLists.Count; i++)
                     momentumListOffsets.Add(in_writer.Reserve<uint>());
 
-                Resources.WriteArray(in_writer, in_parentChunk);
+                Resources.WriteArray(in_writer);
 
                 for (int i = 0; i < MomentumLists.Count; i++)
                 {
-                    in_writer.WriteReserved(momentumListOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
-                    MomentumLists[i].Write(in_writer, in_parentChunk);
+                    in_writer.WriteReserved(momentumListOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    MomentumLists[i].Write(in_writer);
                 }
             }
 
-            Resources.WriteData(in_writer, in_parentChunk);
+            Resources.WriteData(in_writer);
         }
     }
 }

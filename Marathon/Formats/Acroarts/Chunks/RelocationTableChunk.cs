@@ -5,22 +5,20 @@ using Marathon.IO.Types.BINA;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class RelocationTableChunk : IChunk
+    public class RelocationTableChunk : IBinarySerializableEx
     {
         public const string ID = "POF0";
-
-        public long Offset { get; set; }
 
         public BINARelocationTable RelocationTable { get; set; }
 
         public RelocationTableChunk() { }
 
-        public RelocationTableChunk(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public RelocationTableChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var chunkHeader = in_reader.ReadObject<ChunkHeader>();
 
@@ -29,19 +27,19 @@ namespace Marathon.Formats.Acroarts.Chunks
 
             var length = in_reader.Read<uint>();
 
-            RelocationTable = new BINARelocationTable(in_parentChunk.Offset - BINAHeader.Size);
+            RelocationTable = new BINARelocationTable(in_reader.OffsetOrigin - BINAHeader.Size);
             RelocationTable.Read(in_reader, length);
 
             in_reader.JumpAhead(length);
             in_reader.Align(16);
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             var chunkHeader = new ChunkHeader(in_writer, ID);
             var length = in_writer.Reserve<uint>(true);
 
-            RelocationTable = new BINARelocationTable(in_parentChunk.Offset - BINAHeader.Size);
+            RelocationTable = new BINARelocationTable(in_writer.OffsetOrigin - BINAHeader.Size);
             RelocationTable.AddOffsets(in_writer.Offsets.Values);
             RelocationTable.Write(in_writer);
 

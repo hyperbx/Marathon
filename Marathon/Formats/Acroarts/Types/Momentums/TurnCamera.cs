@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -13,19 +12,19 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public TurnCamera() { }
 
-        public TurnCamera(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public TurnCamera(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             FaceType = in_reader.Read<FaceType>();
             Radius = in_reader.Read<float>();
             Axis = in_reader.Read<AxisType>();
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(FaceType);
             in_writer.Write(Radius);

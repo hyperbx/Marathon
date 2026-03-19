@@ -1,6 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
-using Marathon.IO.Extensions;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -16,12 +14,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Subtitle() { }
 
-        public Subtitle(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public Subtitle(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var textBookNameOffset = in_reader.Read<uint>();
             var textCardNameOffset = in_reader.Read<uint>();
@@ -29,14 +27,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField1 = in_reader.Read<uint>();
             UnknownField2 = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + textBookNameOffset,
-                () => TextBookName = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(textBookNameOffset),
+                () => TextBookName = FixedString.Read(in_reader));
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + textCardNameOffset,
-                () => TextCardName = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(textCardNameOffset),
+                () => TextCardName = FixedString.Read(in_reader));
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             var textBookNameOffset = in_writer.Reserve<uint>();
             var textCardNameOffset = in_writer.Reserve<uint>();
@@ -44,13 +42,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
 
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(textBookNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(TextBookName, 0x80);
-
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(textCardNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(TextCardName, 0x80);
+            FixedString.Write(in_writer, TextBookName, textBookNameOffset);
+            FixedString.Write(in_writer, TextCardName, textCardNameOffset);
         }
 
         public uint GetParamCount()

@@ -8,24 +8,22 @@ namespace Marathon.IO.Types.BINA
     {
         public BINAHeader Header { get; private set; }
 
-        public long Offset { get; private set; }
-
         public BINAReader(Stream in_stream, long in_offset = 0, Endianness in_endianness = Endianness.Big)
             : base(in_stream, StreamOwnership.Retain, in_endianness, EncodingFactory.ShiftJIS)
         {
-            Offset = in_offset;
-
-            JumpTo(Offset);
+            JumpTo(in_offset);
 
             Header = new BINAHeader(this);
+
+            PushOffsetOrigin(Header.Offset + BINAHeader.Size);
         }
 
         public BINARelocationTable ReadRelocationTable()
         {
-            var relocTable = new BINARelocationTable(Header.HeaderOffset);
+            var relocTable = new BINARelocationTable(Header.Offset);
             var pos = Position;
 
-            JumpTo(Header.HeaderOffset + BINAHeader.Size + Header.RelocTableOffset);
+            JumpTo(CalculateOffset(Header.RelocTableOffset));
             relocTable.Read(this, Header.RelocTableLength);
             JumpTo(pos);
 

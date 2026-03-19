@@ -5,17 +5,15 @@ using System.IO.Enumeration;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class ResourcePathChunk : IChunk
+    public class ResourcePathChunk : IBinarySerializableEx
     {
-        public long Offset { get; set; }
-
         public string Path { get; set; }
 
         public ResourcePathChunk() { }
 
         public ResourcePathChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, null);
+            Read(in_reader);
         }
 
         public ResourcePathChunk(string in_path)
@@ -23,16 +21,14 @@ namespace Marathon.Formats.Acroarts.Chunks
             Path = in_path;
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Offset = in_reader.Position;
-
             var chunkHeader = in_reader.ReadObject<ChunkHeader>();
 
             Path = in_reader.ReadStringFixedLength((int)chunkHeader.Length);
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             var chunkHeader = new ChunkHeader(in_writer, GetResourceIDFromPath(Path));
             var position = in_writer.Position;

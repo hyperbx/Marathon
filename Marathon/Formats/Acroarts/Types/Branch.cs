@@ -1,13 +1,11 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.Helpers;
+﻿using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Marathon.Formats.Acroarts.Types
 {
-    public class Branch : INode
+    public class Branch : IBinarySerializableEx
     {
         public uint Flags { get; set; }
 
@@ -41,12 +39,12 @@ namespace Marathon.Formats.Acroarts.Types
 
         public Branch() { }
 
-        public Branch(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public Branch(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Flags = in_reader.Read<uint>();
             ID = in_reader.Read<int>();
@@ -79,20 +77,20 @@ namespace Marathon.Formats.Acroarts.Types
             var leafCount = in_reader.Read<uint>();
             var leafTableOffset = in_reader.Read<uint>();
 
-            in_reader.Seek(in_parentChunk.Offset + leafTableOffset, SeekOrigin.Begin);
+            in_reader.JumpTo(in_reader.CalculateOffset(leafTableOffset));
 
             for (uint i = 0; i < leafCount; i++)
             {
                 var leafOffset = in_reader.Read<uint>();
 
-                in_reader.ReadAtOffset(in_parentChunk.Offset + leafOffset, () =>
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(leafOffset), () =>
                 {
-                    Leaves.Add(new Leaf(in_reader, in_parentChunk));
+                    Leaves.Add(new Leaf(in_reader));
                 });
             }
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Flags);
             in_writer.Write(ID);
@@ -118,7 +116,7 @@ namespace Marathon.Formats.Acroarts.Types
             else
             {
                 in_writer.Write(Leaves.Count);
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint)); // Leaf table offset.
+                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Leaf table offset.
 
                 var leafOffsets = new List<long>();
 
@@ -127,8 +125,8 @@ namespace Marathon.Formats.Acroarts.Types
 
                 for (int i = 0; i < Leaves.Count; i++)
                 {
-                    in_writer.WriteReserved(leafOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
-                    Leaves[i].Write(in_writer, in_parentChunk);
+                    in_writer.WriteReserved(leafOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    Leaves[i].Write(in_writer);
                 }
             }
         }

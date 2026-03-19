@@ -13,16 +13,34 @@ namespace Marathon.IO
 {
     public class BinaryObjectWriterEx : BinaryObjectWriter
     {
+        private Stack<long> _offsetOrigins = [];
+
+        public long OffsetOrigin => _offsetOrigins.Peek();
+
         public Dictionary<string, long> Offsets { get; } = [];
 
         public BinaryObjectWriterEx(string in_filePath, Endianness in_endianness, Encoding in_encoding = null)
-            : base(in_filePath, in_endianness, in_encoding) { }
+            : base(in_filePath, in_endianness, in_encoding)
+        {
+            Init();
+        }
 
         public BinaryObjectWriterEx(string in_filePath, FileStreamingMode in_fileStreamingMode, Endianness in_endianness, Encoding in_encoding = null, int in_bufferSize = 1048576)
-            : base(in_filePath, in_fileStreamingMode, in_endianness, in_encoding, in_bufferSize) { }
+            : base(in_filePath, in_fileStreamingMode, in_endianness, in_encoding, in_bufferSize)
+        {
+            Init();
+        }
 
         public BinaryObjectWriterEx(Stream in_stream, StreamOwnership in_streamOwnership, Endianness in_endianness, Encoding in_encoding = null, string in_fileName = null, int in_blockSize = 1048576)
-            : base(in_stream, in_streamOwnership, in_endianness, in_encoding, in_fileName, in_blockSize) { }
+            : base(in_stream, in_streamOwnership, in_endianness, in_encoding, in_fileName, in_blockSize)
+        {
+            Init();
+        }
+
+        public void Init()
+        {
+            _offsetOrigins.Push(0);
+        }
 
         /// <summary>
         /// Reserves space at the current position for writing to later using <b>WriteReserved</b>.
@@ -126,7 +144,7 @@ namespace Marathon.IO
         /// <param name="in_offset">The offset to write to.</param>
         /// <param name="in_value">The value to write.</param>
         /// <param name="in_removeAfterWrite">Determines whether the reserved offset should be removed from the relocation table.</param>
-        public virtual void WriteReserved<T>(long in_offset, T in_value, bool in_removeAfterWrite = true) where T : unmanaged
+        public virtual void WriteReserved<T>(long in_offset, T in_value, bool in_removeAfterWrite = false) where T : unmanaged
         {
             this.WriteAtOffset(in_offset, () => Write(in_value));
 
@@ -146,7 +164,7 @@ namespace Marathon.IO
         /// <param name="in_name">The name of the offset to write to.</param>
         /// <param name="in_value">The value to write.</param>
         /// <param name="in_removeAfterWrite">Determines whether the reserved offset should be removed from the relocation table.</param>
-        public virtual void WriteReserved<T>(string in_name, T in_value, bool in_removeAfterWrite = true) where T : unmanaged
+        public virtual void WriteReserved<T>(string in_name, T in_value, bool in_removeAfterWrite = false) where T : unmanaged
         {
             if (!Offsets.TryGetValue(in_name, out var out_offset))
                 return;
@@ -212,6 +230,25 @@ namespace Marathon.IO
             WriteReserved(offset, in_value, false);
 
             return offset;
+        }
+
+        public long PushOffsetOrigin(long in_offset)
+        {
+            _offsetOrigins.Push(in_offset);
+            return in_offset;
+        }
+
+        public long PopOffsetOrigin()
+        {
+            return _offsetOrigins.Pop();
+        }
+
+        public long CalculateOffset(long in_offset, OffsetType in_offsetType = OffsetType.Absolute)
+        {
+            if (in_offsetType == OffsetType.Relative)
+                return in_offset - OffsetOrigin;
+
+            return in_offset + OffsetOrigin;
         }
 
         public void JumpAhead(long in_offset)

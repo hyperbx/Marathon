@@ -10,33 +10,33 @@ namespace Marathon.Formats.Acroarts.Types.Resources
 
         public ExtraResourceTable() { }
 
-        public ExtraResourceTable(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public ExtraResourceTable(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Extras = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
+            Extras = new IndirectUnmanagedList<uint>(in_reader);
 
             in_reader.JumpAhead(sizeof(uint) * 6);
         }
 
-        public void WriteInfo(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteInfo(BinaryObjectWriterEx in_writer)
         {
             Extras.WriteInfo(in_writer);
 
             in_writer.JumpAhead(sizeof(uint) * 6);
         }
 
-        public void WriteArray(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteArray(BinaryObjectWriterEx in_writer)
         {
-            Extras.WriteArray(in_writer, in_parentChunk.Offset);
+            Extras.WriteArray(in_writer);
         }
 
-        public void WriteData(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteData(BinaryObjectWriterEx in_writer)
         {
-            Extras.WriteData(in_writer, in_parentChunk.Offset);
+            Extras.WriteData(in_writer);
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
-using Marathon.IO.Extensions;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -18,12 +16,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public PlaceFanShaped() { }
 
-        public PlaceFanShaped(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public PlaceFanShaped(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             Axis = in_reader.Read<AxisType>();
             var unkField1Offset = in_reader.Read<uint>();
@@ -33,14 +31,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             in_reader.JumpAhead(8);
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + unkField1Offset,
-                () => UnknownField1 = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField1Offset),
+                () => UnknownField1 = FixedString.Read(in_reader));
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + unkField2Offset,
-                () => UnknownField2 = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField2Offset),
+                () => UnknownField2 = FixedString.Read(in_reader));
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Axis);
             var unkField1Offset = in_writer.Reserve<uint>();
@@ -48,13 +46,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Radius);
             in_writer.Write(UnknownField3);
 
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(unkField1Offset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(UnknownField1, 0x80);
-
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(unkField2Offset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(UnknownField2, 0x80);
+            FixedString.Write(in_writer, UnknownField1, unkField1Offset);
+            FixedString.Write(in_writer, UnknownField2, unkField2Offset);
         }
 
         public uint GetParamCount()

@@ -1,6 +1,8 @@
-﻿namespace Marathon.Formats.Acroarts.Types.Momentums
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Acroarts.Types.Momentums
 {
-    public interface IMomentumParamSet : INode
+    public interface IMomentumParamSet : IBinarySerializableEx
     {
         uint GetParamCount();
     }

@@ -1,5 +1,4 @@
 ﻿using Marathon.Collections;
-using Marathon.Formats.Acroarts.Chunks;
 using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
@@ -16,20 +15,20 @@ namespace Marathon.Formats.Acroarts.Types.Resources
 
         public ModelResourceTable() { }
 
-        public ModelResourceTable(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public ModelResourceTable(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Models = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
-            Materials = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
-            Motions = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
-            Textures = new IndirectUnmanagedList<uint>(in_reader, in_parentChunk.Offset);
+            Models = new IndirectUnmanagedList<uint>(in_reader);
+            Materials = new IndirectUnmanagedList<uint>(in_reader);
+            Motions = new IndirectUnmanagedList<uint>(in_reader);
+            Textures = new IndirectUnmanagedList<uint>(in_reader);
         }
 
-        public void WriteInfo(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteInfo(BinaryObjectWriterEx in_writer)
         {
             Models.WriteInfo(in_writer);
             Materials.WriteInfo(in_writer);
@@ -37,20 +36,20 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             Textures.WriteInfo(in_writer);
         }
 
-        public void WriteArray(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteArray(BinaryObjectWriterEx in_writer)
         {
-            Models.WriteArray(in_writer, in_parentChunk.Offset);
-            Materials.WriteArray(in_writer, in_parentChunk.Offset);
-            Motions.WriteArray(in_writer, in_parentChunk.Offset);
-            Textures.WriteArray(in_writer, in_parentChunk.Offset);
+            Models.WriteArray(in_writer);
+            Materials.WriteArray(in_writer);
+            Motions.WriteArray(in_writer);
+            Textures.WriteArray(in_writer);
         }
 
-        public void WriteData(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void WriteData(BinaryObjectWriterEx in_writer)
         {
-            Models.WriteData(in_writer, in_parentChunk.Offset);
-            Materials.WriteData(in_writer, in_parentChunk.Offset);
-            Motions.WriteData(in_writer, in_parentChunk.Offset);
-            Textures.WriteData(in_writer, in_parentChunk.Offset);
+            Models.WriteData(in_writer);
+            Materials.WriteData(in_writer);
+            Motions.WriteData(in_writer);
+            Textures.WriteData(in_writer);
         }
     }
 }

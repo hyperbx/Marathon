@@ -19,7 +19,7 @@ namespace Marathon.IO.Types.BINA
 
         private const string _signature = "BINA";
 
-        public long HeaderOffset { get; set; }
+        public long Offset { get; set; }
 
         public uint Length { get; set; }
 
@@ -50,7 +50,7 @@ namespace Marathon.IO.Types.BINA
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            HeaderOffset = in_reader.Position;
+            Offset = in_reader.Position;
 
             // Jump to signature.
             in_reader.JumpAhead(0x14);
@@ -80,7 +80,7 @@ namespace Marathon.IO.Types.BINA
             Version = out_version;
 
             // Jump to the beginning of the header to read it with the correct endianness.
-            in_reader.JumpTo(HeaderOffset);
+            in_reader.JumpTo(Offset);
 
             Length = in_reader.Read<uint>();
             RelocTableOffset = in_reader.Read<uint>();

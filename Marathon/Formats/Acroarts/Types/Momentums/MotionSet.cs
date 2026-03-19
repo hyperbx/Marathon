@@ -26,12 +26,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public MotionSet() { }
 
-        public MotionSet(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public MotionSet(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             UnknownField1 = in_reader.Read<uint>();
             UnknownField2 = in_reader.Read<uint>();
@@ -45,21 +45,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField7 = in_reader.Read<uint>();
             UnknownField8 = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + paramsOffset, () =>
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(paramsOffset), () =>
             {
-                var offsets = new AnonymousMomentumParamSet(in_reader, in_parentChunk);
+                var offsets = new AnonymousMomentumParamSet(in_reader);
 
                 foreach (var offset in offsets)
                 {
-                    in_reader.ReadAtOffset(in_parentChunk.Offset + offset.UInt32, () =>
+                    in_reader.ReadAtOffset(in_reader.CalculateOffset(offset.UInt32), () =>
                     {
-                        Params.Add(new AnonymousMomentumParamSet(in_reader, in_parentChunk));
+                        Params.Add(new AnonymousMomentumParamSet(in_reader));
                     });
                 }
             });
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
@@ -73,10 +73,10 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField7);
             in_writer.Write(UnknownField8);
 
-            in_writer.WriteReserved(paramsOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
+            in_writer.WriteReserved(paramsOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
 
             in_writer.Write(Params.Count);
-            in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint));
+            in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative));
 
             var paramsOffsets = new List<long>();
 
@@ -85,8 +85,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             for (int i = 0; i < Params.Count; i++)
             {
-                in_writer.WriteReserved(paramsOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
-                Params[i].Write(in_writer, in_parentChunk);
+                in_writer.WriteReserved(paramsOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                Params[i].Write(in_writer);
             }
         }
 

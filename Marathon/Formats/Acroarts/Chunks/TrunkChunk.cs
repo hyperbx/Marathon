@@ -6,11 +6,9 @@ using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class TrunkChunk : IChunk
+    public class TrunkChunk : IBinarySerializableEx
     {
         public const string ID = "ABDT"; // "Acroarts Binary Data Trunk"
-
-        public long Offset { get; set; }
 
         public uint Flags { get; set; }
 
@@ -28,21 +26,17 @@ namespace Marathon.Formats.Acroarts.Chunks
 
         public TrunkChunk() { }
 
-        public TrunkChunk(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public TrunkChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Offset = in_reader.Position;
-
             var chunkHeader = in_reader.ReadObject<ChunkHeader>();
 
             if (!chunkHeader.ID.Equals(ID))
                 throw new InvalidSignatureException(ID, chunkHeader.ID);
-
-            in_reader.JumpTo(Offset + chunkHeader.HeaderSize);
 
             var version = in_reader.Read<uint>();
 
@@ -64,23 +58,21 @@ namespace Marathon.Formats.Acroarts.Chunks
             var branchCount = in_reader.Read<uint>();
             var branchTableOffset = in_reader.Read<uint>();
 
-            in_reader.JumpTo(in_parentChunk.Offset + branchTableOffset);
+            in_reader.JumpTo(in_reader.CalculateOffset(branchTableOffset));
             
             for (uint i = 0; i < branchCount; i++)
             {
                 var branchOffset = in_reader.Read<uint>();
 
-                in_reader.ReadAtOffset(in_parentChunk.Offset + branchOffset, () =>
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(branchOffset), () =>
                 {
-                    Branches.Add(new Branch(in_reader, in_parentChunk));
+                    Branches.Add(new Branch(in_reader));
                 });
             }
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
-            Offset = in_writer.Position;
-
             var chunkHeader = new ChunkHeader(in_writer, ID);
 
             in_writer.Write(AckResource.Version);
@@ -101,7 +93,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             else
             {
                 in_writer.Write(Branches.Count);
-                in_writer.WriteOffset((uint)(in_writer.Position - in_parentChunk.Offset) + sizeof(uint)); // Branch table offset.
+                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Branch table offset.
 
                 var branchOffsets = new List<long>();
 
@@ -110,8 +102,8 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 for (int i = 0; i < Branches.Count; i++)
                 {
-                    in_writer.WriteReserved(branchOffsets[i], (uint)(in_writer.Position - in_parentChunk.Offset), false);
-                    Branches[i].Write(in_writer, in_parentChunk);
+                    in_writer.WriteReserved(branchOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    Branches[i].Write(in_writer);
                 }
             }
 

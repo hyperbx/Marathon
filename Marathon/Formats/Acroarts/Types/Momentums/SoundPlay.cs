@@ -1,6 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
-using Marathon.IO.Extensions;
+﻿using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -12,35 +10,30 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public SoundPlay() { }
 
-        public SoundPlay(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public SoundPlay(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, in_parentChunk);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
             var soundBankNameOffset = in_reader.Read<uint>();
             var soundNameOffset = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + soundBankNameOffset,
-                () => SoundBankName = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(soundBankNameOffset),
+                () => SoundBankName = FixedString.Read(in_reader));
 
-            in_reader.ReadAtOffset(in_parentChunk.Offset + soundNameOffset,
-                () => SoundName = in_reader.ReadStringFixedLength(0x80));
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(soundNameOffset),
+                () => SoundName = FixedString.Read(in_reader));
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
             var soundBankNameOffset = in_writer.Reserve<uint>();
             var soundNameOffset = in_writer.Reserve<uint>();
 
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(soundBankNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(SoundBankName, 0x80);
-
-            in_writer.WriteZero<long>();
-            in_writer.WriteReserved(soundNameOffset, (uint)(in_writer.Position - in_parentChunk.Offset), false);
-            in_writer.WriteStringFixedLength(SoundName, 0x80);
+            FixedString.Write(in_writer, SoundBankName, soundBankNameOffset);
+            FixedString.Write(in_writer, SoundName, soundNameOffset);
         }
 
         public uint GetParamCount()

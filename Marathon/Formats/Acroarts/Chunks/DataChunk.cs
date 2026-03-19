@@ -2,31 +2,28 @@
 using Marathon.Exceptions;
 using Marathon.IO;
 using Marathon.IO.Extensions;
-using Marathon.IO.Types.BINA;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Chunks
 {
-    public class DataChunk : List<TrunkChunkParam>, IChunk
+    public class DataChunk : List<TrunkChunkParam>, IBinarySerializableEx
     {
         public const string ID = "ABDA"; // "Acroarts Binary DAta"
-
-        public long Offset { get; set; }
 
         [JsonIgnore]
         public RelocationTableChunk RelocationTableChunk { get; set; }
 
         public DataChunk() { }
 
-        public DataChunk(BINAReader in_reader)
+        public DataChunk(BinaryObjectReaderEx in_reader)
         {
-            Read(in_reader, null);
+            Read(in_reader);
         }
 
-        public void Read(BinaryObjectReaderEx in_reader, IChunk in_parentChunk = null)
+        public void Read(BinaryObjectReaderEx in_reader)
         {
-            Offset = in_reader.Position;
+            in_reader.PushOffsetOrigin(in_reader.Position);
 
             var chunkHeader = in_reader.ReadObject<ChunkHeader>();
 
@@ -48,20 +45,22 @@ namespace Marathon.Formats.Acroarts.Chunks
                 var chunkOffset = in_reader.Read<uint>();
                 var param = in_reader.Read<uint>();
 
-                in_reader.ReadAtOffset(Offset + chunkOffset, () =>
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(chunkOffset), () =>
                 {
-                    Add(new(new TrunkChunk(in_reader, this), param));
+                    Add(new(new TrunkChunk(in_reader), param));
                 });
             }
 
-            in_reader.JumpTo(relocTableOffset + Offset);
+            in_reader.JumpTo(in_reader.CalculateOffset(relocTableOffset));
 
-            RelocationTableChunk = new RelocationTableChunk(in_reader, this);
+            RelocationTableChunk = new RelocationTableChunk(in_reader);
+
+            in_reader.PopOffsetOrigin();
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, IChunk in_parentChunk = null)
+        public void Write(BinaryObjectWriterEx in_writer)
         {
-            Offset = in_writer.Position;
+            in_writer.PushOffsetOrigin(in_writer.Position);
 
             var chunkHeader = new ChunkHeader(in_writer, ID)
             {
@@ -93,29 +92,31 @@ namespace Marathon.Formats.Acroarts.Chunks
 
                 in_writer.Align(16);
 
-                chunkHeader.HeaderSize = (uint)(in_writer.Position - Offset);
+                chunkHeader.HeaderSize = (uint)(in_writer.Position - in_writer.OffsetOrigin);
 
                 for (int i = 0; i < Count; i++)
                 {
-                    in_writer.WriteReserved(trunkOffsets[i], (uint)(in_writer.Position - Offset), false);
-                    this[i].Trunk.Write(in_writer, this);
+                    in_writer.WriteReserved(trunkOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    this[i].Trunk.Write(in_writer);
                 }
             }
 
             in_writer.Align(16);
-            in_writer.WriteReserved(relocTableOffset, (uint)(in_writer.Position - Offset));
+            in_writer.WriteReserved(relocTableOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative));
 
-            new RelocationTableChunk().Write(in_writer, this);
+            new RelocationTableChunk().Write(in_writer);
 
-            chunkHeader.FinishWrite(in_writer, (uint)(in_writer.Position - Offset - chunkHeader.HeaderSize));
+            chunkHeader.FinishWrite(in_writer, (uint)(in_writer.Position - in_writer.OffsetOrigin - chunkHeader.HeaderSize));
 
             new EndOfChunk().Write(in_writer);
+
+            in_writer.PopOffsetOrigin();
         }
     }
 
-    public struct TrunkChunkParam(IChunk in_data, uint in_param)
+    public struct TrunkChunkParam(IBinarySerializableEx in_trunk, uint in_parameter)
     {
-        public IChunk Trunk = in_data;
-        public uint Parameter = in_param;
+        public IBinarySerializableEx Trunk = in_trunk;
+        public uint Parameter = in_parameter;
     }
 }
