@@ -29,6 +29,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.TurnCamera => new TurnCamera(in_reader),
                 MomentumType.MaterialColorNormal => new MaterialColorNormal(in_reader),
                 MomentumType.MaterialColorGoal => new MaterialColorGoal(in_reader),
+                MomentumType.ModelJoin => new ModelJoin(in_reader),
                 MomentumType.ShadowOn => new ShadowOn(in_reader),
                 MomentumType.DirectionalLight => new DirectionalLight(in_reader),
                 MomentumType.MotionSet => new MotionSet(in_reader),
