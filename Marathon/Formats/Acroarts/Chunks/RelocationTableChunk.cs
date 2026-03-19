@@ -28,9 +28,8 @@ namespace Marathon.Formats.Acroarts.Chunks
             var length = in_reader.Read<uint>();
 
             RelocationTable = new BINARelocationTable(in_reader.OffsetOrigin - BINAHeader.Size);
-            RelocationTable.Read(in_reader, length);
+            RelocationTable.Read(in_reader, length - sizeof(uint));
 
-            in_reader.JumpAhead(length);
             in_reader.Align(16);
         }
 
@@ -43,7 +42,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             RelocationTable.AddOffsets(in_writer.Offsets.Values);
             RelocationTable.Write(in_writer);
 
-            in_writer.WriteReserved(length, RelocationTable.Length <= 0 ? 0U : (uint)RelocationTable.Length + 4);
+            in_writer.WriteReserved(length, RelocationTable.Length <= 0 ? 0U : (uint)RelocationTable.Length + sizeof(uint));
             in_writer.Align(16);
 
             chunkHeader.FinishWrite(in_writer);
