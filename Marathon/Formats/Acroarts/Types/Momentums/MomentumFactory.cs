@@ -20,6 +20,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.ScaleAccel => new ScaleAccel(in_reader),
                 MomentumType.ScaleRandomNormal => new ScaleRandomNormal(in_reader),
                 MomentumType.ScaleRandomAdd => new ScaleRandomAdd(in_reader),
+                MomentumType.ScaleGoal => new ScaleGoal(in_reader),
                 MomentumType.PlaceFanShaped => new PlaceFanShaped(in_reader),
                 MomentumType.BillboardTail => new BillboardTail(in_reader),
                 MomentumType.TurnCamera => new TurnCamera(in_reader),
