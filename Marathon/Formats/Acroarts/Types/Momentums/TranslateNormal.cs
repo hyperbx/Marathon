@@ -5,7 +5,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class TranslateNormal : IMomentumParamSet
     {
-        public Vector3 Position { get; set; }
+        public Vector3 Vector { get; set; }
 
         public TranslateVectorType VectorType { get; set; }
 
@@ -20,14 +20,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Position = in_reader.Read<Vector3>();
+            Vector = in_reader.Read<Vector3>();
             VectorType = in_reader.Read<TranslateVectorType>();
             Parameter = in_reader.Read<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(Position);
+            in_writer.Write(Vector);
             in_writer.Write(VectorType);
             in_writer.Write(Parameter);
         }

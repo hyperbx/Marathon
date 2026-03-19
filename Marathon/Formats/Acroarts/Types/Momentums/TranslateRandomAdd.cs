@@ -5,7 +5,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class TranslateRandomAdd : IMomentumParamSet
     {
-        public Vector3 Position { get; set; }
+        public Vector3 Vector { get; set; }
 
         public Vector3 Add { get; set; }
 
@@ -26,7 +26,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Position = in_reader.Read<Vector3>();
+            Vector = in_reader.Read<Vector3>();
             Add = in_reader.Read<Vector3>();
             UnknownField = in_reader.Read<uint>();
             GTCounter = in_reader.Read<GTCounter>();
@@ -36,7 +36,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(Position);
+            in_writer.Write(Vector);
             in_writer.Write(Add);
             in_writer.Write(UnknownField);
             in_writer.Write(GTCounter);
