@@ -26,6 +26,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.ScaleRandomNormal => new ScaleRandomNormal(in_reader),
                 MomentumType.ScaleRandomAdd => new ScaleRandomAdd(in_reader),
                 MomentumType.ScaleGoal => new ScaleGoal(in_reader),
+                MomentumType.ScaleRandomGoal => new ScaleRandomGoal(in_reader),
                 MomentumType.ScaleAddGoal => new ScaleAddGoal(in_reader),
                 MomentumType.PlaceFanShaped => new PlaceFanShaped(in_reader),
                 MomentumType.PlaceLineShaped => new PlaceLineShaped(in_reader),
