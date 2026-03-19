@@ -60,7 +60,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public uint ToLeafCoordNode { get; set; }
 
-        public uint ModelAttachIndex { get; set; }
+        public string ModelAttachNodeName { get; set; }
 
         public int ModelType { get; set; }
 
@@ -123,7 +123,15 @@ namespace Marathon.Formats.Acroarts.Types
             ToLeafCoordTarget = in_reader.Read<uint>();
             ToLeafCoordType = in_reader.Read<uint>();
             ToLeafCoordNode = in_reader.Read<uint>();
-            ModelAttachIndex = in_reader.Read<uint>();
+
+            var modelAttachNodeNameOffset = in_reader.Read<uint>();
+
+            if (modelAttachNodeNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(modelAttachNodeNameOffset),
+                    () => ModelAttachNodeName = in_reader.ReadStringNullTerminated());
+            }
+
             ModelType = in_reader.Read<int>();
             UnknownField = in_reader.Read<uint>();
 
@@ -188,7 +196,18 @@ namespace Marathon.Formats.Acroarts.Types
             in_writer.Write(ToLeafCoordTarget);
             in_writer.Write(ToLeafCoordType);
             in_writer.Write(ToLeafCoordNode);
-            in_writer.Write(ModelAttachIndex);
+
+            var modelAttachNodeNameOffset = 0L;
+
+            if (string.IsNullOrEmpty(ModelAttachNodeName))
+            {
+                in_writer.WriteZero<uint>();
+            }
+            else
+            {
+                modelAttachNodeNameOffset = in_writer.Reserve<uint>();
+            }
+
             in_writer.Write(ModelType);
             in_writer.Write(UnknownField);
             in_writer.Write(PrimitiveX0);
@@ -213,7 +232,15 @@ namespace Marathon.Formats.Acroarts.Types
             else
             {
                 in_writer.Write(MomentumLists.Count);
-                in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative)); // Momentum list table offset.
+                var momentumListTableOffset = in_writer.Reserve<uint>();
+
+                if (!string.IsNullOrEmpty(ModelAttachNodeName))
+                {
+                    in_writer.WriteReserved(modelAttachNodeNameOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    in_writer.WriteStringFixedLength(ModelAttachNodeName, ((ModelAttachNodeName.Length + 15) / 16) * 16);
+                }
+
+                in_writer.WriteReserved(momentumListTableOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
 
                 var momentumListOffsets = new List<long>();
 
