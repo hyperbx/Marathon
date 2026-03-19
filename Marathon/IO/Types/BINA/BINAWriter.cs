@@ -1,10 +1,8 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
 using Marathon.IO.Extensions;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Marathon.IO.Types.BINA

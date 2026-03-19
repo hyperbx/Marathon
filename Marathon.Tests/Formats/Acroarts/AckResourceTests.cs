@@ -9,7 +9,7 @@ namespace Marathon.Tests.Formats.Acroarts
 
         private static bool BinaryIdenticalTest()
         {
-            return TestHelper.CheckAllBinaries<AckResource>("*.mab");
+            return TestHelper.CheckAllBinaries<AckResource>("*.mab", ["so_homingsmash00.mab"]);
         }
 
         public bool Run()

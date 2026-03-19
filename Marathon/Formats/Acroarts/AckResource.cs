@@ -21,6 +21,8 @@ namespace Marathon.Formats.Acroarts
         private const string _extension = ".mab"; // "Merged Acroarts Binary" (speculatory)
         private const string _signature = "MRAB"; // "MeRged Acroarts Binary" (speculatory)
 
+        private bool _binaHeaderHasSignature = true;
+
         public const uint Version = 2006020901;   // 2006 February 9th, Revision 1
 
         public DataChunk Data { get; set; }
@@ -52,6 +54,8 @@ namespace Marathon.Formats.Acroarts
 
             Endianness = binaReader.Endianness;
 
+            _binaHeaderHasSignature = binaReader.Header.HasSignature;
+
             var abdaOffset = binaReader.Read<uint>();
             var abrsOffset = binaReader.Read<uint>();
 
@@ -81,6 +85,9 @@ namespace Marathon.Formats.Acroarts
             mrabWriter.WriteReserved(binaOffset, (uint)mrabWriter.Position);
 
             var binaWriter = new BINAWriter(in_stream, mrabWriter.Position, mrabWriter.Endianness);
+            {
+                binaWriter.Header.HasSignature = _binaHeaderHasSignature;
+            }
 
             var abdaOffset = binaWriter.Reserve<uint>(true);
             var abrsOffset = binaWriter.Reserve<uint>(true);

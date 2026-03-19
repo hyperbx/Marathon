@@ -70,8 +70,9 @@ namespace Marathon.Formats.Acroarts.Types
             MessageParam0 = in_reader.Read<int>();
             MessageParam1 = in_reader.Read<int>();
 
+            // TODO: no files in '06 use these.
             var chainCount = in_reader.Read<uint>();
-            var chainTableOffset = in_reader.Read<uint>(); // TODO: handle these.
+            var chainTableOffset = in_reader.Read<uint>();
 
             if (chainCount > 0)
                 Logger.Warning($"[Branch] {chainCount} chains at 0x{chainTableOffset:X08}.");

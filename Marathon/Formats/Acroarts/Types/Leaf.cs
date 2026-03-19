@@ -134,10 +134,6 @@ namespace Marathon.Formats.Acroarts.Types
 
             ModelType = in_reader.Read<int>();
             UnknownField = in_reader.Read<uint>();
-
-            if (UnknownField > 0)
-                Logger.Warning($"[Leaf] UnknownField is non-zero: {UnknownField}");
-
             PrimitiveX0 = in_reader.Read<float>();
             PrimitiveY0 = in_reader.Read<float>();
             PrimitiveX1 = in_reader.Read<float>();
