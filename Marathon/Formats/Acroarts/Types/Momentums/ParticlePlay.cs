@@ -27,11 +27,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             Speed = in_reader.Read<float>();
             Mode = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(particleContainerOffset),
-                () => ParticleContainer = MomentumString.Read(in_reader));
+            if (particleContainerOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(particleContainerOffset),
+                    () => ParticleContainer = MomentumString.Read(in_reader));
+            }
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(particleNameOffset),
-                () => ParticleName = MomentumString.Read(in_reader));
+            if (particleNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(particleNameOffset),
+                    () => ParticleName = MomentumString.Read(in_reader));
+            }
         }
 
         public void Write(BinaryObjectWriterEx in_writer)

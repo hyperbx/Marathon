@@ -23,8 +23,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField2 = in_reader.Read<uint>();
             var nodeNameOffset = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(nodeNameOffset),
-                () => NodeName = MomentumString.Read(in_reader));
+            if (nodeNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(nodeNameOffset),
+                    () => NodeName = MomentumString.Read(in_reader));
+            }
         }
 
         public void Write(BinaryObjectWriterEx in_writer)

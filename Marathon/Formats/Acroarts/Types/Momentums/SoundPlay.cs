@@ -20,11 +20,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             var soundBankNameOffset = in_reader.Read<uint>();
             var soundNameOffset = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(soundBankNameOffset),
-                () => SoundBankName = MomentumString.Read(in_reader));
+            if (soundBankNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(soundBankNameOffset),
+                    () => SoundBankName = MomentumString.Read(in_reader));
+            }
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(soundNameOffset),
-                () => SoundName = MomentumString.Read(in_reader));
+            if (soundNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(soundNameOffset),
+                    () => SoundName = MomentumString.Read(in_reader));
+            }
         }
 
         public void Write(BinaryObjectWriterEx in_writer)

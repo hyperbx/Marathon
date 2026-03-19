@@ -23,6 +23,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public static void Write(BinaryObjectWriterEx in_writer, string in_value, Action in_preWriteStringAction = null)
         {
+            if (string.IsNullOrEmpty(in_value))
+            {
+                in_preWriteStringAction?.Invoke();
+                return;
+            }
+
             in_writer.WriteZero<long>();
             in_preWriteStringAction?.Invoke();
             in_writer.WriteStringFixedLength(in_value, GetFixedLength(in_value));
@@ -32,7 +38,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             Write(in_writer, in_value, () =>
             {
-                in_writer.WriteReserved(in_reservedOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative));
+                var offset = 0U;
+
+                if (!string.IsNullOrEmpty(in_value))
+                    offset = (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative);
+
+                in_writer.WriteReserved(in_reservedOffset, offset, offset == 0);
             });
         }
 

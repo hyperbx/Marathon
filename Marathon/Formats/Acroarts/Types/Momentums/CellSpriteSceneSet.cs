@@ -29,11 +29,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField2 = in_reader.Read<float>();
             UnknownField3 = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(sceneNameOffset),
-                () => SceneName = MomentumString.Read(in_reader));
+            if (sceneNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(sceneNameOffset),
+                    () => SceneName = MomentumString.Read(in_reader));
+            }
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(sceneMotionNameOffset),
-                () => SceneMotionName = MomentumString.Read(in_reader));
+            if (sceneMotionNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(sceneMotionNameOffset),
+                    () => SceneMotionName = MomentumString.Read(in_reader));
+            }
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
