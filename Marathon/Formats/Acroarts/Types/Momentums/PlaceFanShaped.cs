@@ -32,10 +32,10 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_reader.JumpAhead(8);
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField1Offset),
-                () => UnknownField1 = FixedString.Read(in_reader));
+                () => UnknownField1 = MomentumString.Read(in_reader));
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField2Offset),
-                () => UnknownField2 = FixedString.Read(in_reader));
+                () => UnknownField2 = MomentumString.Read(in_reader));
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -46,8 +46,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Radius);
             in_writer.Write(UnknownField3);
 
-            FixedString.Write(in_writer, UnknownField1, unkField1Offset);
-            FixedString.Write(in_writer, UnknownField2, unkField2Offset);
+            MomentumString.Write(in_writer, UnknownField1, unkField1Offset);
+            MomentumString.Write(in_writer, UnknownField2, unkField2Offset);
         }
 
         public uint GetParamCount()

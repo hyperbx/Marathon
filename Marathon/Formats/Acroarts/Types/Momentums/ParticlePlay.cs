@@ -28,10 +28,10 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             Mode = in_reader.Read<uint>();
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(particleContainerOffset),
-                () => ParticleContainer = FixedString.Read(in_reader));
+                () => ParticleContainer = MomentumString.Read(in_reader));
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(particleNameOffset),
-                () => ParticleName = FixedString.Read(in_reader));
+                () => ParticleName = MomentumString.Read(in_reader));
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -42,8 +42,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Speed);
             in_writer.Write(Mode);
 
-            FixedString.Write(in_writer, ParticleContainer, particleContainerOffset);
-            FixedString.Write(in_writer, ParticleName, particleNameOffset);
+            MomentumString.Write(in_writer, ParticleContainer, particleContainerOffset);
+            MomentumString.Write(in_writer, ParticleName, particleNameOffset);
         }
 
         public uint GetParamCount()

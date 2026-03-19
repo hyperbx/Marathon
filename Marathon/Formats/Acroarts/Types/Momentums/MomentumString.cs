@@ -3,9 +3,9 @@ using Marathon.IO.Extensions;
 using System;
 using System.IO;
 
-namespace Marathon.Formats.Acroarts.Types
+namespace Marathon.Formats.Acroarts.Types.Momentums
 {
-    public class FixedString
+    public class MomentumString
     {
         public static string Read(BinaryObjectReaderEx in_reader)
         {

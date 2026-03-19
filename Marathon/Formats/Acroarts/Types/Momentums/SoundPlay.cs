@@ -21,10 +21,10 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             var soundNameOffset = in_reader.Read<uint>();
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(soundBankNameOffset),
-                () => SoundBankName = FixedString.Read(in_reader));
+                () => SoundBankName = MomentumString.Read(in_reader));
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(soundNameOffset),
-                () => SoundName = FixedString.Read(in_reader));
+                () => SoundName = MomentumString.Read(in_reader));
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -32,8 +32,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             var soundBankNameOffset = in_writer.Reserve<uint>();
             var soundNameOffset = in_writer.Reserve<uint>();
 
-            FixedString.Write(in_writer, SoundBankName, soundBankNameOffset);
-            FixedString.Write(in_writer, SoundName, soundNameOffset);
+            MomentumString.Write(in_writer, SoundBankName, soundBankNameOffset);
+            MomentumString.Write(in_writer, SoundName, soundNameOffset);
         }
 
         public uint GetParamCount()
