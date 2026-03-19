@@ -31,6 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.BillboardTail => new BillboardTail(in_reader),
                 MomentumType.TurnCamera => new TurnCamera(in_reader),
                 MomentumType.MaterialColorNormal => new MaterialColorNormal(in_reader),
+                MomentumType.MaterialColorSin => new MaterialColorSin(in_reader),
                 MomentumType.MaterialColorGoal => new MaterialColorGoal(in_reader),
                 MomentumType.ModelJoin => new ModelJoin(in_reader),
                 MomentumType.ShadowOn => new ShadowOn(in_reader),
