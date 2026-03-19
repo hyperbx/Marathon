@@ -64,6 +64,8 @@ namespace Marathon.Formats.Acroarts.Types
 
         public int ModelType { get; set; }
 
+        public uint UnknownField { get; set; }
+
         public float PrimitiveX0 { get; set; }
 
         public float PrimitiveY0 { get; set; }
@@ -77,6 +79,12 @@ namespace Marathon.Formats.Acroarts.Types
         public IResourceTable Resources { get; set; }
 
         public uint TrOpCtrlFlag { get; set; }
+
+        public uint ModelCount { get; set; }
+
+        public uint MotionCount { get; set; }
+
+        public uint TextureCount { get; set; }
 
         public List<MomentumList> MomentumLists { get; set; } = [];
 
@@ -117,12 +125,10 @@ namespace Marathon.Formats.Acroarts.Types
             ToLeafCoordNode = in_reader.Read<uint>();
             ModelAttachIndex = in_reader.Read<uint>();
             ModelType = in_reader.Read<int>();
+            UnknownField = in_reader.Read<uint>();
 
-            // TODO: test this.
-            var unkField = in_reader.Read<uint>();
-
-            if (unkField > 0)
-                Logger.Warning($"[Leaf] Unknown field is non-zero: {unkField}");
+            if (UnknownField > 0)
+                Logger.Warning($"[Leaf] UnknownField is non-zero: {UnknownField}");
 
             PrimitiveX0 = in_reader.Read<float>();
             PrimitiveY0 = in_reader.Read<float>();
@@ -131,14 +137,12 @@ namespace Marathon.Formats.Acroarts.Types
             ResourceType = in_reader.Read<ResourceType>();
             Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, ResourceType);
             TrOpCtrlFlag = in_reader.Read<uint>();
+            ModelCount = in_reader.Read<uint>();
+            MotionCount = in_reader.Read<uint>();
+            TextureCount = in_reader.Read<uint>();
 
-            // TODO: check these.
-            var modelCount = in_reader.Read<uint>();
-            var motionCount = in_reader.Read<uint>();
-            var textureCount = in_reader.Read<uint>();
-
-            if (modelCount > 0 || motionCount > 0 || textureCount > 0)
-                Logger.Warning($"[Leaf] Model Count: {modelCount}; Motion Count: {motionCount}; Texture Count: {textureCount}");
+            if (ModelCount > 0 || MotionCount > 0 || TextureCount > 0)
+                Logger.Warning($"[Leaf] Model Count: {ModelCount}; Motion Count: {MotionCount}; Texture Count: {TextureCount}");
 
             var momentumListCount = in_reader.Read<uint>();
             var momentumListTableOffset = in_reader.Read<uint>();
@@ -186,7 +190,7 @@ namespace Marathon.Formats.Acroarts.Types
             in_writer.Write(ToLeafCoordNode);
             in_writer.Write(ModelAttachIndex);
             in_writer.Write(ModelType);
-            in_writer.WriteZero<int>(); // TODO
+            in_writer.Write(UnknownField);
             in_writer.Write(PrimitiveX0);
             in_writer.Write(PrimitiveY0);
             in_writer.Write(PrimitiveX1);
@@ -196,9 +200,9 @@ namespace Marathon.Formats.Acroarts.Types
             Resources.WriteInfo(in_writer);
 
             in_writer.Write(TrOpCtrlFlag);
-            in_writer.WriteZero<int>(); // TODO: modelCount
-            in_writer.WriteZero<int>(); // TODO: motionCount
-            in_writer.WriteZero<int>(); // TODO: textureCount
+            in_writer.Write(ModelCount);
+            in_writer.Write(MotionCount);
+            in_writer.Write(TextureCount);
 
             if (MomentumLists.Count <= 0)
             {
