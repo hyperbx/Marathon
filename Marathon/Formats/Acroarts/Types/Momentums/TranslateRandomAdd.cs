@@ -15,7 +15,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public TranslateVectorType VectorType { get; set; }
 
-        public uint Parameter { get; set; }
+        public int Parameter { get; set; }
 
         public TranslateRandomAdd() { }
 
@@ -31,7 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField = in_reader.Read<uint>();
             GTCounter = in_reader.Read<GTCounter>();
             VectorType = in_reader.Read<TranslateVectorType>();
-            Parameter = in_reader.Read<uint>();
+            Parameter = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
