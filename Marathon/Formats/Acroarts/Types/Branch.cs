@@ -25,6 +25,8 @@ namespace Marathon.Formats.Acroarts.Types
 
         public int CoordNode { get; set; }
 
+        public string CoordNodeName { get; set; }
+
         public uint CoordType { get; set; }
 
         public int MessageParam0 { get; set; } = -1;
@@ -56,10 +58,13 @@ namespace Marathon.Formats.Acroarts.Types
             CoordBranchIndex = in_reader.Read<uint>();
             CoordNode = in_reader.Read<int>();
 
-            var coordNodeNameOffset = in_reader.Read<uint>(); // TODO: handle this.
+            var coordNodeNameOffset = in_reader.Read<uint>();
 
-            if (coordNodeNameOffset > 0)
-                Logger.Warning($"[Branch] Coord node name at 0x{coordNodeNameOffset:08X}.");
+            if (coordNodeNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(coordNodeNameOffset),
+                    () => CoordNodeName = in_reader.ReadStringNullTerminated());
+            }
 
             CoordType = in_reader.Read<uint>();
             MessageParam0 = in_reader.Read<int>();
@@ -69,7 +74,7 @@ namespace Marathon.Formats.Acroarts.Types
             var chainTableOffset = in_reader.Read<uint>(); // TODO: handle these.
 
             if (chainCount > 0)
-                Logger.Warning($"[Branch] {chainCount} chains at 0x{chainTableOffset:08X}.");
+                Logger.Warning($"[Branch] {chainCount} chains at 0x{chainTableOffset:X08}.");
 
             SortGroup = in_reader.Read<int>();
             LoopCount = in_reader.Read<int>();
@@ -101,7 +106,18 @@ namespace Marathon.Formats.Acroarts.Types
             in_writer.Write(CoordTarget);
             in_writer.Write(CoordBranchIndex);
             in_writer.Write(CoordNode);
-            in_writer.WriteZero<int>(); // TODO: coordNodeNameOffset
+
+            var coordNodeNameOffset = 0L;
+
+            if (string.IsNullOrEmpty(CoordNodeName))
+            {
+                in_writer.WriteZero<uint>();
+            }
+            else
+            {
+                coordNodeNameOffset = in_writer.Reserve<uint>();
+            }
+
             in_writer.Write(CoordType);
             in_writer.Write(MessageParam0);
             in_writer.Write(MessageParam1);
@@ -122,6 +138,12 @@ namespace Marathon.Formats.Acroarts.Types
 
                 for (int i = 0; i < Leaves.Count; i++)
                     leafOffsets.Add(in_writer.Reserve<uint>());
+
+                if (!string.IsNullOrEmpty(CoordNodeName))
+                {
+                    in_writer.WriteReserved(coordNodeNameOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                    in_writer.WriteStringFixedLength(CoordNodeName, ((CoordNodeName.Length + 15) / 16) * 16);
+                }
 
                 for (int i = 0; i < Leaves.Count; i++)
                 {
