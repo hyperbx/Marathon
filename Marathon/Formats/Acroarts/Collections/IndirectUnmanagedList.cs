@@ -1,6 +1,6 @@
 ﻿using Marathon.IO;
 
-namespace Marathon.Collections
+namespace Marathon.Formats.Acroarts.Collections
 {
     public class IndirectUnmanagedList<T> : IndirectList<T> where T : unmanaged
     {
@@ -16,7 +16,7 @@ namespace Marathon.Collections
             return in_reader.Read<T>();
         }
 
-        public override void WriteDataImpl(BinaryObjectWriterEx in_writer, T in_object, bool in_keepOffsets = true)
+        public override void WriteDataImpl(BinaryObjectWriterEx in_writer, T in_object)
         {
             in_writer.Write(in_object);
         }

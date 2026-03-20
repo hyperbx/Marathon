@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
-    public class AnonymousMomentumParam
+    public class AnonymousMomentumParam : IBinarySerializableEx
     {
         public uint Data { get; set; }
 
@@ -13,13 +13,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         public uint UInt32 => Data;
 
         [JsonIgnore]
-        public int Int32 => GetValue<int>();
+        public int Int32
+        {
+            get => GetValue<int>();
+            set => SetValue(value);
+        }
 
         [JsonIgnore]
         public int Angle => Int32;
 
         [JsonIgnore]
-        public float Float => GetValue<float>();
+        public float Float
+        {
+            get => GetValue<float>();
+            set => SetValue(value);
+        }
 
         public AnonymousMomentumParam() { }
 
@@ -65,6 +73,33 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             catch
             {
                 return default;
+            }
+        }
+
+        public void SetValue<T>(T in_value) where T : unmanaged
+        {
+            if (typeof(T) == typeof(uint))
+            {
+                Data = (uint)(object)in_value;
+                return;
+            }
+            else if (typeof(T) == typeof(float))
+            {
+                var buffer = BitConverter.GetBytes((float)(object)in_value);
+                Data = BitConverter.ToUInt32(buffer);
+                return;
+            }
+
+            if (Marshal.SizeOf<T>() > 4)
+                throw new NotSupportedException();
+
+            try
+            {
+                Data = (uint)Convert.ChangeType(in_value, typeof(uint));
+            }
+            catch
+            {
+                Data = default;
             }
         }
 

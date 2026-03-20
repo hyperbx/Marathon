@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -40,6 +41,11 @@ namespace Marathon.IO
         public void Init()
         {
             _offsetOrigins.Push(0);
+        }
+
+        public void WriteBoolean<T>(bool in_value) where T : unmanaged
+        {
+            Write((T)Convert.ChangeType(in_value ? 1 : 0, typeof(T)));
         }
 
         /// <summary>
@@ -230,6 +236,18 @@ namespace Marathon.IO
             WriteReserved(offset, in_value, false);
 
             return offset;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void WriteObjectEx<T>(T in_value) where T : IBinarySerializableEx
+        {
+            in_value.Write(this);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void WriteObjectEx<T, TContext>(T in_value, TContext in_context) where T : IBinarySerializableEx<TContext>
+        {
+            in_value.Write(this, in_context);
         }
 
         public long PushOffsetOrigin(long in_offset)

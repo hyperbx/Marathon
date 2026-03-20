@@ -10,12 +10,12 @@ namespace Marathon.Formats.Acroarts.Chunks
 {
     public class DataChunk : List<TrunkChunkParam>, IBinarySerializableEx
     {
+        private bool _isChunkAligned = false;
+
         public const string ID = "ABDA"; // "Acroarts Binary DAta"
 
         [JsonIgnore]
         public RelocationTableChunk RelocationTableChunk { get; set; }
-
-        public bool IsChunkAligned { get; set; }
 
         public DataChunk() { }
 
@@ -59,9 +59,7 @@ namespace Marathon.Formats.Acroarts.Chunks
             RelocationTableChunk = new RelocationTableChunk(in_reader);
             new EndOfChunk().Read(in_reader);
 
-            var pos = in_reader.Position;
-            IsChunkAligned = in_reader.ReadArray<byte>(0x10).Sum(x => x) == 0;
-            in_reader.JumpTo(pos);
+            _isChunkAligned = in_reader.ReadArray<byte>(0x10).Sum(x => x) == 0;
 
             in_reader.PopOffsetOrigin();
         }
@@ -118,7 +116,7 @@ namespace Marathon.Formats.Acroarts.Chunks
 
             new EndOfChunk().Write(in_writer);
 
-            if (IsChunkAligned)
+            if (_isChunkAligned)
                 in_writer.WriteZero<byte>(0x10);
 
             in_writer.PopOffsetOrigin();

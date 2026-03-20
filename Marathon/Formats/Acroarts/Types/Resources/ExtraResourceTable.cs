@@ -1,5 +1,5 @@
-﻿using Marathon.Collections;
-using Marathon.Formats.Acroarts.Chunks;
+﻿using Marathon.Formats.Acroarts.Chunks;
+using Marathon.Formats.Acroarts.Collections;
 using Marathon.IO;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
