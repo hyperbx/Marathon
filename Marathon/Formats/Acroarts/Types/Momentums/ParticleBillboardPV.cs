@@ -45,9 +45,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public uint UnknownField24 { get; set; }
 
-        public float UnknownField25 { get; set; }
+        public float Angle { get; set; }
 
-        public Distance<float> Angle { get; set; }
+        public Distance<float> DistanceAngle { get; set; }
 
         public bool Billboard { get; set; }
 
@@ -156,8 +156,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             Rate = in_reader.Read<float>();
             UnknownField23 = in_reader.Read<uint>();
             UnknownField24 = in_reader.Read<uint>();
-            UnknownField25 = in_reader.Read<float>();
-            Angle = in_reader.Read<Distance<float>>();
+            Angle = in_reader.Read<float>();
+            DistanceAngle = in_reader.Read<Distance<float>>();
             Billboard = in_reader.ReadBoolean<uint>();
             UnknownField29 = in_reader.Read<uint>();
             UnknownField30 = in_reader.Read<uint>();
@@ -216,8 +216,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(Rate);
             in_writer.Write(UnknownField23);
             in_writer.Write(UnknownField24);
-            in_writer.Write(UnknownField25);
             in_writer.Write(Angle);
+            in_writer.Write(DistanceAngle);
             in_writer.WriteBoolean<uint>(Billboard);
             in_writer.Write(UnknownField29);
             in_writer.Write(UnknownField30);
