@@ -6,7 +6,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class ScaleAddGoal : IMomentumParamSet
     {
-        public ScaleInfoSet Set { get; set; }
+        public ScaleInfoSet Steps { get; set; }
 
         public GTCounter GTCounter { get; set; }
 
@@ -23,7 +23,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             in_reader.ReadAtOffset(in_reader.CalculateOffset(infoSetOffset), () =>
             {
-                Set = new ScaleInfoSet(in_reader);
+                Steps = new ScaleInfoSet(in_reader);
             });
 
             GTCounter = in_reader.Read<GTCounter>();
@@ -34,7 +34,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             var infoSetOffset = in_writer.Reserve<uint>();
             in_writer.Write(GTCounter);
             in_writer.WriteReserved(infoSetOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
-            Set.Write(in_writer);
+            Steps.Write(in_writer);
         }
 
         public uint GetParamCount()

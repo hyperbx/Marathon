@@ -1,12 +1,11 @@
 ﻿using Marathon.IO;
-using Marathon.IO.Types;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorRandomGoal : IMomentumParamSet
     {
-        public ColourInfoSet[] Sets { get; set; } = new ColourInfoSet[4];
+        public ColourInfoSet[] Steps { get; set; } = new ColourInfoSet[4];
 
         public uint UnknownField1 { get; set; }
 
@@ -25,13 +24,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            for (int i = 0; i < Sets.Length; i++)
+            for (int i = 0; i < Steps.Length; i++)
             {
                 var offset = in_reader.Read<uint>();
 
                 in_reader.ReadAtOffset(in_reader.CalculateOffset(offset), () =>
                 {
-                    Sets[i] = new ColourInfoSet(in_reader);
+                    Steps[i] = new ColourInfoSet(in_reader);
                 });
             }
 
@@ -43,7 +42,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var offsets = new long[Sets.Length];
+            var offsets = new long[Steps.Length];
 
             for (int i = 0; i < offsets.Length; i++)
                 offsets[i] = in_writer.Reserve<uint>();
@@ -53,10 +52,10 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField3);
             in_writer.Write(UnknownField4);
 
-            for (int i = 0; i < Sets.Length; i++)
+            for (int i = 0; i < Steps.Length; i++)
             {
                 in_writer.WriteReserved(offsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
-                Sets[i].Write(in_writer);
+                Steps[i].Write(in_writer);
             }
         }
 
