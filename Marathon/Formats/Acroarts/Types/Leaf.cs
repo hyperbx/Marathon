@@ -3,6 +3,7 @@ using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types
 {
@@ -66,13 +67,9 @@ namespace Marathon.Formats.Acroarts.Types
 
         public uint UnknownField { get; set; }
 
-        public float PrimitiveX0 { get; set; }
+        public Vector2 PrimitiveMin { get; set; }
 
-        public float PrimitiveY0 { get; set; }
-
-        public float PrimitiveX1 { get; set; }
-
-        public float PrimitiveY1 { get; set; }
+        public Vector2 PrimitiveMax { get; set; }
 
         public ResourceType ResourceType { get; set; }
 
@@ -134,10 +131,8 @@ namespace Marathon.Formats.Acroarts.Types
 
             ModelType = in_reader.Read<int>();
             UnknownField = in_reader.Read<uint>();
-            PrimitiveX0 = in_reader.Read<float>();
-            PrimitiveY0 = in_reader.Read<float>();
-            PrimitiveX1 = in_reader.Read<float>();
-            PrimitiveY1 = in_reader.Read<float>();
+            PrimitiveMin = in_reader.Read<Vector2>();
+            PrimitiveMax = in_reader.Read<Vector2>();
             ResourceType = in_reader.Read<ResourceType>();
             Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, ResourceType);
             TrOpCtrlFlag = in_reader.Read<uint>();
@@ -206,10 +201,8 @@ namespace Marathon.Formats.Acroarts.Types
 
             in_writer.Write(ModelType);
             in_writer.Write(UnknownField);
-            in_writer.Write(PrimitiveX0);
-            in_writer.Write(PrimitiveY0);
-            in_writer.Write(PrimitiveX1);
-            in_writer.Write(PrimitiveY1);
+            in_writer.Write(PrimitiveMin);
+            in_writer.Write(PrimitiveMax);
             in_writer.Write(ResourceType);
 
             Resources.WriteInfo(in_writer);
