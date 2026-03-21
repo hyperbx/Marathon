@@ -82,7 +82,7 @@ namespace Marathon.Formats.Acroarts.Chunks
                 foreach (var trunk in this)
                 {
                     resourceOffsets.Add(in_writer.Reserve<uint>());
-                    in_writer.Write(trunk.VirtualResID);
+                    in_writer.Write(trunk.ID);
                 }
 
                 in_writer.Align(16);
@@ -109,9 +109,9 @@ namespace Marathon.Formats.Acroarts.Chunks
         }
     }
 
-    public struct ResourceChunkParam(ResourcePathChunk in_resource, int in_virtualResId)
+    public struct ResourceChunkParam(ResourcePathChunk in_resource, int in_id)
     {
         public ResourcePathChunk Resource = in_resource;
-        public int VirtualResID = in_virtualResId;
+        public int ID = in_id;
     }
 }

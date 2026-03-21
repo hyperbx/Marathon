@@ -31,6 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 MomentumType.PlaceFanShaped => new PlaceFanShaped(in_reader),
                 MomentumType.PlaceLineShaped => new PlaceLineShaped(in_reader),
                 MomentumType.ParticleBillboardPV => new ParticleBillboardPV(in_reader),
+                MomentumType.SparklingTail => new SparklingTail(in_reader),
                 MomentumType.BlurBelt => new BlurBelt(in_reader),
                 MomentumType.BillboardTail => new BillboardTail(in_reader),
                 MomentumType.TurnCamera => new TurnCamera(in_reader),

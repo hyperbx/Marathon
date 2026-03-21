@@ -4,7 +4,12 @@ namespace Marathon.Formats.Acroarts.Types
 {
     public class Random
     {
-        public static float Get(float in_max)
+        public static uint GetRandomI(uint in_max)
+        {
+            return (uint)(long)((double)in_max * (float)(CRandom.Rand() % 30000) / 29999.0) % in_max;
+        }
+
+        public static float GetRandomF(float in_max)
         {
             var result = (float)(CRandom.Rand() % 100 + 1) / 100.0f * in_max;
 
