@@ -5,7 +5,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorRandomGoal : IMomentumParamSet
     {
-        public ColourInfoSet[] Steps { get; set; } = new ColourInfoSet[4];
+        public ColorInfoSet[] Steps { get; set; } = new ColorInfoSet[4];
 
         public uint UnknownField1 { get; set; }
 
@@ -30,7 +30,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
                 in_reader.ReadAtOffset(in_reader.CalculateOffset(offset), () =>
                 {
-                    Steps[i] = new ColourInfoSet(in_reader);
+                    Steps[i] = new ColorInfoSet(in_reader);
                 });
             }
 
@@ -64,13 +64,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             return 8;
         }
 
-        public class ColourInfoSet : List<ColourInfo>, IMomentumParamSet
+        public class ColorInfoSet : List<ColorInfo>, IMomentumParamSet
         {
             private List<long> _arrayPtrOffsets = [];
 
-            public ColourInfoSet() { }
+            public ColorInfoSet() { }
 
-            public ColourInfoSet(BinaryObjectReaderEx in_reader)
+            public ColorInfoSet(BinaryObjectReaderEx in_reader)
             {
                 Read(in_reader);
             }
@@ -88,7 +88,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
                         in_reader.ReadAtOffset(in_reader.CalculateOffset(paramOffset), () =>
                         {
-                            Add(new ColourInfo(in_reader));
+                            Add(new ColorInfo(in_reader));
                         });
                     });
                 }
@@ -117,7 +117,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             }
         }
 
-        public class ColourInfo : IMomentumParamSet
+        public class ColorInfo : IMomentumParamSet
         {
             public float UnknownField1 { get; set; }
 
@@ -139,9 +139,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             public int UnknownField10 { get; set; }
 
-            public ColourInfo() { }
+            public ColorInfo() { }
 
-            public ColourInfo(BinaryObjectReaderEx in_reader)
+            public ColorInfo(BinaryObjectReaderEx in_reader)
             {
                 Read(in_reader);
             }

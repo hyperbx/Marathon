@@ -6,7 +6,7 @@ namespace Marathon.Helpers
     {
         public void Log(string in_message, LogLevel in_logLevel, string in_caller)
         {
-            var oldColour = Console.ForegroundColor;
+            var oldColor = Console.ForegroundColor;
 
             switch (in_logLevel)
             {
@@ -25,7 +25,7 @@ namespace Marathon.Helpers
 
             Console.WriteLine(string.IsNullOrEmpty(in_caller) ? in_message : $"[{in_caller}] {in_message}");
 
-            Console.ForegroundColor = oldColour;
+            Console.ForegroundColor = oldColor;
         }
     }
 }

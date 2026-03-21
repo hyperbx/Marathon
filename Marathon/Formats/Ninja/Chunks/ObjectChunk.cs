@@ -158,27 +158,27 @@ namespace Marathon.Formats.Ninja.Chunks
             foreach (var node in Nodes)
                 node.Write(in_writer);
 
-            var materialColours = new List<MaterialColour>();
-            var materialColourOffsets = new List<uint>();
+            var materialColors = new List<MaterialColor>();
+            var materialColorOffsets = new List<uint>();
 
             foreach (var material in Materials)
             {
-                var existingIndex = materialColours.IndexOf(material.Colour);
+                var existingIndex = materialColors.IndexOf(material.Color);
 
                 // NOTE: Ninja optimises repeat material colours
                 // by pointing other materials to the same one if
                 // they're identical.
                 if (existingIndex > -1)
                 {
-                    materialColourOffsets.Add(materialColourOffsets[existingIndex]);
+                    materialColorOffsets.Add(materialColorOffsets[existingIndex]);
                 }
                 else
                 {
-                    materialColourOffsets.Add((uint)in_writer.Position);
-                    material.Colour.Write(in_writer);
+                    materialColorOffsets.Add((uint)in_writer.Position);
+                    material.Color.Write(in_writer);
                 }
 
-                materialColours.Add(material.Colour);
+                materialColors.Add(material.Color);
             }
 
             var materialLogics = new List<MaterialLogic>();
@@ -232,7 +232,7 @@ namespace Marathon.Formats.Ninja.Chunks
                 Materials[i].WriteInfo
                 (
                     in_writer,
-                    materialColourOffsets[i],
+                    materialColorOffsets[i],
                     materialLogicOffsets[i],
                     materialTextureMapOffsets[i]
                 );

@@ -175,9 +175,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             Parameter = in_reader.Read<float>();
             UnknownField15 = in_reader.Read<uint>();
 
-            var colourKeyFramesOffset = in_reader.Read<uint>();
+            var colorKeyFramesOffset = in_reader.Read<uint>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(colourKeyFramesOffset), () =>
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(colorKeyFramesOffset), () =>
             {
                 ColorKeyFrames.Read(in_reader);
             });
@@ -234,7 +234,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField14);
             in_writer.Write(Parameter);
             in_writer.Write(UnknownField15);
-            var colourKeyFramesOffset = in_writer.Reserve<uint>();
+            var colorKeyFramesOffset = in_writer.Reserve<uint>();
             in_writer.WriteBoolean<uint>(UseColorMotion);
             in_writer.WriteBoolean<uint>(UsePattern);
             in_writer.Write(TextureCount);
@@ -263,7 +263,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 kbSplineKeyFrames.Write(in_writer);
             }
 
-            in_writer.WriteReserved(colourKeyFramesOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+            in_writer.WriteReserved(colorKeyFramesOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
             ColorKeyFrames.Write(in_writer);
         }
 

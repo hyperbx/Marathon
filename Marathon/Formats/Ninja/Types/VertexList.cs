@@ -135,11 +135,11 @@ namespace Marathon.Formats.Ninja.Types
                 if (vertex.Normal != null)
                     in_writer.Write(vertex.Normal.Value);
 
-                if (vertex.VertexColourA != null)
-                    in_writer.Write(vertex.VertexColourA.Value);
+                if (vertex.VertexColorA != null)
+                    in_writer.Write(vertex.VertexColorA.Value);
 
-                if (vertex.VertexColourB != null)
-                    in_writer.Write(vertex.VertexColourB.Value);
+                if (vertex.VertexColorB != null)
+                    in_writer.Write(vertex.VertexColorB.Value);
 
                 if (vertex.TextureCoordinates != null)
                 {
@@ -176,10 +176,10 @@ namespace Marathon.Formats.Ninja.Types
             if (Vertices[0].Normal != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_NORMAL;
 
-            if (Vertices[0].VertexColourA != null)
+            if (Vertices[0].VertexColorA != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_COLOR;
 
-            if (Vertices[0].VertexColourB != null)
+            if (Vertices[0].VertexColorB != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_COLOR2;
 
             if (Vertices[0].TextureCoordinates != null)

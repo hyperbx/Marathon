@@ -7,7 +7,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
     {
         public float Frame { get; set; }
 
-        public Colour<float, RGBA> Color { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public ColorKeyFrame() { }
 
@@ -19,7 +19,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         public void Read(BinaryObjectReaderEx in_reader)
         {
             Frame = in_reader.Read<float>();
-            Color = in_reader.ReadObject<Colour<float, RGBA>>();
+            Color = in_reader.ReadObject<Color<float, RGBA>>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)

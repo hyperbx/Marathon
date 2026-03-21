@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Marathon.IO.Types
 {
-    public struct Colour<TData, TFormat> : IBinarySerializable where TData : unmanaged where TFormat : IColourFormat
+    public struct Color<TData, TFormat> : IBinarySerializable where TData : unmanaged where TFormat : IColorFormat
     {
         public TData R { get; set; }
 
@@ -13,9 +13,9 @@ namespace Marathon.IO.Types
 
         public TData A { get; set; }
 
-        public Colour() { }
+        public Color() { }
 
-        public Colour(TData in_r, TData in_g, TData in_b, TData in_a)
+        public Color(TData in_r, TData in_g, TData in_b, TData in_a)
         {
             R = in_r;
             G = in_g;
@@ -73,28 +73,28 @@ namespace Marathon.IO.Types
             }
         }
 
-        public readonly Colour<TData, TFormat> Flip()
+        public readonly Color<TData, TFormat> Flip()
         {
-            return new Colour<TData, TFormat>(A, B, G, R);
+            return new Color<TData, TFormat>(A, B, G, R);
         }
 
         public override bool Equals(object in_obj)
         {
-            if (in_obj is not Colour<TData, TFormat> out_colour)
+            if (in_obj is not Color<TData, TFormat> out_color)
                 return false;
 
-            return EqualityComparer<TData>.Default.Equals(R, out_colour.R) &&
-                   EqualityComparer<TData>.Default.Equals(G, out_colour.G) &&
-                   EqualityComparer<TData>.Default.Equals(B, out_colour.B) &&
-                   EqualityComparer<TData>.Default.Equals(A, out_colour.A);
+            return EqualityComparer<TData>.Default.Equals(R, out_color.R) &&
+                   EqualityComparer<TData>.Default.Equals(G, out_color.G) &&
+                   EqualityComparer<TData>.Default.Equals(B, out_color.B) &&
+                   EqualityComparer<TData>.Default.Equals(A, out_color.A);
         }
     }
 
-    public struct RGBA : IColourFormat { }
+    public struct RGBA : IColorFormat { }
 
-    public struct ARGB : IColourFormat { }
+    public struct ARGB : IColorFormat { }
 
-    public struct BGRA : IColourFormat { }
+    public struct BGRA : IColorFormat { }
 
-    public interface IColourFormat { }
+    public interface IColorFormat { }
 }

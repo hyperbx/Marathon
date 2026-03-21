@@ -6,7 +6,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorGoal : IMomentumParamSet
     {
-        public ColourInfoSet[] Steps { get; set; } = new ColourInfoSet[4];
+        public ColorInfoSet[] Steps { get; set; } = new ColorInfoSet[4];
 
         public uint UnknownField1 { get; set; }
 
@@ -29,7 +29,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
                 in_reader.ReadAtOffset(in_reader.CalculateOffset(offset), () =>
                 {
-                    Steps[i] = new ColourInfoSet(in_reader);
+                    Steps[i] = new ColorInfoSet(in_reader);
                 });
             }
 
@@ -61,13 +61,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             return 7;
         }
 
-        public class ColourInfoSet : List<ColourInfo>, IMomentumParamSet
+        public class ColorInfoSet : List<ColorInfo>, IMomentumParamSet
         {
             private List<long> _arrayPtrOffsets = [];
 
-            public ColourInfoSet() { }
+            public ColorInfoSet() { }
 
-            public ColourInfoSet(BinaryObjectReaderEx in_reader)
+            public ColorInfoSet(BinaryObjectReaderEx in_reader)
             {
                 Read(in_reader);
             }
@@ -85,7 +85,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
                         in_reader.ReadAtOffset(in_reader.CalculateOffset(paramOffset), () =>
                         {
-                            Add(new ColourInfo(in_reader));
+                            Add(new ColorInfo(in_reader));
                         });
                     });
                 }
@@ -114,9 +114,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             }
         }
 
-        public class ColourInfo : IMomentumParamSet
+        public class ColorInfo : IMomentumParamSet
         {
-            public Colour<float, RGBA> Colour { get; set; }
+            public Color<float, RGBA> Color { get; set; }
 
             public uint UnknownField1 { get; set; }
 
@@ -124,16 +124,16 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             public int UnknownField3 { get; set; }
 
-            public ColourInfo() { }
+            public ColorInfo() { }
 
-            public ColourInfo(BinaryObjectReaderEx in_reader)
+            public ColorInfo(BinaryObjectReaderEx in_reader)
             {
                 Read(in_reader);
             }
 
             public void Read(BinaryObjectReaderEx in_reader)
             {
-                Colour = in_reader.ReadObject<Colour<float, RGBA>>();
+                Color = in_reader.ReadObject<Color<float, RGBA>>();
                 UnknownField1 = in_reader.Read<uint>();
                 UnknownField2 = in_reader.Read<uint>();
                 UnknownField3 = in_reader.Read<int>();
@@ -141,7 +141,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             public void Write(BinaryObjectWriterEx in_writer)
             {
-                in_writer.WriteObject(Colour);
+                in_writer.WriteObject(Color);
                 in_writer.Write(UnknownField1);
                 in_writer.Write(UnknownField2);
                 in_writer.Write(UnknownField3);

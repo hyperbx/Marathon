@@ -18,7 +18,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public uint[] Reserved { get; set; } = new uint[3];
 
-        public MaterialColour Colour { get; set; }
+        public MaterialColor Color { get; set; }
 
         public MaterialLogic Logic { get; set; }
 
@@ -42,15 +42,15 @@ namespace Marathon.Formats.Ninja.Types
             Flag = in_reader.Read<MaterialType>();
             UserData = in_reader.Read<int>();
 
-            var colourOffset = in_reader.Read<uint>();
+            var colorOffset = in_reader.Read<uint>();
             var logicOffset = in_reader.Read<uint>();
             var textureMapOffset = in_reader.Read<uint>();
 
             Reserved = in_reader.ReadArray<uint>(3);
 
-            in_reader.JumpTo(InfoChunk.Size + colourOffset);
+            in_reader.JumpTo(InfoChunk.Size + colorOffset);
 
-            Colour = new MaterialColour(in_reader);
+            Color = new MaterialColor(in_reader);
 
             in_reader.JumpTo(InfoChunk.Size + logicOffset);
 
@@ -61,15 +61,15 @@ namespace Marathon.Formats.Ninja.Types
             TextureMap = new MaterialTextureMap(in_reader, GetTextureCount());
         }
 
-        public void WriteInfo(BinaryObjectWriterEx in_writer, uint in_colourOffset, uint in_logicOffset, uint in_textureMapOffset)
+        public void WriteInfo(BinaryObjectWriterEx in_writer, uint in_colorOffset, uint in_logicOffset, uint in_textureMapOffset)
         {
             _dataOffset = (uint)in_writer.Position;
 
             in_writer.Write(Flag);
             in_writer.Write(UserData);
 
-            var colourOffset = in_writer.Reserve<uint>();
-            in_writer.WriteReserved(colourOffset, in_colourOffset - InfoChunk.Size, false);
+            var colorOffset = in_writer.Reserve<uint>();
+            in_writer.WriteReserved(colorOffset, in_colorOffset - InfoChunk.Size, false);
 
             var logicOffset = in_writer.Reserve<uint>();
             in_writer.WriteReserved(logicOffset, in_logicOffset - InfoChunk.Size, false);

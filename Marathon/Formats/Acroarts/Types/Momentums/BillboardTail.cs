@@ -36,7 +36,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Vector3 Position { get; set; }
 
-        public Colour<float, RGBA> Color { get; set; } 
+        public Color<float, RGBA> Color { get; set; } 
 
         public ColorApplyMode ColorApplyMode { get; set; }
 
@@ -76,7 +76,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField11 = in_reader.Read<float>();
             UnknownField12 = in_reader.Read<float>();
             Position = in_reader.Read<Vector3>();
-            Color = in_reader.ReadObject<Colour<float, RGBA>>();
+            Color = in_reader.ReadObject<Color<float, RGBA>>();
             ColorApplyMode = in_reader.Read<ColorApplyMode>();
             UnknownField13 = in_reader.Read<float>();
             UnknownField14 = in_reader.Read<uint>();
