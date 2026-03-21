@@ -2,6 +2,7 @@
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -67,9 +68,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public uint UnknownField { get; set; }
 
-        public Vector2 PrimitiveMin { get; set; }
-
-        public Vector2 PrimitiveMax { get; set; }
+        public Rectangle Primitive { get; set; }
 
         public ResourceType ResourceType { get; set; }
 
@@ -131,8 +130,7 @@ namespace Marathon.Formats.Acroarts.Types
 
             ModelType = in_reader.Read<int>();
             UnknownField = in_reader.Read<uint>();
-            PrimitiveMin = in_reader.Read<Vector2>();
-            PrimitiveMax = in_reader.Read<Vector2>();
+            Primitive = in_reader.Read<Rectangle>();
             ResourceType = in_reader.Read<ResourceType>();
             Resources = ResourceTableFactory.ReadResourceTableByType(in_reader, ResourceType);
             TrOpCtrlFlag = in_reader.Read<uint>();
@@ -201,8 +199,7 @@ namespace Marathon.Formats.Acroarts.Types
 
             in_writer.Write(ModelType);
             in_writer.Write(UnknownField);
-            in_writer.Write(PrimitiveMin);
-            in_writer.Write(PrimitiveMax);
+            in_writer.Write(Primitive);
             in_writer.Write(ResourceType);
 
             Resources.WriteInfo(in_writer);
