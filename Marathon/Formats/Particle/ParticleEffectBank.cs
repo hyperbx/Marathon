@@ -150,7 +150,7 @@ namespace Marathon.Formats.Particle
             var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
-            writer.WriteNullBytes(8);
+            writer.WriteZero<byte>(8);
             writer.Write(Effects.Count);
             writer.WriteStringFixedLength(Name, 0x20);
 
@@ -530,7 +530,7 @@ namespace Marathon.Formats.Particle
         public int Length()
         {
             var result = 4;
-            var typeName = Enum.GetName(Type.GetType(),Type.Value);
+            var typeName = Enum.GetName(Type.GetType(), Type.Value);
 
             if (string.IsNullOrEmpty(typeName))
             {

@@ -20,7 +20,7 @@ namespace Marathon.IO.Types
             Data = (uint)in_data;
         }
 
-        public FourCC(string in_signature, Endianness in_endianness = Endianness.Big) : this(in_endianness)
+        public FourCC(string in_signature) : this(Endianness.Little)
         {
             if (in_signature.Length > 4)
                 throw new ArgumentException("The provided signature is longer than four characters.");
@@ -30,8 +30,10 @@ namespace Marathon.IO.Types
 
         public void Read(BinaryObjectReader in_reader)
         {
+            var oldEndianness = in_reader.Endianness;
+            in_reader.Endianness = Endianness;
             Data = in_reader.Read<uint>();
-            Endianness = in_reader.Endianness;
+            in_reader.Endianness = oldEndianness;
         }
 
         public void Write(BinaryObjectWriter in_writer)

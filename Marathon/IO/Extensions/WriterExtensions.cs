@@ -2,6 +2,7 @@
 using Amicitia.IO.Binary;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Marathon.IO.Extensions
 {
@@ -12,9 +13,14 @@ namespace Marathon.IO.Extensions
             in_writer.WriteStringFixedLength(in_writer.Encoding, in_signature, in_signature.Length);
         }
 
-        public static void WriteNullBytes(this BinaryObjectWriter in_writer, int in_count)
+        public static void WriteZero<T>(this BinaryObjectWriter in_writer, int in_count) where T : unmanaged
         {
-            in_writer.WriteBytes(new byte[in_count]);
+            in_writer.WriteBytes(new byte[in_count * Marshal.SizeOf<T>()]);
+        }
+
+        public static void WriteZero<T>(this BinaryObjectWriter in_writer) where T : unmanaged
+        {
+            in_writer.WriteZero<byte>(Marshal.SizeOf<T>());
         }
 
         public static void WriteUInt24(this BinaryObjectWriter in_writer, uint in_value)
@@ -51,7 +57,7 @@ namespace Marathon.IO.Extensions
         {
             if (in_str == null)
             {
-                in_writer.WriteNullBytes(in_length);
+                in_writer.WriteZero<byte>(in_length);
                 return;
             }
 
@@ -69,7 +75,7 @@ namespace Marathon.IO.Extensions
 
         public static void Align(this BinaryObjectWriter in_writer, int in_alignment)
         {
-            in_writer.WriteNullBytes(AlignmentHelper.GetAlignedDifference(in_writer.Position, in_alignment));
+            in_writer.WriteZero<byte>(AlignmentHelper.GetAlignedDifference(in_writer.Position, in_alignment));
         }
     }
 }

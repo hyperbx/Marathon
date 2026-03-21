@@ -63,7 +63,7 @@ namespace Marathon.Formats.Ninja
             Info.Write(writer);
             Info.WriteChunks(writer);
 
-            var offsetChunk = new OffsetChunk();
+            var offsetChunk = new RelocationTableChunk();
 
             foreach (var offset in writer.Offsets)
                 offsetChunk.Offsets.Add((uint)(offset.Value - InfoChunk.Size));

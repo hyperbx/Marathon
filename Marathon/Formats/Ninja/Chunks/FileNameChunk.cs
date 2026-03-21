@@ -1,6 +1,5 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
-using Marathon.Formats.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 

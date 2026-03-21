@@ -7,11 +7,11 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Ambient { get; set; }
+        public Color<float, RGBA> Ambient { get; set; }
 
-        public Colour<float, RGBA> Diffuse { get; set; }
+        public Color<float, RGBA> Diffuse { get; set; }
 
-        public Colour<float, RGBA> Specular { get; set; }
+        public Color<float, RGBA> Specular { get; set; }
 
         public Vector4 Position { get; set; }
 
@@ -32,7 +32,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
@@ -43,7 +43,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
@@ -58,7 +58,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
@@ -79,7 +79,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
@@ -106,7 +106,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
@@ -129,7 +129,7 @@ namespace Marathon.Formats.Ninja.Types
     {
         public uint UserData { get; set; }
 
-        public Colour<float, RGBA> Colour { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public float Intensity { get; set; }
 
