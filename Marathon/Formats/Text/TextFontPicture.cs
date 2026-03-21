@@ -13,7 +13,7 @@ using System.IO;
 namespace Marathon.Formats.Text
 {
     /// <summary>
-    /// Support for *.pft files; used for defining placeholder images for the <see cref="TextBook"/> format.
+    /// Support for *.pft files; used for defining images for picture variables in the <see cref="TextBook"/> format.
     /// </summary>
     public class TextFontPicture : FileBase
     {
@@ -59,11 +59,11 @@ namespace Marathon.Formats.Text
 
             reader.CheckSignature(_signature);
 
-            var textureNameOffset = reader.Read<uint>();
+            var texturePathOffset = reader.Read<uint>();
             var cropCount = reader.Read<uint>();
             var cropTableOffset = reader.Read<uint>();
 
-            reader.ReadAtOffset(BINAHeader.Size + textureNameOffset,
+            reader.ReadAtOffset(BINAHeader.Size + texturePathOffset,
                 () => Texture = reader.ReadStringNullTerminated());
 
             reader.JumpTo(BINAHeader.Size + cropTableOffset);

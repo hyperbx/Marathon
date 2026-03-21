@@ -693,7 +693,7 @@ namespace Marathon.Formats.Placement
                         var v = hsonParam.ValueArray;
 
                         if (v.Count < 3)
-                            throw new InvalidDataException($"The Vector3 array had less fields than expected: {v.Count}");
+                            throw new InvalidDataException($"The Vector3 array has less fields than expected: {v.Count}");
 
                         if (v.Count > 3)
                             throw new InvalidDataException($"The Vector3 array has more fields than expected: {v.Count}");
