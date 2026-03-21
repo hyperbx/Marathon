@@ -27,13 +27,13 @@ namespace Marathon.IO.Types.BINA
 
         public uint RelocTableLength { get; set; }
 
+        public uint ChunkCount { get; set; }
+
         public uint Version { get; set; }
 
         public bool IsBigEndian { get; set; } = true;
 
         public bool HasSignature { get; set; } = true;
-
-        public bool HasFooterMagic { get; set; }
 
         public BINAHeader(uint in_version = 1, bool in_isBigEndian = true)
         {
@@ -92,24 +92,20 @@ namespace Marathon.IO.Types.BINA
             if (unkField1 != 0)
                 Logger.Warning($"{nameof(unkField1)} is non-zero: {unkField1}");
 
-            // TODO: unknown - possibly a flag?
-            var unkField2 = in_reader.Read<ushort>();
+            ChunkCount = in_reader.Read<uint>();
 
-            if (unkField2 != 0)
-                Logger.Warning($"{nameof(unkField2)} is non-zero: {unkField2}");
-
-            // TODO: unknown - possibly node count?
-            HasFooterMagic = in_reader.Read<ushort>() == 1;
+            if (ChunkCount != 0)
+                Logger.Warning($"{nameof(ChunkCount)} is non-zero: {ChunkCount}");
 
             in_reader.JumpAhead(4);
 
             HasSignature = in_reader.CheckSignature(_signature, false);
 
-            // TODO: unknown - possibly additional data length?
-            var unkField3 = in_reader.Read<uint>();
+            // TODO: unknown.
+            var unkField2 = in_reader.Read<uint>();
 
-            if (unkField3 != 0)
-                Logger.Warning($"{nameof(unkField3)} is non-zero: {unkField3}");
+            if (unkField2 != 0)
+                Logger.Warning($"{nameof(unkField2)} is non-zero: {unkField2}");
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -119,14 +115,8 @@ namespace Marathon.IO.Types.BINA
             in_writer.Write(Length);
             in_writer.Write(RelocTableOffset);
             in_writer.Write(RelocTableLength);
-
-            // TODO: unknown - possibly padding?
             in_writer.WriteZero<int>();
-
-            // TODO: unknown - possibly a flag?
-            in_writer.WriteZero<short>();
-
-            in_writer.Write(HasFooterMagic ? (ushort)1 : (ushort)0);
+            in_writer.Write(ChunkCount);
 
             var version = Version.ToString();
 

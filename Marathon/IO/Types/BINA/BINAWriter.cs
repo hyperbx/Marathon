@@ -87,8 +87,12 @@ namespace Marathon.IO.Types.BINA
             Header.RelocTableOffset = (uint)(relocTablePos - BINAHeader.Size - Header.Offset);
             Header.RelocTableLength = (uint)(Position - relocTablePos);
 
-            if (Header.HasFooterMagic)
-                WriteFooterMagic();
+            if (Header.ChunkCount != 0)
+            {
+                Write(0x10); // TODO: unknown.
+                this.WriteZero<int>();
+                WriteStringNullTerminated(Encoding.ASCII, _footerSignature);
+            }
 
             Header.Length = (uint)(Position - Header.Offset);
         }
@@ -100,13 +104,6 @@ namespace Marathon.IO.Types.BINA
             relocTable.AddOffsets(Offsets.Values);
 
             return relocTable.Write(this);
-        }
-
-        public void WriteFooterMagic()
-        {
-            Write(0x10); // TODO: unknown.
-            this.WriteZero<int>();
-            WriteStringNullTerminated(Encoding.UTF8, _footerSignature);
         }
 
         public void FinishWrite()
