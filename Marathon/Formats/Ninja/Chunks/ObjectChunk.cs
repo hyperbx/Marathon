@@ -3,6 +3,7 @@ using Marathon.Exceptions;
 using Marathon.Formats.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -46,7 +47,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
                 WalkNodes(0, result + 1);
 
-                return result;
+                return Math.Max(result, 1);
             }
         }
 

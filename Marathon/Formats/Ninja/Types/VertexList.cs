@@ -183,7 +183,22 @@ namespace Marathon.Formats.Ninja.Types
                 result |= VertexFormat.NND_VTXTYPE_XB_COLOR2;
 
             if (Vertices[0].TextureCoordinates != null)
-                result |= VertexFormat.NND_VTXTYPE_XB_TEXCOORD;
+            {
+                var uvCount = Vertices[0].TextureCoordinates.Count;
+
+                if (uvCount == 1)
+                {
+                    result |= VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD;
+                }
+                else if (uvCount == 2)
+                {
+                    result |= VertexFormat.NND_VTXTYPE_XB_DOUBLETEXCOORD;
+                }
+                else if (uvCount == 3)
+                {
+                    result |= VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD | VertexFormat.NND_VTXTYPE_XB_DOUBLETEXCOORD;
+                }
+            }
 
             if (Vertices[0].Tangent != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_TANGENT;

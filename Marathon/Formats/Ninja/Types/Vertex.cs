@@ -13,7 +13,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Weight { get; set; }
 
-        public byte[] MatrixIndices { get; set; } = new byte[4];
+        public byte[]? MatrixIndices { get; set; }
 
         public Vector3? Normal { get; set; }
 
@@ -54,7 +54,7 @@ namespace Marathon.Formats.Ninja.Types
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR2))
                 VertexColorB = in_reader.ReadObject<Color<byte, RGBA>>();
 
-            for (int i = 0; i < (uint)in_vertexList.Format / (uint)VertexFormat.NND_VTXTYPE_XB_TEXCOORD; i++)
+            for (int i = 0; i < (uint)in_vertexList.Format / (uint)VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD; i++)
             {
                 TextureCoordinates ??= [];
                 TextureCoordinates.Add(in_reader.Read<Vector2>());
