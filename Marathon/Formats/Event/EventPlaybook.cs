@@ -67,40 +67,40 @@ namespace Marathon.Formats.Event
                 EventPlaybookData @event = new();
 
                 var nameOffset = reader.Read<uint>();
-                var folderOffset = reader.Read<uint>();
+                var directoryOffset = reader.Read<uint>();
                 
                 @event.Duration = reader.Read<uint>();
                 @event.Position = reader.Read<Vector3>();
                 @event.Rotation = reader.Read<Vector3>();
                 
                 var terrainOffset = reader.Read<uint>();
-                var sceneParametersOffset = reader.Read<uint>();
-                var sceneBankOffset = reader.Read<uint>();
+                var sceneParamsOffset = reader.Read<uint>();
+                var soundBankOffset = reader.Read<uint>();
                 var particleContainerOffset = reader.Read<uint>();
-                var subtitlesOffset = reader.Read<uint>();
+                var textBookOffset = reader.Read<uint>();
 
                 var pos = reader.Position;
 
                 if (nameOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + nameOffset, () => @event.Name = reader.ReadStringNullTerminated());
 
-                if (folderOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + folderOffset, () => @event.Directory = reader.ReadStringNullTerminated());
+                if (directoryOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + directoryOffset, () => @event.Directory = reader.ReadStringNullTerminated());
 
                 if (terrainOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + terrainOffset, () => @event.Terrain = reader.ReadStringNullTerminated());
 
-                if (sceneParametersOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + sceneParametersOffset, () => @event.SceneParams = reader.ReadStringNullTerminated());
+                if (sceneParamsOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + sceneParamsOffset, () => @event.SceneParams = reader.ReadStringNullTerminated());
 
-                if (sceneBankOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + sceneBankOffset, () => @event.SoundBank = reader.ReadStringNullTerminated());
+                if (soundBankOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + soundBankOffset, () => @event.SoundBank = reader.ReadStringNullTerminated());
 
                 if (particleContainerOffset != 0)
                     reader.ReadAtOffset(BINAHeader.Size + particleContainerOffset, () => @event.ParticleContainer = reader.ReadStringNullTerminated());
 
-                if (subtitlesOffset != 0)
-                    reader.ReadAtOffset(BINAHeader.Size + subtitlesOffset, () => @event.TextBook = reader.ReadStringNullTerminated());
+                if (textBookOffset != 0)
+                    reader.ReadAtOffset(BINAHeader.Size + textBookOffset, () => @event.TextBook = reader.ReadStringNullTerminated());
 
                 reader.JumpTo(pos);
 
@@ -149,6 +149,21 @@ namespace Marathon.Formats.Event
         public string Directory { get; set; }
 
         /// <summary>
+        /// The duration of this event in frames.
+        /// </summary>
+        public uint Duration { get; set; }
+
+        /// <summary>
+        /// The start position of this event's camera.
+        /// </summary>
+        public Vector3 Position { get; set; }
+
+        /// <summary>
+        /// The start rotation of this event's camera.
+        /// </summary>
+        public Vector3 Rotation { get; set; }
+
+        /// <summary>
         /// The location of this event's terrain.
         /// </summary>
         public string Terrain { get; set; }
@@ -172,21 +187,6 @@ namespace Marathon.Formats.Event
         /// The location of this event's text book for subtitles.
         /// </summary>
         public string TextBook { get; set; }
-
-        /// <summary>
-        /// The duration of this event in frames.
-        /// </summary>
-        public uint Duration { get; set; }
-
-        /// <summary>
-        /// The start position of this event's camera.
-        /// </summary>
-        public Vector3 Position { get; set; }
-
-        /// <summary>
-        /// The start rotation of this event's camera.
-        /// </summary>
-        public Vector3 Rotation { get; set; }
 
         public override string ToString()
         {

@@ -193,7 +193,7 @@ namespace Marathon.Formats.Placement
         {
             var writer = new BINAWriter(in_stream, Endianness);
 
-            writer.WriteNullBytes(12); // Always null.
+            writer.WriteZero<byte>(12); // Always null.
             writer.WriteStringFixedLength(Name.Truncate(0x20), 0x20);
             writer.Write(Objects.Count);
             writer.Reserve<uint>("ObjectTableOffset");
@@ -201,7 +201,7 @@ namespace Marathon.Formats.Placement
 
             if (Groups.Count <= 0)
             {
-                writer.Write(0);
+                writer.WriteZero<int>();
             }
             else
             {
@@ -227,7 +227,7 @@ namespace Marathon.Formats.Placement
                 writer.WriteStringOffset(@object.Type);
                 writer.WriteBytes([0x40, 0x00, 0x00]);
                 writer.Write(@object.StartInactive);
-                writer.WriteNullBytes(12);
+                writer.WriteZero<byte>(12);
                 writer.Write(@object.Position);
                 writer.Write(@object.DrawDistance);
                 writer.Write(@object.Rotation);
@@ -235,7 +235,7 @@ namespace Marathon.Formats.Placement
 
                 if (@object.Parameters.Count <= 0)
                 {
-                    writer.Write(0);
+                    writer.WriteZero<int>();
                 }
                 else
                 {
@@ -260,18 +260,18 @@ namespace Marathon.Formats.Placement
                     {
                         case StageSetDataType.Boolean:
                             writer.Write((bool)Objects[i].Parameters[j].Value ? 1 : 0);
-                            writer.WriteNullBytes(12);
+                            writer.WriteZero<byte>(12);
                             break;
 
                         case StageSetDataType.Int32:
                         case StageSetDataType.Object:
                             writer.Write((int)Objects[i].Parameters[j].Value);
-                            writer.WriteNullBytes(12);
+                            writer.WriteZero<byte>(12);
                             break;
 
                         case StageSetDataType.Single:
                             writer.Write((float)Objects[i].Parameters[j].Value);
-                            writer.WriteNullBytes(12);
+                            writer.WriteZero<byte>(12);
                             break;
 
                         case StageSetDataType.String:
@@ -287,7 +287,7 @@ namespace Marathon.Formats.Placement
                             }
 
                             writer.Write(1);
-                            writer.Write(0);
+                            writer.WriteZero<int>();
                             writer.Write(Objects[i].Parameters[j].Value.ToString().Length + 1);
 
                             break;
@@ -295,7 +295,7 @@ namespace Marathon.Formats.Placement
 
                         case StageSetDataType.Vector3:
                             writer.Write((Vector3)Objects[i].Parameters[j].Value);
-                            writer.WriteNullBytes(4);
+                            writer.WriteZero<int>();
                             break;
 
                         default:
@@ -328,7 +328,7 @@ namespace Marathon.Formats.Placement
 
                     if (group.Objects.Count <= 0)
                     {
-                        writer.Write(0);
+                        writer.WriteZero<int>();
                     }
                     else
                     {
@@ -363,7 +363,7 @@ namespace Marathon.Formats.Placement
                         continue;
 
                     writer.WriteReserved($"Object{i}Parameter{j}String", (uint)writer.Position - BINAHeader.Size);
-                    writer.Write(0);
+                    writer.WriteZero<int>();
                 }
             }
 
@@ -374,7 +374,7 @@ namespace Marathon.Formats.Placement
                     continue;
 
                 writer.WriteReserved($"Group{i}Function", (uint)writer.Position - BINAHeader.Size);
-                writer.Write(0);
+                writer.WriteZero<int>();
             }
 
             writer.FinishWrite();
@@ -693,7 +693,7 @@ namespace Marathon.Formats.Placement
                         var v = hsonParam.ValueArray;
 
                         if (v.Count < 3)
-                            throw new InvalidDataException($"The Vector3 array had less fields than expected: {v.Count}");
+                            throw new InvalidDataException($"The Vector3 array has less fields than expected: {v.Count}");
 
                         if (v.Count > 3)
                             throw new InvalidDataException($"The Vector3 array has more fields than expected: {v.Count}");

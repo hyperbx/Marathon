@@ -125,7 +125,7 @@ namespace Marathon.Formats.Parameter
                 writer.WriteStringOffset(Parameters[i].SoundBankName);
                 writer.WriteStringOffset(Parameters[i].SoundName);
                 writer.WriteStringOffset(Parameters[i].Light);
-                writer.WriteNullBytes(12);
+                writer.WriteZero<byte>(12);
             }
 
             writer.Write(0);

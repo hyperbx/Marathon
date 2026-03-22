@@ -42,7 +42,7 @@ namespace Marathon.Formats.Ninja.Types
             Bank = in_reader.Read<uint>();
         }
 
-        public void Write(BinaryObjectWriterEx in_writer, out uint out_nameOffset)
+        public void Write(BinaryObjectWriterEx in_writer, out long out_nameOffset)
         {
             in_writer.Write(Type);
 

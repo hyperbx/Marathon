@@ -1,0 +1,50 @@
+﻿using Marathon.IO;
+
+namespace Marathon.Formats.Acroarts.Types.Momentums
+{
+    public class SoundPlay : IMomentumParamSet
+    {
+        public string SoundBankName { get; set; } = "event";
+
+        public string SoundName { get; set; }
+
+        public SoundPlay() { }
+
+        public SoundPlay(BinaryObjectReaderEx in_reader)
+        {
+            Read(in_reader);
+        }
+
+        public void Read(BinaryObjectReaderEx in_reader)
+        {
+            var soundBankNameOffset = in_reader.Read<uint>();
+            var soundNameOffset = in_reader.Read<uint>();
+
+            if (soundBankNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(soundBankNameOffset),
+                    () => SoundBankName = MomentumString.Read(in_reader));
+            }
+
+            if (soundNameOffset != 0)
+            {
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(soundNameOffset),
+                    () => SoundName = MomentumString.Read(in_reader));
+            }
+        }
+
+        public void Write(BinaryObjectWriterEx in_writer)
+        {
+            var soundBankNameOffset = in_writer.Reserve<uint>();
+            var soundNameOffset = in_writer.Reserve<uint>();
+
+            MomentumString.Write(in_writer, SoundBankName, soundBankNameOffset);
+            MomentumString.Write(in_writer, SoundName, soundNameOffset);
+        }
+
+        public uint GetParamCount()
+        {
+            return 2;
+        }
+    }
+}

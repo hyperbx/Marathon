@@ -14,8 +14,10 @@
 See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on the wiki.
 
 # Supported
+- Acroarts
+    - [Acroarts Resource (`*.mab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Acroarts/AckResource.cs)
 - Archive
-    - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/U8Archive.cs)
+    - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/ArcFile.cs)
     - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs)
 - Audio
     - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs)
@@ -87,9 +89,6 @@ The `*.fxo` format is for compiled DirectX shaders. There are no plans for Marat
 
 ### Havok Binary
 The `*.hkx` format is part of the Havok physics engine, specifically Havok 3.3.0-b2 for this game. There are no plans for Marathon to support this.
-
-### Acroarts Binary
-The `*.mab` format is part of SEGA's Acroarts middleware. It's used for miscellaneous event data for particle effects and timing with various cutscene elements (e.g. subtitles, models, etc).
 
 ### Motion Base Information
 The `*.mbi` format is a plaintext file format containing node definitions for skeletons. This format hasn't been researched, but the data it stores is all clearly labelled by the internal tool that exported it.

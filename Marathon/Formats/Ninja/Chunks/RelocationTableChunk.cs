@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Marathon.Formats.Ninja.Chunks
 {
-    public class OffsetChunk : IChunk
+    public class RelocationTableChunk : IChunk
     {
         public const string ID = "NOF0"; // "Ninja OFfset"
 
@@ -19,14 +19,14 @@ namespace Marathon.Formats.Ninja.Chunks
             set => Offsets[in_index] = value;
         }
 
-        public OffsetChunk() { }
+        public RelocationTableChunk() { }
 
-        public OffsetChunk(BinaryObjectReaderEx in_reader)
+        public RelocationTableChunk(BinaryObjectReaderEx in_reader)
         {
             Read(in_reader);
         }
 
-        public OffsetChunk(List<uint> in_offsets)
+        public RelocationTableChunk(List<uint> in_offsets)
         {
             Offsets = in_offsets;
         }

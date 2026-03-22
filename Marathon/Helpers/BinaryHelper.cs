@@ -63,7 +63,7 @@ namespace Marathon.Helpers
         /// <param name="in_data">The data to swap.</param>
         public static T SwapEndianness<T>(T in_data)
         {
-            var bytes = new byte[Marshal.SizeOf(typeof(T))];
+            var bytes = new byte[Marshal.SizeOf<T>()];
 
             Marshal.StructureToPtr(in_data, Marshal.UnsafeAddrOfPinnedArrayElement(bytes, 0), false);
             Array.Reverse(bytes);
@@ -78,7 +78,7 @@ namespace Marathon.Helpers
         /// <param name="in_baseAddr">The address to start the left-most column at.</param>
         public static void PrintBytes(byte[] in_data, uint in_baseAddr = 0)
         {
-            var oldColour = Console.ForegroundColor;
+            var oldColor = Console.ForegroundColor;
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("Address  ");
@@ -92,13 +92,13 @@ namespace Marathon.Helpers
                 Console.Write($"{(((i + in_baseAddr) % 16 + 16) % 16):X}");
 
             Console.WriteLine();
-            Console.ForegroundColor = oldColour;
+            Console.ForegroundColor = oldColor;
 
             for (int i = 0; i < in_data.Length; i += 16)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write($"{(in_baseAddr + i):X8} ");
-                Console.ForegroundColor = oldColour;
+                Console.ForegroundColor = oldColor;
 
                 // Print bytes.
                 for (int j = 0; j < 16; j++)
@@ -113,7 +113,7 @@ namespace Marathon.Helpers
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("?? ");
-                        Console.ForegroundColor = oldColour;
+                        Console.ForegroundColor = oldColor;
                     }
                 }
 
@@ -131,7 +131,7 @@ namespace Marathon.Helpers
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("?");
-                        Console.ForegroundColor = oldColour;
+                        Console.ForegroundColor = oldColor;
                     }
                 }
 

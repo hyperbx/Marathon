@@ -8,8 +8,8 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class VertexList
     {
-        private uint _dataOffset;
-        private uint _verticesOffset;
+        private long _dataOffset;
+        private long _verticesOffset;
 
         public const int InfoSize = 8;
 
@@ -78,7 +78,7 @@ namespace Marathon.Formats.Ninja.Types
             foreach (var index in BoneMatrixIndices)
                 in_writer.Write(index);
 
-            _dataOffset = (uint)(in_writer.Position - InfoChunk.Size);
+            _dataOffset = in_writer.Position - InfoChunk.Size;
 
             in_writer.Write(GetVertexFormat());
             in_writer.Write(FlexibleFormat);
@@ -104,14 +104,14 @@ namespace Marathon.Formats.Ninja.Types
             in_writer.Write(HDRCommon);
             in_writer.Write(HDRData);
             in_writer.Write(HDRLock);
-            in_writer.WriteNullBytes(8);
+            in_writer.WriteZero<byte>(8);
         }
 
         public void WritePointer(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Type);
             var offset = in_writer.Reserve<uint>();
-            in_writer.WriteReserved(offset, _dataOffset, false);
+            in_writer.WriteReserved(offset, (uint)_dataOffset, false);
         }
         
         public uint WriteVertices(BinaryObjectWriterEx in_writer, bool in_isMorphTarget = false)
@@ -135,11 +135,11 @@ namespace Marathon.Formats.Ninja.Types
                 if (vertex.Normal != null)
                     in_writer.Write(vertex.Normal.Value);
 
-                if (vertex.VertexColourA != null)
-                    in_writer.Write(vertex.VertexColourA.Value);
+                if (vertex.VertexColorA != null)
+                    in_writer.Write(vertex.VertexColorA.Value);
 
-                if (vertex.VertexColourB != null)
-                    in_writer.Write(vertex.VertexColourB.Value);
+                if (vertex.VertexColorB != null)
+                    in_writer.Write(vertex.VertexColorB.Value);
 
                 if (vertex.TextureCoordinates != null)
                 {
@@ -176,10 +176,10 @@ namespace Marathon.Formats.Ninja.Types
             if (Vertices[0].Normal != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_NORMAL;
 
-            if (Vertices[0].VertexColourA != null)
+            if (Vertices[0].VertexColorA != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_COLOR;
 
-            if (Vertices[0].VertexColourB != null)
+            if (Vertices[0].VertexColorB != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_COLOR2;
 
             if (Vertices[0].TextureCoordinates != null)

@@ -1,6 +1,5 @@
 ﻿using Marathon.Exceptions;
 using Marathon.Formats.Ninja.Flags;
-using Marathon.Formats.Ninja.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using System.Collections.Generic;
@@ -59,7 +58,7 @@ namespace Marathon.Formats.Ninja.Chunks
             var header = new ChunkHeader(in_writer, GetChunkID(), 0);
 
             var nodeListPos = (uint)in_writer.Position;
-            var nodeNameOffsets = new List<uint>();
+            var nodeNameOffsets = new List<long>();
 
             for (int i = 0; i < Names.Count; i++)
             {

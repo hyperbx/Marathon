@@ -213,7 +213,7 @@ namespace Marathon.Formats.Archive
             writer.Reserve<uint>("EntriesLength");
             writer.Reserve<uint>("DataOffset");
             writer.Write(IsSoXArchive ? _soxMagic : 0);
-            writer.WriteNullBytes(12);
+            writer.WriteZero<byte>(12);
 
             writer.WriteReserved("EntriesOffset", (uint)writer.Position);
 

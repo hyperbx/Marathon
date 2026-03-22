@@ -87,7 +87,7 @@ namespace Marathon.Formats.Particle
             var writer = new BINAWriter(in_stream, Endianness);
 
             writer.WriteSignature(_signature);
-            writer.WriteNullBytes(8);
+            writer.WriteZero<byte>(8);
             writer.Write(Textures.Count);
             writer.WriteStringFixedLength(Name, 0x20);
 

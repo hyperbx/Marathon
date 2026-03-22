@@ -110,7 +110,7 @@ namespace Marathon.Formats.Placement
         {
             var writer = new BINAWriter(in_stream, Endianness);
 
-            writer.WriteNullBytes(12);
+            writer.WriteZero<byte>(12);
             writer.WriteStringFixedLength(Name.Truncate(0x20), 0x20);
             writer.Write(Actors.Count);
             writer.Reserve<uint>("ActorTableOffset");
@@ -134,7 +134,7 @@ namespace Marathon.Formats.Placement
 
                 if (string.IsNullOrEmpty(actor.Persistent))
                 {
-                    writer.WriteNullBytes(8);
+                    writer.WriteZero<byte>(8);
                 }
                 else
                 {
