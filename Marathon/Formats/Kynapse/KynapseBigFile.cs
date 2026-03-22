@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
+using Marathon.Exceptions;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
@@ -42,7 +43,11 @@ namespace Marathon.Formats.Kynapse
             var reader = new BinaryObjectReaderEx(in_stream, StreamOwnership.Retain, Endianness.Little);
 
             reader.CheckSignature(_signature);
-            reader.JumpAhead(4); // Version
+
+            var version = reader.Read<int>();
+
+            if (version != _version)
+                throw new InvalidSignatureException(_version, version);
 
             Root = reader.ReadObject<KynapseObject>();
         }
