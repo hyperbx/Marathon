@@ -184,14 +184,19 @@ namespace Marathon.Formats.Ninja.Types
 
             if (Vertices[0].TextureCoordinates != null)
             {
-                if (Vertices[0].TextureCoordinates.Count == 1)
-                    result |= VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD;
-                if (Vertices[0].TextureCoordinates.Count == 2)
-                    result |= VertexFormat.NND_VTXTYPE_XB_DOUBLETEXCOORD;
-                if (Vertices[0].TextureCoordinates.Count == 3)
+                var uvCount = Vertices[0].TextureCoordinates.Count;
+
+                if (uvCount == 1)
                 {
                     result |= VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD;
+                }
+                else if (uvCount == 2)
+                {
                     result |= VertexFormat.NND_VTXTYPE_XB_DOUBLETEXCOORD;
+                }
+                else if (uvCount == 3)
+                {
+                    result |= VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD | VertexFormat.NND_VTXTYPE_XB_DOUBLETEXCOORD;
                 }
             }
 
