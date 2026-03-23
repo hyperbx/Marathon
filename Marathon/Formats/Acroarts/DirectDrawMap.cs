@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Amicitia.IO.Streams;
+using Marathon.Exceptions;
 using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
@@ -12,7 +13,7 @@ using System.IO;
 // Format designers:    Sonic Team
 // Format researchers:  Hyper
 
-namespace Marathon.Formats.Archive
+namespace Marathon.Formats.Acroarts
 {
     /// <summary>
     /// Support for *.ddm files; used for storing DirectDraw Surface textures by name.
@@ -23,6 +24,7 @@ namespace Marathon.Formats.Archive
         private const string _signature = "DDM ";              // "DirectDraw Map" (speculatory)
         private const string _fileNameChunkSignature = "DSFN"; // "Directdraw Surface File Name" (speculatory)
         private const string _dataChunkSignature = "DSCK";     // "Directdraw Surface ChunK" (speculatory)
+        private const ushort _version = 0;
 
         public Dictionary<string, byte[]> Files { get; set; } = [];
 
@@ -49,13 +51,15 @@ namespace Marathon.Formats.Archive
             reader.CheckSignature(_signature);
 
             var headerChunkLength = reader.Read<uint>();
-            var unkField = reader.Read<ushort>();
+            var version = reader.Read<ushort>();
+
+            if (version != _version)
+                throw new InvalidSignatureException(_version, version);
+
             var fileCount = reader.Read<ushort>();
 
             reader.Align(16);
-
             reader.CheckSignature(_fileNameChunkSignature);
-
             reader.Align(16);
 
             var fileNames = new List<string>();
@@ -73,9 +77,7 @@ namespace Marathon.Formats.Archive
                 var dataLength = reader.Read<int>();
 
                 reader.Align(16);
-
                 var data = reader.ReadBytes(dataLength);
-
                 reader.Align(16);
 
                 Files.Add(fileNames[i], data);
@@ -87,23 +89,21 @@ namespace Marathon.Formats.Archive
             var writer = new BinaryObjectWriterEx(in_stream, StreamOwnership.Retain, Endianness.Little);
 
             writer.WriteSignature(_signature);
-            writer.Write(8);         // Header chunk length.
-            writer.Write<ushort>(0); // TODO: unknown - always 0?
+            writer.Write(8); // Header chunk length.
+            writer.Write(_version);
             writer.Write((ushort)Files.Count);
             writer.Align(16);
 
             writer.WriteSignature(_fileNameChunkSignature);
             var fileNameChunkLength = writer.Reserve<uint>();
-            writer.Write<ushort>(0); // TODO: unknown - always 0?
+            writer.WriteZero<ushort>();
             writer.Write((ushort)Files.Count);
-
             writer.Align(16);
 
             foreach (var file in Files)
                 writer.WriteStringNullTerminated(file.Key);
 
             writer.Align(16);
-
             writer.WriteReserved(fileNameChunkLength, (uint)(writer.Position - fileNameChunkLength - 4));
 
             foreach (var file in Files)
@@ -111,16 +111,13 @@ namespace Marathon.Formats.Archive
                 writer.WriteSignature(_dataChunkSignature);
                 var dataChunkLength = writer.Reserve<uint>();
                 var dataLength = writer.Reserve<uint>();
-
                 writer.Align(16);
 
                 var dataStart = writer.Position;
 
                 writer.WriteBytes(file.Value);
                 writer.WriteReserved(dataLength, (uint)(writer.Position - dataStart));
-
                 writer.Align(16);
-
                 writer.WriteReserved(dataChunkLength, (uint)(writer.Position - dataChunkLength - 4));
             }
         }

@@ -1,7 +1,7 @@
-﻿using Marathon.Formats.Archive;
+﻿using Marathon.Formats.Acroarts;
 using Marathon.Tests.Helpers;
 
-namespace Marathon.Tests.Formats.Archive
+namespace Marathon.Tests.Formats.Acroarts
 {
     internal class DirectDrawMapTests : ITest
     {
