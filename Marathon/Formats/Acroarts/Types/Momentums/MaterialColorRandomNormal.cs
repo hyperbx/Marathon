@@ -9,7 +9,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Color<float, RGBA> Random { get; set; }
 
-        public uint UnknownField { get; set; }
+        public GTCounter GTCounter { get; set; }
 
         public bool SetGeneralColor { get; set; }
 
@@ -26,8 +26,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             Color = in_reader.ReadObject<Color<float, RGBA>>();
             Random = in_reader.ReadObject<Color<float, RGBA>>();
-            UnknownField = in_reader.Read<uint>();
-            SetGeneralColor = in_reader.Read<uint>() != 0;
+            GTCounter = in_reader.Read<GTCounter>();
+            SetGeneralColor = in_reader.ReadBoolean<uint>();
             ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
 
@@ -35,8 +35,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             in_writer.WriteObject(Color);
             in_writer.WriteObject(Random);
-            in_writer.Write(UnknownField);
-            in_writer.Write(SetGeneralColor ? 1 : 0);
+            in_writer.Write(GTCounter);
+            in_writer.WriteBoolean<uint>(SetGeneralColor);
             in_writer.Write(ColorBlendMode);
         }
 
