@@ -20,12 +20,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            var unkOffset1 = in_reader.Read<uint>();
-            var unkOffset2 = in_reader.Read<uint>();
+            var stepsOffsetA = in_reader.Read<uint>();
+            var stepsOffsetB = in_reader.Read<uint>();
 
             GTCounter = in_reader.Read<GTCounter>();
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(unkOffset1), () =>
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(stepsOffsetA), () =>
             {
                 var offsets = new AnonymousMomentumParamSet(in_reader);
 
@@ -38,7 +38,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
                 }
             });
 
-            in_reader.ReadAtOffset(in_reader.CalculateOffset(unkOffset2), () =>
+            in_reader.ReadAtOffset(in_reader.CalculateOffset(stepsOffsetB), () =>
             {
                 var offsets = new AnonymousMomentumParamSet(in_reader);
 
@@ -54,37 +54,37 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var unkOffset1 = in_writer.Reserve<uint>();
-            var unkOffset2 = in_writer.Reserve<uint>();
+            var stepsOffsetA = in_writer.Reserve<uint>();
+            var stepsOffsetB = in_writer.Reserve<uint>();
 
             in_writer.Write(GTCounter);
 
-            var paramsAOffsets = new List<long>();
-            var paramsBOffsets = new List<long>();
+            var stepsOffsetsA = new List<long>();
+            var stepsOffsetsB = new List<long>();
 
-            in_writer.WriteReserved(unkOffset1, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+            in_writer.WriteReserved(stepsOffsetA, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
             in_writer.Write(StepsA.Count);
             in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative));
 
             for (int i = 0; i < StepsA.Count; i++)
-                paramsAOffsets.Add(in_writer.Reserve<uint>());
+                stepsOffsetsA.Add(in_writer.Reserve<uint>());
 
             for (int i = 0; i < StepsA.Count; i++)
             {
-                in_writer.WriteReserved(paramsAOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                in_writer.WriteReserved(stepsOffsetsA[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
                 StepsA[i].Write(in_writer);
             }
 
-            in_writer.WriteReserved(unkOffset2, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+            in_writer.WriteReserved(stepsOffsetB, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
             in_writer.Write(StepsB.Count);
             in_writer.WriteOffset((uint)in_writer.CalculateOffset(in_writer.Position + sizeof(uint), OffsetType.Relative));
 
             for (int i = 0; i < StepsB.Count; i++)
-                paramsBOffsets.Add(in_writer.Reserve<uint>());
+                stepsOffsetsB.Add(in_writer.Reserve<uint>());
 
             for (int i = 0; i < StepsB.Count; i++)
             {
-                in_writer.WriteReserved(paramsBOffsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
+                in_writer.WriteReserved(stepsOffsetsB[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
                 StepsB[i].Write(in_writer);
             }
         }
