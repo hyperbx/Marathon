@@ -6,18 +6,20 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorGoal : IMomentumParamSet
     {
-        public IndirectMomentumParamList<MaterialColorGoalInfo>[] Steps { get; set; } = new IndirectMomentumParamList<MaterialColorGoalInfo>[4];
+        public IndirectMomentumParamList<MaterialColorGoalInfo>[] Channels { get; set; } = new IndirectMomentumParamList<MaterialColorGoalInfo>[4];
 
-        public uint UnknownField1 { get; set; }
+        public GTCounter GTCounter { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public bool SetGeneralColor { get; set; }
 
         public ColorBlendMode ColorBlendMode { get; set; }
 
+        public IndirectMomentumParamList<MaterialColorGoalInfo> this[ColorChannel in_channel] => Channels[(int)in_channel];
+
         public MaterialColorGoal()
         {
-            for (int i = 0; i < Steps.Length; i++)
-                Steps[i] = [];
+            for (int i = 0; i < Channels.Length; i++)
+                Channels[i] = [];
         }
 
         public MaterialColorGoal(BinaryObjectReaderEx in_reader)
@@ -27,36 +29,36 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            for (int i = 0; i < Steps.Length; i++)
+            for (int i = 0; i < Channels.Length; i++)
             {
                 var offset = in_reader.Read<uint>();
 
                 in_reader.ReadAtOffset(in_reader.CalculateOffset(offset), () =>
                 {
-                    Steps[i] = new IndirectMomentumParamList<MaterialColorGoalInfo>(in_reader);
+                    Channels[i] = new IndirectMomentumParamList<MaterialColorGoalInfo>(in_reader);
                 });
             }
 
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<uint>();
+            GTCounter = in_reader.Read<GTCounter>();
+            SetGeneralColor = in_reader.ReadBoolean<uint>();
             ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            var offsets = new long[Steps.Length];
+            var offsets = new long[Channels.Length];
 
             for (int i = 0; i < offsets.Length; i++)
                 offsets[i] = in_writer.Reserve<uint>();
 
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
+            in_writer.Write(GTCounter);
+            in_writer.WriteBoolean<uint>(SetGeneralColor);
             in_writer.Write(ColorBlendMode);
 
-            for (int i = 0; i < Steps.Length; i++)
+            for (int i = 0; i < Channels.Length; i++)
             {
                 in_writer.WriteReserved(offsets[i], (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
-                Steps[i].Write(in_writer);
+                Channels[i].Write(in_writer);
             }
         }
 
@@ -68,13 +70,19 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
     public class MaterialColorGoalInfo : IMomentumParamSet
     {
-        public Color<float, RGBA> Color { get; set; }
+        public float Color { get; set; }
+        
+        public GoalInterpolation GoalInterpolation { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public float TotalTime { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public float Coefficient { get; set; }
 
-        public int UnknownField3 { get; set; }
+        public bool Accel { get; set; }
+
+        public bool UseEndColor { get; set; }
+
+        public int UnknownField { get; set; } = -1;
 
         public MaterialColorGoalInfo() { }
 
@@ -85,18 +93,24 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Color = in_reader.ReadObject<Color<float, RGBA>>();
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<uint>();
-            UnknownField3 = in_reader.Read<int>();
+            Color = in_reader.Read<float>();
+            GoalInterpolation = in_reader.Read<GoalInterpolation>();
+            TotalTime = in_reader.Read<float>();
+            Coefficient = in_reader.Read<float>();
+            Accel = in_reader.ReadBoolean<uint>();
+            UseEndColor = in_reader.ReadBoolean<uint>();
+            UnknownField = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteObject(Color);
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
+            in_writer.Write(Color);
+            in_writer.Write(GoalInterpolation);
+            in_writer.Write(TotalTime);
+            in_writer.Write(Coefficient);
+            in_writer.WriteBoolean<uint>(Accel);
+            in_writer.WriteBoolean<uint>(UseEndColor);
+            in_writer.Write(UnknownField);
         }
 
         public uint GetParamCount()

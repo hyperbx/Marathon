@@ -86,7 +86,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public bool UseEndColor { get; set; }
 
-        public int UnknownField { get; set; }
+        public int UnknownField { get; set; } = -1;
 
         public MaterialColorRandomGoalInfo() { }
 
