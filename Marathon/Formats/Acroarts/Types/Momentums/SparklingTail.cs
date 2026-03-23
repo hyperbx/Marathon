@@ -11,15 +11,15 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public float UnknownField1 { get; set; }
 
-        public Distance<uint> DistanceBezier { get; set; }
+        public Distance<uint> Bezier { get; set; }
 
         public int UnknownField2 { get; set; }
 
         public Vector3 Offset { get; set; }
 
-        public Distance<float> DistanceWidth { get; set; }
+        public Distance<float> Width { get; set; }
 
-        public Distance<float> DistanceHeight { get; set; }
+        public Distance<float> Height { get; set; }
 
         public uint UnknownField3 { get; set; }
 
@@ -47,21 +47,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public uint UnknownField8 { get; set; }
 
-        public Distance<float> DistanceVelocityX { get; set; }
+        public Distance<float> VelocityX { get; set; }
 
-        public Distance<float> DistanceVelocityY { get; set; }
+        public Distance<float> VelocityY { get; set; }
 
-        public Distance<float> DistanceVelocityZ { get; set; }
+        public Distance<float> VelocityZ { get; set; }
 
         public uint UnknownField9 { get; set; }
 
         public uint UnknownField10 { get; set; }
 
-        public Distance<float> DistanceAccelX { get; set; }
+        public Distance<float> AccelX { get; set; }
 
-        public Distance<float> DistanceAccelY { get; set; }
+        public Distance<float> AccelY { get; set; }
 
-        public Distance<float> DistanceAccelZ { get; set; }
+        public Distance<float> AccelZ { get; set; }
 
         public uint UnknownField11 { get; set; }
 
@@ -104,11 +104,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             UseBezierSpline = in_reader.ReadBoolean<uint>();
             UnknownField1 = in_reader.Read<float>();
-            DistanceBezier = in_reader.Read<Distance<uint>>();
+            Bezier = in_reader.Read<Distance<uint>>();
             UnknownField2 = in_reader.Read<int>();
             Offset = in_reader.Read<Vector3>();
-            DistanceWidth = in_reader.Read<Distance<float>>();
-            DistanceHeight = in_reader.Read<Distance<float>>();
+            Width = in_reader.Read<Distance<float>>();
+            Height = in_reader.Read<Distance<float>>();
             UnknownField3 = in_reader.Read<uint>();
             UseSplineMotion = in_reader.ReadBoolean<uint>();
 
@@ -129,14 +129,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField7 = in_reader.Read<float>();
             Billboard = in_reader.ReadBoolean<uint>();
             UnknownField8 = in_reader.Read<uint>();
-            DistanceVelocityX = in_reader.Read<Distance<float>>();
-            DistanceVelocityY = in_reader.Read<Distance<float>>();
-            DistanceVelocityZ = in_reader.Read<Distance<float>>();
+            VelocityX = in_reader.Read<Distance<float>>();
+            VelocityY = in_reader.Read<Distance<float>>();
+            VelocityZ = in_reader.Read<Distance<float>>();
             UnknownField9 = in_reader.Read<uint>();
             UnknownField10 = in_reader.Read<uint>();
-            DistanceAccelX = in_reader.Read<Distance<float>>();
-            DistanceAccelY = in_reader.Read<Distance<float>>();
-            DistanceAccelZ = in_reader.Read<Distance<float>>();
+            AccelX = in_reader.Read<Distance<float>>();
+            AccelY = in_reader.Read<Distance<float>>();
+            AccelZ = in_reader.Read<Distance<float>>();
             UnknownField11 = in_reader.Read<uint>();
             Parameter = in_reader.Read<float>();
 
@@ -165,11 +165,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             in_writer.WriteBoolean<uint>(UseBezierSpline);
             in_writer.Write(UnknownField1);
-            in_writer.Write(DistanceBezier);
+            in_writer.Write(Bezier);
             in_writer.Write(UnknownField2);
             in_writer.Write(Offset);
-            in_writer.Write(DistanceWidth);
-            in_writer.Write(DistanceHeight);
+            in_writer.Write(Width);
+            in_writer.Write(Height);
             in_writer.Write(UnknownField3);
             in_writer.WriteBoolean<uint>(UseSplineMotion);
             var splineKeyFramesOffset = in_writer.Reserve<uint>();
@@ -183,14 +183,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField7);
             in_writer.WriteBoolean<uint>(Billboard);
             in_writer.Write(UnknownField8);
-            in_writer.Write(DistanceVelocityX);
-            in_writer.Write(DistanceVelocityY);
-            in_writer.Write(DistanceVelocityZ);
+            in_writer.Write(VelocityX);
+            in_writer.Write(VelocityY);
+            in_writer.Write(VelocityZ);
             in_writer.Write(UnknownField9);
             in_writer.Write(UnknownField10);
-            in_writer.Write(DistanceAccelX);
-            in_writer.Write(DistanceAccelY);
-            in_writer.Write(DistanceAccelZ);
+            in_writer.Write(AccelX);
+            in_writer.Write(AccelY);
+            in_writer.Write(AccelZ);
             in_writer.Write(UnknownField11);
             in_writer.Write(Parameter);
             var colorKeyFramesOffset = in_writer.Reserve<uint>();

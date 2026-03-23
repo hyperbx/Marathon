@@ -19,9 +19,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Vector3 Offset { get; set; }
 
-        public Distance<float> DistanceWidth { get; set; }
+        public Distance<float> Width { get; set; }
 
-        public Distance<float> DistanceHeight { get; set; }
+        public Distance<float> Height { get; set; }
 
         public uint UnknownField2 { get; set; }
 
@@ -45,27 +45,27 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public float Angle { get; set; }
 
-        public Distance<float> DistanceAngle { get; set; }
+        public Distance<float> AngleBetween { get; set; }
 
         public bool Billboard { get; set; }
 
         public uint UnknownField5 { get; set; }
 
-        public Distance<float> DistanceVelocityX { get; set; }
+        public Distance<float> VelocityX { get; set; }
 
-        public Distance<float> DistanceVelocityY { get; set; }
+        public Distance<float> VelocityY { get; set; }
 
-        public Distance<float> DistanceVelocityZ { get; set; }
+        public Distance<float> VelocityZ { get; set; }
 
         public float UnknownField12 { get; set; }
 
         public float UnknownField13 { get; set; }
 
-        public Distance<float> DistanceAccelX { get; set; }
+        public Distance<float> AccelX { get; set; }
 
-        public Distance<float> DistanceAccelY { get; set; }
+        public Distance<float> AccelY { get; set; }
 
-        public Distance<float> DistanceAccelZ { get; set; }
+        public Distance<float> AccelZ { get; set; }
 
         public uint UnknownField14 { get; set; }
 
@@ -114,8 +114,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             IsCameraLocal = in_reader.ReadBoolean<uint>();
             Radius = in_reader.Read<float>();
             Offset = in_reader.Read<Vector3>();
-            DistanceWidth = in_reader.Read<Distance<float>>();
-            DistanceHeight = in_reader.Read<Distance<float>>();
+            Width = in_reader.Read<Distance<float>>();
+            Height = in_reader.Read<Distance<float>>();
             UnknownField2 = in_reader.Read<uint>();
             UseSplineMotion = in_reader.ReadBoolean<uint>();
 
@@ -134,17 +134,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             UnknownField3 = in_reader.Read<uint>();
             UnknownField4 = in_reader.Read<uint>();
             Angle = in_reader.Read<float>();
-            DistanceAngle = in_reader.Read<Distance<float>>();
+            AngleBetween = in_reader.Read<Distance<float>>();
             Billboard = in_reader.ReadBoolean<uint>();
             UnknownField5 = in_reader.Read<uint>();
-            DistanceVelocityX = in_reader.Read<Distance<float>>();
-            DistanceVelocityY = in_reader.Read<Distance<float>>();
-            DistanceVelocityZ = in_reader.Read<Distance<float>>();
+            VelocityX = in_reader.Read<Distance<float>>();
+            VelocityY = in_reader.Read<Distance<float>>();
+            VelocityZ = in_reader.Read<Distance<float>>();
             UnknownField12 = in_reader.Read<float>();
             UnknownField13 = in_reader.Read<float>();
-            DistanceAccelX = in_reader.Read<Distance<float>>();
-            DistanceAccelY = in_reader.Read<Distance<float>>();
-            DistanceAccelZ = in_reader.Read<Distance<float>>();
+            AccelX = in_reader.Read<Distance<float>>();
+            AccelY = in_reader.Read<Distance<float>>();
+            AccelZ = in_reader.Read<Distance<float>>();
             UnknownField14 = in_reader.Read<uint>();
             Parameter = in_reader.Read<float>();
             UnknownField15 = in_reader.Read<uint>();
@@ -178,8 +178,8 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.WriteBoolean<uint>(IsCameraLocal);
             in_writer.Write(Radius);
             in_writer.Write(Offset);
-            in_writer.Write(DistanceWidth);
-            in_writer.Write(DistanceHeight);
+            in_writer.Write(Width);
+            in_writer.Write(Height);
             in_writer.Write(UnknownField2);
             in_writer.WriteBoolean<uint>(UseSplineMotion);
             var splineKeyFramesOffset = in_writer.Reserve<uint>();
@@ -191,17 +191,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(UnknownField3);
             in_writer.Write(UnknownField4);
             in_writer.Write(Angle);
-            in_writer.Write(DistanceAngle);
+            in_writer.Write(AngleBetween);
             in_writer.WriteBoolean<uint>(Billboard);
             in_writer.Write(UnknownField5);
-            in_writer.Write(DistanceVelocityX);
-            in_writer.Write(DistanceVelocityY);
-            in_writer.Write(DistanceVelocityZ);
+            in_writer.Write(VelocityX);
+            in_writer.Write(VelocityY);
+            in_writer.Write(VelocityZ);
             in_writer.Write(UnknownField12);
             in_writer.Write(UnknownField13);
-            in_writer.Write(DistanceAccelX);
-            in_writer.Write(DistanceAccelY);
-            in_writer.Write(DistanceAccelZ);
+            in_writer.Write(AccelX);
+            in_writer.Write(AccelY);
+            in_writer.Write(AccelZ);
             in_writer.Write(UnknownField14);
             in_writer.Write(Parameter);
             in_writer.Write(UnknownField15);
@@ -226,7 +226,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             ColorKeyFrames.Write(in_writer);
         }
 
-        public float GetBetweenValue(Distance<float> in_distance)
+        public float GetRandomDistanceBetween(Distance<float> in_distance)
         {
             return Random.GetRandomF(in_distance.Max - in_distance.Min) + in_distance.Min;
         }

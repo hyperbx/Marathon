@@ -14,7 +14,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public float End { get; set; }
 
-        public int MaxKey { get; set; }
+        public int KeyFrameCount { get; set; }
 
         public int VertexCount { get; set; }
 
@@ -26,7 +26,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public int NodeCount { get; set; }
 
-        public Distance<float> DistanceSlide { get; set; }
+        public Distance<float> Slide { get; set; }
 
         public bool Billboard { get; set; }
 
@@ -40,9 +40,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public float ApproachSpeed { get; set; }
 
-        public Distance<float> DistanceBufferWidth { get; set; }
+        public Distance<float> BufferWidth { get; set; }
 
-        public Distance<float> DistanceBufferHeight { get; set; }
+        public Distance<float> BufferHeight { get; set; }
 
         public uint Count { get; set; }
 
@@ -59,21 +59,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             InitPhaseDuration = in_reader.Read<float>();
             Start = in_reader.Read<float>();
             End = in_reader.Read<float>();
-            MaxKey = in_reader.Read<int>();
+            KeyFrameCount = in_reader.Read<int>();
             VertexCount = in_reader.Read<int>();
             UnknownField1 = in_reader.Read<uint>();
             UnknownField2 = in_reader.Read<uint>();
             BlendMode = in_reader.Read<uint>();
             NodeCount = in_reader.Read<int>();
-            DistanceSlide = in_reader.Read<Distance<float>>();
+            Slide = in_reader.Read<Distance<float>>();
             Billboard = in_reader.ReadBoolean<uint>();
             UseSpline = in_reader.ReadBoolean<uint>();
             Position = in_reader.Read<Vector3>();
             Color = in_reader.ReadObject<Color<float, RGBA>>();
             ColorApplyMode = in_reader.Read<ColorApplyMode>();
             ApproachSpeed = in_reader.Read<float>();
-            DistanceBufferWidth = in_reader.Read<Distance<float>>();
-            DistanceBufferHeight = in_reader.Read<Distance<float>>();
+            BufferWidth = in_reader.Read<Distance<float>>();
+            BufferHeight = in_reader.Read<Distance<float>>();
             Count = in_reader.Read<uint>();
         }
 
@@ -83,21 +83,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(InitPhaseDuration);
             in_writer.Write(Start);
             in_writer.Write(End);
-            in_writer.Write(MaxKey);
+            in_writer.Write(KeyFrameCount);
             in_writer.Write(VertexCount);
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
             in_writer.Write(BlendMode);
             in_writer.Write(NodeCount);
-            in_writer.Write(DistanceSlide);
+            in_writer.Write(Slide);
             in_writer.WriteBoolean<uint>(Billboard);
             in_writer.WriteBoolean<uint>(UseSpline);
             in_writer.Write(Position);
             in_writer.WriteObject(Color);
             in_writer.Write(ColorApplyMode);
             in_writer.Write(ApproachSpeed);
-            in_writer.Write(DistanceBufferWidth);
-            in_writer.Write(DistanceBufferHeight);
+            in_writer.Write(BufferWidth);
+            in_writer.Write(BufferHeight);
             in_writer.Write(Count);
         }
 
