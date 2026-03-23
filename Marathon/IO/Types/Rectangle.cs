@@ -6,5 +6,10 @@ namespace Marathon.IO.Types
     {
         public Vector2 Min;
         public Vector2 Max;
+
+        public override string ToString()
+        {
+            return $"<{Min.X}, {Min.Y}, {Max.X}, {Max.Y}>";
+        }
     }
 }

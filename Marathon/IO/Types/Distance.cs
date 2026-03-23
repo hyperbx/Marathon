@@ -4,5 +4,10 @@
     {
         public T Min;
         public T Max;
+
+        public override string ToString()
+        {
+            return $"<{Min}, {Max}>";
+        }
     }
 }

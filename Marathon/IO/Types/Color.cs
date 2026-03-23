@@ -88,6 +88,20 @@ namespace Marathon.IO.Types
                    EqualityComparer<TData>.Default.Equals(B, out_color.B) &&
                    EqualityComparer<TData>.Default.Equals(A, out_color.A);
         }
+
+        public override string ToString()
+        {
+            if (typeof(TFormat) == typeof(ARGB))
+            {
+                return $"<{A}, {R}, {G}, {B}>";
+            }
+            else if (typeof(TFormat) == typeof(BGRA))
+            {
+                return $"<{B}, {G}, {R}, {A}>";
+            }
+
+            return $"<{R}, {G}, {B}, {A}>";
+        }
     }
 
     public struct RGBA : IColorFormat { }
