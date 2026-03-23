@@ -17,7 +17,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public List<Technique> Techniques { get; set; } = [];
 
-        public List<short> TechniqueIndices { get; set; } = [];
+        public List<short> TechniqueIndexes { get; set; } = [];
 
         public EffectListChunk() { }
 
@@ -43,8 +43,8 @@ namespace Marathon.Formats.Ninja.Chunks
             var techniqueNameCount = in_reader.Read<uint>();
             var techniqueNameOffset = in_reader.Read<uint>();
 
-            var techniqueIndicesCount = in_reader.Read<uint>();
-            var techniqueIndicesOffset = in_reader.Read<uint>();
+            var techniqueIndexesCount = in_reader.Read<uint>();
+            var techniqueIndexesOffset = in_reader.Read<uint>();
 
             in_reader.JumpTo(InfoChunk.Size + effectFileOffset);
 
@@ -56,10 +56,10 @@ namespace Marathon.Formats.Ninja.Chunks
             for (int i = 0; i < techniqueNameCount; i++)
                 Techniques.Add(new(in_reader));
 
-            in_reader.JumpTo(InfoChunk.Size + techniqueIndicesOffset);
+            in_reader.JumpTo(InfoChunk.Size + techniqueIndexesOffset);
 
-            for (int i = 0; i < techniqueIndicesCount; i++)
-                TechniqueIndices.Add(in_reader.Read<short>());
+            for (int i = 0; i < techniqueIndexesCount; i++)
+                TechniqueIndexes.Add(in_reader.Read<short>());
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -78,10 +78,10 @@ namespace Marathon.Formats.Ninja.Chunks
             for (int i = 0; i < Techniques.Count; i++)
                 techniqueNamesOffsets.Add(Techniques[i].Write(in_writer));
 
-            var techniqueIndicesOffset = (int)(in_writer.Position - InfoChunk.Size);
+            var techniqueIndexesOffset = (int)(in_writer.Position - InfoChunk.Size);
 
-            for (int i = 0; i < TechniqueIndices.Count; i++)
-                in_writer.Write(TechniqueIndices[i]);
+            for (int i = 0; i < TechniqueIndexes.Count; i++)
+                in_writer.Write(TechniqueIndexes[i]);
 
             in_writer.Align(4);
 
@@ -97,9 +97,9 @@ namespace Marathon.Formats.Ninja.Chunks
             var techniqueNamesOffsetField = in_writer.Reserve<uint>();
             in_writer.WriteReserved(techniqueNamesOffsetField, techniqueNamesOffset, false);
 
-            in_writer.Write(TechniqueIndices.Count);
-            var techniqueIndicesOffsetField = in_writer.Reserve<uint>();
-            in_writer.WriteReserved(techniqueIndicesOffsetField, techniqueIndicesOffset, false);
+            in_writer.Write(TechniqueIndexes.Count);
+            var techniqueIndexesOffsetField = in_writer.Reserve<uint>();
+            in_writer.WriteReserved(techniqueIndexesOffsetField, techniqueIndexesOffset, false);
 
             for (int i = 0; i < Effects.Count; i++)
             {

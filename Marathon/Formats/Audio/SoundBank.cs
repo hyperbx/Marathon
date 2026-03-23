@@ -65,7 +65,7 @@ namespace Marathon.Formats.Audio
             var version = reader.Read<uint>();
             var nameOffset = reader.Read<uint>();
             var soundTableOffset = reader.Read<uint>();
-            var soundIndicesOffset = reader.Read<uint>();
+            var soundIndexesOffset = reader.Read<uint>();
             var streamTableOffset = reader.Read<uint>();
 
             Name = reader.ReadStringFixedLength(0x40);
@@ -111,9 +111,9 @@ namespace Marathon.Formats.Audio
                 Sounds.Add(sound);
             }
 
-            if (soundIndicesOffset != 0)
+            if (soundIndexesOffset != 0)
             {
-                reader.JumpTo(BINAHeader.Size + soundIndicesOffset);
+                reader.JumpTo(BINAHeader.Size + soundIndexesOffset);
 
                 for (int i = 0; i < Sounds.Count; i++)
                 {

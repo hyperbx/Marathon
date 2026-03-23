@@ -13,7 +13,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Weight { get; set; }
 
-        public byte[]? MatrixIndices { get; set; }
+        public byte[]? MatrixIndexes { get; set; }
 
         public Vector3? Normal { get; set; }
 
@@ -43,7 +43,7 @@ namespace Marathon.Formats.Ninja.Types
                 Weight = in_reader.Read<Vector3>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_MTX_INDEX4))
-                MatrixIndices = in_reader.ReadBytes(4);
+                MatrixIndexes = in_reader.ReadBytes(4);
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_NORMAL))
                 Normal = in_reader.Read<Vector3>();

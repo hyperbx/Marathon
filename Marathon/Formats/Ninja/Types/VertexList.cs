@@ -21,7 +21,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public List<Vertex> Vertices { get; set; } = [];
 
-        public List<int> BoneMatrixIndices { get; set; } = [];
+        public List<int> BoneMatrixIndexes { get; set; } = [];
 
         public uint HDRCommon { get; set; }
 
@@ -54,7 +54,7 @@ namespace Marathon.Formats.Ninja.Types
             var vertexCount = in_reader.Read<uint>();
             var vertexListOffset = in_reader.Read<uint>();
             var boneCount = in_reader.Read<uint>();
-            var boneMatrixIndicesOffset = in_reader.Read<uint>();
+            var boneMatrixIndexesOffset = in_reader.Read<uint>();
 
             HDRCommon = in_reader.Read<uint>();
             HDRData = in_reader.Read<uint>();
@@ -65,17 +65,17 @@ namespace Marathon.Formats.Ninja.Types
             for (int i = 0; i < vertexCount; i++)
                 Vertices.Add(new Vertex(in_reader, this));
 
-            in_reader.JumpTo(InfoChunk.Size + boneMatrixIndicesOffset);
+            in_reader.JumpTo(InfoChunk.Size + boneMatrixIndexesOffset);
 
             for (int i = 0; i < boneCount; i++)
-                BoneMatrixIndices.Add(in_reader.Read<int>());
+                BoneMatrixIndexes.Add(in_reader.Read<int>());
         }
 
         public void Write(BinaryObjectWriterEx in_writer, uint in_verticesOffset = 0)
         {
-            var boneMatrixIndicesPos = (uint)(in_writer.Position - InfoChunk.Size);
+            var boneMatrixIndexesPos = (uint)(in_writer.Position - InfoChunk.Size);
 
-            foreach (var index in BoneMatrixIndices)
+            foreach (var index in BoneMatrixIndexes)
                 in_writer.Write(index);
 
             _dataOffset = in_writer.Position - InfoChunk.Size;
@@ -89,16 +89,16 @@ namespace Marathon.Formats.Ninja.Types
             if (in_verticesOffset != 0)
                 in_writer.WriteReserved(_verticesOffset, in_verticesOffset, false);
 
-            in_writer.Write(BoneMatrixIndices.Count);
+            in_writer.Write(BoneMatrixIndexes.Count);
 
-            if (BoneMatrixIndices.Count <= 0)
+            if (BoneMatrixIndexes.Count <= 0)
             {
                 in_writer.Write(0);
             }
             else
             {
-                var boneMatrixIndicesOffset = in_writer.Reserve<uint>();
-                in_writer.WriteReserved(boneMatrixIndicesOffset, boneMatrixIndicesPos, false);
+                var boneMatrixIndexesOffset = in_writer.Reserve<uint>();
+                in_writer.WriteReserved(boneMatrixIndexesOffset, boneMatrixIndexesPos, false);
             }
 
             in_writer.Write(HDRCommon);
@@ -129,8 +129,8 @@ namespace Marathon.Formats.Ninja.Types
                 if (vertex.Weight != null)
                     in_writer.Write(vertex.Weight.Value);
 
-                if (vertex.MatrixIndices != null)
-                    in_writer.WriteBytes(vertex.MatrixIndices);
+                if (vertex.MatrixIndexes != null)
+                    in_writer.WriteBytes(vertex.MatrixIndexes);
 
                 if (vertex.Normal != null)
                     in_writer.Write(vertex.Normal.Value);
@@ -170,7 +170,7 @@ namespace Marathon.Formats.Ninja.Types
             if (Vertices[0].Weight != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_WEIGHT3;
 
-            if (Vertices[0].MatrixIndices != null)
+            if (Vertices[0].MatrixIndexes != null)
                 result |= VertexFormat.NND_VTXTYPE_XB_MTX_INDEX4;
 
             if (Vertices[0].Normal != null)

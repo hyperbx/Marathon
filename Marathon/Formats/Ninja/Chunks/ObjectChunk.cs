@@ -269,7 +269,7 @@ namespace Marathon.Formats.Ninja.Chunks
             foreach (var subObject in SubObjects)
             {
                 subObject.WriteMeshSets(in_writer);
-                subObject.WriteTextureIndices(in_writer);
+                subObject.WriteTextureIndexes(in_writer);
             }
 
             var subObjectsPos = (uint)in_writer.Position;

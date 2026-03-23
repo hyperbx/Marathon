@@ -754,7 +754,7 @@ namespace Marathon.Formats.Placement
         public string Function { get; set; }
 
         /// <summary>
-        /// The object indices that need to be destroyed for this group to be considered complete.
+        /// The object indexes that need to be destroyed for this group to be considered complete.
         /// </summary>
         public List<ulong> Objects { get; set; } = [];
 

@@ -7,7 +7,7 @@ namespace Marathon.Formats.Ninja.Types
     public class SubObject
     {
         private uint _meshSetOffset;
-        private uint _textureIndicesOffset;
+        private uint _textureIndexesOffset;
 
         public const int InfoSize = 0x14;
 
@@ -15,7 +15,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public List<MeshSet> MeshSets { get; set; } = [];
 
-        public List<int> TextureIndices { get; set; } = [];
+        public List<int> TextureIndexes { get; set; } = [];
 
         public SubObject() { }
 
@@ -30,18 +30,18 @@ namespace Marathon.Formats.Ninja.Types
 
             var meshSetCount = in_reader.Read<uint>();
             var meshSetOffset = in_reader.Read<uint>();
-            var textureIndicesCount = in_reader.Read<uint>();
-            var textureIndicesOffset = in_reader.Read<uint>();
+            var textureIndexesCount = in_reader.Read<uint>();
+            var textureIndexesOffset = in_reader.Read<uint>();
 
             in_reader.JumpTo(InfoChunk.Size + meshSetOffset);
 
             for (int i = 0; i < meshSetCount; i++)
                 MeshSets.Add(new(in_reader));
 
-            in_reader.JumpTo(InfoChunk.Size + textureIndicesOffset);
+            in_reader.JumpTo(InfoChunk.Size + textureIndexesOffset);
 
-            for (int i = 0; i < textureIndicesCount; i++)
-                TextureIndices.Add(in_reader.Read<int>());
+            for (int i = 0; i < textureIndexesCount; i++)
+                TextureIndexes.Add(in_reader.Read<int>());
         }
 
         public void WriteInfo(BinaryObjectWriterEx in_writer)
@@ -52,16 +52,16 @@ namespace Marathon.Formats.Ninja.Types
             var meshSetOffset = in_writer.Reserve<uint>();
             in_writer.WriteReserved(meshSetOffset, _meshSetOffset - InfoChunk.Size, false);
 
-            in_writer.Write(TextureIndices.Count);
+            in_writer.Write(TextureIndexes.Count);
 
-            if (TextureIndices.Count <= 0)
+            if (TextureIndexes.Count <= 0)
             {
                 in_writer.Write(0);
             }
             else
             {
-                var textureIndicesOffset = in_writer.Reserve<uint>();
-                in_writer.WriteReserved(textureIndicesOffset, _textureIndicesOffset - InfoChunk.Size, false);
+                var textureIndexesOffset = in_writer.Reserve<uint>();
+                in_writer.WriteReserved(textureIndexesOffset, _textureIndexesOffset - InfoChunk.Size, false);
             }
         }
 
@@ -73,11 +73,11 @@ namespace Marathon.Formats.Ninja.Types
                 meshSet.Write(in_writer);
         }
 
-        public void WriteTextureIndices(BinaryObjectWriterEx in_writer)
+        public void WriteTextureIndexes(BinaryObjectWriterEx in_writer)
         {
-            _textureIndicesOffset = (uint)in_writer.Position;
+            _textureIndexesOffset = (uint)in_writer.Position;
 
-            foreach (var index in TextureIndices)
+            foreach (var index in TextureIndexes)
                 in_writer.Write(index);
         }
 
@@ -85,7 +85,7 @@ namespace Marathon.Formats.Ninja.Types
         {
             var result = new List<TextureFile>();
 
-            foreach (var index in TextureIndices)
+            foreach (var index in TextureIndexes)
                 result.Add(in_textureListChunk.Textures[index]);
 
             return result;
