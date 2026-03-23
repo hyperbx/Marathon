@@ -6,33 +6,31 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class BillboardTail : IMomentumParamSet
     {
+        public bool DisableInitPhase { get; set; }
+
+        public float InitPhaseDuration { get; set; }
+
+        public float Start { get; set; }
+
+        public float End { get; set; }
+
+        public int MaxKey { get; set; }
+
+        public int VertexCount { get; set; }
+
         public uint UnknownField1 { get; set; }
 
-        public float UnknownField2 { get; set; }
-
-        public float UnknownField3 { get; set; }
-
-        public float UnknownField4 { get; set; }
-
-        public uint UnknownField5 { get; set; }
-
-        public uint UnknownField6 { get; set; }
-
-        public uint UnknownField7 { get; set; }
-
-        public uint UnknownField8 { get; set; }
+        public uint UnknownField2 { get; set; }
 
         public uint BlendMode { get; set; }
 
         public int NodeCount { get; set; }
 
-        public float UnknownField9 { get; set; }
+        public Distance<float> DistanceSlide { get; set; }
 
-        public float UnknownField10 { get; set; }
+        public bool Billboard { get; set; }
 
-        public float UnknownField11 { get; set; }
-
-        public float UnknownField12 { get; set; }
+        public bool UseSpline { get; set; }
 
         public Vector3 Position { get; set; }
 
@@ -40,17 +38,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public ColorApplyMode ColorApplyMode { get; set; }
 
-        public float UnknownField13 { get; set; }
+        public float ApproachSpeed { get; set; }
 
-        public uint UnknownField14 { get; set; }
+        public Distance<float> DistanceBufferWidth { get; set; }
 
-        public float UnknownField15 { get; set; }
+        public Distance<float> DistanceBufferHeight { get; set; }
 
-        public uint UnknownField16 { get; set; }
-
-        public float UnknownField17 { get; set; }
-
-        public uint UnknownField18 { get; set; }
+        public uint Count { get; set; }
 
         public BillboardTail() { }
 
@@ -61,56 +55,50 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
+            DisableInitPhase = in_reader.ReadBoolean<uint>();
+            InitPhaseDuration = in_reader.Read<float>();
+            Start = in_reader.Read<float>();
+            End = in_reader.Read<float>();
+            MaxKey = in_reader.Read<int>();
+            VertexCount = in_reader.Read<int>();
             UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<float>();
-            UnknownField3 = in_reader.Read<float>();
-            UnknownField4 = in_reader.Read<float>();
-            UnknownField5 = in_reader.Read<uint>();
-            UnknownField6 = in_reader.Read<uint>();
-            UnknownField7 = in_reader.Read<uint>();
-            UnknownField8 = in_reader.Read<uint>();
+            UnknownField2 = in_reader.Read<uint>();
             BlendMode = in_reader.Read<uint>();
             NodeCount = in_reader.Read<int>();
-            UnknownField9 = in_reader.Read<float>();
-            UnknownField10 = in_reader.Read<float>();
-            UnknownField11 = in_reader.Read<float>();
-            UnknownField12 = in_reader.Read<float>();
+            DistanceSlide = in_reader.Read<Distance<float>>();
+            Billboard = in_reader.ReadBoolean<uint>();
+            UseSpline = in_reader.ReadBoolean<uint>();
             Position = in_reader.Read<Vector3>();
             Color = in_reader.ReadObject<Color<float, RGBA>>();
             ColorApplyMode = in_reader.Read<ColorApplyMode>();
-            UnknownField13 = in_reader.Read<float>();
-            UnknownField14 = in_reader.Read<uint>();
-            UnknownField15 = in_reader.Read<float>();
-            UnknownField16 = in_reader.Read<uint>();
-            UnknownField17 = in_reader.Read<float>();
-            UnknownField18 = in_reader.Read<uint>();
+            ApproachSpeed = in_reader.Read<float>();
+            DistanceBufferWidth = in_reader.Read<Distance<float>>();
+            DistanceBufferHeight = in_reader.Read<Distance<float>>();
+            Count = in_reader.Read<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
+            in_writer.WriteBoolean<uint>(DisableInitPhase);
+            in_writer.Write(InitPhaseDuration);
+            in_writer.Write(Start);
+            in_writer.Write(End);
+            in_writer.Write(MaxKey);
+            in_writer.Write(VertexCount);
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
-            in_writer.Write(UnknownField4);
-            in_writer.Write(UnknownField5);
-            in_writer.Write(UnknownField6);
-            in_writer.Write(UnknownField7);
-            in_writer.Write(UnknownField8);
             in_writer.Write(BlendMode);
             in_writer.Write(NodeCount);
-            in_writer.Write(UnknownField9);
-            in_writer.Write(UnknownField10);
-            in_writer.Write(UnknownField11);
-            in_writer.Write(UnknownField12);
+            in_writer.Write(DistanceSlide);
+            in_writer.WriteBoolean<uint>(Billboard);
+            in_writer.WriteBoolean<uint>(UseSpline);
             in_writer.Write(Position);
             in_writer.WriteObject(Color);
             in_writer.Write(ColorApplyMode);
-            in_writer.Write(UnknownField13);
-            in_writer.Write(UnknownField14);
-            in_writer.Write(UnknownField15);
-            in_writer.Write(UnknownField16);
-            in_writer.Write(UnknownField17);
-            in_writer.Write(UnknownField18);
+            in_writer.Write(ApproachSpeed);
+            in_writer.Write(DistanceBufferWidth);
+            in_writer.Write(DistanceBufferHeight);
+            in_writer.Write(Count);
         }
 
         public uint GetParamCount()
