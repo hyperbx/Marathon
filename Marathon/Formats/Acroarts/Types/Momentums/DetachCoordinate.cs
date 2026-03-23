@@ -4,7 +4,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class DetachCoordinate : IMomentumParamSet
     {
-        public float UnknownField1 { get; set; }
+        public float Time { get; set; }
 
         public GTCounter GTCounter { get; set; }
 
@@ -17,13 +17,13 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            UnknownField1 = in_reader.Read<float>();
+            Time = in_reader.Read<float>();
             GTCounter = in_reader.Read<GTCounter>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(UnknownField1);
+            in_writer.Write(Time);
             in_writer.Write(GTCounter);
         }
 
