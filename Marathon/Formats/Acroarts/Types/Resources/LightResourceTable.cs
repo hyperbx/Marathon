@@ -1,13 +1,15 @@
 ﻿using Marathon.Formats.Acroarts.Collections;
 using Marathon.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
 {
     public class LightResourceTable : IResourceTable
     {
-        public IndirectUnmanagedList<uint> Lights { get; set; } = [];
+        public IndirectUnmanagedList<int> Lights { get; set; } = [];
 
-        public IndirectUnmanagedList<uint> LightMotions { get; set; } = [];
+        public IndirectUnmanagedList<int> LightMotions { get; set; } = [];
 
         public LightResourceTable() { }
 
@@ -18,10 +20,10 @@ namespace Marathon.Formats.Acroarts.Types.Resources
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Lights = new IndirectUnmanagedList<uint>(in_reader);
-            LightMotions = new IndirectUnmanagedList<uint>(in_reader);
+            Lights = new IndirectUnmanagedList<int>(in_reader);
+            LightMotions = new IndirectUnmanagedList<int>(in_reader);
 
-            in_reader.JumpAhead(sizeof(uint) * 4);
+            in_reader.JumpAhead(sizeof(int) * 4);
         }
 
         public void WriteInfo(BinaryObjectWriterEx in_writer)
@@ -29,7 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             Lights.WriteInfo(in_writer);
             LightMotions.WriteInfo(in_writer);
 
-            in_writer.JumpAhead(sizeof(uint) * 4);
+            in_writer.JumpAhead(sizeof(int) * 4);
         }
 
         public void WriteArray(BinaryObjectWriterEx in_writer)
@@ -42,6 +44,17 @@ namespace Marathon.Formats.Acroarts.Types.Resources
         {
             Lights.WriteData(in_writer);
             LightMotions.WriteData(in_writer);
+        }
+
+        public int[] GetIndexes()
+        {
+            var result = new List<int>();
+
+            result.AddRange(Lights);
+            result.AddRange(LightMotions);
+            result.Sort();
+
+            return [.. result.Distinct()];
         }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using Marathon.Formats.Acroarts.Collections;
 using Marathon.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
 {
     public class ModelResourceTable : IResourceTable
     {
-        public IndirectUnmanagedList<uint> Models { get; set; } = [];
+        public IndirectUnmanagedList<int> Models { get; set; } = [];
 
-        public IndirectUnmanagedList<uint> Materials { get; set; } = [];
+        public IndirectUnmanagedList<int> Materials { get; set; } = [];
 
-        public IndirectUnmanagedList<uint> Motions { get; set; } = [];
+        public IndirectUnmanagedList<int> Motions { get; set; } = [];
 
-        public IndirectUnmanagedList<uint> Textures { get; set; } = [];
+        public IndirectUnmanagedList<int> Textures { get; set; } = [];
 
         public ModelResourceTable() { }
 
@@ -22,10 +24,10 @@ namespace Marathon.Formats.Acroarts.Types.Resources
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Models = new IndirectUnmanagedList<uint>(in_reader);
-            Materials = new IndirectUnmanagedList<uint>(in_reader);
-            Motions = new IndirectUnmanagedList<uint>(in_reader);
-            Textures = new IndirectUnmanagedList<uint>(in_reader);
+            Models = new IndirectUnmanagedList<int>(in_reader);
+            Materials = new IndirectUnmanagedList<int>(in_reader);
+            Motions = new IndirectUnmanagedList<int>(in_reader);
+            Textures = new IndirectUnmanagedList<int>(in_reader);
         }
 
         public void WriteInfo(BinaryObjectWriterEx in_writer)
@@ -50,6 +52,19 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             Materials.WriteData(in_writer);
             Motions.WriteData(in_writer);
             Textures.WriteData(in_writer);
+        }
+
+        public int[] GetIndexes()
+        {
+            var result = new List<int>();
+
+            result.AddRange(Models);
+            result.AddRange(Materials);
+            result.AddRange(Motions);
+            result.AddRange(Textures);
+            result.Sort();
+
+            return [.. result.Distinct()];
         }
     }
 }

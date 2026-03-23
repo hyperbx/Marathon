@@ -1,5 +1,7 @@
 ﻿using Marathon.Formats.Acroarts.Collections;
 using Marathon.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Marathon.Formats.Acroarts.Types.Resources
 {
@@ -7,7 +9,7 @@ namespace Marathon.Formats.Acroarts.Types.Resources
     {
         public IndirectUnmanagedList<CellSpriteIndex> CellSprites { get; set; } = [];
 
-        public IndirectUnmanagedList<uint> Textures { get; set; } = [];
+        public IndirectUnmanagedList<int> Textures { get; set; } = [];
 
         public CellSpriteResourceTable() { }
 
@@ -19,9 +21,9 @@ namespace Marathon.Formats.Acroarts.Types.Resources
         public void Read(BinaryObjectReaderEx in_reader)
         {
             CellSprites = new IndirectUnmanagedList<CellSpriteIndex>(in_reader);
-            Textures = new IndirectUnmanagedList<uint>(in_reader);
+            Textures = new IndirectUnmanagedList<int>(in_reader);
 
-            in_reader.JumpAhead(sizeof(uint) * 4);
+            in_reader.JumpAhead(sizeof(int) * 4);
         }
 
         public void WriteInfo(BinaryObjectWriterEx in_writer)
@@ -29,7 +31,7 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             CellSprites.WriteInfo(in_writer);
             Textures.WriteInfo(in_writer);
 
-            in_writer.JumpAhead(sizeof(uint) * 4);
+            in_writer.JumpAhead(sizeof(int) * 4);
         }
 
         public void WriteArray(BinaryObjectWriterEx in_writer)
@@ -43,11 +45,22 @@ namespace Marathon.Formats.Acroarts.Types.Resources
             CellSprites.WriteData(in_writer);
             Textures.WriteData(in_writer);
         }
+
+        public int[] GetIndexes()
+        {
+            var result = new List<int>();
+
+            result.AddRange(CellSprites.Select(x => x.Index));
+            result.AddRange(Textures);
+            result.Sort();
+
+            return [.. result.Distinct()];
+        }
     }
 
     public struct CellSpriteIndex
     {
-        public uint Index;
+        public int Index;
         public uint DefaultAction;
     }
 }

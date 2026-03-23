@@ -4,7 +4,6 @@ using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types;
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types
 {
@@ -243,6 +242,11 @@ namespace Marathon.Formats.Acroarts.Types
             }
 
             Resources.WriteData(in_writer);
+        }
+
+        public T GetResources<T>()
+        {
+            return (T)Resources;
         }
     }
 }

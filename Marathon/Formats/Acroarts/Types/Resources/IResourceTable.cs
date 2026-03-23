@@ -11,5 +11,7 @@ namespace Marathon.Formats.Acroarts.Types.Resources
         void WriteArray(BinaryObjectWriterEx in_writer);
 
         void WriteData(BinaryObjectWriterEx in_writer);
+
+        int[] GetIndexes();
     }
 }
