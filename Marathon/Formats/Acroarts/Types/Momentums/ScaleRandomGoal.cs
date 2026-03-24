@@ -1,5 +1,6 @@
 ﻿using Marathon.Formats.Acroarts.Collections;
 using Marathon.IO;
+using Marathon.IO.Types;
 using System.Numerics;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
@@ -12,7 +13,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public GTCounter GTCounter { get; set; }
 
-        public uint UnknownField3 { get; set; }
+        public uint UnknownField2 { get; set; }
 
         public ScaleRandomGoal() { }
 
@@ -32,7 +33,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
             UnknownField1 = in_reader.Read<uint>();
             GTCounter = in_reader.Read<GTCounter>();
-            UnknownField3 = in_reader.Read<uint>();
+            UnknownField2 = in_reader.Read<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -40,7 +41,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             var infoSetOffset = in_writer.Reserve<uint>();
             in_writer.Write(UnknownField1);
             in_writer.Write(GTCounter);
-            in_writer.Write(UnknownField3);
+            in_writer.Write(UnknownField2);
             in_writer.WriteReserved(infoSetOffset, (uint)in_writer.CalculateOffset(in_writer.Position, OffsetType.Relative), false);
             Steps.Write(in_writer);
         }
@@ -53,25 +54,21 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
     public class ScaleRandomGoalInfo : IMomentumParamSet
     {
-        public Vector3 UnknownField1 { get; set; }
+        public Vector3 Scale { get; set; }
 
-        public Vector3 UnknownField2 { get; set; }
+        public Vector3 End { get; set; }
 
         public GoalInterpolation GoalInterpolation { get; set; }
 
-        public uint UnknownField4 { get; set; }
+        public Distance<float> TotalTime { get; set; }
 
-        public uint UnknownField5 { get; set; }
-
-        public float UnknownField6 { get; set; }
-
-        public float UnknownField7 { get; set; }
+        public Distance<float> Coefficient { get; set; }
 
         public bool Accel { get; set; }
 
-        public uint UnknownField9 { get; set; }
+        public uint UnknownField1 { get; set; }
 
-        public int UnknownField10 { get; set; }
+        public int UnknownField2 { get; set; } = -1;
 
         public ScaleRandomGoalInfo() { }
 
@@ -82,30 +79,26 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            UnknownField1 = in_reader.Read<Vector3>();
-            UnknownField2 = in_reader.Read<Vector3>();
+            Scale = in_reader.Read<Vector3>();
+            End = in_reader.Read<Vector3>();
             GoalInterpolation = in_reader.Read<GoalInterpolation>();
-            UnknownField4 = in_reader.Read<uint>();
-            UnknownField5 = in_reader.Read<uint>();
-            UnknownField6 = in_reader.Read<float>();
-            UnknownField7 = in_reader.Read<float>();
-            Accel = in_reader.Read<uint>() != 0;
-            UnknownField9 = in_reader.Read<uint>();
-            UnknownField10 = in_reader.Read<int>();
+            TotalTime = in_reader.Read<Distance<float>>();
+            Coefficient = in_reader.Read<Distance<float>>();
+            Accel = in_reader.ReadBoolean<uint>();
+            UnknownField1 = in_reader.Read<uint>();
+            UnknownField2 = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
+            in_writer.Write(Scale);
+            in_writer.Write(End);
+            in_writer.Write(GoalInterpolation);
+            in_writer.Write(TotalTime);
+            in_writer.Write(Coefficient);
+            in_writer.WriteBoolean<uint>(Accel);
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
-            in_writer.Write(GoalInterpolation);
-            in_writer.Write(UnknownField4);
-            in_writer.Write(UnknownField5);
-            in_writer.Write(UnknownField6);
-            in_writer.Write(UnknownField7);
-            in_writer.Write(Accel ? 1 : 0);
-            in_writer.Write(UnknownField9);
-            in_writer.Write(UnknownField10);
         }
 
         public uint GetParamCount()
