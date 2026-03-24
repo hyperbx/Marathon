@@ -9,9 +9,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Vector3 Random { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public GTCounter GTCounter { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public bool UseUniformScale { get; set; }
 
         public ScaleRandomNormal() { }
 
@@ -24,16 +24,16 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             Scale = in_reader.Read<Vector3>();
             Random = in_reader.Read<Vector3>();
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<uint>();
+            GTCounter = in_reader.Read<GTCounter>();
+            UseUniformScale = in_reader.ReadBoolean<uint>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Scale);
             in_writer.Write(Random);
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
+            in_writer.Write(GTCounter);
+            in_writer.WriteBoolean<uint>(UseUniformScale);
         }
 
         public uint GetParamCount()
