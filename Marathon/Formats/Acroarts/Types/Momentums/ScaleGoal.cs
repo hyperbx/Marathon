@@ -45,15 +45,19 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
     public class ScaleGoalInfo : IMomentumParamSet
     {
-        public Vector3 UnknownField1 { get; set; }
+        public Vector3 Scale { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public GoalInterpolation GoalInterpolation { get; set; }
 
-        public Vector3 UnknownField3 { get; set; }
+        public float TotalTime { get; set; }
 
-        public uint UnknownField4 { get; set; }
+        public float Coefficient { get; set; }
 
-        public int UnknownField5 { get; set; }
+        public bool Accel { get; set; }
+
+        public uint UnknownField1 { get; set; }
+
+        public int UnknownField2 { get; set; } = -1;
 
         public ScaleGoalInfo() { }
 
@@ -64,20 +68,24 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            UnknownField1 = in_reader.Read<Vector3>();
-            UnknownField2 = in_reader.Read<uint>();
-            UnknownField3 = in_reader.Read<Vector3>();
-            UnknownField4 = in_reader.Read<uint>();
-            UnknownField5 = in_reader.Read<int>();
+            Scale = in_reader.Read<Vector3>();
+            GoalInterpolation = in_reader.Read<GoalInterpolation>();
+            TotalTime = in_reader.Read<float>();
+            Coefficient = in_reader.Read<float>();
+            Accel = in_reader.ReadBoolean<uint>();
+            UnknownField1 = in_reader.Read<uint>();
+            UnknownField2 = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
+            in_writer.Write(Scale);
+            in_writer.Write(GoalInterpolation);
+            in_writer.Write(TotalTime);
+            in_writer.Write(Coefficient);
+            in_writer.WriteBoolean<uint>(Accel);
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
-            in_writer.Write(UnknownField4);
-            in_writer.Write(UnknownField5);
         }
 
         public uint GetParamCount()

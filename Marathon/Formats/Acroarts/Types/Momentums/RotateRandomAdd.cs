@@ -9,7 +9,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public Vector3 Add { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public uint UnknownField { get; set; }
 
         public GTCounter GTCounter { get; set; }
 
@@ -24,7 +24,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             Rotation = in_reader.Read<Vector3>();
             Add = in_reader.Read<Vector3>();
-            UnknownField1 = in_reader.Read<uint>();
+            UnknownField = in_reader.Read<uint>();
             GTCounter = in_reader.Read<GTCounter>();
         }
 
@@ -32,7 +32,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         {
             in_writer.Write(Rotation);
             in_writer.Write(Add);
-            in_writer.Write(UnknownField1);
+            in_writer.Write(UnknownField);
             in_writer.Write(GTCounter);
         }
 

@@ -57,7 +57,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public uint UnknownField1 { get; set; }
 
-        public int UnknownField2 { get; set; }
+        public int UnknownField2 { get; set; } = -1;
 
         public ScaleAddGoalInfo() { }
 
@@ -72,7 +72,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             GoalInterpolation = in_reader.Read<GoalInterpolation>();
             TotalTime = in_reader.Read<float>();
             Coefficient = in_reader.Read<float>();
-            Accel = in_reader.Read<uint>() != 0;
+            Accel = in_reader.ReadBoolean<uint>();
             UnknownField1 = in_reader.Read<uint>();
             UnknownField2 = in_reader.Read<int>();
         }
@@ -83,7 +83,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(GoalInterpolation);
             in_writer.Write(TotalTime);
             in_writer.Write(Coefficient);
-            in_writer.Write(Accel ? 1 : 0);
+            in_writer.WriteBoolean<uint>(Accel);
             in_writer.Write(UnknownField1);
             in_writer.Write(UnknownField2);
         }
