@@ -1,4 +1,5 @@
 ﻿using Marathon.IO;
+using Marathon.IO.Types;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
@@ -6,13 +7,11 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
     {
         public AxisType Axis { get; set; }
 
-        public string UnknownField1 { get; set; }
-
-        public string UnknownField2 { get; set; }
+        public Distance<double> Angle { get; set; } = new(0.0, 360.0);
 
         public float Radius { get; set; }
 
-        public uint UnknownField3 { get; set; }
+        public bool UseLocalSpace { get; set; }
 
         public PlaceFanShaped() { }
 
@@ -24,36 +23,45 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
         public void Read(BinaryObjectReaderEx in_reader)
         {
             Axis = in_reader.Read<AxisType>();
-            var unkField1Offset = in_reader.Read<uint>();
-            var unkField2Offset = in_reader.Read<uint>();
+            var angleMinOffset = in_reader.Read<uint>();
+            var angleMaxOffset = in_reader.Read<uint>();
             Radius = in_reader.Read<float>();
-            UnknownField3 = in_reader.Read<uint>();
+            UseLocalSpace = in_reader.ReadBoolean<uint>();
 
             in_reader.JumpAhead(8);
 
-            if (unkField1Offset != 0)
+            var angleMin = string.Empty;
+            var angleMax = string.Empty;
+
+            if (angleMinOffset != 0)
             {
-                in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField1Offset),
-                    () => UnknownField1 = MomentumString.Read(in_reader));
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(angleMinOffset),
+                    () => angleMin = MomentumString.Read(in_reader));
             }
 
-            if (unkField2Offset != 0)
+            if (angleMaxOffset != 0)
             {
-                in_reader.ReadAtOffset(in_reader.CalculateOffset(unkField2Offset),
-                    () => UnknownField2 = MomentumString.Read(in_reader));
+                in_reader.ReadAtOffset(in_reader.CalculateOffset(angleMaxOffset),
+                    () => angleMax = MomentumString.Read(in_reader));
+            }
+
+            if (double.TryParse(angleMin, out var out_angleMin) &&
+                double.TryParse(angleMax, out var out_angleMax))
+            {
+                Angle = new(out_angleMin, out_angleMax);
             }
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Axis);
-            var unkField1Offset = in_writer.Reserve<uint>();
-            var unkField2Offset = in_writer.Reserve<uint>();
+            var angleMinOffset = in_writer.Reserve<uint>();
+            var angleMaxOffset = in_writer.Reserve<uint>();
             in_writer.Write(Radius);
-            in_writer.Write(UnknownField3);
+            in_writer.WriteBoolean<uint>(UseLocalSpace);
 
-            MomentumString.Write(in_writer, UnknownField1, unkField1Offset);
-            MomentumString.Write(in_writer, UnknownField2, unkField2Offset);
+            MomentumString.Write(in_writer, Angle.Min.ToString("F6"), angleMinOffset);
+            MomentumString.Write(in_writer, Angle.Max.ToString("F6"), angleMaxOffset);
         }
 
         public uint GetParamCount()
