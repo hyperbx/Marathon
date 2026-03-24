@@ -16,12 +16,12 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Color = in_reader.Read<Color<float, RGBA>>();
+            Color = in_reader.ReadObject<Color<float, RGBA>>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(Color);
+            in_writer.WriteObject(Color);
         }
 
         public uint GetParamCount()
