@@ -55,9 +55,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public bool Accel { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public bool UseEndRotation { get; set; }
 
-        public int UnknownField2 { get; set; }
+        public int UnknownField { get; set; } = -1;
 
         public RotateGoalInfo() { }
 
@@ -72,9 +72,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             GoalInterpolation = in_reader.Read<GoalInterpolation>();
             TotalTime = in_reader.Read<float>();
             Coefficient = in_reader.Read<float>();
-            Accel = in_reader.Read<uint>() != 0;
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<int>();
+            Accel = in_reader.ReadBoolean<uint>();
+            UseEndRotation = in_reader.ReadBoolean<uint>();
+            UnknownField = in_reader.Read<int>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
@@ -83,9 +83,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
             in_writer.Write(GoalInterpolation);
             in_writer.Write(TotalTime);
             in_writer.Write(Coefficient);
-            in_writer.Write(Accel ? 1 : 0);
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
+            in_writer.WriteBoolean<uint>(Accel);
+            in_writer.WriteBoolean<uint>(UseEndRotation);
+            in_writer.Write(UnknownField);
         }
 
         public uint GetParamCount()
