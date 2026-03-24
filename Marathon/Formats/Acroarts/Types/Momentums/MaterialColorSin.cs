@@ -5,19 +5,17 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorSin : IMomentumParamSet
     {
-        public Color<float, RGBA> Color { get; set; }
+        public float Frequency { get; set; }
 
-        public uint UnknownField1 { get; set; }
+        public Distance<float> Red { get; set; }
 
-        public uint UnknownField2 { get; set; }
+        public Distance<float> Green { get; set; }
 
-        public uint UnknownField3 { get; set; }
+        public Distance<float> Blue { get; set; }
 
-        public uint UnknownField4 { get; set; }
+        public Distance<float> Alpha { get; set; }
 
-        public uint UnknownField5 { get; set; }
-
-        public uint UnknownField6 { get; set; }
+        public float Phase { get; set; }
 
         public GTCounter GTCounter { get; set; }
 
@@ -34,29 +32,27 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Color = in_reader.ReadObject<Color<float, RGBA>>();
-            UnknownField1 = in_reader.Read<uint>();
-            UnknownField2 = in_reader.Read<uint>();
-            UnknownField3 = in_reader.Read<uint>();
-            UnknownField4 = in_reader.Read<uint>();
-            UnknownField5 = in_reader.Read<uint>();
-            UnknownField6 = in_reader.Read<uint>();
+            Frequency = in_reader.Read<float>();
+            Red = in_reader.Read<Distance<float>>();
+            Green = in_reader.Read<Distance<float>>();
+            Blue = in_reader.Read<Distance<float>>();
+            Alpha = in_reader.Read<Distance<float>>();
+            Phase = in_reader.Read<float>();
             GTCounter = in_reader.Read<GTCounter>();
-            SetGeneralColor = in_reader.Read<uint>() != 0;
+            SetGeneralColor = in_reader.ReadBoolean<uint>();
             ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.WriteObject(Color);
-            in_writer.Write(UnknownField1);
-            in_writer.Write(UnknownField2);
-            in_writer.Write(UnknownField3);
-            in_writer.Write(UnknownField4);
-            in_writer.Write(UnknownField5);
-            in_writer.Write(UnknownField6);
+            in_writer.Write(Frequency);
+            in_writer.Write(Red);
+            in_writer.Write(Green);
+            in_writer.Write(Blue);
+            in_writer.Write(Alpha);
+            in_writer.Write(Phase);
             in_writer.Write(GTCounter);
-            in_writer.Write(SetGeneralColor ? 1 : 0);
+            in_writer.WriteBoolean<uint>(SetGeneralColor);
             in_writer.Write(ColorBlendMode);
         }
 
