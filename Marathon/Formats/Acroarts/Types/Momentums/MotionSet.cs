@@ -1,5 +1,4 @@
-﻿using Marathon.Formats.Acroarts.Chunks;
-using Marathon.IO;
+﻿using Marathon.IO;
 using System.Collections.Generic;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums

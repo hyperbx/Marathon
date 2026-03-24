@@ -1,9 +1,12 @@
 ﻿using Amicitia.IO.Streams;
 using Marathon.Formats.Acroarts.Chunks;
+using Marathon.Formats.Acroarts.Types;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using Marathon.IO.Types.FileSystem;
+using System;
+using System.Collections.Generic;
 using System.IO;
 
 // Format names:        Acroarts Resource
@@ -121,6 +124,126 @@ namespace Marathon.Formats.Acroarts
             binaWriter.FinishWrite();
 
             mrabWriter.WriteReserved(binaLength, binaWriter.Header.Length);
+        }
+
+        public IEnumerable<TrunkChunkParam> EnumerateTrunks()
+        {
+            foreach (var trunkParam in Data)
+                yield return trunkParam;
+        }
+
+        public void TraverseTrunks(Action<TrunkChunkParam> in_action)
+        {
+            foreach (var trunkParam in Data)
+                in_action(trunkParam);
+        }
+
+        public IEnumerable<Branch> EnumerateBranches()
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                    yield return branch;
+            }
+        }
+
+        public void TraverseBranches(Action<TrunkChunkParam, Branch> in_action)
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                    in_action(trunkParam, branch);
+            }
+        }
+
+        public IEnumerable<Leaf> EnumerateLeaves()
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                        yield return leaf;
+                }
+            }
+        }
+
+        public void TraverseLeaves(Action<TrunkChunkParam, Branch, Leaf> in_action)
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                        in_action(trunkParam, branch, leaf);
+                }
+            }
+        }
+
+        public IEnumerable<MomentumList> EnumerateMomentumLists()
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                    {
+                        foreach (var momList in leaf.MomentumLists)
+                            yield return momList;
+                    }
+                }
+            }
+        }
+
+        public void TraverseMomentumLists(Action<TrunkChunkParam, Branch, Leaf, MomentumList> in_action)
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                    {
+                        foreach (var momList in leaf.MomentumLists)
+                            in_action(trunkParam, branch, leaf, momList);
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Momentum> EnumerateMomentums()
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                    {
+                        foreach (var momList in leaf.MomentumLists)
+                        {
+                            foreach (var mom in momList.Momentums)
+                                yield return mom;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void TraverseMomentums(Action<TrunkChunkParam, Branch, Leaf, MomentumList, Momentum> in_action)
+        {
+            foreach (var trunkParam in Data)
+            {
+                foreach (var branch in trunkParam.Trunk.Branches)
+                {
+                    foreach (var leaf in branch.Leaves)
+                    {
+                        foreach (var momList in leaf.MomentumLists)
+                        {
+                            foreach (var mom in momList.Momentums)
+                                in_action(trunkParam, branch, leaf, momList, mom);
+                        }
+                    }
+                }
+            }
         }
     }
 }
