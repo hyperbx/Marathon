@@ -5,7 +5,9 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class ScaleAdd : IMomentumParamSet
     {
-        public Vector4 Scale { get; set; }
+        public Vector3 Scale { get; set; }
+
+        public GTCounter GTCounter { get; set; }
 
         public ScaleAdd() { }
 
@@ -16,12 +18,14 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Scale = in_reader.Read<Vector4>();
+            Scale = in_reader.Read<Vector3>();
+            GTCounter = in_reader.Read<GTCounter>();
         }
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
             in_writer.Write(Scale);
+            in_writer.Write(GTCounter);
         }
 
         public uint GetParamCount()
