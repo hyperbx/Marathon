@@ -1,39 +1,27 @@
 ﻿using Marathon.IO;
-using System.Numerics;
+using Marathon.IO.Types;
 
 namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class TranslateRandomSin : IMomentumParamSet
     {
-        public Vector3 Vector { get; set; }
+        public Distance<float> Frequency { get; set; }
 
-        public uint UnknownField4 { get; set; }
+        public Distance<float> HighAmplitudeX { get; set; }
 
-        public uint UnknownField5 { get; set; }
+        public Distance<float> LowAmplitudeX { get; set; }
 
-        public uint UnknownField6 { get; set; }
+        public Distance<float> HighAmplitudeY { get; set; }
 
-        public float UnknownField7 { get; set; }
+        public Distance<float> LowAmplitudeY { get; set; }
 
-        public float UnknownField8 { get; set; }
+        public Distance<float> HighAmplitudeZ { get; set; }
 
-        public float UnknownField9 { get; set; }
+        public Distance<float> LowAmplitudeZ { get; set; }
 
-        public float UnknownField10 { get; set; }
+        public Distance<float> StartAngle { get; set; }
 
-        public uint UnknownField11 { get; set; }
-
-        public uint UnknownField12 { get; set; }
-
-        public uint UnknownField13 { get; set; }
-
-        public uint UnknownField14 { get; set; }
-
-        public uint UnknownField15 { get; set; }
-
-        public uint UnknownField16 { get; set; }
-
-        public uint UnknownField17 { get; set; }
+        public uint UnknownField { get; set; }
 
         public GTCounter GTCounter { get; set; }
 
@@ -50,21 +38,15 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Vector = in_reader.Read<Vector3>();
-            UnknownField4 = in_reader.Read<uint>();
-            UnknownField5 = in_reader.Read<uint>();
-            UnknownField6 = in_reader.Read<uint>();
-            UnknownField7 = in_reader.Read<float>();
-            UnknownField8 = in_reader.Read<float>();
-            UnknownField9 = in_reader.Read<float>();
-            UnknownField10 = in_reader.Read<float>();
-            UnknownField11 = in_reader.Read<uint>();
-            UnknownField12 = in_reader.Read<uint>();
-            UnknownField13 = in_reader.Read<uint>();
-            UnknownField14 = in_reader.Read<uint>();
-            UnknownField15 = in_reader.Read<uint>();
-            UnknownField16 = in_reader.Read<uint>();
-            UnknownField17 = in_reader.Read<uint>();
+            Frequency = in_reader.Read<Distance<float>>();
+            HighAmplitudeX = in_reader.Read<Distance<float>>();
+            LowAmplitudeX = in_reader.Read<Distance<float>>();
+            HighAmplitudeY = in_reader.Read<Distance<float>>();
+            LowAmplitudeY = in_reader.Read<Distance<float>>();
+            HighAmplitudeZ = in_reader.Read<Distance<float>>();
+            LowAmplitudeZ = in_reader.Read<Distance<float>>();
+            StartAngle = in_reader.Read<Distance<float>>();
+            UnknownField = in_reader.Read<uint>();
             GTCounter = in_reader.Read<GTCounter>();
             VectorType = in_reader.Read<TranslateVectorType>();
             Parameter = in_reader.Read<int>();
@@ -72,21 +54,15 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Write(BinaryObjectWriterEx in_writer)
         {
-            in_writer.Write(Vector);
-            in_writer.Write(UnknownField4);
-            in_writer.Write(UnknownField5);
-            in_writer.Write(UnknownField6);
-            in_writer.Write(UnknownField7);
-            in_writer.Write(UnknownField8);
-            in_writer.Write(UnknownField9);
-            in_writer.Write(UnknownField10);
-            in_writer.Write(UnknownField11);
-            in_writer.Write(UnknownField12);
-            in_writer.Write(UnknownField13);
-            in_writer.Write(UnknownField14);
-            in_writer.Write(UnknownField15);
-            in_writer.Write(UnknownField16);
-            in_writer.Write(UnknownField17);
+            in_writer.Write(Frequency);
+            in_writer.Write(HighAmplitudeX);
+            in_writer.Write(LowAmplitudeX);
+            in_writer.Write(HighAmplitudeY);
+            in_writer.Write(LowAmplitudeY);
+            in_writer.Write(HighAmplitudeZ);
+            in_writer.Write(LowAmplitudeZ);
+            in_writer.Write(StartAngle);
+            in_writer.Write(UnknownField);
             in_writer.Write(GTCounter);
             in_writer.Write(VectorType);
             in_writer.Write(Parameter);
