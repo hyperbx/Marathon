@@ -13,6 +13,9 @@ using System.IO;
 // Format references:   Sonicteam::Spanverse::AckResource
 // Format designers:    Sonic Team
 // Format researchers:  Hyper, Rei-san
+//
+// Format research references:
+// - Rambo for SEGA Lindbergh for Acroarts symbols.
 
 namespace Marathon.Formats.Acroarts
 {
