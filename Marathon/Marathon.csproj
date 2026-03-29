@@ -48,12 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Helpers\ArchiveHelper.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="Formats\Archive\ArcFile.cs" />
-    <Compile Include="Formats\Archive\DirectDrawMap.cs" />
     <Compile Include="Formats\Audio\SoundBank.cs" />
     <Compile Include="Formats\Event\EventPlaybook.cs" />
     <Compile Include="Formats\Event\TimeEvent.cs" />

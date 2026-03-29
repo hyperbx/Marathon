@@ -16,9 +16,9 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
 # Supported
 - Acroarts
     - [Acroarts Resource (`*.mab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Acroarts/AckResource.cs)
+    - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Acroarts/DirectDrawMap.cs)
 - Archive
     - [Arc File (`*.arc`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/ArcFile.cs)
-    - [DirectDraw Map (`*.ddm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Archive/DirectDrawMap.cs)
 - Audio
     - [Sound Bank (`*.sbk`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Audio/SoundBank.cs)
 - Event

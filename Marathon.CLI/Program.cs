@@ -1,6 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
-using Marathon.Formats.Archive;
+using Marathon.Formats.Acroarts;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
 using Marathon.Formats.Kynapse;
