@@ -7,7 +7,7 @@ namespace Marathon.Formats.Kynapse.Types
     {
         public string Class { get; set; }
 
-        public string RawData { get; set; }
+        public RawData RawData { get; set; } = new();
 
         public AdditionalData() { }
 
@@ -25,7 +25,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property || child.Name != nameof(Class))
+                if (child.GetElementType() != KynapseElementType.Leaf || child.Name != nameof(Class))
                     continue;
 
                 Class = child.Value;
@@ -33,7 +33,7 @@ namespace Marathon.Formats.Kynapse.Types
                 break;
             }
 
-            RawData = in_element.File;
+            RawData.FromKynapseElement(in_element);
         }
 
         public KynapseElement ToKynapseElement()
@@ -41,7 +41,7 @@ namespace Marathon.Formats.Kynapse.Types
             var result = new KynapseElement(string.Empty, nameof(AdditionalData));
 
             result.AddChild(new KynapseElement(nameof(Class), Class));
-            result.AddChild(new KynapseElement() { File = RawData });
+            result.AddChild(RawData.ToKynapseElement());
 
             return result;
         }
@@ -49,7 +49,7 @@ namespace Marathon.Formats.Kynapse.Types
         public void FromXElement(XElement in_element)
         {
             Class = in_element.GetDescendantElementValue(nameof(Class), Class);
-            RawData = in_element.GetDescendantElementValue(nameof(RawData), RawData);
+            RawData.FromXElement(in_element);
         }
 
         public XElement ToXElement()
@@ -57,7 +57,7 @@ namespace Marathon.Formats.Kynapse.Types
             var result = new XElement(nameof(AdditionalData));
 
             result.Add(new XElement(nameof(Class), Class));
-            result.Add(new XElement(nameof(RawData), RawData));
+            result.Add(RawData.ToXElement());
 
             return result;
         }

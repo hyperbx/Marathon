@@ -26,6 +26,8 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Time Event (`*.tev`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Event/TimeEvent.cs)
 - Kynapse
     - [Kynapse Big File (`*.kbf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynapseBigFile.cs)
+    - [Kynogon Astar Data (`*.adl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonAstarData.cs)
+    - [Kynogon Path Way (`*.pwl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonPathWay.cs)
 - Mesh
     - [Land Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/LandCollision.cs)
     - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs)
@@ -33,14 +35,14 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Spline Path (Old) (`*.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/SplinePathOld.cs)
 - Ninja
     - [Camera (`*.xnc`, `*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraChunk.cs)
-    - [Camera Animation (`*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraMotionChunk.cs)
+    - [Camera Motion (`*.xnd`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/CameraMotionChunk.cs)
     - [Effect List (`*.xne`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/EffectListChunk.cs)
     - [Light (`*.xni`, `*.xnl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/LightChunk.cs)
-    - [Light Animation (`*.xni`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/LightMotionChunk.cs)
-    - [Material Animation (`*.xnv`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MaterialMotionChunk.cs)
-    - [Morph Animation (`*.xnf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MorphMotionChunk.cs)
+    - [Light Motion (`*.xni`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/LightMotionChunk.cs)
+    - [Material Motion (`*.xnv`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MaterialMotionChunk.cs)
+    - [Morph Motion (`*.xnf`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MorphMotionChunk.cs)
     - [Morph Target (`*.xng`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MorphTargetChunk.cs)
-    - [Node Animation (`*.xnm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MotionChunk.cs)
+    - [Node Motion (`*.xnm`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/MotionChunk.cs)
     - [Node Name (`*.xna`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/NodeNameChunk.cs)
     - [Object (`*.xno`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/ObjectChunk.cs)
     - [Texture List (`*.xnt`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Ninja/TextureListChunk.cs)

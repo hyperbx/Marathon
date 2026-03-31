@@ -1,5 +1,6 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.Exceptions;
+using Marathon.Extensions;
 using Marathon.Formats.Acroarts;
 using Marathon.Formats.Audio;
 using Marathon.Formats.Event;
@@ -14,7 +15,6 @@ using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Text;
 using Marathon.Helpers;
 using Marathon.IO;
-using Marathon.Shared;
 using System.Globalization;
 using System.IO.Compression;
 using System.Reflection;

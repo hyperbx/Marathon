@@ -33,7 +33,7 @@ namespace Marathon.Formats.Kynapse.Types
 
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property)
+                if (child.GetElementType() != KynapseElementType.Leaf)
                     continue;
 
                 switch (child.Name)

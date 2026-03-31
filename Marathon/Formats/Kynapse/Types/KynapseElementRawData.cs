@@ -8,7 +8,7 @@ namespace Marathon.Formats.Kynapse.Types
     {
         public string Name { get; set; }
 
-        public string RawData { get; set; }
+        public RawData RawData { get; set; } = new();
 
         public KynapseElementRawData() { }
 
@@ -25,14 +25,14 @@ namespace Marathon.Formats.Kynapse.Types
         public void FromKynapseElement(KynapseElement in_element)
         {
             Name = in_element.Name;
-            RawData = in_element.File;
+            RawData.FromKynapseElement(in_element);
         }
 
         public KynapseElement ToKynapseElement()
         {
             var result = new KynapseElement(Name, GetRootName());
 
-            result.AddChild(new KynapseElement() { File = RawData });
+            result.AddChild(RawData.ToKynapseElement());
 
             return result;
         }
@@ -40,7 +40,7 @@ namespace Marathon.Formats.Kynapse.Types
         public void FromXElement(XElement in_element)
         {
             Name = in_element.GetAttributeValue(GetNameAttribute(), Name);
-            RawData = in_element.GetDescendantElementValue(nameof(RawData), RawData);
+            RawData.FromXElement(in_element);
         }
 
         public XElement ToXElement()
@@ -48,9 +48,7 @@ namespace Marathon.Formats.Kynapse.Types
             var result = new XElement(GetRootName());
 
             result.Add(new XAttribute(GetNameAttribute(), Name));
-
-            if (!string.IsNullOrEmpty(RawData))
-                result.Add(new XElement(nameof(RawData), RawData));
+            result.Add(RawData.ToXElement());
 
             return result;
         }

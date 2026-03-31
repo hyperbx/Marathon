@@ -7,9 +7,9 @@ using System.IO;
 
 namespace Marathon.IO
 {
-    public class FileBase : IDisposable
+    public class FileBase(WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false) : IDisposable
     {
-        private const string _intermediateExtension = ".json";
+        private const string _defaultIntermediateExtension = ".json";
 
         /// <summary>
         /// The underlying stream to the file.
@@ -45,7 +45,7 @@ namespace Marathon.IO
         /// The method used for writing the file.
         /// </summary>
         [JsonIgnore]
-        public virtual WriteMode WriteMode { get; set; }
+        public virtual WriteMode WriteMode { get; set; } = in_writeMode;
 
         /// <summary>
         /// Determines whether to write to a temporary file first before replacing the original.
@@ -58,19 +58,13 @@ namespace Marathon.IO
         /// Leaves the <see cref="BaseStream"/> open after disposing.
         /// </summary>
         [JsonIgnore]
-        public virtual bool LeaveOpen { get; set; }
-
-        public FileBase(WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false)
-        {
-            WriteMode = in_writeMode;
-            LeaveOpen = in_leaveOpen;
-        }
+        public virtual bool LeaveOpen { get; set; } = in_leaveOpen;
 
         public FileBase(string in_path, WriteMode in_writeMode = WriteMode.New, bool in_leaveOpen = false) : this(in_writeMode, in_leaveOpen)
         {
             var extension = '.' + string.Join('.', FileSystemHelper.GetExtensions(in_path, 2));
 
-            if (extension.Equals(Extension + _intermediateExtension, StringComparison.OrdinalIgnoreCase))
+            if (extension.Equals(Extension + _defaultIntermediateExtension, StringComparison.OrdinalIgnoreCase))
             {
                 Import(in_path);
             }
@@ -213,7 +207,7 @@ namespace Marathon.IO
 
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
-            if (!in_path.EndsWith(Extension + _intermediateExtension, StringComparison.OrdinalIgnoreCase))
+            if (!in_path.EndsWith(Extension + _defaultIntermediateExtension, StringComparison.OrdinalIgnoreCase))
                 throw new IOException("The specified file is not in the default intermediate format.");
 
             JsonConvert.PopulateObject(File.ReadAllText(in_path), this);
@@ -232,7 +226,7 @@ namespace Marathon.IO
                 in_path = $"{Location}.json";
             }
 
-            in_path = FileSystemHelper.EnsureExtension(in_path, Extension + _intermediateExtension);
+            in_path = FileSystemHelper.EnsureExtension(in_path, Extension + _defaultIntermediateExtension);
 
             if (!in_overwrite)
                 ThrowHelper.ThrowFileExistsException(in_path);

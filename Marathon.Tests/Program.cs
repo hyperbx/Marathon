@@ -116,21 +116,21 @@ namespace Marathon.Tests
                     var testEnd = DateTime.Now;
                     var testDuration = testEnd - testStart;
 
-                    Logger.Log($"├── Duration:  {testDuration.FormatHoursMinutesSeconds()}");
+                    TreeLogger.Log($"├── Duration:  {testDuration.FormatHoursMinutesSeconds()}");
 
                     if (result)
                     {
-                        Logger.Utility("└── Result:    PASS");
+                        TreeLogger.Utility("└── Result:    PASS");
                     }
                     else
                     {
-                        Logger.Error("└── Result:    FAIL\n");
+                        TreeLogger.Error("└── Result:    FAIL\n");
                         break;
                     }
                 }
                 catch (NotImplementedException)
                 {
-                    Logger.Warning("└── Result:    Not implemented.");
+                    TreeLogger.Warning("└── Result:    Not implemented.");
                 }
 
                 Logger.Log("");
@@ -149,11 +149,11 @@ namespace Marathon.Tests
 
             if (result)
             {
-                Logger.Utility($"Result:        PASS");
+                Logger.Utility("Result:        PASS");
             }
             else
             {
-                Logger.Error($"Result:        FAIL");
+                Logger.Error("Result:        FAIL");
 
                 if (Debugger.IsAttached)
                     Debugger.Break();

@@ -51,7 +51,7 @@ namespace Marathon.Formats.Kynapse.Types
             {
                 switch (child.GetElementType())
                 {
-                    case KynapseElementType.Property:
+                    case KynapseElementType.Leaf:
                     {
                         if (child.Name == nameof(Class))
                         {
@@ -65,7 +65,7 @@ namespace Marathon.Formats.Kynapse.Types
                         break;
                     }
 
-                    case KynapseElementType.Object:
+                    case KynapseElementType.Folder:
                     {
                         switch (child.Type)
                         {

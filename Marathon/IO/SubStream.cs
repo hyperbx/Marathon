@@ -42,19 +42,14 @@ namespace Marathon.IO
             }
         }
 
-        public SubStream(Stream in_stream, long in_length)
-        {
-            BaseStream = in_stream;
-            Begin = in_stream.Position;
-            End = Begin + in_length;
-        }
-
         public SubStream(Stream in_stream, long in_begin, long in_length)
         {
             BaseStream = in_stream;
             Begin = in_begin;
-            End = in_begin + in_length;
+            End = Begin + in_length;
         }
+
+        public SubStream(Stream in_stream, long in_length) : this(in_stream, in_stream.Position, in_length) { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected void EnsurePosition()

@@ -35,9 +35,10 @@ namespace Marathon.IO.Types.FileSystem
 
         public VirtualFile() { }
 
-        public VirtualFile(string in_name)
+        public VirtualFile(string in_name, Stream in_stream = null)
         {
             Name = in_name;
+            BaseStream = in_stream;
         }
 
         public IFile Clone()

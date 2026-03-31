@@ -2,8 +2,8 @@
 {
     public enum KynapseElementType : int
     {
-        Object,
-        Binary,
-        Property
+        Folder,
+        RawData,
+        Leaf
     }
 }

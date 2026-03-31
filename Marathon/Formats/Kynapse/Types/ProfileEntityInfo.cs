@@ -32,7 +32,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property)
+                if (child.GetElementType() != KynapseElementType.Leaf)
                     continue;
 
                 switch (child.Name)
@@ -58,7 +58,9 @@ namespace Marathon.Formats.Kynapse.Types
 
         public KynapseElement ToKynapseElement()
         {
-            var result = new KynapseElement(Name, _nameOfRoot);
+            var result = new KynapseElement(string.Empty, _nameOfRoot);
+
+            result.AddChild(new KynapseElement(nameof(Name), Name));
 
             foreach (var computeWith in ComputeWith)
                 result.AddChild(new KynapseElement(nameof(ComputeWith), computeWith));

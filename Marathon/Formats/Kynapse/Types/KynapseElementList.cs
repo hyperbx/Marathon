@@ -25,7 +25,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Object || child.Type != ItemName)
+                if (child.GetElementType() != KynapseElementType.Folder || child.Type != ItemName)
                     continue;
 
                 var item = new T();

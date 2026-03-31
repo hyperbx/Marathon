@@ -1,9 +1,10 @@
 ﻿using Amicitia.IO.Binary;
 using Marathon.IO;
 using Marathon.IO.Extensions;
+using Marathon.IO.Types.FileSystem;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
 {
@@ -15,9 +16,9 @@ namespace Marathon.Formats.Kynapse.Types
 
         public string Type => Value;
 
-        public string File { get; set; }
+        public IFile File { get; set; }
 
-        public byte[] Data { get; set; }
+        public string Path { get; set; }
 
         public KynapseElement? Parent { get; set; } = null;
 
@@ -43,22 +44,17 @@ namespace Marathon.Formats.Kynapse.Types
             }
         }
 
-        public KynapseElement(byte[] in_data)
-        {
-            Data = in_data;
-        }
-
         public void Read(BinaryObjectReaderEx in_reader)
         {
             var type = in_reader.Read<KynapseElementType>();
             var length = in_reader.Read<int>();
 
-            if (length != 0 && type != KynapseElementType.Binary)
+            if (length != 0 && type != KynapseElementType.RawData)
                 Name = in_reader.ReadStringFixedLength(length);
 
             switch (type)
             {
-                case KynapseElementType.Object:
+                case KynapseElementType.Folder:
                 {
                     Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
                     Children = [];
@@ -77,11 +73,12 @@ namespace Marathon.Formats.Kynapse.Types
                     break;
                 }
 
-                case KynapseElementType.Binary:
-                    Data = in_reader.ReadBytes(length);
+                case KynapseElementType.RawData:
+                    File = new VirtualFile(Name, new SubStream(in_reader.GetBaseStream(), length));
+                    in_reader.JumpAhead(length);
                     break;
 
-                case KynapseElementType.Property:
+                case KynapseElementType.Leaf:
                     Value = in_reader.ReadString(StringBinaryFormat.PrefixedLength32);
                     break;
             }
@@ -93,7 +90,7 @@ namespace Marathon.Formats.Kynapse.Types
 
             in_writer.Write(type);
 
-            if (type is KynapseElementType.Object or KynapseElementType.Property)
+            if (type is KynapseElementType.Folder or KynapseElementType.Leaf)
             {
                 if (string.IsNullOrEmpty(Name))
                 {
@@ -105,13 +102,13 @@ namespace Marathon.Formats.Kynapse.Types
                     in_writer.WriteStringFixedLength(Name, Name.Length);
                 }
             }
-            else if (type == KynapseElementType.Binary)
+            else if (type == KynapseElementType.RawData)
             {
-                in_writer.Write(Data.Length);
-                in_writer.WriteBytes(Data);
+                in_writer.Write((uint)File.Length);
+                File.Open().CopyTo(in_writer.GetBaseStream());
             }
 
-            if (type == KynapseElementType.Object)
+            if (type == KynapseElementType.Folder)
             {
                 if (!string.IsNullOrEmpty(Value))
                 {
@@ -124,7 +121,7 @@ namespace Marathon.Formats.Kynapse.Types
                 foreach (var child in Children)
                     child.Write(in_writer);
             }
-            else if (type == KynapseElementType.Property)
+            else if (type == KynapseElementType.Leaf)
             {
                 in_writer.Write(Value.Length);
                 in_writer.WriteStringFixedLength(Value, Value.Length);
@@ -144,19 +141,87 @@ namespace Marathon.Formats.Kynapse.Types
 
             if (Children.Count > 0)
             {
-                result = KynapseElementType.Object;
+                result = KynapseElementType.Folder;
             }
-            else if (Data?.Length > 0 || !string.IsNullOrEmpty(File))
+            else if (File?.Length > 0 || !string.IsNullOrEmpty(Path))
             {
-                result = KynapseElementType.Binary;
+                result = KynapseElementType.RawData;
             }
             else if (!string.IsNullOrEmpty(Value))
             {
-                result = KynapseElementType.Property;
+                result = KynapseElementType.Leaf;
             }
             else
             {
                 throw new AggregateException("Failed to determine Kynapse element type.");
+            }
+
+            return result;
+        }
+
+        public string GetRawDataFileName()
+        {
+            var result = Parent?.Name;
+
+            if (Parent?.Type == "AdditionalData")
+                result = Parent?.Parent?.Name;
+
+            return result + GetRawDataExtension();
+        }
+
+        public string GetRawDataTypeName()
+        {
+            var result = Parent?.Type;
+
+            if (result == "AdditionalData")
+                return Parent?.Children.FirstOrDefault(x => x.Name == "Class")?.Value;
+
+            return result;
+        }
+
+        public Type GetRawDataType()
+        {
+            return GetRawDataTypeName() switch
+            {
+                "Mesh" => typeof(KynogonMesh),
+                "PathWay" => typeof(KynogonPathWay),
+                "Graph" => typeof(KynogonSpatialGraph),
+                "CAstarData" => typeof(KynogonAstarData),
+                "CFindNearestData" => typeof(KynogonFindNearestData),
+                "CPathCostData" => typeof(KynogonPathCostData),
+                _ => null
+            };
+        }
+
+        public string GetRawDataExtension()
+        {
+            var result = ".bin";
+
+            switch (GetRawDataTypeName())
+            {
+                case "Mesh":
+                    result = FileTypeRegistry.GetAttribute<KynogonMesh>().GetExtension();
+                    break;
+
+                case "PathWay":
+                    result = FileTypeRegistry.GetAttribute<KynogonPathWay>().GetExtension();
+                    break;
+
+                case "Graph":
+                    result = FileTypeRegistry.GetAttribute<KynogonSpatialGraph>().GetExtension();
+                    break;
+
+                case "CAstarData":
+                    result = FileTypeRegistry.GetAttribute<KynogonAstarData>().GetExtension();
+                    break;
+
+                case "CFindNearestData":
+                    result = FileTypeRegistry.GetAttribute<KynogonFindNearestData>().GetExtension();
+                    break;
+
+                case "CPathCostData":
+                    result = FileTypeRegistry.GetAttribute<KynogonPathCostData>().GetExtension();
+                    break;
             }
 
             return result;
@@ -175,7 +240,7 @@ namespace Marathon.Formats.Kynapse.Types
 
             result.Reverse();
 
-            return string.Join(Path.DirectorySeparatorChar, result);
+            return string.Join(System.IO.Path.DirectorySeparatorChar, result);
         }
 
         public override string ToString()

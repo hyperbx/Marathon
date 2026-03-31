@@ -31,7 +31,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Object)
+                if (child.GetElementType() != KynapseElementType.Folder)
                     continue;
 
                 switch (child.Type)
@@ -59,7 +59,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             var result = new KynapseElement(string.Empty, _nameOfRoot);
 
-            var estimations = new KynapseElement(nameof(Estimations), nameof(Estimations));
+            var estimations = new KynapseElement(string.Empty, nameof(Estimations));
 
             foreach (var estimation in Estimations)
                 estimations.AddChild(new KynapseElement(estimation.Key, estimation.Value));

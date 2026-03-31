@@ -73,7 +73,7 @@ namespace Marathon.Tests.Formats.Script.Lua
                     luacheck.StandardInput.Write(dec);
                     luacheck.StandardInput.Close();
 
-                    var output = luacheck.StandardOutput.ReadToEnd().ParseLineBreaks();
+                    var output = luacheck.StandardOutput.ReadToEnd().SplitLineBreaks();
 
                     foreach (var line in output)
                     {

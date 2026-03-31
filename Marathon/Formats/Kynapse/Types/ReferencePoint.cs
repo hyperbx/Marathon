@@ -1,4 +1,5 @@
 ﻿using Marathon.Extensions;
+using System;
 using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
@@ -27,7 +28,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property)
+                if (child.GetElementType() != KynapseElementType.Leaf)
                     continue;
 
                 switch (child.Name)

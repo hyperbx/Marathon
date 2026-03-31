@@ -27,7 +27,7 @@ namespace Marathon.Formats.Kynapse.Types
 
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property || child.Name != nameof(Period))
+                if (child.GetElementType() != KynapseElementType.Leaf || child.Name != nameof(Period))
                     continue;
 
                 Period = int.Parse(child.Value);

@@ -6,6 +6,7 @@ using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.FileSystem;
+using System;
 using System.IO;
 using System.Xml.Linq;
 
@@ -32,6 +33,8 @@ namespace Marathon.Formats.Kynapse
         public KynapseElement Root { get; set; } = new();
 
         public override string Extension => _extension;
+
+        public override bool UseTempFile => true;
 
         public KynapseBigFile() { }
 
@@ -69,33 +72,22 @@ namespace Marathon.Formats.Kynapse
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
             var xml = XDocument.Load(in_path);
+            var dir = Path.GetDirectoryName(in_path);
 
             Root = new Level(xml.Root).ToKynapseElement();
 
-            var binDirName = Path.GetFileName(FileSystemHelper.TruncateAllExtensions(in_path));
-            var binDir = Path.Combine(Path.GetDirectoryName(in_path), binDirName);
-
-            void WalkBinaries(KynapseElement in_element)
+            WalkElements((element, type) =>
             {
-                var type = in_element.GetElementType();
+                if (type != KynapseElementType.RawData)
+                    return;
 
-                if (type == KynapseElementType.Object)
-                {
-                    foreach (var property in in_element.Children)
-                        WalkBinaries(property);
-                }
-                else if (type == KynapseElementType.Binary && !string.IsNullOrEmpty(in_element.File))
-                {
-                    var binFile = Path.Combine(binDir, in_element.File);
+                var filePath = Path.Combine(dir, element.Path);
 
-                    if (!File.Exists(binFile))
-                        throw new FileNotFoundException($"Could not find Kynapse binary: {in_element.File}");
+                if (!File.Exists(filePath))
+                    throw new FileNotFoundException($"Could not find Kynapse binary: {element.Path}");
 
-                    in_element.Data = File.ReadAllBytes(binFile);
-                }
-            }
-
-            WalkBinaries(Root);
+                element.Path = filePath;
+            });
         }
 
         public override void Export(string in_path = "", bool in_overwrite = true)
@@ -105,52 +97,79 @@ namespace Marathon.Formats.Kynapse
             var dir = Directory.CreateDirectory(in_path);
             var name = Path.GetFileNameWithoutExtension(dir.FullName);
 
-            void ExportBinaries(KynapseElement in_element, string in_hierarchy)
+            WalkElements((element, type) =>
             {
-                var type = in_element.GetElementType();
+                if (type != KynapseElementType.RawData)
+                    return;
 
-                if (type == KynapseElementType.Object)
-                {
-                    foreach (var property in in_element.Children)
-                        ExportBinaries(property, property.GetHierarchy());
-                }
-                else if (type == KynapseElementType.Binary)
-                {
-                    var name = in_element?.Value ?? in_element?.Name;
+                var binName = element.Parent?.Type == "AdditionalData"
+                    ? element.Parent?.Parent?.Name
+                    : element.Parent?.Name ?? element.Parent?.Type;
 
-                    if (name == null)
+                var binFile = Path.Combine(dir.FullName, binName + element.GetRawDataExtension());
+
+                if (!in_overwrite)
+                    ThrowHelper.ThrowFileExistsException(binFile);
+
+                if (element.File != null || File.Exists(element.Path))
+                {
+                    using (var fs = File.OpenWrite(binFile))
                     {
-                        if (in_element.Parent != null && in_element.Parent.Children.Count > 1)
-                        {
-                            var thisIndex = in_element.Parent.Children.IndexOf(in_element);
-
-                            if (thisIndex > 0)
-                            {
-                                var nameObject = in_element.Parent.Children[thisIndex - 1];
-
-                                name = nameObject.Value;
-                            }
-                        }
+                        element.File ??= new PhysicalFile(element.Path);
+                        element.File.Open().CopyTo(fs);
                     }
-
-                    if (name == null)
-                        name = in_element.Parent?.Value ?? in_element.Parent?.Name;
-
-                    var binDir = Directory.CreateDirectory(Path.Combine(dir.FullName, in_hierarchy));
-                    var binFile = Path.Combine(binDir.FullName, $"{name}.bin");
-
-                    if (!in_overwrite)
-                        ThrowHelper.ThrowFileExistsException(binFile);
-
-                    File.WriteAllBytes(binFile, in_element.Data);
-
-                    in_element.Parent.File = binFile[(dir.FullName.Length + 1)..];
                 }
-            }
+                else
+                {
+                    throw new FileNotFoundException("This Kynapse element has no file data.");
+                }
 
-            ExportBinaries(Root, Root.GetHierarchy());
+                element.Path = binFile;
+            });
 
             File.WriteAllText(Path.Combine(Path.GetDirectoryName(dir.FullName), $"{name}{_extension}.xml"), new Level(Root).ToXElement().ToString());
+        }
+
+        public void WalkElements(KynapseElement in_element, Action<KynapseElement, KynapseElementType> in_action)
+        {
+            var type = in_element.GetElementType();
+
+            in_action(in_element, type);
+
+            if (type != KynapseElementType.Folder)
+                return;
+
+            foreach (var child in in_element.Children)
+                WalkElements(child, in_action);
+        }
+
+        public void WalkElements(Action<KynapseElement, KynapseElementType> in_action)
+        {
+            WalkElements(Root, in_action);
+        }
+
+        public Level GetLevel()
+        {
+            if (!string.IsNullOrEmpty(Location))
+            {
+                var dirPath = Path.GetDirectoryName(Location);
+
+                // Resolve file paths.
+                WalkElements((element, type) =>
+                {
+                    if (type != KynapseElementType.RawData || Path.IsPathRooted(element.Path))
+                        return;
+
+                    var filePath = Path.Combine(dirPath, element.Path);
+
+                    if (!File.Exists(filePath))
+                        throw new FileNotFoundException($"Could not find Kynapse binary: {element.Path}");
+
+                    element.Path = filePath;
+                });
+            }
+
+            return new Level(Root);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             foreach (var child in in_element.Children)
             {
-                if (child.GetElementType() != KynapseElementType.Property || child.Name != _nameOfServices)
+                if (child.GetElementType() != KynapseElementType.Leaf || child.Name != _nameOfServices)
                     continue;
 
                 Services.Add(child.Value);

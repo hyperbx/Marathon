@@ -2,7 +2,7 @@
 {
     public static class StringExtensions
     {
-        public static string[] ParseLineBreaks(this string in_str)
+        public static string[] SplitLineBreaks(this string in_str)
         {
             return in_str.Split(['\r', '\n']);
         }

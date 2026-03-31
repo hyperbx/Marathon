@@ -12,37 +12,44 @@ namespace Marathon.Tests.Helpers
         {
             var result = true;
 
-            Logger.Log("│");
+            TreeLogger.Log();
 
             foreach (var test in in_tests)
             {
-                Logger.Log($"│    Test:          {test.Method.Name}");
+                TreeLogger.Log($"Test:          {test.Method.Name}", 1, TreeLogger.NodeType.Root);
 
-                var testStart = DateTime.Now;
-
-                result = test();
-
-                var testEnd = DateTime.Now;
-                var testDuration = testEnd - testStart;
-
-                Logger.Log($"│    ├── Duration:  {testDuration.FormatHoursMinutesSeconds()}");
-
-                if (result)
+                try
                 {
-                    Logger.Utility($"│    └── Result:    PASS");
-                }
-                else
-                {
-                    Logger.Error($"│    └── Result:    FAIL");
+                    var testStart = DateTime.Now;
 
-                    if (in_cancelOnFail)
+                    result = test();
+
+                    var testEnd = DateTime.Now;
+                    var testDuration = testEnd - testStart;
+
+                    TreeLogger.Log($"Duration:  {testDuration.FormatHoursMinutesSeconds()}", 1);
+
+                    if (result)
                     {
-                        Logger.Log("│");
-                        break;
+                        TreeLogger.Utility($"Result:    PASS", 1, TreeLogger.NodeType.End);
+                    }
+                    else
+                    {
+                        TreeLogger.Error($"Result:    FAIL", 1, TreeLogger.NodeType.End);
+
+                        if (in_cancelOnFail)
+                        {
+                            TreeLogger.Log();
+                            break;
+                        }
                     }
                 }
+                catch (NotImplementedException)
+                {
+                    TreeLogger.Warning("Result:    Not implemented.", 1, TreeLogger.NodeType.End);
+                }
 
-                Logger.Log("│");
+                TreeLogger.Log();
             }
 
             return result;
@@ -51,17 +58,15 @@ namespace Marathon.Tests.Helpers
         public static bool CheckBinary<T>(IFile in_file, out T out_file) where T : FileBase, new()
         {
             out_file = new T();
-
-            using var file = in_file.Decompress();
-            out_file.Read(file);
+            out_file.Read(in_file);
 
             using var compareStream = new MemoryStream();
             out_file.Write(compareStream);
 
-            file.BaseStream.Position = 0;
+            in_file.BaseStream.Position = 0;
             compareStream.Position = 0;
 
-            var oldHash = HashHelper.ComputeStreamXxHash3(file.BaseStream);
+            var oldHash = HashHelper.ComputeStreamXxHash3(in_file.BaseStream);
             var newHash = HashHelper.ComputeStreamXxHash3(compareStream);
 
             return oldHash == newHash;
@@ -70,16 +75,15 @@ namespace Marathon.Tests.Helpers
         public static bool CheckAllBinaries<T>(string in_searchPattern, List<string> in_ignoreList = null, string in_ignorePattern = "") where T : FileBase, new()
         {
             var result = true;
-            var shouldCancel = Program.CancelOnTestFailure;
-            var files = Program.GameFileSystem.EnumerateFiles(in_searchPattern, SearchOption.AllDirectories);
-            var i = 0;
+            var files = Program.GameFileSystem.GetFiles(in_searchPattern, SearchOption.AllDirectories);
+            var fileCount = files.Length;
 
-            foreach (var file in files)
+            for (int i = 0; i < fileCount; i++)
             {
+                var file = files[i];
+
                 if (FileSystemName.MatchesSimpleExpression(in_ignorePattern, file.Path))
                     continue;
-
-                var fileCount = files.Count();
 
                 if (in_ignoreList != null)
                 {
@@ -92,21 +96,21 @@ namespace Marathon.Tests.Helpers
                 if (result && i > 0)
                     ConsoleHelper.ReturnToPreviousLine(2);
 
-                Logger.Log($"│    ├── File:      {file.Path}");
-                Logger.Log($"│    └── Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})");
+                TreeLogger.Log($"File:      {file.Path}", 1);
+                TreeLogger.Log($"Progress:  {((float)i / (float)fileCount):P0} ({i} / {fileCount})", 1, TreeLogger.NodeType.End);
 
-                if (!(result = CheckBinary<T>(file, out var out_exhibit)))
+                var decompressedFile = file.Decompress();
+
+                if (!(result = CheckBinary<T>(decompressedFile, out var out_exhibit)))
                 {
                     var exhibitPath = CreateExhibit(file.Path, out_exhibit);
 
-                    ConsoleHelper.ReturnToPreviousLine(shouldCancel ? 1 : 2);
-                    Logger.Error($"│    ├── Exhibit:   {exhibitPath}");
+                    ConsoleHelper.ReturnToPreviousLine(Program.CancelOnTestFailure ? 1 : 2);
+                    TreeLogger.Error($"Exhibit:   {exhibitPath}", 1);
 
-                    if (shouldCancel)
+                    if (Program.CancelOnTestFailure)
                         return result;
                 }
-
-                i++;
             }
 
             ConsoleHelper.ReturnToPreviousLine(2);

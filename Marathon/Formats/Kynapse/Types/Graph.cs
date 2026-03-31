@@ -8,7 +8,7 @@ namespace Marathon.Formats.Kynapse.Types
     {
         public string Name { get; set; }
 
-        public string RawData { get; set; }
+        public RawData RawData { get; set; } = new();
 
         public List<(string Name, object Value)> Properties { get; set; } = [];
 
@@ -29,17 +29,17 @@ namespace Marathon.Formats.Kynapse.Types
         public void FromKynapseElement(KynapseElement in_element)
         {
             Name = in_element.Name;
-            RawData = in_element.File;
+            RawData.FromKynapseElement(in_element);
 
             foreach (var child in in_element.Children)
             {
                 switch (child.GetElementType())
                 {
-                    case KynapseElementType.Property:
+                    case KynapseElementType.Leaf:
                         Properties.Add((child.Name, child.Value));
                         break;
 
-                    case KynapseElementType.Object:
+                    case KynapseElementType.Folder:
                     {
                         if (child.Type != nameof(AdditionalData))
                             continue;
@@ -56,7 +56,7 @@ namespace Marathon.Formats.Kynapse.Types
         {
             var result = new KynapseElement(Name, nameof(Graph));
 
-            result.AddChild(new KynapseElement() { File = RawData });
+            result.AddChild(RawData.ToKynapseElement());
 
             foreach (var property in Properties)
                 result.AddChild(new KynapseElement(property.Name, property.Value));
@@ -76,7 +76,7 @@ namespace Marathon.Formats.Kynapse.Types
                 switch (element.Name.ToString())
                 {
                     case nameof(RawData):
-                        RawData = element.GetElementValue(RawData);
+                        RawData.FromXElement(in_element);
                         break;
 
                     case nameof(AdditionalData):
@@ -95,9 +95,7 @@ namespace Marathon.Formats.Kynapse.Types
             var result = new XElement(nameof(Graph));
 
             result.Add(new XAttribute(nameof(Name), Name));
-
-            if (!string.IsNullOrEmpty(RawData))
-                result.Add(new XElement(nameof(RawData), RawData));
+            result.Add(RawData.ToXElement());
 
             foreach (var property in Properties)
                 result.Add(new XElement(property.Name, property.Value));

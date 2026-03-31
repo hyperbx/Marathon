@@ -33,7 +33,7 @@ namespace Marathon.Formats.Kynapse.Types
             {
                 switch (child.GetElementType())
                 {
-                    case KynapseElementType.Property:
+                    case KynapseElementType.Leaf:
                     {
                         if (child.Name != nameof(MaxCount))
                             continue;
@@ -43,7 +43,7 @@ namespace Marathon.Formats.Kynapse.Types
                         break;
                     }
 
-                    case KynapseElementType.Object:
+                    case KynapseElementType.Folder:
                     {
                         if (child.Type != nameof(EntityInfos))
                             continue;
@@ -61,7 +61,9 @@ namespace Marathon.Formats.Kynapse.Types
             var result = new KynapseElement(Name, nameof(Profile));
 
             result.AddChild(new KynapseElement(nameof(MaxCount), MaxCount));
-            result.AddChild(EntityInfos.ToKynapseElement());
+
+            if (EntityInfos.Count > 0)
+                result.AddChild(EntityInfos.ToKynapseElement());
 
             return result;
         }
