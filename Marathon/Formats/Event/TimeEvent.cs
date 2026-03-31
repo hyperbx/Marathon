@@ -16,6 +16,7 @@ namespace Marathon.Formats.Event
     /// <summary>
     /// Support for *.tev files; used for timing audio and particle effects with Ninja animations.
     /// </summary>
+    [FileType("Time Event", "Event", _extension)]
     public class TimeEvent : FileBase
     {
         private const string _extension = ".tev"; // "Time EVent"

@@ -18,6 +18,7 @@ namespace Marathon.Formats.Acroarts
     /// <summary>
     /// Support for *.ddm files; used for storing DirectDraw Surface textures by name.
     /// </summary>
+    [FileType("DirectDraw Map", "Acroarts", _extension)]
     public class DirectDrawMap : FileBase
     {
         private const string _extension = ".ddm";              // "DirectDraw Map" (speculatory)

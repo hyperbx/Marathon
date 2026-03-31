@@ -22,6 +22,7 @@ namespace Marathon.Formats.Acroarts
     /// <summary>
     /// Support for *.mab files; used for Acroarts data.
     /// </summary>
+    [FileType("Acroarts Resource", "Acroarts", _extension)]
     public class AckResource : FileBase
     {
         private const string _extension = ".mab"; // "Merged Acroarts Binary" (speculatory)

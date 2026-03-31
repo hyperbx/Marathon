@@ -21,6 +21,7 @@ namespace Marathon.Formats.Ninja
     /// <summary>
     /// Support for *.xn* files; used for various resources.
     /// </summary>
+    [FileType("Ninja Next", "Ninja", @"\.xn.$", true)]
     public class NinjaNext : FileBase
     {
         public string Name { get; set; }

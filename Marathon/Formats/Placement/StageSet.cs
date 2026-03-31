@@ -26,6 +26,7 @@ namespace Marathon.Formats.Placement
     /// <summary>
     /// Support for *.set files; used for object layouts.
     /// </summary>
+    [FileType("Stage Set", "Placement", _extension)]
     public class StageSet : FileBase
     {
         private const string _extension = ".set"; // "SET"

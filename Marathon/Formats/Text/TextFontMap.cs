@@ -16,6 +16,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.ftm files; used for storing font character information.
     /// </summary>
+    [FileType("Text Font Map", "Text", _extension)]
     public class TextFontMap : FileBase
     {
         private const string _extension = ".ftm"; // "FonT Map"

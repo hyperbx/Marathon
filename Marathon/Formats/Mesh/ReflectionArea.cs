@@ -16,6 +16,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for *.rab files; used for reflection zones.
     /// </summary>
+    [FileType("Reflection Area", "Mesh", _extension)]
     public class ReflectionArea : FileBase
     {
         private const string _extension = ".rab"; // "Reflection Area Binary"

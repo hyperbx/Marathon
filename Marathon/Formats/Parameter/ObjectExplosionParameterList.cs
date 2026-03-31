@@ -15,6 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for Explosion.bin files; used for configuring explosion parameters.
     /// </summary>
+    [FileType("Object Explosion Parameter List", "Parameter", @"Explosion\.bin$", true)]
     public class ObjectExplosionParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

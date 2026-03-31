@@ -17,6 +17,7 @@ namespace Marathon.Formats.Placement
     /// <summary>
     /// Support for *.prop files; used for defining actors.
     /// </summary>
+    [FileType("Prop Library", "Placement", _extension)]
     public class PropLibrary : FileBase
     {
         private const string _extension = ".prop"; // "PROP"

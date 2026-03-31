@@ -15,6 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for PathObj.bin files; used for defining path-based objects for the common_path_obj actor.
     /// </summary>
+    [FileType("Path Obj Parameter List", "Parameter", @"PathObj\.bin$", true)]
     public class PathObjParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

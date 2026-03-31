@@ -27,6 +27,7 @@ namespace Marathon.Formats.Archive
     /// <summary>
     /// Support for *.arc files; used for the game's packed file system.
     /// </summary>
+    [FileType("Arc File", "Archive", _extension)]
     public class ArcFile : FileBase, IDirectory
     {
         private const string _extension = ".arc";   // "ARChive"

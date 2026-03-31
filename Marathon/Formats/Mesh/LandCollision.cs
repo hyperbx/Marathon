@@ -24,6 +24,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for collision.bin files; used for collision meshes for terrain.
     /// </summary>
+    [FileType("Land Collision", "Mesh", @"collision\.bin$", true)]
     public class LandCollision : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

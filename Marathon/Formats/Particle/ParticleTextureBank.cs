@@ -15,6 +15,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.ptb files; used for defining textures for particle effects.
     /// </summary>
+    [FileType("Particle Texture Bank", "Particle", _extension)]
     public class ParticleTextureBank : FileBase
     {
         private const string _extension = ".ptb"; // "Particle Texture Bank"

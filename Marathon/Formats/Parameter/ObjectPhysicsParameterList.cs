@@ -17,6 +17,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for Common.bin files; used for configuring physics object parameters.
     /// </summary>
+    [FileType("Object Physics Parameter List", "Parameter", @"Common\.bin$", true)]
     public class ObjectPhysicsParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

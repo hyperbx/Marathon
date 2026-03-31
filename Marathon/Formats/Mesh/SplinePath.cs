@@ -19,6 +19,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for *.path files; used for spline data.
     /// </summary>
+    [FileType("Spline Path", "Mesh", _extension)]
     public class SplinePath : FileBase
     {
         private const string _extension = ".path"; // "PATH"

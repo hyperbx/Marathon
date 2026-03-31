@@ -16,6 +16,7 @@ namespace Marathon.Formats.Save
     /// <summary>
     /// Support for SonicNextSaveData.bin; used for storing player progress and game configuration.
     /// </summary>
+    [FileType("Save Data", "Save", @"SonicNextSaveData\.bin$", true)]
     public class SaveData : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

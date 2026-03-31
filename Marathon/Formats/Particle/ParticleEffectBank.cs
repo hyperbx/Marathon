@@ -21,6 +21,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.peb files; used for configuring particle effects.
     /// </summary>
+    [FileType("Particle Effect Bank", "Particle", _extension)]
     public class ParticleEffectBank : FileBase
     {
         private const string _extension = ".peb";  // "Particle Effect Bank"

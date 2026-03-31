@@ -16,6 +16,7 @@ namespace Marathon.Formats.Mesh
     /// <summary>
     /// Support for an early version of the *.path format, stored in *.bin files in the win32 archives; used for spline data.
     /// </summary>
+    [FileType("Spline Path (Old)", "Mesh", _extension)]
     public class SplinePathOld : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

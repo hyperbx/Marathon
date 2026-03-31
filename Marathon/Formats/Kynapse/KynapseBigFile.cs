@@ -22,6 +22,7 @@ namespace Marathon.Formats.Kynapse
     /// <summary>
     /// Support for *.kbf files; used for packing Kynapse configuration and binary data.
     /// </summary>
+    [FileType("Kynapse Big File", "Kynapse", _extension)]
     public class KynapseBigFile : FileBase
     {
         private const string _extension = ".kbf";        // "Kynapse Big File"

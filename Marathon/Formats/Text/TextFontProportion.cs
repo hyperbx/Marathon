@@ -15,6 +15,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.pfi files; used for storing font character proportions.
     /// </summary>
+    [FileType("Text Font Proportion", "Text", _extension)]
     public class TextFontProportion : FileBase
     {
         private const string _extension = ".pfi"; // "Proportion Font Info" (speculatory)

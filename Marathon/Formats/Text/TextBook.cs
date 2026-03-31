@@ -19,6 +19,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.mst files; used for storing wide text with friendly names and variables.
     /// </summary>
+    [FileType("Text Book", "Text", _extension)]
     public class TextBook : FileBase
     {
         private const string _extension = ".mst"; // "MeSsage Table" (speculatory)

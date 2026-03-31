@@ -15,6 +15,7 @@ namespace Marathon.Formats.Text
     /// <summary>
     /// Support for *.pft files; used for defining images for picture variables in the <see cref="TextBook"/> format.
     /// </summary>
+    [FileType("Text Font Picture", "Text", _extension)]
     public class TextFontPicture : FileBase
     {
         private const string _extension = ".pft"; // "Picture FonT"

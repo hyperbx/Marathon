@@ -20,6 +20,7 @@ namespace Marathon.Formats.Script.Lua
     /// <summary>
     /// Support for *.lub files; used for compiled Lua scripts.
     /// </summary>
+    [FileType("Lua Binary", "Script", _extension)]
     public class LuaBinary : FileBase
     {
         private const string _extension = ".lub"; // "LUa Binary"

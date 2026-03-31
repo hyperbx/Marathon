@@ -15,6 +15,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.plc files; used for defining particle effects.
     /// </summary>
+    [FileType("Particle Container", "Particle", _extension)]
     public class ParticleContainer : FileBase
     {
         private const string _extension = ".plc"; // "ParticLe Container"

@@ -17,6 +17,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for ScriptParameter.bin files; used for configuring enemy parameters.
     /// </summary>
+    [FileType("Enemy Parameter List", "Parameter", @"ScriptParameter\.bin$", true)]
     public class EnemyParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

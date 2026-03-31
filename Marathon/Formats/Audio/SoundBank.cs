@@ -17,6 +17,7 @@ namespace Marathon.Formats.Audio
     /// <summary>
     /// Support for *.sbk files; used for defining sounds.
     /// </summary>
+    [FileType("Sound Bank", "Audio", _extension)]
     public class SoundBank : FileBase
     {
         private const string _extension = ".sbk"; // "Sound BanK"

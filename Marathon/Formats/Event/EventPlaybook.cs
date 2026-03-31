@@ -16,6 +16,7 @@ namespace Marathon.Formats.Event
     /// <summary>
     /// Support for *.epb files; used for defining cutscene properties.
     /// </summary>
+    [FileType("Event Playbook", "Event", _extension)]
     public class EventPlaybook : FileBase
     {
         private const string _extension = ".epb"; // "Event PlayBook"

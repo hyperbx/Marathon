@@ -17,6 +17,7 @@ namespace Marathon.Formats.Particle
     /// <summary>
     /// Support for *.pgs files; used for global settings for particle effects.
     /// </summary>
+    [FileType("Particle Global Settings", "Particle", _extension)]
     public class ParticleGlobalSettings : FileBase
     {
         private const string _extension = ".pgs"; // "Particle Global Settings"

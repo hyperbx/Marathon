@@ -15,6 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for ShotParameter.bin files; used for configuring enemy projectiles.
     /// </summary>
+    [FileType("Enemy Shot Parameter List", "Parameter", @"ShotParameter\.bin$", true)]
     public class EnemyShotParameterList : FileBase
     {
         private const string _extension = ".bin"; // "BINary"

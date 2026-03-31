@@ -15,6 +15,7 @@ namespace Marathon.Formats.Parameter
     /// <summary>
     /// Support for *.pkg files; used for preloading specific assets with friendly names.
     /// </summary>
+    [FileType("Package", "Parameter", _extension)]
     public class Package : FileBase
     {
         private const string _extension = ".pkg"; // "PacKaGe"
