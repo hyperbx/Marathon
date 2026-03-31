@@ -183,12 +183,8 @@ namespace Marathon.Formats.Kynapse.Types
         {
             return GetRawDataTypeName() switch
             {
-                "Mesh" => typeof(KynogonMesh),
                 "PathWay" => typeof(KynogonPathWay),
-                "Graph" => typeof(KynogonSpatialGraph),
                 "CAstarData" => typeof(KynogonAstarData),
-                "CFindNearestData" => typeof(KynogonFindNearestData),
-                "CPathCostData" => typeof(KynogonPathCostData),
                 _ => null
             };
         }
@@ -199,28 +195,12 @@ namespace Marathon.Formats.Kynapse.Types
 
             switch (GetRawDataTypeName())
             {
-                case "Mesh":
-                    result = FileTypeRegistry.GetAttribute<KynogonMesh>().GetExtension();
-                    break;
-
                 case "PathWay":
                     result = FileTypeRegistry.GetAttribute<KynogonPathWay>().GetExtension();
                     break;
 
-                case "Graph":
-                    result = FileTypeRegistry.GetAttribute<KynogonSpatialGraph>().GetExtension();
-                    break;
-
                 case "CAstarData":
                     result = FileTypeRegistry.GetAttribute<KynogonAstarData>().GetExtension();
-                    break;
-
-                case "CFindNearestData":
-                    result = FileTypeRegistry.GetAttribute<KynogonFindNearestData>().GetExtension();
-                    break;
-
-                case "CPathCostData":
-                    result = FileTypeRegistry.GetAttribute<KynogonPathCostData>().GetExtension();
                     break;
             }
 
