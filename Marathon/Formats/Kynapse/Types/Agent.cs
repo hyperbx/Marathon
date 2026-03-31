@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
 {
-    public class Agent : KynapseElementClassPropertyList
+    public class Agent : KynapseElementClass
     {
         public Agent() { }
 

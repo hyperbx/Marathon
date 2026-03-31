@@ -1,26 +1,25 @@
 using Marathon.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
 {
-    public class KynapseElementClassPropertyList : IKynapseElementSerializable
+    public class KynapseElementClass : IKynapseElementSerializable
     {
         public string Name { get; set; }
 
         public string Class { get; set; }
 
-        public List<(string Name, object Value)> Properties { get; set; } = [];
+        public KynapseElementLeaves Properties { get; set; } = [];
 
-        public KynapseElementClassPropertyList() { }
+        public KynapseElementClass() { }
 
-        public KynapseElementClassPropertyList(KynapseElement in_element)
+        public KynapseElementClass(KynapseElement in_element)
         {
             FromKynapseElement(in_element);
         }
 
-        public KynapseElementClassPropertyList(XElement in_element)
+        public KynapseElementClass(XElement in_element)
         {
             FromXElement(in_element);
         }
@@ -40,7 +39,7 @@ namespace Marathon.Formats.Kynapse.Types
                 }
                 else
                 {
-                    Properties.Add((child.Name, child.Value));
+                    Properties.Add(new KynapseElementLeaf(child.Name, child.Value));
                 }
             }
         }
@@ -69,7 +68,7 @@ namespace Marathon.Formats.Kynapse.Types
                 }
                 else
                 {
-                    Properties.Add((element.Name.ToString(), element.Value));
+                    Properties.Add(new KynapseElementLeaf(element.Name.ToString(), element.Value));
                 }
             }
         }

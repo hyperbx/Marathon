@@ -10,7 +10,7 @@ namespace Marathon.Formats.Kynapse.Types
 
         public RawData RawData { get; set; } = new();
 
-        public List<(string Name, object Value)> Properties { get; set; } = [];
+        public KynapseElementLeaves Properties { get; set; } = [];
 
         public List<AdditionalData> AdditionalData { get; set; } = [];
 
@@ -36,7 +36,7 @@ namespace Marathon.Formats.Kynapse.Types
                 switch (child.GetElementType())
                 {
                     case KynapseElementType.Leaf:
-                        Properties.Add((child.Name, child.Value));
+                        Properties.Add(new KynapseElementLeaf(child.Name, child.Value));
                         break;
 
                     case KynapseElementType.Folder:
@@ -84,7 +84,7 @@ namespace Marathon.Formats.Kynapse.Types
                         break;
 
                     default:
-                        Properties.Add((element.Name.ToString(), element.Value));
+                        Properties.Add(new KynapseElementLeaf(element.Name.ToString(), element.Value));
                         break;
                 }
             }

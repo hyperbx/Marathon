@@ -15,7 +15,7 @@ namespace Marathon.Formats.Kynapse.Types
 
         public string Class { get; set; }
 
-        public List<(string Name, object Value)> Properties { get; set; } = [];
+        public KynapseElementLeaves Properties { get; set; } = [];
 
         public Filters Filters { get; set; } = [];
 
@@ -59,7 +59,7 @@ namespace Marathon.Formats.Kynapse.Types
                         }
                         else
                         {
-                            Properties.Add((child.Name, child.Value));
+                            Properties.Add(new KynapseElementLeaf(child.Name, child.Value));
                         }
 
                         break;
@@ -173,7 +173,7 @@ namespace Marathon.Formats.Kynapse.Types
                     }
 
                     default:
-                        Properties.Add((element.Name.ToString(), element.Value));
+                        Properties.Add(new KynapseElementLeaf(element.Name.ToString(), element.Value));
                         break;
                 }
             }

@@ -2,7 +2,7 @@ using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
 {
-    public class Traversal : KynapseElementClassPropertyList
+    public class Traversal : KynapseElementClass
     {
         public Traversal() { }
 

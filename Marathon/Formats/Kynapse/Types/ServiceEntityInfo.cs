@@ -1,5 +1,4 @@
 using Marathon.Extensions;
-using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
@@ -13,7 +12,7 @@ namespace Marathon.Formats.Kynapse.Types
 
         public string Class { get; set; }
 
-        public List<(string Name, object Value)> Properties { get; set; } = [];
+        public KynapseElementLeaves Properties { get; set; } = [];
 
         public ServiceEntityInfo() { }
 
@@ -42,7 +41,7 @@ namespace Marathon.Formats.Kynapse.Types
                 }
                 else
                 {
-                    Properties.Add((child.Name, child.Value));
+                    Properties.Add(new KynapseElementLeaf(child.Name, child.Value));
                 }
             }
         }
@@ -71,7 +70,7 @@ namespace Marathon.Formats.Kynapse.Types
                 }
                 else
                 {
-                    Properties.Add((element.Name.ToString(), element.Value));
+                    Properties.Add(new KynapseElementLeaf(element.Name.ToString(), element.Value));
                 }
             }
         }
