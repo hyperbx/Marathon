@@ -10,7 +10,7 @@ namespace Marathon.Formats.Kynapse.Types
     {
         public IFile File { get; set; }
 
-        public string Path { get; set; }
+        public string Path { get; internal set; }
 
         public RawData() { }
 
@@ -28,41 +28,30 @@ namespace Marathon.Formats.Kynapse.Types
         {
             var binary = in_element.Children.First(x => x.GetElementType() == KynapseElementType.RawData);
 
-            if (binary.File != null)
-            {
-                File = binary.File;
-            }
-            else if (System.IO.File.Exists(binary.Path))
-            {
-                File = new PhysicalFile(binary.Path);
-            }
-            else
-            {
+            if (binary.File == null)
                 throw new FileNotFoundException("This Kynapse element has no file data.");
-            }
 
-            Path = binary.Path;
+            File = binary.File;
         }
 
         public KynapseElement ToKynapseElement()
         {
             return new KynapseElement()
             {
-                File = File,
-                Path = Path
+                File = File
             };
         }
 
         public void FromXElement(XElement in_element)
         {
-            Path = in_element.GetDescendantElementValue<string>(nameof(RawData));
+            File = new VirtualDirectory().CreateFile(in_element.GetDescendantElementValue<string>(nameof(RawData)));
         }
 
         public XElement ToXElement()
         {
             return new XElement(nameof(RawData))
             {
-                Value = Path
+                Value = File.Name
             };
         }
 

@@ -72,7 +72,7 @@ namespace Marathon.Formats.Kynapse
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
             var xml = XDocument.Load(in_path);
-            var dir = Path.GetDirectoryName(in_path);
+            var dir = Path.Combine(Path.GetDirectoryName(in_path), FileSystemHelper.TruncateAllExtensions(in_path));
 
             Root = new Level(xml.Root).ToKynapseElement();
 
@@ -81,12 +81,12 @@ namespace Marathon.Formats.Kynapse
                 if (type != KynapseElementType.RawData)
                     return;
 
-                var filePath = Path.Combine(dir, element.Path);
+                var filePath = Path.Combine(dir, element.GetRawDataFileName());
 
                 if (!File.Exists(filePath))
-                    throw new FileNotFoundException($"Could not find Kynapse binary: {element.Path}");
+                    throw new FileNotFoundException($"Could not find Kynapse binary: {filePath}");
 
-                element.Path = filePath;
+                element.File = new PhysicalFile(filePath);
             });
         }
 
@@ -102,29 +102,16 @@ namespace Marathon.Formats.Kynapse
                 if (type != KynapseElementType.RawData)
                     return;
 
-                var binName = element.Parent?.Type == "AdditionalData"
-                    ? element.Parent?.Parent?.Name
-                    : element.Parent?.Name ?? element.Parent?.Type;
-
-                var binFile = Path.Combine(dir.FullName, binName + element.GetRawDataExtension());
+                var binFile = Path.Combine(dir.FullName, element.GetRawDataFileName());
 
                 if (!in_overwrite)
                     ThrowHelper.ThrowFileExistsException(binFile);
 
-                if (element.File != null || File.Exists(element.Path))
-                {
-                    using (var fs = File.OpenWrite(binFile))
-                    {
-                        element.File ??= new PhysicalFile(element.Path);
-                        element.File.Open().CopyTo(fs);
-                    }
-                }
-                else
-                {
+                if (element.File == null)
                     throw new FileNotFoundException("This Kynapse element has no file data.");
-                }
 
-                element.Path = binFile;
+                using (var fs = File.OpenWrite(binFile))
+                    element.File.Open().CopyTo(fs);
             });
 
             File.WriteAllText(Path.Combine(Path.GetDirectoryName(dir.FullName), $"{name}{_extension}.xml"), new Level(Root).ToXElement().ToString());
@@ -150,25 +137,6 @@ namespace Marathon.Formats.Kynapse
 
         public Level GetLevel()
         {
-            if (!string.IsNullOrEmpty(Location))
-            {
-                var dirPath = Path.GetDirectoryName(Location);
-
-                // Resolve file paths.
-                WalkElements((element, type) =>
-                {
-                    if (type != KynapseElementType.RawData || Path.IsPathRooted(element.Path))
-                        return;
-
-                    var filePath = Path.Combine(dirPath, element.Path);
-
-                    if (!File.Exists(filePath))
-                        throw new FileNotFoundException($"Could not find Kynapse binary: {element.Path}");
-
-                    element.Path = filePath;
-                });
-            }
-
             return new Level(Root);
         }
     }

@@ -18,8 +18,6 @@ namespace Marathon.Formats.Kynapse.Types
 
         public IFile File { get; set; }
 
-        public string Path { get; set; }
-
         public KynapseElement? Parent { get; set; } = null;
 
         public List<KynapseElement> Children { get; set; } = [];
@@ -63,9 +61,12 @@ namespace Marathon.Formats.Kynapse.Types
 
                     for (int i = 0; i < childCount; i++)
                     {
-                        var element = in_reader.ReadObjectEx<KynapseElement>();
+                        var element = new KynapseElement()
+                        {
+                            Parent = this
+                        };
 
-                        element.Parent = this;
+                        element.Read(in_reader);
 
                         Children.Add(element);
                     }
@@ -74,7 +75,7 @@ namespace Marathon.Formats.Kynapse.Types
                 }
 
                 case KynapseElementType.RawData:
-                    File = new VirtualFile(Name, new SubStream(in_reader.GetBaseStream(), length));
+                    File = new VirtualFile(GetRawDataFileName(), new SubStream(in_reader.GetBaseStream(), length));
                     in_reader.JumpAhead(length);
                     break;
 
@@ -143,7 +144,7 @@ namespace Marathon.Formats.Kynapse.Types
             {
                 result = KynapseElementType.Folder;
             }
-            else if (File?.Length > 0 || !string.IsNullOrEmpty(Path))
+            else if (File != null)
             {
                 result = KynapseElementType.RawData;
             }
