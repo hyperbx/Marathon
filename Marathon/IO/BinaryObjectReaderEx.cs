@@ -111,6 +111,26 @@ namespace Marathon.IO
             return in_offset + OffsetOrigin;
         }
 
+        public IEnumerable<long> ScanAll(byte[] in_pattern, string in_mask, long in_begin = 0, long in_length = 0)
+        {
+            return SignatureScanner.ScanAll(GetBaseStream(), in_pattern, in_mask, in_begin, in_length);
+        }
+
+        public IEnumerable<long> ScanAll(string in_wildcardPattern, long in_begin = 0, long in_length = 0)
+        {
+            return SignatureScanner.ScanAll(GetBaseStream(), in_wildcardPattern, in_begin, in_length);
+        }
+
+        public long ScanFirst(byte[] in_pattern, string in_mask, long in_begin = 0, long in_length = 0)
+        {
+            return SignatureScanner.Scan(GetBaseStream(), in_pattern, in_mask, in_begin, in_length);
+        }
+
+        public long ScanFirst(string in_wildcardPattern, long in_begin = 0, long in_length = 0)
+        {
+            return SignatureScanner.Scan(GetBaseStream(), in_wildcardPattern, in_begin, in_length);
+        }
+
         public virtual void JumpAhead(long in_offset)
         {
             Seek(in_offset, SeekOrigin.Current);
