@@ -144,19 +144,21 @@ namespace Marathon.Formats.Kynapse
                 {
                     for (int i = 0; i < pathWayManager.Children.Count; i++)
                     {
-                        if (pathWayManager.Children[i].Name == in_name)
-                        {
-                            if (in_overwrite)
-                            {
-                                pathWayManager.Children[i] = pathWay;
-                            }
-                            else
-                            {
-                                ThrowHelper.ThrowFileExistsException(in_name, false);
-                            }
+                        if (pathWayManager.Children[i].Name != in_name)
+                            continue;
 
-                            pathWayExists = true;
+                        if (in_overwrite)
+                        {
+                            pathWayManager.Children[i] = pathWay;
                         }
+                        else
+                        {
+                            ThrowHelper.ThrowFileExistsException(in_name, false);
+                        }
+
+                        pathWayExists = true;
+
+                        break;
                     }
                 }
 
