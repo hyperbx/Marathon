@@ -8,6 +8,7 @@ using Marathon.IO.Extensions;
 using Marathon.IO.Types.FileSystem;
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 // Format names:        Kynapse Big File
@@ -30,7 +31,7 @@ namespace Marathon.Formats.Kynapse
         private const string _signature = "KS BIG FILE"; // "KynapSe BIG FILE"
         private const int _version = 1;
 
-        public KynapseElement Root { get; set; } = new();
+        public KynapseElement Root { get; set; } = new Level().ToKynapseElement();
 
         public override string Extension => _extension;
 
@@ -115,6 +116,57 @@ namespace Marathon.Formats.Kynapse
             });
 
             File.WriteAllText(Path.Combine(Path.GetDirectoryName(dir.FullName), $"{name}{_extension}.xml"), new Level(Root).ToXElement().ToString());
+        }
+
+        public void AddPathWay(string in_name, KynogonPathWay in_pathWay, bool in_overwrite = true)
+        {
+            if (Root.Type != "Level")
+                return;
+
+            var pathWayAdded = false;
+
+            WalkElements((element, type) =>
+            {
+                if (pathWayAdded || element.Type != "Services")
+                    return;
+
+                var pathWayManager = element.Children.FirstOrDefault(x => x.Name == "PathWayManager");
+                var pathWayExists = false;
+                var pathWay = new KynapseElement(in_name, "PathWay");
+
+                if (pathWayManager == null)
+                {
+                    pathWayManager = new KynapseElement("PathWayManager", "Service");
+
+                    element.Children.Add(pathWayManager);
+                }
+                else
+                {
+                    for (int i = 0; i < pathWayManager.Children.Count; i++)
+                    {
+                        if (pathWayManager.Children[i].Name == in_name)
+                        {
+                            if (in_overwrite)
+                            {
+                                pathWayManager.Children[i] = pathWay;
+                            }
+                            else
+                            {
+                                ThrowHelper.ThrowFileExistsException(in_name, false);
+                            }
+
+                            pathWayExists = true;
+                        }
+                    }
+                }
+
+                if (!pathWayExists)
+                    pathWayManager.AddChild(pathWay);
+
+                pathWay.AddChild(new KynapseElement() { File = new VirtualFile(in_name, in_pathWay.Write()) });
+
+                pathWayAdded = true;
+            });
         }
 
         public void WalkElements(KynapseElement in_element, Action<KynapseElement, KynapseElementType> in_action)

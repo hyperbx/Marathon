@@ -14,7 +14,11 @@ namespace Marathon.Formats.Kynapse.Types
 
         public string Value { get; set; }
 
-        public string Type => Value;
+        public string Type
+        {
+            get => Value;
+            set => Value = value;
+        }
 
         public IFile File { get; set; }
 
@@ -40,6 +44,11 @@ namespace Marathon.Formats.Kynapse.Types
             {
                 Value = in_value.ToString();
             }
+        }
+
+        public KynapseElement(IFile in_file)
+        {
+            File = in_file;
         }
 
         public void Read(BinaryObjectReaderEx in_reader)

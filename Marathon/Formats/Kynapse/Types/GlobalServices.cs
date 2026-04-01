@@ -33,10 +33,10 @@ namespace Marathon.Formats.Kynapse.Types
 
         public KynapseElement ToKynapseElement()
         {
-            if (Count <= 0)
-                return null;
-
             var result = new KynapseElement(string.Empty, nameof(GlobalServices));
+
+            if (Count <= 0)
+                return result;
 
             foreach (var service in this)
                 result.AddChild(new KynapseElement(_nameOfServices, service));

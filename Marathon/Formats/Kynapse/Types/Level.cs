@@ -8,7 +8,7 @@ namespace Marathon.Formats.Kynapse.Types
         private const string _nameOfTicksPerFrame = "Tpf";
         private const string _nameOfTimeManagement = "TimeMgt";
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "level 1";
 
         public double OneMeter { get; set; }
 
@@ -16,7 +16,7 @@ namespace Marathon.Formats.Kynapse.Types
 
         public double TicksPerFrame { get; set; }
 
-        public GlobalServices GlobalServices { get; set; } = new();
+        public GlobalServices GlobalServices { get; set; } = [];
 
         public TimeManagement TimeManagement { get; set; } = new();
 
