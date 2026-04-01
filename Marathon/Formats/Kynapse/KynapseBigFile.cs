@@ -166,9 +166,9 @@ namespace Marathon.Formats.Kynapse
             pathWay.AddChild(new KynapseElement() { File = new VirtualFile(in_name, in_pathWay.Write()) });
         }
 
-        public List<KynogonPathWay> GetPathWays()
+        public Dictionary<string, KynogonPathWay> GetPathWays()
         {
-            var result = new List<KynogonPathWay>();
+            var result = new Dictionary<string, KynogonPathWay>();
 
             var services = Root.Children.FirstOrDefault(x => x.Type == "Services")
                 ?? throw new InvalidDataException("Invalid Kynapse format.");
@@ -184,7 +184,7 @@ namespace Marathon.Formats.Kynapse
                     continue;
 
                 foreach (var subChild in child.Children)
-                    result.Add(new KynogonPathWay(subChild.File));
+                    result.Add(child.Name, new KynogonPathWay(subChild.File));
             }
 
             return result;
