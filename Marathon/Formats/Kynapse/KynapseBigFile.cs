@@ -7,6 +7,7 @@ using Marathon.IO;
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.FileSystem;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -80,7 +81,7 @@ namespace Marathon.Formats.Kynapse
             WalkElements((element, type) =>
             {
                 if (type != KynapseElementType.RawData)
-                    return;
+                    return true;
 
                 var filePath = Path.Combine(dir, element.GetRawDataFileName());
 
@@ -88,6 +89,8 @@ namespace Marathon.Formats.Kynapse
                     throw new FileNotFoundException($"Could not find Kynapse binary: {filePath}");
 
                 element.File = new PhysicalFile(filePath);
+
+                return true;
             });
         }
 
@@ -101,7 +104,7 @@ namespace Marathon.Formats.Kynapse
             WalkElements((element, type) =>
             {
                 if (type != KynapseElementType.RawData)
-                    return;
+                    return true;
 
                 var binFile = Path.Combine(dir.FullName, element.GetRawDataFileName());
 
@@ -113,6 +116,8 @@ namespace Marathon.Formats.Kynapse
 
                 using (var fs = File.OpenWrite(binFile))
                     element.File.Open().CopyTo(fs);
+
+                return true;
             });
 
             File.WriteAllText(Path.Combine(Path.GetDirectoryName(dir.FullName), $"{name}{_extension}.xml"), new Level(Root).ToXElement().ToString());
@@ -123,59 +128,83 @@ namespace Marathon.Formats.Kynapse
             if (Root.Type != "Level")
                 return;
 
-            var pathWayAdded = false;
+            var services = Root.Children.FirstOrDefault(x => x.Type == "Services")
+                ?? throw new InvalidDataException("Invalid Kynapse format.");
+
+            var pathWayManager = services.Children.FirstOrDefault(x => x.Name == "PathWayManager");
+            var pathWayExists = false;
+            var pathWay = new KynapseElement(in_name, "PathWay");
+
+            if (pathWayManager == null)
+            {
+                pathWayManager = new KynapseElement("PathWayManager", "Service");
+
+                services.Children.Add(pathWayManager);
+            }
+            else
+            {
+                for (int i = 0; i < pathWayManager.Children.Count; i++)
+                {
+                    if (pathWayManager.Children[i].Name != in_name)
+                        continue;
+
+                    if (in_overwrite)
+                    {
+                        pathWayManager.Children[i] = pathWay;
+                    }
+                    else
+                    {
+                        ThrowHelper.ThrowFileExistsException(in_name, false);
+                    }
+
+                    pathWayExists = true;
+
+                    break;
+                }
+            }
+
+            if (!pathWayExists)
+                pathWayManager.AddChild(pathWay);
+
+            pathWay.AddChild(new KynapseElement() { File = new VirtualFile(in_name, in_pathWay.Write()) });
+        }
+
+        public List<KynogonPathWay> GetPathWays()
+        {
+            var result = new List<KynogonPathWay>();
 
             WalkElements((element, type) =>
             {
-                if (pathWayAdded || element.Type != "Services")
-                    return;
+                if (element.Type != "Services")
+                    return true;
 
                 var pathWayManager = element.Children.FirstOrDefault(x => x.Name == "PathWayManager");
-                var pathWayExists = false;
-                var pathWay = new KynapseElement(in_name, "PathWay");
 
                 if (pathWayManager == null)
+                    return false;
+
+                foreach (var child in pathWayManager.Children)
                 {
-                    pathWayManager = new KynapseElement("PathWayManager", "Service");
+                    if (child.Type != "PathWay")
+                        continue;
 
-                    element.Children.Add(pathWayManager);
-                }
-                else
-                {
-                    for (int i = 0; i < pathWayManager.Children.Count; i++)
-                    {
-                        if (pathWayManager.Children[i].Name != in_name)
-                            continue;
-
-                        if (in_overwrite)
-                        {
-                            pathWayManager.Children[i] = pathWay;
-                        }
-                        else
-                        {
-                            ThrowHelper.ThrowFileExistsException(in_name, false);
-                        }
-
-                        pathWayExists = true;
-
-                        break;
-                    }
+                    foreach (var subChild in child.Children)
+                        result.Add(new KynogonPathWay(subChild.File));
                 }
 
-                if (!pathWayExists)
-                    pathWayManager.AddChild(pathWay);
-
-                pathWay.AddChild(new KynapseElement() { File = new VirtualFile(in_name, in_pathWay.Write()) });
-
-                pathWayAdded = true;
+                return false;
             });
+
+            return result;
         }
 
-        public void WalkElements(KynapseElement in_element, Action<KynapseElement, KynapseElementType> in_action)
+        public void WalkElements(KynapseElement in_element, Func<KynapseElement, KynapseElementType, bool> in_action)
         {
             var type = in_element.GetElementType();
 
-            in_action(in_element, type);
+            // Stop walking if returned false.
+            if (!in_action(in_element, type))
+                return;
 
             if (type != KynapseElementType.Folder)
                 return;
@@ -184,7 +213,7 @@ namespace Marathon.Formats.Kynapse
                 WalkElements(child, in_action);
         }
 
-        public void WalkElements(Action<KynapseElement, KynapseElementType> in_action)
+        public void WalkElements(Func<KynapseElement, KynapseElementType, bool> in_action)
         {
             WalkElements(Root, in_action);
         }
