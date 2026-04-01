@@ -132,7 +132,7 @@ namespace Marathon.IO
                 {
                     Location = tempPath;
 
-                    using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
                         Write(stream);
 
                     break;
@@ -153,7 +153,7 @@ namespace Marathon.IO
                         ThrowHelper.ThrowFileNotFoundException(Location, false);
                     }
 
-                    using (var stream = new FileStream(tempPath, FileMode.Open, FileAccess.ReadWrite))
+                    using (var stream = new FileStream(tempPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                         Write(stream);
 
                     break;
@@ -198,6 +198,17 @@ namespace Marathon.IO
             Write(in_file.Open());
 
             in_file.UncompressedLength = 0;
+        }
+
+        public Stream Write()
+        {
+            Dispose();
+
+            BaseStream = new MemoryStream();
+
+            Write(BaseStream);
+
+            return BaseStream;
         }
 
         public virtual void Import(string in_path)
