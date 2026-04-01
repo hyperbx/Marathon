@@ -125,9 +125,6 @@ namespace Marathon.Formats.Kynapse
 
         public void AddPathWay(string in_name, KynogonPathWay in_pathWay, bool in_overwrite = true)
         {
-            if (Root.Type != "Level")
-                return;
-
             var services = Root.Children.FirstOrDefault(x => x.Type == "Services")
                 ?? throw new InvalidDataException("Invalid Kynapse format.");
 
@@ -173,27 +170,22 @@ namespace Marathon.Formats.Kynapse
         {
             var result = new List<KynogonPathWay>();
 
-            WalkElements((element, type) =>
+            var services = Root.Children.FirstOrDefault(x => x.Type == "Services")
+                ?? throw new InvalidDataException("Invalid Kynapse format.");
+
+            var pathWayManager = services.Children.FirstOrDefault(x => x.Name == "PathWayManager");
+
+            if (pathWayManager == null)
+                return result;
+
+            foreach (var child in pathWayManager.Children)
             {
-                if (element.Type != "Services")
-                    return true;
+                if (child.Type != "PathWay")
+                    continue;
 
-                var pathWayManager = element.Children.FirstOrDefault(x => x.Name == "PathWayManager");
-
-                if (pathWayManager == null)
-                    return false;
-
-                foreach (var child in pathWayManager.Children)
-                {
-                    if (child.Type != "PathWay")
-                        continue;
-
-                    foreach (var subChild in child.Children)
-                        result.Add(new KynogonPathWay(subChild.File));
-                }
-
-                return false;
-            });
+                foreach (var subChild in child.Children)
+                    result.Add(new KynogonPathWay(subChild.File));
+            }
 
             return result;
         }
