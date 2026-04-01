@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
@@ -7,6 +8,8 @@ namespace Marathon.Formats.Kynapse.Types
         public override string RootName => nameof(Profiles);
 
         public override string ItemName => nameof(Profile);
+
+        public Profile this[string in_name] => this.FirstOrDefault(x => x.Name == in_name);
 
         public Profiles() { }
 

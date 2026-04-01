@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
@@ -7,6 +8,8 @@ namespace Marathon.Formats.Kynapse.Types
         public override string RootName => "EntityInfos";
 
         public override string ItemName => "EntityInfo";
+
+        public ServiceEntityInfo this[string in_name] => this.FirstOrDefault(x => x.Name == in_name);
 
         public ServiceEntityInfos() { }
 

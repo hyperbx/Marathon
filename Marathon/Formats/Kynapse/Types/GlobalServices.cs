@@ -4,11 +4,9 @@ using System.Xml.Linq;
 
 namespace Marathon.Formats.Kynapse.Types
 {
-    public class GlobalServices : IKynapseElementSerializable
+    public class GlobalServices : List<string>, IKynapseElementSerializable
     {
         private const string _nameOfServices = "Service";
-
-        public List<string> Services { get; set; } = [];
 
         public GlobalServices() { }
 
@@ -29,18 +27,18 @@ namespace Marathon.Formats.Kynapse.Types
                 if (child.GetElementType() != KynapseElementType.Leaf || child.Name != _nameOfServices)
                     continue;
 
-                Services.Add(child.Value);
+                Add(child.Value);
             }
         }
 
         public KynapseElement ToKynapseElement()
         {
-            if (Services.Count <= 0)
+            if (Count <= 0)
                 return null;
 
             var result = new KynapseElement(string.Empty, nameof(GlobalServices));
 
-            foreach (var service in Services)
+            foreach (var service in this)
                 result.AddChild(new KynapseElement(_nameOfServices, service));
 
             return result;
@@ -58,18 +56,18 @@ namespace Marathon.Formats.Kynapse.Types
                 if (element.Name != _nameOfServices)
                     continue;
 
-                Services.Add(element.GetElementValue<string>(_nameOfServices));
+                Add(element.GetElementValue(_nameOfServices));
             }
         }
 
         public XElement ToXElement()
         {
-            if (Services.Count <= 0)
+            if (Count <= 0)
                 return null;
 
             var result = new XElement(nameof(GlobalServices));
 
-            foreach (var service in Services)
+            foreach (var service in this)
                 result.Add(new XElement(_nameOfServices, service));
 
             return result;
