@@ -205,12 +205,28 @@ namespace Marathon.Formats.Kynapse.Types
 
             switch (GetRawDataTypeName())
             {
+                case "Mesh":
+                    result = ".aim";
+                    break;
+
                 case "PathWay":
                     result = FileTypeRegistry.GetAttribute<KynogonPathWay>().GetExtension();
                     break;
 
+                case "Graph":
+                    result = ".pdl";
+                    break;
+
                 case "CAstarData":
                     result = FileTypeRegistry.GetAttribute<KynogonAstarData>().GetExtension();
+                    break;
+
+                case "CFindNearestData":
+                    result = ".fdl";
+                    break;
+
+                case "CPathCostData":
+                    result = ".cdl";
                     break;
             }
 
