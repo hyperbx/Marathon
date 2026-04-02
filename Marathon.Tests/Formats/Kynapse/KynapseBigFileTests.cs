@@ -31,7 +31,7 @@ namespace Marathon.Tests.Formats.Kynapse
 
         private static bool BinaryIdenticalTest_KynogonFindNearestData()
         {
-            throw new NotImplementedException();
+            return BinaryIdenticalTest_Internal<KynogonFindNearestData>(".fdl");
         }
 
         private static bool BinaryIdenticalTest_KynogonMesh()
@@ -72,10 +72,10 @@ namespace Marathon.Tests.Formats.Kynapse
                 kbf.WalkElements((element, type) =>
                 {
                     if (!result && Program.CancelOnTestFailure)
-                        return;
+                        return false;
 
                     if (type != KynapseElementType.RawData || element.GetRawDataExtension() != in_extension)
-                        return;
+                        return true;
 
                     if (result && i > 0)
                         ConsoleHelper.ReturnToPreviousLine();
@@ -95,6 +95,8 @@ namespace Marathon.Tests.Formats.Kynapse
                     }
 
                     i++;
+
+                    return true;
                 });
 
                 if (result)
