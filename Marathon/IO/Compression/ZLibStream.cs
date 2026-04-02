@@ -2,8 +2,8 @@
 /*                                                                                  */
 /*  MIT License                                                                     */
 /*                                                                                  */
-/*  Copyright (c) 2020 David Korth <gerbilsoft@gerbilsoft.com>                      */
-/*  Copyright (c) 2025 Hyper                                                        */
+/*  Copyright (c) 2020 David Korth                                                  */
+/*  Copyright (c) 2020-2025 Hyper                                                   */
 /*                                                                                  */
 /*  Permission is hereby granted, free of charge, to any person obtaining a copy    */
 /*  of this software and associated documentation files (the "Software"), to deal   */
