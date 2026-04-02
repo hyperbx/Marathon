@@ -41,7 +41,7 @@ namespace Marathon.Tests.Formats.Kynapse
 
         private static bool BinaryIdenticalTest_KynogonPathCostData()
         {
-            throw new NotImplementedException();
+            return BinaryIdenticalTest_Internal<KynogonPathCostData>(".cdl");
         }
 
         private static bool BinaryIdenticalTest_KynogonPathWay()

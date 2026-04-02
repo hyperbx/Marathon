@@ -196,6 +196,7 @@ namespace Marathon.Formats.Kynapse.Types
                 "PathWay" => typeof(KynogonPathWay),
                 "CAstarData" => typeof(KynogonAstarData),
                 "CFindNearestData" => typeof(KynogonFindNearestData),
+                "CPathCostData" => typeof(KynogonPathCostData),
                 _ => null
             };
         }
@@ -227,7 +228,7 @@ namespace Marathon.Formats.Kynapse.Types
                     break;
 
                 case "CPathCostData":
-                    result = ".cdl";
+                    result = FileTypeRegistry.GetAttribute<KynogonPathCostData>().GetExtension();
                     break;
             }
 
