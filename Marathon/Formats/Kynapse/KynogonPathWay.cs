@@ -39,7 +39,7 @@ namespace Marathon.Formats.Kynapse
 
         public string Comment { get; set; }
 
-        public KynogonPathWayAction Action { get; set; }
+        public PathWayAction Action { get; set; }
 
         public List<Waypoint> Waypoints { get; set; } = [];
 
@@ -66,7 +66,7 @@ namespace Marathon.Formats.Kynapse
 
             Comment = KynapseString.Read(reader, _maxCommentLength);
             _seekCheckValue = reader.Read<byte>();
-            Action = (KynogonPathWayAction)reader.Read<byte>();
+            Action = reader.Read<PathWayAction>();
 
             while (reader.Position < reader.Length)
             {
@@ -85,7 +85,7 @@ namespace Marathon.Formats.Kynapse
             writer.Write(_version);
             KynapseString.Write(writer, Comment, _maxCommentLength);
             writer.Write(_seekCheckValue);
-            writer.Write((byte)Action);
+            writer.Write(Action);
 
             if (Waypoints.Count <= 0)
                 return;
@@ -133,7 +133,7 @@ namespace Marathon.Formats.Kynapse
                         }
                         else if (comment.StartsWith("Action"))
                         {
-                            if (Enum.TryParse<KynogonPathWayAction>(value, false, out var out_action))
+                            if (Enum.TryParse<PathWayAction>(value, false, out var out_action))
                                 Action = out_action;
                         }
                         else if (comment.StartsWith("Script"))
@@ -240,7 +240,7 @@ namespace Marathon.Formats.Kynapse
         }
     }
 
-    public enum KynogonPathWayAction
+    public enum PathWayAction : byte
     {
         None,
         Walk,
