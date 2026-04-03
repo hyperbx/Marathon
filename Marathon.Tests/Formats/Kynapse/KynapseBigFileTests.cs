@@ -51,7 +51,7 @@ namespace Marathon.Tests.Formats.Kynapse
 
         private static bool BinaryIdenticalTest_KynogonSpatialGraph()
         {
-            throw new NotImplementedException();
+            return BinaryIdenticalTest_Internal<KynogonSpatialGraph>(".pdl");
         }
 
         private static bool BinaryIdenticalTest_Internal<T>(string in_extension) where T : FileBase, new()

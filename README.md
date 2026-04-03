@@ -30,6 +30,7 @@ See the [Building](https://github.com/hyperbx/Marathon/wiki/Building) page on th
     - [Kynogon Find Nearest Data (`*.fdl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonFindNearestData.cs)
     - [Kynogon Path Cost Data (`*.cdl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonPathCostData.cs)
     - [Kynogon Path Way (`*.pwl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonPathWay.cs)
+    - [Kynogon Spatial Graph (`*.pdl`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Kynapse/KynogonSpatialGraph.cs)
 - Mesh
     - [Land Collision (`collision.bin`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/LandCollision.cs)
     - [Reflection Area (`*.rab`)](https://github.com/hyperbx/Marathon/blob/main/Marathon/Formats/Mesh/ReflectionArea.cs)

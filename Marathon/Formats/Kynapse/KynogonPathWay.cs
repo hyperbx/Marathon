@@ -171,7 +171,7 @@ namespace Marathon.Formats.Kynapse
         {
             EnsurePath(ref in_path, path => FileSystemHelper.TruncateAllExtensions(path));
 
-            using var sw = new StreamWriter($"{in_path}.obj");
+            using var sw = new StreamWriter($"{in_path}{_extension}.obj");
 
             sw.WriteLine("# Kynogon Path Way");
             sw.WriteLine($"# Comment: {Comment}");

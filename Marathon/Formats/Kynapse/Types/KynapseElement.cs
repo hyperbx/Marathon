@@ -194,6 +194,7 @@ namespace Marathon.Formats.Kynapse.Types
             return GetRawDataTypeName() switch
             {
                 "PathWay" => typeof(KynogonPathWay),
+                "Graph" => typeof(KynogonSpatialGraph),
                 "CAstarData" => typeof(KynogonAstarData),
                 "CFindNearestData" => typeof(KynogonFindNearestData),
                 "CPathCostData" => typeof(KynogonPathCostData),
@@ -216,7 +217,7 @@ namespace Marathon.Formats.Kynapse.Types
                     break;
 
                 case "Graph":
-                    result = ".pdl";
+                    result = FileTypeRegistry.GetAttribute<KynogonSpatialGraph>().GetExtension();
                     break;
 
                 case "CAstarData":
