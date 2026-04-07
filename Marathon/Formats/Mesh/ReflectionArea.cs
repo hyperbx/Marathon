@@ -53,17 +53,7 @@ namespace Marathon.Formats.Mesh
             reader.JumpTo(BINAHeader.Size + reflectionTableOffset);
 
             for (int i = 0; i < reflectionCount; i++)
-            {
-                var param = new ReflectionAreaParam()
-                {
-                    Pitch = reader.Read<float>(),
-                    UnknownField = reader.Read<float>(),
-                    Roll = reader.Read<float>(),
-                    Y = reader.Read<float>()
-                };
-
-                Parameters.Add(param);
-            }
+                Parameters.Add(reader.ReadObjectEx<ReflectionAreaParam>());
 
             reader.JumpTo(BINAHeader.Size + entryTableOffset);
 
@@ -73,14 +63,11 @@ namespace Marathon.Formats.Mesh
                 var vertexTableOffset = reader.Read<uint>();
                 var reflectionIndex = reader.Read<uint>();
 
-                var pos = reader.Position;
-
-                reader.JumpTo(BINAHeader.Size + vertexTableOffset);
-
-                for (int j = 0; j < vertexCount; j++)
-                    Parameters[(int)reflectionIndex].Vertices.Add(reader.Read<Vector3>());
-
-                reader.JumpTo(pos);
+                reader.ReadAtOffset(BINAHeader.Size + vertexTableOffset, () =>
+                {
+                    for (int j = 0; j < vertexCount; j++)
+                        Parameters[(int)reflectionIndex].Vertices.Add(reader.Read<Vector3>());
+                });
             }
         }
 
@@ -89,22 +76,17 @@ namespace Marathon.Formats.Mesh
             var writer = new BINAWriter(in_stream, Endianness);
 
             writer.Write(Parameters.Count);
-            writer.Reserve<uint>("ReflectionTableOffset");
+            var reflectionTableOffset = writer.Reserve<uint>();
 
             writer.Write(Parameters.Count);
-            writer.Reserve<uint>("EntryTableOffset");
+            var entryTableOffset = writer.Reserve<uint>();
 
-            writer.WriteReserved("ReflectionTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved(reflectionTableOffset, (uint)writer.Position - BINAHeader.Size);
 
-            for (int i = 0; i < Parameters.Count; i++)
-            {
-                writer.Write(Parameters[i].Pitch);
-                writer.Write(Parameters[i].UnknownField);
-                writer.Write(Parameters[i].Roll);
-                writer.Write(Parameters[i].Y);
-            }
+            foreach (var parameter in Parameters)
+                writer.WriteObjectEx(parameter);
 
-            writer.WriteReserved("EntryTableOffset", (uint)writer.Position - BINAHeader.Size);
+            writer.WriteReserved(entryTableOffset, (uint)writer.Position - BINAHeader.Size);
 
             for (int i = 0; i < Parameters.Count; i++)
             {
@@ -117,21 +99,21 @@ namespace Marathon.Formats.Mesh
             {
                 writer.WriteReserved($"VertexTableOffset{i}", (uint)writer.Position - BINAHeader.Size);
 
-                foreach (var vector in Parameters[i].Vertices)
-                    writer.Write(vector);
+                foreach (var vertex in Parameters[i].Vertices)
+                    writer.Write(vertex);
             }
 
             writer.FinishWrite();
         }
     }
 
-    public class ReflectionAreaParam
+    public class ReflectionAreaParam : IBinarySerializableEx
     {
-        public float Pitch { get; set; }
-
-        public float UnknownField { get; set; }
+        public float Yaw { get; set; }
 
         public float Roll { get; set; }
+
+        public float Pitch { get; set; }
 
         public float Y { get; set; }
 
@@ -143,12 +125,33 @@ namespace Marathon.Formats.Mesh
 
         public ReflectionAreaParam() { }
 
-        public ReflectionAreaParam(float in_pitch, float in_unkField, float in_roll, float in_y)
+        public ReflectionAreaParam(BinaryObjectReaderEx in_reader)
         {
-            Pitch = in_pitch;
-            UnknownField = in_unkField;
+            Read(in_reader);
+        }
+
+        public ReflectionAreaParam(float in_yaw, float in_roll, float in_pitch, float in_y)
+        {
+            Yaw = in_yaw;
             Roll = in_roll;
+            Pitch = in_pitch;
             Y = in_y;
+        }
+
+        public void Read(BinaryObjectReaderEx in_reader)
+        {
+            Yaw = in_reader.Read<float>();
+            Roll = in_reader.Read<float>();
+            Pitch = in_reader.Read<float>();
+            Y = in_reader.Read<float>();
+        }
+
+        public void Write(BinaryObjectWriterEx in_writer)
+        {
+            in_writer.Write(Yaw);
+            in_writer.Write(Roll);
+            in_writer.Write(Pitch);
+            in_writer.Write(Y);
         }
     }
 }
