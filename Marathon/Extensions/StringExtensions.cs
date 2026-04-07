@@ -1,4 +1,6 @@
-﻿namespace Marathon.Extensions
+﻿using Marathon.IO;
+
+namespace Marathon.Extensions
 {
     public static class StringExtensions
     {
@@ -28,6 +30,32 @@
             }
 
             return in_str[..in_maxLength];
+        }
+
+        public static NumberType GetNumberType(this string in_str)
+        {
+            if (in_str.StartsWith("0x"))
+            {
+                return NumberType.Hexadecimal;
+            }
+            else if (in_str.StartsWith("0b"))
+            {
+                return NumberType.Binary;
+            }
+            else if (in_str.StartsWith("0o"))
+            {
+                return NumberType.Octal;
+            }
+
+            return NumberType.Decimal;
+        }
+
+        public static string TrimNumberIdentifier(this string in_str)
+        {
+            if (in_str.GetNumberType() == NumberType.Decimal)
+                return in_str;
+
+            return in_str[2..];
         }
     }
 }

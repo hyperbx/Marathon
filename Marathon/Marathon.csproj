@@ -191,14 +191,14 @@
 
   <ItemGroup>
     <PackageReference Include="Amicitia.IO" Version="1.2.1" />
-    <PackageReference Include="AssimpNet" Version="5.0.0-beta1" />
+    <PackageReference Include="AssimpNetter" Version="6.0.4" />
     <PackageReference Include="libHSON" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="System.IO.Hashing" Version="10.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
+    <PackageReference Include="System.IO.Hashing" Version="11.0.0-preview.2.26159.112" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="11.0.0-preview.2.26159.112" />
   </ItemGroup>
 
   <Import Project="..\Marathon.Shared\Marathon.Shared.projitems" Label="Shared" />
