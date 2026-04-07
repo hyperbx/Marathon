@@ -29,7 +29,7 @@ namespace Marathon.Formats.Kynapse
 
         public float Ratio { get; set; }
 
-        public byte[] TabPathLength { get; set; }
+        public byte[] PathCosts { get; set; } = [];
 
         public override string Extension => _extension;
 
@@ -53,7 +53,7 @@ namespace Marathon.Formats.Kynapse
                 throw new InvalidSignatureException(_version, version);
 
             Ratio = reader.Read<float>();
-            TabPathLength = reader.ReadArray<byte>((int)reader.Length - (int)reader.Position);
+            PathCosts = reader.ReadArray<byte>((int)reader.Length - (int)reader.Position);
         }
 
         public override void Write(Stream in_stream)
@@ -63,15 +63,15 @@ namespace Marathon.Formats.Kynapse
             writer.WriteSignature(_signature);
             writer.Write(_version);
             writer.Write(Ratio);
-            writer.WriteArray(TabPathLength);
+            writer.WriteArray(PathCosts);
         }
 
         public int GetPointCount()
         {
-            if (TabPathLength.Length <= 0)
+            if (PathCosts.Length <= 0)
                 return 0;
 
-            var result = Math.Sqrt(TabPathLength.Length);
+            var result = Math.Sqrt(PathCosts.Length);
 
             if ((result % 1) != 0)
                 throw new InvalidDataException("Invalid path cost data.");

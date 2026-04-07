@@ -105,15 +105,15 @@ namespace Marathon.Formats.Kynapse
         {
             ThrowHelper.ThrowFileNotFoundException(in_path);
 
-            using var sr = new StreamReader(in_path);
+            using var reader = new StreamReader(in_path);
 
             var waypoint = new Waypoint();
             var script = new StringBuilder();
             var isReadingScript = false;
 
-            while (!sr.EndOfStream)
+            while (!reader.EndOfStream)
             {
-                var line = sr.ReadLine();
+                var line = reader.ReadLine();
 
                 if (line.StartsWith('#'))
                 {
@@ -169,14 +169,17 @@ namespace Marathon.Formats.Kynapse
 
         public override void Export(string in_path = "", bool in_overwrite = true)
         {
-            EnsurePath(ref in_path, path => FileSystemHelper.TruncateAllExtensions(path));
+            EnsurePath(ref in_path, path => FileSystemHelper.EnsureExtension(path, ".obj"));
 
-            using var sw = new StreamWriter($"{in_path}{_extension}.obj");
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
 
-            sw.WriteLine("# Kynogon Path Way");
-            sw.WriteLine($"# Comment: {Comment}");
-            sw.WriteLine($"# Action: {Action}");
-            sw.WriteLine();
+            using var writer = new StreamWriter(in_path);
+
+            writer.WriteLine("# Kynogon Path Way");
+            writer.WriteLine($"# Comment: {Comment}");
+            writer.WriteLine($"# Action: {Action}");
+            writer.WriteLine();
 
             if (Waypoints.Count <= 0)
                 return;
@@ -186,22 +189,22 @@ namespace Marathon.Formats.Kynapse
 
             foreach (var waypoint in Waypoints)
             {
-                sw.WriteLine("# Script:");
+                writer.WriteLine("# Script:");
 
                 if (!string.IsNullOrEmpty(waypoint.Script))
                 {
                     foreach (var scriptLine in waypoint.Script.SplitLineBreaks())
-                        sw.WriteLine($"# {scriptLine}");
+                        writer.WriteLine($"# {scriptLine}");
                 }
 
-                sw.WriteLine($"v {waypoint.Position.X} {waypoint.Position.Y} {waypoint.Position.Z}");
-                sw.WriteLine();
+                writer.WriteLine($"v {waypoint.Position.X} {waypoint.Position.Y} {waypoint.Position.Z}");
+                writer.WriteLine();
 
                 line += $"{vertexIndex++} ";
             }
 
-            sw.WriteLine($"g {Path.GetFileName(in_path)}");
-            sw.WriteLine(line);
+            writer.WriteLine($"g {FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path))}");
+            writer.WriteLine(line);
         }
     }
 

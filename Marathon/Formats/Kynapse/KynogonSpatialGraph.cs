@@ -81,6 +81,7 @@ namespace Marathon.Formats.Kynapse
             reader.JumpAhead(0x0B); // Padding.
 
             var optionalDataFlags = reader.Read<SpatialGraphOptionalDataFlags>();
+
             CoverageDistance = reader.Read<float>();
 
             var lastVertexId = reader.Read<uint>();
@@ -267,16 +268,19 @@ namespace Marathon.Formats.Kynapse
 
         public override void Export(string in_path = "", bool in_overwrite = true)
         {
-            EnsurePath(ref in_path, path => FileSystemHelper.TruncateAllExtensions(path));
+            EnsurePath(ref in_path, path => FileSystemHelper.EnsureExtension(path, ".obj"));
 
-            using var sw = new StreamWriter($"{in_path}{_extension}.obj");
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
 
-            sw.WriteLine("# Kynogon Spatial Graph");
-            sw.WriteLine($"# Coverage Distance: {CoverageDistance}");
-            sw.WriteLine();
+            using var writer = new StreamWriter(in_path);
+
+            writer.WriteLine("# Kynogon Spatial Graph");
+            writer.WriteLine($"# Coverage Distance: {CoverageDistance}");
+            writer.WriteLine();
 
             foreach (var vertex in Vertices)
-                sw.WriteLine($"v {vertex.Position.X} {vertex.Position.Y} {vertex.Position.Z}");
+                writer.WriteLine($"v {vertex.Position.X} {vertex.Position.Y} {vertex.Position.Z}");
 
             if (StartVertices.Count <= 0 && EndVertices.Count <= 0)
                 return;
@@ -284,11 +288,11 @@ namespace Marathon.Formats.Kynapse
             if (StartVertices.Count != EndVertices.Count)
                 throw new InvalidDataException("Mismatching start and end vertex count.");
 
-            sw.WriteLine();
-            sw.WriteLine($"g {Path.GetFileName(in_path)}");
+            writer.WriteLine();
+            writer.WriteLine($"g {FileSystemHelper.TruncateAllExtensions(Path.GetFileName(in_path))}");
 
             for (int i = 0; i < StartVertices.Count; i++)
-                sw.WriteLine($"l {StartVertices[i] + 1} {EndVertices[i] + 1}");
+                writer.WriteLine($"l {StartVertices[i] + 1} {EndVertices[i] + 1}");
         }
     }
 
