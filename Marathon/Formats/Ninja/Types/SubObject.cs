@@ -1,4 +1,5 @@
 ﻿using Marathon.Formats.Ninja.Chunks;
+using Marathon.Formats.Ninja.Flags;
 using Marathon.IO;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public const int InfoSize = 0x14;
 
-        public uint Type { get; set; }
+        public SubObjectType Type { get; set; }
 
         public List<MeshSet> MeshSets { get; set; } = [];
 
@@ -26,7 +27,7 @@ namespace Marathon.Formats.Ninja.Types
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Type = in_reader.Read<uint>();
+            Type = in_reader.Read<SubObjectType>();
 
             var meshSetCount = in_reader.Read<uint>();
             var meshSetOffset = in_reader.Read<uint>();

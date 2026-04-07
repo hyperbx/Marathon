@@ -12,9 +12,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public MaterialType Type { get; set; }
 
-        public MaterialType Flag { get; set; }
+        public uint Flags { get; set; }
 
-        public int UserData { get; set; }
+        public uint UserData { get; set; }
 
         public uint[] Reserved { get; set; } = new uint[3];
 
@@ -39,8 +39,8 @@ namespace Marathon.Formats.Ninja.Types
 
             in_reader.JumpTo(InfoChunk.Size + dataOffset);
 
-            Flag = in_reader.Read<MaterialType>();
-            UserData = in_reader.Read<int>();
+            Flags = in_reader.Read<uint>();
+            UserData = in_reader.Read<uint>();
 
             var colorOffset = in_reader.Read<uint>();
             var logicOffset = in_reader.Read<uint>();
@@ -65,7 +65,7 @@ namespace Marathon.Formats.Ninja.Types
         {
             _dataOffset = (uint)in_writer.Position;
 
-            in_writer.Write(Flag);
+            in_writer.Write(Flags);
             in_writer.Write(UserData);
 
             var colorOffset = in_writer.Reserve<uint>();

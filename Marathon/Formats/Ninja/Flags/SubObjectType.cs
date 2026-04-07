@@ -1,0 +1,23 @@
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
+
+namespace Marathon.Formats.Ninja.Flags
+{
+    [Flags]
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum SubObjectType : uint
+    {
+        NND_SUBOBJTYPE_OPAQUE = 0x01,
+        NND_SUBOBJTYPE_TRANSPARENT = 0x02,
+        NND_SUBOBJTYPE_PUNCHTHROUGH = 0x04,
+        NND_SUBOBJTYPE_TRANSPARENCY_ALL = NND_SUBOBJTYPE_OPAQUE | NND_SUBOBJTYPE_TRANSPARENT | NND_SUBOBJTYPE_PUNCHTHROUGH,
+        NND_SUBOBJTYPE_RIGID = 0x100,
+        NND_SUBOBJTYPE_PLIABLE = 0x200,
+        NND_SUBOBJTYPE_PLIABILITY_ALL = NND_SUBOBJTYPE_RIGID | NND_SUBOBJTYPE_PLIABLE,
+        NND_SUBOBJTYPE_COLLISION = 0x10000,
+        NND_SUBOBJTYPE_BILLBOARD = 0x1000000,
+        NND_SUBOBJTYPE_PXPLUS = 0x10000000,
+        NND_SUBOBJTYPE_ALL = 0x80000000
+    }
+}
