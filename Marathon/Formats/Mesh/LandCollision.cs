@@ -28,7 +28,7 @@ namespace Marathon.Formats.Mesh
     /// Support for collision.bin files; used for collision meshes for terrain.
     /// </summary>
     [FileType("Land Collision", "Mesh", @"collision\.bin$", true)]
-    public class LandCollision : FileBase
+    public class LandCollision : FileBase, IAssimpSerializable
     {
         private const string _extension = ".bin"; // "BINary"
 
@@ -122,7 +122,24 @@ namespace Marathon.Formats.Mesh
 
             var scene = ctx.ImportFile(in_path, PostProcessSteps.JoinIdenticalVertices);
 
-            foreach (var mesh in scene.Meshes)
+            FromAssimpScene(scene);
+        }
+
+        public override void Export(string in_path = "", bool in_overwrite = true)
+        {
+            EnsurePath(ref in_path, path => FileSystemHelper.EnsureExtension(path, ".fbx"));
+
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            using var ctx = new AssimpContext();
+
+            ctx.ExportFile(ToAssimpScene(), in_path, "fbx");
+        }
+
+        public void FromAssimpScene(Scene in_scene)
+        {
+            foreach (var mesh in in_scene.Meshes)
             {
                 var flags = ParseTags(mesh.Name);
                 var vertexOffset = Vertices.Count;
@@ -148,16 +165,9 @@ namespace Marathon.Formats.Mesh
             }
         }
 
-        public override void Export(string in_path = "", bool in_overwrite = true)
+        public Scene ToAssimpScene()
         {
-            EnsurePath(ref in_path, path => FileSystemHelper.EnsureExtension(path, ".fbx"));
-
-            if (!in_overwrite)
-                ThrowHelper.ThrowFileExistsException(in_path);
-
-            using var ctx = new AssimpContext();
-
-            var scene = new Scene()
+            var result = new Scene()
             {
                 RootNode = new(),
                 Materials = { new() }
@@ -201,19 +211,19 @@ namespace Marathon.Formats.Mesh
                     mesh.Faces.Add(assimpFace);
                 }
 
-                var meshIndex = scene.MeshCount;
+                var meshIndex = result.MeshCount;
 
-                scene.Meshes.Add(mesh);
+                result.Meshes.Add(mesh);
 
                 var node = new Node(meshName)
                 {
                     MeshIndices = { meshIndex }
                 };
 
-                scene.RootNode.Children.Add(node);
+                result.RootNode.Children.Add(node);
             }
 
-            ctx.ExportFile(scene, in_path, "fbx");
+            return result;
         }
 
         public static uint ParseTags(List<string> in_tags)
