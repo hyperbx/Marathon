@@ -9,25 +9,25 @@ namespace Marathon.Formats.Ninja.Types
         public static object ReadLightByType(BinaryObjectReaderEx in_reader, LightType in_lightType)
         {
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_STANDARD_GL))
-                return in_reader.Read<LightStandardGL>();
+                return in_reader.ReadObject<LightStandardGL>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_PARALLEL))
-                return in_reader.Read<LightParallel>();
+                return in_reader.ReadObject<LightParallel>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_POINT))
-                return in_reader.Read<LightPoint>();
+                return in_reader.ReadObject<LightPoint>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_TARGET_SPOT))
-                return in_reader.Read<LightTargetSpot>();
+                return in_reader.ReadObject<LightTargetSpot>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_ROTATION_SPOT))
-                return in_reader.Read<LightRotationSpot>();
+                return in_reader.ReadObject<LightRotationSpot>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_TARGET_DIRECTIONAL))
-                return in_reader.Read<LightTargetDirectional>();
+                return in_reader.ReadObject<LightTargetDirectional>();
 
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_ROTATION_DIRECTIONAL))
-                return in_reader.Read<LightRotationDirectional>();
+                return in_reader.ReadObject<LightRotationDirectional>();
 
             throw new NotImplementedException();
         }
@@ -36,31 +36,31 @@ namespace Marathon.Formats.Ninja.Types
         {
             if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_STANDARD_GL))
             {
-                in_writer.Write((LightStandardGL)in_light);
+                in_writer.WriteObject((LightStandardGL)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_PARALLEL))
             {
-                in_writer.Write((LightParallel)in_light);
+                in_writer.WriteObject((LightParallel)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_POINT))
             {
-                in_writer.Write((LightPoint)in_light);
+                in_writer.WriteObject((LightPoint)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_TARGET_SPOT))
             {
-                in_writer.Write((LightTargetSpot)in_light);
+                in_writer.WriteObject((LightTargetSpot)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_ROTATION_SPOT))
             {
-                in_writer.Write((LightRotationSpot)in_light);
+                in_writer.WriteObject((LightRotationSpot)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_TARGET_DIRECTIONAL))
             {
-                in_writer.Write((LightTargetDirectional)in_light);
+                in_writer.WriteObject((LightTargetDirectional)in_light);
             }
             else if (in_lightType.HasFlag(LightType.NND_LIGHTTYPE_ROTATION_DIRECTIONAL))
             {
-                in_writer.Write((LightRotationDirectional)in_light);
+                in_writer.WriteObject((LightRotationDirectional)in_light);
             }
             else
             {
