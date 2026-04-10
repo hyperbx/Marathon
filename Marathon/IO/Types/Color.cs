@@ -25,51 +25,127 @@ namespace Marathon.IO.Types
 
         public void Read(BinaryObjectReader in_reader)
         {
-            if (typeof(TFormat) == typeof(RGBA))
+            if (typeof(TData) == typeof(byte))
             {
-                R = in_reader.Read<TData>();
-                G = in_reader.Read<TData>();
-                B = in_reader.Read<TData>();
-                A = in_reader.Read<TData>();
+                var colour = in_reader.Read<uint>();
+
+                var r = (TData)(object)(byte)(colour & 0xFF);
+                var g = (TData)(object)(byte)((colour >> 8) & 0xFF);
+                var b = (TData)(object)(byte)((colour >> 16) & 0xFF);
+                var a = (TData)(object)(byte)((colour >> 24) & 0xFF);
+
+                Assign(r, g, b, a);
+
+                return;
             }
-            else if (typeof(TFormat) == typeof(ARGB))
-            {
-                A = in_reader.Read<TData>();
-                R = in_reader.Read<TData>();
-                G = in_reader.Read<TData>();
-                B = in_reader.Read<TData>();
-            }
-            else if (typeof(TFormat) == typeof(BGRA))
-            {
-                B = in_reader.Read<TData>();
-                G = in_reader.Read<TData>();
-                R = in_reader.Read<TData>();
-                A = in_reader.Read<TData>();
-            }
+
+            Assign(in_reader.Read<TData>(), in_reader.Read<TData>(), in_reader.Read<TData>(), in_reader.Read<TData>());
         }
 
         public void Write(BinaryObjectWriter in_writer)
         {
+            if (typeof(TData) == typeof(byte))
+            {
+                var colour = 0U;
+
+                if (typeof(TFormat) == typeof(RGBA))
+                {
+                    colour = (uint)(object)R |
+                             ((uint)(object)G << 8) |
+                             ((uint)(object)B << 16) |
+                             ((uint)(object)A << 24);
+                }
+                else if (typeof(TFormat) == typeof(ARGB))
+                {
+                    colour = (uint)(object)A |
+                             ((uint)(object)R << 8) |
+                             ((uint)(object)G << 16) |
+                             ((uint)(object)B << 24);
+                }
+                else if (typeof(TFormat) == typeof(ABGR))
+                {
+                    colour = (uint)(object)A |
+                             ((uint)(object)B << 8) |
+                             ((uint)(object)G << 16) |
+                             ((uint)(object)R << 24);
+                }
+                else if (typeof(TFormat) == typeof(BGRA))
+                {
+                    colour = (uint)(object)B |
+                             ((uint)(object)G << 8) |
+                             ((uint)(object)R << 16) |
+                             ((uint)(object)A << 24);
+                }
+
+                in_writer.Write(colour);
+
+                return;
+            }
+
+            Write(in_writer, R, G, B, A);
+        }
+
+        public void Write(BinaryObjectWriter in_writer, TData in_r, TData in_g, TData in_b, TData in_a)
+        {
             if (typeof(TFormat) == typeof(RGBA))
             {
-                in_writer.Write(R);
-                in_writer.Write(G);
-                in_writer.Write(B);
-                in_writer.Write(A);
+                in_writer.Write(in_r);
+                in_writer.Write(in_g);
+                in_writer.Write(in_b);
+                in_writer.Write(in_a);
             }
             else if (typeof(TFormat) == typeof(ARGB))
             {
-                in_writer.Write(A);
-                in_writer.Write(R);
-                in_writer.Write(G);
-                in_writer.Write(B);
+                in_writer.Write(in_a);
+                in_writer.Write(in_r);
+                in_writer.Write(in_g);
+                in_writer.Write(in_b);
+            }
+            else if (typeof(TFormat) == typeof(ABGR))
+            {
+                in_writer.Write(in_a);
+                in_writer.Write(in_b);
+                in_writer.Write(in_g);
+                in_writer.Write(in_r);
             }
             else if (typeof(TFormat) == typeof(BGRA))
             {
-                in_writer.Write(B);
-                in_writer.Write(G);
-                in_writer.Write(R);
-                in_writer.Write(A);
+                in_writer.Write(in_b);
+                in_writer.Write(in_g);
+                in_writer.Write(in_r);
+                in_writer.Write(in_a);
+            }
+        }
+
+        public void Assign(TData in_c0, TData in_c1, TData in_c2, TData in_c3)
+        {
+            if (typeof(TFormat) == typeof(RGBA))
+            {
+                R = in_c0;
+                G = in_c1;
+                B = in_c2;
+                A = in_c3;
+            }
+            else if (typeof(TFormat) == typeof(ARGB))
+            {
+                A = in_c3;
+                R = in_c0;
+                G = in_c1;
+                B = in_c2;
+            }
+            else if (typeof(TFormat) == typeof(ABGR))
+            {
+                A = in_c3;
+                B = in_c2;
+                G = in_c1;
+                R = in_c0;
+            }
+            else if (typeof(TFormat) == typeof(BGRA))
+            {
+                B = in_c2;
+                G = in_c1;
+                R = in_c0;
+                A = in_c3;
             }
         }
 
@@ -95,6 +171,10 @@ namespace Marathon.IO.Types
             {
                 return $"<{A}, {R}, {G}, {B}>";
             }
+            else if (typeof(TFormat) == typeof(ABGR))
+            {
+                return $"<{A}, {B}, {G}, {R}>";
+            }
             else if (typeof(TFormat) == typeof(BGRA))
             {
                 return $"<{B}, {G}, {R}, {A}>";
@@ -107,6 +187,8 @@ namespace Marathon.IO.Types
     public struct RGBA : IColorFormat { }
 
     public struct ARGB : IColorFormat { }
+
+    public struct ABGR : IColorFormat { }
 
     public struct BGRA : IColorFormat { }
 
