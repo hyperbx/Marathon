@@ -17,9 +17,9 @@ namespace Marathon.Formats.Ninja.Types
 
         public Vector3? Normal { get; set; }
 
-        public Color<byte, RGBA>? VertexColorA { get; set; }
+        public Color<byte, BGRA>? VertexColorA { get; set; }
 
-        public Color<byte, RGBA>? VertexColorB { get; set; }
+        public Color<byte, BGRA>? VertexColorB { get; set; }
 
         public List<Vector2> TextureCoordinates { get; set; }
 
@@ -49,10 +49,10 @@ namespace Marathon.Formats.Ninja.Types
                 Normal = in_reader.Read<Vector3>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR))
-                VertexColorA = in_reader.ReadObject<Color<byte, RGBA>>();
+                VertexColorA = in_reader.ReadObject<Color<byte, BGRA>>();
 
             if (in_vertexList.Format.HasFlag(VertexFormat.NND_VTXTYPE_XB_COLOR2))
-                VertexColorB = in_reader.ReadObject<Color<byte, RGBA>>();
+                VertexColorB = in_reader.ReadObject<Color<byte, BGRA>>();
 
             for (int i = 0; i < (uint)in_vertexList.Format / (uint)VertexFormat.NND_VTXTYPE_XB_SINGLETEXCOORD; i++)
             {
