@@ -82,14 +82,28 @@ namespace Marathon.Formats.Ninja
             Info.WriteExtraChunks(writer);
         }
 
+        public IChunk GetChunk(string in_id)
+        {
+            return Info[in_id];
+        }
+
         public T GetChunk<T>() where T : IChunk
         {
             return Info.GetChunk<T>();
         }
 
-        public IChunk GetChunk(string in_id)
+        public bool TryGetChunk(string in_id, out IChunk out_chunk)
         {
-            return Info[in_id];
+            out_chunk = GetChunk(in_id);
+
+            return out_chunk != null;
+        }
+
+        public bool TryGetChunk<T>(out T out_chunk) where T : IChunk
+        {
+            out_chunk = GetChunk<T>();
+
+            return out_chunk != null;
         }
 
         public override string ToString()

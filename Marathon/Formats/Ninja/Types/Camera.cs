@@ -2,7 +2,22 @@
 
 namespace Marathon.Formats.Ninja.Types
 {
-    public struct CameraTargetRoll
+    public interface ICamera
+    {
+        public uint UserData { get; set; }
+
+        public int FOV { get; set; }
+
+        public float AspectRatio { get; set; }
+
+        public float ZNear { get; set; }
+
+        public float ZFar { get; set; }
+
+        public Vector3 Position { get; set; }
+    }
+
+    public struct CameraTargetRoll : ICamera
     {
         public uint UserData { get; set; }
 
@@ -21,7 +36,7 @@ namespace Marathon.Formats.Ninja.Types
         public int Roll { get; set; }
     }
 
-    public struct CameraTargetUpVector
+    public struct CameraTargetUpVector : ICamera
     {
         public uint UserData { get; set; }
 
@@ -40,7 +55,7 @@ namespace Marathon.Formats.Ninja.Types
         public Vector3 UpVector { get; set; }
     }
 
-    public struct CameraTargetUpTarget
+    public struct CameraTargetUpTarget : ICamera
     {
         public uint UserData { get; set; }
 
@@ -59,7 +74,7 @@ namespace Marathon.Formats.Ninja.Types
         public Vector3 UpTarget { get; set; }
     }
 
-    public struct CameraRotation
+    public struct CameraRotation : ICamera
     {
         public uint UserData { get; set; }
 

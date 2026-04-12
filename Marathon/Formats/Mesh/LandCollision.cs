@@ -134,7 +134,7 @@ namespace Marathon.Formats.Mesh
 
             using var ctx = new AssimpContext();
 
-            ctx.ExportFile(ToAssimpScene(), in_path, "fbx");
+            ctx.ExportFile(ToAssimpScene(), in_path, AssimpFormat.AutodeskFbxBinary);
         }
 
         public void FromAssimpScene(Scene in_scene)

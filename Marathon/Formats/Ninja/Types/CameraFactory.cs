@@ -6,7 +6,7 @@ namespace Marathon.Formats.Ninja.Types
 {
     public class CameraFactory
     {
-        public static object ReadCameraByType(BinaryObjectReaderEx in_reader, CameraType in_cameraType)
+        public static ICamera ReadCameraByType(BinaryObjectReaderEx in_reader, CameraType in_cameraType)
         {
             if (in_cameraType.HasFlag(CameraType.NND_CAMERATYPE_TARGET_ROLL))
                 return in_reader.Read<CameraTargetRoll>();
@@ -23,7 +23,7 @@ namespace Marathon.Formats.Ninja.Types
             throw new NotImplementedException();
         }
 
-        public static void WriteCameraByType(BinaryObjectWriterEx in_writer, CameraType in_cameraType, object in_camera)
+        public static void WriteCameraByType(BinaryObjectWriterEx in_writer, CameraType in_cameraType, ICamera in_camera)
         {
             if (in_cameraType.HasFlag(CameraType.NND_CAMERATYPE_TARGET_ROLL))
             {

@@ -141,6 +141,11 @@ namespace Marathon.Formats.Ninja.Chunks
             }
         }
 
+        public IChunk GetChunk(string in_id)
+        {
+            return this[in_id];
+        }
+
         public T GetChunk<T>() where T : IChunk
         {
             var chunk = Activator.CreateInstance(typeof(T)) as IChunk;
@@ -148,9 +153,18 @@ namespace Marathon.Formats.Ninja.Chunks
             return (T)this[chunk.GetChunkID()];
         }
 
-        public IChunk GetChunk(string in_id)
+        public bool TryGetChunk(string in_id, out IChunk out_chunk)
         {
-            return this[in_id];
+            out_chunk = GetChunk(in_id);
+
+            return out_chunk != null;
+        }
+
+        public bool TryGetChunk<T>(out T out_chunk) where T : IChunk
+        {
+            out_chunk = GetChunk<T>();
+
+            return out_chunk != null;
         }
 
         public virtual string GetChunkID()

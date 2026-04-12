@@ -12,7 +12,7 @@ namespace Marathon.Formats.Ninja.Chunks
 
         public CameraType Type { get; set; }
 
-        public object Camera { get; set; }
+        public ICamera Camera { get; set; }
 
         public CameraChunk() { }
 
@@ -55,6 +55,11 @@ namespace Marathon.Formats.Ninja.Chunks
             in_writer.Align(16);
 
             header.FinishWrite(in_writer, infoPos);
+        }
+
+        public T GetCamera<T>() where T : ICamera
+        {
+            return (T)Camera;
         }
 
         public virtual string GetChunkID()
