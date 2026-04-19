@@ -5,7 +5,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MaterialColorNormal : IMomentumParamSet
     {
-        public Color<float, ARGB> Color { get; set; }
+        public Color<float, RGBA> Color { get; set; }
 
         public bool SetGeneralColor { get; set; }
 
@@ -20,7 +20,7 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 
         public void Read(BinaryObjectReaderEx in_reader)
         {
-            Color = in_reader.ReadObject<Color<float, ARGB>>();
+            Color = in_reader.ReadObject<Color<float, RGBA>>();
             SetGeneralColor = in_reader.Read<uint>() != 0;
             ColorBlendMode = in_reader.Read<ColorBlendMode>();
         }
