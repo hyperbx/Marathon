@@ -2,8 +2,10 @@
 using Marathon.IO.Extensions;
 using Marathon.IO.Types.BINA;
 using Marathon.IO.Types.FileSystem;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 // Format names:        Text Book
@@ -170,14 +172,30 @@ namespace Marathon.Formats.Text
         public string Name { get; set; }
 
         /// <summary>
-        /// The text for this card.
+        /// The pages in this card.
         /// </summary>
-        public string Text { get; set; }
+        public List<string> Pages { get; set; } = [];
+
+        /// <summary>
+        /// The raw text in this card.
+        /// </summary>
+        [JsonIgnore]
+        public string Text
+        {
+            get => string.Join('\f', Pages);
+            set => Pages = [.. value.Split('\f')];
+        }
 
         /// <summary>
         /// The replacement variables for the placeholders in this card.
         /// </summary>
         public List<string> Variables { get; set; }
+
+        public string this[int in_index]
+        {
+            get => Pages[in_index];
+            set => Pages[in_index] = value;
+        }
 
         public TextCard() { }
 
@@ -188,6 +206,20 @@ namespace Marathon.Formats.Text
             Variables = in_variables;
         }
 
+        public TextCard(string in_name, List<string> in_pages, List<string> in_variables = null)
+        {
+            Name = in_name;
+            Pages = in_pages;
+            Variables = in_variables;
+        }
+
+        /// <summary>
+        /// Maps the variables into pairs of their types and values.
+        /// </summary>
+        /// <returns>
+        ///     A list of pairs where the left value is the type of the variable (e.g. <b>rgba</b>, <b>sound</b>, etc.) and the right value is the parameters.
+        ///     If there are no parameters, the value will be empty.
+        /// </returns>
         public List<(string Type, string Value)> MapVariables()
         {
             var result = new List<(string Type, string Value)>();
