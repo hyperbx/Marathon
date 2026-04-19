@@ -17,7 +17,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public float StartTime { get; set; }
 
-        public float EndTime { get; set; }
+        public float EndTime { get; set; } = -1.0f;
 
         public uint CoordTarget { get; set; }
 
@@ -29,9 +29,9 @@ namespace Marathon.Formats.Acroarts.Types
 
         public uint CoordType { get; set; }
 
-        public int MessageParam0 { get; set; } = -1;
+        public int MessageParam0 { get; set; }
 
-        public int MessageParam1 { get; set; } = -1;
+        public int MessageParam1 { get; set; }
 
         public int SortGroup { get; set; }
 

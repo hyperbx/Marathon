@@ -15,13 +15,13 @@ namespace Marathon.Formats.Acroarts.Types
 
         public uint CoordType { get; set; } = 1;
 
-        public float LifeTimeMin { get; set; }
+        public float LifeTimeMin { get; set; } = -1.0f;
 
-        public float LifeTimeMax { get; set; }
+        public float LifeTimeMax { get; set; } = -1.0f;
 
         public float SleepTime { get; set; }
 
-        public float DelayTimeMax { get; set; }
+        public float DelayTimeMax { get; set; } = -1.0f;
 
         public float GenInterval { get; set; }
 
@@ -29,27 +29,27 @@ namespace Marathon.Formats.Acroarts.Types
 
         public float GenRate { get; set; }
 
-        public float GenCountMin { get; set; }
+        public float GenCountMin { get; set; } = 1;
 
-        public float GenCountMax { get; set; }
+        public float GenCountMax { get; set; } = -1.0f;
 
-        public float LODDistStart { get; set; }
+        public float LODDistStart { get; set; } = -1.0f;
 
-        public float LODDistEnd { get; set; }
+        public float LODDistEnd { get; set; } = -1.0f;
 
         public float LODRate { get; set; }
 
         public float LODCountMin { get; set; }
 
-        public float LODCountMax { get; set; }
+        public float LODCountMax { get; set; } = -1.0f;
 
         public int MessageParam0 { get; set; }
 
         public int MessageParam1 { get; set; }
 
-        public float ClipRange { get; set; }
+        public float ClipRange { get; set; } = -1.0f;
 
-        public float ClipZNearRange { get; set; }
+        public float ClipZNearRange { get; set; } = -1.0f;
 
         public float ClipZFarRange { get; set; } = -1.0f;
 
@@ -63,7 +63,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public string ModelAttachNodeName { get; set; }
 
-        public int ModelType { get; set; }
+        public int ModelType { get; set; } = -1;
 
         public uint UnknownField { get; set; }
 

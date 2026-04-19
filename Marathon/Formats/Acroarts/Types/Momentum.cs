@@ -15,7 +15,7 @@ namespace Marathon.Formats.Acroarts.Types
 
         public float StartTime { get; set; }
 
-        public float EndTime { get; set; }
+        public float EndTime { get; set; } = -1;
 
         public IMomentumParamSet Params { get; set; }
 
@@ -42,7 +42,7 @@ namespace Marathon.Formats.Acroarts.Types
 
             in_reader.JumpTo(in_reader.CalculateOffset(paramOffset));
 
-            Params = MomentumFactory.ReadMomentumByType(in_reader, Type);
+            Params = MomentumFactory.ReadMomentumParamsByType(in_reader, Type);
 
             if (Params == null)
             {

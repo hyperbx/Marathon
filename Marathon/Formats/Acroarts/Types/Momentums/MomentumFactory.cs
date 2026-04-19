@@ -4,58 +4,76 @@ namespace Marathon.Formats.Acroarts.Types.Momentums
 {
     public class MomentumFactory
     {
-        public static IMomentumParamSet ReadMomentumByType(BinaryObjectReaderEx in_reader, MomentumType in_type)
+        public static IMomentumParamSet CreateMomentumParamsByType(MomentumType in_type)
         {
             return in_type switch
             {
-                MomentumType.TranslateNormal => new TranslateNormal(in_reader),
-                MomentumType.TranslateAdd => new TranslateAdd(in_reader),
-                MomentumType.TranslateAccel => new TranslateAccel(in_reader),
-                MomentumType.TranslateRandomNormal => new TranslateRandomNormal(in_reader),
-                MomentumType.TranslateRandomAdd => new TranslateRandomAdd(in_reader),
-                MomentumType.TranslateRandomSin => new TranslateRandomSin(in_reader),
-                MomentumType.TranslateGoal => new TranslateGoal(in_reader),
-                MomentumType.RotateNormal => new RotateNormal(in_reader),
-                MomentumType.RotateAdd => new RotateAdd(in_reader),
-                MomentumType.RotateRandomNormal => new RotateRandomNormal(in_reader),
-                MomentumType.RotateRandomAdd => new RotateRandomAdd(in_reader),
-                MomentumType.RotateGoal => new RotateGoal(in_reader),
-                MomentumType.ScaleNormal => new ScaleNormal(in_reader),
-                MomentumType.ScaleAdd => new ScaleAdd(in_reader),
-                MomentumType.ScaleAccel => new ScaleAccel(in_reader),
-                MomentumType.ScaleRandomNormal => new ScaleRandomNormal(in_reader),
-                MomentumType.ScaleRandomAdd => new ScaleRandomAdd(in_reader),
-                MomentumType.ScaleGoal => new ScaleGoal(in_reader),
-                MomentumType.ScaleRandomGoal => new ScaleRandomGoal(in_reader),
-                MomentumType.ScaleAddGoal => new ScaleAddGoal(in_reader),
-                MomentumType.PlaceFanShaped => new PlaceFanShaped(in_reader),
-                MomentumType.PlaceLineShaped => new PlaceLineShaped(in_reader),
-                MomentumType.ParticleBillboardPV => new ParticleBillboardPV(in_reader),
-                MomentumType.SparklingTail => new SparklingTail(in_reader),
-                MomentumType.BlurBelt => new BlurBelt(in_reader),
-                MomentumType.BillboardTail => new BillboardTail(in_reader),
-                MomentumType.TurnCamera => new TurnCamera(in_reader),
-                MomentumType.MaterialColorNormal => new MaterialColorNormal(in_reader),
-                MomentumType.MaterialColorSin => new MaterialColorSin(in_reader),
-                MomentumType.MaterialColorRandomNormal => new MaterialColorRandomNormal(in_reader),
-                MomentumType.MaterialColorGoal => new MaterialColorGoal(in_reader),
-                MomentumType.MaterialColorRandomGoal => new MaterialColorRandomGoal(in_reader),
-                MomentumType.ModelJoin => new ModelJoin(in_reader),
-                MomentumType.ShadowOn => new ShadowOn(in_reader),
-                MomentumType.PointLight => new PointLight(in_reader),
-                MomentumType.DirectionalLight => new DirectionalLight(in_reader),
-                MomentumType.AmbientLight => new AmbientLight(in_reader),
-                MomentumType.MotionSet => new MotionSet(in_reader),
-                MomentumType.DetachCoordinate => new DetachCoordinate(in_reader),
-                MomentumType.SendParamGoal => new SendParamGoal(in_reader),
-                MomentumType.SoundPlay => new SoundPlay(in_reader),
-                MomentumType.Sound3DPlay => new Sound3DPlay(in_reader),
-                MomentumType.ParticlePlay => new ParticlePlay(in_reader),
-                MomentumType.CellSpriteSceneSet => new CellSpriteSceneSet(in_reader),
-                MomentumType.Subtitle => new Subtitle(in_reader),
-                MomentumType.ClipPlane => new ClipPlane(in_reader),
-                MomentumType.FilterColorCorrection => new FilterColorCorrection(in_reader),
+                MomentumType.TranslateNormal => new TranslateNormal(),
+                MomentumType.TranslateAdd => new TranslateAdd(),
+                MomentumType.TranslateAccel => new TranslateAccel(),
+                MomentumType.TranslateRandomNormal => new TranslateRandomNormal(),
+                MomentumType.TranslateRandomAdd => new TranslateRandomAdd(),
+                MomentumType.TranslateRandomSin => new TranslateRandomSin(),
+                MomentumType.TranslateGoal => new TranslateGoal(),
+                MomentumType.RotateNormal => new RotateNormal(),
+                MomentumType.RotateAdd => new RotateAdd(),
+                MomentumType.RotateRandomNormal => new RotateRandomNormal(),
+                MomentumType.RotateRandomAdd => new RotateRandomAdd(),
+                MomentumType.RotateGoal => new RotateGoal(),
+                MomentumType.ScaleNormal => new ScaleNormal(),
+                MomentumType.ScaleAdd => new ScaleAdd(),
+                MomentumType.ScaleAccel => new ScaleAccel(),
+                MomentumType.ScaleRandomNormal => new ScaleRandomNormal(),
+                MomentumType.ScaleRandomAdd => new ScaleRandomAdd(),
+                MomentumType.ScaleGoal => new ScaleGoal(),
+                MomentumType.ScaleRandomGoal => new ScaleRandomGoal(),
+                MomentumType.ScaleAddGoal => new ScaleAddGoal(),
+                MomentumType.PlaceFanShaped => new PlaceFanShaped(),
+                MomentumType.PlaceLineShaped => new PlaceLineShaped(),
+                MomentumType.ParticleBillboardPV => new ParticleBillboardPV(),
+                MomentumType.SparklingTail => new SparklingTail(),
+                MomentumType.BlurBelt => new BlurBelt(),
+                MomentumType.BillboardTail => new BillboardTail(),
+                MomentumType.TurnCamera => new TurnCamera(),
+                MomentumType.MaterialColorNormal => new MaterialColorNormal(),
+                MomentumType.MaterialColorSin => new MaterialColorSin(),
+                MomentumType.MaterialColorRandomNormal => new MaterialColorRandomNormal(),
+                MomentumType.MaterialColorGoal => new MaterialColorGoal(),
+                MomentumType.MaterialColorRandomGoal => new MaterialColorRandomGoal(),
+                MomentumType.ModelJoin => new ModelJoin(),
+                MomentumType.ShadowOn => new ShadowOn(),
+                MomentumType.PointLight => new PointLight(),
+                MomentumType.DirectionalLight => new DirectionalLight(),
+                MomentumType.AmbientLight => new AmbientLight(),
+                MomentumType.MotionSet => new MotionSet(),
+                MomentumType.DetachCoordinate => new DetachCoordinate(),
+                MomentumType.SendParamGoal => new SendParamGoal(),
+                MomentumType.SoundPlay => new SoundPlay(),
+                MomentumType.Sound3DPlay => new Sound3DPlay(),
+                MomentumType.ParticlePlay => new ParticlePlay(),
+                MomentumType.CellSpriteSceneSet => new CellSpriteSceneSet(),
+                MomentumType.Subtitle => new Subtitle(),
+                MomentumType.ClipPlane => new ClipPlane(),
+                MomentumType.FilterColorCorrection => new FilterColorCorrection(),
                 _ => null
+            };
+        }
+
+        public static IMomentumParamSet ReadMomentumParamsByType(BinaryObjectReaderEx in_reader, MomentumType in_type)
+        {
+            var result = CreateMomentumParamsByType(in_type);
+
+            result?.Read(in_reader);
+
+            return result;
+        }
+
+        public static Momentum CreateMomentumByType(MomentumType in_type)
+        {
+            return new Momentum()
+            {
+                Type = in_type,
+                Params = CreateMomentumParamsByType(in_type)
             };
         }
     }
