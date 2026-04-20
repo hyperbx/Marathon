@@ -1,6 +1,7 @@
 ﻿using Marathon.Formats.Script.Lua.Types;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // Format names:        Lua Binary
 // Format designers:    Tecgraf, PUC-Rio
@@ -13,7 +14,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         private readonly int _type;
         private readonly bool _bool;
         private readonly LNumber _number;
-        private readonly string _string;
+        private readonly LString _string;
 
         private static readonly HashSet<string> _keywords =
         [
@@ -76,7 +77,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 _type = 3;
                 _bool = false;
                 _number = null;
-                _string = ((LString)in_constant).Dereference();
+                _string = (LString)in_constant;
             }
             else
             {
@@ -102,12 +103,14 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 case 3:
                 {
+                    var str = _string.Dereference();
                     var newlines = 0;
                     var unwritable = 0;
+                    var isShiftJIS = _string.Encoding.WebName == "shift_jis";
 
-                    for (int i = 0; i < _string.Length; i++)
+                    for (int i = 0; i < str.Length; i++)
                     {
-                        var c = _string[i];
+                        var c = str[i];
 
                         if (c == '\n')
                         {
@@ -119,12 +122,12 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         }
                     }
 
-                    if (unwritable == 0 && !_string.Contains("[[") && (newlines > 1 || (newlines == 1 && _string.IndexOf('\n') != _string.Length - 1)))
+                    if (unwritable == 0 && !str.Contains("[[") && (newlines > 1 || (newlines == 1 && str.IndexOf('\n') != str.Length - 1)))
                     {
                         var pipe = 0;
                         var pipeStr = "]]";
 
-                        while (_string.IndexOf(pipeStr) >= 0)
+                        while (str.IndexOf(pipeStr) >= 0)
                         {
                             pipe++;
                             pipeStr = "]";
@@ -149,7 +152,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         in_output.IndentationLevel = 0;
 
                         in_output.WriteLine();
-                        in_output.Write(_string);
+                        in_output.Write(str);
                         in_output.Write(pipeStr);
 
                         in_output.IndentationLevel = currentIndentation;
@@ -158,9 +161,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     {
                         in_output.Write("\"");
 
-                        for (int i = 0; i < _string.Length; i++)
+                        for (int i = 0; i < str.Length; i++)
                         {
-                            char c = _string[i];
+                            var c = str[i];
 
                             if (c <= 31 || c >= 127)
                             {
@@ -196,15 +199,18 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                                     default:
                                     {
-                                        var dec = c.ToString();
-                                        var len = dec.Length;
+                                        if (isShiftJIS)
+                                        {
+                                            // FIX (Hyper): write Shift-JIS encoded strings.
+                                            in_output.Write(c.ToString());
+                                        }
+                                        else
+                                        {
+                                            var bytes = _string.Encoding.GetBytes([c]);
 
-                                        in_output.Write("\\");
-
-                                        while (len++ < 3)
-                                            in_output.Write("0");
-
-                                        in_output.Write(dec);
+                                            // FIX (Hyper): write unknown characters as decimal escape sequence.
+                                            in_output.Write(string.Concat(bytes.Select(x => $"\\{x:D3}")));
+                                        }
 
                                         break;
                                     }
@@ -262,17 +268,22 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public bool IsIdentifier()
         {
-            if (!IsString() || _keywords.Contains(_string) || (_string.Length == 0))
+            if (!IsString())
                 return false;
 
-            var start = _string[0];
+            var str = _string.Dereference();
+
+            if (_keywords.Contains(str) || (str.Length == 0))
+                return false;
+
+            var start = str[0];
 
             if (start != '_' && !char.IsLetter(start))
                 return false;
 
-            for (int i = 1; i < _string.Length; i++)
+            for (int i = 1; i < str.Length; i++)
             {
-                var next = _string[i];
+                var next = str[i];
 
                 if (char.IsLetterOrDigit(next))
                     continue;
@@ -288,10 +299,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public string AsName()
         {
-            if (_type != 3)
+            if (!IsString())
                 throw new InvalidCastException("This constant's data type is not a string.");
 
-            return _string;
+            return _string.Dereference();
         }
 
         public int AsInteger()

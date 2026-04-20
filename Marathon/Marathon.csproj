@@ -199,6 +199,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="11.0.0-preview.2.26159.112" />
+    <PackageReference Include="UTF.Unknown" Version="2.6.0" />
   </ItemGroup>
 
   <Import Project="..\Marathon.Shared\Marathon.Shared.projitems" Label="Shared" />
