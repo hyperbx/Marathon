@@ -25,18 +25,17 @@ namespace Marathon.Formats.Script.Lua
     {
         private const string _extension = ".lub"; // "LUa Binary"
 
-        private LFunction _main;
         private string _decompiled;
 
         public IndentationType IndentationType { get; set; } = IndentationType.Spaces;
 
         public LFunction Main 
         {
-            get => _main;
+            get;
 
             private set
             {
-                _main = value;
+                field = value;
                 _decompiled = null;
             }
         }
