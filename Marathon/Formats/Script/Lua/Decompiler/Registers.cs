@@ -1,4 +1,5 @@
-﻿using Marathon.Formats.Script.Lua.Decompiler.Expressions;
+﻿using Marathon.Extensions;
+using Marathon.Formats.Script.Lua.Decompiler.Expressions;
 using Marathon.Formats.Script.Lua.Decompiler.Targets;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Registers
     {
-        private readonly Declaration[,] _declarations;
+        private readonly Declaration[][] _declarations;
         private readonly Function _function;
-        private readonly Expression[,] _values;
-        private readonly int[,] _updated;
+        private readonly Expression[][] _values;
+        private readonly int[][] _updated;
         private bool[] _startedLines;
 
         public int RegisterCount { get; }
@@ -26,28 +27,28 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             RegisterCount = in_registerCount;
             Length = in_length;
 
-            _declarations = new Declaration[in_registerCount, in_length + 1];
+            _declarations = Array.CreateInstanceJagged2D<Declaration>(in_registerCount, in_length + 1);
 
             for (int i = 0; i < in_declarations.Length; i++)
             {
                 var declaration = in_declarations[i];
                 var register = 0;
 
-                while (_declarations[register, declaration.Begin] != null)
+                while (_declarations[register][declaration.Begin] != null)
                     register++;
 
                 declaration.Register = register;
 
                 for (int line = declaration.Begin; line <= declaration.End; line++)
-                    _declarations[register, line] = declaration;
+                    _declarations[register][line] = declaration;
             }
 
-            _values = new Expression[in_registerCount, in_length + 1];
+            _values = Array.CreateInstanceJagged2D<Expression>(in_registerCount, in_length + 1);
 
             for (int register = 0; register < in_registerCount; register++)
-                _values[register, 0] = Expression.Nil;
+                _values[register][0] = Expression.Nil;
 
-            _updated = new int[in_registerCount, in_length + 1];
+            _updated = Array.CreateInstanceJagged2D<int>(in_registerCount, in_length + 1);
             _startedLines = new bool[in_length + 1];
 
             Array.Fill(_startedLines, false);
@@ -57,7 +58,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public bool IsAssignable(int in_register, int in_line)
         {
-            return IsLocal(in_register, in_line) && !_declarations[in_register, in_line].IsForLoop;
+            return IsLocal(in_register, in_line) && !_declarations[in_register][in_line].IsForLoop;
         }
 
         public bool IsLocal(int in_register, int in_line)
@@ -65,12 +66,12 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             if (in_register < 0)
                 return false;
 
-            return _declarations[in_register, in_line] != null;
+            return _declarations[in_register][in_line] != null;
         }
 
         public bool IsNewLocal(int in_register, int in_line)
         {
-            var declaration = _declarations[in_register, in_line];
+            var declaration = _declarations[in_register][in_line];
 
             return declaration != null && declaration.Begin == in_line && !declaration.IsForLoop;
         }
@@ -90,7 +91,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public Declaration GetDeclaration(int in_register, int in_line)
         {
-            return _declarations[in_register, in_line];
+            return _declarations[in_register][in_line];
         }
 
         public void StartLine(int in_line)
@@ -99,8 +100,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             for (int register = 0; register < RegisterCount; register++)
             {
-                _values[register, in_line] = _values[register, in_line - 1];
-                _updated[register, in_line] = _updated[register, in_line - 1];
+                _values[register][in_line] = _values[register][in_line - 1];
+                _updated[register][in_line] = _updated[register][in_line - 1];
             }
         }
 
@@ -112,7 +113,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             }
             else
             {
-                return _values[in_register, in_line - 1];
+                return _values[in_register][in_line - 1];
             }
         }
 
@@ -130,26 +131,26 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         public Expression GetValue(int in_register, int in_line)
         {
-            return _values[in_register, in_line - 1];
+            return _values[in_register][in_line - 1];
         }
 
         public int GetUpdated(int in_register, int in_line)
         {
-            return _updated[in_register, in_line];
+            return _updated[in_register][in_line];
         }
 
         public void SetValue(int in_register, int in_line, Expression in_expression)
         {
-            _values[in_register, in_line] = in_expression;
-            _updated[in_register, in_line] = in_line;
+            _values[in_register][in_line] = in_expression;
+            _updated[in_register][in_line] = in_line;
         }
 
         public Target GetTarget(int in_register, int in_line)
         {
             if (!IsLocal(in_register, in_line))
-                _declarations[in_register, in_line] = new Declaration("i", 0, 0);
+                _declarations[in_register][in_line] = new Declaration("i", 0, 0);
 
-            return new VariableTarget(_declarations[in_register, in_line]);
+            return new VariableTarget(_declarations[in_register][in_line]);
         }
 
         public void SetInternalLoopVariable(int in_register, int in_begin, int in_end)
@@ -189,7 +190,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         private void NewDeclaration(Declaration in_declaration, int in_register, int in_begin, int in_end)
         {
             for (int line = in_begin; line <= in_end; line++)
-                _declarations[in_register, line] = in_declaration;
+                _declarations[in_register][line] = in_declaration;
         }
     }
 }
