@@ -9,22 +9,21 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 {
     public class Upvalues(LUpvalue[] in_upvalues)
     {
-        public string GetName(int index)
+        public string GetName(int in_index)
         {
-            if (index < in_upvalues.Length && in_upvalues[index].Name != null)
+            if (in_index < in_upvalues.Length && in_upvalues[in_index].Name != null)
             {
-                return in_upvalues[index].Name;
+                return in_upvalues[in_index].Name;
             }
             else
             {
-                // TODO: Set error.
-                return $"v{index}";
+                return SymbolResolver.ResolveUpvalueSymbol(in_index);
             }
         }
 
-        public UpvalueExpression GetExpression(int index)
+        public UpvalueExpression GetExpression(int in_index)
         {
-            return new(GetName(index));
+            return new(GetName(in_index));
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
         public override int ScopeEnd()
         {
-            return (End - 1) + -1;
+            return End - 2;
         }
 
         public override void Write(Output in_output)

@@ -49,7 +49,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
         public abstract bool IsContainer();
 
-        public int CompareTo(Block in_block)
+        public virtual int CompareTo(Block in_block)
         {
             if (Begin < in_block.Begin)
                 return -1;

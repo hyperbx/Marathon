@@ -111,19 +111,19 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 declarations.Add(DeclarationList[i]);
             }
 
-            if (declarations.Count > 0)
+            if (declarations.Count <= 0)
+                return;
+
+            in_output.Write("local ");
+            in_output.Write(declarations[0].Name);
+
+            for (int i = 1; i < declarations.Count; i++)
             {
-                in_output.Write("local ");
-                in_output.Write(declarations[0].Name);
-
-                for (int i = 1; i < declarations.Count; i++)
-                {
-                    in_output.Write(", ");
-                    in_output.Write(declarations[i].Name);
-                }
-
-                in_output.WriteLine();
+                in_output.Write(", ");
+                in_output.Write(declarations[i].Name);
             }
+
+            in_output.WriteLine();
         }
 
         private List<Operation> ProcessLine(int in_line)
@@ -167,7 +167,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     if (B == 0 && (C & 0x100) != 0)
                     {
-                        operations.AddLast(new RegisterSet(in_line, A, _function.GetGlobalExpression(C & 0xFF)));
+                        operations.AddLast(new RegisterSet(in_line, A, _function.GetGlobalExpression(C & 0xFF))); // TODO: check.
                     }
                     else
                     {
@@ -193,7 +193,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     if (A == 0 && (B & 0x100) != 0)
                     {
-                        operations.AddLast(new GlobalSet(in_line, _function.GetGlobalName(B & 0xFF), _registers.GetConstantExpression(C, in_line)));
+                        operations.AddLast(new GlobalSet(in_line, _function.GetGlobalName(B & 0xFF), _registers.GetConstantExpression(C, in_line))); // TODO: check.
                     }
                     else
                     {
@@ -217,7 +217,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 case Opcode.SELF:
                 {
-                    // We can later determine ":" syntax was used by comparing sub-expressions with "==" operators.
+                    // We can later determine if ':' syntax was used by comparing sub-expressions with "==" operators.
                     var common = _registers.GetExpression(B, in_line);
 
                     operations.AddLast(new RegisterSet(in_line, A + 1, common));
@@ -535,7 +535,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 {
                     var skipNewLocals = _registers.GetNewLocals(line);
 
-                    if (skipNewLocals.Count != 0)
+                    if (skipNewLocals.Count > 0)
                     {
                         var skipAssign = new Assignment();
 
@@ -603,7 +603,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                     assignment = ProcessOperation(blockHandler, line, line, block);
                 }
 
-                if (assignment != null && newLocals.Count != 0)
+                if (assignment != null && newLocals.Count > 0)
                 {
                     assignment.Declare(newLocals[0].Begin);
 
@@ -613,7 +613,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 if (blockHandler == null)
                 {
-                    if (assignment == null && newLocals.Count != 0 && Code.Op(line) != Opcode.FORPREP)
+                    if (assignment == null && newLocals.Count > 0 && Code.Op(line) != Opcode.FORPREP)
                     {
                         if (Code.Op(line) != Opcode.JMP || Code.Op(line + 1 + Code.sBx(line)) != Opcode.TFORLOOP)
                         {
@@ -627,11 +627,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                         }
                     }
                 }
-
-                if (blockHandler != null)
+                else
                 {
                     line--;
-
                     continue;
                 }
             }
@@ -713,7 +711,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
         private OuterBlock HandleBranches(bool in_isFirst)
         {
-            var oldBlocks = new List<Block>();
+            var oldBlocks = _blocks;
             var outer = new OuterBlock(_lFunction, _codeLength);
             var isBreak = new bool[_codeLength + 1];
             var loopRemoved = new bool[_codeLength + 1];
@@ -725,9 +723,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 foreach (var block in oldBlocks)
                 {
                     if (block is AlwaysLoop)
+                    {
                         _blocks.Add(block);
-
-                    if (block is Break)
+                    }
+                    else if (block is Break)
                     {
                         _blocks.Add(block);
 
@@ -767,212 +766,117 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 foreach (var block in delete)
                     _blocks.Remove(block);
+            }
 
-                _skipped = new bool[_codeLength + 1];
+            _skipped = new bool[_codeLength + 1];
 
-                var stack = new Stack<Branch>();
+            var stack = new Stack<Branch>();
 
-                var testSet = false;
-                var testSetEnd = -1;
+            var reduce = false;
+            var testSet = false;
+            var testSetEnd = -1;
 
-                for (int line = 1; line <= _codeLength; line++)
+            for (int line = 1; line <= _codeLength; line++)
+            {
+                if (!_skipped[line])
                 {
-                    if (!_skipped[line])
+                    void PushCommonNodeToStack(Branch in_node)
                     {
-                        bool reduce;
+                        stack.Push(in_node);
 
-                        void PushCommonNodeToStack(Branch in_node)
+                        _skipped[line + 1] = true;
+
+                        if (Code.Op(in_node.End) != Opcode.LOADBOOL)
+                            return;
+
+                        if (Code.C(in_node.End) != 0)
                         {
-                            stack.Push(in_node);
-
-                            _skipped[line + 1] = true;
-
-                            if (Code.Op(in_node.End) != Opcode.LOADBOOL)
-                                return;
-
-                            if (Code.C(in_node.End) != 0)
+                            in_node.IsCompareSet = true;
+                            in_node.SetTarget = Code.A(in_node.End);
+                        }
+                        else if (Code.Op(in_node.End - 1) == Opcode.LOADBOOL)
+                        {
+                            if (Code.C(in_node.End - 1) != 0)
                             {
                                 in_node.IsCompareSet = true;
                                 in_node.SetTarget = Code.A(in_node.End);
                             }
-                            else if (Code.Op(in_node.End - 1) == Opcode.LOADBOOL)
-                            {
-                                if (Code.C(in_node.End - 1) != 0)
-                                {
-                                    in_node.IsCompareSet = true;
-                                    in_node.SetTarget = Code.A(in_node.End);
-                                }
-                            }
+                        }
+                    }
+
+                    switch (Code.Op(line))
+                    {
+                        case Opcode.EQ:
+                            PushCommonNodeToStack(new EQNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
+                            continue;
+
+                        case Opcode.LT:
+                            PushCommonNodeToStack(new LTNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
+                            continue;
+
+                        case Opcode.LE:
+                            PushCommonNodeToStack(new LENode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
+                            continue;
+
+                        case Opcode.TEST:
+                        {
+                            stack.Push(new TestNode(Code.A(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
+
+                            _skipped[line + 1] = true;
+
+                            continue;
                         }
 
-                        switch (Code.Op(line))
+                        case Opcode.TESTSET:
                         {
-                            case Opcode.EQ:
-                                PushCommonNodeToStack(new EQNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-                                continue;
+                            testSet = true;
+                            testSetEnd = line + 2 + Code.sBx(line + 1);
 
-                            case Opcode.LT:
-                                PushCommonNodeToStack(new LTNode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-                                continue;
+                            stack.Push(new TestSetNode(Code.A(line), Code.B(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
 
-                            case Opcode.LE:
-                                PushCommonNodeToStack(new LENode(Code.B(line), Code.C(line), Code.A(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-                                continue;
+                            _skipped[line + 1] = true;
 
-                            case Opcode.TEST:
+                            continue;
+                        }
+
+                        case Opcode.TEST50:
+                        {
+                            if (Code.A(line) == Code.B(line))
                             {
                                 stack.Push(new TestNode(Code.A(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-
-                                _skipped[line + 1] = true;
-
-                                continue;
                             }
-
-                            case Opcode.TESTSET:
+                            else
                             {
                                 testSet = true;
                                 testSetEnd = line + 2 + Code.sBx(line + 1);
 
                                 stack.Push(new TestSetNode(Code.A(line), Code.B(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
+                            }
+
+                            _skipped[line + 1] = true;
+
+                            continue;
+                        }
+
+                        case Opcode.JMP:
+                        {
+                            reduce = true;
+
+                            var targetLine = line + 1 + Code.sBx(line);
+
+                            if (targetLine >= 2 && Code.Op(targetLine - 1) == Opcode.LOADBOOL && Code.C(targetLine - 1) != 0)
+                            {
+                                stack.Push(new TrueNode(Code.A(targetLine - 1), false, line, line + 1, targetLine));
 
                                 _skipped[line + 1] = true;
-
-                                continue;
                             }
-
-                            case Opcode.TEST50:
+                            else if (Code.Op(targetLine) == Opcode.TFORLOOP && !_skipped[targetLine])
                             {
-                                if (Code.A(line) == Code.B(line))
-                                {
-                                    stack.Push(new TestNode(Code.A(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-                                }
-                                else
-                                {
-                                    testSet = true;
-                                    testSetEnd = line + 2 + Code.sBx(line + 1);
-
-                                    stack.Push(new TestSetNode(Code.A(line), Code.B(line), Code.C(line) != 0, line, line + 2, line + 2 + Code.sBx(line + 1)));
-                                }
-
-                                _skipped[line + 1] = true;
-
-                                continue;
-                            }
-
-                            case Opcode.JMP:
-                            {
-                                reduce = true;
-
-                                var targetLine = line + 1 + Code.sBx(line);
-
-                                if (targetLine >= 2 && Code.Op(targetLine - 1) == Opcode.LOADBOOL && Code.C(targetLine - 1) != 0)
-                                {
-                                    stack.Push(new TrueNode(Code.A(targetLine - 1), false, line, line + 1, targetLine));
-
-                                    _skipped[line + 1] = true;
-                                }
-                                else if (Code.Op(targetLine) == Opcode.TFORLOOP && !_skipped[targetLine])
-                                {
-                                    int A = Code.A(targetLine),
-                                        C = Code.C(targetLine);
-
-                                    if (C == 0) throw new Exception();
-
-                                    _registers.SetInternalLoopVariable(A, targetLine, line + 1);
-                                    _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
-                                    _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
-
-                                    for (int index = 1; index <= C; index++)
-                                        _registers.SetInternalLoopVariable(A + 2 + index, line, targetLine + 2);
-
-                                    _skipped[targetLine] = true;
-                                    _skipped[targetLine + 1] = true;
-
-                                    _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
-                                }
-                                else if (Code.Op(targetLine) == Opcode.FORLOOP && !_skipped[targetLine])
-                                {
-                                    int A = Code.A(targetLine);
-
-                                    _registers.SetInternalLoopVariable(A, targetLine, line + 1);
-                                    _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
-                                    _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
-
-                                    _skipped[targetLine] = true;
-                                    _skipped[targetLine + 1] = true;
-
-                                    _blocks.Add(new ForBlock(_lFunction, line + 1, targetLine + 1, A, _registers));
-                                }
-                                else if (Code.sBx(line) == 2 && Code.Op(line + 1) == Opcode.LOADBOOL && Code.C(line + 1) != 0)
-                                {
-                                    // This is the tail of a boolean set with a compare node and assign node.
-                                    _blocks.Add(new BooleanIndicator(_lFunction, line));
-                                }
-                                else if (Code.Op(targetLine) == Opcode.JMP && Code.sBx(targetLine) + targetLine == line)
-                                {
-                                    if (in_isFirst)
-                                        _blocks.Add(new AlwaysLoop(_lFunction, line, targetLine + 1));
-
-                                    _skipped[targetLine] = true;
-                                }
-                                else
-                                {
-                                    if (in_isFirst || loopRemoved[line] || _reverseTarget[line + 1])
-                                    {
-                                        if (targetLine > line)
-                                        {
-                                            isBreak[line] = true;
-
-                                            _blocks.Add(new Break(_lFunction, line, targetLine));
-                                        }
-                                        else
-                                        {
-                                            var enclosing = EnclosingBreakableBlock(line);
-
-                                            if (enclosing != null && enclosing.Breakable() && Code.Op(enclosing.End) == Opcode.JMP && Code.sBx(enclosing.End) + enclosing.End + 1 == targetLine)
-                                            {
-                                                isBreak[line] = true;
-
-                                                _blocks.Add(new Break(_lFunction, line, enclosing.End));
-                                            }
-                                            else
-                                            {
-                                                _blocks.Add(new AlwaysLoop(_lFunction, targetLine, line + 1));
-                                            }
-                                        }
-                                    }
-                                }
-
-                                break;
-                            }
-
-                            case Opcode.FORPREP:
-                            {
-                                reduce = true;
-
-                                _blocks.Add(new ForBlock(_lFunction, line + 1, line + 2 + Code.sBx(line), Code.A(line), _registers));
-
-                                _skipped[line + 1 + Code.sBx(line)] = true;
-
-                                _registers.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
-                                _registers.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
-                                _registers.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
-                                _registers.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
-
-                                break;
-                            }
-
-                            // Should be skipped by preceding FORPREP.
-                            case Opcode.FORLOOP:
-                                throw new Exception();
-
-                            case Opcode.TFORPREP:
-                            {
-                                reduce = true;
-
-                                var targetLine = line + 1 + Code.sBx(line);
                                 var A = Code.A(targetLine);
                                 var C = Code.C(targetLine);
+
+                                if (C == 0)
+                                    throw new Exception();
 
                                 _registers.SetInternalLoopVariable(A, targetLine, line + 1);
                                 _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
@@ -985,324 +889,420 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                                 _skipped[targetLine + 1] = true;
 
                                 _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
+                            }
+                            else if (Code.Op(targetLine) == Opcode.FORLOOP && !_skipped[targetLine])
+                            {
+                                var A = Code.A(targetLine);
 
-                                break;
+                                _registers.SetInternalLoopVariable(A, targetLine, line + 1);
+                                _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
+                                _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
+
+                                _skipped[targetLine] = true;
+                                _skipped[targetLine + 1] = true;
+
+                                _blocks.Add(new ForBlock(_lFunction, line + 1, targetLine + 1, A, _registers));
+                            }
+                            else if (Code.sBx(line) == 2 && Code.Op(line + 1) == Opcode.LOADBOOL && Code.C(line + 1) != 0)
+                            {
+                                // This is the tail of a boolean set with a compare node and assign node.
+                                _blocks.Add(new BooleanIndicator(_lFunction, line));
+                            }
+                            else if (Code.Op(targetLine) == Opcode.JMP && (Code.sBx(targetLine) + targetLine) == line)
+                            {
+                                if (in_isFirst)
+                                    _blocks.Add(new AlwaysLoop(_lFunction, line, targetLine + 1));
+
+                                _skipped[targetLine] = true;
+                            }
+                            else
+                            {
+                                if (in_isFirst || loopRemoved[line] || _reverseTarget[line + 1])
+                                {
+                                    if (targetLine > line)
+                                    {
+                                        isBreak[line] = true;
+
+                                        _blocks.Add(new Break(_lFunction, line, targetLine));
+                                    }
+                                    else
+                                    {
+                                        var enclosing = EnclosingBreakableBlock(line);
+
+                                        if (enclosing != null && enclosing.Breakable() && Code.Op(enclosing.End) == Opcode.JMP && Code.sBx(enclosing.End) + enclosing.End + 1 == targetLine)
+                                        {
+                                            isBreak[line] = true;
+
+                                            _blocks.Add(new Break(_lFunction, line, enclosing.End));
+                                        }
+                                        else
+                                        {
+                                            _blocks.Add(new AlwaysLoop(_lFunction, targetLine, line + 1));
+                                        }
+                                    }
+                                }
                             }
 
-                            default:
-                                reduce = IsStatement(line);
-                                break;
+                            break;
                         }
 
-                        if ((line + 1) <= _codeLength && _reverseTarget[line + 1])
-                            reduce = true;
-
-                        if (testSet && testSetEnd == line + 1)
-                            reduce = true;
-
-                        if (stack.Count == 0)
-                            reduce = false;
-
-                        if (reduce)
+                        case Opcode.FORPREP:
                         {
-                            reduce = false;
+                            reduce = true;
 
-                            var conditions = new Stack<Branch>();
-                            var backups = new Stack<Stack<Branch>>();
+                            _blocks.Add(new ForBlock(_lFunction, line + 1, line + 2 + Code.sBx(line), Code.A(line), _registers));
 
-                            do
+                            _skipped[line + 1 + Code.sBx(line)] = true;
+
+                            _registers.SetInternalLoopVariable(Code.A(line), line, line + 2 + Code.sBx(line));
+                            _registers.SetInternalLoopVariable(Code.A(line) + 1, line, line + 2 + Code.sBx(line));
+                            _registers.SetInternalLoopVariable(Code.A(line) + 2, line, line + 2 + Code.sBx(line));
+                            _registers.SetInternalLoopVariable(Code.A(line) + 3, line, line + 2 + Code.sBx(line));
+
+                            break;
+                        }
+
+                        // Should be skipped by preceding FORPREP.
+                        case Opcode.FORLOOP:
+                            throw new Exception();
+
+                        case Opcode.TFORPREP:
+                        {
+                            reduce = true;
+
+                            var targetLine = line + 1 + Code.sBx(line);
+                            var A = Code.A(targetLine);
+                            var C = Code.C(targetLine);
+
+                            _registers.SetInternalLoopVariable(A, targetLine, line + 1);
+                            _registers.SetInternalLoopVariable(A + 1, targetLine, line + 1);
+                            _registers.SetInternalLoopVariable(A + 2, targetLine, line + 1);
+
+                            for (int index = 1; index <= C; index++)
+                                _registers.SetInternalLoopVariable(A + 2 + index, line, targetLine + 2);
+
+                            _skipped[targetLine] = true;
+                            _skipped[targetLine + 1] = true;
+
+                            _blocks.Add(new TForBlock(_lFunction, line + 1, targetLine + 2, A, C, _registers));
+
+                            break;
+                        }
+
+                        default:
+                            reduce = IsStatement(line);
+                            break;
+                    }
+                }
+
+                if (((line + 1) <= _codeLength) && _reverseTarget[line + 1])
+                    reduce = true;
+
+                if (testSet && testSetEnd == line + 1)
+                    reduce = true;
+
+                if (stack.Count <= 0)
+                    reduce = false;
+
+                if (reduce)
+                {
+                    reduce = false;
+
+                    var conditions = new Stack<Branch>();
+                    var backups = new Stack<Stack<Branch>>();
+
+                    do
+                    {
+                        var isAssignNode = stack.Peek() is TestSetNode;
+                        var assignEnd = stack.Peek().End;
+                        var compareCorrect = false;
+
+                        if (stack.Peek() is TrueNode)
+                        {
+                            isAssignNode = true;
+                            compareCorrect = true;
+
+                            if (Code.C(assignEnd) != 0)
                             {
-                                var isAssignNode = stack.Peek() is TestSetNode;
-                                var assignEnd = stack.Peek().End;
-                                var compareCorrect = false;
-
-                                if (stack.Peek() is TrueNode)
-                                {
-                                    isAssignNode = true;
-                                    compareCorrect = true;
-
-                                    if (Code.C(assignEnd) != 0)
-                                    {
-                                        assignEnd += 2;
-                                    }
-                                    else
-                                    {
-                                        assignEnd += 1;
-                                    }
-                                }
-                                else if (stack.Peek().IsCompareSet)
-                                {
-                                    if (Code.Op(stack.Peek().Begin) != Opcode.LOADBOOL || Code.C(stack.Peek().Begin) == 0)
-                                    {
-                                        isAssignNode = true;
-
-                                        if (Code.C(assignEnd) != 0)
-                                        {
-                                            assignEnd += 2;
-                                        }
-                                        else
-                                        {
-                                            assignEnd += 1;
-                                        }
-
-                                        compareCorrect = true;
-                                    }
-                                }
-                                else if (assignEnd - 3 >= 1 && Code.Op(assignEnd - 2) == Opcode.LOADBOOL && Code.C(assignEnd - 2) != 0 && Code.Op(assignEnd - 3) == Opcode.JMP && Code.sBx(assignEnd - 3) == 2)
-                                {
-                                    if (stack.Peek() is TestNode out_node)
-                                    {
-                                        if (out_node.Register == Code.A(assignEnd - 2))
-                                            isAssignNode = true;
-                                    }
-                                }
-                                else if (assignEnd - 2 >= 1 && Code.Op(assignEnd - 1) == Opcode.LOADBOOL && Code.C(assignEnd - 1) != 0 && Code.Op(assignEnd - 2) == Opcode.JMP && Code.sBx(assignEnd - 2) == 2)
-                                {
-                                    if (stack.Peek() is TestNode)
-                                    {
-                                        isAssignNode = true;
-                                        assignEnd += 1;
-                                    }
-                                }
-                                else if (assignEnd - 1 >= 1 && Code.Op(assignEnd) == Opcode.LOADBOOL && Code.C(assignEnd) != 0 && Code.Op(assignEnd - 1) == Opcode.JMP && Code.sBx(assignEnd - 1) == 2)
-                                {
-                                    if (stack.Peek() is TestNode)
-                                    {
-                                        isAssignNode = true;
-                                        assignEnd += 2;
-                                    }
-                                }
-                                else if (assignEnd - 1 >= 1 && _registers.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
-                                {
-                                    var declaration = _registers.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
-
-                                    if (declaration.Begin == assignEnd - 1 && declaration.End > assignEnd - 1)
-                                        isAssignNode = true;
-                                }
-
-                                if (!compareCorrect && assignEnd - 1 == stack.Peek().Begin && Code.Op(stack.Peek().Begin) == Opcode.LOADBOOL && Code.C(stack.Peek().Begin) != 0)
-                                {
-                                    _backup = null;
-
-                                    var begin = stack.Peek().Begin;
-                                    var target = Code.A(begin);
-
-                                    assignEnd = begin + 2;
-
-                                    conditions.Push(PopCompareSetCondition(stack, assignEnd));
-                                    conditions.Peek().SetTarget = target;
-                                    conditions.Peek().End = assignEnd;
-                                    conditions.Peek().Begin = begin;
-                                }
-                                else if (isAssignNode)
-                                {
-                                    _backup = null;
-
-                                    var begin = stack.Peek().Begin;
-                                    var target = stack.Peek().SetTarget;
-
-                                    conditions.Push(PopSetCondition(stack, assignEnd));
-                                    conditions.Peek().SetTarget = target;
-                                    conditions.Peek().End = assignEnd;
-                                    conditions.Peek().Begin = begin;
-                                }
-                                else
-                                {
-                                    _backup = new Stack<Branch>();
-
-                                    conditions.Push(PopCondition(stack));
-
-                                    _backup.Reverse();
-                                }
-
-                                backups.Push(_backup);
+                                assignEnd += 2;
                             }
-                            while (stack.Count != 0);
-
-                            do
+                            else
                             {
-                                var condition = conditions.Pop();
-                                var backup = backups.Pop();
-                                var breakTarget = BreakTarget(condition.Begin);
-                                var isBreakable = breakTarget >= 1;
+                                assignEnd += 1;
+                            }
+                        }
+                        else if (stack.Peek().IsCompareSet)
+                        {
+                            if (Code.Op(stack.Peek().Begin) != Opcode.LOADBOOL || Code.C(stack.Peek().Begin) == 0)
+                            {
+                                isAssignNode = true;
 
-                                if (isBreakable && breakTarget == condition.End)
+                                if (Code.C(assignEnd) != 0)
                                 {
-                                    var immediateEnclosing = EnclosingBlock(condition.Begin);
-
-                                    for (int i = Math.Max(condition.End, immediateEnclosing.End - 1); i >= Math.Max(condition.Begin, immediateEnclosing.Begin); i--)
-                                    {
-                                        if (Code.Op(i) == Opcode.JMP && i + 1 + Code.sBx(i) == breakTarget)
-                                        {
-                                            condition.End = i;
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                // A branch has a tail if the instruction just before the target is JMP.
-                                var hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
-
-                                // This is the target of the tail JMP.
-                                var tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
-                                var originalTail = tail;
-
-                                var enclosing = EnclosingUnprotectedBlock(condition.Begin);
-
-                                // Checking enclosing unprotected block to undo JMP redirects.
-                                if (enclosing != null)
-                                {
-                                    if (enclosing.GetLoopback() == condition.End)
-                                    {
-                                        condition.End = enclosing.End - 1;
-                                        hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
-                                        tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
-                                    }
-
-                                    if (hasTail && enclosing.GetLoopback() == tail)
-                                        tail = enclosing.End - 1;
-                                }
-
-                                if (condition.IsSet)
-                                {
-                                    var isEmpty = condition.Begin == condition.End;
-
-                                    if (Code.Op(condition.Begin) == Opcode.JMP && Code.sBx(condition.Begin) == 2 && Code.Op(condition.Begin + 1) == Opcode.LOADBOOL && Code.C(condition.Begin + 1) != 0)
-                                        isEmpty = true;
-
-                                    _blocks.Add(new SetBlock(_lFunction, condition, condition.SetTarget, line, condition.Begin, condition.End, isEmpty, _registers));
-                                }
-                                else if (Code.Op(condition.Begin) == Opcode.LOADBOOL && Code.C(condition.Begin) != 0)
-                                {
-                                    var begin = condition.Begin;
-                                    var target = Code.A(begin);
-
-                                    if (Code.B(begin) == 0)
-                                        condition = condition.Invert();
-
-                                    _blocks.Add(new CompareBlock(_lFunction, begin, begin + 2, target, condition));
-                                }
-                                else if (condition.End < condition.Begin)
-                                {
-                                    if (isBreak[condition.End - 1])
-                                    {
-                                        _skipped[condition.End - 1] = true;
-
-                                        _blocks.Add(new WhileBlock(_lFunction, condition.Invert(), originalTail, _registers));
-                                    }
-                                    else
-                                    {
-                                        _blocks.Add(new RepeatBlock(_lFunction, condition, _registers));
-                                    }
-                                }
-                                else if (hasTail)
-                                {
-                                    var endOpcode = Code.Op(condition.End - 2);
-                                    var isEndCondJump = endOpcode == Opcode.EQ || endOpcode == Opcode.LE || endOpcode == Opcode.LT || endOpcode == Opcode.TEST || endOpcode == Opcode.TESTSET || endOpcode == Opcode.TEST50;
-
-                                    if (tail > condition.End || (tail == condition.End && !isEndCondJump))
-                                    {
-                                        var opcode = Code.Op(tail - 1);
-
-                                        var sBx = Code.sBx(tail - 1);
-                                        var loopback2 = tail + sBx;
-                                        var isBreakableLoopEnd = opcode == Opcode.JMP || opcode == Opcode.FORLOOP;
-
-                                        if (isBreakableLoopEnd && loopback2 <= condition.Begin && !isBreak[tail - 1])
-                                        {
-                                            // Ends with break.
-                                            _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
-                                        }
-                                        else
-                                        {
-                                            // Skip the JMP over the else block.
-                                            _skipped[condition.End - 1] = true;
-
-                                            var isEmptyElse = tail == condition.End;
-
-                                            _blocks.Add(new IfThenElseBlock(_lFunction, condition, originalTail, isEmptyElse, _registers));
-
-                                            if (!isEmptyElse)
-                                                _blocks.Add(new ElseEndBlock(_lFunction, condition.End, tail));
-                                        }
-                                    }
-                                    else
-                                    {
-                                        var loopback = tail;
-                                        var statementExists = false;
-
-                                        for (int i = loopback; i < condition.Begin; i++)
-                                        {
-                                            if (!_skipped[i] && IsStatement(i))
-                                            {
-                                                statementExists = true;
-                                                break;
-                                            }
-                                        }
-
-                                        // TODO: check for 5.2-style "if cond then break end".
-                                        if (loopback >= condition.Begin || statementExists)
-                                        {
-                                            _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
-                                        }
-                                        else
-                                        {
-                                            _skipped[condition.End - 1] = true;
-
-                                            _blocks.Add(new WhileBlock(_lFunction, condition, originalTail, _registers));
-                                        }
-                                    }
+                                    assignEnd += 2;
                                 }
                                 else
+                                {
+                                    assignEnd += 1;
+                                }
+
+                                compareCorrect = true;
+                            }
+                        }
+                        else if (assignEnd - 3 >= 1 && Code.Op(assignEnd - 2) == Opcode.LOADBOOL && Code.C(assignEnd - 2) != 0 && Code.Op(assignEnd - 3) == Opcode.JMP && Code.sBx(assignEnd - 3) == 2)
+                        {
+                            if (stack.Peek() is TestNode out_node)
+                            {
+                                if (out_node.Register == Code.A(assignEnd - 2))
+                                    isAssignNode = true;
+                            }
+                        }
+                        else if (assignEnd - 2 >= 1 && Code.Op(assignEnd - 1) == Opcode.LOADBOOL && Code.C(assignEnd - 1) != 0 && Code.Op(assignEnd - 2) == Opcode.JMP && Code.sBx(assignEnd - 2) == 2)
+                        {
+                            if (stack.Peek() is TestNode)
+                            {
+                                isAssignNode = true;
+                                assignEnd += 1;
+                            }
+                        }
+                        else if (assignEnd - 1 >= 1 && Code.Op(assignEnd) == Opcode.LOADBOOL && Code.C(assignEnd) != 0 && Code.Op(assignEnd - 1) == Opcode.JMP && Code.sBx(assignEnd - 1) == 2)
+                        {
+                            if (stack.Peek() is TestNode)
+                            {
+                                isAssignNode = true;
+                                assignEnd += 2;
+                            }
+                        }
+                        else if (assignEnd - 1 >= 1 && _registers.IsLocal(GetAssignment(assignEnd - 1), assignEnd - 1) && assignEnd > stack.Peek().Line)
+                        {
+                            var declaration = _registers.GetDeclaration(GetAssignment(assignEnd - 1), assignEnd - 1);
+
+                            if (declaration.Begin == assignEnd - 1 && declaration.End > assignEnd - 1)
+                                isAssignNode = true;
+                        }
+
+                        if (!compareCorrect && assignEnd - 1 == stack.Peek().Begin && Code.Op(stack.Peek().Begin) == Opcode.LOADBOOL && Code.C(stack.Peek().Begin) != 0)
+                        {
+                            _backup = null;
+
+                            var begin = stack.Peek().Begin;
+                            var target = Code.A(begin);
+
+                            assignEnd = begin + 2;
+
+                            conditions.Push(PopCompareSetCondition(stack, assignEnd));
+                            conditions.Peek().SetTarget = target;
+                            conditions.Peek().End = assignEnd;
+                            conditions.Peek().Begin = begin;
+                        }
+                        else if (isAssignNode)
+                        {
+                            _backup = null;
+
+                            var begin = stack.Peek().Begin;
+                            var target = stack.Peek().SetTarget;
+
+                            conditions.Push(PopSetCondition(stack, assignEnd));
+                            conditions.Peek().SetTarget = target;
+                            conditions.Peek().End = assignEnd;
+                            conditions.Peek().Begin = begin;
+                        }
+                        else
+                        {
+                            _backup = [];
+
+                            conditions.Push(PopCondition(stack));
+
+                            _backup = new(_backup.Reverse());
+                        }
+
+                        backups.Push(_backup);
+                    }
+                    while (stack.Count > 0);
+
+                    do
+                    {
+                        var condition = conditions.Pop();
+                        var backup = backups.Pop();
+                        var breakTarget = BreakTarget(condition.Begin);
+                        var isBreakable = breakTarget >= 1;
+
+                        if (isBreakable && breakTarget == condition.End)
+                        {
+                            var immediateEnclosing = EnclosingBlock(condition.Begin);
+
+                            for (int i = Math.Max(condition.End, immediateEnclosing.End - 1); i >= Math.Max(condition.Begin, immediateEnclosing.Begin); i--)
+                            {
+                                if (Code.Op(i) == Opcode.JMP && i + 1 + Code.sBx(i) == breakTarget)
+                                {
+                                    condition.End = i;
+                                    break;
+                                }
+                            }
+                        }
+
+                        // A branch has a tail if the instruction just before the target is JMP.
+                        var hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
+
+                        // This is the target of the tail JMP.
+                        var tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
+                        var originalTail = tail;
+
+                        var enclosing = EnclosingUnprotectedBlock(condition.Begin);
+
+                        // Checking enclosing unprotected block to undo JMP redirects.
+                        if (enclosing != null)
+                        {
+                            if (enclosing.GetLoopback() == condition.End)
+                            {
+                                condition.End = enclosing.End - 1;
+                                hasTail = condition.End >= 2 && Code.Op(condition.End - 1) == Opcode.JMP;
+                                tail = hasTail ? condition.End + Code.sBx(condition.End - 1) : -1;
+                            }
+
+                            if (hasTail && enclosing.GetLoopback() == tail)
+                                tail = enclosing.End - 1;
+                        }
+
+                        if (condition.IsSet)
+                        {
+                            var isEmpty = condition.Begin == condition.End;
+
+                            if (Code.Op(condition.Begin) == Opcode.JMP && Code.sBx(condition.Begin) == 2 && Code.Op(condition.Begin + 1) == Opcode.LOADBOOL && Code.C(condition.Begin + 1) != 0)
+                                isEmpty = true;
+
+                            _blocks.Add(new SetBlock(_lFunction, condition, condition.SetTarget, line, condition.Begin, condition.End, isEmpty, _registers));
+                        }
+                        else if (Code.Op(condition.Begin) == Opcode.LOADBOOL && Code.C(condition.Begin) != 0)
+                        {
+                            var begin = condition.Begin;
+                            var target = Code.A(begin);
+
+                            if (Code.B(begin) == 0)
+                                condition = condition.Invert();
+
+                            _blocks.Add(new CompareBlock(_lFunction, begin, begin + 2, target, condition));
+                        }
+                        else if (condition.End < condition.Begin)
+                        {
+                            if (isBreak[condition.End - 1])
+                            {
+                                _skipped[condition.End - 1] = true;
+
+                                _blocks.Add(new WhileBlock(_lFunction, condition.Invert(), originalTail, _registers));
+                            }
+                            else
+                            {
+                                _blocks.Add(new RepeatBlock(_lFunction, condition, _registers));
+                            }
+                        }
+                        else if (hasTail)
+                        {
+                            var endOpcode = Code.Op(condition.End - 2);
+                            var isEndCondJump = endOpcode == Opcode.EQ || endOpcode == Opcode.LE || endOpcode == Opcode.LT || endOpcode == Opcode.TEST || endOpcode == Opcode.TESTSET || endOpcode == Opcode.TEST50;
+
+                            if (tail > condition.End || (tail == condition.End && !isEndCondJump))
+                            {
+                                var opcode = Code.Op(tail - 1);
+
+                                var sBx = Code.sBx(tail - 1);
+                                var loopback2 = tail + sBx;
+                                var isBreakableLoopEnd = opcode == Opcode.JMP || opcode == Opcode.FORLOOP;
+
+                                if (isBreakableLoopEnd && loopback2 <= condition.Begin && !isBreak[tail - 1])
+                                {
+                                    // Ends with break.
+                                    _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
+                                }
+                                else
+                                {
+                                    // Skip the JMP over the else block.
+                                    _skipped[condition.End - 1] = true;
+
+                                    var isEmptyElse = tail == condition.End;
+
+                                    _blocks.Add(new IfThenElseBlock(_lFunction, condition, originalTail, isEmptyElse, _registers));
+
+                                    if (!isEmptyElse)
+                                        _blocks.Add(new ElseEndBlock(_lFunction, condition.End, tail));
+                                }
+                            }
+                            else
+                            {
+                                var loopback = tail;
+                                var statementExists = false;
+
+                                for (int i = loopback; i < condition.Begin; i++)
+                                {
+                                    if (!_skipped[i] && IsStatement(i))
+                                    {
+                                        statementExists = true;
+                                        break;
+                                    }
+                                }
+
+                                if (loopback >= condition.Begin || statementExists)
                                 {
                                     _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
                                 }
-                            }
-                            while (conditions.Count != 0);
-                        }
-                    }
-                }
+                                else
+                                {
+                                    _skipped[condition.End - 1] = true;
 
-                // Find variables whose scope isn't controlled by existing blocks.
-                foreach (var declaration in DeclarationList)
-                {
-                    if (!declaration.IsForLoop && !declaration.IsForLoopExplicit)
-                    {
-                        var needsDoEnd = true;
-
-                        foreach (var block in _blocks)
-                        {
-                            if (!block.Contains(declaration.Begin))
-                                continue;
-
-                            if (block.ScopeEnd() == declaration.End)
-                            {
-                                needsDoEnd = false;
-                                break;
+                                    _blocks.Add(new WhileBlock(_lFunction, condition, originalTail, _registers));
+                                }
                             }
                         }
-
-                        if (needsDoEnd)
+                        else
                         {
-                            /* Without accounting for the order of declarations, we might create another "do end" block
-                               later that would eliminate the need for this one. But order of decls should fix this. */
-                            _blocks.Add(new DoEndBlock(_lFunction, declaration.Begin, declaration.End + 1));
+                            _blocks.Add(new IfThenEndBlock(_lFunction, condition, backup, _registers));
                         }
                     }
+                    while (conditions.Count > 0);
                 }
             }
 
-            var iter = _blocks;
-            int iterIndex = 0;
-
-            while (iterIndex != iter.Count - 1)
+            // Find variables whose scope isn't controlled by existing blocks.
+            foreach (var declaration in DeclarationList)
             {
-                var block = iter[iterIndex + 1];
+                if (declaration.IsForLoop || declaration.IsForLoopExplicit)
+                    continue;
+
+                var needsDoEnd = true;
+
+                foreach (var block in _blocks)
+                {
+                    if (!block.Contains(declaration.Begin))
+                        continue;
+
+                    if (block.ScopeEnd() == declaration.End)
+                    {
+                        needsDoEnd = false;
+                        break;
+                    }
+                }
+
+                if (needsDoEnd)
+                {
+                    // Without accounting for the order of declarations, we might create another "do end" block
+                    // later that would eliminate the need for this one. But order of decls should fix this.
+                    _blocks.Add(new DoEndBlock(_lFunction, declaration.Begin, declaration.End + 1));
+                }
+            }
+
+            // Remove breaks that were later parsed as else jumps.
+            for (int i = 0; i < _blocks.Count;)
+            {
+                var block = _blocks[i];
 
                 if (_skipped[block.Begin] && block is Break)
-                    iter.Remove(iter[iterIndex]);
-
-                iterIndex++;
+                {
+                    _blocks.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
             }
 
             _blocks.Sort();
@@ -1389,7 +1389,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
             if (Code.Op(branch.Begin) == Opcode.JMP)
                 begin += 1 + Code.sBx(branch.Begin);
 
-            while (in_stack.Count != 0)
+            while (in_stack.Count > 0)
             {
                 var next = in_stack.Peek();
 
@@ -1434,16 +1434,17 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             in_stack.Push(top);
 
+            // Invert argument doesn't matter because begin is equal to end.
             return PopSetCondition(in_stack, invert, in_assignEnd);
         }
 
-        private Branch PopSetCondition(Stack<Branch> in_stack, bool in_isInverted, int in_assignEnd)
+        private Branch PopSetCondition(Stack<Branch> in_stack, bool in_invert, int in_assignEnd)
         {
             var branch = in_stack.Pop();
             var begin = branch.Begin;
             var end = branch.End;
 
-            if (in_isInverted)
+            if (in_invert)
                 branch = branch.Invert();
 
             if (Code.Op(begin) == Opcode.LOADBOOL)
@@ -1472,16 +1473,15 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
             var target = branch.SetTarget;
 
-            while (in_stack.Count != 0)
+            while (in_stack.Count > 0)
             {
                 var next = in_stack.Peek();
                 var nextEnd = next.End;
-
-                bool isNextBlockInverted;
+                var nextInvert = false;
 
                 if (Code.Op(next.End) == Opcode.LOADBOOL)
                 {
-                    isNextBlockInverted = Code.B(next.End) != 0;
+                    nextInvert = Code.B(next.End) != 0;
 
                     if (Code.C(next.End) != 0)
                     {
@@ -1494,15 +1494,15 @@ namespace Marathon.Formats.Script.Lua.Decompiler
                 }
                 else if (next is TestSetNode out_testSetNode)
                 {
-                    isNextBlockInverted = out_testSetNode.IsInverted;
+                    nextInvert = out_testSetNode.IsInverted;
                 }
                 else if (next is TestNode out_testNode)
                 {
-                    isNextBlockInverted = out_testNode.IsInverted;
+                    nextInvert = out_testNode.IsInverted;
                 }
                 else
                 {
-                    isNextBlockInverted = false;
+                    nextInvert = false;
 
                     if (nextEnd >= in_assignEnd)
                         break;
@@ -1510,7 +1510,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 int addr;
 
-                if (isNextBlockInverted == in_isInverted)
+                if (nextInvert == in_invert)
                 {
                     addr = end;
                 }
@@ -1521,16 +1521,17 @@ namespace Marathon.Formats.Script.Lua.Decompiler
 
                 if (addr == nextEnd)
                 {
+                    // wat
                     if (addr != nextEnd)
-                        isNextBlockInverted = !isNextBlockInverted;
+                        nextInvert = !nextInvert;
 
-                    if (isNextBlockInverted)
+                    if (nextInvert)
                     {
-                        branch = new OrBranch(PopSetCondition(in_stack, isNextBlockInverted, in_assignEnd), branch);
+                        branch = new OrBranch(PopSetCondition(in_stack, nextInvert, in_assignEnd), branch);
                     }
                     else
                     {
-                        branch = new AndBranch(PopSetCondition(in_stack, isNextBlockInverted, in_assignEnd), branch);
+                        branch = new AndBranch(PopSetCondition(in_stack, nextInvert, in_assignEnd), branch);
                     }
 
                     branch.End = nextEnd;

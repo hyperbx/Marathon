@@ -17,7 +17,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
 
         public ElseEndBlock Partner { get; set; }
 
-        public new int CompareTo(Block in_block)
+        public override int CompareTo(Block in_block)
         {
             if (in_block == Partner)
                 return -1;

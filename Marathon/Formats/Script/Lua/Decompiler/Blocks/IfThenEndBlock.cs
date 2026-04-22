@@ -144,7 +144,6 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Blocks
         public override Statement Process(Registers in_registers, Block in_block)
         {
             in_registers.SetValue(in_testRegister, in_outerInstance.Branch.End - 1, in_setBranch.AsExpression(in_registers));
-
             return null;
         }
     }
