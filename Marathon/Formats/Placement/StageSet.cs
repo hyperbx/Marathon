@@ -53,6 +53,47 @@ namespace Marathon.Formats.Placement
 
         public override string Extension => _extension;
 
+        public object this[string in_name]
+        {
+            get => (object)Objects.Find(x => x.Name == in_name) ?? (object)Groups.Find(x => x.Name == in_name);
+
+            set
+            {
+                if (value is StageSetObject out_object)
+                {
+                    var index = Objects.FindIndex(x => x.Name == in_name);
+
+                    if (index != -1)
+                    {
+                        Objects[index] = out_object;
+                    }
+                    else
+                    {
+                        out_object.Name = in_name;
+
+                        Objects.Add(out_object);
+                    }
+                }
+                else if (value is StageSetObjectGroup out_group)
+                {
+                    var index = Groups.FindIndex(x => x.Name == in_name);
+
+                    if (index != -1)
+                    {
+                        Groups[index] = out_group;
+                    }
+                    else
+                    {
+                        out_group.Name = in_name;
+
+                        Groups.Add(out_group);
+                    }
+                }
+
+                throw new ArgumentException($"Value must be {nameof(StageSetObject)} or {nameof(StageSetObjectGroup)}.");
+            }
+        }
+
         public StageSet() { }
 
         public StageSet(string in_path) : base(in_path) { }
