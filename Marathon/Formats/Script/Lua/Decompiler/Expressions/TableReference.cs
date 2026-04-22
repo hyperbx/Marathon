@@ -6,45 +6,62 @@
 
 namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 {
-    public class TableReference(Expression in_table, Expression in_index) : Expression(Precedence.Atomic)
+    public class TableReference : Expression
     {
-        public override int GetConstantIndex() => Math.Max(in_table.GetConstantIndex(), in_index.GetConstantIndex());
+        public Expression Table { get; set; }
+
+        public Expression Index { get; set; }
+
+        public TableReference(Expression in_table, Expression in_index) : base(Precedence.Atomic)
+        {
+            Table = in_table;
+            Index = in_index;
+
+            // FIX (Hyper): set table to use parentheses for accessor.
+            if (in_table is TableLiteral out_tableLiteral)
+                out_tableLiteral.HasParentheses = true;
+        }
+
+        public override int GetConstantIndex()
+        {
+            return Math.Max(Table.GetConstantIndex(), Index.GetConstantIndex());
+        }
 
         public override void Write(Output in_output)
         {
-            in_table.Write(in_output);
+            Table.Write(in_output);
 
-            if (in_index.IsIdentifier())
+            if (Index.IsIdentifier())
             {
                 in_output.Write(".");
-                in_output.Write(in_index.AsName());
+                in_output.Write(Index.AsName());
             }
             else
             {
                 in_output.Write("[");
-                in_index.Write(in_output);
+                Index.Write(in_output);
                 in_output.Write("]");
             }
         }
 
         public override bool IsDotChain()
         {
-            return in_index.IsIdentifier() && in_table.IsDotChain();
+            return Index.IsIdentifier() && Table.IsDotChain();
         }
 
         public override bool IsMemberAccess()
         {
-            return in_index.IsIdentifier();
+            return Index.IsIdentifier();
         }
 
         public override Expression GetTable()
         {
-            return in_table;
+            return Table;
         }
 
         public override string GetField()
         {
-            return in_index.AsName();
+            return Index.AsName();
         }
     }
 }

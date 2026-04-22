@@ -16,6 +16,8 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 
         private int _listLength = 1;
 
+        public bool HasParentheses { get; set; }
+
         public TableLiteral() : this(5, 5) { }
 
         public override int GetConstantIndex()
@@ -39,7 +41,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 
             if (_entries.Count == 0)
             {
-                in_output.Write("{}");
+                in_output.Write(HasParentheses ? "({})" : "{}");
             }
             else
             {
@@ -59,12 +61,16 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
                     }
                 }
 
-                in_output.Write("{");
+                in_output.Write(HasParentheses ? "({" : "{");
 
                 if (lineBreak)
                 {
                     in_output.WriteLine();
                     in_output.Indent();
+                }
+                else
+                {
+                    in_output.Write(" ");
                 }
 
                 WriteEntry(0, in_output);
@@ -96,8 +102,12 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
                     in_output.WriteLine();
                     in_output.Dedent();
                 }
+                else
+                {
+                    in_output.Write(" ");
+                }
 
-                in_output.Write("}");
+                in_output.Write(HasParentheses ? "})" : "}");
             }
         }
 
