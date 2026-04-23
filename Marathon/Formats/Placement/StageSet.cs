@@ -757,6 +757,37 @@ namespace Marathon.Formats.Placement
             return result;
         }
 
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is not StageSetObject out_obj)
+                return false;
+
+            return Name == out_obj.Name &&
+                   Type == out_obj.Type &&
+                   StartInactive == out_obj.StartInactive &&
+                   Position == out_obj.Position &&
+                   DrawDistance == out_obj.DrawDistance &&
+                   Rotation == out_obj.Rotation &&
+                   Parameters.SequenceEqual(out_obj.Parameters);
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = new HashCode();
+
+            hash.Add(Name);
+            hash.Add(Type);
+            hash.Add(StartInactive);
+            hash.Add(Position);
+            hash.Add(DrawDistance);
+            hash.Add(Rotation);
+
+            foreach (var param in Parameters)
+                hash.Add(param);
+
+            return hash.ToHashCode();
+        }
+
         public override string ToString()
         {
             return Name;
@@ -774,6 +805,36 @@ namespace Marathon.Formats.Placement
         /// The value's data type.
         /// </summary>
         public StageSetDataType Type { get; set; }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is not StageSetObjectParameter out_param)
+                return false;
+
+            if (Type != out_param.Type)
+                return false;
+
+            return Type switch
+            {
+                StageSetDataType.Boolean => (bool)Value == (bool)out_param.Value,
+                StageSetDataType.Int32 => (int)Value == (int)out_param.Value,
+                StageSetDataType.Single => (float)Value == (float)out_param.Value,
+                StageSetDataType.String => (string)Value == (string)out_param.Value,
+                StageSetDataType.Vector3 => (Vector3)Value == (Vector3)out_param.Value,
+                StageSetDataType.Object => (int)Value == (int)out_param.Value,
+                _ => false
+            };
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = new HashCode();
+
+            hash.Add(Value);
+            hash.Add(Type);
+
+            return hash.ToHashCode();
+        }
 
         public override string ToString()
         {
@@ -876,6 +937,29 @@ namespace Marathon.Formats.Placement
             }
 
             return result;
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is not StageSetObjectGroup out_group)
+                return false;
+
+            return Name == out_group.Name &&
+                   Function == out_group.Function &&
+                   Objects.SequenceEqual(out_group.Objects);
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = new HashCode();
+
+            hash.Add(Name);
+            hash.Add(Function);
+
+            foreach (var obj in Objects)
+                hash.Add(obj);
+
+            return hash.ToHashCode();
         }
 
         public override string ToString()
