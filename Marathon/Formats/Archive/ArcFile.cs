@@ -416,7 +416,7 @@ namespace Marathon.Formats.Archive
 
             foreach (var file in EnumerateFiles(in_searchOption: SearchOption.AllDirectories))
             {
-                var filePath = System.IO.Path.Combine(in_path, file.Path);
+                var filePath = System.IO.Path.Combine(in_path, FileSystemHelper.OmitRootDirectory(file.Path));
 
                 if (!in_overwrite)
                     ThrowHelper.ThrowFileExistsException(filePath);
