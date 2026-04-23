@@ -29,12 +29,12 @@ namespace Marathon.IO.Types
             {
                 var colour = in_reader.Read<uint>();
 
-                var r = (TData)(object)(byte)(colour & 0xFF);
-                var g = (TData)(object)(byte)((colour >> 8) & 0xFF);
-                var b = (TData)(object)(byte)((colour >> 16) & 0xFF);
-                var a = (TData)(object)(byte)((colour >> 24) & 0xFF);
+                var c0 = (TData)(object)(byte)(colour & 0xFF);
+                var c1 = (TData)(object)(byte)((colour >> 8) & 0xFF);
+                var c2 = (TData)(object)(byte)((colour >> 16) & 0xFF);
+                var c3 = (TData)(object)(byte)((colour >> 24) & 0xFF);
 
-                Assign(r, g, b, a);
+                Assign(c0, c1, c2, c3);
 
                 return;
             }
