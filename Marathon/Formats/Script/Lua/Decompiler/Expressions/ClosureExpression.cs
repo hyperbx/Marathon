@@ -48,7 +48,7 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
 
         public override void WriteClosure(Output in_output, Target in_name)
         {
-            var decompiler = new Decompiler(in_function);
+            var decompiler = new Decompiler(in_function, in_name);
 
             in_output.Write("function ");
 

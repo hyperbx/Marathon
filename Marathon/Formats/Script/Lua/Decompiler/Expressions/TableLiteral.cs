@@ -136,7 +136,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Expressions
             {
                 in_output.Write(key.AsName());
                 in_output.Write(" = ");
+                SymbolResolver.PushScope(key.AsName());
                 value.Write(in_output);
+                SymbolResolver.PopScope();
             }
             else
             {

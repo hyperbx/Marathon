@@ -46,5 +46,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Targets
                 return false;
             }
         }
+
+        public override string GetOutput()
+        {
+            return Declaration.Name;
+        }
     }
 }

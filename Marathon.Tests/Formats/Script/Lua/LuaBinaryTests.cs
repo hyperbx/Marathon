@@ -1,8 +1,11 @@
 ﻿using Marathon.Extensions;
 using Marathon.Formats.Script.Lua;
+using Marathon.Formats.Script.Lua.Decompiler;
 using Marathon.Helpers;
 using Marathon.Tests.Helpers;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 
 namespace Marathon.Tests.Formats.Script.Lua
 {
@@ -16,13 +19,16 @@ namespace Marathon.Tests.Formats.Script.Lua
             var files = Program.GameFileSystem.EnumerateFiles("*.lub", SearchOption.AllDirectories);
             var i = 0;
 
-            // Known bad decompilations.
             var ignoreList = new List<string>()
             {
+                // Bad decompilations.
                 "object.lub",
                 "render_gamemode_multi.lub",
-                "actionarea.lub",
-                "actionstage.lub"
+                "standard.lub",
+
+                // Contains Shift-JIS.
+                "test_object_dtd.lub",
+                "stageselect.lub"
             };
 
             foreach (var file in files)
@@ -43,7 +49,9 @@ namespace Marathon.Tests.Formats.Script.Lua
 
                 try
                 {
-                    dec = lub.Decompile();
+                    lub.LoadSymbols(JsonConvert.DeserializeObject<List<Symbol>>(Encoding.UTF8.GetString(Resources.Symbols)));
+
+                    dec = lub.Decompile(new SymbolResolverOptions(file.Name));
                 }
                 catch
                 {

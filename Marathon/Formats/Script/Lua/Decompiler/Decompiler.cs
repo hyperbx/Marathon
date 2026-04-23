@@ -45,46 +45,58 @@ namespace Marathon.Formats.Script.Lua.Decompiler
         protected Function _function;
         protected LFunction _lFunction;
 
+        public Target Target { get; }
+
         public Code Code { get; }
 
         public Declaration[] DeclarationList { get; }
 
-        public Decompiler(LFunction function)
+        public Decompiler(LFunction in_function, Target in_target = null)
         {
-            _function = new Function(function);
-            _lFunction = function;
-            _registerCount = function.MaximumStackSize;
-            _codeLength = function.Code.Length;
+            _function = new Function(in_function);
+            _lFunction = in_function;
+            _registerCount = in_function.MaximumStackSize;
+            _codeLength = in_function.Code.Length;
 
-            Code = new Code(function);
+            Target = in_target;
+            Code = new Code(in_function);
 
             var i = 0;
 
-            if (function.Locals.Length >= function.ParamCount)
+            if (in_function.Locals.Length >= in_function.ParamCount)
             {
                 // FIX (Hyper): reserve space for variadic arg keyword declaration.
-                DeclarationList = new Declaration[function.Locals.Length + function.VariadicArgs];
+                DeclarationList = new Declaration[in_function.Locals.Length + in_function.VariadicArgs];
 
                 for (i = 0; i < DeclarationList.Length; i++)
-                    DeclarationList[i] = new Declaration(function.Locals[i]);
+                    DeclarationList[i] = new Declaration(in_function.Locals[i]);
             }
             else
             {
                 // FIX (Hyper): reserve space for variadic arg keyword declaration.
-                DeclarationList = new Declaration[function.ParamCount + function.VariadicArgs];
+                DeclarationList = new Declaration[in_function.ParamCount + in_function.VariadicArgs];
+
+                var isInstanceMethod = false;
 
                 for (i = 0; i < DeclarationList.Length; i++)
-                    DeclarationList[i] = new Declaration($"a{i + 1}", 0, _codeLength - 1);
+                {
+                    var argName = SymbolResolver.ResolveArgumentSymbol(this, i, isInstanceMethod);
+
+                    if (i == 0 && argName == "self")
+                        isInstanceMethod = true;
+
+                    DeclarationList[i] = new Declaration(argName, 0, _codeLength - 1);
+                }
             }
 
             // FIX (Hyper): create declaration for variadic args keyword.
-            if ((function.VariadicArgs & 1) == 1)
+            if ((in_function.VariadicArgs & 1) == 1)
                 DeclarationList[i - 1] = new Declaration("arg", 0, _codeLength - 1);
 
-            _upvalues = new Upvalues(function.Upvalues);
-            _functions = function.Functions;
-            _paramCount = function.ParamCount;
-            _variadicArgs = function.VariadicArgs;
+            _upvalues = new Upvalues(in_function.Upvalues);
+            _functions = in_function.Functions;
+            _paramCount = in_function.ParamCount;
+            _variadicArgs = in_function.VariadicArgs;
         }
 
         public void Decompile()

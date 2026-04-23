@@ -147,7 +147,9 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Statements
                     if (!_isDeclared || !_isAllNil)
                     {
                         in_output.Write(" = ");
+                        SymbolResolver.PushScope(_targets[0].ToString());
                         Expression.WriteSequence(in_output, _values, false, false);
+                        SymbolResolver.PopScope();
                     }
                 }
 

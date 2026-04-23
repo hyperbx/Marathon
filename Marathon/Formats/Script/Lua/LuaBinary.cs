@@ -6,6 +6,7 @@ using Marathon.Helpers;
 using Marathon.IO;
 using Marathon.IO.Types.FileSystem;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 // Format names:        Lua Binary
@@ -78,19 +79,49 @@ namespace Marathon.Formats.Script.Lua
             File.WriteAllText(in_path, Decompile());
         }
 
-        public string Decompile()
+        public void Export(string in_path = "", SymbolResolverOptions in_symbolResolverOptions = null, string in_symbolsPath = "", bool in_overwrite = true)
+        {
+            EnsurePath(ref in_path);
+
+            if (!in_overwrite)
+                ThrowHelper.ThrowFileExistsException(in_path);
+
+            File.WriteAllText(in_path, Decompile(in_symbolResolverOptions, in_symbolsPath));
+        }
+
+        public void Export(SymbolResolverOptions in_symbolResolverOptions, string in_symbolsPath = "", bool in_overwrite = true)
+        {
+            Export(string.Empty, in_symbolResolverOptions, in_symbolsPath, in_overwrite);
+        }
+
+        public void LoadSymbols(string in_path)
+        {
+            SymbolResolver.LoadSymbols(in_path);
+        }
+
+        public void LoadSymbols(List<Symbol> in_symbols)
+        {
+            SymbolResolver.LoadSymbols(in_symbols);
+        }
+
+        public string Decompile(SymbolResolverOptions in_symbolResolverOptions = null, string in_symbolsPath = "")
         {
             if (!string.IsNullOrEmpty(_decompiled))
                 return _decompiled;
 
+            if (!string.IsNullOrEmpty(in_symbolsPath))
+                LoadSymbols(in_symbolsPath);
+
+            SymbolResolver.SetOptions(in_symbolResolverOptions);
+
             var decompiler = new Decompiler.Decompiler(Main);
             decompiler.Decompile();
 
-            var ops = new OutputProviderString();
+            var outputProvider = new OutputProviderString();
 
-            decompiler.Write(new Output(ops, IndentationType));
+            decompiler.Write(new Output(outputProvider, IndentationType));
 
-            return _decompiled = ops.ToString();
+            return _decompiled = outputProvider.ToString();
         }
     }
 }

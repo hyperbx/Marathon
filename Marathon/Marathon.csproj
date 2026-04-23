@@ -145,6 +145,8 @@
     <Compile Include="Formats\Script\Lua\Decompiler\Statements\FunctionCallStatement.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Statements\Return.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Statements\Statement.cs" />
+    <Compile Include="Formats\Script\Lua\Decompiler\SymbolResolver.cs" />
+    <Compile Include="Formats\Script\Lua\Decompiler\SymbolResolverOptions.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Targets\GlobalTarget.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Targets\TableTarget.cs" />
     <Compile Include="Formats\Script\Lua\Decompiler\Targets\Target.cs" />

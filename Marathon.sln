@@ -7,10 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marathon", "Marathon\Marath
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Marathon.Shared", "Marathon.Shared\Marathon.Shared.shproj", "{DA94BAE1-9D6A-4E00-8DFF-10AF9FD6AAC1}"
 EndProject
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Tests", "Marathon.Tests\Marathon.Tests.csproj", "{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.CLI", "Marathon.CLI\Marathon.CLI.csproj", "{092237A2-FC60-42A1-A7EE-195771D71771}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{C6599C69-1948-40FF-8DAD-1E0730005320}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.LuaSymbolGenerator", "Marathon.Tools\Marathon.LuaSymbolGenerator\Marathon.LuaSymbolGenerator.csproj", "{4B77035A-6D37-A213-A581-25C3AC8B3DF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +25,6 @@ Global
 		{A240D10A-776F-4132-B876-F505B003789E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A240D10A-776F-4132-B876-F505B003789E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A240D10A-776F-4132-B876-F505B003789E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B6B3325-EF17-4304-87C1-FA2CDCA4B6B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,9 +33,16 @@ Global
 		{092237A2-FC60-42A1-A7EE-195771D71771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092237A2-FC60-42A1-A7EE-195771D71771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092237A2-FC60-42A1-A7EE-195771D71771}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4B77035A-6D37-A213-A581-25C3AC8B3DF0} = {C6599C69-1948-40FF-8DAD-1E0730005320}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A078EC9-6D13-4437-90E2-B9ECB276C638}

@@ -1,5 +1,6 @@
-﻿using Marathon.IO;
-using Marathon.IO.Types;
+﻿using Marathon.Extensions;
+using Marathon.IO;
+using System.Text;
 using UtfUnknown;
 
 // Format names:        Lua Binary
@@ -28,7 +29,7 @@ namespace Marathon.Formats.Script.Lua.Types
             // that CharsetDetector doesn't work correctly with. As a last ditch
             // effort, we'll just force Shift-JIS anyway and see what happens.
             if (result.Details.Count <= 0)
-                encoding = EncodingFactory.ShiftJIS;
+                encoding = Encoding.ShiftJIS;
 
             return new LString(sizeT, encoding.GetString(bytes), encoding);
         }

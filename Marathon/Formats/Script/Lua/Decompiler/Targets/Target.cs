@@ -28,8 +28,18 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Targets
             throw new NotSupportedException();
         }
 
+        public virtual string GetOutput()
+        {
+            throw new NotImplementedException();
+        }
+
         public abstract void Write(Output in_output);
 
         public abstract void WriteMethod(Output in_output);
+
+        public override string ToString()
+        {
+            return GetOutput();
+        }
     }
 }

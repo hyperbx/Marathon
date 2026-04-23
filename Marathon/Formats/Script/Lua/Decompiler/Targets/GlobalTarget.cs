@@ -17,5 +17,10 @@ namespace Marathon.Formats.Script.Lua.Decompiler.Targets
         {
             throw new NotSupportedException();
         }
+
+        public override string GetOutput()
+        {
+            return in_name;
+        }
     }
 }
