@@ -50,6 +50,7 @@ namespace Marathon.CLI.Commands
                 else
                 {
                     var results = new List<string>();
+                    var resultsPrefix = true;
                     var uncompressedFile = file.Decompress();
 
                     if (in_settings.BinaryPattern != null)
@@ -83,7 +84,13 @@ namespace Marathon.CLI.Commands
                                 if (!IsRegexMatch(in_settings, line))
                                     continue;
 
-                                results.Add($"[yellow]Line {(i + 1):N0}[/]: {Markup.Escape(line)}");
+                                var prefix = string.Empty;
+
+                                if (in_settings.LineNumbers)
+                                    prefix = $"{Common.GetIntegerPrefix(i + 1, lua.Length)} ";
+
+                                results.Add($"{prefix}{Markup.Escape(line)}");
+                                resultsPrefix = false;
                                 resultsCount++;
                             }
                         }
@@ -143,20 +150,26 @@ namespace Marathon.CLI.Commands
                             if (BinaryHelper.IsBinaryStream(uncompressedFile.Open()))
                                 continue;
 
-                            using var reader = new StreamReader(uncompressedFile.Open());
-                            var lineNo = 0;
-
-                            while (!reader.EndOfStream)
+                            using (var reader = new StreamReader(uncompressedFile.Open()))
                             {
-                                lineNo++;
+                                var lines = reader.ReadToEnd().SplitLineBreaks();
 
-                                var line = reader.ReadLine();
+                                for (int i = 0; i < lines.Length; i++)
+                                {
+                                    var line = lines[i];
 
-                                if (!IsRegexMatch(in_settings, line))
-                                    continue;
+                                    if (!IsRegexMatch(in_settings, line))
+                                        continue;
 
-                                results.Add($"[yellow]Line {lineNo:N0}[/]: {Markup.Escape(line!)}");
-                                resultsCount++;
+                                    var prefix = string.Empty;
+
+                                    if (in_settings.LineNumbers)
+                                        prefix = $"{Common.GetIntegerPrefix(i + 1, lines.Length)} ";
+
+                                    results.Add($"{prefix}{Markup.Escape(line!)}");
+                                    resultsPrefix = false;
+                                    resultsCount++;
+                                }
                             }
                         }
                     }
@@ -169,8 +182,8 @@ namespace Marathon.CLI.Commands
                     if (!string.IsNullOrEmpty(in_settings.Destination))
                         file.Export(Path.Combine(in_settings.Destination, file.Path));
 
-                    foreach (var result in results)
-                        AnsiConsole.MarkupLine($"[gray]-[/] {result}");
+                    for (int i = 0; i < results.Count; i++)
+                        AnsiConsole.MarkupLine($"{(resultsPrefix ? "[gray]-[/] " : "")}{results[i]}");
 
                     AnsiConsole.WriteLine();
                 }
@@ -226,5 +239,10 @@ namespace Marathon.CLI.Commands
         [Description("Decompile Lua scripts when searching inside of files as text.")]
         [DefaultValue(true)]
         public bool DecompileLua { get; init; } = true;
+
+        [CommandOption("-n|--line-numbers")]
+        [Description("Show line numbers when searching inside of files as text.")]
+        [DefaultValue(true)]
+        public bool LineNumbers { get; init; } = true;
     }
 }

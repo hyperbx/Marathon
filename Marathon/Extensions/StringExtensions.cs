@@ -7,7 +7,14 @@ namespace Marathon.Extensions
     {
         public static string[] SplitLineBreaks(this string in_str)
         {
-            return in_str.Split(['\r', '\n']);
+            if (string.IsNullOrEmpty(in_str))
+                return [];
+
+            in_str = in_str.Replace("\r\n", "\n")
+                 .Replace("\n\r", "\n")
+                 .Replace("\r", "\n");
+
+            return in_str.Split('\n');
         }
 
         public static string Truncate(this string in_str, int in_maxLength, bool in_isEllipsis = false)

@@ -25,5 +25,10 @@ namespace Marathon.CLI
 
             return true;
         }
+
+        public static string GetIntegerPrefix(int in_num, int in_max = 0)
+        {
+            return $"[gray]{in_num.ToString().PadLeft(in_max.ToString().Length)}.[/]";
+        }
     }
 }
