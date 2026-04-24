@@ -64,6 +64,9 @@ namespace Marathon.CLI.Commands
                 {
                     Console.WriteLine(file.Path);
 
+                    if (!string.IsNullOrEmpty(in_settings.Destination))
+                        file.Export(Path.Combine(in_settings.Destination, file.Path));
+
                     if (fileIndex == files.Length - 1)
                         Console.WriteLine();
 
@@ -188,6 +191,9 @@ namespace Marathon.CLI.Commands
 
                     AnsiConsole.MarkupLine($"[gray]{file.Path}[/]");
 
+                    if (!string.IsNullOrEmpty(in_settings.Destination))
+                        file.Export(Path.Combine(in_settings.Destination, file.Path));
+
                     foreach (var result in results)
                         AnsiConsole.MarkupLine($"[gray]-[/] {result}");
 
@@ -226,6 +232,10 @@ namespace Marathon.CLI.Commands
         [CommandArgument(1, "<search-pattern>")]
         [Description("The pattern to search for file paths.")]
         public required string SearchPattern { get; init; }
+
+        [CommandOption("-d|--destination")]
+        [Description("The path to extract the found files to.")]
+        public string? Destination { get; init; }
 
         [CommandOption("-b|--binary-pattern")]
         [Description("The binary pattern to search with inside of binary files.")]
