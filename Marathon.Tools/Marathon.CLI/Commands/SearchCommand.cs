@@ -18,11 +18,8 @@ namespace Marathon.CLI.Commands
     {
         protected override int Execute(CommandContext in_context, SearchSettings in_settings, CancellationToken in_cancellationToken)
         {
-            if (!File.Exists(in_settings.Source))
-            {
-                AnsiConsole.MarkupLine($"[red]File not found:[/] {in_settings.Source}");
+            if (!Common.FileExists(in_settings.Source))
                 return -1;
-            }
 
             var resultsCount = 0;
 

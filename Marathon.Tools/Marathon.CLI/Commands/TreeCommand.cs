@@ -1,6 +1,5 @@
 ﻿using Marathon.Formats.Archive;
 using Marathon.Helpers;
-using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
@@ -11,11 +10,8 @@ namespace Marathon.CLI.Commands
     {
         protected override int Execute(CommandContext in_context, TreeSettings in_settings, CancellationToken in_cancellationToken)
         {
-            if (!File.Exists(in_settings.Source))
-            {
-                AnsiConsole.MarkupLine($"[red]File not found:[/] {in_settings.Source}");
+            if (!Common.FileExists(in_settings.Source))
                 return -1;
-            }
 
             using var arc = new ArcFile(in_settings.Source);
 
