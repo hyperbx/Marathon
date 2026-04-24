@@ -23,30 +23,6 @@ namespace Marathon.CLI.Commands
 
             var resultsCount = 0;
 
-            if (in_settings.Progress)
-            {
-                AnsiConsole.Status().Start("Searching...", ctx =>
-                {
-                    resultsCount = Search(in_settings, in_cancellationToken, (i, count) =>
-                    {
-                        ctx.Status($"Searching... {((float)i / (float)count):P0} ({i} / {count})");
-                    });
-                });
-            }
-            else
-            {
-                resultsCount = Search(in_settings, in_cancellationToken);
-            }
-
-            Console.WriteLine($"{resultsCount} results");
-
-            return 0;
-        }
-
-        private int Search(SearchSettings in_settings, CancellationToken in_cancellationToken, Action<int, int>? in_onIteration = null)
-        {
-            var resultsCount = 0;
-
             using var arc = new ArcFile(in_settings.Source);
 
             var files = arc.GetFiles(in_settings.SearchPattern, SearchOption.AllDirectories);
@@ -58,17 +34,16 @@ namespace Marathon.CLI.Commands
                     break;
 
                 fileIndex++;
-                in_onIteration?.Invoke(fileIndex, files.Length);
 
                 if (in_settings.BinaryPattern == null && in_settings.RegexPattern == null)
                 {
-                    Console.WriteLine(file.Path);
+                    AnsiConsole.WriteLine(file.Path);
 
                     if (!string.IsNullOrEmpty(in_settings.Destination))
                         file.Export(Path.Combine(in_settings.Destination, file.Path));
 
                     if (fileIndex == files.Length - 1)
-                        Console.WriteLine();
+                        AnsiConsole.WriteLine();
 
                     resultsCount++;
                 }
@@ -197,11 +172,13 @@ namespace Marathon.CLI.Commands
                     foreach (var result in results)
                         AnsiConsole.MarkupLine($"[gray]-[/] {result}");
 
-                    Console.WriteLine();
+                    AnsiConsole.WriteLine();
                 }
             }
 
-            return resultsCount;
+            AnsiConsole.WriteLine($"{resultsCount} results");
+
+            return 0;
         }
 
         private bool IsRegexMatch(SearchSettings in_settings, string? in_str)
@@ -249,10 +226,5 @@ namespace Marathon.CLI.Commands
         [Description("Decompile Lua scripts when searching inside of files as text.")]
         [DefaultValue(true)]
         public bool DecompileLua { get; init; } = true;
-
-        [CommandOption("-p|--show-progress")]
-        [Description("Show progress whilst searching.\nDisable this when writing the output to a file.")]
-        [DefaultValue(true)]
-        public bool Progress { get; init; } = true;
     }
 }
