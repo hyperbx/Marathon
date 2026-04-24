@@ -201,7 +201,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.7" />
-    <PackageReference Include="System.Text.Json" Version="10.0.7" />
     <PackageReference Include="UTF.Unknown" Version="2.6.0" />
   </ItemGroup>
 
