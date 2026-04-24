@@ -9,11 +9,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Marathon.Shared", "Marathon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.Tests", "Marathon.Tests\Marathon.Tests.csproj", "{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.CLI", "Marathon.CLI\Marathon.CLI.csproj", "{092237A2-FC60-42A1-A7EE-195771D71771}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{C6599C69-1948-40FF-8DAD-1E0730005320}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.LuaSymbolGenerator", "Marathon.Tools\Marathon.LuaSymbolGenerator\Marathon.LuaSymbolGenerator.csproj", "{4B77035A-6D37-A213-A581-25C3AC8B3DF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marathon.CLI", "Marathon.Tools\Marathon.CLI\Marathon.CLI.csproj", "{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,20 +29,21 @@ Global
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8B0DCEC-D8B0-4B39-819B-4B41B440EB03}.Release|Any CPU.Build.0 = Release|Any CPU
-		{092237A2-FC60-42A1-A7EE-195771D71771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{092237A2-FC60-42A1-A7EE-195771D71771}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{092237A2-FC60-42A1-A7EE-195771D71771}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{092237A2-FC60-42A1-A7EE-195771D71771}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B77035A-6D37-A213-A581-25C3AC8B3DF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4B77035A-6D37-A213-A581-25C3AC8B3DF0} = {C6599C69-1948-40FF-8DAD-1E0730005320}
+		{21B273E9-CAAF-1D5B-CDC2-8A30A67FD040} = {C6599C69-1948-40FF-8DAD-1E0730005320}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A078EC9-6D13-4437-90E2-B9ECB276C638}

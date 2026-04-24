@@ -1,4 +1,5 @@
 ﻿using Marathon.IO;
+using System.Collections.Generic;
 
 namespace Marathon.Extensions
 {
@@ -56,6 +57,23 @@ namespace Marathon.Extensions
                 return in_str;
 
             return in_str[2..];
+        }
+
+        public static IEnumerable<int> EnumerateIndexesOf(this string in_str, string in_pattern)
+        {
+            var minIndex = in_str.IndexOf(in_pattern);
+
+            while (minIndex != -1)
+            {
+                yield return minIndex;
+
+                minIndex = in_str.IndexOf(in_pattern, minIndex + in_pattern.Length);
+            }
+        }
+
+        public static IEnumerable<int> EnumerateIndexesOf(this string in_str, char in_char)
+        {
+            return in_str.EnumerateIndexesOf(in_char.ToString());
         }
     }
 }

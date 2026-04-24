@@ -196,11 +196,12 @@
     <PackageReference Include="AssimpNetter" Version="6.0.4" />
     <PackageReference Include="libHSON" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.5-beta1" />
-    <PackageReference Include="System.IO.Hashing" Version="11.0.0-preview.2.26159.112" />
+    <PackageReference Include="System.IO.Hashing" Version="10.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="11.0.0-preview.2.26159.112" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.7" />
+    <PackageReference Include="System.Text.Json" Version="10.0.7" />
     <PackageReference Include="UTF.Unknown" Version="2.6.0" />
   </ItemGroup>
 

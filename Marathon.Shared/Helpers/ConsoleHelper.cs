@@ -15,5 +15,16 @@ namespace Marathon.Helpers
                 Console.SetCursorPosition(0, Console.CursorTop);
             }
         }
+
+        public static ConsoleKeyInfo PressAnyKey()
+        {
+            Console.Write("\nPress any key to continue...");
+            var result = Console.ReadKey();
+            Console.WriteLine();
+
+            ReturnToPreviousLine(2);
+
+            return result;
+        }
     }
 }

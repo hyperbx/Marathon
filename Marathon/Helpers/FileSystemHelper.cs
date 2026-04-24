@@ -1,4 +1,5 @@
 ﻿using Marathon.Exceptions;
+using Marathon.IO;
 using Marathon.IO.Types.FileSystem;
 using System;
 using System.Collections.Generic;
@@ -163,7 +164,7 @@ namespace Marathon.Helpers
                     result.AppendLine(in_root.Name);
                 }
 
-                var nodes = in_root.EnumerateNodes().ToList();
+                var nodes = in_root.GetNodes();
                 var maxFileNameLength = 0;
                 var hasSubdirs = nodes.Any(x => x.IsDirectory);
                 var wasFilePrevious = false;
@@ -180,10 +181,10 @@ namespace Marathon.Helpers
                 // Sort alphanumerically with directories last.
                 nodes = [.. nodes.OrderBy(x => x.IsDirectory).ThenBy(x => x.Name, StringComparer.OrdinalIgnoreCase)];
 
-                for (int i = 0; i < nodes.Count; i++)
+                for (int i = 0; i < nodes.Length; i++)
                 {
                     var node = nodes[i];
-                    var isLast = i == nodes.Count - 1;
+                    var isLast = i == nodes.Length - 1;
                     var childIndent = in_isRoot ? string.Empty : in_indent + (in_isLast ? "    " : "│   ");
 
                     if ((in_showFiles && !node.IsDirectory) || wasFilePrevious)
@@ -211,8 +212,9 @@ namespace Marathon.Helpers
 
                             if (file.UncompressedLength != 0)
                             {
-                                var compressionRatio = 100.0f - (((float)file.Length / (float)file.UncompressedLength) * 100.0f);
-                                result.Append($"{file.Length:N0} / {file.UncompressedLength:N0} bytes ({compressionRatio:N0}%)");
+                                var compressionRatio = (float)file.Length / (float)file.UncompressedLength;
+
+                                result.Append($"{file.Length:N0} / {file.UncompressedLength:N0} bytes ({compressionRatio:P0})");
                             }
                             else
                             {
@@ -243,7 +245,7 @@ namespace Marathon.Helpers
 
             var segments = in_path.Split(DirectorySeparators, StringSplitOptions.RemoveEmptyEntries);
 
-            if (segments.Length == 0)
+            if (segments.Length <= 0)
                 return null;
 
             var dir = in_root;
