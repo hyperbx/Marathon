@@ -3,6 +3,7 @@ using Marathon.Formats.Archive;
 using Marathon.Formats.Script.Lua;
 using Marathon.Formats.Script.Lua.Decompiler;
 using Marathon.Formats.Text;
+using Marathon.Helpers;
 using Marathon.IO;
 using Newtonsoft.Json;
 using Spectre.Console;
@@ -42,27 +43,37 @@ namespace Marathon.CLI.Commands
                     var results = new List<string>();
                     var uncompressedFile = file.Decompress();
 
-                    if (in_settings.TextSearch)
+                    if (in_settings.BinaryPattern != null)
                     {
-                        if (in_settings.RegexPattern == null)
-                        {
-                            AnsiConsole.MarkupLine("[red]No pattern provided for text search.[/]");
-                            return -1;
-                        }
+                        var scanResults = SignatureScanner.ScanAll(uncompressedFile.Open(), in_settings.BinaryPattern);
 
+                        foreach (var scanResult in scanResults)
+                            results.Add($"0x{scanResult:X8}");
+
+                        resultsCount += scanResults.Count();
+                    }
+
+                    if (in_settings.RegexPattern != null)
+                    {
                         if (in_settings.DecompileLua && Path.GetExtension(file.Name) is ".lub" or ".lua")
                         {
+                            // This file currently crashes the decompiler.
+                            if (file.Name == "standard.lub")
+                                continue;
+
                             var lub = new LuaBinary(uncompressedFile);
                             lub.LoadSymbols(JsonConvert.DeserializeObject<List<Symbol>>(Properties.Resources.Symbols));
 
                             var lua = lub.Decompile(new SymbolResolverOptions(file.Name)).SplitLineBreaks();
 
-                            foreach (var line in lua)
+                            for (int i = 0; i < lua.Length; i++)
                             {
+                                var line = lua[i];
+
                                 if (!IsRegexMatch(in_settings, line))
                                     continue;
 
-                                results.Add(line);
+                                results.Add($"[yellow]Line {(i + 1):N0}[/]: {Markup.Escape(line)}");
                             }
 
                             resultsCount += results.Count;
@@ -74,7 +85,7 @@ namespace Marathon.CLI.Commands
                             foreach (var card in mst.Cards)
                             {
                                 var matches = IsRegexMatch(in_settings, card.Name) || IsRegexMatch(in_settings, card.Text);
-                                var text = string.Join("[gray]\\n[/]", string.Join("[gray]\\f[/]", card.Pages).SplitLineBreaks());
+                                var text = string.Join("[gray]\\n[/]", string.Join("[gray]\\f[/]", card.Pages.Select(x => Markup.Escape(x))).SplitLineBreaks());
 
                                 if (card.Variables != null)
                                 {
@@ -89,10 +100,10 @@ namespace Marathon.CLI.Commands
                                         {
                                             var (type, value) = variableMap[i];
 
-                                            text += $"[gray]${{[/][blue]{type}[/]";
+                                            text += $"[gray]${{[/][blue]{Markup.Escape(type)}[/]";
 
                                             if (!string.IsNullOrEmpty(value))
-                                                text += $"[blue]([/][yellow]{value}[/][blue])[/]";
+                                                text += $"[blue]([/][yellow]{Markup.Escape(value)}[/][blue])[/]";
 
                                             text += "[gray]}[/]";
 
@@ -118,29 +129,27 @@ namespace Marathon.CLI.Commands
                         }
                         else
                         {
+                            // Attempted to search binary file as text, continue...
+                            if (BinaryHelper.IsBinaryStream(uncompressedFile.Open()))
+                                continue;
+
                             using var reader = new StreamReader(uncompressedFile.Open());
+                            var lineNo = 0;
 
                             while (!reader.EndOfStream)
                             {
+                                lineNo++;
+
                                 var line = reader.ReadLine();
 
                                 if (!IsRegexMatch(in_settings, line))
                                     continue;
 
-                                results.Add(line!);
+                                results.Add($"[yellow]Line {lineNo:N0}[/]: {Markup.Escape(line!)}");
                             }
                         }
 
                         resultsCount += results.Count;
-                    }
-                    else if (in_settings.BinaryPattern != null)
-                    {
-                        var scanResults = SignatureScanner.ScanAll(uncompressedFile.Open(), in_settings.BinaryPattern);
-
-                        resultsCount += scanResults.Count();
-
-                        foreach (var scanResult in scanResults)
-                            results.Add($"0x{scanResult:X8}");
                     }
 
                     if (results.Count <= 0)
@@ -201,9 +210,5 @@ namespace Marathon.CLI.Commands
         [Description("Decompiles Lua scripts when searching inside of files as text.")]
         [DefaultValue(true)]
         public bool DecompileLua { get; init; } = true;
-
-        [CommandOption("-x|--text-search")]
-        [Description("Searches inside of files as text.\nUse this for Lua Binaries (*.lub), Text Books (*.mst) or plaintext formats.")]
-        public bool TextSearch { get; init; }
     }
 }
