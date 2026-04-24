@@ -12,7 +12,7 @@ namespace Marathon.Formats.Script.Lua.Types
 {
     public class BHeader
     {
-        private readonly byte[] _signature = [ 0x1B, 0x4C, 0x75, 0x61 ];
+        private readonly byte[] _signature = [0x1B, 0x4C, 0x75, 0x61];
 
         public BIntegerType Integer { get; }
 

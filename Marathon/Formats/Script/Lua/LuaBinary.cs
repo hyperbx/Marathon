@@ -4,10 +4,13 @@ using Marathon.Formats.Script.Lua.Decompiler;
 using Marathon.Formats.Script.Lua.Types;
 using Marathon.Helpers;
 using Marathon.IO;
+using Marathon.IO.Extensions;
 using Marathon.IO.Types.FileSystem;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using UtfUnknown;
 
 // Format names:        Lua Binary
 // Format designers:    Tecgraf, PUC-Rio
@@ -25,6 +28,7 @@ namespace Marathon.Formats.Script.Lua
     public class LuaBinary : FileBase
     {
         private const string _extension = ".lub"; // "LUa Binary"
+        private readonly byte[] _signature = [0x1B, 0x4C, 0x75, 0x61]; // " Lua"
 
         private string _decompiled;
 
@@ -54,6 +58,23 @@ namespace Marathon.Formats.Script.Lua
         public override void Read(Stream in_stream)
         {
             var reader = new BinaryObjectReaderEx(in_stream, StreamOwnership.Retain, Endianness.Little);
+            var hasSignature = reader.CheckSignature(_signature, false);
+
+            reader.JumpTo(0);
+
+            // File has no Lua binary signature, assume it's plaintext.
+            if (!hasSignature)
+            {
+                in_stream.Seek(0, SeekOrigin.Begin);
+                var result = CharsetDetector.DetectFromStream(in_stream);
+                in_stream.Seek(0, SeekOrigin.Begin);
+
+                using (var sr = new StreamReader(in_stream, result.Detected?.Encoding ?? Encoding.UTF8))
+                    _decompiled = sr.ReadToEnd();
+
+                return;
+            }
+
             var header = new BHeader(reader);
 
             Main = header.Function.Parse(reader, header);
