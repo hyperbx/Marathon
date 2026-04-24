@@ -72,6 +72,30 @@ namespace Marathon.Helpers
         }
 
         /// <summary>
+        /// Determines if a stream contains binary data.
+        /// </summary>
+        /// <param name="in_stream">The stream to check.</param>
+        /// <returns><b>true</b> if <paramref name="in_stream"/> contains binary data, otherwise <b>false</b>.</returns>
+        public static bool IsBinaryStream(Stream in_stream)
+        {
+            var pos = in_stream.Position;
+            var buffer = new byte[4096];
+            var read = in_stream.Read(buffer, 0, buffer.Length);
+
+            in_stream.Seek(pos, SeekOrigin.Begin);
+
+            for (int i = 0; i < read; i++)
+            {
+                var b = buffer[i];
+
+                if (b == 0 || b < 9 || (b > 13 && b < 32))
+                    return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Prints a byte array to the console.
         /// </summary>
         /// <param name="in_data">The byte array to print.</param>

@@ -24,18 +24,52 @@ namespace Marathon.CLI.Commands
                 return -1;
             }
 
-            using var arc = new ArcFile(in_settings.Source);
-
             var resultsCount = 0;
 
-            foreach (var file in arc.EnumerateFiles(in_settings.SearchPattern, SearchOption.AllDirectories))
+            if (in_settings.Progress)
+            {
+                AnsiConsole.Status().Start("Searching...", ctx =>
+                {
+                    resultsCount = Search(in_settings, in_cancellationToken, (i, count) =>
+                    {
+                        ctx.Status($"Searching... {((float)i / (float)count):P0} ({i} / {count})");
+                    });
+                });
+            }
+            else
+            {
+                resultsCount = Search(in_settings, in_cancellationToken);
+            }
+
+            Console.WriteLine($"{resultsCount} results");
+
+            return 0;
+        }
+
+        private int Search(SearchSettings in_settings, CancellationToken in_cancellationToken, Action<int, int>? in_onIteration = null)
+        {
+            var resultsCount = 0;
+
+            using var arc = new ArcFile(in_settings.Source);
+
+            var files = arc.GetFiles(in_settings.SearchPattern, SearchOption.AllDirectories);
+            var fileIndex = -1;
+
+            foreach (var file in files)
             {
                 if (in_cancellationToken.IsCancellationRequested)
                     break;
 
+                fileIndex++;
+                in_onIteration?.Invoke(fileIndex, files.Length);
+
                 if (in_settings.BinaryPattern == null && in_settings.RegexPattern == null)
                 {
                     Console.WriteLine(file.Path);
+
+                    if (fileIndex == files.Length - 1)
+                        Console.WriteLine();
+
                     resultsCount++;
                 }
                 else
@@ -48,9 +82,10 @@ namespace Marathon.CLI.Commands
                         var scanResults = SignatureScanner.ScanAll(uncompressedFile.Open(), in_settings.BinaryPattern);
 
                         foreach (var scanResult in scanResults)
+                        {
                             results.Add($"0x{scanResult:X8}");
-
-                        resultsCount += scanResults.Count();
+                            resultsCount++;
+                        }
                     }
 
                     if (in_settings.RegexPattern != null)
@@ -74,9 +109,8 @@ namespace Marathon.CLI.Commands
                                     continue;
 
                                 results.Add($"[yellow]Line {(i + 1):N0}[/]: {Markup.Escape(line)}");
+                                resultsCount++;
                             }
-
-                            resultsCount += results.Count;
                         }
                         else if (Path.GetExtension(file.Name) == ".mst")
                         {
@@ -125,6 +159,7 @@ namespace Marathon.CLI.Commands
                                     continue;
 
                                 results.Add($"[yellow]{card.Name}[/]: {text}");
+                                resultsCount++;
                             }
                         }
                         else
@@ -146,10 +181,9 @@ namespace Marathon.CLI.Commands
                                     continue;
 
                                 results.Add($"[yellow]Line {lineNo:N0}[/]: {Markup.Escape(line!)}");
+                                resultsCount++;
                             }
                         }
-
-                        resultsCount += results.Count;
                     }
 
                     if (results.Count <= 0)
@@ -164,9 +198,7 @@ namespace Marathon.CLI.Commands
                 }
             }
 
-            Console.WriteLine($"{resultsCount} results");
-
-            return 0;
+            return resultsCount;
         }
 
         private bool IsRegexMatch(SearchSettings in_settings, string? in_str)
@@ -207,8 +239,13 @@ namespace Marathon.CLI.Commands
         public string? RegexPattern { get; init; }
 
         [CommandOption("-l|--decompile-lua")]
-        [Description("Decompiles Lua scripts when searching inside of files as text.")]
+        [Description("Decompile Lua scripts when searching inside of files as text.")]
         [DefaultValue(true)]
         public bool DecompileLua { get; init; } = true;
+
+        [CommandOption("-p|--show-progress")]
+        [Description("Show progress whilst searching.\nDisable this when writing the output to a file.")]
+        [DefaultValue(true)]
+        public bool Progress { get; init; } = true;
     }
 }

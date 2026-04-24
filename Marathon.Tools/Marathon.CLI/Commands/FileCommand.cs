@@ -24,7 +24,7 @@ namespace Marathon.CLI.Commands
         public string? Destination { get; init; }
 
         [CommandOption("-o|--overwrite")]
-        [Description("Overwrites existing files without prompting.")]
+        [Description("Overwrite existing files without prompting.")]
         public bool Overwrite { get; init; }
 
         [CommandOption("-e|--endianness")]
