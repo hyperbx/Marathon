@@ -8,9 +8,9 @@ namespace Marathon.Formats.Script.Lua.Types
     {
         private readonly bool _value = in_value;
 
-        public static LBoolean True => new(true);
+        public static readonly LBoolean True = new(true);
 
-        public static LBoolean False => new(false);
+        public static readonly LBoolean False = new(false);
 
         public override bool Equals(object in_obj)
         {
